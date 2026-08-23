@@ -1,0 +1,14 @@
+packages:
+  - "projects/*"
+sharedWorkspaceLockfile: true
+linkWorkspacePackages: false
+strictPeerDependencies: true
+autoInstallPeers: false
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - "react"
+  - "react-dom"
+  - "vite"
+  - "@vitejs/plugin-react"
+  - "vitest"
+  - "typescript"

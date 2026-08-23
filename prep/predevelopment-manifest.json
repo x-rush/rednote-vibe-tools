@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0-predev",
+  "frozenAt": "2026-08-23",
+  "runtimePolicy": {
+    "backend": false,
+    "runtimeApi": false,
+    "businessContentFile": "src/content/content.json",
+    "userImageStorage": "FORBIDDEN",
+    "structuredPersistence": ["localStorage", "IndexedDB"],
+    "contentAuthority": "docs"
+  },
+  "projects": [
+    {"id":"sbti","title":"SBTI｜山海兽格测试","contentDocIds":[13,15,30],"launchCounts":{"questions":48,"questionsPerRun":24,"types":16,"creatureCandidates":28},"contentStatus":"FROZEN"},
+    {"id":"wuhualu","title":"物华录：文物寻踪","contentDocIds":[16,29],"launchCounts":{"artifacts":20,"cluesPerArtifact":3},"contentStatus":"FROZEN_WITH_PRELAUNCH_SOURCE_CHECK"},
+    {"id":"dalisizian","title":"大理寺字案录","contentDocIds":[16,28],"launchCounts":{"cases":8,"interactionMode":"CHOICE_ONLY"},"contentStatus":"FROZEN"},
+    {"id":"bianjing","title":"汴京饮子铺：开店一百天","contentDocIds":[16,26,27],"launchCounts":{"days":100,"drinks":10,"customers":12,"events":80,"chains":5,"endings":8},"contentStatus":"FROZEN"},
+    {"id":"relationship-manual","title":"我希望被这样对待｜关系说明书","contentDocIds":[16,21],"launchCounts":{"questions":16,"sentences":42},"contentStatus":"FROZEN"},
+    {"id":"departure-checker","title":"出门检查官","contentDocIds":[16,22],"launchCounts":{"scenarios":8,"checkItemsApprox":75},"contentStatus":"FROZEN"},
+    {"id":"conversation-replay","title":"当时这样说就好了","contentDocIds":[16,23,25],"launchCounts":{"feelings":48,"needs":48,"scenarios":32},"contentStatus":"FROZEN"},
+    {"id":"earth-online","title":"地球 Online：冒险者公会大厅","contentDocIds":[16,24],"launchCounts":{"tasks":100},"contentStatus":"FROZEN"}
+  ],
+  "requiredGates": [
+    "schema-validation",
+    "reference-integrity",
+    "duplicate-id-check",
+    "content-safety-check",
+    "mobile-webview-qa",
+    "offline-startup",
+    "storage-corruption-recovery",
+    "submission-rule-recheck"
+  ]
+}

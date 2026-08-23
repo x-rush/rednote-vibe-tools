@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+work/
+projects/*/src/assets/
+projects/*/public/
+*.log
+.DS_Store
+Thumbs.db

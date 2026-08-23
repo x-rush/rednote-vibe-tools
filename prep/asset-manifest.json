@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-predev",
+  "policy": {
+    "generationStartsAfterWireframeApproval": true,
+    "userUploads": false,
+    "embeddedAudioOnly": true,
+    "remoteHotlinking": false,
+    "allowedFormats": ["webp", "png", "svg", "woff2", "mp3", "ogg"],
+    "licenseRecordRequired": true,
+    "aiGeneratedAssetsMustRecordPromptAndModel": true
+  },
+  "projects": {
+    "sbti": {"hero":1,"resultCreatures":16,"uiPatterns":6,"shareTemplates":2,"audio":0,"style":"山海异兽图谱＋当代测评卡"},
+    "wuhualu": {"hero":1,"artifactSilhouettes":20,"artifactReconstructions":20,"collectionFrames":4,"shareTemplates":2,"audio":3,"style":"博物馆暗柜＋宋式册页"},
+    "dalisizian": {"hero":1,"characterBusts":6,"caseScenes":8,"evidenceIcons":20,"uiPatterns":5,"audio":5,"style":"大理寺案牍＋克制 Galgame"},
+    "bianjing": {"hero":1,"shopScenes":4,"drinkIcons":10,"customerBusts":12,"eventVignettes":16,"weatherIcons":6,"audio":6,"style":"汴京市井小铺＋轻量经营账簿"},
+    "relationship-manual": {"hero":1,"cardPatterns":8,"chapterSeals":5,"shareTemplates":3,"audio":0,"style":"温柔信笺＋关系说明卡"},
+    "departure-checker": {"hero":1,"scenarioIcons":8,"itemIcons":24,"weatherIcons":6,"shareTemplates":2,"audio":2,"style":"可靠检查夹板＋轻拟物标签"},
+    "conversation-replay": {"hero":1,"sceneCards":8,"emotionIcons":12,"needIcons":12,"shareTemplates":2,"audio":0,"style":"对白分镜＋复盘便笺"},
+    "earth-online": {"hero":1,"guildScenes":3,"taskBadges":12,"difficultyIcons":4,"shareTemplates":3,"audio":4,"style":"现实 RPG 公会委托板"}
+  },
+  "licenseStrategy": {
+    "fonts":"优先 SIL OFL 或系统字体；逐项保存许可证文本。",
+    "museumImages":"默认不直接使用馆藏照片；首发采用原创轮廓或 AI 重绘示意，并明确‘示意复原，非馆藏原图’。",
+    "classicIllustrations":"公版古籍图仍记录具体页、作者年代和文件许可；不因古老而自动假设任意扫描件可用。",
+    "audio":"优先自制短音色、CC0 或明确可商用素材；保存来源 URL、作者、许可、下载日期，禁止来源不明音效。"
+  }
+}

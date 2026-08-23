@@ -1,1 +1,287 @@
-{"schemaVersion":1,"contentVersion":"0.0.0-scaffold","projectId":"relationship-manual","meta":{"title":"我希望被这样对待｜关系说明书","locale":"zh-CN","updatedAt":"2026-08-23"},"sources":[],"content":{"dimensions":[],"questions":[],"sentenceFragments":[],"cardRules":{}}}
+{
+  "schemaVersion": 1,
+  "contentVersion": "1.0.0",
+  "projectId": "relationship-manual",
+  "meta": { "title": "我希望被这样对待｜关系说明书", "locale": "zh-CN", "updatedAt": "2026-08-23" },
+  "sources": [
+    { "id": "source-relationship-plan", "title": "我希望被这样对待：关系说明书实现规划", "kind": "frozen-document" },
+    { "id": "source-relationship-content", "title": "我希望被这样对待｜首发内容与数据契约", "kind": "frozen-document" },
+    { "id": "source-editorial-safety", "title": "关系说明书内容安全规则", "kind": "editorial-policy" }
+  ],
+  "content": {
+    "dimensions": [
+      { "dimensionId": "contact-clarity", "label": "联系清晰度", "description": "忙碌、延迟回复和计划变化时的信息清晰度偏好。", "important": true, "fallbackTextKey": "pref-contact-flexible" },
+      { "dimensionId": "listening-support", "label": "倾听方式", "description": "诉说烦恼时更舒服的回应方式。", "important": true, "fallbackTextKey": "pref-ask-mode" },
+      { "dimensionId": "emotional-validation", "label": "感受确认", "description": "难受时对确认、陪伴和追问的偏好。", "important": true, "fallbackTextKey": "pref-confirm-feeling" },
+      { "dimensionId": "conflict-clarity", "label": "分歧表达", "description": "讨论分歧时对事实、解释和体验的整理需要。", "important": true, "fallbackTextKey": "pref-separate-fact" },
+      { "dimensionId": "conflict-pause", "label": "暂停与恢复", "description": "冲突中暂停、恢复时间和重新联系的偏好。", "important": true, "fallbackTextKey": "pref-conflict-timing" },
+      { "dimensionId": "space-autonomy", "label": "独处空间", "description": "独处时对空间、确认和紧急联系的需要。", "important": true, "fallbackTextKey": "pref-space" },
+      { "dimensionId": "care-action", "label": "行动关心", "description": "通过具体行动感受关心的偏好。", "important": true, "fallbackTextKey": "pref-care-action" },
+      { "dimensionId": "care-words", "label": "语言关心", "description": "通过直接表达感受关心的偏好。", "important": true, "fallbackTextKey": "pref-care-words" },
+      { "dimensionId": "care-details", "label": "细节关心", "description": "通过记得重要细节感受关心的偏好。", "important": true, "fallbackTextKey": "pref-care-details" },
+      { "dimensionId": "choice-autonomy", "label": "建议自主", "description": "接受帮助和建议时保有选择空间的需要。", "important": true, "fallbackTextKey": "pref-help-choice" },
+      { "dimensionId": "privacy-consent", "label": "隐私同意", "description": "私事分享、拒绝和公开讨论中的边界。", "important": true, "fallbackTextKey": "boundary-private" },
+      { "dimensionId": "repair-accountability", "label": "修复行动", "description": "关系修复时对承认影响和后续行动的需要。", "important": true, "fallbackTextKey": "commit-repair-action" }
+    ],
+    "questions": [
+      {
+        "questionId": "question-busy-contact", "category": "contact", "prompt": "彼此都很忙时，我更舒服的方式是：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成联系节奏段落所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-busy-brief", "text": "简短报平安", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 3 }], "intensity": 3, "tags": ["brief", "reassurance"], "scenarios": ["busy", "message"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-contact-brief"] },
+          { "optionId": "option-busy-later", "text": "有空再完整交流", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 2 }], "intensity": 2, "tags": ["later", "depth"], "scenarios": ["busy", "message"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-reply-expectation"] },
+          { "optionId": "option-busy-flexible", "text": "不设固定频率，但重要变化及时说", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 1 }], "intensity": 1, "tags": ["flexible", "important-update"], "scenarios": ["busy", "daily"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-contact-flexible"], "neutral": true }
+        ]
+      },
+      {
+        "questionId": "question-message-delay", "category": "contact", "prompt": "消息暂时没有回复时，我更希望：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成联系边界所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-delay-estimate", "text": "提前说大概多久后回复", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 3 }], "intensity": 3, "tags": ["expectation", "time"], "scenarios": ["message-delay"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-reply-expectation"] },
+          { "optionId": "option-delay-no-explanation", "text": "不必解释，但不要长期失联", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 2 }, { "dimensionId": "conflict-pause", "score": 1 }], "intensity": 2, "tags": ["flexible", "no-disappear"], "scenarios": ["message-delay"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-no-disappear", "rule-response-time"], "resultTextKeys": ["boundary-no-disappear", "boundary-time"] },
+          { "optionId": "option-delay-clear-channel", "text": "重要事情换一种明确渠道联系", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 2 }], "intensity": 2, "tags": ["clear-channel", "important"], "scenarios": ["urgent-contact"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-contact-flexible"] }
+        ]
+      },
+      {
+        "questionId": "question-plan-change", "category": "contact", "prompt": "已经约好的计划需要改变时，我更希望：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成计划变化请求所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-plan-early", "text": "尽早告诉我", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 3 }], "intensity": 3, "tags": ["early-notice"], "scenarios": ["plan-change"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-plan-change"] },
+          { "optionId": "option-plan-reschedule", "text": "说明原因并一起改时间", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 2 }, { "dimensionId": "repair-accountability", "score": 1 }], "intensity": 2, "tags": ["reason", "reschedule"], "scenarios": ["plan-change"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-plan-change", "commit-clarify"] },
+          { "optionId": "option-plan-urgent", "text": "紧急时先通知，之后再解释", "dimensionEffects": [{ "dimensionId": "contact-clarity", "score": 2 }], "intensity": 2, "tags": ["urgent", "follow-up"], "scenarios": ["plan-change", "urgent"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-contact-brief", "commit-clarify"] }
+        ]
+      },
+      {
+        "questionId": "question-when-venting", "category": "listening", "prompt": "我诉说烦恼时，希望对方：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成倾听方式所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-vent-listen", "text": "先听完", "dimensionEffects": [{ "dimensionId": "listening-support", "score": 3 }], "intensity": 3, "tags": ["listen-first"], "scenarios": ["venting", "sadness"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-advice"], "resultTextKeys": ["pref-listen-first", "boundary-advice"] },
+          { "optionId": "option-vent-clarify", "text": "帮我理清", "dimensionEffects": [{ "dimensionId": "listening-support", "score": 2 }, { "dimensionId": "choice-autonomy", "score": 1 }], "intensity": 2, "tags": ["clarify", "advice"], "scenarios": ["venting", "problem-solving"], "hasConflict": true, "conflictsWith": ["option-feeling-quiet"], "boundaryIds": [], "resultTextKeys": ["pref-help-choice"] },
+          { "optionId": "option-vent-ask", "text": "先问我需要倾听还是建议", "dimensionEffects": [{ "dimensionId": "listening-support", "score": 2 }, { "dimensionId": "choice-autonomy", "score": 3 }], "intensity": 3, "tags": ["ask-mode", "choice"], "scenarios": ["venting", "advice"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-ask-mode"] }
+        ]
+      },
+      {
+        "questionId": "question-hard-feeling", "category": "listening", "prompt": "我表达难受时，希望对方：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成难过时回应方式所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-feeling-confirm", "text": "先确认听见了", "dimensionEffects": [{ "dimensionId": "emotional-validation", "score": 3 }], "intensity": 3, "tags": ["validation"], "scenarios": ["sadness", "hard-feeling"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-confirm-feeling"] },
+          { "optionId": "option-feeling-quiet", "text": "给一点安静陪伴", "dimensionEffects": [{ "dimensionId": "emotional-validation", "score": 2 }, { "dimensionId": "space-autonomy", "score": 2 }], "intensity": 2, "tags": ["quiet", "company"], "scenarios": ["sadness", "overwhelmed"], "hasConflict": true, "conflictsWith": ["option-vent-clarify"], "boundaryIds": [], "resultTextKeys": ["pref-space"] },
+          { "optionId": "option-feeling-questions", "text": "用具体问题帮助我说清", "dimensionEffects": [{ "dimensionId": "emotional-validation", "score": 2 }, { "dimensionId": "listening-support", "score": 2 }], "intensity": 2, "tags": ["specific-question"], "scenarios": ["hard-feeling", "clarify"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-ask-mode", "commit-clarify"] }
+        ]
+      },
+      {
+        "questionId": "question-disagree-story", "category": "listening", "prompt": "对同一件事理解不同时，希望：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成分歧沟通方式所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-story-repeat", "text": "先复述对方的理解", "dimensionEffects": [{ "dimensionId": "listening-support", "score": 3 }], "intensity": 3, "tags": ["repeat", "understand"], "scenarios": ["disagreement"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["commit-listen"] },
+          { "optionId": "option-story-separate", "text": "分开事实与解释", "dimensionEffects": [{ "dimensionId": "conflict-clarity", "score": 3 }], "intensity": 3, "tags": ["fact", "interpretation"], "scenarios": ["disagreement"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-separate-fact"] },
+          { "optionId": "option-story-respect", "text": "暂不统一结论，但尊重体验", "dimensionEffects": [{ "dimensionId": "emotional-validation", "score": 2 }, { "dimensionId": "conflict-clarity", "score": 1 }], "intensity": 2, "tags": ["respect", "open-conclusion"], "scenarios": ["disagreement"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["commit-own-impact"] }
+        ]
+      },
+      {
+        "questionId": "question-conflict-timing", "category": "conflict", "prompt": "发生分歧时，我更适合：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成冲突节奏所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-conflict-now", "text": "当下谈清", "dimensionEffects": [{ "dimensionId": "conflict-clarity", "score": 3 }], "intensity": 3, "tags": ["direct", "now"], "scenarios": ["conflict"], "hasConflict": true, "conflictsWith": ["option-space-full"], "boundaryIds": [], "resultTextKeys": ["commit-clarify"] },
+          { "optionId": "option-conflict-later", "text": "冷静后约时间", "dimensionEffects": [{ "dimensionId": "conflict-pause", "score": 3 }], "intensity": 3, "tags": ["pause", "return-time"], "scenarios": ["conflict"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-conflict-timing", "commit-pause"] },
+          { "optionId": "option-conflict-urgent", "text": "先处理最急部分，再谈关系影响", "dimensionEffects": [{ "dimensionId": "conflict-clarity", "score": 2 }, { "dimensionId": "conflict-pause", "score": 2 }], "intensity": 2, "tags": ["urgent-first", "return"], "scenarios": ["conflict", "urgent"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["commit-pause", "commit-return"] }
+        ]
+      },
+      {
+        "questionId": "question-pause-signal", "category": "conflict", "prompt": "需要暂停时，我希望：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成暂停与恢复约定所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-pause-reason", "text": "说明暂停原因", "dimensionEffects": [{ "dimensionId": "conflict-pause", "score": 2 }], "intensity": 2, "tags": ["pause-reason"], "scenarios": ["conflict", "pause"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["commit-pause"] },
+          { "optionId": "option-pause-time", "text": "给大概恢复时间", "dimensionEffects": [{ "dimensionId": "conflict-pause", "score": 3 }], "intensity": 3, "tags": ["return-time"], "scenarios": ["conflict", "pause"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-conflict-timing", "commit-pause"] },
+          { "optionId": "option-pause-no-disappear", "text": "可以延后，但不要无声消失", "dimensionEffects": [{ "dimensionId": "conflict-pause", "score": 3 }], "intensity": 3, "tags": ["no-disappear", "return"], "scenarios": ["conflict", "pause"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-no-disappear"], "resultTextKeys": ["boundary-no-disappear", "commit-return"] }
+        ]
+      },
+      {
+        "questionId": "question-conflict-tone", "category": "conflict", "prompt": "讨论冲突时，我不能接受：", "multiple": true, "selectionLimit": { "min": 1, "max": 3 }, "skipRule": { "allowed": true, "reason": "如果暂时不想整理敏感边界，可以跳过。" }, "version": 1,
+        "options": [
+          { "optionId": "option-tone-label", "text": "人身定性", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 3 }], "intensity": 3, "tags": ["boundary", "label"], "scenarios": ["conflict"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-no-label"], "resultTextKeys": ["boundary-no-label"] },
+          { "optionId": "option-tone-threat", "text": "威胁离开来逼迫答应", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 3 }], "intensity": 3, "tags": ["boundary", "threat"], "scenarios": ["conflict", "safety"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-no-threat", "rule-safety"], "resultTextKeys": ["boundary-no-threat", "boundary-safety"] },
+          { "optionId": "option-tone-public", "text": "把私密内容带到公开场合", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 3 }], "intensity": 3, "tags": ["boundary", "public"], "scenarios": ["conflict", "public"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-public-conflict"], "resultTextKeys": ["boundary-public-conflict"] }
+        ]
+      },
+      {
+        "questionId": "question-alone-space", "category": "space", "prompt": "我需要独处时，希望：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成独处空间段落所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-space-full", "text": "得到完整空间", "dimensionEffects": [{ "dimensionId": "space-autonomy", "score": 3 }], "intensity": 3, "tags": ["full-space"], "scenarios": ["alone", "overwhelmed"], "hasConflict": true, "conflictsWith": ["option-conflict-now"], "boundaryIds": [], "resultTextKeys": ["pref-space"] },
+          { "optionId": "option-space-checkin", "text": "偶尔轻轻确认", "dimensionEffects": [{ "dimensionId": "space-autonomy", "score": 2 }, { "dimensionId": "contact-clarity", "score": 1 }], "intensity": 2, "tags": ["gentle-checkin"], "scenarios": ["alone"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-space", "pref-contact-brief"] },
+          { "optionId": "option-space-return", "text": "让我主动回来，但保留紧急联系方式", "dimensionEffects": [{ "dimensionId": "space-autonomy", "score": 3 }, { "dimensionId": "contact-clarity", "score": 1 }], "intensity": 3, "tags": ["self-return", "urgent-channel"], "scenarios": ["alone", "urgent"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-space"], "resultTextKeys": ["pref-space", "boundary-space"] }
+        ]
+      },
+      {
+        "questionId": "question-space-not-rejection", "category": "space", "prompt": "为了不让空间被误解，我愿意：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": true, "reason": "如果暂时不确定自己的承诺，可以跳过。" }, "version": 1,
+        "options": [
+          { "optionId": "option-space-explain", "text": "说明不是惩罚", "dimensionEffects": [{ "dimensionId": "space-autonomy", "score": 2 }, { "dimensionId": "repair-accountability", "score": 1 }], "intensity": 2, "tags": ["explain-space"], "scenarios": ["alone", "repair"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-space", "commit-pause"] },
+          { "optionId": "option-space-time", "text": "给出大概时间", "dimensionEffects": [{ "dimensionId": "conflict-pause", "score": 2 }], "intensity": 2, "tags": ["return-time"], "scenarios": ["alone", "pause"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-conflict-timing", "commit-pause"] },
+          { "optionId": "option-space-reconnect", "text": "回来后主动恢复联系", "dimensionEffects": [{ "dimensionId": "repair-accountability", "score": 3 }], "intensity": 3, "tags": ["return", "reconnect"], "scenarios": ["alone", "repair"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["commit-return"] }
+        ]
+      },
+      {
+        "questionId": "question-care-language", "category": "care", "prompt": "我更容易感受到关心的方式是：", "multiple": true, "selectionLimit": { "min": 1, "max": 2 }, "skipRule": { "allowed": false, "reason": "这是生成关心表达段落所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-care-action", "text": "具体行动", "dimensionEffects": [{ "dimensionId": "care-action", "score": 3 }], "intensity": 3, "tags": ["care", "action"], "scenarios": ["daily", "support"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-care-action"] },
+          { "optionId": "option-care-words", "text": "直接说出来", "dimensionEffects": [{ "dimensionId": "care-words", "score": 3 }], "intensity": 3, "tags": ["care", "words"], "scenarios": ["daily", "support"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-care-words"] },
+          { "optionId": "option-care-details", "text": "记得对我重要的小事", "dimensionEffects": [{ "dimensionId": "care-details", "score": 3 }], "intensity": 3, "tags": ["care", "details"], "scenarios": ["daily"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-care-details"] }
+        ]
+      },
+      {
+        "questionId": "question-help-without-asking", "category": "care", "prompt": "对方想帮忙时，我更希望：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成接受帮助方式所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-help-ask", "text": "先问再做", "dimensionEffects": [{ "dimensionId": "choice-autonomy", "score": 3 }], "intensity": 3, "tags": ["ask-first", "choice"], "scenarios": ["help"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-help-choice"] },
+          { "optionId": "option-help-small", "text": "小事可以直接帮", "dimensionEffects": [{ "dimensionId": "care-action", "score": 2 }], "intensity": 2, "tags": ["small-action"], "scenarios": ["help", "daily"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-care-action"] },
+          { "optionId": "option-help-options", "text": "给几个选项让我决定", "dimensionEffects": [{ "dimensionId": "choice-autonomy", "score": 3 }], "intensity": 3, "tags": ["options", "choice"], "scenarios": ["help", "advice"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["pref-help-choice"] }
+        ]
+      },
+      {
+        "questionId": "question-private-sharing", "category": "boundary", "prompt": "涉及我的私事时，我希望：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成隐私边界所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-private-ask", "text": "分享前先问", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 3 }], "intensity": 3, "tags": ["privacy", "consent"], "scenarios": ["sharing", "public"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-private"], "resultTextKeys": ["boundary-private"] },
+          { "optionId": "option-private-scope", "text": "只在约定范围内说", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 3 }], "intensity": 3, "tags": ["privacy", "scope"], "scenarios": ["sharing"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-private"], "resultTextKeys": ["boundary-private", "commit-private"] },
+          { "optionId": "option-private-identifiable", "text": "即使不点名，也先考虑我是否可被认出", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 3 }], "intensity": 3, "tags": ["privacy", "identifiable"], "scenarios": ["sharing", "public"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-identifiable"], "resultTextKeys": ["boundary-identifiable", "commit-private"] }
+        ]
+      },
+      {
+        "questionId": "question-saying-no", "category": "boundary", "prompt": "我说“不”时，希望对方：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成拒绝边界所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-no-accept", "text": "先接受答案", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 3 }], "intensity": 3, "tags": ["no", "respect"], "scenarios": ["boundary", "request"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-no-pressure"], "resultTextKeys": ["boundary-no-pressure", "commit-respect-no"] },
+          { "optionId": "option-no-ask-once", "text": "可以问原因，但不反复施压", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 3 }], "intensity": 3, "tags": ["no", "one-question"], "scenarios": ["boundary", "request"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-no-pressure"], "resultTextKeys": ["boundary-no-pressure"] },
+          { "optionId": "option-no-reask", "text": "以后需要再谈时重新询问", "dimensionEffects": [{ "dimensionId": "privacy-consent", "score": 2 }, { "dimensionId": "repair-accountability", "score": 1 }], "intensity": 2, "tags": ["no", "reask"], "scenarios": ["boundary", "future"], "hasConflict": false, "conflictsWith": [], "boundaryIds": ["rule-no-pressure"], "resultTextKeys": ["boundary-no-pressure", "commit-respect-no"] }
+        ]
+      },
+      {
+        "questionId": "question-repair", "category": "repair", "prompt": "关系需要修复时，我最需要：", "multiple": false, "selectionLimit": { "min": 1, "max": 1 }, "skipRule": { "allowed": false, "reason": "这是生成修复与共同承诺所需的基础题。" }, "version": 1,
+        "options": [
+          { "optionId": "option-repair-impact", "text": "承认具体影响", "dimensionEffects": [{ "dimensionId": "repair-accountability", "score": 3 }], "intensity": 3, "tags": ["impact", "accountability"], "scenarios": ["repair"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["commit-own-impact"] },
+          { "optionId": "option-repair-explain", "text": "解释，但不抵消责任", "dimensionEffects": [{ "dimensionId": "repair-accountability", "score": 3 }, { "dimensionId": "conflict-clarity", "score": 1 }], "intensity": 3, "tags": ["explain", "accountability"], "scenarios": ["repair"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["commit-clarify", "commit-own-impact"] },
+          { "optionId": "option-repair-next", "text": "一起约定下一次怎么做", "dimensionEffects": [{ "dimensionId": "repair-accountability", "score": 3 }], "intensity": 3, "tags": ["next-action", "agreement"], "scenarios": ["repair", "future"], "hasConflict": false, "conflictsWith": [], "boundaryIds": [], "resultTextKeys": ["commit-repair-action"] }
+        ]
+      }
+    ],
+    "boundaryPreferences": [
+      { "boundaryId": "rule-no-disappear", "label": "不以失联施压", "textKey": "boundary-no-disappear", "severity": 3, "scenarioTags": ["conflict", "pause"] },
+      { "boundaryId": "rule-no-label", "label": "不做人身定性", "textKey": "boundary-no-label", "severity": 3, "scenarioTags": ["conflict"] },
+      { "boundaryId": "rule-no-threat", "label": "不以威胁逼迫", "textKey": "boundary-no-threat", "severity": 3, "scenarioTags": ["conflict", "safety"] },
+      { "boundaryId": "rule-private", "label": "私事分享先征得同意", "textKey": "boundary-private", "severity": 3, "scenarioTags": ["privacy"] },
+      { "boundaryId": "rule-identifiable", "label": "可识别信息先征得同意", "textKey": "boundary-identifiable", "severity": 3, "scenarioTags": ["privacy", "public"] },
+      { "boundaryId": "rule-no-pressure", "label": "拒绝后不反复施压", "textKey": "boundary-no-pressure", "severity": 3, "scenarioTags": ["boundary"] },
+      { "boundaryId": "rule-public-conflict", "label": "不公开私下冲突", "textKey": "boundary-public-conflict", "severity": 3, "scenarioTags": ["conflict", "public"] },
+      { "boundaryId": "rule-jokes", "label": "明确不适后停止玩笑", "textKey": "boundary-jokes", "severity": 2, "scenarioTags": ["daily"] },
+      { "boundaryId": "rule-device", "label": "设备与账号需要同意", "textKey": "boundary-device", "severity": 3, "scenarioTags": ["privacy"] },
+      { "boundaryId": "rule-response-time", "label": "不要求随时回应", "textKey": "boundary-time", "severity": 2, "scenarioTags": ["contact"] },
+      { "boundaryId": "rule-space", "label": "空间仍需基本约定", "textKey": "boundary-space", "severity": 2, "scenarioTags": ["space"] },
+      { "boundaryId": "rule-advice", "label": "先尊重倾听请求", "textKey": "boundary-advice", "severity": 2, "scenarioTags": ["listening"] },
+      { "boundaryId": "rule-promise", "label": "不在激烈时要求长期承诺", "textKey": "boundary-promise", "severity": 3, "scenarioTags": ["conflict"] },
+      { "boundaryId": "rule-safety", "label": "危险情境优先保证安全", "textKey": "boundary-safety", "severity": 3, "scenarioTags": ["safety"] }
+    ],
+    "sentenceFragments": [
+      { "textKey": "pref-contact-brief", "sourceSectionId": "section-contact", "cardSectionId": "companion", "kind": "preference", "text": "忙碌时，一句简短的“我看到了，晚些回复”会让我更安心。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-contact-flexible", "sourceSectionId": "section-contact", "cardSectionId": "companion", "kind": "preference", "text": "我不需要固定频率的联系，但重要变化希望能及时知道。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-reply-expectation", "sourceSectionId": "section-contact", "cardSectionId": "companion", "kind": "preference", "text": "如果暂时无法回复，能让我大概知道什么时候再联系会更舒服。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-plan-change", "sourceSectionId": "section-contact", "cardSectionId": "companion", "kind": "preference", "text": "已经约好的计划要改变时，我希望我们尽早说，并一起确定下一步。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-listen-first", "sourceSectionId": "section-listening", "cardSectionId": "sadness", "kind": "preference", "text": "我诉说烦恼时，通常希望先被听完，再考虑解决办法。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-ask-mode", "sourceSectionId": "section-listening", "cardSectionId": "sadness", "kind": "preference", "text": "你可以先问我：“现在更需要我听，还是一起想办法？”", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-confirm-feeling", "sourceSectionId": "section-listening", "cardSectionId": "sadness", "kind": "preference", "text": "当我表达难受时，一句具体的确认比立刻说服我更有帮助。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-separate-fact", "sourceSectionId": "section-listening", "cardSectionId": "disagreement", "kind": "preference", "text": "出现分歧时，我希望我们把事实、各自的解释和感受分开来说。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-conflict-timing", "sourceSectionId": "section-conflict", "cardSectionId": "disagreement", "kind": "preference", "text": "我更适合在情绪稍微平稳后，约一个明确时间继续谈。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-space", "sourceSectionId": "section-space", "cardSectionId": "companion", "kind": "preference", "text": "我需要独处时，希望这段空间可以被尊重，而不是被理解成惩罚或拒绝。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-care-action", "sourceSectionId": "section-care", "cardSectionId": "care", "kind": "preference", "text": "对我来说，具体行动常常比泛泛的安慰更容易被感受到。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-care-words", "sourceSectionId": "section-care", "cardSectionId": "care", "kind": "preference", "text": "我也需要听见直接、清楚的关心，而不是总靠猜。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-care-details", "sourceSectionId": "section-care", "cardSectionId": "care", "kind": "preference", "text": "你记得那些对我重要的小事时，我会感到自己被放在心上。", "sensitive": false, "compactDefault": true },
+      { "textKey": "pref-help-choice", "sourceSectionId": "section-care", "cardSectionId": "care", "kind": "preference", "text": "想帮助我时，给我几个可选择的方式，会让我既被支持又保有自主。", "sensitive": false, "compactDefault": true },
+      { "textKey": "boundary-no-disappear", "sourceSectionId": "section-conflict", "cardSectionId": "avoid", "kind": "boundary", "text": "冲突可以暂停，但我不能接受用突然失联来惩罚或迫使我让步。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-no-label", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "我愿意谈具体行为，但不接受用“你就是……”给整个人下结论。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-no-threat", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "我不能接受用分手、离开或伤害自己来逼迫我立刻答应。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-private", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "涉及我的私事时，请在分享给别人之前先问我。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-identifiable", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "即使不说名字，只要别人可能认出我，也希望你先征得同意。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-no-pressure", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "当我说“不”时，可以询问一次原因，但请不要反复施压。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-public-conflict", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "我不希望私下的冲突未经同意被带到公开场合讨论。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-jokes", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "如果我明确说某个玩笑让我不舒服，希望它可以停止，而不是要求我证明自己为什么介意。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-device", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "未经同意查看我的设备、账号或私人记录，会越过我的边界。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-time", "sourceSectionId": "section-contact", "cardSectionId": "avoid", "kind": "boundary", "text": "紧急以外的事情，我不保证随时能够回应；延迟回复不等于不在乎。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-space", "sourceSectionId": "section-space", "cardSectionId": "avoid", "kind": "boundary", "text": "我提出需要空间时，不代表对方可以无限期消失；我们仍需要基本约定。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-advice", "sourceSectionId": "section-listening", "cardSectionId": "avoid", "kind": "boundary", "text": "如果我明确只想被听见，请不要持续给建议或评价我的选择。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-promise", "sourceSectionId": "section-conflict", "cardSectionId": "avoid", "kind": "boundary", "text": "我不希望在情绪最激烈的时候被要求作出长期承诺。", "sensitive": true, "compactDefault": false },
+      { "textKey": "boundary-safety", "sourceSectionId": "section-boundary", "cardSectionId": "avoid", "kind": "boundary", "text": "如果出现威胁、控制或伤害，安全会优先于把一场对话“说完整”。", "sensitive": true, "compactDefault": false },
+      { "textKey": "commit-say-change", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "如果我的需要发生变化，我愿意重新说出来，而不是要求你一直猜中。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-clarify", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "我会尽量说具体发生了什么，而不是只用评价描述你。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-listen", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "当你表达不同需要时，我也愿意先确认自己是否听懂。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-pause", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "如果我要暂停争论，我会尽量说明原因和大概何时回来。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-return", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "暂停之后，我愿意主动回来完成尚未说完的重要部分。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-no-mindread", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "我会提醒自己：对方没有立刻做到，不一定等于故意忽视。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-own-impact", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "即使我的出发点没有恶意，我也愿意听见行为造成的实际影响。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-no-overpromise", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "我不会为了尽快结束冲突而答应自己无法持续做到的事。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-boundary", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "我会尽量在边界被反复越过之前说明，而不是积累到突然爆发。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-respect-no", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "我也愿意尊重对方的拒绝，不把亲密当作必须答应的理由。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-private", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "我会同样保护对方的隐私，不把分享当作解决冲突的手段。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-repair-action", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "道歉之后，我愿意和你一起确认下一次可以怎样做得不同。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-check-assumption", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "当我发现自己在猜测你的动机时，我会尽量把猜测当作问题来确认。", "sensitive": false, "compactDefault": true },
+      { "textKey": "commit-not-contract", "sourceSectionId": "section-repair", "cardSectionId": "commitment", "kind": "commitment", "text": "这份说明书是一次沟通的起点；我愿意让它在真实相处中被修改。", "sensitive": false, "compactDefault": true }
+    ],
+    "cardRules": {
+      "title": "我希望被这样对待",
+      "disclaimer": "这张卡片是帮助我整理和表达偏好的沟通工具，不是人格诊断，也不能代替真实交流。",
+      "safetyFallback": "我还在了解自己的需要。现在更希望我们先确认彼此是否听懂，再一起商量下一步。",
+      "neutralSummary": "我希望我们把需要说清楚，也给彼此留下调整的空间。",
+      "summaryPrefix": "和我相处时，",
+      "maxParagraphChars": 120,
+      "maxSummaryChars": 52,
+      "requiredFields": ["title", "relationshipLabel", "sections", "shareSummary", "disclaimer", "contentVersion"],
+      "relationshipLabels": { "close-relationship": "亲密关系", "friendship": "好友关系" },
+      "sections": [
+        { "sectionId": "companion", "title": "我希望你这样陪伴我", "maxItems": 3, "fallbackText": "我希望我们能把彼此的需要说清楚，也允许偏好随情境调整。" },
+        { "sectionId": "sadness", "title": "我难过时更需要", "maxItems": 3, "fallbackText": "我难过时，先确认我更需要倾听、陪伴还是一起想办法，会对我有帮助。" },
+        { "sectionId": "disagreement", "title": "发生分歧时", "maxItems": 3, "fallbackText": "发生分歧时，我希望我们谈具体事情，并确认彼此是否听懂。" },
+        { "sectionId": "avoid", "title": "请尽量不要", "maxItems": 14, "fallbackText": "请尽量不要替我猜测需要；不确定时，可以直接问我。" },
+        { "sectionId": "care", "title": "表达关心可以这样做", "maxItems": 3, "fallbackText": "表达关心时，可以先问我当下哪种方式更合适。" },
+        { "sectionId": "commitment", "title": "我也会努力做到", "maxItems": 3, "fallbackText": "如果我的需要发生变化，我也会尽量重新说出来。" }
+      ],
+      "conflictMergeRules": [
+        { "ruleId": "merge-talk-and-space", "optionIds": ["option-conflict-now", "option-space-full"], "cardSectionId": "disagreement", "text": "有时我希望先把当下最需要说清的部分谈完；如果情绪太满，我也可能需要安静一下，等缓过来后再继续。", "replacesTextKeys": ["commit-clarify", "pref-space"] },
+        { "ruleId": "merge-advice-and-quiet", "optionIds": ["option-vent-clarify", "option-feeling-quiet"], "cardSectionId": "sadness", "text": "有时我需要一点安静陪伴，等能说得更清楚以后，也会希望你和我一起理一理。", "replacesTextKeys": ["pref-help-choice", "pref-space"] }
+      ],
+      "boundaryCommitmentRules": [
+        { "boundaryId": "rule-no-disappear", "textKeys": ["commit-pause", "commit-return"] },
+        { "boundaryId": "rule-no-label", "textKeys": ["commit-clarify"] },
+        { "boundaryId": "rule-no-threat", "textKeys": ["commit-no-overpromise"] },
+        { "boundaryId": "rule-private", "textKeys": ["commit-private"] },
+        { "boundaryId": "rule-identifiable", "textKeys": ["commit-private"] },
+        { "boundaryId": "rule-no-pressure", "textKeys": ["commit-respect-no"] },
+        { "boundaryId": "rule-public-conflict", "textKeys": ["commit-private"] },
+        { "boundaryId": "rule-space", "textKeys": ["commit-pause", "commit-return"] },
+        { "boundaryId": "rule-advice", "textKeys": ["commit-listen"] },
+        { "boundaryId": "rule-safety", "textKeys": ["commit-not-contract"] }
+      ],
+      "defaultCommitmentTextKeys": ["commit-say-change", "commit-not-contract"]
+    },
+    "safetyRules": [
+      { "ruleId": "safety-no-coercion", "label": "拒绝强制服从式表达", "action": "reject" },
+      { "ruleId": "safety-no-love-test", "label": "拒绝用感情证明交换服从", "action": "reject" },
+      { "ruleId": "safety-no-surveillance", "label": "拒绝鼓励查看私人信息", "action": "reject" },
+      { "ruleId": "safety-no-control", "label": "拒绝鼓励控制或报复", "action": "reject" },
+      { "ruleId": "safety-no-shaming", "label": "拒绝贬低或侮辱表达", "action": "reject" },
+      { "ruleId": "safety-no-diagnosis", "label": "拒绝心理或人格诊断", "action": "reject" },
+      { "ruleId": "safety-first-person", "label": "无法安全生成时使用第一人称回退", "action": "fallback" }
+    ],
+    "uiCopy": {
+      "landingEyebrow": "一个只保存在本设备的沟通整理工具",
+      "landingLead": "把难以开口的相处偏好，整理成一份能继续商量、继续修改的第一人称说明书。",
+      "privacyTitle": "不会做什么",
+      "privacyBody": "不做人格诊断，不判断谁对谁错，不上传图片，也不把你的选择发送到服务器。",
+      "introEyebrow": "使用边界",
+      "introTitle": "先选择这份说明书的沟通语境",
+      "introBody": "两种语境使用同一套问题，不做关系评分。选择只会改变卡片上的语境标签。",
+      "contextHint": "用选项整理我的偏好、边界和共同承诺",
+      "principlesTitle": "这份说明书如何使用",
+      "reviewEyebrow": "生成前回顾",
+      "reviewTitle": "看看这些选择是否仍然贴近你",
+      "reviewBody": "可以返回任意一题修改。重新生成时，手工改写不会被静默覆盖。",
+      "resultReadyEyebrow": "你的说明书已整理好",
+      "resultSavedEyebrow": "已保留在本设备",
+      "resultTitle": "这是一份可以继续修改的表达",
+      "resultSavedTitle": "最近一次关系说明书",
+      "resultBody": "它不是合同，也不替任何人判断对错。分享前，请再确认哪些内容适合让对方看见。",
+      "editorEyebrow": "本地编辑",
+      "editorTitle": "把建议改成更像你会说的话",
+      "editorBody": "每段最多 120 字。隐藏和排序会自动暂存；敏感内容默认不进入简版。",
+      "editorReviewNote": "答案已变化：保留了你的改写，请确认是否仍适用。",
+      "emptyTitle": "还没有可显示的内容",
+      "emptyBody": "当前进度可能已过期。你可以重新开始整理。"
+    }
+  }
+}

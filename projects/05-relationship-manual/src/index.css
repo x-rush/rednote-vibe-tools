@@ -1,5 +1,27 @@
-:root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #211d1b; background: #f7f3ec; font-synthesis: none; text-rendering: optimizeLegibility; }
+:root {
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #302b27;
+  background: #f4f0e8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --text: #302b27;
+  --text-soft: #716861;
+  --surface: #fffdf8;
+  --surface-muted: #ebe6dc;
+  --paper: #fffcf4;
+  --line: #d8d0c4;
+  --accent: #9b6c55;
+  --accent-strong: #754835;
+  --accent-soft: #f1e3d8;
+  --danger: #9f3c32;
+  --danger-soft: #f8e4e0;
+  --focus: #c48b61;
+  color-scheme: light;
+}
 * { box-sizing: border-box; }
-html { min-width: 320px; background: #f7f3ec; }
+html { min-width: 320px; min-height: 100%; background: #f4f0e8; }
 body { min-width: 320px; min-height: 100vh; margin: 0; }
 button, input, textarea, select { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+textarea:disabled { cursor: not-allowed; }
+::selection { color: #fff; background: #754835; }

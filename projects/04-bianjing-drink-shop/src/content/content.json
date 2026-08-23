@@ -1,1 +1,7159 @@
-{"schemaVersion":1,"contentVersion":"0.0.0-scaffold","projectId":"bianjing","meta":{"title":"汴京饮子铺：开店一百天","locale":"zh-CN","updatedAt":"2026-08-23"},"sources":[],"content":{"drinks":[],"ingredients":[],"customers":[],"weather":[],"seasons":[],"events":[],"chains":[],"endings":[],"balance":{}}}
+{
+  "schemaVersion": 1,
+  "contentVersion": "1.0.0-foundation",
+  "projectId": "bianjing",
+  "meta": {
+    "title": "汴京饮子铺：开店一百天",
+    "locale": "zh-CN",
+    "updatedAt": "2026-08-24"
+  },
+  "sources": [
+    {
+      "sourceId": "source-plan-04",
+      "title": "汴京饮子铺：开店一百天实现规划",
+      "nature": "product-contract"
+    },
+    {
+      "sourceId": "source-events-26",
+      "title": "汴京饮子铺：80事件、5连锁与8结局",
+      "nature": "product-fiction"
+    },
+    {
+      "sourceId": "source-economy-27",
+      "title": "汴京饮子铺：经营基础表与算法契约",
+      "nature": "system-contract"
+    }
+  ],
+  "content": {
+    "drinks": [
+      {
+        "productId": "drink-green-plum",
+        "name": "青梅饮",
+        "flavor": "酸甜清润",
+        "unitCost": 3,
+        "basePrice": 7,
+        "complexity": 1,
+        "preferenceTags": [
+          "weather-hot",
+          "customer-traveler"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-green-plum-icon"
+      },
+      {
+        "productId": "drink-ginger-honey",
+        "name": "姜蜜水",
+        "flavor": "姜香温润",
+        "unitCost": 4,
+        "basePrice": 9,
+        "complexity": 1,
+        "preferenceTags": [
+          "weather-rain",
+          "weather-cold",
+          "customer-elder"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-ginger-honey-icon"
+      },
+      {
+        "productId": "drink-perilla",
+        "name": "紫苏熟水",
+        "flavor": "草木清香",
+        "unitCost": 5,
+        "basePrice": 11,
+        "complexity": 2,
+        "preferenceTags": [
+          "customer-scholar",
+          "night"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-perilla-icon"
+      },
+      {
+        "productId": "drink-lychee-paste",
+        "name": "荔枝膏水",
+        "flavor": "甜香浓郁",
+        "unitCost": 6,
+        "basePrice": 13,
+        "complexity": 2,
+        "preferenceTags": [
+          "festival",
+          "customer-wealthy"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-lychee-paste-icon"
+      },
+      {
+        "productId": "drink-fragrant-bean",
+        "name": "香豆饮",
+        "flavor": "豆香温和",
+        "unitCost": 4,
+        "basePrice": 9,
+        "complexity": 2,
+        "preferenceTags": [
+          "customer-neighbor",
+          "afternoon"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-fragrant-bean-icon"
+      },
+      {
+        "productId": "drink-lotus",
+        "name": "莲房饮",
+        "flavor": "清淡安静",
+        "unitCost": 5,
+        "basePrice": 11,
+        "complexity": 2,
+        "preferenceTags": [
+          "season-autumn",
+          "customer-quiet"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-lotus-icon"
+      },
+      {
+        "productId": "drink-mint",
+        "name": "薄荷饮",
+        "flavor": "清凉醒神",
+        "unitCost": 4,
+        "basePrice": 10,
+        "complexity": 1,
+        "preferenceTags": [
+          "weather-hot",
+          "customer-youth"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-mint-icon"
+      },
+      {
+        "productId": "drink-cinnamon",
+        "name": "桂香饮",
+        "flavor": "桂香暖甜",
+        "unitCost": 6,
+        "basePrice": 13,
+        "complexity": 3,
+        "preferenceTags": [
+          "season-autumn",
+          "weather-cold",
+          "festival"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-cinnamon-icon"
+      },
+      {
+        "productId": "drink-date",
+        "name": "枣香汤",
+        "flavor": "枣香温厚",
+        "unitCost": 5,
+        "basePrice": 11,
+        "complexity": 2,
+        "preferenceTags": [
+          "weather-cold",
+          "customer-family"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": true,
+        "assetId": "drink-date-icon"
+      },
+      {
+        "productId": "drink-signature",
+        "name": "百日招牌饮",
+        "flavor": "招牌方向随连锁确定",
+        "unitCost": 7,
+        "basePrice": 15,
+        "complexity": 3,
+        "preferenceTags": [
+          "signature"
+        ],
+        "keepRate": 0.25,
+        "initiallyUnlocked": false,
+        "assetId": "drink-signature-icon"
+      }
+    ],
+    "ingredients": [
+      {
+        "ingredientId": "ingredient-green-plum-base",
+        "name": "青梅饮预制原料包",
+        "unitCost": 3,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-ginger-honey-base",
+        "name": "姜蜜水预制原料包",
+        "unitCost": 4,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-perilla-base",
+        "name": "紫苏熟水预制原料包",
+        "unitCost": 5,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-lychee-paste-base",
+        "name": "荔枝膏水预制原料包",
+        "unitCost": 6,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-fragrant-bean-base",
+        "name": "香豆饮预制原料包",
+        "unitCost": 4,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-lotus-base",
+        "name": "莲房饮预制原料包",
+        "unitCost": 5,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-mint-base",
+        "name": "薄荷饮预制原料包",
+        "unitCost": 4,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-cinnamon-base",
+        "name": "桂香饮预制原料包",
+        "unitCost": 6,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-date-base",
+        "name": "枣香汤预制原料包",
+        "unitCost": 5,
+        "unit": "份",
+        "provisional": true
+      },
+      {
+        "ingredientId": "ingredient-signature-base",
+        "name": "百日招牌饮预制原料包",
+        "unitCost": 7,
+        "unit": "份",
+        "provisional": true
+      }
+    ],
+    "recipes": [
+      {
+        "recipeId": "recipe-green-plum",
+        "productId": "drink-green-plum",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-green-plum-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-ginger-honey",
+        "productId": "drink-ginger-honey",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-ginger-honey-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-perilla",
+        "productId": "drink-perilla",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-perilla-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-lychee-paste",
+        "productId": "drink-lychee-paste",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-lychee-paste-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-fragrant-bean",
+        "productId": "drink-fragrant-bean",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-fragrant-bean-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-lotus",
+        "productId": "drink-lotus",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-lotus-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-mint",
+        "productId": "drink-mint",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-mint-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-cinnamon",
+        "productId": "drink-cinnamon",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-cinnamon-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-date",
+        "productId": "drink-date",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-date-base",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "recipeId": "recipe-signature",
+        "productId": "drink-signature",
+        "ingredients": [
+          {
+            "ingredientId": "ingredient-signature-base",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "customers": [
+      {
+        "customerId": "customer-neighbor",
+        "name": "街坊",
+        "spendingPower": 1,
+        "likes": [
+          "稳定",
+          "熟悉",
+          "人情"
+        ],
+        "dislikes": [
+          "忽然涨价"
+        ]
+      },
+      {
+        "customerId": "customer-traveler",
+        "name": "旅人",
+        "spendingPower": 2,
+        "likes": [
+          "解渴",
+          "路线信息"
+        ],
+        "dislikes": [
+          "等太久"
+        ]
+      },
+      {
+        "customerId": "customer-scholar",
+        "name": "书生",
+        "spendingPower": 2,
+        "likes": [
+          "风味",
+          "故事",
+          "安静"
+        ],
+        "dislikes": [
+          "过分喧闹"
+        ]
+      },
+      {
+        "customerId": "customer-worker",
+        "name": "脚力人",
+        "spendingPower": 1,
+        "likes": [
+          "量足",
+          "快"
+        ],
+        "dislikes": [
+          "花哨小份"
+        ]
+      },
+      {
+        "customerId": "customer-family",
+        "name": "一家人",
+        "spendingPower": 2,
+        "likes": [
+          "多人选择",
+          "座位"
+        ],
+        "dislikes": [
+          "品类太少"
+        ]
+      },
+      {
+        "customerId": "customer-merchant",
+        "name": "商人",
+        "spendingPower": 3,
+        "likes": [
+          "稳定供应",
+          "效率"
+        ],
+        "dislikes": [
+          "账目含糊"
+        ]
+      },
+      {
+        "customerId": "customer-performer",
+        "name": "乐人",
+        "spendingPower": 1,
+        "likes": [
+          "人情",
+          "夜间"
+        ],
+        "dislikes": [
+          "被驱赶"
+        ]
+      },
+      {
+        "customerId": "customer-runner",
+        "name": "跑腿人",
+        "spendingPower": 1,
+        "likes": [
+          "快速带走"
+        ],
+        "dislikes": [
+          "复杂流程"
+        ]
+      },
+      {
+        "customerId": "customer-official-clerk",
+        "name": "小吏",
+        "spendingPower": 2,
+        "likes": [
+          "凭据",
+          "准时"
+        ],
+        "dislikes": [
+          "找错钱"
+        ]
+      },
+      {
+        "customerId": "customer-elder",
+        "name": "老客",
+        "spendingPower": 1,
+        "likes": [
+          "温热",
+          "被记住"
+        ],
+        "dislikes": [
+          "味道骤变"
+        ]
+      },
+      {
+        "customerId": "customer-youth",
+        "name": "少年客",
+        "spendingPower": 1,
+        "likes": [
+          "新鲜",
+          "有趣"
+        ],
+        "dislikes": [
+          "价格太高"
+        ]
+      },
+      {
+        "customerId": "customer-wealthy",
+        "name": "富足客",
+        "spendingPower": 3,
+        "likes": [
+          "稀有",
+          "体面"
+        ],
+        "dislikes": [
+          "粗陋环境"
+        ]
+      }
+    ],
+    "weather": [
+      {
+        "weatherId": "weather-clear",
+        "name": "晴和",
+        "visitorMultiplier": 1,
+        "preferenceTags": [],
+        "operatingEffect": "无",
+        "weight": 30
+      },
+      {
+        "weatherId": "weather-hot",
+        "name": "暑热",
+        "visitorMultiplier": 1.15,
+        "preferenceTags": [
+          "drink-green-plum",
+          "drink-mint"
+        ],
+        "operatingEffect": "易坏库存风险增加",
+        "weight": 16
+      },
+      {
+        "weatherId": "weather-cloudy",
+        "name": "阴天",
+        "visitorMultiplier": 0.95,
+        "preferenceTags": [],
+        "operatingEffect": "无",
+        "weight": 18
+      },
+      {
+        "weatherId": "weather-rain",
+        "name": "骤雨",
+        "visitorMultiplier": 0.8,
+        "preferenceTags": [
+          "drink-ginger-honey",
+          "drink-date"
+        ],
+        "operatingEffect": "排水事件权重增加",
+        "weight": 14
+      },
+      {
+        "weatherId": "weather-cold",
+        "name": "寒风",
+        "visitorMultiplier": 0.9,
+        "preferenceTags": [
+          "drink-ginger-honey",
+          "drink-cinnamon",
+          "drink-date"
+        ],
+        "operatingEffect": "燃料成本增加",
+        "weight": 12
+      },
+      {
+        "weatherId": "weather-dust",
+        "name": "风尘",
+        "visitorMultiplier": 0.85,
+        "preferenceTags": [
+          "drink-ginger-honey"
+        ],
+        "operatingEffect": "清洁精力成本增加",
+        "weight": 10
+      }
+    ],
+    "seasons": [
+      {
+        "seasonId": "season-early-spring",
+        "name": "初春",
+        "dayRange": [
+          1,
+          25
+        ],
+        "tags": [
+          "spring"
+        ]
+      },
+      {
+        "seasonId": "season-long-summer",
+        "name": "长夏",
+        "dayRange": [
+          26,
+          55
+        ],
+        "tags": [
+          "summer"
+        ]
+      },
+      {
+        "seasonId": "season-early-autumn",
+        "name": "初秋",
+        "dayRange": [
+          56,
+          80
+        ],
+        "tags": [
+          "autumn"
+        ]
+      },
+      {
+        "seasonId": "season-winter-entry",
+        "name": "入冬",
+        "dayRange": [
+          81,
+          100
+        ],
+        "tags": [
+          "winter"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "eventId": "event-signboard",
+        "title": "招牌褪色",
+        "content": "招牌褪色摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          2,
+          30
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "自己补漆",
+            "impactTags": [
+              "E",
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -4,
+                "labelId": "event-signboard-a-effect-1"
+              },
+              {
+                "type": "money-delta",
+                "value": -1,
+                "labelId": "event-signboard-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "请匠人",
+            "impactTags": [
+              "M",
+              "R",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -8,
+                "labelId": "event-signboard-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 4,
+                "labelId": "event-signboard-b-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 2,
+                "labelId": "event-signboard-b-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-signboard-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-cup-shortage",
+        "title": "杯盏不够",
+        "content": "杯盏不够摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          2,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 8,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "少接单",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -3,
+                "labelId": "event-cup-shortage-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -1,
+                "labelId": "event-cup-shortage-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "临时添购",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -7,
+                "labelId": "event-cup-shortage-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-cup-shortage-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-cup-shortage-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-wrong-change",
+        "title": "找错铜钱",
+        "content": "找错铜钱摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          3,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "追还差额",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 4,
+                "labelId": "event-wrong-change-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -2,
+                "labelId": "event-wrong-change-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "认下损失",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-wrong-change-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 4,
+                "labelId": "event-wrong-change-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-wrong-change-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-spoiled-stock",
+        "title": "原料将坏",
+        "content": "原料将坏摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          4,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "说明后折价",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-spoiled-stock-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 1,
+                "labelId": "event-spoiled-stock-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "全部丢弃",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-spoiled-stock-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-spoiled-stock-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-spoiled-stock-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-busy-counter",
+        "title": "柜前排队",
+        "content": "柜前排队摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          3,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 6,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "加快出杯",
+            "impactTags": [
+              "M",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 7,
+                "labelId": "event-busy-counter-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -7,
+                "labelId": "event-busy-counter-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "busy-quality-risk"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "限量慢做",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-busy-counter-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-busy-counter-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-busy-counter-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-price-board",
+        "title": "客人问价",
+        "content": "客人问价摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          5,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "明码写清",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -2,
+                "labelId": "event-price-board-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 4,
+                "labelId": "event-price-board-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "看人报价",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 5,
+                "labelId": "event-price-board-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -5,
+                "labelId": "event-price-board-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-price-board-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-leftover-syrup",
+        "title": "剩下一罐糖浆",
+        "content": "剩下一罐糖浆摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          5,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 9,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "做今日限定",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 5,
+                "labelId": "event-leftover-syrup-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-leftover-syrup-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "留待明日",
+            "impactTags": [
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "add-flag",
+                "flag": "leftover-syrup-stock"
+              },
+              {
+                "type": "add-flag",
+                "flag": "leftover-spoilage-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-leftover-syrup-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-cracked-stove",
+        "title": "小炉裂纹",
+        "content": "小炉裂纹摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          6,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 20,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "立即修",
+            "impactTags": [
+              "M",
+              "R",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -10,
+                "labelId": "event-cracked-stove-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-cracked-stove-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "stove-repaired"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "勉强再用",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-cracked-stove-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "stove-failure-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-cracked-stove-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-account-gap",
+        "title": "账簿差一笔",
+        "content": "账簿差一笔摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          7,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 15,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "今夜核账",
+            "impactTags": [
+              "E",
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -6,
+                "labelId": "event-account-gap-a-effect-1"
+              },
+              {
+                "type": "money-delta",
+                "value": 4,
+                "labelId": "event-account-gap-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "accounts-orderly"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "先放着",
+            "impactTags": [
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 2,
+                "labelId": "event-account-gap-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "audit-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-account-gap-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-cleaning-day",
+        "title": "店里该大扫除了",
+        "content": "店里该大扫除了摆在柜前，你要如何应对？",
+        "category": "daily",
+        "weight": 1,
+        "dayRange": [
+          8,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 14,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "daily"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "提前打烊",
+            "impactTags": [
+              "M",
+              "R",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-cleaning-day-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 4,
+                "labelId": "event-cleaning-day-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -2,
+                "labelId": "event-cleaning-day-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "只扫门面",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-cleaning-day-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -2,
+                "labelId": "event-cleaning-day-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-cleaning-day-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-hot-noon",
+        "title": "午后暑热",
+        "content": "午后暑热摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          2,
+          80
+        ],
+        "conditions": [],
+        "cooldownDays": 7,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "多备青梅",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -6,
+                "labelId": "event-hot-noon-a-effect-1"
+              },
+              {
+                "type": "money-delta",
+                "value": 12,
+                "labelId": "event-hot-noon-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "保守备货",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 4,
+                "labelId": "event-hot-noon-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-hot-noon-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-sudden-rain",
+        "title": "骤雨压街",
+        "content": "骤雨压街摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          3,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 7,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "改推姜蜜",
+            "impactTags": [
+              "E",
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-sudden-rain-a-effect-1"
+              },
+              {
+                "type": "money-delta",
+                "value": 8,
+                "labelId": "event-sudden-rain-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "照旧营业",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-sudden-rain-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 1,
+                "labelId": "event-sudden-rain-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-sudden-rain-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-cold-morning",
+        "title": "清晨转寒",
+        "content": "清晨转寒摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          10,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 8,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "免费添热水",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -3,
+                "labelId": "event-cold-morning-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 4,
+                "labelId": "event-cold-morning-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "提高热饮价",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 6,
+                "labelId": "event-cold-morning-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -3,
+                "labelId": "event-cold-morning-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-cold-morning-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-wind-dust",
+        "title": "风沙进门",
+        "content": "风沙进门摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          8,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "关门整理",
+            "impactTags": [
+              "M",
+              "E",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-wind-dust-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-wind-dust-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-wind-dust-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "挂帘继续",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-wind-dust-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -2,
+                "labelId": "event-wind-dust-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-wind-dust-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-first-spring",
+        "title": "春日初暖",
+        "content": "春日初暖摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          15,
+          35
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "上新花香饮",
+            "impactTags": [
+              "M",
+              "R",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -8,
+                "labelId": "event-first-spring-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 6,
+                "labelId": "event-first-spring-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "flower-drink-trial"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "保留旧单",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-first-spring-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-first-spring-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-plum-rain",
+        "title": "连日湿雨",
+        "content": "连日湿雨摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          25,
+          55
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "少进易坏原料",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-plum-rain-a-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "menu-reduced"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "照常进货",
+            "impactTags": [
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "add-flag",
+                "flag": "plum-rain-profit-or-waste"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-plum-rain-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-summer-night",
+        "title": "夏夜人多",
+        "content": "夏夜人多摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          35,
+          70
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "延长营业",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 10,
+                "labelId": "event-summer-night-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -9,
+                "labelId": "event-summer-night-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "正常打烊",
+            "impactTags": [
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 4,
+                "labelId": "event-summer-night-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -1,
+                "labelId": "event-summer-night-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-summer-night-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-autumn-dry",
+        "title": "秋燥口渴",
+        "content": "秋燥口渴摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          55,
+          85
+        ],
+        "conditions": [],
+        "cooldownDays": 9,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "调整菜单",
+            "impactTags": [
+              "M",
+              "R",
+              "X"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-autumn-dry-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 5,
+                "labelId": "event-autumn-dry-a-effect-2"
+              },
+              {
+                "type": "set-modifier",
+                "modifierId": "autumn-sales",
+                "value": 1,
+                "durationDays": 8
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "不改菜单",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-autumn-dry-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-autumn-dry-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-early-frost",
+        "title": "早霜",
+        "content": "早霜摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          70,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "赶买燃料",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -9,
+                "labelId": "event-early-frost-a-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "cold-protection"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "等价格回落",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-early-frost-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "cold-energy-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-early-frost-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-clear-festival",
+        "title": "节日晴日",
+        "content": "节日晴日摆在柜前，你要如何应对？",
+        "category": "weather-season",
+        "weight": 1,
+        "dayRange": [
+          20,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 20,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "weather-season"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "做节令装饰",
+            "impactTags": [
+              "M",
+              "R",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -6,
+                "labelId": "event-clear-festival-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 6,
+                "labelId": "event-clear-festival-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 2,
+                "labelId": "event-clear-festival-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "专心多卖",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 9,
+                "labelId": "event-clear-festival-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-clear-festival-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-clear-festival-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-first-customer",
+        "title": "第一位客人",
+        "content": "第一位客人摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          1,
+          1
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "赠一小盏",
+            "impactTags": [
+              "M",
+              "H",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -2,
+                "labelId": "event-first-customer-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 4,
+                "labelId": "event-first-customer-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-first-customer-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "原价售出",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 4,
+                "labelId": "event-first-customer-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-first-customer-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-child-spill",
+        "title": "孩子碰翻饮子",
+        "content": "孩子碰翻饮子摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          3,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "免费重做",
+            "impactTags": [
+              "M",
+              "R",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -3,
+                "labelId": "event-child-spill-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-child-spill-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 2,
+                "labelId": "event-child-spill-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "请家长再买",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-child-spill-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -2,
+                "labelId": "event-child-spill-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-child-spill-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-old-regular",
+        "title": "老客忘带钱",
+        "content": "老客忘带钱摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          8,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "记在小账",
+            "impactTags": [
+              "M",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-old-regular-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 5,
+                "labelId": "event-old-regular-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "婉拒赊欠",
+            "impactTags": [
+              "R",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 1,
+                "labelId": "event-old-regular-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -2,
+                "labelId": "event-old-regular-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-old-regular-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-traveler-question",
+        "title": "旅人问路",
+        "content": "旅人问路摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          4,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 8,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "放下活计细说",
+            "impactTags": [
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-traveler-question-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 4,
+                "labelId": "event-traveler-question-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "指个大概",
+            "impactTags": [
+              "M",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-traveler-question-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -1,
+                "labelId": "event-traveler-question-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-traveler-question-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-scholar-critique",
+        "title": "书生挑味",
+        "content": "书生挑味摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          8,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "请他细说",
+            "impactTags": [
+              "E",
+              "R",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -2,
+                "labelId": "event-scholar-critique-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-scholar-critique-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "recipe-clue"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "与他争辩",
+            "impactTags": [
+              "R",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -4,
+                "labelId": "event-scholar-critique-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 1,
+                "labelId": "event-scholar-critique-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-scholar-critique-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-large-family",
+        "title": "一家人占满桌",
+        "content": "一家人占满桌摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          10,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 9,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "合并小份",
+            "impactTags": [
+              "M",
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 7,
+                "labelId": "event-large-family-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-large-family-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 2,
+                "labelId": "event-large-family-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "按单慢做",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 4,
+                "labelId": "event-large-family-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-large-family-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-large-family-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-quiet-customer",
+        "title": "沉默客人每日同来",
+        "content": "沉默客人每日同来摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          15,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 15,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "记住偏好",
+            "impactTags": [
+              "H",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 4,
+                "labelId": "event-quiet-customer-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-quiet-customer-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "不多打扰",
+            "impactTags": [
+              "H",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 2,
+                "labelId": "event-quiet-customer-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 1,
+                "labelId": "event-quiet-customer-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-quiet-customer-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-lost-purse",
+        "title": "客人遗落钱袋",
+        "content": "客人遗落钱袋摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          12,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "设法归还",
+            "impactTags": [
+              "M",
+              "R",
+              "H",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -2,
+                "labelId": "event-lost-purse-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 7,
+                "labelId": "event-lost-purse-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 4,
+                "labelId": "event-lost-purse-a-effect-3"
+              },
+              {
+                "type": "add-flag",
+                "flag": "purse-returned"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "暂收柜中",
+            "impactTags": [
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "add-flag",
+                "flag": "purse-waiting"
+              },
+              {
+                "type": "add-flag",
+                "flag": "purse-reputation-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-lost-purse-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-food-allergy-question",
+        "title": "客人询问配料",
+        "content": "客人询问配料摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          10,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "如实说明不确定处",
+            "impactTags": [
+              "R",
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 4,
+                "labelId": "event-food-allergy-question-a-effect-1"
+              },
+              {
+                "type": "money-delta",
+                "value": -1,
+                "labelId": "event-food-allergy-question-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "说都没问题",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-food-allergy-question-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "ingredient-disclosure-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-food-allergy-question-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-review-rumor",
+        "title": "客人口耳相传",
+        "content": "客人口耳相传摆在柜前，你要如何应对？",
+        "category": "customer",
+        "weight": 1,
+        "dayRange": [
+          20,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 14,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "customer"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "请客人写真评价",
+            "impactTags": [
+              "R",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-review-rumor-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 2,
+                "labelId": "event-review-rumor-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "送饮换好话",
+            "impactTags": [
+              "M",
+              "R",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-review-rumor-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 1,
+                "labelId": "event-review-rumor-b-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "paid-praise-dispute"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-review-rumor-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-sugar-price",
+        "title": "糖价上涨",
+        "content": "糖价上涨摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          10,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 15,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "小幅涨价并说明",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-sugar-price-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -1,
+                "labelId": "event-sugar-price-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "自己消化成本",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -6,
+                "labelId": "event-sugar-price-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-sugar-price-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-sugar-price-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-herb-shortage",
+        "title": "香草断货",
+        "content": "香草断货摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          15,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 14,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "暂停一款",
+            "impactTags": [
+              "R",
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -1,
+                "labelId": "event-herb-shortage-a-effect-1"
+              },
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-herb-shortage-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "menu-reduced"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "买替代料并试配",
+            "impactTags": [
+              "M",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-herb-shortage-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-herb-shortage-b-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "new-product-possible"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-herb-shortage-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-new-supplier",
+        "title": "新商贩报价低",
+        "content": "新商贩报价低摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          12,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 20,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "先小批试用",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -3,
+                "labelId": "event-new-supplier-a-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "new-supplier-testing"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "大量囤货",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -12,
+                "labelId": "event-new-supplier-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "new-supplier-high-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-new-supplier-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-old-supplier",
+        "title": "老供货人求预付",
+        "content": "老供货人求预付摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          18,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 25,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "预付支持",
+            "impactTags": [
+              "M",
+              "H",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -10,
+                "labelId": "event-old-supplier-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 6,
+                "labelId": "event-old-supplier-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "supplier-future-discount"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "拒绝",
+            "impactTags": [
+              "M",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-old-supplier-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -3,
+                "labelId": "event-old-supplier-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-old-supplier-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-market-fake",
+        "title": "市面出现掺假料",
+        "content": "市面出现掺假料摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          20,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "公布辨别方法",
+            "impactTags": [
+              "R",
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 6,
+                "labelId": "event-market-fake-a-effect-1"
+              },
+              {
+                "type": "money-delta",
+                "value": -2,
+                "labelId": "event-market-fake-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "只保自己",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 4,
+                "labelId": "event-market-fake-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -2,
+                "labelId": "event-market-fake-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-market-fake-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-cart-delay",
+        "title": "送货车迟到",
+        "content": "送货车迟到摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          5,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "缩菜单",
+            "impactTags": [
+              "M",
+              "R",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -3,
+                "labelId": "event-cart-delay-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-cart-delay-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "menu-reduced"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "临时高价补货",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -8,
+                "labelId": "event-cart-delay-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-cart-delay-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-bulk-discount",
+        "title": "批量优惠",
+        "content": "批量优惠摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          25,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 18,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "大量进货",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -14,
+                "labelId": "event-bulk-discount-a-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "bulk-stock"
+              },
+              {
+                "type": "add-flag",
+                "flag": "bulk-spoilage-risk"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "少量购入",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-bulk-discount-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "stable-stock"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-bulk-discount-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-competing-shop",
+        "title": "对街新铺开张",
+        "content": "对街新铺开张摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          30,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 20,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "做特色而不降价",
+            "impactTags": [
+              "M",
+              "R",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-competing-shop-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 4,
+                "labelId": "event-competing-shop-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "specialty-focus"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "全面降价",
+            "impactTags": [
+              "X"
+            ],
+            "effects": [
+              {
+                "type": "set-modifier",
+                "modifierId": "sales-volume",
+                "value": 1,
+                "durationDays": 8
+              },
+              {
+                "type": "set-modifier",
+                "modifierId": "profit-margin",
+                "value": -1,
+                "durationDays": 8
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-competing-shop-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-common-cups",
+        "title": "杯盏商联合涨价",
+        "content": "杯盏商联合涨价摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          35,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 25,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "改可回收杯押金",
+            "impactTags": [
+              "M",
+              "R",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -6,
+                "labelId": "event-common-cups-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-common-cups-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "returnable-cups"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "接受涨价",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -8,
+                "labelId": "event-common-cups-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 1,
+                "labelId": "event-common-cups-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-common-cups-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-season-last-stock",
+        "title": "时令料最后一批",
+        "content": "时令料最后一批摆在柜前，你要如何应对？",
+        "category": "market-supply",
+        "weight": 1,
+        "dayRange": [
+          60,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "market-supply"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "做告别限定",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -7,
+                "labelId": "event-season-last-stock-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 6,
+                "labelId": "event-season-last-stock-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "不追最后热度",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-season-last-stock-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 2,
+                "labelId": "event-season-last-stock-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-season-last-stock-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-sore-arms",
+        "title": "手臂酸痛",
+        "content": "手臂酸痛摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          5,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "少做一轮休息",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-sore-arms-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 8,
+                "labelId": "event-sore-arms-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "继续撑",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 6,
+                "labelId": "event-sore-arms-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -10,
+                "labelId": "event-sore-arms-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-sore-arms-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-sleepless",
+        "title": "昨夜没睡好",
+        "content": "昨夜没睡好摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          8,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 14,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "晚开半日",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-sleepless-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 10,
+                "labelId": "event-sleepless-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "照常开门",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 5,
+                "labelId": "event-sleepless-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "mistake-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-sleepless-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-burnout-sign",
+        "title": "看见招牌就烦",
+        "content": "看见招牌就烦摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          25,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 20,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "休息一天",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -8,
+                "labelId": "event-burnout-sign-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 18,
+                "labelId": "event-burnout-sign-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "靠意志营业",
+            "impactTags": [
+              "M",
+              "E",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 7,
+                "labelId": "event-burnout-sign-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -14,
+                "labelId": "event-burnout-sign-b-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -2,
+                "labelId": "event-burnout-sign-b-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-burnout-sign-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-new-technique",
+        "title": "想试新做法",
+        "content": "想试新做法摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          15,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "打烊练习",
+            "impactTags": [
+              "M",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-new-technique-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-new-technique-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "technique-trained"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "边卖边试",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-new-technique-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "quality-variance"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-new-technique-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-family-letter",
+        "title": "家书到了",
+        "content": "家书到了摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          10,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 18,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "关门回信",
+            "impactTags": [
+              "M",
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -3,
+                "labelId": "event-family-letter-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 5,
+                "labelId": "event-family-letter-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 4,
+                "labelId": "event-family-letter-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "忙完再说",
+            "impactTags": [
+              "M",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 4,
+                "labelId": "event-family-letter-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -2,
+                "labelId": "event-family-letter-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-family-letter-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-small-injury",
+        "title": "轻微烫伤",
+        "content": "轻微烫伤摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          10,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "立即停手处理",
+            "impactTags": [
+              "M",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-small-injury-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 4,
+                "labelId": "event-small-injury-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "injury-treated"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "忍着继续",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 6,
+                "labelId": "event-small-injury-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "forced-rest-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-small-injury-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-good-rhythm",
+        "title": "今日格外顺手",
+        "content": "今日格外顺手摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          5,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "多接几单",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 8,
+                "labelId": "event-good-rhythm-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-good-rhythm-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "按时收工",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-good-rhythm-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 5,
+                "labelId": "event-good-rhythm-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-good-rhythm-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-learning-book",
+        "title": "得到一本旧饮方",
+        "content": "得到一本旧饮方摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          20,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "花时间研读",
+            "impactTags": [
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -6,
+                "labelId": "event-learning-book-a-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "recipe-clue"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "转手换钱",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 8,
+                "labelId": "event-learning-book-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-learning-book-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-overcommit",
+        "title": "同时答应太多单",
+        "content": "同时答应太多单摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          20,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 15,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "主动取消部分",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-overcommit-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 1,
+                "labelId": "event-overcommit-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "全部赶完",
+            "impactTags": [
+              "M",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 10,
+                "labelId": "event-overcommit-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -12,
+                "labelId": "event-overcommit-b-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "reputation-variance"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-overcommit-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-day-off-request",
+        "title": "自己也想看灯会",
+        "content": "自己也想看灯会摆在柜前，你要如何应对？",
+        "category": "energy-self",
+        "weight": 1,
+        "dayRange": [
+          30,
+          90
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "energy-self"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "提前打烊",
+            "impactTags": [
+              "M",
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -7,
+                "labelId": "event-day-off-request-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 10,
+                "labelId": "event-day-off-request-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 3,
+                "labelId": "event-day-off-request-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "留店赚钱",
+            "impactTags": [
+              "M",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 9,
+                "labelId": "event-day-off-request-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -6,
+                "labelId": "event-day-off-request-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-day-off-request-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-neighbor-borrow-fire",
+        "title": "邻铺借火",
+        "content": "邻铺借火摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          4,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "借",
+            "impactTags": [
+              "H",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 4,
+                "labelId": "event-neighbor-borrow-fire-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -2,
+                "labelId": "event-neighbor-borrow-fire-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "推辞",
+            "impactTags": [
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 1,
+                "labelId": "event-neighbor-borrow-fire-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -2,
+                "labelId": "event-neighbor-borrow-fire-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-neighbor-borrow-fire-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-neighbor-watch-shop",
+        "title": "邻铺请你照看片刻",
+        "content": "邻铺请你照看片刻摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          8,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "帮忙",
+            "impactTags": [
+              "H",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 5,
+                "labelId": "event-neighbor-watch-shop-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -4,
+                "labelId": "event-neighbor-watch-shop-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "拒绝",
+            "impactTags": [
+              "M",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-neighbor-watch-shop-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -2,
+                "labelId": "event-neighbor-watch-shop-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-neighbor-watch-shop-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-shared-drain",
+        "title": "门前排水堵了",
+        "content": "门前排水堵了摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          10,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 14,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "一起清理",
+            "impactTags": [
+              "M",
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -2,
+                "labelId": "event-shared-drain-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-shared-drain-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 5,
+                "labelId": "event-shared-drain-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "只清自家",
+            "impactTags": [
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -2,
+                "labelId": "event-shared-drain-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -3,
+                "labelId": "event-shared-drain-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-shared-drain-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-street-musician",
+        "title": "街头乐人驻足",
+        "content": "街头乐人驻足摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          12,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 12,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "请他演一曲",
+            "impactTags": [
+              "M",
+              "R",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-street-musician-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 5,
+                "labelId": "event-street-musician-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 2,
+                "labelId": "event-street-musician-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "请他别挡门",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-street-musician-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -1,
+                "labelId": "event-street-musician-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-street-musician-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-night-watch",
+        "title": "街坊筹夜间照明",
+        "content": "街坊筹夜间照明摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          20,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "出一份钱",
+            "impactTags": [
+              "M",
+              "H",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -8,
+                "labelId": "event-night-watch-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 6,
+                "labelId": "event-night-watch-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "night-risk-reduced"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "不参加",
+            "impactTags": [
+              "M",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-night-watch-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -3,
+                "labelId": "event-night-watch-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-night-watch-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-orphan-errand",
+        "title": "熟悉的小孩求代送东西",
+        "content": "熟悉的小孩求代送东西摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          15,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 15,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "安排可信街坊帮忙",
+            "impactTags": [
+              "M",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -2,
+                "labelId": "event-orphan-errand-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 4,
+                "labelId": "event-orphan-errand-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "自己离店送",
+            "impactTags": [
+              "M",
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-orphan-errand-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -4,
+                "labelId": "event-orphan-errand-b-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 5,
+                "labelId": "event-orphan-errand-b-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-orphan-errand-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-neighbor-feud",
+        "title": "两家邻铺争占门前",
+        "content": "两家邻铺争占门前摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          20,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 20,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "提议画清边界",
+            "impactTags": [
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-neighbor-feud-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 4,
+                "labelId": "event-neighbor-feud-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "不介入",
+            "impactTags": [
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 2,
+                "labelId": "event-neighbor-feud-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "random-relationship-impact"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-neighbor-feud-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-community-feast",
+        "title": "街坊合办小宴",
+        "content": "街坊合办小宴摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          25,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 25,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "提供饮子",
+            "impactTags": [
+              "M",
+              "R",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -10,
+                "labelId": "event-community-feast-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 5,
+                "labelId": "event-community-feast-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 8,
+                "labelId": "event-community-feast-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "只来参加",
+            "impactTags": [
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 4,
+                "labelId": "event-community-feast-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 3,
+                "labelId": "event-community-feast-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-community-feast-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-fire-warning",
+        "title": "邻店小火情",
+        "content": "邻店小火情摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          15,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "帮助提醒并疏散",
+            "impactTags": [
+              "E",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -7,
+                "labelId": "event-fire-warning-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 8,
+                "labelId": "event-fire-warning-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "先护自家",
+            "impactTags": [
+              "E",
+              "H",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-fire-warning-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -4,
+                "labelId": "event-fire-warning-b-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "inventory-protected"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-fire-warning-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-shared-purchase",
+        "title": "邻铺提议合购",
+        "content": "邻铺提议合购摆在柜前，你要如何应对？",
+        "category": "neighborhood",
+        "weight": 1,
+        "dayRange": [
+          30,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 18,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "neighborhood"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "合购",
+            "impactTags": [
+              "M",
+              "H",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -7,
+                "labelId": "event-shared-purchase-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 3,
+                "labelId": "event-shared-purchase-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "future-cost-reduced"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "独自采购",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-shared-purchase-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "independent-purchase"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-shared-purchase-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-inspection-rumor",
+        "title": "检查传闻",
+        "content": "检查传闻摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          7,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 18,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "整理账簿",
+            "impactTags": [
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-inspection-rumor-a-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "audit-risk-reduced"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "照常卖",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 4,
+                "labelId": "event-inspection-rumor-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "audit-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-inspection-rumor-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-counterfeit-coin",
+        "title": "收到可疑钱币",
+        "content": "收到可疑钱币摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          12,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 15,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "认损留证",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-counterfeit-coin-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-counterfeit-coin-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "转手花掉",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 3,
+                "labelId": "event-counterfeit-coin-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -6,
+                "labelId": "event-counterfeit-coin-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-counterfeit-coin-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-customer-dispute",
+        "title": "两位客人争座",
+        "content": "两位客人争座摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          10,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 10,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "设等候顺序",
+            "impactTags": [
+              "R",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-customer-dispute-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-customer-dispute-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "让他们自己解决",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-customer-dispute-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -3,
+                "labelId": "event-customer-dispute-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-customer-dispute-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-broken-order",
+        "title": "大单临时取消",
+        "content": "大单临时取消摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          15,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 16,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "折价改售",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-broken-order-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-broken-order-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "留存等明日",
+            "impactTags": [
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "add-flag",
+                "flag": "order-stock-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-broken-order-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-recipe-theft",
+        "title": "配方纸不见了",
+        "content": "配方纸不见了摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          25,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "调查并换记录方式",
+            "impactTags": [
+              "M",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-recipe-theft-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-recipe-theft-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "recipe-protected"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "当作无事",
+            "impactTags": [
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 1,
+                "labelId": "event-recipe-theft-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "competition-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-recipe-theft-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-false-rumor",
+        "title": "街上传你用坏料",
+        "content": "街上传你用坏料摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          30,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "公开原料与流程",
+            "impactTags": [
+              "M",
+              "E",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-false-rumor-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -4,
+                "labelId": "event-false-rumor-a-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 7,
+                "labelId": "event-false-rumor-a-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "找人压下传言",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -8,
+                "labelId": "event-false-rumor-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "relationships-consumed"
+              },
+              {
+                "type": "add-flag",
+                "flag": "reputation-variance"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-false-rumor-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-roof-leak",
+        "title": "屋顶漏水",
+        "content": "屋顶漏水摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          20,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "彻底修",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -15,
+                "labelId": "event-roof-leak-a-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "roof-protected"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "临时接水",
+            "impactTags": [
+              "M",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -3,
+                "labelId": "event-roof-leak-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-roof-leak-b-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "roof-recurrence"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-roof-leak-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-pest-sign",
+        "title": "发现虫害迹象",
+        "content": "发现虫害迹象摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          15,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "停业清查",
+            "impactTags": [
+              "M",
+              "R",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -9,
+                "labelId": "event-pest-sign-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 4,
+                "labelId": "event-pest-sign-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "pest-cleared"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "只处理看见部分",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -2,
+                "labelId": "event-pest-sign-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "inventory-pest-risk"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-pest-sign-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-crowd-panic",
+        "title": "街口忽然拥挤",
+        "content": "街口忽然拥挤摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          30,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 20,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "暂停营业疏导",
+            "impactTags": [
+              "M",
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -6,
+                "labelId": "event-crowd-panic-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 5,
+                "labelId": "event-crowd-panic-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "趁人多售卖",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 10,
+                "labelId": "event-crowd-panic-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": -5,
+                "labelId": "event-crowd-panic-b-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-crowd-panic-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-debt-due",
+        "title": "一笔货款到期",
+        "content": "一笔货款到期摆在柜前，你要如何应对？",
+        "category": "risk",
+        "weight": 1,
+        "dayRange": [
+          35,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 20,
+        "oncePerSave": false,
+        "conflictTags": [],
+        "tags": [
+          "risk"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "按时结清",
+            "impactTags": [
+              "M",
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -12,
+                "labelId": "event-debt-due-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 2,
+                "labelId": "event-debt-due-a-effect-2"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "请求延期",
+            "impactTags": [
+              "M",
+              "H",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-debt-due-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": -4,
+                "labelId": "event-debt-due-b-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "future-interest"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-debt-due-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-poet-credit",
+        "title": "诗人赊一碗",
+        "content": "诗人赊一碗摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          4,
+          40
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "赊",
+            "impactTags": [
+              "M",
+              "C"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -3,
+                "labelId": "event-poet-credit-a-effect-1"
+              },
+              {
+                "type": "advance-chain",
+                "chainId": "chain-poet",
+                "nodeId": "poet-credit"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "拒绝",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 2,
+                "labelId": "event-poet-credit-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-poet-credit-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-cook-invite",
+        "title": "厨人邀你交流",
+        "content": "厨人邀你交流摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          15,
+          70
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "去学",
+            "impactTags": [
+              "M",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -4,
+                "labelId": "event-cook-invite-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -5,
+                "labelId": "event-cook-invite-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "recipe-clue"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "留店",
+            "impactTags": [
+              "M"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": 6,
+                "labelId": "event-cook-invite-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-cook-invite-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-festival-stall",
+        "title": "灯会临时摊位",
+        "content": "灯会临时摊位摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          25,
+          80
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "报名",
+            "impactTags": [
+              "M",
+              "C"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -12,
+                "labelId": "event-festival-stall-a-effect-1"
+              },
+              {
+                "type": "advance-chain",
+                "chainId": "chain-festival",
+                "nodeId": "festival-register"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "不去",
+            "impactTags": [],
+            "effects": [],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-festival-stall-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-apprentice",
+        "title": "少年来问学徒",
+        "content": "少年来问学徒摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          30,
+          90
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "试用",
+            "impactTags": [
+              "M",
+              "E",
+              "C"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -5,
+                "labelId": "event-apprentice-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -3,
+                "labelId": "event-apprentice-a-effect-2"
+              },
+              {
+                "type": "advance-chain",
+                "chainId": "chain-apprentice",
+                "nodeId": "apprentice-trial"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "婉拒并指路",
+            "impactTags": [
+              "H"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "relationships",
+                "value": 2,
+                "labelId": "event-apprentice-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-apprentice-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-official-order",
+        "title": "衙门小宴询单",
+        "content": "衙门小宴询单摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          40,
+          95
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "接单",
+            "impactTags": [
+              "M",
+              "C"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -15,
+                "labelId": "event-official-order-a-effect-1"
+              },
+              {
+                "type": "advance-chain",
+                "chainId": "chain-official-order",
+                "nodeId": "official-accept"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "不接",
+            "impactTags": [
+              "R"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 1,
+                "labelId": "event-official-order-b-effect-1"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-official-order-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-traveler-recipe",
+        "title": "旅人换饮方",
+        "content": "旅人换饮方摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          20,
+          80
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "用自家配方交换",
+            "impactTags": [
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "add-flag",
+                "flag": "recipe-exchanged"
+              },
+              {
+                "type": "add-flag",
+                "flag": "competition-risk"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "花钱买",
+            "impactTags": [
+              "M",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -9,
+                "labelId": "event-traveler-recipe-b-effect-1"
+              },
+              {
+                "type": "add-flag",
+                "flag": "recipe-clue"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-traveler-recipe-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-shop-renovation",
+        "title": "空铺面可扩一间",
+        "content": "空铺面可扩一间摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          45,
+          90
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "扩店",
+            "impactTags": [
+              "M",
+              "X"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -25,
+                "labelId": "event-shop-renovation-a-effect-1"
+              },
+              {
+                "type": "set-modifier",
+                "modifierId": "capacity",
+                "value": 3,
+                "durationDays": 56
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "不扩",
+            "impactTags": [],
+            "effects": [],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-shop-renovation-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-name-spreads",
+        "title": "店名传到外街",
+        "content": "店名传到外街摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          50,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "保持小店",
+            "impactTags": [
+              "R",
+              "E",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 3,
+                "labelId": "event-name-spreads-a-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": 2,
+                "labelId": "event-name-spreads-a-effect-2"
+              },
+              {
+                "type": "add-flag",
+                "flag": "stable-craft"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "主动招徕",
+            "impactTags": [
+              "M",
+              "R",
+              "E"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -8,
+                "labelId": "event-name-spreads-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "reputation",
+                "value": 8,
+                "labelId": "event-name-spreads-b-effect-2"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -6,
+                "labelId": "event-name-spreads-b-effect-3"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-name-spreads-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-signature-drink",
+        "title": "客人问镇店饮子",
+        "content": "客人问镇店饮子摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          35,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "选现有一款",
+            "impactTags": [
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "add-flag",
+                "flag": "existing-signature-bonus"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "研发新品",
+            "impactTags": [
+              "M",
+              "E",
+              "C"
+            ],
+            "effects": [
+              {
+                "type": "money-delta",
+                "value": -10,
+                "labelId": "event-signature-drink-b-effect-1"
+              },
+              {
+                "type": "stat-delta",
+                "stat": "energy",
+                "value": -8,
+                "labelId": "event-signature-drink-b-effect-2"
+              },
+              {
+                "type": "advance-chain",
+                "chainId": "chain-signature",
+                "nodeId": "signature-research"
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-signature-drink-illustration",
+        "provisional": true
+      },
+      {
+        "eventId": "event-hundred-day-book",
+        "title": "有人提议记店史",
+        "content": "有人提议记店史摆在柜前，你要如何应对？",
+        "category": "opportunity-growth",
+        "weight": 1,
+        "dayRange": [
+          75,
+          100
+        ],
+        "conditions": [],
+        "cooldownDays": 0,
+        "oncePerSave": true,
+        "conflictTags": [],
+        "tags": [
+          "opportunity-growth"
+        ],
+        "choices": [
+          {
+            "choiceId": "a",
+            "text": "每晚记一笔",
+            "impactTags": [
+              "X",
+              "F"
+            ],
+            "effects": [
+              {
+                "type": "set-modifier",
+                "modifierId": "daily-journal-energy",
+                "value": -2,
+                "durationDays": 26
+              },
+              {
+                "type": "add-flag",
+                "flag": "rich-ending-text"
+              }
+            ],
+            "followUpEventIds": []
+          },
+          {
+            "choiceId": "b",
+            "text": "专心经营",
+            "impactTags": [
+              "X"
+            ],
+            "effects": [
+              {
+                "type": "set-modifier",
+                "modifierId": "stage-money",
+                "value": 3,
+                "durationDays": 26
+              }
+            ],
+            "followUpEventIds": []
+          }
+        ],
+        "assetId": "event-hundred-day-book-illustration",
+        "provisional": true
+      }
+    ],
+    "chains": [
+      {
+        "chainId": "chain-poet",
+        "title": "一碗换一诗",
+        "startEventId": "event-poet-credit",
+        "startChoiceId": "a",
+        "startDayMax": 90,
+        "nodes": [
+          {
+            "nodeId": "poet-credit",
+            "title": "诗人赊饮",
+            "content": "诗人提出赊一碗饮子。",
+            "minDelayDays": 0,
+            "maxDelayDays": 0,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "赊一碗",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": -3,
+                    "labelId": "chain-poet-a-effect-1"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-poet",
+                    "nodeId": "poet-song-spreads"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "婉拒",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-poet",
+                    "nodeId": "poet-song-spreads"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-poet-poet-credit-illustration"
+          },
+          {
+            "nodeId": "poet-song-spreads",
+            "title": "街头传唱",
+            "content": "街上开始传唱店名。",
+            "minDelayDays": 2,
+            "maxDelayDays": 12,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "免费让唱",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 5,
+                    "labelId": "chain-poet-a-effect-1"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-poet",
+                    "nodeId": "poet-returns"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "阻止冒名",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 2,
+                    "labelId": "chain-poet-b-effect-1"
+                  },
+                  {
+                    "type": "money-delta",
+                    "value": 3,
+                    "labelId": "chain-poet-b-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-poet",
+                    "nodeId": "poet-returns"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-poet-poet-song-spreads-illustration"
+          },
+          {
+            "nodeId": "poet-returns",
+            "title": "诗人归来",
+            "content": "诗人回来偿还旧情。",
+            "minDelayDays": 2,
+            "maxDelayDays": 15,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "收回欠款",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": 8,
+                    "labelId": "chain-poet-a-effect-1"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-poet",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "换一首题诗",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 8,
+                    "labelId": "chain-poet-b-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "relationships",
+                    "value": 4,
+                    "labelId": "chain-poet-b-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-poet",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-poet-poet-returns-illustration"
+          }
+        ]
+      },
+      {
+        "chainId": "chain-festival",
+        "title": "灯下百杯",
+        "startEventId": "event-festival-stall",
+        "startChoiceId": "a",
+        "startDayMax": 90,
+        "nodes": [
+          {
+            "nodeId": "festival-register",
+            "title": "报名摊位",
+            "content": "决定灯会备货规模。",
+            "minDelayDays": 0,
+            "maxDelayDays": 0,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "保守备货",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "add-flag",
+                    "flag": "festival-conservative"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-festival",
+                    "nodeId": "festival-rush"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "充足备货",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": -8,
+                    "labelId": "chain-festival-b-effect-1"
+                  },
+                  {
+                    "type": "add-flag",
+                    "flag": "festival-stocked"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-festival",
+                    "nodeId": "festival-rush"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-festival-festival-register-illustration"
+          },
+          {
+            "nodeId": "festival-rush",
+            "title": "灯会骤忙",
+            "content": "摊前客人忽然增多。",
+            "minDelayDays": 1,
+            "maxDelayDays": 8,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "限量稳定",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 4,
+                    "labelId": "chain-festival-a-effect-1"
+                  },
+                  {
+                    "type": "money-delta",
+                    "value": 5,
+                    "labelId": "chain-festival-a-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-festival",
+                    "nodeId": "festival-settlement"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "追加产量",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": 10,
+                    "labelId": "chain-festival-b-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "energy",
+                    "value": -9,
+                    "labelId": "chain-festival-b-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-festival",
+                    "nodeId": "festival-settlement"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-festival-festival-rush-illustration"
+          },
+          {
+            "nodeId": "festival-settlement",
+            "title": "灯会结算",
+            "content": "销量、损耗与声望一并结算。",
+            "minDelayDays": 1,
+            "maxDelayDays": 6,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "清点余货",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": 4,
+                    "labelId": "chain-festival-a-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 3,
+                    "labelId": "chain-festival-a-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-festival",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "趁热收尾",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": 8,
+                    "labelId": "chain-festival-b-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "energy",
+                    "value": -5,
+                    "labelId": "chain-festival-b-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-festival",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-festival-festival-settlement-illustration"
+          }
+        ]
+      },
+      {
+        "chainId": "chain-apprentice",
+        "title": "半个学徒",
+        "startEventId": "event-apprentice",
+        "startChoiceId": "a",
+        "startDayMax": 90,
+        "nodes": [
+          {
+            "nodeId": "apprentice-trial",
+            "title": "试用少年",
+            "content": "先教哪一件事？",
+            "minDelayDays": 0,
+            "maxDelayDays": 0,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "先教卫生流程",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 2,
+                    "labelId": "chain-apprentice-a-effect-1"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-apprentice",
+                    "nodeId": "apprentice-mistake"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "先教待客",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "relationships",
+                    "value": 3,
+                    "labelId": "chain-apprentice-b-effect-1"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-apprentice",
+                    "nodeId": "apprentice-mistake"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-apprentice-apprentice-trial-illustration"
+          },
+          {
+            "nodeId": "apprentice-mistake",
+            "title": "学徒犯错",
+            "content": "少年在忙乱中犯了错。",
+            "minDelayDays": 2,
+            "maxDelayDays": 12,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "公开责备",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 1,
+                    "labelId": "chain-apprentice-a-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "relationships",
+                    "value": -5,
+                    "labelId": "chain-apprentice-a-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-apprentice",
+                    "nodeId": "apprentice-future"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "一起补救",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": -4,
+                    "labelId": "chain-apprentice-b-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "relationships",
+                    "value": 5,
+                    "labelId": "chain-apprentice-b-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-apprentice",
+                    "nodeId": "apprentice-future"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-apprentice-apprentice-mistake-illustration"
+          },
+          {
+            "nodeId": "apprentice-future",
+            "title": "学徒去留",
+            "content": "少年询问能否继续留下。",
+            "minDelayDays": 2,
+            "maxDelayDays": 15,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "留下",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "set-modifier",
+                    "modifierId": "apprentice-energy",
+                    "value": 2,
+                    "durationDays": 60
+                  },
+                  {
+                    "type": "set-modifier",
+                    "modifierId": "apprentice-wage",
+                    "value": -2,
+                    "durationDays": 60
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-apprentice",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "推荐他处",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "relationships",
+                    "value": 7,
+                    "labelId": "chain-apprentice-b-effect-1"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-apprentice",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-apprentice-apprentice-future-illustration"
+          }
+        ]
+      },
+      {
+        "chainId": "chain-official-order",
+        "title": "一纸大单",
+        "startEventId": "event-official-order",
+        "startChoiceId": "a",
+        "startDayMax": 90,
+        "nodes": [
+          {
+            "nodeId": "official-accept",
+            "title": "接下大单",
+            "content": "确认准时、品质和账目要求。",
+            "minDelayDays": 0,
+            "maxDelayDays": 0,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "按原单准备",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "add-flag",
+                    "flag": "official-full-order"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-official-order",
+                    "nodeId": "official-shortage"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "先核账目",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "energy",
+                    "value": -3,
+                    "labelId": "chain-official-order-b-effect-1"
+                  },
+                  {
+                    "type": "add-flag",
+                    "flag": "official-accounts-ready"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-official-order",
+                    "nodeId": "official-shortage"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-official-order-official-accept-illustration"
+          },
+          {
+            "nodeId": "official-shortage",
+            "title": "原料不足",
+            "content": "临近交付时原料不足。",
+            "minDelayDays": 1,
+            "maxDelayDays": 8,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "高价补货",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": -12,
+                    "labelId": "chain-official-order-a-effect-1"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-official-order",
+                    "nodeId": "official-settlement"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "缩减品类并说明",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 2,
+                    "labelId": "chain-official-order-b-effect-1"
+                  },
+                  {
+                    "type": "money-delta",
+                    "value": -4,
+                    "labelId": "chain-official-order-b-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-official-order",
+                    "nodeId": "official-settlement"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-official-order-official-shortage-illustration"
+          },
+          {
+            "nodeId": "official-settlement",
+            "title": "大单交付",
+            "content": "准时、品质与账目共同决定结算。",
+            "minDelayDays": 1,
+            "maxDelayDays": 6,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "逐项交割",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": 22,
+                    "labelId": "chain-official-order-a-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 5,
+                    "labelId": "chain-official-order-a-effect-2"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-official-order",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "赶时交付",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": 26,
+                    "labelId": "chain-official-order-b-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "energy",
+                    "value": -8,
+                    "labelId": "chain-official-order-b-effect-2"
+                  },
+                  {
+                    "type": "add-flag",
+                    "flag": "official-quality-risk"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-official-order",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-official-order-official-settlement-illustration"
+          }
+        ]
+      },
+      {
+        "chainId": "chain-signature",
+        "title": "招牌饮子",
+        "startEventId": "event-signature-drink",
+        "startChoiceId": "b",
+        "startDayMax": 90,
+        "nodes": [
+          {
+            "nodeId": "signature-research",
+            "title": "研发方向",
+            "content": "选择招牌饮子的方向。",
+            "minDelayDays": 0,
+            "maxDelayDays": 0,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "清爽",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "add-flag",
+                    "flag": "signature-fresh"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-signature",
+                    "nodeId": "signature-feedback"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "温暖或草木香",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "add-flag",
+                    "flag": "signature-warm-herbal"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-signature",
+                    "nodeId": "signature-feedback"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-signature-signature-research-illustration"
+          },
+          {
+            "nodeId": "signature-feedback",
+            "title": "三位顾客的反馈",
+            "content": "顾客意见彼此矛盾。",
+            "minDelayDays": 2,
+            "maxDelayDays": 12,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "稳定核心",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 4,
+                    "labelId": "chain-signature-a-effect-1"
+                  },
+                  {
+                    "type": "add-flag",
+                    "flag": "signature-stable"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-signature",
+                    "nodeId": "signature-launch"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "继续调整",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "money-delta",
+                    "value": -5,
+                    "labelId": "chain-signature-b-effect-1"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "energy",
+                    "value": -5,
+                    "labelId": "chain-signature-b-effect-2"
+                  },
+                  {
+                    "type": "add-flag",
+                    "flag": "signature-overworked"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-signature",
+                    "nodeId": "signature-launch"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-signature-signature-feedback-illustration"
+          },
+          {
+            "nodeId": "signature-launch",
+            "title": "定名上市",
+            "content": "新饮子终于可以上市。",
+            "minDelayDays": 2,
+            "maxDelayDays": 15,
+            "choices": [
+              {
+                "choiceId": "a",
+                "text": "正式上市",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "unlock-product",
+                    "productId": "drink-signature"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 8,
+                    "labelId": "chain-signature-a-effect-2"
+                  },
+                  {
+                    "type": "add-flag",
+                    "flag": "signature-popular"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-signature",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              },
+              {
+                "choiceId": "b",
+                "text": "小量供应",
+                "impactTags": [],
+                "effects": [
+                  {
+                    "type": "unlock-product",
+                    "productId": "drink-signature"
+                  },
+                  {
+                    "type": "stat-delta",
+                    "stat": "reputation",
+                    "value": 5,
+                    "labelId": "chain-signature-b-effect-2"
+                  },
+                  {
+                    "type": "add-flag",
+                    "flag": "signature-niche"
+                  },
+                  {
+                    "type": "advance-chain",
+                    "chainId": "chain-signature",
+                    "nodeId": "complete"
+                  }
+                ],
+                "followUpEventIds": []
+              }
+            ],
+            "assetId": "chain-signature-signature-launch-illustration"
+          }
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "endingId": "ending-closed-early",
+        "title": "灶火暂歇",
+        "conditions": [
+          {
+            "type": "money-at-most",
+            "value": -1
+          }
+        ],
+        "priority": 1000,
+        "content": "灶火暂歇，但这段经营留下了下一次开张的经验。",
+        "evaluation": "未满百日，资金已无法支撑营业。",
+        "shareText": "这一次，饮子铺在百日前暂歇。",
+        "assetId": "ending-closed-early-illustration",
+        "immediate": true,
+        "provisional": false
+      },
+      {
+        "endingId": "ending-hundred-days",
+        "title": "百日未歇",
+        "conditions": [
+          {
+            "type": "day-range",
+            "min": 100,
+            "max": 100
+          }
+        ],
+        "priority": 10,
+        "content": "从第一盏到第一百日，铺门一直开着。",
+        "evaluation": "完成百日经营。",
+        "shareText": "我的汴京饮子铺，百日未歇。",
+        "assetId": "ending-hundred-days-illustration",
+        "immediate": false,
+        "provisional": false
+      },
+      {
+        "endingId": "ending-rich-shop",
+        "title": "满堂铜钱",
+        "conditions": [
+          {
+            "type": "money-at-least",
+            "value": 350
+          },
+          {
+            "type": "stat-at-least",
+            "stat": "reputation",
+            "value": 50
+          }
+        ],
+        "priority": 70,
+        "content": "铜钱满匣，也记得每一日劳作的代价。",
+        "evaluation": "赚钱能力突出，声望稳健。",
+        "shareText": "一百日后，柜中铜钱满堂。",
+        "assetId": "ending-rich-shop-illustration",
+        "immediate": false,
+        "provisional": true
+      },
+      {
+        "endingId": "ending-famous-cup",
+        "title": "一盏闻名",
+        "conditions": [
+          {
+            "type": "stat-at-least",
+            "stat": "reputation",
+            "value": 75
+          },
+          {
+            "type": "chain-status",
+            "chainId": "chain-signature",
+            "status": "completed"
+          }
+        ],
+        "priority": 80,
+        "content": "一盏招牌饮子把店名带到了更远的街巷。",
+        "evaluation": "声望极高并完成招牌饮子故事。",
+        "shareText": "汴京街巷，已有一盏记得我的名字。",
+        "assetId": "ending-famous-cup-illustration",
+        "immediate": false,
+        "provisional": true
+      },
+      {
+        "endingId": "ending-neighbor-heart",
+        "title": "街坊自家人",
+        "conditions": [
+          {
+            "type": "stat-at-least",
+            "stat": "relationships",
+            "value": 75
+          }
+        ],
+        "priority": 75,
+        "content": "铺子能走到今日，也因街坊愿意彼此搭一把手。",
+        "evaluation": "人情深厚，邻里互助。",
+        "shareText": "我的饮子铺，成了街坊自家人的去处。",
+        "assetId": "ending-neighbor-heart-illustration",
+        "immediate": false,
+        "provisional": true
+      },
+      {
+        "endingId": "ending-balanced-life",
+        "title": "灯下有闲",
+        "conditions": [
+          {
+            "type": "stat-at-least",
+            "stat": "energy",
+            "value": 70
+          },
+          {
+            "type": "money-at-least",
+            "value": 0
+          }
+        ],
+        "priority": 65,
+        "content": "灯亮着，账也平着，打烊后仍有自己的时辰。",
+        "evaluation": "经营与生活都保住了。",
+        "shareText": "百日经营之后，灯下仍有闲。",
+        "assetId": "ending-balanced-life-illustration",
+        "immediate": false,
+        "provisional": true
+      },
+      {
+        "endingId": "ending-chain-master",
+        "title": "五味成章",
+        "conditions": [
+          {
+            "type": "completed-chain-count-at-least",
+            "value": 4
+          },
+          {
+            "type": "lacks-flag",
+            "flag": "major-chain-failure"
+          }
+        ],
+        "priority": 90,
+        "content": "来往的人与事，已经写成铺子里最厚的一本故事。",
+        "evaluation": "至少完成四条连锁且无重大失败。",
+        "shareText": "五味成章，百日里的人与事都有了回声。",
+        "assetId": "ending-chain-master-illustration",
+        "immediate": false,
+        "provisional": true
+      },
+      {
+        "endingId": "ending-quiet-craft",
+        "title": "小店长长",
+        "conditions": [
+          {
+            "type": "money-at-least",
+            "value": 0
+          },
+          {
+            "type": "money-at-most",
+            "value": 349
+          },
+          {
+            "type": "stat-at-least",
+            "stat": "reputation",
+            "value": 25
+          },
+          {
+            "type": "stat-at-most",
+            "stat": "reputation",
+            "value": 70
+          },
+          {
+            "type": "has-flag",
+            "flag": "stable-craft"
+          }
+        ],
+        "priority": 60,
+        "content": "不追最大的铺面，只把每日的一盏做好。",
+        "evaluation": "资金与声望普通，品质和稳定突出。",
+        "shareText": "小店不大，却想长长久久地开下去。",
+        "assetId": "ending-quiet-craft-illustration",
+        "immediate": false,
+        "provisional": true
+      }
+    ],
+    "balance": {
+      "initial": {
+        "money": 120,
+        "reputation": 10,
+        "energy": 80,
+        "relationships": 5
+      },
+      "stageBaseVisitors": [
+        {
+          "dayRange": [
+            1,
+            10
+          ],
+          "visitors": 8
+        },
+        {
+          "dayRange": [
+            11,
+            30
+          ],
+          "visitors": 10
+        },
+        {
+          "dayRange": [
+            31,
+            60
+          ],
+          "visitors": 12
+        },
+        {
+          "dayRange": [
+            61,
+            85
+          ],
+          "visitors": 13
+        },
+        {
+          "dayRange": [
+            86,
+            100
+          ],
+          "visitors": 14
+        }
+      ],
+      "reputation": {
+        "linearUntil": 70,
+        "pointsPerVisitor": 10,
+        "afterThresholdDivisor": 20
+      },
+      "price": {
+        "minimumRatio": 0.8,
+        "maximumRatio": 1.4,
+        "weight": 0.35
+      },
+      "preferenceWeight": 0.3,
+      "reputationWeight": 0.2,
+      "serviceWeight": 0.15,
+      "baseOpenEnergy": 3,
+      "earlyCloseEnergyProtection": 4,
+      "earlyCloseVisitorMultiplier": 0.65,
+      "dailyFixedCost": 2,
+      "historyLimit": 120,
+      "provisional": true,
+      "notes": [
+        "初始本金采用黄金样例120文；启动页另有300文建议。",
+        "基础客流、保存率与固定成本为可运行首轮fallback，未为保证通关调整。"
+      ]
+    },
+    "ui": {
+      "eyebrow": "汴京饮子铺 · 今日开张",
+      "landingTitle": "汴京饮子铺：开店一百天",
+      "landingLead": "用有限本金经营一间饮子铺，看看能否撑过一百日。",
+      "newGame": "重新开店",
+      "continueGame": "继续上次经营",
+      "tutorialTitle": "开店说明",
+      "tutorialBody": "每天先备货和定价，再开门迎客、处理事件并查看账簿。事件选择提交后不可撤销。",
+      "morningTitle": "晨间情报",
+      "preparationTitle": "备货与定价",
+      "openShop": "开门营业",
+      "eventTitle": "今日事件",
+      "settlementTitle": "日结账簿",
+      "milestoneTitle": "里程碑",
+      "bankruptcyTitle": "铺门暂歇",
+      "endingTitle": "百日结局",
+      "recoveryTitle": "发现可恢复的存档",
+      "errorTitle": "存档未能读取",
+      "resetData": "清空本工具数据",
+      "noEvent": "今日无额外事件，铺中照常营业。",
+      "money": "资金",
+      "reputation": "口碑",
+      "energy": "体力",
+      "relationships": "人情",
+      "visitors": "今日客流",
+      "day": "天数",
+      "beginIntroduction": "先看开店说明",
+      "beginBusiness": "今日开张",
+      "goPreparation": "去备货",
+      "preparationHelp": "选择 3–5 种饮子，每种备货 0–12 份；售价必须在基准价的 80%–140% 之间。",
+      "preparedQuantity": "备货量",
+      "sellingPrice": "售价",
+      "unitCost": "单份成本",
+      "basePrice": "基准价",
+      "closeEarly": "提前打烊，保护体力",
+      "settleNoEvent": "照常经营并结算",
+      "confirmChoice": "提交选择",
+      "choiceLocked": "选择提交后不可撤销，也不会提前显示精确数值。",
+      "nextDay": "进入下一日",
+      "viewOutcome": "查看经营结果",
+      "completedDayPrefix": "你已经完成第 ",
+      "completedDaySuffix": " 日经营。",
+      "ledgerItem": "项目",
+      "ledgerAmount": "金额变化",
+      "salesSummary": "今日销量",
+      "prepared": "备货",
+      "demand": "需求",
+      "sold": "售出",
+      "unsold": "未售",
+      "newShopWarning": "新开存档不会删除旧存档。",
+      "recoveredPrevious": "当前快照损坏，已恢复到上一日安全快照。",
+      "retryLanding": "回到开店首页",
+      "resetConfirm": "确定清空汴京饮子铺的本地存档与设置吗？此操作不可恢复。",
+      "noSave": "当前没有可继续的存档。",
+      "assetPlaceholder": "未来插图接口",
+      "endingEvaluation": "经营评价",
+      "endingShare": "分享短句",
+      "restart": "另开一间铺",
+      "saveNotice": "每个完整日与事件选择都会写入本地安全存档。",
+      "loading": "正在读取本地存档……"
+      ,"viewEvent": "查看今日事件"
+      ,"resumePrompt": "本机找到一份经营存档。你可以从已保存的安全阶段继续。"
+      ,"resumeNow": "恢复经营"
+      ,"lossWarning": "已连续三日出现负利润。请检查备货损耗、售价、固定成本和事件支出。"
+    }
+  }
+}

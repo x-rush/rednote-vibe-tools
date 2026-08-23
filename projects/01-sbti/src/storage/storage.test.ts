@@ -1,0 +1,71 @@
+import { describe, expect, it } from 'vitest'
+import rawContent from '../content/content.json'
+import { validateContent } from '../content/validate'
+import { selectQuestionIds } from '../quiz/selection'
+import type { StoragePayload } from './storage'
+import { STORAGE_KEY, clearStorage, loadStorage, saveStorage } from './storage'
+
+class MemoryStorage {
+  values = new Map<string, string>()
+  getItem(key: string) { return this.values.get(key) ?? null }
+  setItem(key: string, value: string) { this.values.set(key, value) }
+  removeItem(key: string) { this.values.delete(key) }
+}
+
+const content = validateContent(rawContent)
+const payload: StoragePayload = {
+  schemaVersion: 1,
+  quizVersion: '1.0.0',
+  updatedAt: '2026-08-24T00:00:00.000Z',
+  data: {
+    activeProgress: { seed: 'stored', questionIds: selectQuestionIds(content, 'stored'), currentIndex: 0, answers: [] },
+    settings: { muted: false, reducedMotion: false },
+  },
+}
+
+describe('SBTI local storage adapter', () => {
+  it('returns an empty outcome when no data exists', () => {
+    expect(loadStorage(new MemoryStorage(), content)).toEqual({ status: 'empty' })
+  })
+
+  it('round-trips a valid versioned payload', () => {
+    const storage = new MemoryStorage()
+    saveStorage(storage, payload, content)
+    expect(loadStorage(storage, content)).toEqual({ status: 'ready', payload })
+  })
+
+  it.each([
+    ['corrupt JSON', '{"schemaVersion":', '数据不是有效 JSON'],
+    ['unknown schema', JSON.stringify({ ...payload, schemaVersion: 99 }), '不支持的存储版本'],
+    ['missing fields', JSON.stringify({ schemaVersion: 1, quizVersion: '1.0.0' }), '字段缺失'],
+  ])('recovers safely from %s', (_name, stored, reason) => {
+    const storage = new MemoryStorage()
+    storage.setItem(STORAGE_KEY, stored)
+    expect(loadStorage(storage, content)).toEqual({ status: 'recovered', reason })
+    expect(storage.getItem(STORAGE_KEY)).toBeNull()
+  })
+
+  it('clears progress that references stale content IDs', () => {
+    const storage = new MemoryStorage()
+    const stale = structuredClone(payload)
+    stale.data.activeProgress!.questionIds[0] = 'question-retired'
+    storage.setItem(STORAGE_KEY, JSON.stringify(stale))
+
+    expect(loadStorage(storage, content)).toEqual({ status: 'recovered', reason: '存档引用的题目或选项已失效' })
+  })
+
+  it('rejects a quizVersion that does not match current content', () => {
+    const storage = new MemoryStorage()
+    storage.setItem(STORAGE_KEY, JSON.stringify({ ...payload, quizVersion: '2.0.0' }))
+    expect(loadStorage(storage, content)).toEqual({ status: 'recovered', reason: '题库版本不匹配' })
+  })
+
+  it('clears only the SBTI project key', () => {
+    const storage = new MemoryStorage()
+    storage.setItem(STORAGE_KEY, JSON.stringify(payload))
+    storage.setItem('xhs-tool:another:state:v1', 'keep')
+    clearStorage(storage)
+    expect(storage.getItem(STORAGE_KEY)).toBeNull()
+    expect(storage.getItem('xhs-tool:another:state:v1')).toBe('keep')
+  })
+})

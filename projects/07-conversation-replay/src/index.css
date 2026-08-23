@@ -1,5 +1,5 @@
-:root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #211d1b; background: #f7f3ec; font-synthesis: none; text-rendering: optimizeLegibility; }
+:root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #24211e; background: #f3eee6; font-synthesis: none; text-rendering: optimizeLegibility; }
 * { box-sizing: border-box; }
-html { min-width: 320px; background: #f7f3ec; }
-body { min-width: 320px; min-height: 100vh; margin: 0; }
+html { min-width: 320px; overflow-x: hidden; background: #f3eee6; }
+body { min-width: 320px; min-height: 100vh; margin: 0; overflow-x: hidden; }
 button, input, textarea, select { font: inherit; }

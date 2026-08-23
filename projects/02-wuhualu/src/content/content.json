@@ -1,1 +1,285 @@
-{"schemaVersion":1,"contentVersion":"0.0.0-scaffold","projectId":"wuhualu","meta":{"title":"物华录：文物寻踪","locale":"zh-CN","updatedAt":"2026-08-23"},"sources":[],"content":{"artifacts":[],"rounds":[],"collectionRules":{}}}
+{
+  "schemaVersion": 1,
+  "contentVersion": "1.0.0-foundation",
+  "projectId": "wuhualu",
+  "meta": {
+    "title": "物华录：文物寻踪",
+    "locale": "zh-CN",
+    "updatedAt": "2026-08-23"
+  },
+  "sources": [
+    { "id": "source-chnmuseum-eagle-tripod", "title": "中国国家博物馆：鹰形陶鼎馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247248.shtml", "level": "A", "note": "规划提供的独立馆藏页。" },
+    { "id": "source-chnmuseum-face-fish-basin", "title": "中国国家博物馆：人面鱼纹彩陶盆馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247218.shtml", "level": "A", "note": "图像含义仍须保留争议限定。" },
+    { "id": "source-henan-jiahu-flute", "title": "河南博物院：贾湖骨笛馆藏页", "url": "https://www.chnmus.net/ch/collection/treasure/details.html?id=508164979145447651", "level": "A", "note": "避免无条件使用世界最早等绝对表述。" },
+    { "id": "source-chnmuseum-catalog", "title": "中国国家博物馆馆藏总目", "url": "https://www.chnmuseum.cn/", "level": "A", "note": "玉龙独立馆藏页仍待定位。" },
+    { "id": "source-chnmuseum-houmuwu", "title": "中国国家博物馆：后母戊青铜方鼎馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247255.shtml", "level": "A", "note": "规划提供的独立馆藏页。" },
+    { "id": "source-chnmuseum-four-ram", "title": "中国国家博物馆：四羊方尊介绍", "url": "https://www.chnmuseum.cn/Portals/0/web/zt/100n/guobao_content-8.html?id=30", "level": "A", "note": "规划提供的馆方专题页。" },
+    { "id": "source-henan-lotus-crane", "title": "河南博物院：莲鹤方壶馆藏页", "url": "https://www.chnmus.net/ch/collection/treasure/details.html?id=508162565626657246", "level": "A", "note": "成对藏品关系不得作为普通错误答案。" },
+    { "id": "source-henan-catalog", "title": "河南博物院馆藏总目", "url": "https://www.chnmus.net/", "level": "A", "note": "云纹铜禁独立详情页及失蜡法表述待核。" },
+    { "id": "source-hubei-bells", "title": "湖北省博物馆：曾侯乙编钟馆藏页", "url": "https://m-www.hbww.org.cn/p/4695.html", "level": "A", "note": "规划提供的独立馆藏页。" },
+    { "id": "source-hubei-zunpan", "title": "湖北省博物馆：曾侯乙尊盘馆藏页", "url": "https://www.hbww.org.cn/zgzb/p/6911.html", "level": "A", "note": "规划提供的独立馆藏页。" },
+    { "id": "source-hubei-goujian", "title": "湖北省博物馆：越王勾践剑馆藏页", "url": "https://hbww.org.cn/zgzb/p/4694.html", "level": "A", "note": "不使用神秘配方的单因果解释。" },
+    { "id": "source-palace-changxin", "title": "故宫博物院何以中国展：长信宫灯", "url": "https://ggzl.dpm.org.cn/pages/exhibit_works/details?id=10933", "level": "A", "note": "页面记录河北博物院藏品。" },
+    { "id": "source-hebeitour-jade-suit", "title": "河北旅游：刘胜金缕玉衣", "url": "https://m.hebeitour.com.cn/c/2022-03-09/512247.html", "level": "B", "note": "标注来源河北博物院，正式包仍需补独立馆藏页。" },
+    { "id": "source-hebei-boshan", "title": "河北省文物局：河北博物院常设陈列介绍", "url": "https://wenwu.hebei.gov.cn/system/2026/07/20/030390015.shtml", "level": "A", "note": "博山炉细节仍需馆方专题或考古报告复核。" },
+    { "id": "source-chnmuseum-storyteller", "title": "中国国家博物馆：击鼓说唱俑馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247253.shtml", "level": "A", "note": "规划提供的独立馆藏页。" },
+    { "id": "source-henan-gold-slip", "title": "河南博物院：武则天金简馆藏页", "url": "https://www.chnmus.net/ch/collection/treasure/details.html?id=508161850642982087", "level": "A", "note": "规划提供的独立馆藏页。" },
+    { "id": "source-shaanxi-horse-flask", "title": "陕西历史博物馆：舞马衔杯纹银壶馆藏页", "url": "https://www.sxhm.com/collections/detail/10117.html", "level": "A", "note": "规划提供的独立馆藏页。" },
+    { "id": "source-shaanxi-sachet", "title": "陕西历史博物馆：葡萄花鸟纹银香囊教育专题", "url": "https://www.sxhm.com/education/detail/228.html", "level": "A", "note": "精确机械结构仍需馆方研究来源复核。" },
+    { "id": "source-shaanxi-catalog", "title": "陕西历史博物馆馆藏入口", "url": "https://www.sxhm.com/Site/Index/index.html", "level": "A", "note": "三彩载乐骆驼俑独立藏品页待定位。" },
+    { "id": "source-chnmuseum-rhino", "title": "中国国家博物馆馆长之选：错金银云纹铜犀尊", "url": "https://www.chnmuseum.cn/portals/0/web/zt/202009gmdc/ins-dc.html", "level": "A", "note": "规划提供的馆方专题页。" }
+  ],
+  "content": {
+    "categories": [
+      { "id": "category-prehistoric-pottery", "name": "史前陶器" },
+      { "id": "category-jade", "name": "玉器" },
+      { "id": "category-bronze-ritual", "name": "青铜礼器" },
+      { "id": "category-weapon", "name": "兵器" },
+      { "id": "category-lamp", "name": "灯具" },
+      { "id": "category-music", "name": "乐器" },
+      { "id": "category-sculpture", "name": "雕塑" },
+      { "id": "category-burial", "name": "丧葬器" },
+      { "id": "category-gold-silver", "name": "金银器" },
+      { "id": "category-incense", "name": "香具" }
+    ],
+    "artifacts": [
+      {
+        "id": "artifact-eagle-tripod", "name": "鹰形陶鼎", "aliases": [], "period": "新石器时代仰韶文化", "periodGroup": "prehistoric", "categoryIds": ["category-prehistoric-pottery", "category-sculpture"], "material": "陶", "use": "鼎形器皿", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
+        "summary": "一件把猛禽雕塑与三足器皿结合在一起的陶器。", "highlight": "两腿和尾部构成三个稳定支点，器口设在背部。", "culturalNote": "它让动物造型与器物功能成为同一个完整结构。",
+        "clues": [{ "id": "clue-eagle-tripod-1", "level": 1, "text": "我像一只站立的猛禽，却同时是一件器皿。" }, { "id": "clue-eagle-tripod-2", "level": 2, "text": "两腿和尾部形成三个稳定支点。" }, { "id": "clue-eagle-tripod-3", "level": 3, "text": "器口藏在背部与双翼之间。" }],
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "猛禽稳稳落地，也落入你的物华录。", "wrongAnswerExplanation": "容易与鸟形器物混淆；关键是鹰身同时构成三足鼎。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依规划提供的中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-eagle-tripod"], "assetRefs": { "fullAssetId": "asset-full-eagle-tripod", "detailAssetIds": ["asset-detail-eagle-tripod-1"], "fallbackAssetId": "asset-silhouette-eagle-tripod", "thumbnailAssetId": "asset-thumb-eagle-tripod" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-face-fish-basin", "name": "人面鱼纹彩陶盆", "aliases": [], "period": "新石器时代前期仰韶文化", "periodGroup": "prehistoric", "categoryIds": ["category-prehistoric-pottery"], "material": "彩陶", "use": "陶盆，具体用途与图像含义存在不同解释", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
+        "summary": "盆内壁绘有彼此对称的人面与鱼纹组合。", "highlight": "圆形人面两侧与鱼纹衔接，图案位于器物内部。", "culturalNote": "图像含义存在多种观点，不能把单一宗教解释写成定论。",
+        "clues": [{ "id": "clue-face-fish-basin-1", "level": 1, "text": "我的图案在器物内部，不只在外壁。" }, { "id": "clue-face-fish-basin-2", "level": 2, "text": "圆形人面两侧与鱼纹重合。" }, { "id": "clue-face-fish-basin-3", "level": 3, "text": "两组人面鱼纹对称绘于盆内壁。" }],
+        "difficulty": "normal", "distractorTags": ["pattern", "material", "period", "category"], "unlockCopy": "盆中的人鱼纹样已经收入图鉴。", "wrongAnswerExplanation": "同为彩陶纹样时容易混淆；这里的识别点是盆内对称的人面鱼纹。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "用途和图像意义保留争议，不作唯一解释。", "sourceIds": ["source-chnmuseum-face-fish-basin"], "assetRefs": { "fullAssetId": "asset-full-face-fish-basin", "detailAssetIds": ["asset-detail-face-fish-basin-1"], "fallbackAssetId": "asset-silhouette-face-fish-basin", "thumbnailAssetId": "asset-thumb-face-fish-basin" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-jiahu-flute", "name": "贾湖骨笛", "aliases": [], "period": "新石器时代贾湖遗址", "periodGroup": "prehistoric", "categoryIds": ["category-music"], "material": "禽鸟骨", "use": "可吹奏乐器", "dimensions": null, "excavation": "贾湖遗址", "museum": "河南博物院",
+        "summary": "以禽鸟中空尺骨制成的早期可吹奏乐器。", "highlight": "细长骨管上排列经过计算的音孔。", "culturalNote": "同遗址出土同类器物存在不同时期和孔数，表述避免无条件称世界最早。",
+        "clues": [{ "id": "clue-jiahu-flute-1", "level": 1, "text": "我细长中空，原料不是竹。" }, { "id": "clue-jiahu-flute-2", "level": 2, "text": "身上排列着经过计算的音孔。" }, { "id": "clue-jiahu-flute-3", "level": 3, "text": "同遗址出土了一批不同时期、不同孔数的同类器物。" }],
+        "difficulty": "normal", "distractorTags": ["use", "material", "shape", "period"], "unlockCopy": "来自远古的骨管声已收入物华录。", "wrongAnswerExplanation": "细长骨器容易与骨哨、骨针混淆；成列音孔说明它是可吹奏乐器。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "按馆藏页转写，最早类称号保持克制。", "sourceIds": ["source-henan-jiahu-flute"], "assetRefs": { "fullAssetId": "asset-full-jiahu-flute", "detailAssetIds": ["asset-detail-jiahu-flute-1"], "fallbackAssetId": "asset-silhouette-jiahu-flute", "thumbnailAssetId": "asset-thumb-jiahu-flute" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-jade-dragon", "name": "红山玉龙", "aliases": ["C形玉龙"], "period": "红山文化", "periodGroup": "prehistoric", "categoryIds": ["category-jade"], "material": "玉", "use": "玉器，具体用途资料待独立馆藏页核验", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
+        "summary": "一件长身卷曲、无足，身体接近 C 形的玉龙。", "highlight": "突出的吻部与飘起长鬣意象形成鲜明侧影。", "culturalNote": "公众常用的称号不等同于学术定论。",
+        "clues": [{ "id": "clue-jade-dragon-1", "level": 1, "text": "我的身体弯成接近 C 形。" }, { "id": "clue-jade-dragon-2", "level": 2, "text": "头部有突出的吻和飘起的长鬣意象。" }, { "id": "clue-jade-dragon-3", "level": 3, "text": "我常被公众冠以醒目的第一之称，但这里不会把称号当学术定论。" }],
+        "difficulty": "easy", "distractorTags": ["shape", "material", "period", "category"], "unlockCopy": "卷曲的玉龙轮廓已收入物华录。", "wrongAnswerExplanation": "同类玉器都可能呈环形；长身、无足和扬起的鬣是关键。", "factCheckStatus": "pending-review", "sourceNote": "规划仅给出国家博物馆总目，独立馆藏页待定位。", "sourceIds": ["source-chnmuseum-catalog"], "assetRefs": { "fullAssetId": "asset-full-jade-dragon", "detailAssetIds": ["asset-detail-jade-dragon-1"], "fallbackAssetId": "asset-silhouette-jade-dragon", "thumbnailAssetId": "asset-thumb-jade-dragon" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-houmuwu-ding", "name": "后母戊青铜方鼎", "aliases": ["司母戊鼎"], "period": "商王武丁时期", "periodGroup": "shang-zhou", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "青铜礼器", "dimensions": "重量 832.84 千克", "excavation": null, "museum": "中国国家博物馆",
+        "summary": "长方深腹、两耳四柱足的大型青铜方鼎。", "highlight": "腹内壁铸有后母戊三字铭文，重量达 832.84 千克。", "culturalNote": "现行馆名使用后母戊，曾长期被称为司母戊鼎。",
+        "clues": [{ "id": "clue-houmuwu-ding-1", "level": 1, "text": "我有两耳、长方深腹和四柱足。" }, { "id": "clue-houmuwu-ding-2", "level": 2, "text": "我重 832.84 千克。" }, { "id": "clue-houmuwu-ding-3", "level": 3, "text": "腹内壁铸有三个与现行馆名相同的字。" }],
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四足重器已经稳稳收入物华录。", "wrongAnswerExplanation": "同为青铜礼器时要看长方深腹、四柱足以及腹内三字铭文。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-houmuwu"], "assetRefs": { "fullAssetId": "asset-full-houmuwu-ding", "detailAssetIds": ["asset-detail-houmuwu-ding-1"], "fallbackAssetId": "asset-silhouette-houmuwu-ding", "thumbnailAssetId": "asset-thumb-houmuwu-ding" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-four-ram-zun", "name": "四羊方尊", "aliases": [], "period": "商代后期", "periodGroup": "shang-zhou", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "盛酒礼器尊", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
+        "summary": "方正尊体四角各伸出一只卷角羊头。", "highlight": "羊头羊颈伸出器外，羊身与腿附着在腹部和圈足。", "culturalNote": "平面纹饰与立体动物雕塑在一件方尊上结合。",
+        "clues": [{ "id": "clue-four-ram-zun-1", "level": 1, "text": "我的整体方正，却在四角长出动物立体头部。" }, { "id": "clue-four-ram-zun-2", "level": 2, "text": "卷角羊头伸出器外，羊身和腿附着在腹部与圈足。" }, { "id": "clue-four-ram-zun-3", "level": 3, "text": "我是盛酒礼器中的尊，不是用四足承腹的鼎。" }],
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四角羊首的青铜尊已收入物华录。", "wrongAnswerExplanation": "动物附饰并不少见；四角各有卷角羊头且器类为方尊才是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依国家博物馆馆方专题页转写。", "sourceIds": ["source-chnmuseum-four-ram"], "assetRefs": { "fullAssetId": "asset-full-four-ram-zun", "detailAssetIds": ["asset-detail-four-ram-zun-1"], "fallbackAssetId": "asset-silhouette-four-ram-zun", "thumbnailAssetId": "asset-thumb-four-ram-zun" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-lotus-crane-hu", "name": "莲鹤方壶", "aliases": [], "period": "春秋", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "青铜壶", "dimensions": null, "excavation": null, "museum": "河南博物院",
+        "summary": "壶盖双层莲瓣中心立着一只展翅欲鸣的鹤。", "highlight": "龙形耳、攀爬翼龙和卷尾兽承托共同制造向上的动势。", "culturalNote": "成对器分藏的关系应在揭晓中说明，不能把同器另一件当普通错误项。",
+        "clues": [{ "id": "clue-lotus-crane-hu-1", "level": 1, "text": "盖顶不是普通钮，而是一朵双层莲瓣。" }, { "id": "clue-lotus-crane-hu-2", "level": 2, "text": "莲心站着一只展翅欲鸣的鹤。" }, { "id": "clue-lotus-crane-hu-3", "level": 3, "text": "壶身还有龙形耳、攀爬翼龙和承托卷尾兽。" }],
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "莲瓣上的鹤已停入你的物华录。", "wrongAnswerExplanation": "复杂动物附饰容易混淆；盖顶双层莲瓣与立鹤是唯一组合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页转写。", "sourceIds": ["source-henan-lotus-crane"], "assetRefs": { "fullAssetId": "asset-full-lotus-crane-hu", "detailAssetIds": ["asset-detail-lotus-crane-hu-1"], "fallbackAssetId": "asset-silhouette-lotus-crane-hu", "thumbnailAssetId": "asset-thumb-lotus-crane-hu" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-cloud-bronze-jin", "name": "云纹铜禁", "aliases": [], "period": "春秋", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "承放酒器的案", "dimensions": null, "excavation": null, "museum": "河南博物院",
+        "summary": "由繁密云纹和多只兽形构成的青铜承置器。", "highlight": "器身镂空，形态像一张被云与兽托起的案几。", "culturalNote": "禁在这里指承放酒器的器类，不是牢笼。复杂工艺与失蜡法的关系仍待独立来源复核。",
+        "clues": [{ "id": "clue-cloud-bronze-jin-1", "level": 1, "text": "我的名字容易让人想到牢笼，其实我是一类承放酒器的案。" }, { "id": "clue-cloud-bronze-jin-2", "level": 2, "text": "器身由繁密云纹与多只兽形构成。" }, { "id": "clue-cloud-bronze-jin-3", "level": 3, "text": "复杂镂空结构常与一种精细铸造工艺的研究联系。" }],
+        "difficulty": "hard", "distractorTags": ["use", "pattern", "material", "category"], "unlockCopy": "云与兽托起的铜案已收入物华录。", "wrongAnswerExplanation": "与复杂青铜组合器易混淆；承置酒器的案形用途最关键。", "factCheckStatus": "pending-review", "sourceNote": "规划仅提供河南博物院总目，独立详情与工艺表述待核。", "sourceIds": ["source-henan-catalog"], "assetRefs": { "fullAssetId": "asset-full-cloud-bronze-jin", "detailAssetIds": ["asset-detail-cloud-bronze-jin-1"], "fallbackAssetId": "asset-silhouette-cloud-bronze-jin", "thumbnailAssetId": "asset-thumb-cloud-bronze-jin" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-zenghouyi-bells", "name": "曾侯乙编钟", "aliases": [], "period": "战国早期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-music"], "material": "青铜", "use": "成套乐器", "dimensions": "全套 65 件，钟架呈曲尺形", "excavation": null, "museum": "湖北省博物馆",
+        "summary": "一套分三层八组悬挂、共 65 件的青铜编钟系统。", "highlight": "钟体和钟架钩上留有大量编号、记事、标音及乐律铭文。", "culturalNote": "它不是单独一口钟，而是完整的成套乐器与乐律资料。",
+        "clues": [{ "id": "clue-zenghouyi-bells-1", "level": 1, "text": "我不是一口钟，而是一整套分层悬挂的乐器。" }, { "id": "clue-zenghouyi-bells-2", "level": 2, "text": "全套共 65 件，钟架呈曲尺形。" }, { "id": "clue-zenghouyi-bells-3", "level": 3, "text": "钟和架钩上有大量编号、记事、标音及乐律铭文。" }],
+        "difficulty": "easy", "distractorTags": ["use", "material", "period", "category"], "unlockCopy": "三层钟架的恢宏乐声已收入物华录。", "wrongAnswerExplanation": "同为成套乐器时，要看 65 件青铜钟、曲尺形钟架和乐律铭文。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-bells"], "assetRefs": { "fullAssetId": "asset-full-zenghouyi-bells", "detailAssetIds": ["asset-detail-zenghouyi-bells-1"], "fallbackAssetId": "asset-silhouette-zenghouyi-bells", "thumbnailAssetId": "asset-thumb-zenghouyi-bells" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-zenghouyi-zunpan", "name": "曾侯乙尊盘", "aliases": [], "period": "战国早期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "尊与盘组成的礼器组合", "dimensions": null, "excavation": null, "museum": "湖北省博物馆",
+        "summary": "上置尊、下承盘的两件式青铜礼器组合。", "highlight": "尊口沿多层镂空如云，近看由龙蛇状纹样组成。", "culturalNote": "它以组合结构和繁复镂空见长，不是一只普通酒杯。",
+        "clues": [{ "id": "clue-zenghouyi-zunpan-1", "level": 1, "text": "我由上面的尊和下面的盘两件组成。" }, { "id": "clue-zenghouyi-zunpan-2", "level": 2, "text": "口沿像云，近看由无数龙蛇状镂空纹组成。" }, { "id": "clue-zenghouyi-zunpan-3", "level": 3, "text": "我以结构繁复闻名，而不是一只普通酒杯。" }],
+        "difficulty": "hard", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "如凝云般的尊盘组合已收入物华录。", "wrongAnswerExplanation": "与繁复镂空青铜器易混淆；上尊下盘的两件组合是判断核心。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-zunpan"], "assetRefs": { "fullAssetId": "asset-full-zenghouyi-zunpan", "detailAssetIds": ["asset-detail-zenghouyi-zunpan-1"], "fallbackAssetId": "asset-silhouette-zenghouyi-zunpan", "thumbnailAssetId": "asset-thumb-zenghouyi-zunpan" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-goujian-sword", "name": "越王勾践剑", "aliases": [], "period": "春秋晚期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-weapon"], "material": "青铜", "use": "剑", "dimensions": null, "excavation": null, "museum": "湖北省博物馆",
+        "summary": "剑身有规整深色菱形纹，近剑格处留有鸟篆铭文。", "highlight": "菱形暗格纹与越王鸠浅自作用剑的八字鸟篆共同确认身份。", "culturalNote": "保存状况不能简化成某种神秘配方的单一因果。",
+        "clues": [{ "id": "clue-goujian-sword-1", "level": 1, "text": "剑身布满规整深色菱形纹。" }, { "id": "clue-goujian-sword-2", "level": 2, "text": "剑首有多道同心圆，剑格嵌饰不同材料。" }, { "id": "clue-goujian-sword-3", "level": 3, "text": "近剑格处的鸟篆铭文包含越王、鸠浅与自作用剑等信息。" }],
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "菱纹剑身与鸟篆铭文已收入物华录。", "wrongAnswerExplanation": "同代青铜兵器容易混淆；深色菱纹与八字鸟篆必须同时出现。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-goujian"], "assetRefs": { "fullAssetId": "asset-full-goujian-sword", "detailAssetIds": ["asset-detail-goujian-sword-1"], "fallbackAssetId": "asset-silhouette-goujian-sword", "thumbnailAssetId": "asset-thumb-goujian-sword" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-changxin-lamp", "name": "长信宫灯", "aliases": [], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-lamp"], "material": "鎏金铜", "use": "灯具", "dimensions": null, "excavation": "与西汉中山靖王刘胜之妻窦绾墓的出土背景有关", "museum": "河北博物院",
+        "summary": "一位跪坐宫女执灯的造型，同时也是完整灯具结构。", "highlight": "右臂与袖口形成导烟通路，灯罩可以调节光线。", "culturalNote": "结果页只说明可核验结构，不使用世界最早环保灯等绝对化说法。",
+        "clues": [{ "id": "clue-changxin-lamp-1", "level": 1, "text": "我像一位跪坐执灯的宫女。" }, { "id": "clue-changxin-lamp-2", "level": 2, "text": "灯罩可调节光线，右臂与袖口形成导烟通路。" }, { "id": "clue-changxin-lamp-3", "level": 3, "text": "身上多处铭文记录重量、容量和所属。" }],
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "执灯宫女与她的导烟袖管已收入物华录。", "wrongAnswerExplanation": "同为铜灯时应看人物跪坐造型，以及手臂、袖管与灯体形成的通路。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "按故宫展品详情记录的河北博物院藏品转写。", "sourceIds": ["source-palace-changxin"], "assetRefs": { "fullAssetId": "asset-full-changxin-lamp", "detailAssetIds": ["asset-detail-changxin-lamp-1"], "fallbackAssetId": "asset-silhouette-changxin-lamp", "thumbnailAssetId": "asset-thumb-changxin-lamp" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-liusheng-jade-suit", "name": "刘胜金缕玉衣", "aliases": [], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-burial", "category-jade"], "material": "玉片与金丝", "use": "葬服", "dimensions": "2498 片玉片，约 1100 克金丝", "excavation": "刘胜墓", "museum": "河北博物院",
+        "summary": "由不同形状的玉片以金丝连缀成人体外形的葬服。", "highlight": "头罩、上衣、手套、裤筒和鞋由 2498 片玉片组成。", "culturalNote": "它不是由一整块玉雕成，而是像甲片一样逐片连接。",
+        "clues": [{ "id": "clue-liusheng-jade-suit-1", "level": 1, "text": "我不是一整块玉雕成。" }, { "id": "clue-liusheng-jade-suit-2", "level": 2, "text": "不同形状玉片覆盖头罩、上衣、手套、裤筒和鞋。" }, { "id": "clue-liusheng-jade-suit-3", "level": 3, "text": "这件葬服使用 2498 片玉片和约 1100 克金丝。" }],
+        "difficulty": "easy", "distractorTags": ["use", "material", "shape", "category"], "unlockCopy": "金丝连缀的玉片葬服已收入物华录。", "wrongAnswerExplanation": "与玉覆面等葬玉易混淆；覆盖完整人体且用金丝连接是关键。", "factCheckStatus": "pending-review", "sourceNote": "规划来源为河北旅游官方页面并标注河北博物院，独立馆藏页待补。", "sourceIds": ["source-hebeitour-jade-suit"], "assetRefs": { "fullAssetId": "asset-full-liusheng-jade-suit", "detailAssetIds": ["asset-detail-liusheng-jade-suit-1"], "fallbackAssetId": "asset-silhouette-liusheng-jade-suit", "thumbnailAssetId": "asset-thumb-liusheng-jade-suit" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-boshan-incense-burner", "name": "错金铜博山炉", "aliases": ["博山炉"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-incense"], "material": "错金铜", "use": "熏炉", "dimensions": null, "excavation": null, "museum": "河北博物院",
+        "summary": "炉盖层叠如山峦，山间布置神兽、人物与树木。", "highlight": "香烟可从重叠山形间升起，炉座由透雕龙形承托。", "culturalNote": "山形构造形成仙山意象，具体细节仍待馆方专题或考古报告复核。",
+        "clues": [{ "id": "clue-boshan-incense-burner-1", "level": 1, "text": "我的盖不是平盖，而像重叠山峦。" }, { "id": "clue-boshan-incense-burner-2", "level": 2, "text": "山间可见神兽、虎豹、人物与树木。" }, { "id": "clue-boshan-incense-burner-3", "level": 3, "text": "炉座有透雕龙形承托，整体以错金装饰。" }],
+        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "category"], "unlockCopy": "山形炉盖间的香烟意象已收入物华录。", "wrongAnswerExplanation": "与其他熏炉易混淆；重叠山峦式炉盖和透雕龙座是关键。", "factCheckStatus": "pending-review", "sourceNote": "规划要求正式入库前补馆方专题或考古报告。", "sourceIds": ["source-hebei-boshan"], "assetRefs": { "fullAssetId": "asset-full-boshan-incense-burner", "detailAssetIds": ["asset-detail-boshan-incense-burner-1"], "fallbackAssetId": "asset-silhouette-boshan-incense-burner", "thumbnailAssetId": "asset-thumb-boshan-incense-burner" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-storyteller-drummer", "name": "击鼓说唱俑", "aliases": [], "period": "东汉", "periodGroup": "han", "categoryIds": ["category-sculpture"], "material": "陶", "use": "表现俳优说唱状态的陶俑", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
+        "summary": "袒胸露腹、张口嘻笑，抱鼓举槌的说唱表演陶俑。", "highlight": "夸张动作、身体重心、笑容与鼓槌共同凝固表演瞬间。", "culturalNote": "它不是肃立仪仗俑，而是具有强烈动态的表演者形象。",
+        "clues": [{ "id": "clue-storyteller-drummer-1", "level": 1, "text": "我袒胸露腹、动作夸张，不是肃立的仪仗俑。" }, { "id": "clue-storyteller-drummer-2", "level": 2, "text": "左臂抱扁鼓，右手举槌。" }, { "id": "clue-storyteller-drummer-3", "level": 3, "text": "张口嘻笑，表现俳优说唱状态。" }],
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "笑声与鼓槌定格的表演者已收入物华录。", "wrongAnswerExplanation": "表演陶俑动作都很鲜明；扁鼓、举槌与嘻笑神态组合才是识别点。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-storyteller"], "assetRefs": { "fullAssetId": "asset-full-storyteller-drummer", "detailAssetIds": ["asset-detail-storyteller-drummer-1"], "fallbackAssetId": "asset-silhouette-storyteller-drummer", "thumbnailAssetId": "asset-thumb-storyteller-drummer" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-wuzetian-gold-slip", "name": "武则天金简", "aliases": [], "period": "唐代武周", "periodGroup": "tang", "categoryIds": ["category-gold-silver"], "material": "金", "use": "有铭文的金质简片", "dimensions": null, "excavation": "嵩山峻极峰石缝发现", "museum": "河南博物院",
+        "summary": "一片有文字的金质长方形薄片，发现于嵩山石缝。", "highlight": "铭文含大周国主武曌等内容，落款指向公元 700 年七月七日。", "culturalNote": "它不是印玺，而是以第一人称身份投递的金简。",
+        "clues": [{ "id": "clue-wuzetian-gold-slip-1", "level": 1, "text": "我是一片有文字的金质长方形薄片，不是印玺。" }, { "id": "clue-wuzetian-gold-slip-2", "level": 2, "text": "我发现于嵩山峻极峰石缝。" }, { "id": "clue-wuzetian-gold-slip-3", "level": 3, "text": "铭文含大周国主武曌等内容，落款指向公元 700 年七月七日。" }],
+        "difficulty": "normal", "distractorTags": ["shape", "material", "use", "period"], "unlockCopy": "嵩山石缝中的金质文字已收入物华录。", "wrongAnswerExplanation": "与金册、玉简等有铭器物易混淆；金质薄片与武曌第一人称铭文是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页转写。", "sourceIds": ["source-henan-gold-slip"], "assetRefs": { "fullAssetId": "asset-full-wuzetian-gold-slip", "detailAssetIds": ["asset-detail-wuzetian-gold-slip-1"], "fallbackAssetId": "asset-silhouette-wuzetian-gold-slip", "thumbnailAssetId": "asset-thumb-wuzetian-gold-slip" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-dancing-horse-flask", "name": "鎏金舞马衔杯纹皮囊式银壶", "aliases": ["舞马衔杯纹银壶"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-gold-silver"], "material": "金银器", "use": "皮囊式银壶", "dimensions": "通高约 14.8 厘米", "excavation": "何家村窖藏体系", "museum": "陕西历史博物馆",
+        "summary": "一件模仿便携皮囊外形、腹部装饰衔杯舞马的银壶。", "highlight": "壶腹两面各有一匹口衔杯作舞的马。", "culturalNote": "便携皮囊器形与宫廷舞马纹样形成鲜明组合。",
+        "clues": [{ "id": "clue-dancing-horse-flask-1", "level": 1, "text": "我的外形模仿一种便携皮囊。" }, { "id": "clue-dancing-horse-flask-2", "level": 2, "text": "腹部两面都有一匹口衔杯的舞马。" }, { "id": "clue-dancing-horse-flask-3", "level": 3, "text": "我通高约 14.8 厘米，出自何家村窖藏体系。" }],
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "皮囊形银壶上的衔杯舞马已收入物华录。", "wrongAnswerExplanation": "唐代金银器纹饰丰富；皮囊形壶身与衔杯舞马必须同时符合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依陕西历史博物馆独立馆藏页转写。", "sourceIds": ["source-shaanxi-horse-flask"], "assetRefs": { "fullAssetId": "asset-full-dancing-horse-flask", "detailAssetIds": ["asset-detail-dancing-horse-flask-1"], "fallbackAssetId": "asset-silhouette-dancing-horse-flask", "thumbnailAssetId": "asset-thumb-dancing-horse-flask" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-grape-bird-sachet", "name": "葡萄花鸟纹银香囊", "aliases": ["唐代银香囊"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-gold-silver", "category-incense"], "material": "银", "use": "盛香香囊", "dimensions": null, "excavation": null, "museum": "陕西历史博物馆",
+        "summary": "外表为镂空银球，内部具有多层同心活动结构的香囊。", "highlight": "外壳转动时，内部盛香结构仍能维持相对水平。", "culturalNote": "它不是丝织荷包；精确机械结构仍需馆方研究来源复核。",
+        "clues": [{ "id": "clue-grape-bird-sachet-1", "level": 1, "text": "我外表是镂空圆球，不是丝织荷包。" }, { "id": "clue-grape-bird-sachet-2", "level": 2, "text": "内部有多层同心活动结构，帮助盛香容器保持方向。" }, { "id": "clue-grape-bird-sachet-3", "level": 3, "text": "外壳装饰葡萄与花鸟纹。" }],
+        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "material"], "unlockCopy": "转动仍持平的银球香囊已收入物华录。", "wrongAnswerExplanation": "与球形熏香器易混淆；镂空银球、同心活动结构和葡萄花鸟纹是组合锚点。", "factCheckStatus": "pending-review", "sourceNote": "规划提供教育专题，精确机械结构要求补馆方研究来源。", "sourceIds": ["source-shaanxi-sachet"], "assetRefs": { "fullAssetId": "asset-full-grape-bird-sachet", "detailAssetIds": ["asset-detail-grape-bird-sachet-1"], "fallbackAssetId": "asset-silhouette-grape-bird-sachet", "thumbnailAssetId": "asset-thumb-grape-bird-sachet" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-tricolor-music-camel", "name": "三彩载乐骆驼俑", "aliases": [], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-sculpture"], "material": "三彩釉陶", "use": "载乐人物与骆驼组合陶俑", "dimensions": null, "excavation": null, "museum": "陕西历史博物馆",
+        "summary": "骆驼背上承载多人围坐演奏与中间起舞的乐舞组合。", "highlight": "一峰骆驼背上形成了一支微型乐团。", "culturalNote": "三彩釉色与丝路乐舞题材共同构成识别点。",
+        "clues": [{ "id": "clue-tricolor-music-camel-1", "level": 1, "text": "我不是单独的骆驼，背上承载多人乐舞组合。" }, { "id": "clue-tricolor-music-camel-2", "level": 2, "text": "人物围坐演奏，中间有人起舞。" }, { "id": "clue-tricolor-music-camel-3", "level": 3, "text": "三彩釉色与丝路题材共同构成鲜明识别。" }],
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "period"], "unlockCopy": "骆驼背上的微型乐团已收入物华录。", "wrongAnswerExplanation": "与普通骆驼俑和胡俑易混淆；多人围坐演奏、中央起舞才是核心。", "factCheckStatus": "pending-review", "sourceNote": "规划仅提供陕西历史博物馆馆藏入口，独立藏品页待定位。", "sourceIds": ["source-shaanxi-catalog"], "assetRefs": { "fullAssetId": "asset-full-tricolor-music-camel", "detailAssetIds": ["asset-detail-tricolor-music-camel-1"], "fallbackAssetId": "asset-silhouette-tricolor-music-camel", "thumbnailAssetId": "asset-thumb-tricolor-music-camel" }, "contentVersion": "1.0.0"
+      },
+      {
+        "id": "artifact-bronze-rhino-zun", "name": "错金银云纹铜犀尊", "aliases": ["铜犀尊"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-bronze-ritual"], "material": "错金银青铜", "use": "盛酒器尊", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
+        "summary": "以一只写实犀牛的完整身体作为器形的盛酒器。", "highlight": "背部设盖，犀牛身体装饰流动的错金银云纹。", "culturalNote": "动物雕塑与盛酒器尊的功能叠合在同一器形上。",
+        "clues": [{ "id": "clue-bronze-rhino-zun-1", "level": 1, "text": "我以一只犀牛的完整身体作为器形。" }, { "id": "clue-bronze-rhino-zun-2", "level": 2, "text": "背部有盖，身体装饰错金银云纹。" }, { "id": "clue-bronze-rhino-zun-3", "level": 3, "text": "我既是动物雕塑，也是盛酒器中的尊。" }],
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "披着流云纹的写实铜犀已收入物华录。", "wrongAnswerExplanation": "动物形青铜器彼此相似；犀牛写实轮廓、背盖和错金银云纹是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆馆方专题页转写。", "sourceIds": ["source-chnmuseum-rhino"], "assetRefs": { "fullAssetId": "asset-full-bronze-rhino-zun", "detailAssetIds": ["asset-detail-bronze-rhino-zun-1"], "fallbackAssetId": "asset-silhouette-bronze-rhino-zun", "thumbnailAssetId": "asset-thumb-bronze-rhino-zun" }, "contentVersion": "1.0.0"
+      }
+    ],
+    "distractorCandidates": [
+      { "id": "option-owl-zun", "label": "鸮尊", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-eagle-tripod"] },
+      { "id": "option-pottery-gui", "label": "陶鬶", "tags": ["use", "material", "period"], "forArtifactIds": ["artifact-eagle-tripod"] },
+      { "id": "option-bird-zun", "label": "鸟形尊", "tags": ["shape", "use", "category"], "forArtifactIds": ["artifact-eagle-tripod"] },
+      { "id": "option-dance-pottery-basin", "label": "舞蹈纹彩陶盆", "tags": ["pattern", "material", "period", "category"], "forArtifactIds": ["artifact-face-fish-basin"] },
+      { "id": "option-stork-fish-axe-jar", "label": "鹳鱼石斧图彩陶缸", "tags": ["pattern", "material", "period"], "forArtifactIds": ["artifact-face-fish-basin"] },
+      { "id": "option-vortex-pottery-jar", "label": "涡纹彩陶罐", "tags": ["pattern", "material", "period"], "forArtifactIds": ["artifact-face-fish-basin"] },
+      { "id": "option-bone-whistle", "label": "骨哨", "tags": ["use", "material", "shape", "period"], "forArtifactIds": ["artifact-jiahu-flute"] },
+      { "id": "option-pottery-xun", "label": "陶埙", "tags": ["use", "period"], "forArtifactIds": ["artifact-jiahu-flute"] },
+      { "id": "option-bone-needle", "label": "骨针", "tags": ["material", "shape", "period"], "forArtifactIds": ["artifact-jiahu-flute"] },
+      { "id": "option-jade-pig-dragon", "label": "玉猪龙", "tags": ["shape", "material", "period", "category"], "forArtifactIds": ["artifact-jade-dragon"] },
+      { "id": "option-jade-jue", "label": "玉玦", "tags": ["shape", "material", "category"], "forArtifactIds": ["artifact-jade-dragon"] },
+      { "id": "option-dragon-jade-pendant", "label": "龙形玉佩", "tags": ["shape", "material", "category"], "forArtifactIds": ["artifact-jade-dragon"] },
+      { "id": "option-dayu-ding", "label": "大盂鼎", "tags": ["use", "material", "category"], "forArtifactIds": ["artifact-houmuwu-ding"] },
+      { "id": "option-duling-square-ding", "label": "杜岭方鼎", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-houmuwu-ding"] },
+      { "id": "option-simuxin-ding", "label": "司母辛鼎", "tags": ["use", "material", "period", "category"], "forArtifactIds": ["artifact-houmuwu-ding"] },
+      { "id": "option-fuhao-owl-zun", "label": "妇好鸮尊", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-four-ram-zun"] },
+      { "id": "option-tiger-dragon-zun", "label": "龙虎尊", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-four-ram-zun"] },
+      { "id": "option-animal-zun", "label": "牺尊", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-four-ram-zun", "artifact-bronze-rhino-zun"] },
+      { "id": "option-dragon-pattern-lei", "label": "蟠龙纹盖罍", "tags": ["pattern", "use", "material", "category"], "forArtifactIds": ["artifact-lotus-crane-hu"] },
+      { "id": "option-bird-beast-dragon-hu", "label": "鸟兽龙纹壶", "tags": ["pattern", "shape", "material", "category"], "forArtifactIds": ["artifact-lotus-crane-hu"] },
+      { "id": "option-other-lotus-crane-hu", "label": "立鹤方壶同器另一件", "tags": ["shape", "pattern", "use", "category"], "forArtifactIds": ["artifact-lotus-crane-hu"], "eligible": false, "note": "同器另一件不得作为普通错误答案，仅用于揭晓说明。" },
+      { "id": "option-zenghouyi-zunpan", "label": "曾侯乙尊盘", "tags": ["pattern", "use", "material", "category"], "forArtifactIds": ["artifact-cloud-bronze-jin"] },
+      { "id": "option-bronze-square-table", "label": "铜方案", "tags": ["shape", "use", "material"], "forArtifactIds": ["artifact-cloud-bronze-jin"] },
+      { "id": "option-inlaid-bronze-table", "label": "错金银铜案", "tags": ["shape", "use", "material"], "forArtifactIds": ["artifact-cloud-bronze-jin"] },
+      { "id": "option-stone-chimes", "label": "编磬", "tags": ["use", "period", "category"], "forArtifactIds": ["artifact-zenghouyi-bells"] },
+      { "id": "option-jinhou-su-bells", "label": "晋侯苏钟", "tags": ["use", "material", "category"], "forArtifactIds": ["artifact-zenghouyi-bells"] },
+      { "id": "option-qingong-bo", "label": "秦公镈", "tags": ["use", "material", "category"], "forArtifactIds": ["artifact-zenghouyi-bells"] },
+      { "id": "option-cloud-bronze-jin", "label": "云纹铜禁", "tags": ["pattern", "use", "material", "category"], "forArtifactIds": ["artifact-zenghouyi-zunpan"] },
+      { "id": "option-four-ram-zun", "label": "四羊方尊", "tags": ["use", "material", "category"], "forArtifactIds": ["artifact-zenghouyi-zunpan"] },
+      { "id": "option-coiled-serpent-zun", "label": "蟠虺纹铜尊", "tags": ["pattern", "use", "material", "category"], "forArtifactIds": ["artifact-zenghouyi-zunpan"] },
+      { "id": "option-fuchai-spear", "label": "吴王夫差矛", "tags": ["use", "material", "period"], "forArtifactIds": ["artifact-goujian-sword"] },
+      { "id": "option-zhouju-sword", "label": "越王州句剑", "tags": ["shape", "use", "material", "period"], "forArtifactIds": ["artifact-goujian-sword"] },
+      { "id": "option-diamond-bronze-sword", "label": "战国菱纹铜剑", "tags": ["shape", "pattern", "material", "period"], "forArtifactIds": ["artifact-goujian-sword"] },
+      { "id": "option-goose-fish-lamp", "label": "雁鱼铜灯", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-changxin-lamp"] },
+      { "id": "option-silver-inlaid-cow-lamp", "label": "错银铜牛灯", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-changxin-lamp"] },
+      { "id": "option-fifteen-branch-lamp", "label": "十五连盏灯", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-changxin-lamp"] },
+      { "id": "option-silver-thread-jade-suit", "label": "银缕玉衣", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-liusheng-jade-suit"] },
+      { "id": "option-jade-face-cover", "label": "玉覆面", "tags": ["use", "material", "category"], "forArtifactIds": ["artifact-liusheng-jade-suit"] },
+      { "id": "option-nine-orifice-jade", "label": "玉九窍塞", "tags": ["use", "material", "category"], "forArtifactIds": ["artifact-liusheng-jade-suit"] },
+      { "id": "option-bronze-incense-burner", "label": "铜熏炉", "tags": ["use", "material", "category"], "forArtifactIds": ["artifact-boshan-incense-burner"] },
+      { "id": "option-silver-aroma-ball", "label": "银香囊", "tags": ["use", "category"], "forArtifactIds": ["artifact-boshan-incense-burner"] },
+      { "id": "option-bamboo-bronze-burner", "label": "竹节铜熏炉", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-boshan-incense-burner"] },
+      { "id": "option-dancing-figurine", "label": "舞蹈俑", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-storyteller-drummer"] },
+      { "id": "option-acrobat-figurine", "label": "陶杂技俑", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-storyteller-drummer"] },
+      { "id": "option-kneeling-storyteller", "label": "跪坐说唱俑", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-storyteller-drummer"] },
+      { "id": "option-gold-book", "label": "金册", "tags": ["shape", "material", "use", "period"], "forArtifactIds": ["artifact-wuzetian-gold-slip"] },
+      { "id": "option-dragon-jade-slip", "label": "投龙玉简", "tags": ["shape", "use", "period"], "forArtifactIds": ["artifact-wuzetian-gold-slip"] },
+      { "id": "option-empress-seal", "label": "皇后之玺", "tags": ["material", "period"], "forArtifactIds": ["artifact-wuzetian-gold-slip"] },
+      { "id": "option-agate-rhyton", "label": "镶金兽首玛瑙杯", "tags": ["shape", "material", "period"], "forArtifactIds": ["artifact-dancing-horse-flask"] },
+      { "id": "option-gilt-parrot-jar", "label": "鎏金鹦鹉纹银罐", "tags": ["pattern", "material", "period"], "forArtifactIds": ["artifact-dancing-horse-flask"] },
+      { "id": "option-dancer-silver-cup", "label": "胡人舞乐纹银杯", "tags": ["pattern", "material", "period"], "forArtifactIds": ["artifact-dancing-horse-flask"] },
+      { "id": "option-gilt-bamboo-burner", "label": "鎏金银竹节熏炉", "tags": ["shape", "use", "material", "period"], "forArtifactIds": ["artifact-grape-bird-sachet"] },
+      { "id": "option-spherical-burner", "label": "球形熏炉", "tags": ["shape", "use", "category"], "forArtifactIds": ["artifact-grape-bird-sachet"] },
+      { "id": "option-parrot-handled-jar", "label": "鎏金鹦鹉纹提梁银罐", "tags": ["pattern", "material", "period"], "forArtifactIds": ["artifact-grape-bird-sachet"] },
+      { "id": "option-tricolor-camel", "label": "三彩骆驼俑", "tags": ["shape", "material", "period", "category"], "forArtifactIds": ["artifact-tricolor-music-camel"] },
+      { "id": "option-rider-camel", "label": "骑驼胡俑", "tags": ["shape", "use", "material", "period"], "forArtifactIds": ["artifact-tricolor-music-camel"] },
+      { "id": "option-storyteller-drummer", "label": "击鼓说唱俑", "tags": ["use", "material", "category"], "forArtifactIds": ["artifact-tricolor-music-camel"] },
+      { "id": "option-cow-shaped-lamp", "label": "牛形灯", "tags": ["shape", "use", "material"], "forArtifactIds": ["artifact-bronze-rhino-zun"] },
+      { "id": "option-bird-beast-zun", "label": "鸟兽尊", "tags": ["shape", "use", "material", "category"], "forArtifactIds": ["artifact-bronze-rhino-zun"] }
+    ],
+    "rounds": [{ "id": "round-five-artifacts", "artifactCount": 5, "optionCount": 4, "maxSameMaterial": 2, "maxSamePeriodGroup": 2 }],
+    "collectionRules": { "unlockOnReveal": true, "keepBestStars": true },
+    "assetManifest": {
+      "idPattern": "asset-<usage>-<artifact-slug>[-<level>]",
+      "pathPattern": "./assets/<usage>/<artifact-slug>.webp",
+      "status": "planned",
+      "imageNature": "diagram-or-reviewed-reconstruction",
+      "global": { "placeholderAssetId": "asset-global-placeholder", "shareCoverAssetId": "asset-global-share-cover" }
+    },
+    "copy": {
+      "brand": "物华录",
+      "subtitle": "文物寻踪",
+      "landingTitle": "从一线轮廓，认出一件旧物",
+      "landingBody": "一局五件。逐层查看文字线索，识别后把它收入本地图鉴。",
+      "startAction": "开始寻踪",
+      "continueAction": "继续上次",
+      "introTitle": "如何寻踪",
+      "introBody": "每件文物有三条递进线索与四个选项。少看线索答对，星级更高；揭晓后都会收入图鉴。",
+      "introAction": "选择题局",
+      "modeTitle": "选择今日题局",
+      "dailyMode": "今日五件",
+      "practiceMode": "自由练习",
+      "clueAction": "再看一条线索",
+      "submitAction": "确认答案",
+      "nextAction": "下一件",
+      "collectionTitle": "我的物华录",
+      "emptyCollection": "还没有藏品。完成一次揭晓，第一件文物就会来到这里。",
+      "summaryTitle": "本轮寻踪完成",
+      "errorTitle": "内容暂时无法读取",
+      "resetAction": "安全返回首页",
+      "backAction": "返回",
+      "exitAction": "退出本轮",
+      "collectionAction": "查看图鉴",
+      "retryAction": "继续观察",
+      "replayAction": "再寻一轮",
+      "closeAction": "关闭",
+      "factsTitle": "一眼记住它",
+      "cluesTitle": "已揭示线索",
+      "optionsTitle": "选择你认出的文物",
+      "placeholderText": "文物资源待设计接入，当前使用文字线索完成寻踪。",
+      "lockedText": "尚未解锁",
+      "scoreLabel": "本轮得分",
+      "bestScoreLabel": "最佳得分",
+      "progressLabel": "图鉴进度",
+      "sourceStatusTitle": "资料状态",
+      "storageCorruptMessage": "本地记录无法解析，原记录尚未覆盖。",
+      "storageVersionMessage": "本地记录来自尚不支持的版本，原记录尚未覆盖。",
+      "storageInvalidMessage": "本地记录字段异常，原记录尚未覆盖。",
+      "contentMissingMessage": "当前文物内容不存在，请安全返回。",
+      "verifiedLabel": "已按规划提供来源封装",
+      "pendingLabel": "待发布前复核",
+      "collectorPerfect": "满星识珍者",
+      "collectorHigh": "辨纹寻迹者",
+      "collectorMid": "初入藏阁者",
+      "collectorLow": "耐心观察者"
+    }
+  }
+}

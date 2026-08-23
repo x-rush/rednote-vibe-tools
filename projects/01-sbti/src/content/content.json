@@ -1,1 +1,2560 @@
-{"schemaVersion":1,"contentVersion":"0.0.0-scaffold","projectId":"sbti","meta":{"title":"SBTI｜山海兽格测试","locale":"zh-CN","updatedAt":"2026-08-23"},"sources":[],"content":{"dimensions":[],"chapters":[],"questions":[],"creatures":[],"resultTypes":[],"tieBreakers":[]}}
+{
+  "schemaVersion": 1,
+  "contentVersion": "1.0.0",
+  "projectId": "sbti",
+  "meta": {
+    "title": "SBTI｜山海兽格测试",
+    "locale": "zh-CN",
+    "updatedAt": "2026-08-23"
+  },
+  "sources": [
+    {
+      "id": "source-nan",
+      "title": "《山海经·南山经》",
+      "url": "https://zh.wikisource.org/zh-hans/山海經/南山經",
+      "license": "公开古籍底本；发布前复核具体版本与异文"
+    },
+    {
+      "id": "source-xi",
+      "title": "《山海经·西山经》",
+      "url": "https://zh.wikisource.org/zh-hans/西山經",
+      "license": "公开古籍底本；发布前复核具体版本与异文"
+    },
+    {
+      "id": "source-bei",
+      "title": "《山海经·北山经》",
+      "url": "https://zh.wikisource.org/zh-hans/北山經",
+      "license": "公开古籍底本；发布前复核具体版本与异文"
+    },
+    {
+      "id": "source-dong",
+      "title": "《山海经·东山经》",
+      "license": "公开古籍底本；发布前复核具体版本与异文"
+    },
+    {
+      "id": "source-zhong",
+      "title": "《山海经·中山经》",
+      "url": "https://zh.wikisource.org/zh-hans/山海經/中山經",
+      "license": "公开古籍底本；发布前复核具体版本与异文"
+    },
+    {
+      "id": "source-hainei-xi",
+      "title": "《山海经·海内西经》",
+      "url": "https://zh.wikisource.org/zh-hans/海內西經",
+      "license": "公开古籍底本；发布前复核具体版本与异文"
+    },
+    {
+      "id": "source-haiwai-bei",
+      "title": "《山海经·海外北经》",
+      "url": "https://zh.wikisource.org/zh-hans/海外北經",
+      "license": "公开古籍底本；发布前复核具体版本与异文"
+    }
+  ],
+  "content": {
+    "experience": {
+      "title": "SBTI｜山海兽格测试",
+      "subtitle": "看看你在山海世界里，更习惯怎样回应、观察、决断与前行。",
+      "duration": "约 2–3 分钟 · 每轮 24 题",
+      "intro": [
+        "题目没有标准答案，请选择更接近你日常倾向的一项。",
+        "结果描述的是当下行为倾向，不是对你的绝对定义。",
+        "你可以返回修改答案；完成后会显示主兽格与相邻倾向。"
+      ],
+      "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估、招聘、教育分流或重要人生决策。",
+      "calculating": "正在汇拢四维足迹，让你的山海兽格显形。",
+      "emptyHistory": "本机还没有完成过测评。"
+    },
+    "dimensions": [
+      {
+        "code": "RH",
+        "name": "应世 / 隐世",
+        "poles": [
+          {
+            "code": "R",
+            "name": "应世",
+            "definition": "通过接触、回应和交换信息进入局面。",
+            "nonMeaning": "不等于健谈、爱热闹或擅长社交。"
+          },
+          {
+            "code": "H",
+            "name": "隐世",
+            "definition": "通过退后、蓄积和内部整理进入局面。",
+            "nonMeaning": "不等于社恐、冷漠或缺乏行动力。"
+          }
+        ]
+      },
+      {
+        "code": "TV",
+        "name": "察微 / 观象",
+        "poles": [
+          {
+            "code": "T",
+            "name": "察微",
+            "definition": "从可见细节、既有经验和当前证据理解世界。",
+            "nonMeaning": "不等于缺乏想象力。"
+          },
+          {
+            "code": "V",
+            "name": "观象",
+            "definition": "从关系、征兆、模式和可能性理解世界。",
+            "nonMeaning": "不等于忽略事实或沉迷幻想。"
+          }
+        ]
+      },
+      {
+        "code": "LE",
+        "name": "衡理 / 感应",
+        "poles": [
+          {
+            "code": "L",
+            "name": "衡理",
+            "definition": "优先让判断在规则、因果和一致标准下成立。",
+            "nonMeaning": "不等于冷酷或没有感情。"
+          },
+          {
+            "code": "E",
+            "name": "感应",
+            "definition": "优先回应生命处境、关系影响和内在价值。",
+            "nonMeaning": "不等于失去逻辑或一味迁就。"
+          }
+        ]
+      },
+      {
+        "code": "SM",
+        "name": "守形 / 化生",
+        "poles": [
+          {
+            "code": "S",
+            "name": "守形",
+            "definition": "先形成可依靠的边界、次序和完成标准。",
+            "nonMeaning": "不等于刻板或拒绝变化。"
+          },
+          {
+            "code": "M",
+            "name": "化生",
+            "definition": "先保留调整空间，让办法随环境继续生长。",
+            "nonMeaning": "不等于没有计划或无法坚持。"
+          }
+        ]
+      }
+    ],
+    "chapters": [
+      {
+        "id": "entry",
+        "order": 1,
+        "name": "入境",
+        "description": "越过雾关，决定怎样进入陌生山海。"
+      },
+      {
+        "id": "trace",
+        "order": 2,
+        "name": "寻迹",
+        "description": "沿着细微痕迹，理解所见与同行者。"
+      },
+      {
+        "id": "change",
+        "order": 3,
+        "name": "异变",
+        "description": "局面突然变化，选择你的回应方式。"
+      },
+      {
+        "id": "return",
+        "order": 4,
+        "name": "归来",
+        "description": "带着未完的故事，重新整理这段旅程。"
+      }
+    ],
+    "questions": [
+      {
+        "id": "question-mist-gate",
+        "displayOrder": 1,
+        "chapterId": "entry",
+        "category": "雾关来客",
+        "primaryDimension": "RH",
+        "prompt": "你在雾中抵达一座没有守卫的石关，关内隐约有人声。你会：",
+        "options": [
+          {
+            "id": "option-mist-gate-r",
+            "text": "在关外留下清楚的来意，主动询问是否有人可以引路。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-mist-gate-h",
+            "text": "先在附近观察出入痕迹，确认这里的规矩后再现身。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "arrival",
+          "strangers",
+          "boundary"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-two-signposts",
+        "displayOrder": 2,
+        "chapterId": "entry",
+        "category": "两种路标",
+        "primaryDimension": "TV",
+        "prompt": "岔路旁，一块旧木牌指向东边，树梢却有一串反常发光的羽毛。你会先依据：",
+        "options": [
+          {
+            "id": "option-two-signposts-v",
+            "text": "羽毛出现的位置以及周围风向，推想它可能在提示另一条路径。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-two-signposts-t",
+            "text": "木牌磨损、脚印方向和路面的新旧，判断哪条路近期有人走过。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "navigation",
+          "evidence",
+          "omen"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-last-pass",
+        "displayOrder": 3,
+        "chapterId": "entry",
+        "category": "最后一张通行符",
+        "primaryDimension": "LE",
+        "prompt": "队伍只剩一张通行符，两名旅伴都认为自己更需要它。你会：",
+        "options": [
+          {
+            "id": "option-last-pass-e",
+            "text": "先分别听清两人的处境，优先避免让其中一人承担无法承受的后果。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-last-pass-l",
+            "text": "先确定大家都认可的分配标准，再按风险、职责和替代方案决定。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "resource",
+          "fairness",
+          "companions"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-blank-map",
+        "displayOrder": 4,
+        "chapterId": "entry",
+        "category": "地图空白",
+        "primaryDimension": "SM",
+        "prompt": "你们即将进入地图上完全空白的山域。出发前，你更希望：",
+        "options": [
+          {
+            "id": "option-blank-map-m",
+            "text": "只约定底线和联络方法，路线随发现的新线索调整。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-blank-map-s",
+            "text": "先定下集合点、撤退条件和每天必须完成的记录。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "planning",
+          "unknown",
+          "team"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-silent-villagers",
+        "displayOrder": 5,
+        "chapterId": "trace",
+        "category": "失语的山民",
+        "primaryDimension": "RH",
+        "prompt": "村中的人不愿直接谈论夜里出现的兽影。你会：",
+        "options": [
+          {
+            "id": "option-silent-villagers-h",
+            "text": "暂不追问，先整理他们避开的词和彼此交换的眼神。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-silent-villagers-r",
+            "text": "参与他们正在做的事，在来往和回应中慢慢打开话题。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "investigation",
+          "silence",
+          "community"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-broken-stones",
+        "displayOrder": 6,
+        "chapterId": "trace",
+        "category": "破碎石阵",
+        "primaryDimension": "TV",
+        "prompt": "谷底散落着十二块刻纹石，其中三块已经断裂。你会先：",
+        "options": [
+          {
+            "id": "option-broken-stones-t",
+            "text": "记录每块石头的位置、朝向和断口，尝试复原原本排列。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-broken-stones-v",
+            "text": "比较刻纹重复的节奏，推想整座石阵可能表达什么循环。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "ruins",
+          "pattern",
+          "detail"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-injured-guide-beast",
+        "displayOrder": 7,
+        "chapterId": "trace",
+        "category": "受伤的引路兽",
+        "primaryDimension": "LE",
+        "prompt": "引路兽受伤了，继续带路可能让全队及时离开，也可能使它伤势加重。你会：",
+        "options": [
+          {
+            "id": "option-injured-guide-beast-e",
+            "text": "先把“不让它被迫继续”作为限制，再在这个前提下找其他出路。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-injured-guide-beast-l",
+            "text": "比较路线时限、替代方案和伤势变化，选整体风险最低的办法。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "care",
+          "risk",
+          "nonhuman"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-lost-tracks",
+        "displayOrder": 8,
+        "chapterId": "trace",
+        "category": "线索突然中断",
+        "primaryDimension": "SM",
+        "prompt": "追踪到河边后，所有脚印都消失了。你会：",
+        "options": [
+          {
+            "id": "option-lost-tracks-s",
+            "text": "沿河划定搜索区，逐段排查，不轻易离开原有线索范围。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-lost-tracks-m",
+            "text": "暂时放下原路线，试着从水流、渡口或高处重新定义问题。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "tracking",
+          "obstacle",
+          "adaptation"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-companion-conflict",
+        "displayOrder": 9,
+        "chapterId": "change",
+        "category": "同伴争执",
+        "primaryDimension": "RH",
+        "prompt": "山体开始震动，两位同伴却因撤退方向争执不下。你会：",
+        "options": [
+          {
+            "id": "option-companion-conflict-r",
+            "text": "立即接过对话，复述双方关键信息并推动大家作出共同决定。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-companion-conflict-h",
+            "text": "先退出争论几步，快速形成自己的判断，再只说最必要的结论。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "crisis",
+          "conflict",
+          "leadership"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-false-beast-call",
+        "displayOrder": 10,
+        "chapterId": "change",
+        "category": "真假兽鸣",
+        "primaryDimension": "TV",
+        "prompt": "密林里传来熟悉的兽鸣，但回声的方向很不自然。你会先：",
+        "options": [
+          {
+            "id": "option-false-beast-call-v",
+            "text": "思考谁会利用熟悉的声音，以及这声兽鸣想把你引向哪里。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-false-beast-call-t",
+            "text": "检查间隔、音量变化和附近足迹，确认声音是否由真实生灵发出。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "deception",
+          "sound",
+          "inference"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-breaking-bridge",
+        "displayOrder": 11,
+        "chapterId": "change",
+        "category": "封桥还是等人",
+        "primaryDimension": "LE",
+        "prompt": "吊桥正在断裂。立即斩断绳索能保护这一侧的人，但远处可能还有队伍赶来。你会：",
+        "options": [
+          {
+            "id": "option-breaking-bridge-l",
+            "text": "依据桥体剩余时间和已知人数设定最后期限，到点便执行。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-breaking-bridge-e",
+            "text": "只要仍存在可行的接应方式，就在明确安全上限内争取回应。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "crisis",
+          "responsibility",
+          "uncertainty"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-failed-shelter",
+        "displayOrder": 12,
+        "chapterId": "change",
+        "category": "原计划失效",
+        "primaryDimension": "SM",
+        "prompt": "你们准备好的避风阵在异变中失去了作用。你会：",
+        "options": [
+          {
+            "id": "option-failed-shelter-m",
+            "text": "放弃已经不适用的结构，把现有材料组合成临时的新办法。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-failed-shelter-s",
+            "text": "保留原有分工，先修复其中最关键的一环，让秩序重新运转。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "failure",
+          "repair",
+          "improvisation"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-return-story",
+        "displayOrder": 13,
+        "chapterId": "return",
+        "category": "带回的故事",
+        "primaryDimension": "RH",
+        "prompt": "回到人间后，许多人围上来询问山中的经历。你更可能：",
+        "options": [
+          {
+            "id": "option-return-story-r",
+            "text": "先讲给大家听，在不同人的追问中逐渐理解这段经历。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-return-story-h",
+            "text": "暂时只留下简短记录，等自己整理清楚后再决定说给谁听。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "reflection",
+          "expression",
+          "return"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-sort-fragments",
+        "displayOrder": 14,
+        "chapterId": "return",
+        "category": "整理遗物",
+        "primaryDimension": "TV",
+        "prompt": "你带回一包无法辨认的碎片。你会先：",
+        "options": [
+          {
+            "id": "option-sort-fragments-t",
+            "text": "按材质、大小、磨损和发现地点分类，建立可查的记录。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-sort-fragments-v",
+            "text": "按它们在旅程中出现的先后和关联，拼出可能隐藏的故事。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "archive",
+          "meaning",
+          "objects"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-dangerous-route",
+        "displayOrder": 15,
+        "chapterId": "return",
+        "category": "公开一条危险路线",
+        "primaryDimension": "LE",
+        "prompt": "你发现了一条近路，但公开后既能帮助旅人，也可能让山中生灵受到打扰。你会：",
+        "options": [
+          {
+            "id": "option-dangerous-route-l",
+            "text": "建立一致的开放条件与禁入规则，只在风险可控时公布。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-dangerous-route-e",
+            "text": "先考虑那些无法表达意见的生灵会承受什么，宁可暂缓公开。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "knowledge",
+          "ethics",
+          "public-interest"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-journey-ending",
+        "displayOrder": 16,
+        "chapterId": "return",
+        "category": "旅程结束以后",
+        "primaryDimension": "SM",
+        "prompt": "这次旅程留下了许多没解开的谜。你更想：",
+        "options": [
+          {
+            "id": "option-journey-ending-s",
+            "text": "把已知部分整理成完整卷册，为这段经历画下阶段性句点。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-journey-ending-m",
+            "text": "保留一页空白，让新的发现以后还能改变你现在的解释。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "closure",
+          "learning",
+          "future"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-strange-caravan",
+        "displayOrder": 17,
+        "chapterId": "entry",
+        "category": "陌生商队",
+        "primaryDimension": "RH",
+        "prompt": "一支去往同一山口的商队邀请你同行，但他们彼此已经十分熟悉。你会：",
+        "options": [
+          {
+            "id": "option-strange-caravan-h",
+            "text": "礼貌记下他们的路线，暂时独行一段，确认彼此节奏是否相合。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-strange-caravan-r",
+            "text": "接受邀请，先在同行中认识每个人，再判断是否一直结伴。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "arrival",
+          "strangers",
+          "team"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-untested-compass",
+        "displayOrder": 18,
+        "chapterId": "entry",
+        "category": "未试过的罗盘",
+        "primaryDimension": "TV",
+        "prompt": "两件工具只能带一件：一枚记录可靠但功能单一的旧罗盘，或一枚原理不明、据说能寻找隐藏道路的新镜。你会：",
+        "options": [
+          {
+            "id": "option-untested-compass-v",
+            "text": "带上新镜，它也许能发现旧方法从未显示过的路径。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-untested-compass-t",
+            "text": "带上旧罗盘，它已证明能给出稳定而可解释的信息。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "tool",
+          "evidence",
+          "possibility"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-companion-exception",
+        "displayOrder": 19,
+        "chapterId": "entry",
+        "category": "同伴破例",
+        "primaryDimension": "LE",
+        "prompt": "同伴为了救一只幼兽，违反了队伍“不离开路标”的约定。你会先：",
+        "options": [
+          {
+            "id": "option-companion-exception-e",
+            "text": "了解幼兽和同伴当时的处境，再讨论这条约定是否遗漏了重要情况。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-companion-exception-l",
+            "text": "确认违规造成的实际风险，并用所有人都适用的标准处理这次破例。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "rule",
+          "care",
+          "accountability"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-pack-bag",
+        "displayOrder": 20,
+        "chapterId": "entry",
+        "category": "怎样装进行囊",
+        "primaryDimension": "SM",
+        "prompt": "出发前，你面对许多“也许用得上”的物品。你更倾向：",
+        "options": [
+          {
+            "id": "option-pack-bag-m",
+            "text": "保留一部分空位，只带通用工具，到途中再根据需要补充。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-pack-bag-s",
+            "text": "按既定类别和优先级装好，宁可少带，也要知道每件东西在哪里。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "packing",
+          "planning",
+          "resource"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-public-inquiry",
+        "displayOrder": 21,
+        "chapterId": "trace",
+        "category": "公开询问",
+        "primaryDimension": "RH",
+        "prompt": "你要查清昨夜河岸发生了什么，目击者们正在集市各处忙碌。你会：",
+        "options": [
+          {
+            "id": "option-public-inquiry-h",
+            "text": "先分别听几个片段，独自整理矛盾之处后再找关键人物。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-public-inquiry-r",
+            "text": "在众人都能听见的地方说明目的，让不同记忆当场互相补充。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "investigation",
+          "witness",
+          "community"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-two-herbs",
+        "displayOrder": 22,
+        "chapterId": "trace",
+        "category": "两株药草",
+        "primaryDimension": "TV",
+        "prompt": "两株药草外形相近，只有一株可用。你会先：",
+        "options": [
+          {
+            "id": "option-two-herbs-t",
+            "text": "比较叶脉、气味、断面和生长位置，与可靠记录逐项核对。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-two-herbs-v",
+            "text": "观察它们与周围虫鸟、湿度和光照的关系，从生态差异判断。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "plant",
+          "detail",
+          "relationship"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-kind-concealment",
+        "displayOrder": 23,
+        "chapterId": "trace",
+        "category": "善意的隐瞒",
+        "primaryDimension": "LE",
+        "prompt": "向导隐瞒了一段危险路况，因为他担心大家恐慌。你会更在意：",
+        "options": [
+          {
+            "id": "option-kind-concealment-l",
+            "text": "隐瞒破坏了共同判断的基础，需要明确什么信息绝不能代替别人决定。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-kind-concealment-e",
+            "text": "先理解他想保护谁，再一起寻找既诚实又不制造无谓恐慌的说法。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "truth",
+          "trust",
+          "intention"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-rain-interruption",
+        "displayOrder": 24,
+        "chapterId": "trace",
+        "category": "调查被打断",
+        "primaryDimension": "SM",
+        "prompt": "你排好的调查日程被一场突如其来的山雨打断。你会：",
+        "options": [
+          {
+            "id": "option-rain-interruption-m",
+            "text": "立刻利用雨水暴露的新痕迹，重新组合今天的目标和路线。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-rain-interruption-s",
+            "text": "先保护已有记录，再把未完成项目按原优先级挪到新的时段。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "schedule",
+          "weather",
+          "adaptation"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-valley-warning",
+        "displayOrder": 25,
+        "chapterId": "change",
+        "category": "山谷警报",
+        "primaryDimension": "RH",
+        "prompt": "你最先发现远处的烟尘可能是兽群迁移。你会：",
+        "options": [
+          {
+            "id": "option-valley-warning-r",
+            "text": "马上向附近所有人发出清晰警报，并在回应中修正判断。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-valley-warning-h",
+            "text": "先确认烟尘速度和方向，只在掌握最必要的信息后发出警报。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "warning",
+          "crisis",
+          "information"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-summer-frost",
+        "displayOrder": 26,
+        "chapterId": "change",
+        "category": "反常天气",
+        "primaryDimension": "TV",
+        "prompt": "盛夏山口突然结霜。你会先：",
+        "options": [
+          {
+            "id": "option-summer-frost-v",
+            "text": "把结霜与此前的兽鸣、云层和水位联系起来，寻找共同征兆。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-summer-frost-t",
+            "text": "测量温度、风向和结霜范围，比较它与已知天气变化的差异。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "weather",
+          "anomaly",
+          "pattern"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-minority-risk",
+        "displayOrder": 27,
+        "chapterId": "change",
+        "category": "少数人的风险",
+        "primaryDimension": "LE",
+        "prompt": "一条撤离路线对大多数人更安全，却会让行动较慢的人明显落后。你会：",
+        "options": [
+          {
+            "id": "option-minority-risk-e",
+            "text": "重新设计队形和支援方式，不把落后者的风险当成统计上的小数。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-minority-risk-l",
+            "text": "比较各路线总风险，选择可使伤害最小的方案并明确补救责任。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "evacuation",
+          "minority",
+          "risk"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-replace-leader",
+        "displayOrder": 28,
+        "chapterId": "change",
+        "category": "临时换领队",
+        "primaryDimension": "SM",
+        "prompt": "领队受伤后，队伍必须立刻重新分工。你更倾向：",
+        "options": [
+          {
+            "id": "option-replace-leader-s",
+            "text": "由熟悉当前路线的人暂时接替，尽量保持已有指令和角色。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-replace-leader-m",
+            "text": "不复制原结构，按眼下每个人仍能做什么重新组成小队。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "leadership",
+          "role",
+          "crisis"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-share-honor",
+        "displayOrder": 29,
+        "chapterId": "return",
+        "category": "怎样分享荣誉",
+        "primaryDimension": "RH",
+        "prompt": "城中只邀请你一人讲述这次旅程。你会：",
+        "options": [
+          {
+            "id": "option-share-honor-h",
+            "text": "先与同伴确认每个人愿意公开什么，再决定自己是否出面。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-share-honor-r",
+            "text": "接受邀请，并在现场把其他人的贡献带进完整叙述。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "honor",
+          "expression",
+          "team"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-burned-page",
+        "displayOrder": 30,
+        "chapterId": "return",
+        "category": "解释残页",
+        "primaryDimension": "TV",
+        "prompt": "一页记录只剩开头和结尾，中间已经烧毁。你会：",
+        "options": [
+          {
+            "id": "option-burned-page-t",
+            "text": "先标出确定可读的字、纸张和烧痕，不填补无法证明的部分。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-burned-page-v",
+            "text": "比较全文结构和同类记录，列出几种可能缺失的叙述。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "archive",
+          "uncertainty",
+          "interpretation"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-disputed-treasure",
+        "displayOrder": 31,
+        "chapterId": "return",
+        "category": "归还有争议的宝物",
+        "primaryDimension": "LE",
+        "prompt": "旅途中得到的宝物既能救治城中病患，也被山民视为不可带走之物。你会先：",
+        "options": [
+          {
+            "id": "option-disputed-treasure-e",
+            "text": "请双方共同说明它承担的意义，寻找不把任何一方只当作代价的选择。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-disputed-treasure-l",
+            "text": "核对取得方式、所有权和替代方案，用可公开检验的原则作决定。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "ownership",
+          "community",
+          "ethics"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-next-departure",
+        "displayOrder": 32,
+        "chapterId": "return",
+        "category": "下一次出发",
+        "primaryDimension": "SM",
+        "prompt": "刚回到住处，有人邀请你三天后再次进山。你会：",
+        "options": [
+          {
+            "id": "option-next-departure-s",
+            "text": "先休整和整理此次记录，完成收尾后再承诺新的旅程。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-next-departure-m",
+            "text": "先了解新旅程可能带来的方向，再决定哪些收尾可以边走边完成。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "closure",
+          "opportunity",
+          "planning"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-unsigned-invitation",
+        "displayOrder": 33,
+        "chapterId": "entry",
+        "category": "无名请柬",
+        "primaryDimension": "RH",
+        "prompt": "客舍门缝里出现一张没有署名的夜宴请柬。你会：",
+        "options": [
+          {
+            "id": "option-unsigned-invitation-r",
+            "text": "先向店中其他旅人打听，看他们的回应能否拼出邀请者身份。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-unsigned-invitation-h",
+            "text": "暂不让别人知道，独自检查纸张、墨迹和送达时间。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "invitation",
+          "mystery",
+          "privacy"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-map-gap",
+        "displayOrder": 34,
+        "chapterId": "entry",
+        "category": "地图上的缺口",
+        "primaryDimension": "TV",
+        "prompt": "地图缺失了一块山谷区域。你会：",
+        "options": [
+          {
+            "id": "option-map-gap-v",
+            "text": "从相邻道路、等高变化和水流出口推演缺失区域可能的结构。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-map-gap-t",
+            "text": "只标记已经实地确认的边界，等取得更多测量后再补全。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "map",
+          "inference",
+          "evidence"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-trade-information",
+        "displayOrder": 35,
+        "chapterId": "entry",
+        "category": "交换情报",
+        "primaryDimension": "LE",
+        "prompt": "另一支队伍愿意提供重要情报，条件是你也交出自己的全部发现。你会：",
+        "options": [
+          {
+            "id": "option-trade-information-l",
+            "text": "先确定对等标准、信息价值和双方承担的风险，再决定交换范围。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-trade-information-e",
+            "text": "先弄清他们为何急需情报，保留会伤害他人的部分后尽量互助。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "trade",
+          "information",
+          "trust"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-first-camp",
+        "displayOrder": 36,
+        "chapterId": "entry",
+        "category": "第一处营地",
+        "primaryDimension": "SM",
+        "prompt": "日落前找到了一个勉强安全的营地，但更远处或许有更好的地方。你会：",
+        "options": [
+          {
+            "id": "option-first-camp-m",
+            "text": "保持轻装，趁天色尚可继续寻找，必要时再返回这里。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-first-camp-s",
+            "text": "先把这里设为确定落脚点，完成防护后再派人查看附近。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "camp",
+          "risk",
+          "commitment"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-unknown-guide",
+        "displayOrder": 37,
+        "chapterId": "trace",
+        "category": "陌生向导",
+        "primaryDimension": "RH",
+        "prompt": "一名陌生人主动提出带路，却不愿说明自己的来历。你会：",
+        "options": [
+          {
+            "id": "option-unknown-guide-h",
+            "text": "暂不同行，先从他熟悉的地名和避谈之处独自判断。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-unknown-guide-r",
+            "text": "边同行边设置几个可验证的小约定，从互动中判断是否可信。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "guide",
+          "trust",
+          "interaction"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-shared-dream",
+        "displayOrder": 38,
+        "chapterId": "trace",
+        "category": "反复出现的梦",
+        "primaryDimension": "TV",
+        "prompt": "队员们连续梦见同一座陌生石门。你会先：",
+        "options": [
+          {
+            "id": "option-shared-dream-v",
+            "text": "思考石门在整段旅程中可能连接哪些未解事件和未来选择。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-shared-dream-t",
+            "text": "记录每个人梦中的颜色、位置和先后差异，寻找共同细节。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "dream",
+          "pattern",
+          "detail"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-two-villages-water",
+        "displayOrder": 39,
+        "chapterId": "trace",
+        "category": "两个村落的水",
+        "primaryDimension": "LE",
+        "prompt": "上游村落修坝能度过旱季，却会减少下游村落的水量。你会优先推动：",
+        "options": [
+          {
+            "id": "option-two-villages-water-e",
+            "text": "让双方先说清不可承受的损失，再设计照顾最脆弱处境的分水方式。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-two-villages-water-l",
+            "text": "测算总水量和人口需要，建立双方都受约束的比例与复核规则。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "water",
+          "community",
+          "allocation"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-new-evidence",
+        "displayOrder": 40,
+        "chapterId": "trace",
+        "category": "新证据推翻旧判断",
+        "primaryDimension": "SM",
+        "prompt": "新发现证明你们一直追踪的方向可能错了。你会：",
+        "options": [
+          {
+            "id": "option-new-evidence-s",
+            "text": "暂停行动，逐项标记哪些结论仍成立，再从最近的可靠节点重启调查。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-new-evidence-m",
+            "text": "把旧假设暂时放下，用新证据重新提出几条完全不同的路线。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "evidence",
+          "revision",
+          "investigation"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-public-misunderstanding",
+        "displayOrder": 41,
+        "chapterId": "change",
+        "category": "被当众误解",
+        "primaryDimension": "RH",
+        "prompt": "危机中有人当众误解了你的决定，队伍开始动摇。你会：",
+        "options": [
+          {
+            "id": "option-public-misunderstanding-h",
+            "text": "暂时不争辩，先完成最必要的行动，等局面稳定后再解释。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-public-misunderstanding-r",
+            "text": "立即用最短的话澄清目的，并让大家提出仍然担心的地方。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "misunderstanding",
+          "crisis",
+          "communication"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-forged-sign",
+        "displayOrder": 42,
+        "chapterId": "change",
+        "category": "伪造的记号",
+        "primaryDimension": "TV",
+        "prompt": "路边出现了与队伍暗号极相似的记号。你会先：",
+        "options": [
+          {
+            "id": "option-forged-sign-t",
+            "text": "检查刻痕深浅、工具方向和周围脚印，找出与真暗号的具体差异。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-forged-sign-v",
+            "text": "思考伪造者希望队伍采取什么行动，再反推记号真正的目的。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "deception",
+          "sign",
+          "motive"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-expired-pact",
+        "displayOrder": 43,
+        "chapterId": "change",
+        "category": "已经失效的旧约",
+        "primaryDimension": "LE",
+        "prompt": "一份旧约要求你保护一座如今会伤害周边居民的封印。你会：",
+        "options": [
+          {
+            "id": "option-expired-pact-l",
+            "text": "先确认旧约的适用前提是否还存在，再按一致原则重新界定责任。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-expired-pact-e",
+            "text": "先回应眼前正在承受伤害的人，同时寻找不轻率背弃承诺的修复办法。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "promise",
+          "harm",
+          "change"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-lost-supplies",
+        "displayOrder": 44,
+        "chapterId": "change",
+        "category": "物资损失",
+        "primaryDimension": "SM",
+        "prompt": "半数物资被水冲走，但原定目标仍可能完成。你会：",
+        "options": [
+          {
+            "id": "option-lost-supplies-m",
+            "text": "重新评估附近可用资源，也允许旅程转向一个新的可行目标。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-lost-supplies-s",
+            "text": "按核心目标重新分配现有物资，取消次要任务并保持主要计划。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "resource",
+          "loss",
+          "adaptation"
+        ],
+        "reverseKeyed": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-face-doubt",
+        "displayOrder": 45,
+        "chapterId": "return",
+        "category": "面对质疑",
+        "primaryDimension": "RH",
+        "prompt": "人们质疑你带回的记录只是夸大的故事。你会：",
+        "options": [
+          {
+            "id": "option-face-doubt-r",
+            "text": "邀请他们逐条提问，在公开讨论中说明证据和不确定之处。",
+            "score": {
+              "dimension": "RH",
+              "pole": "R",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-face-doubt-h",
+            "text": "先独自补齐记录和证据链，不急于回应每一次质疑。",
+            "score": {
+              "dimension": "RH",
+              "pole": "H",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "criticism",
+          "evidence",
+          "expression"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-understand-failure",
+        "displayOrder": 46,
+        "chapterId": "return",
+        "category": "怎样理解失败",
+        "primaryDimension": "TV",
+        "prompt": "回看这次没有完成的目标，你更自然地：",
+        "options": [
+          {
+            "id": "option-understand-failure-t",
+            "text": "列出具体在哪一步失效、哪些资源不足，以及下次可直接改什么。",
+            "score": {
+              "dimension": "TV",
+              "pole": "T",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-understand-failure-v",
+            "text": "思考原目标是否问错了问题，以及失败显露了怎样的新方向。",
+            "score": {
+              "dimension": "TV",
+              "pole": "V",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "failure",
+          "learning",
+          "reflection"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-record-mistake",
+        "displayOrder": 47,
+        "chapterId": "return",
+        "category": "记录同伴的过失",
+        "primaryDimension": "LE",
+        "prompt": "正式记录必须提到一位同伴造成的严重错误。你会：",
+        "options": [
+          {
+            "id": "option-record-mistake-l",
+            "text": "如实写明行为、后果和责任标准，不因关系亲近而改变记录。",
+            "score": {
+              "dimension": "LE",
+              "pole": "L",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-record-mistake-e",
+            "text": "同样写明事实，但避免把一次错误写成对整个人的定性。",
+            "score": {
+              "dimension": "LE",
+              "pole": "E",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "record",
+          "accountability",
+          "dignity"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "question-unfinished-promise",
+        "displayOrder": 48,
+        "chapterId": "return",
+        "category": "未完成的承诺",
+        "primaryDimension": "SM",
+        "prompt": "归来时，你发现旅途中答应的事已经无法按原方式完成。你会：",
+        "options": [
+          {
+            "id": "option-unfinished-promise-s",
+            "text": "主动说明偏差，重新约定一个明确可完成的补偿或期限。",
+            "score": {
+              "dimension": "SM",
+              "pole": "S",
+              "weight": 2
+            }
+          },
+          {
+            "id": "option-unfinished-promise-m",
+            "text": "先确认对方如今真正需要什么，再允许承诺以不同形式兑现。",
+            "score": {
+              "dimension": "SM",
+              "pole": "M",
+              "weight": 2
+            }
+          }
+        ],
+        "tags": [
+          "promise",
+          "closure",
+          "repair"
+        ],
+        "reverseKeyed": false,
+        "contentVersion": "1.0.0"
+      }
+    ],
+    "creatures": [
+      {
+        "id": "creature-luwu",
+        "name": "陆吾",
+        "classicalNote": "虎身九尾、人面虎爪，司天之九部及帝之囿时。",
+        "sourceIds": [
+          "source-xi"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-ershu",
+        "name": "耳鼠",
+        "classicalNote": "鼠形、兔首、麋身，能以尾飞，声如犬嗥。",
+        "sourceIds": [
+          "source-bei"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-dangkang",
+        "name": "当康",
+        "classicalNote": "豕形有牙，鸣声自呼其名，出现与丰穰相联。",
+        "sourceIds": [
+          "source-dong"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-xingxing",
+        "name": "狌狌",
+        "classicalNote": "形近禺而白耳，伏行人走。",
+        "sourceIds": [
+          "source-nan"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-yingzhao",
+        "name": "英招",
+        "classicalNote": "人面马身、虎文鸟翼，巡游四海，与帝之平圃相关。",
+        "sourceIds": [
+          "source-xi"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-dijiang",
+        "name": "帝江",
+        "classicalNote": "黄囊、赤如丹火，六足四翼，无面目，识歌舞。",
+        "sourceIds": [
+          "source-xi"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-huan",
+        "name": "讙",
+        "classicalNote": "形如狸，一目三尾，声音可拟百声。",
+        "sourceIds": [
+          "source-xi"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-fenghuang",
+        "name": "凤凰",
+        "classicalNote": "五采之文，自歌自舞，出现则天下安宁。",
+        "sourceIds": [
+          "source-nan"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-xuangui",
+        "name": "旋龟",
+        "classicalNote": "龟身、鸟首、虺尾，声音如劈木。",
+        "sourceIds": [
+          "source-nan"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-bifang",
+        "name": "毕方",
+        "classicalNote": "鹤形，一足，赤文青质白喙，出现与怪火相联。",
+        "sourceIds": [
+          "source-xi"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-jingwei",
+        "name": "精卫",
+        "classicalNote": "女娃溺海后所化，常衔西山木石填海。",
+        "sourceIds": [
+          "source-bei"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-lushu",
+        "name": "鹿蜀",
+        "classicalNote": "形如马，白首、虎文、赤尾，声音如歌谣。",
+        "sourceIds": [
+          "source-nan"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-kaimingshou",
+        "name": "开明兽",
+        "classicalNote": "虎身而九首，皆人面，立于昆仑之上。",
+        "sourceIds": [
+          "source-hainei-xi"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-zhuyin",
+        "name": "烛阴",
+        "classicalNote": "人面蛇身、赤色，叙述涉及昼夜、冬夏与风雨。",
+        "sourceIds": [
+          "source-haiwai-bei"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-feifei",
+        "name": "朏朏",
+        "classicalNote": "形如狸，白尾有鬣，畜养可已忧。",
+        "sourceIds": [
+          "source-zhong"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "creature-jiuweihu",
+        "name": "九尾狐",
+        "classicalNote": "狐形九尾，声如婴儿，会食人。",
+        "sourceIds": [
+          "source-nan"
+        ],
+        "contentVersion": "1.0.0"
+      }
+    ],
+    "resultTypes": [
+      {
+        "code": "RTLS",
+        "chineseName": "山司型",
+        "creatureId": "creature-luwu",
+        "coreDescription": "走到局面中央，查清事实，再把纷乱放回各自的位置。",
+        "strengths": [
+          "主动协调",
+          "辨认风险",
+          "建立公平规则"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“替所有人背责任”或“把秩序误当共识”。",
+        "blindSpots": [
+          "替所有人背责任",
+          "把秩序误当共识"
+        ],
+        "relationshipTips": [
+          "相处时，及时回应，也直接讨论正在发生的分歧；把标准、边界与责任说清。",
+          "同行时，提供具体事实与可核验的反馈；明确承诺、期限与收尾方式。"
+        ],
+        "selfCareTips": [
+          "定规则前先问：还有谁的处境没被看见？"
+        ],
+        "shareTitle": "我的山海兽格是陆吾·山司型",
+        "shareLine": "走到局面中央，查清事实，再把纷乱放回各自的位置。",
+        "classicalNote": "虎身九尾、人面虎爪，司天之九部及帝之囿时。 形貌与职掌来自原典；人格为创作。",
+        "creativeNote": "主动接手、核对线索、按规则收束；借原典职掌意象。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-luwu",
+        "neighborCodes": [
+          "RTLM",
+          "RVLS"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "RTLM",
+        "chineseName": "飞策型",
+        "creatureId": "creature-ershu",
+        "coreDescription": "靠近现场、快速试一步，再根据真实反馈换下一步。",
+        "strengths": [
+          "反应快",
+          "看见微变",
+          "切成轻巧动作"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“过早行动”或“被眼前反馈带跑”。",
+        "blindSpots": [
+          "过早行动",
+          "被眼前反馈带跑"
+        ],
+        "relationshipTips": [
+          "相处时，及时回应，也直接讨论正在发生的分歧；把标准、边界与责任说清。",
+          "同行时，提供具体事实与可核验的反馈；为变化保留协商与调整空间。"
+        ],
+        "selfCareTips": [
+          "出发前写下一条不可牺牲的目标。"
+        ],
+        "shareTitle": "我的山海兽格是耳鼠·飞策型",
+        "shareLine": "靠近现场、快速试一步，再根据真实反馈换下一步。",
+        "classicalNote": "鼠形、兔首、麋身，能以尾飞，声如犬嗥。 耳鼠形貌和以尾飞来自原典；人格为创作。",
+        "creativeNote": "迅速响应、捕捉现场细节、边走边修正；借“以尾飞”意象。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-ershu",
+        "neighborCodes": [
+          "RTLS",
+          "RTEM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "RTES",
+        "chineseName": "丰候型",
+        "creatureId": "creature-dangkang",
+        "coreDescription": "把关心变成安排，让一群人切实过得更好。",
+        "strengths": [
+          "照顾现实需要",
+          "组织共享资源",
+          "给出承诺"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“替别人定义更好”或“不易接受变卦”。",
+        "blindSpots": [
+          "替别人定义更好",
+          "不易接受变卦"
+        ],
+        "relationshipTips": [
+          "相处时，及时回应，也直接讨论正在发生的分歧；先看见处境与关系影响。",
+          "同行时，提供具体事实与可核验的反馈；明确承诺、期限与收尾方式。"
+        ],
+        "selfCareTips": [
+          "把“我替你安排”换成“你想选哪种？”"
+        ],
+        "shareTitle": "我的山海兽格是当康·丰候型",
+        "shareLine": "把关心变成安排，让一群人切实过得更好。",
+        "classicalNote": "豕形有牙，鸣声自呼其名，出现与丰穰相联。 丰穰是古籍征候；关系风格为创作。",
+        "creativeNote": "让众人受益，把可执行的照顾落地；借丰穰征候意象。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-dangkang",
+        "neighborCodes": [
+          "RTEM",
+          "RVES"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "RTEM",
+        "chineseName": "歌游型",
+        "creatureId": "creature-xingxing",
+        "coreDescription": "从人与现场得到能量，跟着真实感受调整节奏。",
+        "strengths": [
+          "活跃气氛",
+          "读取反馈",
+          "即兴换法"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“回避长期整理”或“兴致退后难收尾”。",
+        "blindSpots": [
+          "回避长期整理",
+          "兴致退后难收尾"
+        ],
+        "relationshipTips": [
+          "相处时，及时回应，也直接讨论正在发生的分歧；先看见处境与关系影响。",
+          "同行时，提供具体事实与可核验的反馈；为变化保留协商与调整空间。"
+        ],
+        "selfCareTips": [
+          "给每次即兴留十五分钟收尾。"
+        ],
+        "shareTitle": "我的山海兽格是狌狌·歌游型",
+        "shareLine": "从人与现场得到能量，跟着真实感受调整节奏。",
+        "classicalNote": "形近禺而白耳，伏行人走。 狌狌形貌行动来自原典；人格为创作。",
+        "creativeNote": "在互动中读具体反馈，重体验，愿意临场换法。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-xingxing",
+        "neighborCodes": [
+          "RTES",
+          "RVEM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "RVLS",
+        "chineseName": "巡境型",
+        "creatureId": "creature-yingzhao",
+        "coreDescription": "看整片地图，也亲自巡视每个关键节点。",
+        "strengths": [
+          "建全局图",
+          "预判影响",
+          "拆出里程碑"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“过度巡视”或“低估局部例外”。",
+        "blindSpots": [
+          "过度巡视",
+          "低估局部例外"
+        ],
+        "relationshipTips": [
+          "相处时，及时回应，也直接讨论正在发生的分歧；把标准、边界与责任说清。",
+          "同行时，允许讨论关联、可能与长期影响；明确承诺、期限与收尾方式。"
+        ],
+        "selfCareTips": [
+          "每个里程碑留一格“现场可推翻我”。"
+        ],
+        "shareTitle": "我的山海兽格是英招·巡境型",
+        "shareLine": "看整片地图，也亲自巡视每个关键节点。",
+        "classicalNote": "人面马身、虎文鸟翼，巡游四海，与帝之平圃相关。 英招形貌、巡游来自原典；人格为创作。",
+        "creativeNote": "面向全局巡视，把远景压成秩序与节点。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-yingzhao",
+        "neighborCodes": [
+          "RTLS",
+          "RVLM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "RVLM",
+        "chineseName": "无界舞型",
+        "creatureId": "creature-dijiang",
+        "coreDescription": "先捕捉整体节奏，让答案在移动中显形。",
+        "strengths": [
+          "跨界联想",
+          "识别模式",
+          "容纳未知"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“别人跟不上跳跃”或“迟迟不选择”。",
+        "blindSpots": [
+          "别人跟不上跳跃",
+          "迟迟不选择"
+        ],
+        "relationshipTips": [
+          "相处时，及时回应，也直接讨论正在发生的分歧；把标准、边界与责任说清。",
+          "同行时，允许讨论关联、可能与长期影响；为变化保留协商与调整空间。"
+        ],
+        "selfCareTips": [
+          "发散后用一句普通话说清现在做什么。"
+        ],
+        "shareTitle": "我的山海兽格是帝江·无界舞型",
+        "shareLine": "先捕捉整体节奏，让答案在移动中显形。",
+        "classicalNote": "黄囊、赤如丹火，六足四翼，无面目，识歌舞。 帝江形貌和歌舞来自原典；人格为创作。",
+        "creativeNote": "先感受整体节奏，以理路辨方向，却不急于定形。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-dijiang",
+        "neighborCodes": [
+          "RVLS",
+          "HVLM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "RVES",
+        "chineseName": "定声型",
+        "creatureId": "creature-huan",
+        "coreDescription": "听见不同声音，再提炼出大家可以共同遵守的约定。",
+        "strengths": [
+          "多角表达",
+          "感知群体",
+          "推动共识落地"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“丢失自己声音”或“过早替讨论定调”。",
+        "blindSpots": [
+          "丢失自己声音",
+          "过早替讨论定调"
+        ],
+        "relationshipTips": [
+          "相处时，及时回应，也直接讨论正在发生的分歧；先看见处境与关系影响。",
+          "同行时，允许讨论关联、可能与长期影响；明确承诺、期限与收尾方式。"
+        ],
+        "selfCareTips": [
+          "定案前明确问一次“谁还有不同意见？”"
+        ],
+        "shareTitle": "我的山海兽格是讙·定声型",
+        "shareLine": "听见不同声音，再提炼出大家可以共同遵守的约定。",
+        "classicalNote": "形如狸，一目三尾，声音可拟百声。 讙一目三尾、声拟百声来自原典；人格为创作。",
+        "creativeNote": "听见多方声音，提炼共同价值，再推动形成约定。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-huan",
+        "neighborCodes": [
+          "RTES",
+          "RVEM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "RVEM",
+        "chineseName": "丹歌型",
+        "creatureId": "creature-fenghuang",
+        "coreDescription": "让一群人看见共同愿景，也为新的表达保留空间。",
+        "strengths": [
+          "凝聚价值",
+          "鼓舞表达",
+          "兼顾温度变化"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“为和谐压低冲突”或“追求形象完美”。",
+        "blindSpots": [
+          "为和谐压低冲突",
+          "追求形象完美"
+        ],
+        "relationshipTips": [
+          "相处时，及时回应，也直接讨论正在发生的分歧；先看见处境与关系影响。",
+          "同行时，允许讨论关联、可能与长期影响；为变化保留协商与调整空间。"
+        ],
+        "selfCareTips": [
+          "真正的和鸣允许不一致被说出。"
+        ],
+        "shareTitle": "我的山海兽格是凤凰·丹歌型",
+        "shareLine": "让一群人看见共同愿景，也为新的表达保留空间。",
+        "classicalNote": "五采之文，自歌自舞，出现则天下安宁。 凤凰五采歌舞安宁来自原典；人格为创作。",
+        "creativeNote": "把群体愿景与价值带到公共场域，同时容纳新的表达。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-fenghuang",
+        "neighborCodes": [
+          "RTEM",
+          "RVES"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "HTLS",
+        "chineseName": "负图型",
+        "creatureId": "creature-xuangui",
+        "coreDescription": "安静核对细节，等证据咬合后再判断。",
+        "strengths": [
+          "耐心复核",
+          "发现矛盾",
+          "结论可追问"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“求稳错过窗口”或“未证实即不可信”。",
+        "blindSpots": [
+          "求稳错过窗口",
+          "未证实即不可信"
+        ],
+        "relationshipTips": [
+          "相处时，给予独立整理的时间，不催促立即表态；把标准、边界与责任说清。",
+          "同行时，提供具体事实与可核验的反馈；明确承诺、期限与收尾方式。"
+        ],
+        "selfCareTips": [
+          "分成已知、推测、下一步验证。"
+        ],
+        "shareTitle": "我的山海兽格是旋龟·负图型",
+        "shareLine": "安静核对细节，等证据咬合后再判断。",
+        "classicalNote": "龟身、鸟首、虺尾，声音如劈木。 旋龟形貌声音来自原典；人格为创作。",
+        "creativeNote": "独自观察细部，按逻辑反复核验，再形成稳定判断。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-xuangui",
+        "neighborCodes": [
+          "HTLM",
+          "HVLS"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "HTLM",
+        "chineseName": "火迹型",
+        "creatureId": "creature-bifang",
+        "coreDescription": "对异常迹象敏锐，会独自追到背后因果。",
+        "strengths": [
+          "发现信号",
+          "拆解机制",
+          "随证据改判"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“偶然当预兆”或“缺少现实校准”。",
+        "blindSpots": [
+          "偶然当预兆",
+          "缺少现实校准"
+        ],
+        "relationshipTips": [
+          "相处时，给予独立整理的时间，不催促立即表态；把标准、边界与责任说清。",
+          "同行时，提供具体事实与可核验的反馈；为变化保留协商与调整空间。"
+        ],
+        "selfCareTips": [
+          "每个预警同时写一个反证。"
+        ],
+        "shareTitle": "我的山海兽格是毕方·火迹型",
+        "shareLine": "对异常迹象敏锐，会独自追到背后因果。",
+        "classicalNote": "鹤形，一足，赤文青质白喙，出现与怪火相联。 毕方形貌与怪火征候来自原典；人格为创作。",
+        "creativeNote": "对异常征兆敏感，独立判断因果，同时为新信息留门。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-bifang",
+        "neighborCodes": [
+          "HTLS",
+          "HVLM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "HTES",
+        "chineseName": "填海型",
+        "creatureId": "creature-jingwei",
+        "coreDescription": "不一定高声表态，却用具体行动守住承诺。",
+        "strengths": [
+          "长期坚持",
+          "记得细节",
+          "重视变行动"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“困于沉没成本”或“把休息当放弃”。",
+        "blindSpots": [
+          "困于沉没成本",
+          "把休息当放弃"
+        ],
+        "relationshipTips": [
+          "相处时，给予独立整理的时间，不催促立即表态；先看见处境与关系影响。",
+          "同行时，提供具体事实与可核验的反馈；明确承诺、期限与收尾方式。"
+        ],
+        "selfCareTips": [
+          "定期问：这片海仍值得填吗？"
+        ],
+        "shareTitle": "我的山海兽格是精卫·填海型",
+        "shareLine": "不一定高声表态，却用具体行动守住承诺。",
+        "classicalNote": "女娃溺海后所化，常衔西山木石填海。 精卫填海来自原典；人格为创作。",
+        "creativeNote": "安静而具体地照料承诺，以小行动完成长期心愿。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-jingwei",
+        "neighborCodes": [
+          "HTEM",
+          "HVES"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "HTEM",
+        "chineseName": "谣尾型",
+        "creatureId": "creature-lushu",
+        "coreDescription": "细腻温和，从具体相处找到舒服距离。",
+        "strengths": [
+          "体察日常",
+          "营造亲和",
+          "灵活回应"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“不愿说不”或“计划随情绪漂移”。",
+        "blindSpots": [
+          "不愿说不",
+          "计划随情绪漂移"
+        ],
+        "relationshipTips": [
+          "相处时，给予独立整理的时间，不催促立即表态；先看见处境与关系影响。",
+          "同行时，提供具体事实与可核验的反馈；为变化保留协商与调整空间。"
+        ],
+        "selfCareTips": [
+          "练习一句清楚而不伤人的拒绝。"
+        ],
+        "shareTitle": "我的山海兽格是鹿蜀·谣尾型",
+        "shareLine": "细腻温和，从具体相处找到舒服距离。",
+        "classicalNote": "形如马，白首、虎文、赤尾，声音如歌谣。 鹿蜀形貌与声如谣来自原典；人格为创作。",
+        "creativeNote": "细腻读取实际感受，温和靠近，不把关系锁死。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-lushu",
+        "neighborCodes": [
+          "HTES",
+          "HVEM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "HVLS",
+        "chineseName": "多面门型",
+        "creatureId": "creature-kaimingshou",
+        "coreDescription": "同时从多个方向看问题，最终会选择一扇门守住。",
+        "strengths": [
+          "切换视角",
+          "容纳矛盾",
+          "建立边界"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“观察期过长”或“定案后不易松动”。",
+        "blindSpots": [
+          "观察期过长",
+          "定案后不易松动"
+        ],
+        "relationshipTips": [
+          "相处时，给予独立整理的时间，不催促立即表态；把标准、边界与责任说清。",
+          "同行时，允许讨论关联、可能与长期影响；明确承诺、期限与收尾方式。"
+        ],
+        "selfCareTips": [
+          "给结论写下明确的复审日期。"
+        ],
+        "shareTitle": "我的山海兽格是开明兽·多面门型",
+        "shareLine": "同时从多个方向看问题，最终会选择一扇门守住。",
+        "classicalNote": "虎身而九首，皆人面，立于昆仑之上。 开明兽虎身九首人面来自原典；陆吾职掌不属于它。",
+        "creativeNote": "同时看到多个视角，以整体模型判断，再守住选定边界。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-kaimingshou",
+        "neighborCodes": [
+          "HTLS",
+          "HVLM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "HVLM",
+        "chineseName": "司晦型",
+        "creatureId": "creature-zhuyin",
+        "coreDescription": "从长时间尺度观察变化，为未来保留可转向的坐标。",
+        "strengths": [
+          "长期推演",
+          "看见周期",
+          "适应大势变化"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“显得遥远”或“漏掉今天需求”。",
+        "blindSpots": [
+          "显得遥远",
+          "漏掉今天需求"
+        ],
+        "relationshipTips": [
+          "相处时，给予独立整理的时间，不催促立即表态；把标准、边界与责任说清。",
+          "同行时，允许讨论关联、可能与长期影响；为变化保留协商与调整空间。"
+        ],
+        "selfCareTips": [
+          "每个十年视角落到一个今天动作。"
+        ],
+        "shareTitle": "我的山海兽格是烛阴·司晦型",
+        "shareLine": "从长时间尺度观察变化，为未来保留可转向的坐标。",
+        "classicalNote": "人面蛇身、赤色，叙述涉及昼夜、冬夏与风雨。 烛阴及昼夜冬夏意象来自原典；人格为创作。",
+        "creativeNote": "从长周期看局势，独立推演，并为变化保留余地。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-zhuyin",
+        "neighborCodes": [
+          "RVLM",
+          "HVLS"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "HVES",
+        "chineseName": "安忧型",
+        "creatureId": "creature-feifei",
+        "coreDescription": "察觉未说出口的疲惫，用安静陪伴给人支点。",
+        "strengths": [
+          "理解隐情",
+          "维护价值",
+          "稳定支持"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“吸收他人忧愁”或“忽略自己需要”。",
+        "blindSpots": [
+          "吸收他人忧愁",
+          "忽略自己需要"
+        ],
+        "relationshipTips": [
+          "相处时，给予独立整理的时间，不催促立即表态；先看见处境与关系影响。",
+          "同行时，允许讨论关联、可能与长期影响；明确承诺、期限与收尾方式。"
+        ],
+        "selfCareTips": [
+          "陪伴前先确认今天还有多少余量。"
+        ],
+        "shareTitle": "我的山海兽格是朏朏·安忧型",
+        "shareLine": "察觉未说出口的疲惫，用安静陪伴给人支点。",
+        "classicalNote": "形如狸，白尾有鬣，畜养可已忧。 “养之已忧”为神话，不构成心理疗效。",
+        "creativeNote": "洞察未说出口的情绪，以稳定陪伴提供支点。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-feifei",
+        "neighborCodes": [
+          "HTES",
+          "HVEM"
+        ],
+        "contentVersion": "1.0.0"
+      },
+      {
+        "code": "HVEM",
+        "chineseName": "青丘型",
+        "creatureId": "creature-jiuweihu",
+        "coreDescription": "内在世界丰盛，善于读懂关系中未明说的暗流。",
+        "strengths": [
+          "捕捉隐喻",
+          "转换表达",
+          "保留路径"
+        ],
+        "stressState": "压力积累时，这些倾向可能放大为“用试探代替直说”或“受威胁时封闭”。",
+        "blindSpots": [
+          "用试探代替直说",
+          "受威胁时封闭"
+        ],
+        "relationshipTips": [
+          "相处时，给予独立整理的时间，不催促立即表态；先看见处境与关系影响。",
+          "同行时，允许讨论关联、可能与长期影响；为变化保留协商与调整空间。"
+        ],
+        "selfCareTips": [
+          "少一次猜测，多一次明确询问。"
+        ],
+        "shareTitle": "我的山海兽格是九尾狐·青丘型",
+        "shareLine": "内在世界丰盛，善于读懂关系中未明说的暗流。",
+        "classicalNote": "狐形九尾，声如婴儿，会食人。 九尾、婴儿声、食人来自原典；绝不粉饰。",
+        "creativeNote": "内在世界丰盛，读取隐喻与关系张力，转换表达路径。 以上人格关联均为 SBTI 产品创作。",
+        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "artAssetId": "creature-jiuweihu",
+        "neighborCodes": [
+          "RVEM",
+          "HVES"
+        ],
+        "contentVersion": "1.0.0"
+      }
+    ],
+    "tieBreakers": [
+      {
+        "dimension": "RH",
+        "questionId": "question-mist-gate"
+      },
+      {
+        "dimension": "TV",
+        "questionId": "question-broken-stones"
+      },
+      {
+        "dimension": "LE",
+        "questionId": "question-breaking-bridge"
+      },
+      {
+        "dimension": "SM",
+        "questionId": "question-journey-ending"
+      }
+    ]
+  }
+}

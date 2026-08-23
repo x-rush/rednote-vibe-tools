@@ -1,1 +1,5453 @@
-{"schemaVersion":1,"contentVersion":"0.0.0-scaffold","projectId":"earth-online","meta":{"title":"地球 Online：冒险者公会大厅","locale":"zh-CN","updatedAt":"2026-08-23"},"sources":[],"content":{"tasks":[],"filters":[],"cooldown":{},"fallback":{},"safetyRules":[]}}
+{
+  "schemaVersion": 1,
+  "contentVersion": "1.0.0",
+  "projectId": "earth-online",
+  "meta": {
+    "title": "地球 Online：冒险者公会大厅",
+    "locale": "zh-CN",
+    "updatedAt": "2026-08-24"
+  },
+  "sources": [
+    {
+      "id": "source-earth-online-quests-v1",
+      "title": "首发 100 任务与数据契约",
+      "license": "project-authored"
+    }
+  ],
+  "content": {
+    "categories": [
+      {
+        "id": "rest",
+        "name": "恢复精力",
+        "goalIds": [
+          "relax"
+        ],
+        "assetId": "category-rest"
+      },
+      {
+        "id": "tidy",
+        "name": "整理生活",
+        "goalIds": [
+          "organize"
+        ],
+        "assetId": "category-tidy"
+      },
+      {
+        "id": "observe",
+        "name": "观察附近",
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "assetId": "category-observe"
+      },
+      {
+        "id": "move",
+        "name": "轻微运动",
+        "goalIds": [
+          "move"
+        ],
+        "assetId": "category-move"
+      },
+      {
+        "id": "create",
+        "name": "创造一点东西",
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "assetId": "category-create"
+      },
+      {
+        "id": "learn",
+        "name": "学习与好奇",
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "assetId": "category-learn"
+      },
+      {
+        "id": "connect",
+        "name": "联系熟悉的人",
+        "goalIds": [
+          "connect"
+        ],
+        "assetId": "category-connect"
+      },
+      {
+        "id": "kind",
+        "name": "善意与共用空间",
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "assetId": "category-kind"
+      },
+      {
+        "id": "digital",
+        "name": "数字生活",
+        "goalIds": [
+          "organize"
+        ],
+        "assetId": "category-digital"
+      },
+      {
+        "id": "adventure",
+        "name": "微型冒险",
+        "goalIds": [
+          "explore"
+        ],
+        "assetId": "category-adventure"
+      }
+    ],
+    "goals": [
+      {
+        "id": "relax",
+        "name": "放松"
+      },
+      {
+        "id": "explore",
+        "name": "探索"
+      },
+      {
+        "id": "organize",
+        "name": "整理"
+      },
+      {
+        "id": "move",
+        "name": "运动"
+      },
+      {
+        "id": "connect",
+        "name": "连接他人"
+      },
+      {
+        "id": "observe",
+        "name": "观察"
+      },
+      {
+        "id": "create",
+        "name": "创造"
+      },
+      {
+        "id": "learn",
+        "name": "学习"
+      }
+    ],
+    "badges": [
+      {
+        "id": "badge-first-quest",
+        "title": "第一枚公会印记",
+        "description": "完成第一项现实支线。",
+        "rule": {
+          "type": "completed-count",
+          "count": 1
+        },
+        "assetId": "badge-first-quest",
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "badge-five-quests",
+        "title": "稳稳向前",
+        "description": "累计完成五项支线。",
+        "rule": {
+          "type": "completed-count",
+          "count": 5
+        },
+        "assetId": "badge-five-quests",
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "badge-three-day-streak",
+        "title": "三日同行",
+        "description": "连续三个自然日完成任务。",
+        "rule": {
+          "type": "streak",
+          "days": 3
+        },
+        "assetId": "badge-three-day-streak",
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "badge-level-three",
+        "title": "熟练冒险者",
+        "description": "冒险者等级达到三级。",
+        "rule": {
+          "type": "level",
+          "level": 3
+        },
+        "assetId": "badge-level-three",
+        "contentVersion": "1.0.0"
+      },
+      {
+        "id": "badge-mover",
+        "title": "轻装活动",
+        "description": "完成三项轻微运动任务。",
+        "rule": {
+          "type": "category-count",
+          "category": "move",
+          "count": 3
+        },
+        "assetId": "badge-mover",
+        "contentVersion": "1.0.0"
+      }
+    ],
+    "tasks": [
+      {
+        "questId": "quest-rest-window-color",
+        "title": "看窗外五分钟，记住今天天空或光线的一种颜色",
+        "description": "今天只完成这一件小事：看窗外五分钟，记住今天天空或光线的一种颜色。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "看窗外五分钟，记住今天天空或光线的一种颜色",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“看窗外五分钟，记住今天天空或光线的一种颜色”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：看窗外五分钟，记住今天天空或光线的一种颜色",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-water-pause",
+        "title": "喝一杯水，把屏幕放下三分钟",
+        "description": "今天只完成这一件小事：喝一杯水，把屏幕放下三分钟。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "喝一杯水，把屏幕放下三分钟",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“喝一杯水，把屏幕放下三分钟”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：喝一杯水，把屏幕放下三分钟",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-chair-reset",
+        "title": "调整座椅和桌面，让身体舒服一点",
+        "description": "今天只完成这一件小事：调整座椅和桌面，让身体舒服一点。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "调整座椅和桌面，让身体舒服一点",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“调整座椅和桌面，让身体舒服一点”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：调整座椅和桌面，让身体舒服一点",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-slow-song",
+        "title": "选一首舒缓的歌，只听完这一首",
+        "description": "今天只完成这一件小事：选一首舒缓的歌，只听完这一首。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "选一首舒缓的歌，只听完这一首",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“选一首舒缓的歌，只听完这一首”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：选一首舒缓的歌，只听完这一首",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-close-eyes",
+        "title": "在安全坐姿下闭眼休息两分钟，再慢慢睁开",
+        "description": "今天只完成这一件小事：在安全坐姿下闭眼休息两分钟，再慢慢睁开。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "在安全坐姿下闭眼休息两分钟，再慢慢睁开",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在安全坐姿下闭眼休息两分钟，再慢慢睁开”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在安全坐姿下闭眼休息两分钟，再慢慢睁开",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-warm-light",
+        "title": "关掉一处刺眼光源，重新安排更舒服的照明",
+        "description": "今天只完成这一件小事：关掉一处刺眼光源，重新安排更舒服的照明。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "night"
+        ],
+        "steps": [
+          "关掉一处刺眼光源，重新安排更舒服的照明",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“关掉一处刺眼光源，重新安排更舒服的照明”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：关掉一处刺眼光源，重新安排更舒服的照明",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-breath-space",
+        "title": "不改变呼吸，只观察十次自然呼吸的开始与结束",
+        "description": "今天只完成这一件小事：不改变呼吸，只观察十次自然呼吸的开始与结束。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "不改变呼吸，只观察十次自然呼吸的开始与结束",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“不改变呼吸，只观察十次自然呼吸的开始与结束”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：不改变呼吸，只观察十次自然呼吸的开始与结束",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-hands",
+        "title": "洗手或用温水让双手休息片刻",
+        "description": "今天只完成这一件小事：洗手或用温水让双手休息片刻。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "洗手或用温水让双手休息片刻",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“洗手或用温水让双手休息片刻”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：洗手或用温水让双手休息片刻",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-silent-minute",
+        "title": "给自己一分钟不输入、不阅读、不处理任何消息",
+        "description": "今天只完成这一件小事：给自己一分钟不输入、不阅读、不处理任何消息。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "给自己一分钟不输入、不阅读、不处理任何消息",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给自己一分钟不输入、不阅读、不处理任何消息”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给自己一分钟不输入、不阅读、不处理任何消息",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-rest-name-enough",
+        "title": "写下今天已经完成的一件小事，并允许它算数",
+        "description": "今天只完成这一件小事：写下今天已经完成的一件小事，并允许它算数。不需要留下照片或其他完成证明。",
+        "category": "rest",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "relax"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "写下今天已经完成的一件小事，并允许它算数",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“写下今天已经完成的一件小事，并允许它算数”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-rest",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：写下今天已经完成的一件小事，并允许它算数",
+        "iconAssetId": "quest-icon-rest",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-palm-surface",
+        "title": "清理一个手掌大小的平面",
+        "description": "今天只完成这一件小事：清理一个手掌大小的平面。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "清理一个手掌大小的平面",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“清理一个手掌大小的平面”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：清理一个手掌大小的平面",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-five-items",
+        "title": "把眼前五件东西放回更合适的位置",
+        "description": "今天只完成这一件小事：把眼前五件东西放回更合适的位置。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "把眼前五件东西放回更合适的位置",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“把眼前五件东西放回更合适的位置”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：把眼前五件东西放回更合适的位置",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-one-drawer",
+        "title": "只整理一个小抽屉，不扩大范围",
+        "description": "今天只完成这一件小事：只整理一个小抽屉，不扩大范围。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "只整理一个小抽屉，不扩大范围",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“只整理一个小抽屉，不扩大范围”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：只整理一个小抽屉，不扩大范围",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-downloads",
+        "title": "删除或归档下载目录中五个明确无用的文件",
+        "description": "今天只完成这一件小事：删除或归档下载目录中五个明确无用的文件。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "删除或归档下载目录中五个明确无用的文件",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“删除或归档下载目录中五个明确无用的文件”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：删除或归档下载目录中五个明确无用的文件",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-desktop",
+        "title": "让电脑或手机首页只保留今天常用的入口",
+        "description": "今天只完成这一件小事：让电脑或手机首页只保留今天常用的入口。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "让电脑或手机首页只保留今天常用的入口",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“让电脑或手机首页只保留今天常用的入口”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：让电脑或手机首页只保留今天常用的入口",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-bag",
+        "title": "从常用包里拿出三件已经不需要的东西",
+        "description": "今天只完成这一件小事：从常用包里拿出三件已经不需要的东西。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "从常用包里拿出三件已经不需要的东西",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“从常用包里拿出三件已经不需要的东西”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：从常用包里拿出三件已经不需要的东西",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-cables",
+        "title": "理顺一处线缆，确认没有明显破损",
+        "description": "今天只完成这一件小事：理顺一处线缆，确认没有明显破损。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "理顺一处线缆，确认没有明显破损",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“理顺一处线缆，确认没有明显破损”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：理顺一处线缆，确认没有明显破损",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-expired-note",
+        "title": "清掉一条已经失效的提醒或便签",
+        "description": "今天只完成这一件小事：清掉一条已经失效的提醒或便签。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "清掉一条已经失效的提醒或便签",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“清掉一条已经失效的提醒或便签”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：清掉一条已经失效的提醒或便签",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-fridge-zone",
+        "title": "只检查冰箱一个区域，把需要尽快使用的放到前面",
+        "description": "今天只完成这一件小事：只检查冰箱一个区域，把需要尽快使用的放到前面。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "只检查冰箱一个区域，把需要尽快使用的放到前面",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“只检查冰箱一个区域，把需要尽快使用的放到前面”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：只检查冰箱一个区域，把需要尽快使用的放到前面",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-tidy-tomorrow-item",
+        "title": "把明天最重要的一件物品放到容易看见的位置",
+        "description": "今天只完成这一件小事：把明天最重要的一件物品放到容易看见的位置。不需要留下照片或其他完成证明。",
+        "category": "tidy",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "night"
+        ],
+        "steps": [
+          "把明天最重要的一件物品放到容易看见的位置",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“把明天最重要的一件物品放到容易看见的位置”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-tidy",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：把明天最重要的一件物品放到容易看见的位置",
+        "iconAssetId": "quest-icon-tidy",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-three-colors",
+        "title": "找到身边三种以前没注意的颜色组合",
+        "description": "今天只完成这一件小事：找到身边三种以前没注意的颜色组合。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "找到身边三种以前没注意的颜色组合",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“找到身边三种以前没注意的颜色组合”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：找到身边三种以前没注意的颜色组合",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-shadow",
+        "title": "观察一个影子五分钟里怎样改变",
+        "description": "今天只完成这一件小事：观察一个影子五分钟里怎样改变。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "观察一个影子五分钟里怎样改变",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“观察一个影子五分钟里怎样改变”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：观察一个影子五分钟里怎样改变",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-building-detail",
+        "title": "在熟悉的建筑里找一个一直没注意的细节",
+        "description": "今天只完成这一件小事：在熟悉的建筑里找一个一直没注意的细节。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "在熟悉的建筑里找一个一直没注意的细节",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在熟悉的建筑里找一个一直没注意的细节”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在熟悉的建筑里找一个一直没注意的细节",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-sound-layers",
+        "title": "安静听一分钟，分辨近处、中间和远处的声音",
+        "description": "今天只完成这一件小事：安静听一分钟，分辨近处、中间和远处的声音。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "安静听一分钟，分辨近处、中间和远处的声音",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“安静听一分钟，分辨近处、中间和远处的声音”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：安静听一分钟，分辨近处、中间和远处的声音",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-letter-shape",
+        "title": "找三个设计不同的汉字或字母招牌，只看形状",
+        "description": "今天只完成这一件小事：找三个设计不同的汉字或字母招牌，只看形状。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "找三个设计不同的汉字或字母招牌，只看形状",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“找三个设计不同的汉字或字母招牌，只看形状”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：找三个设计不同的汉字或字母招牌，只看形状",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-green",
+        "title": "找到附近三种不同形状的叶子或植物轮廓，不采摘",
+        "description": "今天只完成这一件小事：找到附近三种不同形状的叶子或植物轮廓，不采摘。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "找到附近三种不同形状的叶子或植物轮廓，不采摘",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“找到附近三种不同形状的叶子或植物轮廓，不采摘”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：找到附近三种不同形状的叶子或植物轮廓，不采摘",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-reflection",
+        "title": "找一处安全的反光表面，观察它改变了什么",
+        "description": "今天只完成这一件小事：找一处安全的反光表面，观察它改变了什么。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "找一处安全的反光表面，观察它改变了什么",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“找一处安全的反光表面，观察它改变了什么”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：找一处安全的反光表面，观察它改变了什么",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-weather-without-app",
+        "title": "不看天气应用，先观察云、光和风，再核对自己的感受",
+        "description": "今天只完成这一件小事：不看天气应用，先观察云、光和风，再核对自己的感受。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "不看天气应用，先观察云、光和风，再核对自己的感受",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“不看天气应用，先观察云、光和风，再核对自己的感受”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：不看天气应用，先观察云、光和风，再核对自己的感受",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-worn-object",
+        "title": "找一件有使用痕迹的物品，猜它最常被怎样使用",
+        "description": "今天只完成这一件小事：找一件有使用痕迹的物品，猜它最常被怎样使用。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "找一件有使用痕迹的物品，猜它最常被怎样使用",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“找一件有使用痕迹的物品，猜它最常被怎样使用”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：找一件有使用痕迹的物品，猜它最常被怎样使用",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-observe-room-route",
+        "title": "用目光走一遍从座位到门口的路线，发现一个障碍物",
+        "description": "今天只完成这一件小事：用目光走一遍从座位到门口的路线，发现一个障碍物。不需要留下照片或其他完成证明。",
+        "category": "observe",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "observe",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "用目光走一遍从座位到门口的路线，发现一个障碍物",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“用目光走一遍从座位到门口的路线，发现一个障碍物”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-observe",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：用目光走一遍从座位到门口的路线，发现一个障碍物",
+        "iconAssetId": "quest-icon-observe",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-short-walk",
+        "title": "在安全熟悉的路线舒适地走十分钟",
+        "description": "今天只完成这一件小事：在安全熟悉的路线舒适地走十分钟。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-public-area",
+        "environments": [
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "在安全熟悉的路线舒适地走十分钟",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在安全熟悉的路线舒适地走十分钟”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area",
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在安全熟悉的路线舒适地走十分钟",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-three-stretches",
+        "title": "选三个自己熟悉且舒服的轻柔动作活动身体",
+        "description": "今天只完成这一件小事：选三个自己熟悉且舒服的轻柔动作活动身体。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "选三个自己熟悉且舒服的轻柔动作活动身体",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“选三个自己熟悉且舒服的轻柔动作活动身体”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：选三个自己熟悉且舒服的轻柔动作活动身体",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-room-lap",
+        "title": "在室内安全区域慢慢走几圈，中途随时可停",
+        "description": "今天只完成这一件小事：在室内安全区域慢慢走几圈，中途随时可停。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "在室内安全区域慢慢走几圈，中途随时可停",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在室内安全区域慢慢走几圈，中途随时可停”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在室内安全区域慢慢走几圈，中途随时可停",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-one-song",
+        "title": "放一首歌，在舒适范围内跟着节奏动一动",
+        "description": "今天只完成这一件小事：放一首歌，在舒适范围内跟着节奏动一动。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 5,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "放一首歌，在舒适范围内跟着节奏动一动",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“放一首歌，在舒适范围内跟着节奏动一动”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：放一首歌，在舒适范围内跟着节奏动一动",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-stairs-optional",
+        "title": "如果身体与环境适合，少乘一小段电梯并走一层楼梯",
+        "description": "今天只完成这一件小事：如果身体与环境适合，少乘一小段电梯并走一层楼梯。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 5,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "如果身体与环境适合，少乘一小段电梯并走一层楼梯",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“如果身体与环境适合，少乘一小段电梯并走一层楼梯”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：如果身体与环境适合，少乘一小段电梯并走一层楼梯",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-posture-change",
+        "title": "离开同一姿势，换一个地方站立或坐五分钟",
+        "description": "今天只完成这一件小事：离开同一姿势，换一个地方站立或坐五分钟。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "离开同一姿势，换一个地方站立或坐五分钟",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“离开同一姿势，换一个地方站立或坐五分钟”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：离开同一姿势，换一个地方站立或坐五分钟",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-carry-light",
+        "title": "把一件轻物品从一个房间送回它的位置",
+        "description": "今天只完成这一件小事：把一件轻物品从一个房间送回它的位置。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "把一件轻物品从一个房间送回它的位置",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“把一件轻物品从一个房间送回它的位置”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：把一件轻物品从一个房间送回它的位置",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-balance-support",
+        "title": "扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过",
+        "description": "今天只完成这一件小事：扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 5,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-walk-listen",
+        "title": "在熟悉路线散步，只留意脚步和环境声音",
+        "description": "今天只完成这一件小事：在熟悉路线散步，只留意脚步和环境声音。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-public-area",
+        "environments": [
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "在熟悉路线散步，只留意脚步和环境声音",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在熟悉路线散步，只留意脚步和环境声音”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area",
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在熟悉路线散步，只留意脚步和环境声音",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-move-reset-break",
+        "title": "为久坐设置一次十分钟后的起身提醒，并按时起来",
+        "description": "今天只完成这一件小事：为久坐设置一次十分钟后的起身提醒，并按时起来。不需要留下照片或其他完成证明。",
+        "category": "move",
+        "timeCost": 15,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "move"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "为久坐设置一次十分钟后的起身提醒，并按时起来",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“为久坐设置一次十分钟后的起身提醒，并按时起来”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-move",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "comfort-range",
+          "skip-if-unsuitable"
+        ],
+        "inapplicableConditions": [
+          "physical-discomfort"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：为久坐设置一次十分钟后的起身提醒，并按时起来",
+        "iconAssetId": "quest-icon-move",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-paper-creature",
+        "title": "用废纸画或折一只不存在的小生物",
+        "description": "今天只完成这一件小事：用废纸画或折一只不存在的小生物。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "用废纸画或折一只不存在的小生物",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“用废纸画或折一只不存在的小生物”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：用废纸画或折一只不存在的小生物",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-four-line-story",
+        "title": "写一个只有四行、必须出现“门”和“风”的故事",
+        "description": "今天只完成这一件小事：写一个只有四行、必须出现“门”和“风”的故事。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "写一个只有四行、必须出现“门”和“风”的故事",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“写一个只有四行、必须出现“门”和“风”的故事”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：写一个只有四行、必须出现“门”和“风”的故事",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-color-name",
+        "title": "给今天看到的一种颜色起一个自己的名字",
+        "description": "今天只完成这一件小事：给今天看到的一种颜色起一个自己的名字。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "给今天看到的一种颜色起一个自己的名字",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给今天看到的一种颜色起一个自己的名字”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area",
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给今天看到的一种颜色起一个自己的名字",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-object-title",
+        "title": "给身边一件普通物品取一个博物馆展品名",
+        "description": "今天只完成这一件小事：给身边一件普通物品取一个博物馆展品名。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "给身边一件普通物品取一个博物馆展品名",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给身边一件普通物品取一个博物馆展品名”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给身边一件普通物品取一个博物馆展品名",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-menu",
+        "title": "用现有饮品或食物写一张三项幻想菜单，不必制作",
+        "description": "今天只完成这一件小事：用现有饮品或食物写一张三项幻想菜单，不必制作。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "用现有饮品或食物写一张三项幻想菜单，不必制作",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“用现有饮品或食物写一张三项幻想菜单，不必制作”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：用现有饮品或食物写一张三项幻想菜单，不必制作",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-sound-map",
+        "title": "用点和线画出刚才听见的三层声音",
+        "description": "今天只完成这一件小事：用点和线画出刚才听见的三层声音。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "用点和线画出刚才听见的三层声音",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“用点和线画出刚才听见的三层声音”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：用点和线画出刚才听见的三层声音",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-tiny-poem",
+        "title": "用眼前第一件物品写三句不押韵的小诗",
+        "description": "今天只完成这一件小事：用眼前第一件物品写三句不押韵的小诗。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "用眼前第一件物品写三句不押韵的小诗",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“用眼前第一件物品写三句不押韵的小诗”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：用眼前第一件物品写三句不押韵的小诗",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-new-rule",
+        "title": "给一个熟悉小游戏发明一条不伤害任何人的新规则",
+        "description": "今天只完成这一件小事：给一个熟悉小游戏发明一条不伤害任何人的新规则。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "给一个熟悉小游戏发明一条不伤害任何人的新规则",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给一个熟悉小游戏发明一条不伤害任何人的新规则”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给一个熟悉小游戏发明一条不伤害任何人的新规则",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-paper-window",
+        "title": "在纸上画一扇窗，再画窗外不可能出现的景色",
+        "description": "今天只完成这一件小事：在纸上画一扇窗，再画窗外不可能出现的景色。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "在纸上画一扇窗，再画窗外不可能出现的景色",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在纸上画一扇窗，再画窗外不可能出现的景色”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在纸上画一扇窗，再画窗外不可能出现的景色",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-create-title-today",
+        "title": "不写日记，只给今天取一个标题",
+        "description": "今天只完成这一件小事：不写日记，只给今天取一个标题。不需要留下照片或其他完成证明。",
+        "category": "create",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "create",
+          "explore"
+        ],
+        "times": [
+          "night"
+        ],
+        "steps": [
+          "不写日记，只给今天取一个标题",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“不写日记，只给今天取一个标题”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-create",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "materials-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：不写日记，只给今天取一个标题",
+        "iconAssetId": "quest-icon-create",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-one-page",
+        "title": "读手边材料的一页，记下一个新词",
+        "description": "今天只完成这一件小事：读手边材料的一页，记下一个新词。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "读手边材料的一页，记下一个新词",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“读手边材料的一页，记下一个新词”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：读手边材料的一页，记下一个新词",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-object-origin",
+        "title": "查清身边一种普通物品名称的由来，只看一个可靠来源",
+        "description": "今天只完成这一件小事：查清身边一种普通物品名称的由来，只看一个可靠来源。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "查清身边一种普通物品名称的由来，只看一个可靠来源",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“查清身边一种普通物品名称的由来，只看一个可靠来源”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：查清身边一种普通物品名称的由来，只看一个可靠来源",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-map-memory",
+        "title": "不打开地图，先画出家到熟悉地点的路线，再核对",
+        "description": "今天只完成这一件小事：不打开地图，先画出家到熟悉地点的路线，再核对。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "不打开地图，先画出家到熟悉地点的路线，再核对",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“不打开地图，先画出家到熟悉地点的路线，再核对”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：不打开地图，先画出家到熟悉地点的路线，再核对",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-three-words",
+        "title": "学会一种语言里三个日常词，并读出声",
+        "description": "今天只完成这一件小事：学会一种语言里三个日常词，并读出声。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "学会一种语言里三个日常词，并读出声",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“学会一种语言里三个日常词，并读出声”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：学会一种语言里三个日常词，并读出声",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-label",
+        "title": "读懂一个产品标签上的三个字段代表什么",
+        "description": "今天只完成这一件小事：读懂一个产品标签上的三个字段代表什么。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "读懂一个产品标签上的三个字段代表什么",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“读懂一个产品标签上的三个字段代表什么”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：读懂一个产品标签上的三个字段代表什么",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-museum-object",
+        "title": "从可靠博物馆页面认识一件文物，只记一个特征",
+        "description": "今天只完成这一件小事：从可靠博物馆页面认识一件文物，只记一个特征。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "从可靠博物馆页面认识一件文物，只记一个特征",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“从可靠博物馆页面认识一件文物，只记一个特征”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：从可靠博物馆页面认识一件文物，只记一个特征",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-constellation-shape",
+        "title": "在资料中认识一个星座的形状，不要求夜间外出观察",
+        "description": "今天只完成这一件小事：在资料中认识一个星座的形状，不要求夜间外出观察。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "在资料中认识一个星座的形状，不要求夜间外出观察",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在资料中认识一个星座的形状，不要求夜间外出观察”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在资料中认识一个星座的形状，不要求夜间外出观察",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-keyboard-shortcut",
+        "title": "学一个自己真正会用到的键盘快捷键并试一次",
+        "description": "今天只完成这一件小事：学一个自己真正会用到的键盘快捷键并试一次。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "学一个自己真正会用到的键盘快捷键并试一次",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“学一个自己真正会用到的键盘快捷键并试一次”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：学一个自己真正会用到的键盘快捷键并试一次",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-houseplant",
+        "title": "查清身边一种植物的名称；不确定时只记录候选",
+        "description": "今天只完成这一件小事：查清身边一种植物的名称；不确定时只记录候选。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "查清身边一种植物的名称；不确定时只记录候选",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“查清身边一种植物的名称；不确定时只记录候选”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：查清身边一种植物的名称；不确定时只记录候选",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-learn-question",
+        "title": "写下一个最近真的好奇的问题，再把它缩小一半",
+        "description": "今天只完成这一件小事：写下一个最近真的好奇的问题，再把它缩小一半。不需要留下照片或其他完成证明。",
+        "category": "learn",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "learn",
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "写下一个最近真的好奇的问题，再把它缩小一半",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“写下一个最近真的好奇的问题，再把它缩小一半”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-learn",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：写下一个最近真的好奇的问题，再把它缩小一半",
+        "iconAssetId": "quest-icon-learn",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-thanks",
+        "title": "给熟悉的人发一句具体感谢，不要求回复",
+        "description": "今天只完成这一件小事：给熟悉的人发一句具体感谢，不要求回复。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "给熟悉的人发一句具体感谢，不要求回复",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给熟悉的人发一句具体感谢，不要求回复”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给熟悉的人发一句具体感谢，不要求回复",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-memory",
+        "title": "问熟悉的人是否记得一件共同小事；不方便就只写下来",
+        "description": "今天只完成这一件小事：问熟悉的人是否记得一件共同小事；不方便就只写下来。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "问熟悉的人是否记得一件共同小事；不方便就只写下来",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“问熟悉的人是否记得一件共同小事；不方便就只写下来”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：问熟悉的人是否记得一件共同小事；不方便就只写下来",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-recommend",
+        "title": "把最近喜欢的一首歌、文章或食物推荐给熟悉的人",
+        "description": "今天只完成这一件小事：把最近喜欢的一首歌、文章或食物推荐给熟悉的人。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "把最近喜欢的一首歌、文章或食物推荐给熟悉的人",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“把最近喜欢的一首歌、文章或食物推荐给熟悉的人”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：把最近喜欢的一首歌、文章或食物推荐给熟悉的人",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-check-in",
+        "title": "给久未联系但关系安全的人发一句不施加回复压力的问候",
+        "description": "今天只完成这一件小事：给久未联系但关系安全的人发一句不施加回复压力的问候。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "给久未联系但关系安全的人发一句不施加回复压力的问候",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给久未联系但关系安全的人发一句不施加回复压力的问候”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给久未联系但关系安全的人发一句不施加回复压力的问候",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-voice-note",
+        "title": "给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃",
+        "description": "今天只完成这一件小事：给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-question",
+        "title": "向熟悉的人问一个你确实想听答案的小问题",
+        "description": "今天只完成这一件小事：向熟悉的人问一个你确实想听答案的小问题。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "向熟悉的人问一个你确实想听答案的小问题",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“向熟悉的人问一个你确实想听答案的小问题”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：向熟悉的人问一个你确实想听答案的小问题",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-photo-memory-no-upload",
+        "title": "看一张自己的旧照片，想起同行的人；不要求上传或发送",
+        "description": "今天只完成这一件小事：看一张自己的旧照片，想起同行的人；不要求上传或发送。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "看一张自己的旧照片，想起同行的人；不要求上传或发送",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“看一张自己的旧照片，想起同行的人；不要求上传或发送”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：看一张自己的旧照片，想起同行的人；不要求上传或发送",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-plan-small",
+        "title": "邀请熟悉的人约一个低压力的小活动，也允许对方拒绝",
+        "description": "今天只完成这一件小事：邀请熟悉的人约一个低压力的小活动，也允许对方拒绝。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "邀请熟悉的人约一个低压力的小活动，也允许对方拒绝",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“邀请熟悉的人约一个低压力的小活动，也允许对方拒绝”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：邀请熟悉的人约一个低压力的小活动，也允许对方拒绝",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-acknowledge",
+        "title": "对最近得到的一次帮助补一句具体确认",
+        "description": "今天只完成这一件小事：对最近得到的一次帮助补一句具体确认。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "对最近得到的一次帮助补一句具体确认",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“对最近得到的一次帮助补一句具体确认”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：对最近得到的一次帮助补一句具体确认",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-connect-unsent-letter",
+        "title": "写三句想对熟悉的人说的话，可以不发送",
+        "description": "今天只完成这一件小事：写三句想对熟悉的人说的话，可以不发送。不需要留下照片或其他完成证明。",
+        "category": "connect",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "写三句想对熟悉的人说的话，可以不发送",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“写三句想对熟悉的人说的话，可以不发送”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-connect",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：写三句想对熟悉的人说的话，可以不发送",
+        "iconAssetId": "quest-icon-connect",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-reset",
+        "title": "把共用空间里一件东西放回合适位置",
+        "description": "今天只完成这一件小事：把共用空间里一件东西放回合适位置。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "把共用空间里一件东西放回合适位置",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“把共用空间里一件东西放回合适位置”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：把共用空间里一件东西放回合适位置",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-refill",
+        "title": "在自己有责任的范围内补充一项共用消耗品",
+        "description": "今天只完成这一件小事：在自己有责任的范围内补充一项共用消耗品。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "在自己有责任的范围内补充一项共用消耗品",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在自己有责任的范围内补充一项共用消耗品”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在自己有责任的范围内补充一项共用消耗品",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-clear-path",
+        "title": "移开自己放在通道上的一个障碍物",
+        "description": "今天只完成这一件小事：移开自己放在通道上的一个障碍物。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "移开自己放在通道上的一个障碍物",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“移开自己放在通道上的一个障碍物”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：移开自己放在通道上的一个障碍物",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-clean-small",
+        "title": "清洁一处自己使用后留下的小区域",
+        "description": "今天只完成这一件小事：清洁一处自己使用后留下的小区域。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "清洁一处自己使用后留下的小区域",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“清洁一处自己使用后留下的小区域”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：清洁一处自己使用后留下的小区域",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-label",
+        "title": "给容易拿错的一件共用物品加清楚文字标签",
+        "description": "今天只完成这一件小事：给容易拿错的一件共用物品加清楚文字标签。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "给容易拿错的一件共用物品加清楚文字标签",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给容易拿错的一件共用物品加清楚文字标签”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给容易拿错的一件共用物品加清楚文字标签",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-return-cart",
+        "title": "如果刚好使用购物车或共享物品，把它归还指定位置",
+        "description": "今天只完成这一件小事：如果刚好使用购物车或共享物品，把它归还指定位置。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "如果刚好使用购物车或共享物品，把它归还指定位置",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“如果刚好使用购物车或共享物品，把它归还指定位置”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area",
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：如果刚好使用购物车或共享物品，把它归还指定位置",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-quiet-setting",
+        "title": "在共用空间检查一次自己的声音或提示音是否过大",
+        "description": "今天只完成这一件小事：在共用空间检查一次自己的声音或提示音是否过大。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "在共用空间检查一次自己的声音或提示音是否过大",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在共用空间检查一次自己的声音或提示音是否过大”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area",
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在共用空间检查一次自己的声音或提示音是否过大",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-information",
+        "title": "把一条对团队有用且确认无误的信息放到约定位置",
+        "description": "今天只完成这一件小事：把一条对团队有用且确认无误的信息放到约定位置。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "把一条对团队有用且确认无误的信息放到约定位置",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“把一条对团队有用且确认无误的信息放到约定位置”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "optional-social"
+        ],
+        "inapplicableConditions": [
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：把一条对团队有用且确认无误的信息放到约定位置",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-thank-worker",
+        "title": "在自然发生服务互动时真诚说一句谢谢，不额外打扰",
+        "description": "今天只完成这一件小事：在自然发生服务互动时真诚说一句谢谢，不额外打扰。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "optional",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "在自然发生服务互动时真诚说一句谢谢，不额外打扰",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在自然发生服务互动时真诚说一句谢谢，不额外打扰”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only",
+          "optional-social"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area",
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在自然发生服务互动时真诚说一句谢谢，不额外打扰",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-kind-leave-better",
+        "title": "离开一个自己使用的地方前，让它比来时整齐一点",
+        "description": "今天只完成这一件小事：离开一个自己使用的地方前，让它比来时整齐一点。不需要留下照片或其他完成证明。",
+        "category": "kind",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "connect",
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "离开一个自己使用的地方前，让它比来时整齐一点",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“离开一个自己使用的地方前，让它比来时整齐一点”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-kind",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area",
+          "shared-space-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：离开一个自己使用的地方前，让它比来时整齐一点",
+        "iconAssetId": "quest-icon-kind",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-one-notification",
+        "title": "关闭一个长期没有价值的非必要通知",
+        "description": "今天只完成这一件小事：关闭一个长期没有价值的非必要通知。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "关闭一个长期没有价值的非必要通知",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“关闭一个长期没有价值的非必要通知”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：关闭一个长期没有价值的非必要通知",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-home-screen",
+        "title": "把一个最常用工具放到更容易找到的位置",
+        "description": "今天只完成这一件小事：把一个最常用工具放到更容易找到的位置。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "把一个最常用工具放到更容易找到的位置",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“把一个最常用工具放到更容易找到的位置”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：把一个最常用工具放到更容易找到的位置",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-delete-five",
+        "title": "删除五张明确无用的截图或重复文件；不批量误删",
+        "description": "今天只完成这一件小事：删除五张明确无用的截图或重复文件；不批量误删。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "删除五张明确无用的截图或重复文件；不批量误删",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“删除五张明确无用的截图或重复文件；不批量误删”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：删除五张明确无用的截图或重复文件；不批量误删",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-name-file",
+        "title": "给一个重要但命名混乱的文件改成可搜索的名称",
+        "description": "今天只完成这一件小事：给一个重要但命名混乱的文件改成可搜索的名称。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "给一个重要但命名混乱的文件改成可搜索的名称",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“给一个重要但命名混乱的文件改成可搜索的名称”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：给一个重要但命名混乱的文件改成可搜索的名称",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-backup-check",
+        "title": "只检查一项重要资料是否已有可用备份，不上传新隐私",
+        "description": "今天只完成这一件小事：只检查一项重要资料是否已有可用备份，不上传新隐私。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "只检查一项重要资料是否已有可用备份，不上传新隐私",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“只检查一项重要资料是否已有可用备份，不上传新隐私”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：只检查一项重要资料是否已有可用备份，不上传新隐私",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-unsubscribe",
+        "title": "取消一个确定不再需要的正规订阅邮件或消息",
+        "description": "今天只完成这一件小事：取消一个确定不再需要的正规订阅邮件或消息。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "取消一个确定不再需要的正规订阅邮件或消息",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“取消一个确定不再需要的正规订阅邮件或消息”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：取消一个确定不再需要的正规订阅邮件或消息",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-tab-five",
+        "title": "关闭或收藏五个已经不需要同时打开的标签页",
+        "description": "今天只完成这一件小事：关闭或收藏五个已经不需要同时打开的标签页。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "关闭或收藏五个已经不需要同时打开的标签页",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“关闭或收藏五个已经不需要同时打开的标签页”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：关闭或收藏五个已经不需要同时打开的标签页",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-password-plan",
+        "title": "列出一个需要更新安全设置的账号；不在任务日志写密码",
+        "description": "今天只完成这一件小事：列出一个需要更新安全设置的账号；不在任务日志写密码。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 5,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "列出一个需要更新安全设置的账号；不在任务日志写密码",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“列出一个需要更新安全设置的账号；不在任务日志写密码”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：列出一个需要更新安全设置的账号；不在任务日志写密码",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-focus-slot",
+        "title": "设一个十分钟勿扰时段，结束后自动恢复",
+        "description": "今天只完成这一件小事：设一个十分钟勿扰时段，结束后自动恢复。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "设一个十分钟勿扰时段，结束后自动恢复",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“设一个十分钟勿扰时段，结束后自动恢复”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：设一个十分钟勿扰时段，结束后自动恢复",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-digital-download-folder",
+        "title": "把下载目录中三个文件归到正确位置",
+        "description": "今天只完成这一件小事：把下载目录中三个文件归到正确位置。不需要留下照片或其他完成证明。",
+        "category": "digital",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "organize"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "把下载目录中三个文件归到正确位置",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“把下载目录中三个文件归到正确位置”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-digital",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [
+          "screen-unavailable"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：把下载目录中三个文件归到正确位置",
+        "iconAssetId": "quest-icon-digital",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-new-turn",
+        "title": "白天在熟悉安全区域选择一个以前没走的小转角",
+        "description": "今天只完成这一件小事：白天在熟悉安全区域选择一个以前没走的小转角。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "familiar-public-area",
+        "environments": [
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "白天在熟悉安全区域选择一个以前没走的小转角",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“白天在熟悉安全区域选择一个以前没走的小转角”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：白天在熟悉安全区域选择一个以前没走的小转角",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-floor",
+        "title": "在允许进入的熟悉建筑里去一个平常很少经过的公共楼层",
+        "description": "今天只完成这一件小事：在允许进入的熟悉建筑里去一个平常很少经过的公共楼层。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "在允许进入的熟悉建筑里去一个平常很少经过的公共楼层",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在允许进入的熟悉建筑里去一个平常很少经过的公共楼层”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在允许进入的熟悉建筑里去一个平常很少经过的公共楼层",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-reverse-route",
+        "title": "用相反顺序走一遍熟悉且安全的室内路线",
+        "description": "今天只完成这一件小事：用相反顺序走一遍熟悉且安全的室内路线。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-indoor",
+        "environments": [
+          "indoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day",
+          "night"
+        ],
+        "steps": [
+          "用相反顺序走一遍熟悉且安全的室内路线",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“用相反顺序走一遍熟悉且安全的室内路线”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor"
+        ],
+        "inapplicableConditions": [],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：用相反顺序走一遍熟悉且安全的室内路线",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-color-hunt",
+        "title": "出门或在室内寻找五个同色但不同用途的物品",
+        "description": "今天只完成这一件小事：出门或在室内寻找五个同色但不同用途的物品。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 15,
+        "energyLevel": 2,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "出门或在室内寻找五个同色但不同用途的物品",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“出门或在室内寻找五个同色但不同用途的物品”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：出门或在室内寻找五个同色但不同用途的物品",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-sign-story",
+        "title": "选一个熟悉区域的旧招牌，想象它见过的一天",
+        "description": "今天只完成这一件小事：选一个熟悉区域的旧招牌，想象它见过的一天。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "选一个熟悉区域的旧招牌，想象它见过的一天",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“选一个熟悉区域的旧招牌，想象它见过的一天”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：选一个熟悉区域的旧招牌，想象它见过的一天",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-door-count",
+        "title": "在安全公共路线数一数十扇不同的门，不进入私人区域",
+        "description": "今天只完成这一件小事：在安全公共路线数一数十扇不同的门，不进入私人区域。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "在安全公共路线数一数十扇不同的门，不进入私人区域",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在安全公共路线数一数十扇不同的门，不进入私人区域”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在安全公共路线数一数十扇不同的门，不进入私人区域",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-bench-pause",
+        "title": "白天在熟悉公开地点找安全座位停留五分钟",
+        "description": "今天只完成这一件小事：白天在熟悉公开地点找安全座位停留五分钟。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-public-area",
+        "environments": [
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "白天在熟悉公开地点找安全座位停留五分钟",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“白天在熟悉公开地点找安全座位停留五分钟”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：白天在熟悉公开地点找安全座位停留五分钟",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-no-headphones",
+        "title": "在熟悉安全的短路线暂时不戴耳机，留意环境声音",
+        "description": "今天只完成这一件小事：在熟悉安全的短路线暂时不戴耳机，留意环境声音。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 10,
+        "energyLevel": 2,
+        "locationCondition": "familiar-public-area",
+        "environments": [
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "light",
+        "xp": 35,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "在熟悉安全的短路线暂时不戴耳机，留意环境声音",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“在熟悉安全的短路线暂时不戴耳机，留意环境声音”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：在熟悉安全的短路线暂时不戴耳机，留意环境声音",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-three-landmarks",
+        "title": "找出熟悉路线上的三个方向标记，想象如何说给朋友听",
+        "description": "今天只完成这一件小事：找出熟悉路线上的三个方向标记，想象如何说给朋友听。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "familiar-public-area",
+        "environments": [
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "找出熟悉路线上的三个方向标记，想象如何说给朋友听",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“找出熟悉路线上的三个方向标记，想象如何说给朋友听”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：找出熟悉路线上的三个方向标记，想象如何说给朋友听",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      },
+      {
+        "questId": "quest-adventure-tiny-souvenir",
+        "title": "从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品",
+        "description": "今天只完成这一件小事：从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品。不需要留下照片或其他完成证明。",
+        "category": "adventure",
+        "timeCost": 10,
+        "energyLevel": 1,
+        "locationCondition": "any-safe-place",
+        "environments": [
+          "indoor",
+          "outdoor"
+        ],
+        "socialLevel": "solo",
+        "costRequired": false,
+        "maxCost": 0,
+        "difficulty": "tiny",
+        "xp": 20,
+        "goalIds": [
+          "explore"
+        ],
+        "times": [
+          "day"
+        ],
+        "steps": [
+          "从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品",
+          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
+        ],
+        "completionMethod": "完成“从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品”所描述的动作即可，无需提交证明。",
+        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+        "cooldownDays": 7,
+        "recentRepeatTag": "category-adventure",
+        "safetyTags": [
+          "no-purchase",
+          "no-photo-required",
+          "no-personal-data",
+          "safe-indoor",
+          "daylight-only",
+          "familiar-area-only",
+          "public-area-only"
+        ],
+        "inapplicableConditions": [
+          "unsafe-weather",
+          "unfamiliar-area"
+        ],
+        "acceptText": "这件事现在做得到，我接下了。",
+        "completionText": "这一小步已经完成，任务结算。",
+        "abandonText": "今天不适合这件事，平安放回任务板。",
+        "shareText": "地球 Online 支线完成：从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品",
+        "iconAssetId": "quest-icon-adventure",
+        "relatedBadgeIds": [
+          "badge-first-quest"
+        ],
+        "approved": true,
+        "contentVersion": "1.0.0"
+      }
+    ],
+    "filters": [
+      {
+        "id": "time",
+        "values": [
+          "5",
+          "10",
+          "15",
+          "20"
+        ]
+      },
+      {
+        "id": "energy",
+        "values": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "id": "environment",
+        "values": [
+          "indoor",
+          "outdoor"
+        ]
+      },
+      {
+        "id": "social",
+        "values": [
+          "none",
+          "optional"
+        ]
+      },
+      {
+        "id": "spend",
+        "values": [
+          "none",
+          "allowed"
+        ]
+      }
+    ],
+    "cooldown": {
+      "recentOfferLimit": 3,
+      "historyLimit": 100
+    },
+    "fallback": {
+      "categoryIds": [
+        "rest",
+        "tidy",
+        "observe"
+      ]
+    },
+    "safetyRules": [
+      {
+        "id": "safe-legal",
+        "description": "不得包含违法、危险、骚扰或私人空间任务。",
+        "neverRelax": true
+      },
+      {
+        "id": "safe-privacy",
+        "description": "不得要求定位、上传或公开个人信息。",
+        "neverRelax": true
+      },
+      {
+        "id": "safe-body",
+        "description": "身体活动只在舒适范围，随时可停止。",
+        "neverRelax": true
+      },
+      {
+        "id": "safe-budget",
+        "description": "首发任务不得要求消费。",
+        "neverRelax": true
+      }
+    ]
+  }
+}

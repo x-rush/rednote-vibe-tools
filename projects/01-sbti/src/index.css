@@ -56,8 +56,8 @@
 }
 
 * { box-sizing: border-box; }
-html { min-width: 320px; min-height: 100%; background: var(--night); }
-body { min-width: 320px; min-height: 100vh; margin: 0; background: var(--night); }
+html { min-width: 320px; min-height: 100%; background: var(--night); touch-action: manipulation; }
+body { min-width: 320px; min-height: 100vh; margin: 0; background: var(--night); -webkit-touch-callout: none; }
 button, input, textarea, select { font: inherit; }
 button, summary, label { -webkit-tap-highlight-color: transparent; }
 button { touch-action: manipulation; }

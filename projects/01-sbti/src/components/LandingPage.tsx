@@ -120,7 +120,7 @@ export function LandingPage(props: Props) {
         </div>
         <div className={`landing-guide${portraitStage === 'css' ? ' landing-guide--fallback' : ''}`}>
           <div className="landing-guide__portrait" aria-hidden="true">
-            {portraitStage !== 'css' && <img src={portraitStage === 'master' ? '/assets/sbti/guide/guide-master-v1.webp' : '/assets/sbti/guide/guide-placeholder-v1.webp'} alt="" width="900" height="1200" decoding="async" onError={() => setPortraitStage((stage) => nextPortraitStage(stage))} />}
+            {portraitStage !== 'css' && <img src={portraitStage === 'master' ? './assets/sbti/guide/guide-master-v1.webp' : './assets/sbti/guide/guide-placeholder-v1.webp'} alt="" width="900" height="1200" decoding="async" onError={() => setPortraitStage((stage) => nextPortraitStage(stage))} />}
             {portraitStage === 'css' && <span className="guide-ink-figure" />}
           </div>
           <GuidePresence name={props.copy.guide.name} role={props.copy.guide.role} line={guideLine} showAvatar={false} onOpen={openGuide} />

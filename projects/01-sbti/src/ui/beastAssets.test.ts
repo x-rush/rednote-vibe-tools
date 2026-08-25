@@ -23,16 +23,16 @@ describe('beast release asset mapping', () => {
   it('maps a result code to its manifest-approved beast and placeholder', () => {
     expect(getBeastAsset('RTLS')).toEqual({
       beastId: 'luwu',
-      src: '/assets/sbti/beasts/luwu/profile-v2-reference-verified.webp',
-      placeholder: '/assets/sbti/beasts/luwu/placeholder-v2.webp',
+      src: './assets/sbti/beasts/luwu/profile-v2-reference-verified.webp',
+      placeholder: './assets/sbti/beasts/luwu/placeholder-v2.webp',
     })
   })
 
   it('uses the derived placeholder for the same beast instead of substituting another profile', () => {
     expect(getBeastAsset('RTLM')).toEqual({
       beastId: 'ershu',
-      src: '/assets/sbti/beasts/ershu/profile-v2-reference-verified.webp',
-      placeholder: '/assets/sbti/beasts/ershu/placeholder-v2.webp',
+      src: './assets/sbti/beasts/ershu/profile-v2-reference-verified.webp',
+      placeholder: './assets/sbti/beasts/ershu/placeholder-v2.webp',
     })
   })
 

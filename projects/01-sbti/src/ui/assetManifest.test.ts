@@ -20,7 +20,7 @@ type ReleaseAsset = {
 const releaseManifest = manifest as { items: ReleaseAsset[] }
 
 function diskPath(src: string) {
-  return resolve(publicRoot, `.${src}`)
+  return resolve(publicRoot, src.replace(/^\.\//, ''))
 }
 
 describe('SBTI release asset manifest', () => {
@@ -36,7 +36,7 @@ describe('SBTI release asset manifest', () => {
 
   it('points every runtime image at an existing file with synchronized byte metadata', () => {
     for (const item of releaseManifest.items) {
-      if (!item.src?.startsWith('/assets/')) continue
+      if (!item.src?.startsWith('./assets/')) continue
       const path = diskPath(item.src)
       expect(existsSync(path), `${item.id}: ${item.src}`).toBe(true)
       expect(statSync(path).size, `${item.id}: byte metadata`).toBe(item.bytes)
@@ -47,7 +47,7 @@ describe('SBTI release asset manifest', () => {
   it('keeps all beast profiles releasable and wired to an existing lightweight fallback', () => {
     for (const profile of profiles) {
       expect(profile.shippingBlocked).toBe(false)
-      expect(profile.fallback).toMatch(/^\/assets\/sbti\/beasts\/.+\/placeholder-v\d+\.webp$/)
+      expect(profile.fallback).toMatch(/^\.\/assets\/sbti\/beasts\/.+\/placeholder-v\d+\.webp$/)
       const fallbackPath = diskPath(profile.fallback!)
       expect(existsSync(fallbackPath), `${profile.id}: ${profile.fallback}`).toBe(true)
       expect(statSync(fallbackPath).size).toBe(profile.fallbackBytes)

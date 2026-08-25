@@ -17,7 +17,7 @@ function PresenceContent({ name, role, line, showAvatar = true }: Pick<GuidePres
       {showAvatar && <span className={`guide-avatar${failed ? ' guide-avatar--fallback' : ''}`} aria-hidden="true">
         {!failed && (
           <img
-            src="/assets/sbti/guide/guide-avatar-v1.webp"
+            src="./assets/sbti/guide/guide-avatar-v1.webp"
             alt=""
             width="160"
             height="160"

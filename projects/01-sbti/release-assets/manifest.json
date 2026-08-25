@@ -11,8 +11,8 @@
       "width": 512,
       "height": 512,
       "maxPortalBytes": 5242880,
-      "source": "public/assets/sbti/beasts/luwu/profile-v2-reference-verified.webp",
-      "treatment": "verified-art deterministic brand composition; no generative redraw"
+      "source": "OpenAI ImageGen built-in; approved 山海入境 prompt",
+      "treatment": "original abstract landscape icon; broad mountain gate, water ripples and cinnabar sun"
     }
   },
   "qaDerivatives": [

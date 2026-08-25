@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-25",
+  "projectId": "02-wuhualu",
+  "portal": {
+    "name": "物华录：文物寻踪",
+    "slogan": "循纹识器，点亮物华图鉴",
+    "icon": {
+      "path": "release-assets/tool-icon-v1.png",
+      "format": "PNG",
+      "width": 512,
+      "height": 512,
+      "maxPortalBytes": 5242880,
+      "source": "public/assets/artifacts/artifact-four-ram-zun/reveal-creative-reconstruction-v1.webp",
+      "treatment": "verified-art deterministic brand composition; no generative redraw"
+    }
+  },
+  "qaDerivatives": [
+    "release-assets/qa-tool-icon-128.png",
+    "release-assets/qa-tool-icon-64.png"
+  ],
+  "runtimeBundle": "物华录-文物寻踪-小工具包-20260825.zip",
+  "runtimeBundleIncludesPortalAssets": false
+}

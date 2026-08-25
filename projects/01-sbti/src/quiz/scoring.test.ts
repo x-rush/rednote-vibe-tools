@@ -23,6 +23,25 @@ function answersForCode(questionIds: string[], code: string) {
   })
 }
 
+function balancedAnswers(questionIds: string[]) {
+  return ['RH', 'TV', 'LE', 'SM'].flatMap((dimension) => {
+    const questions = questionIds
+      .map((id) => content.content.questions.find((item) => item.id === id)!)
+      .filter((item) => item.primaryDimension === dimension)
+
+    for (let mask = 0; mask < 2 ** questions.length; mask += 1) {
+      const picked = questions.map((question, index) => question.options[(mask >> index) & 1]!)
+      const totals = new Map<PoleCode, number>()
+      for (const option of picked) totals.set(option.score.pole, (totals.get(option.score.pole) ?? 0) + option.score.weight)
+      const values = [...totals.values()]
+      if (values.length === 2 && values[0] === values[1]) {
+        return questions.map((question, index) => ({ questionId: question.id, optionId: picked[index]!.id }))
+      }
+    }
+    throw new Error(`No balanced answer path for ${dimension}`)
+  })
+}
+
 describe('seeded question selection', () => {
   it('returns the same balanced 24-question journey for the same seed', () => {
     const first = selectQuestionIds(content, 'seed-alpha')
@@ -78,6 +97,18 @@ describe('quiz scoring', () => {
 
     expect(determineTypeCode(questionIds, answers, content)).toBe('RTLS')
     expect(determineTypeCode(questionIds, structuredClone(answers), content)).toBe('RTLS')
+  })
+
+  it('keeps an exact four-dimension balance explicit while choosing a deterministic main type', () => {
+    const answers = balancedAnswers(questionIds)
+    const first = generateQuizResult(questionIds, answers, content)
+    const second = generateQuizResult(questionIds, structuredClone(answers), content)
+
+    expect(first).toEqual(second)
+    expect(first.summary.dimensions).toHaveLength(4)
+    expect(first.summary.dimensions.every((item) => item.isBalanced)).toBe(true)
+    expect(first.summary.dimensions.every((item) => item.strength === 0 && item.label === '游移')).toBe(true)
+    expect(first.summary.neighborCode).not.toBe(first.code)
   })
 
   it.each([

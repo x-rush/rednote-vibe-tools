@@ -122,9 +122,9 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 .section-heading p, .section-heading h2 { margin: 0; }
 .section-heading p { color: var(--accent); font-size: .72rem; letter-spacing: .12em; }
 .stage-instruction { margin: 0 0 12px; color: var(--muted); font-size: .84rem; line-height: 1.65; }
-.spotlight-stage { position: relative; min-height: 260px; aspect-ratio: 4 / 3; border: 1px solid var(--line-strong); background: #24221e; overflow: hidden; touch-action: pan-y; }
+.spotlight-stage { position: relative; width: 100%; min-width: 0; border: 1px solid var(--line-strong); background: #24221e; overflow: hidden; touch-action: pan-y; }
 .spotlight-stage .artifact-media { height: 100%; margin: 0; border: 0; }
-.spotlight-stage .artifact-media img { height: 100%; aspect-ratio: auto; object-fit: cover; }
+.spotlight-stage .artifact-media img { height: 100%; aspect-ratio: auto; object-fit: contain; }
 .inspection-marker { position: absolute; z-index: 2; display: grid; place-items: center; width: 48px; min-height: 48px; padding: 0; color: #31271a; border: 2px solid #fff5d7; border-radius: 50%; background: #e8c375; box-shadow: 0 3px 0 rgb(23 19 13 / 42%), 0 0 0 6px rgb(232 195 117 / 22%); transform: translate(-50%, -50%); touch-action: manipulation; }
 .inspection-marker span { font: 800 .74rem/1 Georgia, serif; letter-spacing: .04em; }
 .inspection-marker.is-muted { color: #574a35; border-color: #e5d8b9; background: #cbb98f; box-shadow: 0 2px 0 rgb(23 19 13 / 30%), 0 0 0 3px rgb(232 195 117 / 12%); }
@@ -193,7 +193,6 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 .read-button { width: 100%; color: var(--accent); border: 1px solid currentColor; background: transparent; }
 .read-button.done { color: #fff; background: var(--accent); }
 .reading-gate { padding: 16px; color: var(--muted); text-align: center; border: 1px dashed var(--line-strong); }
-.legacy-story > p:not(.section-label) { font: 400 1rem/1.9 "Songti SC", SimSun, serif; }
 
 .memory-card { padding: 24px 0; }
 .memory-prompt { margin: 24px 0; font: 700 1.2rem/1.65 "Songti SC", SimSun, serif; }

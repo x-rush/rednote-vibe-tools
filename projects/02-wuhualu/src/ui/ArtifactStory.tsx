@@ -5,21 +5,10 @@ type ArtifactStoryProps = {
   model: StoryViewModel
   readIds: readonly StorySectionId[]
   onSectionRead: (id: StorySectionId) => void
-  legacyPendingLabel: string
   copy: { eyebrow: string; navLabel: string; sectionPrefix: string; sourcesLabel: string; sourceLevelSuffix: string; readAction: string; readDone: string }
 }
 
-export function ArtifactStory({ model, readIds, onSectionRead, legacyPendingLabel, copy }: ArtifactStoryProps) {
-  if (model.kind === 'legacy') {
-    return (
-      <article className="artifact-story legacy-story" aria-labelledby="story-title">
-        <p className="section-label">{legacyPendingLabel}</p>
-        <h1 id="story-title">{model.title}</h1>
-        {model.facts.map(fact => <p key={fact}>{fact}</p>)}
-        <small>{model.sourceNote}</small>
-      </article>
-    )
-  }
+export function ArtifactStory({ model, readIds, onSectionRead, copy }: ArtifactStoryProps) {
   return (
     <article className="artifact-story" aria-labelledby="story-title">
       <p className="section-label">{copy.eyebrow}</p>

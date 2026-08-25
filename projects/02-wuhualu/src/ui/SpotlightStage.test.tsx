@@ -1,13 +1,13 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import content from '../content/content.json'
-import { hasArtifactExperienceV2 } from '../content/types.ts'
+import { isCompleteArtifact } from '../content/types.ts'
 import { parseContent } from '../content/validate.ts'
 import { SpotlightStage } from './SpotlightStage.tsx'
 
 const parsed = parseContent(content)
 const artifact = parsed.content.artifacts.find(item => item.id === 'artifact-zenghouyi-bells')
-if (!artifact || !hasArtifactExperienceV2(artifact)) throw new Error('missing enhanced artifact fixture')
+if (!artifact || !isCompleteArtifact(artifact)) throw new Error('missing enhanced artifact fixture')
 const goldenArtifact = artifact
 const spots = goldenArtifact.experienceV2.observationSpots
 
@@ -75,6 +75,7 @@ describe('SpotlightStage touch observation', () => {
     expect(markup).toContain('width="1200"')
     expect(markup).toContain('height="800"')
     expect(markup).not.toContain('clue-crop-small-to-large-bells.webp')
+    expect(markup).toContain('aspect-ratio:1200/800')
   })
 
   it('hides the guide action after the guide has already helped', () => {

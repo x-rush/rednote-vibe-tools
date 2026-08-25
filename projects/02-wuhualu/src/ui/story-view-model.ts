@@ -1,10 +1,8 @@
-import type { Artifact, SourceRecord, StorySectionId } from '../content/types.ts'
-import { hasArtifactExperienceV2 } from '../content/types.ts'
+import type { Artifact, CompleteArtifact, SourceRecord, StorySectionId } from '../content/types.ts'
 
 type ResolvedSource = Pick<SourceRecord, 'id' | 'title' | 'url' | 'level'>
 
-export type EnhancedStoryViewModel = {
-  kind: 'enhanced'
+export type StoryViewModel = {
   title: string
   hook: string
   sections: {
@@ -18,32 +16,14 @@ export type EnhancedStoryViewModel = {
   factCheckStatus: 'verified' | 'mixed-with-bounded-context' | 'pending'
 }
 
-export type LegacyStoryViewModel = {
-  kind: 'legacy'
-  title: string
-  facts: string[]
-  sourceNote: string
-}
-
-export type StoryViewModel = EnhancedStoryViewModel | LegacyStoryViewModel
-
 export function buildStoryViewModel(
-  artifact: Artifact,
+  artifact: CompleteArtifact,
   artifacts: readonly Artifact[],
   sources: readonly SourceRecord[],
 ): StoryViewModel {
-  if (!hasArtifactExperienceV2(artifact)) {
-    return {
-      kind: 'legacy',
-      title: artifact.name,
-      facts: [artifact.summary, artifact.highlight, artifact.culturalNote],
-      sourceNote: artifact.sourceNote,
-    }
-  }
   const sourceMap = new Map(sources.map(source => [source.id, source]))
   const artifactMap = new Map(artifacts.map(item => [item.id, item]))
   return {
-    kind: 'enhanced',
     title: artifact.name,
     hook: artifact.experienceV2.storyHook,
     sections: artifact.experienceV2.story.map(section => ({

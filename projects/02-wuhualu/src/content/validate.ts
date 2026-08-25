@@ -9,6 +9,7 @@ const PERIOD_GROUPS = new Set(['prehistoric', 'shang-zhou', 'spring-autumn-warri
 const DIFFICULTIES = new Set(['easy', 'normal', 'hard'])
 const TAGS = new Set(['shape', 'use', 'period', 'material', 'pattern', 'category'])
 const FACT_STATUSES = new Set(['verified-from-provided-source', 'pending-review'])
+const SOURCE_LEVELS = new Set(['A', 'B'])
 const SET_IDS = new Set(['first-fire', 'ritual-bronze', 'chu-sound', 'han-light', 'tang-world'])
 const STORY_IDS = ['first-look', 'making', 'lived-world', 'journey', 'why-now'] as const
 const NARRATIVE_MODES = new Set(['verified-fact', 'bounded-context', 'open-question'])
@@ -51,14 +52,19 @@ export function validateContent(input: unknown): ContentValidationResult {
 
   const sources = Array.isArray(input.sources) ? input.sources : []
   const sourceIds = new Set<string>()
+  const sourceLevels = new Map<string, string>()
   sources.forEach((source, index) => {
     const path = `$.sources[${index}]`
     if (!isRecord(source)) return issue(path, '来源必须是对象')
     if (!nonEmpty(source.id) || !ID_PATTERN.test(source.id)) issue(`${path}.id`, '来源 ID 非法')
     else if (sourceIds.has(source.id)) issue(`${path}.id`, '来源 ID 重复')
-    else sourceIds.add(source.id)
+    else {
+      sourceIds.add(source.id)
+      if (SOURCE_LEVELS.has(String(source.level))) sourceLevels.set(source.id, String(source.level))
+    }
     if (!nonEmpty(source.title)) issue(`${path}.title`, '来源标题不能为空')
     if (!nonEmpty(source.url) || !/^https:\/\//.test(source.url)) issue(`${path}.url`, '来源 URL 必须使用 HTTPS')
+    if (!SOURCE_LEVELS.has(String(source.level))) issue(`${path}.level`, '来源等级必须为 A 或 B')
   })
 
   const categories = Array.isArray(input.content.categories) ? input.content.categories : []
@@ -164,6 +170,10 @@ export function validateContent(input: unknown): ContentValidationResult {
         else section.sourceIds.forEach((id, sourceIndex) => {
           if (!sourceIds.has(String(id))) issue(`${sectionPath}.sourceIds[${sourceIndex}]`, '引用了不存在的来源')
         })
+        if (section.narrativeMode === 'verified-fact' &&
+            (!Array.isArray(section.sourceIds) || !section.sourceIds.some(id => sourceLevels.get(String(id)) === 'A'))) {
+          issue(`${sectionPath}.sourceIds`, 'verified-fact 必须引用至少一个 A 级来源')
+        }
       })
       if (storyTotal > 800 || storyTotal < (hasOpenQuestion ? 360 : 480)) issue(`${experiencePath}.story`, '五段故事总长不符合 480–800 字门禁；含开放问题时最低 360 字')
 
@@ -282,14 +292,14 @@ export function validateContent(input: unknown): ContentValidationResult {
     'bestScoreLabel', 'progressLabel', 'sourceStatusTitle',
     'storageCorruptMessage', 'storageVersionMessage', 'storageInvalidMessage', 'contentMissingMessage',
     'verifiedLabel', 'pendingLabel', 'collectorPerfect', 'collectorHigh', 'collectorMid', 'collectorLow',
-    'guideHomeLine', 'guideLandingImageAlt', 'guideIntroImageAlt', 'guideTaskLine', 'guideLegacyLine', 'guideIntroLine', 'guideHelpBody',
+    'guideHomeLine', 'guideLandingImageAlt', 'guideIntroImageAlt', 'guideTaskLine', 'guideIntroLine', 'guideHelpBody',
     'guideName', 'guideRole', 'guideAskAction', 'guideReturnAction', 'taskBoardLabel',
     'observationEyebrow', 'observationTitle', 'wrongReviewEyebrow', 'wrongReviewTitle',
-    'wrongReviewAction', 'revealStoryAction', 'legacyStoryPending', 'readingGate',
-    'legacyArchiveAction', 'setCompleteEyebrow', 'setCompleteAction', 'lockedDetailEyebrow',
+    'wrongReviewAction', 'revealStoryAction', 'readingGate',
+    'setCompleteEyebrow', 'setCompleteAction', 'lockedDetailEyebrow',
     'lockedDetailBody', 'memoryEyebrow', 'memoryTitle', 'memorySubmitAction', 'memoryCorrect',
     'memoryIncorrect', 'memoryArchiveAction', 'archiveNextAction', 'archiveRelatedTitle',
-    'observationInstruction', 'legacyObservationInstruction', 'observationGuideLabel',
+    'observationInstruction', 'observationGuideLabel',
     'observationGuideFirst', 'observationGuideContinue', 'observationGuideComplete',
     'observationMarkerLabel', 'observationProgressLabel', 'clueBoxLabel', 'clueBoxTitle',
     'clueFirstFree', 'clueOpenPrefix', 'clueStarBand', 'archivePrompt', 'guideEliminated',

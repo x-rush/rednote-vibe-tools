@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import rawContent from '../content/content.json'
 import assetManifest from '../../public/assets/asset-manifest.json'
+import { isCompleteArtifact } from '../content/types.ts'
 import { parseContent } from '../content/validate.ts'
-import { filterPlayableArtifacts, getRuntimeArtifactAssets, playableArtifactIds, selectClueAsset } from './artifact-assets.ts'
+import { filterPlayableArtifacts, findIncompletePlayableArtifactIds, getRuntimeArtifactAssets, playableArtifactIds, selectClueAsset } from './artifact-assets.ts'
 
 describe('release artifact assets', () => {
   const artifacts = parseContent(rawContent).content.artifacts
@@ -14,6 +15,27 @@ describe('release artifact assets', () => {
     expect([...assetManifest.releaseGate.playableStaticArtifactIds].sort()).toEqual([...playableArtifactIds].sort())
     expect(assetManifest.releaseGate.referenceRequiredArtifactIds).not.toContain('artifact-zenghouyi-bells')
     expect(getRuntimeArtifactAssets('artifact-zenghouyi-bells')?.observation).toContain('reveal-wide-creative-reconstruction-v1.webp')
+  })
+
+  it('keeps all locally illustrated artifacts complete and playable', () => {
+    const completeIds = artifacts.filter(isCompleteArtifact).map(({ id }) => id).sort()
+    expect(completeIds).toEqual([...playableArtifactIds].sort())
+  })
+
+  it('uses the full portrait reveal as the observation canvas except for the wide bells composition', () => {
+    for (const id of playableArtifactIds.filter(id => id !== 'artifact-zenghouyi-bells')) {
+      const assets = getRuntimeArtifactAssets(id)
+      expect(assets?.observation, id).toBe(assets?.reveal)
+      expect([assets?.observationWidth, assets?.observationHeight], id).toEqual([900, 1125])
+    }
+  })
+
+  it('reports a locally illustrated artifact whose complete experience is missing', () => {
+    const incomplete = structuredClone(artifacts)
+    const target = incomplete.find(({ id }) => id === playableArtifactIds[0])
+    if (!target) throw new Error('missing playable fixture')
+    delete target.experienceV2
+    expect(findIncompletePlayableArtifactIds(incomplete)).toEqual([target.id])
   })
 
   it.each(playableArtifactIds)('%s has every static role and local URLs', id => {

@@ -1,7 +1,20 @@
 import { describe, expect, it } from 'vitest'
 import content from './content.json'
-import { hasArtifactExperienceV2 } from './types.ts'
+import { isCompleteArtifact } from './types.ts'
 import { parseContent, validateContent } from './validate.ts'
+
+const completeArtifactIds = [
+  'artifact-eagle-tripod',
+  'artifact-face-fish-basin',
+  'artifact-jiahu-flute',
+  'artifact-jade-dragon',
+  'artifact-houmuwu-ding',
+  'artifact-four-ram-zun',
+  'artifact-lotus-crane-hu',
+  'artifact-cloud-bronze-jin',
+  'artifact-zenghouyi-bells',
+  'artifact-zenghouyi-zunpan',
+] as const
 
 describe('production content package', () => {
   it('contains exactly 20 uniquely identified artifacts', () => {
@@ -34,15 +47,31 @@ describe('production content package', () => {
     expect(new Set(parsed.content.artifacts.map(({ timelineOrder }) => timelineOrder)).size).toBe(20)
   })
 
-  it('accepts exactly one complete V2 golden experience without inventing the other nineteen', () => {
+  it('provides a complete experience for all ten locally illustrated artifacts', () => {
     const parsed = parseContent(content)
-    const enhanced = parsed.content.artifacts.filter(hasArtifactExperienceV2)
+    const enhanced = parsed.content.artifacts.filter(isCompleteArtifact)
 
-    expect(enhanced.map(({ id }) => id)).toEqual(['artifact-zenghouyi-bells'])
-    expect(enhanced[0].experienceV2.story).toHaveLength(5)
-    expect(enhanced[0].experienceV2.observationSpots).toHaveLength(3)
-    expect(new Set(enhanced[0].experienceV2.observationSpots.map(({ assetRole }) => assetRole))).toEqual(new Set(['observation']))
-    expect(enhanced[0].experienceV2.clueCards.map(({ label }) => label)).toEqual(['看形', '辨材', '问来历'])
+    expect(enhanced.map(({ id }) => id).sort()).toEqual([...completeArtifactIds].sort())
+    expect(enhanced.flatMap(item => item.experienceV2.observationSpots)).toHaveLength(30)
+    expect(enhanced.flatMap(item => item.experienceV2.story)).toHaveLength(50)
+    expect(enhanced.flatMap(item => item.experienceV2.clueCards)).toHaveLength(30)
+    expect(enhanced.map(item => item.experienceV2.memoryChallenge)).toHaveLength(10)
+  })
+
+  it('gives every complete artifact the same evidence and story structure', () => {
+    const complete = parseContent(content).content.artifacts.filter(isCompleteArtifact)
+
+    for (const artifact of complete) {
+      const experience = artifact.experienceV2
+      expect(experience.story.map(({ id }) => id)).toEqual([
+        'first-look', 'making', 'lived-world', 'journey', 'why-now',
+      ])
+      expect(experience.observationSpots).toHaveLength(3)
+      expect(experience.clueCards.map(({ label }) => label)).toEqual(['看形', '辨材', '问来历'])
+      expect(experience.memoryChallenge.options).toHaveLength(3)
+      expect(experience.relatedArtifacts.length).toBeGreaterThanOrEqual(2)
+      for (const lines of Object.values(experience.guideLines)) expect(lines.length).toBeGreaterThanOrEqual(3)
+    }
   })
 
   it('rejects a partial V2 experience block', () => {
@@ -54,7 +83,8 @@ describe('production content package', () => {
 
   it('rejects duplicate V2 clue-card IDs', () => {
     const broken = structuredClone(content)
-    const enhanced = broken.content.artifacts.find(artifact => artifact.experienceV2)
+    const enhancedIndex = broken.content.artifacts.findIndex(artifact => artifact.experienceV2)
+    const enhanced = broken.content.artifacts[enhancedIndex]
     if (!enhanced?.experienceV2) throw new Error('missing golden experience')
     enhanced.experienceV2.clueCards[1].id = enhanced.experienceV2.clueCards[0].id
     expect(validateContent(broken).issues.some(({ message }) => message === '线索印 ID 重复')).toBe(true)
@@ -81,14 +111,14 @@ describe('production content package', () => {
       'lockedText', 'scoreLabel', 'bestScoreLabel', 'progressLabel', 'sourceStatusTitle',
       'storageCorruptMessage', 'storageVersionMessage', 'storageInvalidMessage', 'contentMissingMessage',
       'verifiedLabel', 'pendingLabel', 'collectorPerfect', 'collectorHigh', 'collectorMid', 'collectorLow',
-      'guideHomeLine', 'guideTaskLine', 'guideLegacyLine', 'guideIntroLine', 'guideHelpBody',
+      'guideHomeLine', 'guideTaskLine', 'guideIntroLine', 'guideHelpBody',
       'guideName', 'guideRole', 'guideAskAction', 'guideReturnAction', 'taskBoardLabel',
       'observationEyebrow', 'observationTitle', 'wrongReviewEyebrow', 'wrongReviewTitle',
-      'wrongReviewAction', 'revealStoryAction', 'legacyStoryPending', 'readingGate',
-      'legacyArchiveAction', 'setCompleteEyebrow', 'setCompleteAction', 'lockedDetailEyebrow',
+      'wrongReviewAction', 'revealStoryAction', 'readingGate',
+      'setCompleteEyebrow', 'setCompleteAction', 'lockedDetailEyebrow',
       'lockedDetailBody', 'memoryEyebrow', 'memoryTitle', 'memorySubmitAction', 'memoryCorrect',
       'memoryIncorrect', 'memoryArchiveAction', 'archiveNextAction', 'archiveRelatedTitle',
-      'observationInstruction', 'legacyObservationInstruction', 'observationGuideLabel',
+      'observationInstruction', 'observationGuideLabel',
       'observationGuideFirst', 'observationGuideContinue', 'observationGuideComplete',
       'observationMarkerLabel', 'observationProgressLabel', 'clueBoxLabel', 'clueBoxTitle',
       'clueFirstFree', 'clueOpenPrefix', 'clueStarBand', 'archivePrompt', 'guideEliminated',
@@ -99,6 +129,10 @@ describe('production content package', () => {
       'guideLandingImageAlt', 'guideIntroImageAlt',
     ] as const
     for (const key of required) expect(content.content.copy[key].trim().length, key).toBeGreaterThan(0)
+    expect(content.content.copy).not.toHaveProperty('guideLegacyLine')
+    expect(content.content.copy).not.toHaveProperty('legacyStoryPending')
+    expect(content.content.copy).not.toHaveProperty('legacyArchiveAction')
+    expect(content.content.copy).not.toHaveProperty('legacyObservationInstruction')
   })
 
   it('describes observation as a touch interaction instead of pointer movement', () => {
@@ -119,13 +153,27 @@ describe('production content package', () => {
 
   it('rejects observation points calibrated against a changing clue image', () => {
     const broken = structuredClone(content)
-    const enhanced = broken.content.artifacts.find(artifact => artifact.experienceV2)
+    const enhancedIndex = broken.content.artifacts.findIndex(artifact => artifact.experienceV2)
+    const enhanced = broken.content.artifacts[enhancedIndex]
     if (!enhanced?.experienceV2) throw new Error('missing golden experience')
     enhanced.experienceV2.observationSpots[0].assetRole = 'clue-1'
 
     expect(validateContent(broken).issues).toContainEqual({
-      path: '$.content.artifacts[8].experienceV2.observationSpots[0].assetRole',
+      path: `$.content.artifacts[${enhancedIndex}].experienceV2.observationSpots[0].assetRole`,
       message: '观察点资源角色非法',
+    })
+  })
+
+  it('rejects a verified story section backed only by a B-level source', () => {
+    const broken = structuredClone(content)
+    const enhancedIndex = broken.content.artifacts.findIndex(artifact => artifact.experienceV2)
+    const enhanced = broken.content.artifacts[enhancedIndex]
+    if (!enhanced?.experienceV2) throw new Error('missing golden experience')
+    enhanced.experienceV2.story[0].sourceIds = ['source-hebeitour-jade-suit']
+
+    expect(validateContent(broken).issues).toContainEqual({
+      path: `$.content.artifacts[${enhancedIndex}].experienceV2.story[0].sourceIds`,
+      message: 'verified-fact 必须引用至少一个 A 级来源',
     })
   })
 })

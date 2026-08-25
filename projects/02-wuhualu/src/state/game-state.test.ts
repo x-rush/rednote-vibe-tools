@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import rawContent from '../content/content.json'
-import { hasArtifactExperienceV2, type StoragePayload } from '../content/types.ts'
+import { isCompleteArtifact, type StoragePayload } from '../content/types.ts'
 import { parseContent } from '../content/validate.ts'
 import { createDefaultStoragePayload } from '../storage/storage.ts'
+import { filterPlayableArtifacts } from '../ui/artifact-assets.ts'
 import { appReducer, createInitialState, type AppState } from './game-state.ts'
 
 const content = parseContent(rawContent)
+const playableArtifacts = filterPlayableArtifacts(content.content.artifacts)
 const NOW = '2026-08-25T00:01:00.000Z'
 
 function startWithSeed(seed: string, payload = createDefaultStoragePayload(content.contentVersion, '2026-08-25T00:00:00.000Z')): AppState {
@@ -13,7 +15,7 @@ function startWithSeed(seed: string, payload = createDefaultStoragePayload(conte
   state = appReducer(state, { type: 'showIntro' })
   state = appReducer(state, { type: 'showModeSelect' })
   return appReducer(state, {
-    type: 'startRound', seed, artifacts: content.content.artifacts,
+    type: 'startRound', seed, artifacts: playableArtifacts,
     candidates: content.content.distractorCandidates, recentArtifactIds: [],
   })
 }
@@ -28,7 +30,7 @@ function startedGoldenState(payload?: StoragePayload): AppState {
 
 function goldenExperience() {
   const artifact = content.content.artifacts.find(({ id }) => id === 'artifact-zenghouyi-bells')
-  if (!artifact || !hasArtifactExperienceV2(artifact)) throw new Error('missing golden artifact')
+  if (!artifact || !isCompleteArtifact(artifact)) throw new Error('missing golden artifact')
   return artifact.experienceV2
 }
 
@@ -119,7 +121,7 @@ describe('application V2 state machine', () => {
     expect(appReducer(state, { type: 'askGuide' })).toBe(state)
 
     state = createInitialState(state.payload)
-    state = appReducer(state, { type: 'resumeRound', artifacts: content.content.artifacts, candidates: content.content.distractorCandidates })
+    state = appReducer(state, { type: 'resumeRound', artifacts: playableArtifacts, candidates: content.content.distractorCandidates })
     expect(state.screen).toBe('answering')
     if (state.screen !== 'answering') throw new Error('expected restored answer')
     expect(state.session.caseProgress?.eliminatedOptionId).toBe(eliminated)
@@ -133,7 +135,7 @@ describe('application V2 state machine', () => {
     const payload = state.payload
 
     state = createInitialState(payload)
-    state = appReducer(state, { type: 'resumeRound', artifacts: content.content.artifacts, candidates: content.content.distractorCandidates })
+    state = appReducer(state, { type: 'resumeRound', artifacts: playableArtifacts, candidates: content.content.distractorCandidates })
     expect(state.screen).toBe('story')
     if (state.screen !== 'story') throw new Error('expected story')
     expect(state.session.caseProgress?.storyReadSections).toEqual([experience.story[0].id])
@@ -157,7 +159,7 @@ describe('application V2 state machine', () => {
       },
     }
     state = createInitialState(payload)
-    state = appReducer(state, { type: 'resumeRound', artifacts: content.content.artifacts, candidates: content.content.distractorCandidates })
+    state = appReducer(state, { type: 'resumeRound', artifacts: playableArtifacts, candidates: content.content.distractorCandidates })
     expect(state.screen).toBe('story')
   })
 

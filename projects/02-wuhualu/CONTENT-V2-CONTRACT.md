@@ -39,28 +39,36 @@ type MemoryChallenge = {
   sourceIds: string[]
 }
 
-type ArtifactV2 = ArtifactV1 & {
+type CompleteArtifact = Artifact & {
+  experienceV2: {
+    storyHook: string
+    story: StorySection[]
+    observationSpots: ObservationSpot[]
+    clueCards: ClueCard[]
+    memoryChallenge: MemoryChallenge
+    relatedArtifacts: { artifactId: string; reason: string }[]
+    guideLines: {
+      beforeObservation: string[]
+      clueOpened: string[]
+      correct: string[]
+      incorrect: string[]
+      archived: string[]
+    }
+    storyFactCheckStatus: 'verified' | 'mixed-with-bounded-context' | 'pending'
+    storyContentVersion: string
+  }
+}
+
+type Artifact = {
   setId: 'first-fire' | 'ritual-bronze' | 'chu-sound' | 'han-light' | 'tang-world'
   timelineOrder: number
-  storyHook: string
-  story: StorySection[]
-  observationSpots: ObservationSpot[]
-  clueCards: ClueCard[]
-  memoryChallenge: MemoryChallenge
-  relatedArtifacts: { artifactId: string; reason: string }[]
-  guideLines: {
-    beforeObservation: string[]
-    clueOpened: string[]
-    correct: string[]
-    incorrect: string[]
-    archived: string[]
-  }
-  storyFactCheckStatus: 'verified' | 'mixed-with-bounded-context' | 'pending'
-  storyContentVersion: string
+  experienceV2?: CompleteArtifact['experienceV2']
 }
 ```
 
 同一观察台上的全部 `observationSpots` 必须使用一张经过统一坐标校准的 `observation` 底图；拆开线索印不得更换这张底图或移动已显示的观察签。
+
+运行时只接收 `CompleteArtifact[]`。本地静态资源清单中的十个 ID 必须恰好等于完整体验 ID；缺少 `experienceV2` 的内容可以留在档案库，但不能进入题局，也不能渲染旧观察或旧故事页面。
 
 ## 内容长度门禁
 
@@ -81,14 +89,18 @@ type ArtifactV2 = ArtifactV1 & {
 5. 生成图永远标为“创意重构”，不能称“复原图”“原貌”或“实拍”。
 6. 文物实际损伤、修复痕迹和视角遮挡不能为好看而擅自补全。
 
-## 存储迁移
+## 存储与失效题局
 
 - 继续使用结构化本地存储，不保存用户图片、Blob、Base64 或音视频。
-- V1 的 `bestStars / unlockedAt` 原样迁移。
-- V2 新增 `observedSpotIds / memoryCompleted / storyReadSections / setSealIds`。
-- 缺失 V2 字段按空集合处理，不能因为升级清空旧图鉴。
+- 只保存 `bestStars / unlockedAt / observedSpotIds / memoryCompleted / storyReadSections / setSealIds` 等结构化状态。
+- 当前题局若引用不再属于十件完整题池的文物 ID，进入可恢复错误页，不尝试重建旧版玩法。
+- 缺失当前版本进度字段时按空集合处理；不为旧内容结构保留页面级兼容分支。
 - 内容版本与存储 schema 分开递增；内容扩写不应触发用户进度重置。
 
-## 首个黄金样例标准
+## 当前十件统一门禁
 
-先以“曾侯乙编钟”制作完整 V2 黄金样例，因为馆方资料同时覆盖器形、数量、悬挂结构、铭文、双音、音域、出土和礼乐意义，足以验证五段故事、扫光观察、记忆回钩与关联文物。黄金样例通过后再批量扩写其余 19 件，避免 20 件同时复制不成熟模板。
+- 恰好 10 件 `CompleteArtifact`。
+- 合计 50 段故事、30 枚观察签、30 枚线索印、10 道三选一离柜一问。
+- 每件五段故事 ID 和顺序固定，每类许照台词至少 3 条，关联文物至少 2 件。
+- 每段 `verified-fact` 至少引用一个 A 级来源。
+- 内容和 UI 中禁止 `guideLegacyLine`、`legacyStoryPending`、`legacyArchiveAction`、`legacyObservationInstruction`。

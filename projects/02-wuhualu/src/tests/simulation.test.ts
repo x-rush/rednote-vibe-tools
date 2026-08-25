@@ -3,15 +3,17 @@ import rawContent from '../content/content.json'
 import { parseContent } from '../content/validate.ts'
 import { createDefaultStoragePayload } from '../storage/storage.ts'
 import { appReducer, createInitialState, type AppState } from '../state/game-state.ts'
+import { filterPlayableArtifacts } from '../ui/artifact-assets.ts'
 
 const content = parseContent(rawContent)
+const playableArtifacts = filterPlayableArtifacts(content.content.artifacts)
 
 function runGame(seed: string, correctPattern: readonly boolean[]): AppState {
   let state = createInitialState(createDefaultStoragePayload(content.contentVersion, '2026-08-24T00:00:00.000Z'))
   state = appReducer(state, { type: 'showIntro' })
   state = appReducer(state, { type: 'showModeSelect' })
   state = appReducer(state, {
-    type: 'startRound', seed, artifacts: content.content.artifacts,
+    type: 'startRound', seed, artifacts: playableArtifacts,
     candidates: content.content.distractorCandidates, recentArtifactIds: [],
   })
   for (let index = 0; index < 5; index += 1) {
@@ -27,12 +29,10 @@ function runGame(seed: string, correctPattern: readonly boolean[]): AppState {
     if (state.screen !== 'reveal') throw new Error(`expected reveal ${index}`)
     state = appReducer(state, { type: 'openStory' })
     if (state.screen !== 'story') throw new Error(`expected story ${index}`)
-    const artifact = content.content.artifacts.find(({ id }) => id === question.artifactId)
+    const artifact = playableArtifacts.find(({ id }) => id === question.artifactId)
     if (!artifact) throw new Error('missing artifact')
-    if (artifact.experienceV2) {
-      for (const section of artifact.experienceV2.story) state = appReducer(state, { type: 'markStorySectionRead', sectionId: section.id })
-      state = appReducer(state, { type: 'answerMemory', optionId: artifact.experienceV2.memoryChallenge.answerId })
-    }
+    for (const section of artifact.experienceV2.story) state = appReducer(state, { type: 'markStorySectionRead', sectionId: section.id })
+    state = appReducer(state, { type: 'answerMemory', optionId: artifact.experienceV2.memoryChallenge.answerId })
     state = appReducer(state, { type: 'archiveArtifact', artifacts: content.content.artifacts, archivedAt: `2026-08-24T00:0${index}:30.000Z` })
     state = state.screen === 'setComplete'
       ? appReducer(state, { type: 'leaveSetComplete' })

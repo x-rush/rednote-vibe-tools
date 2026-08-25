@@ -1,4 +1,4 @@
-import type { Artifact } from '../content/types.ts'
+import { isCompleteArtifact, type Artifact, type CompleteArtifact } from '../content/types.ts'
 
 export type ArtifactAssetNature = '创意重构' | '创意重构（限定视角）' | '创意重构（非数字复原）'
 
@@ -35,13 +35,14 @@ function entry(
   reveal: string,
   clues: readonly string[],
   nature: ArtifactAssetNature = '创意重构',
-  observation: { file: string; width: number; height: number } = { file: clues[0] ?? reveal, width: 720, height: 480 },
+  observation?: { file: string; width: number; height: number },
 ): RuntimeArtifactAssets {
   const root = `artifacts/${id}`
+  const observationAsset = observation ?? { file: reveal, width: 900, height: 1125 }
   return {
-    observation: asset(`${root}/${observation.file}`),
-    observationWidth: observation.width,
-    observationHeight: observation.height,
+    observation: asset(`${root}/${observationAsset.file}`),
+    observationWidth: observationAsset.width,
+    observationHeight: observationAsset.height,
     reveal: asset(`${root}/${reveal}`),
     silhouette: asset(`${root}/silhouette-verified.svg`),
     thumbnail: asset(`${root}/thumb.webp`),
@@ -59,8 +60,14 @@ export function isPlayableArtifactId(id: string): boolean {
   return playableArtifactIdSet.has(id)
 }
 
-export function filterPlayableArtifacts(artifacts: readonly Artifact[]): Artifact[] {
-  return artifacts.filter(({ id }) => isPlayableArtifactId(id))
+export function findIncompletePlayableArtifactIds(artifacts: readonly Artifact[]): string[] {
+  return artifacts
+    .filter(artifact => isPlayableArtifactId(artifact.id) && !isCompleteArtifact(artifact))
+    .map(({ id }) => id)
+}
+
+export function filterPlayableArtifacts(artifacts: readonly Artifact[]): CompleteArtifact[] {
+  return artifacts.filter((artifact): artifact is CompleteArtifact => isPlayableArtifactId(artifact.id) && isCompleteArtifact(artifact))
 }
 
 export function getRuntimeArtifactAssets(id: string): RuntimeArtifactAssets | undefined {

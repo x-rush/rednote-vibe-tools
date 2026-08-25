@@ -117,7 +117,9 @@ export type Artifact = {
   experienceV2?: ArtifactExperienceV2
 }
 
-export function hasArtifactExperienceV2(artifact: Artifact): artifact is Artifact & { experienceV2: ArtifactExperienceV2 } {
+export type CompleteArtifact = Omit<Artifact, 'experienceV2'> & { experienceV2: ArtifactExperienceV2 }
+
+export function isCompleteArtifact(artifact: Artifact): artifact is CompleteArtifact {
   return artifact.experienceV2 !== undefined
 }
 
@@ -205,7 +207,6 @@ export type ContentCopy = {
   guideLandingImageAlt: string
   guideIntroImageAlt: string
   guideTaskLine: string
-  guideLegacyLine: string
   guideIntroLine: string
   guideHelpBody: string
   guideName: string
@@ -219,9 +220,7 @@ export type ContentCopy = {
   wrongReviewTitle: string
   wrongReviewAction: string
   revealStoryAction: string
-  legacyStoryPending: string
   readingGate: string
-  legacyArchiveAction: string
   setCompleteEyebrow: string
   setCompleteAction: string
   lockedDetailEyebrow: string
@@ -235,7 +234,6 @@ export type ContentCopy = {
   archiveNextAction: string
   archiveRelatedTitle: string
   observationInstruction: string
-  legacyObservationInstruction: string
   observationGuideLabel: string
   observationGuideFirst: string
   observationGuideContinue: string

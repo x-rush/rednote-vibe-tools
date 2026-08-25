@@ -1,5 +1,6 @@
 import type {
   Artifact,
+  CompleteArtifact,
   ArtifactLearningProgress,
   ArtifactSetId,
   CasePhase,
@@ -11,14 +12,13 @@ import type {
   StoragePayload,
   StorySectionId,
 } from '../content/types.ts'
-import { hasArtifactExperienceV2 } from '../content/types.ts'
 import { unlockArtifact } from '../game/collection.ts'
 import { getSetProgress, openClueCard } from '../game/experience.ts'
 import { evaluateGuess } from '../game/progress.ts'
 import { createQuizQuestion, isQuizGenerationError, selectRoundArtifacts } from '../game/quiz.ts'
 
 type StoredState = { payload: StoragePayload }
-type QuestionCore = StoredState & { artifacts: Artifact[]; questions: QuizQuestion[]; session: QuizSession }
+type QuestionCore = StoredState & { artifacts: CompleteArtifact[]; questions: QuizQuestion[]; session: QuizSession }
 type ResultCore = QuestionCore & { result: GuessResult }
 
 export type PlayState =
@@ -40,8 +40,8 @@ export type AppState =
 export type AppAction =
   | { type: 'showIntro' }
   | { type: 'showModeSelect' }
-  | { type: 'startRound'; seed: string; artifacts: readonly Artifact[]; candidates: readonly DistractorCandidate[]; recentArtifactIds: readonly string[] }
-  | { type: 'resumeRound'; artifacts: readonly Artifact[]; candidates: readonly DistractorCandidate[] }
+  | { type: 'startRound'; seed: string; artifacts: readonly CompleteArtifact[]; candidates: readonly DistractorCandidate[]; recentArtifactIds: readonly string[] }
+  | { type: 'resumeRound'; artifacts: readonly CompleteArtifact[]; candidates: readonly DistractorCandidate[] }
   | { type: 'discoverSpot'; spotId: string }
   | { type: 'openClue'; clueId: string }
   | { type: 'askGuide' }
@@ -115,7 +115,7 @@ function withCurrentSession(payload: StoragePayload, session: QuizSession): Stor
   return { ...payload, currentSession: session }
 }
 
-function buildQuestions(artifacts: readonly Artifact[], candidates: readonly DistractorCandidate[], seed: string): QuizQuestion[] | string {
+function buildQuestions(artifacts: readonly CompleteArtifact[], candidates: readonly DistractorCandidate[], seed: string): QuizQuestion[] | string {
   const questions: QuizQuestion[] = []
   for (const artifact of artifacts) {
     const result = createQuizQuestion(artifact, candidates, `${seed}-${artifact.id}`)
@@ -128,7 +128,7 @@ function buildQuestions(artifacts: readonly Artifact[], candidates: readonly Dis
 function startRound(
   state: AppState,
   seed: string,
-  artifacts: readonly Artifact[],
+  artifacts: readonly CompleteArtifact[],
   candidates: readonly DistractorCandidate[],
   recentArtifactIds: readonly string[],
 ): AppState {
@@ -160,7 +160,7 @@ function currentQuestion(state: QuestionCore): QuizQuestion {
   return state.questions[state.session.index]
 }
 
-function currentArtifact(state: QuestionCore): Artifact | undefined {
+function currentArtifact(state: QuestionCore): CompleteArtifact | undefined {
   return state.artifacts.find(({ id }) => id === currentQuestion(state).artifactId)
 }
 
@@ -180,7 +180,7 @@ function resultFromSession(question: QuizQuestion, session: QuizSession): GuessR
 
 function restorePlayState(
   payload: StoragePayload,
-  artifacts: Artifact[],
+  artifacts: CompleteArtifact[],
   questions: QuizQuestion[],
   storedSession: QuizSession,
 ): AppState {
@@ -188,14 +188,12 @@ function restorePlayState(
   const question = questions[storedSession.index]
   const artifact = artifacts.find(item => item.id === question?.artifactId)
   if (!question || !artifact) return { screen: 'error', payload: { ...payload, currentSession: null }, message: '旧题局的当前卷宗已经失效。' }
-  const validClueIds = new Set(hasArtifactExperienceV2(artifact)
-    ? artifact.experienceV2.clueCards.map(({ id }) => id)
-    : question.clues.map(({ id }) => id))
-  const validSpotIds = new Set(hasArtifactExperienceV2(artifact) ? artifact.experienceV2.observationSpots.map(({ id }) => id) : [])
-  const validStoryIds = new Set(hasArtifactExperienceV2(artifact) ? artifact.experienceV2.story.map(({ id }) => id) : [])
+  const validClueIds = new Set(artifact.experienceV2.clueCards.map(({ id }) => id))
+  const validSpotIds = new Set(artifact.experienceV2.observationSpots.map(({ id }) => id))
+  const validStoryIds = new Set(artifact.experienceV2.story.map(({ id }) => id))
   const selectedOptionId = question.options.some(({ id }) => id === progress.selectedOptionId) ? progress.selectedOptionId : null
   const eliminatedOptionId = question.options.some(({ id, isCorrect }) => id === progress.eliminatedOptionId && !isCorrect) ? progress.eliminatedOptionId : null
-  const memoryAnswerId = hasArtifactExperienceV2(artifact) && artifact.experienceV2.memoryChallenge.options.some(({ id }) => id === progress.memoryAnswerId)
+  const memoryAnswerId = artifact.experienceV2.memoryChallenge.options.some(({ id }) => id === progress.memoryAnswerId)
     ? progress.memoryAnswerId
     : null
   progress = {
@@ -207,9 +205,9 @@ function restorePlayState(
     eliminatedOptionId,
     memoryAnswerId,
   }
-  const fullStoryRead = hasArtifactExperienceV2(artifact) && progress.storyReadSections.length === artifact.experienceV2.story.length
+  const fullStoryRead = progress.storyReadSections.length === artifact.experienceV2.story.length
   if (progress.phase === 'memory' && (!fullStoryRead || !progress.memoryAnswerId)) progress = { ...progress, phase: 'story' }
-  if ((progress.phase === 'archive' || progress.phase === 'setComplete') && hasArtifactExperienceV2(artifact) && (!fullStoryRead || !progress.memoryAnswerId)) progress = { ...progress, phase: 'story', completedSetId: null }
+  if ((progress.phase === 'archive' || progress.phase === 'setComplete') && (!fullStoryRead || !progress.memoryAnswerId)) progress = { ...progress, phase: 'story', completedSetId: null }
   if (progress.phase === 'setComplete' && (!progress.completedSetId || !payload.setSealIds.includes(progress.completedSetId))) progress = { ...progress, phase: 'archive', completedSetId: null }
   const session = withProgress(storedSession, progress)
   const base: QuestionCore = { payload: withCurrentSession(payload, session), artifacts, questions, session }
@@ -331,7 +329,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'resumeRound': {
       if (state.screen !== 'landing' || !state.payload.currentSession) return state
       const artifactMap = new Map(action.artifacts.map(artifact => [artifact.id, artifact]))
-      const selected = state.payload.currentSession.artifactIds.map(id => artifactMap.get(id)).filter((artifact): artifact is Artifact => Boolean(artifact))
+      const selected = state.payload.currentSession.artifactIds.map(id => artifactMap.get(id)).filter((artifact): artifact is CompleteArtifact => Boolean(artifact))
       if (selected.length !== state.payload.currentSession.artifactIds.length) return { screen: 'error', payload: state.payload, message: '旧题局引用的文物已经失效。' }
       const questions = buildQuestions(selected, action.candidates, state.payload.currentSession.seed)
       return typeof questions === 'string'
@@ -341,7 +339,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'discoverSpot': {
       if (state.screen !== 'observation' && state.screen !== 'clueSelect' && state.screen !== 'answering') return state
       const artifact = currentArtifact(state)
-      if (!artifact || !hasArtifactExperienceV2(artifact) || !artifact.experienceV2.observationSpots.some(({ id }) => id === action.spotId)) return state
+      if (!artifact || !artifact.experienceV2.observationSpots.some(({ id }) => id === action.spotId)) return state
       const progress = normalizeCaseProgress(state.session)
       if (progress.observedSpotIds.includes(action.spotId)) return state
       const session = withProgress(state.session, { ...progress, observedSpotIds: [...progress.observedSpotIds, action.spotId] })
@@ -351,9 +349,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       if (state.screen !== 'observation' && state.screen !== 'clueSelect' && state.screen !== 'answering') return state
       const artifact = currentArtifact(state)
       if (!artifact) return state
-      const validIds = hasArtifactExperienceV2(artifact)
-        ? artifact.experienceV2.clueCards.map(({ id }) => id)
-        : currentQuestion(state).clues.map(({ id }) => id)
+      const validIds = artifact.experienceV2.clueCards.map(({ id }) => id)
       if (!validIds.includes(action.clueId)) return state
       const progress = normalizeCaseProgress(state.session)
       const opened = openClueCard(progress.openedClueIds, action.clueId)
@@ -396,7 +392,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'markStorySectionRead': {
       if (state.screen !== 'story') return state
       const artifact = currentArtifact(state)
-      if (!artifact || !hasArtifactExperienceV2(artifact) || !artifact.experienceV2.story.some(({ id }) => id === action.sectionId)) return state
+      if (!artifact || !artifact.experienceV2.story.some(({ id }) => id === action.sectionId)) return state
       const progress = normalizeCaseProgress(state.session)
       if (progress.storyReadSections.includes(action.sectionId)) return state
       const session = withProgress(state.session, { ...progress, storyReadSections: [...progress.storyReadSections, action.sectionId] })
@@ -405,7 +401,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'answerMemory': {
       if (state.screen !== 'story') return state
       const artifact = currentArtifact(state)
-      if (!artifact || !hasArtifactExperienceV2(artifact)) return state
+      if (!artifact) return state
       const progress = normalizeCaseProgress(state.session)
       if (progress.storyReadSections.length !== artifact.experienceV2.story.length) return state
       if (!artifact.experienceV2.memoryChallenge.options.some(({ id }) => id === action.optionId)) return state
@@ -413,15 +409,11 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, screen: 'memory', session, payload: withCurrentSession(state.payload, session) }
     }
     case 'archiveArtifact': {
-      if (state.screen !== 'story' && state.screen !== 'memory') return state
+      if (state.screen !== 'memory') return state
       const artifact = currentArtifact(state)
       if (!artifact) return state
-      const enhanced = hasArtifactExperienceV2(artifact)
-      if (enhanced && state.screen !== 'memory') return state
       const progress = normalizeCaseProgress(state.session)
-      const artifactProgress = enhanced
-        ? mergeLearningProgress(state.payload.artifactProgress, artifact.id, progress)
-        : state.payload.artifactProgress
+      const artifactProgress = mergeLearningProgress(state.payload.artifactProgress, artifact.id, progress)
       const setProgress = getSetProgress(action.artifacts, state.payload.collection, artifact.setId)
       const completedSetId = setProgress.complete && !state.payload.setSealIds.includes(artifact.setId) ? artifact.setId : null
       const phase: CasePhase = completedSetId ? 'setComplete' : 'archive'

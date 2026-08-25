@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import rawContent from '../content/content.json'
-import { hasArtifactExperienceV2 } from '../content/types.ts'
+import { isCompleteArtifact } from '../content/types.ts'
 import { parseContent } from '../content/validate.ts'
 import { getSetProgress, gradeMemoryChallenge, hitObservationSpot, openClueCard } from './experience.ts'
 
 const content = parseContent(rawContent)
 const goldenArtifact = content.content.artifacts.find(({ id }) => id === 'artifact-zenghouyi-bells')
-if (!goldenArtifact || !hasArtifactExperienceV2(goldenArtifact)) throw new Error('missing golden artifact')
+if (!goldenArtifact || !isCompleteArtifact(goldenArtifact)) throw new Error('missing golden artifact')
 const experience = goldenArtifact.experienceV2
 
 describe('V2 artifact experience rules', () => {

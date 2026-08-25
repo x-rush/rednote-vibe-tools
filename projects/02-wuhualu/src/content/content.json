@@ -11,13 +11,17 @@
     { "id": "source-chnmuseum-eagle-tripod", "title": "中国国家博物馆：鹰形陶鼎馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247248.shtml", "level": "A", "note": "规划提供的独立馆藏页。" },
     { "id": "source-chnmuseum-face-fish-basin", "title": "中国国家博物馆：人面鱼纹彩陶盆馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247218.shtml", "level": "A", "note": "图像含义仍须保留争议限定。" },
     { "id": "source-henan-jiahu-flute", "title": "河南博物院：贾湖骨笛馆藏页", "url": "https://www.chnmus.net/ch/collection/treasure/details.html?id=508164979145447651", "level": "A", "note": "避免无条件使用世界最早等绝对表述。" },
-    { "id": "source-chnmuseum-catalog", "title": "中国国家博物馆馆藏总目", "url": "https://www.chnmuseum.cn/", "level": "A", "note": "玉龙独立馆藏页仍待定位。" },
+    { "id": "source-chnmuseum-catalog", "title": "中国国家博物馆馆藏总目", "url": "https://www.chnmuseum.cn/", "level": "A", "note": "用于核对馆藏归属，不单独支撑细节表述。" },
+    { "id": "source-chnmuseum-jade-dragon", "title": "中国国家博物馆：红山文化玉龙馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202107/t20210722_250793.shtml", "level": "A", "note": "记录年代、高度、1971 年出土地点、器形与龙原型解释边界。" },
     { "id": "source-chnmuseum-houmuwu", "title": "中国国家博物馆：后母戊青铜方鼎馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247255.shtml", "level": "A", "note": "规划提供的独立馆藏页。" },
     { "id": "source-chnmuseum-four-ram", "title": "中国国家博物馆：四羊方尊介绍", "url": "https://www.chnmuseum.cn/Portals/0/web/zt/100n/guobao_content-8.html?id=30", "level": "A", "note": "规划提供的馆方专题页。" },
     { "id": "source-henan-lotus-crane", "title": "河南博物院：莲鹤方壶馆藏页", "url": "https://www.chnmus.net/ch/collection/treasure/details.html?id=508162565626657246", "level": "A", "note": "成对藏品关系不得作为普通错误答案。" },
-    { "id": "source-henan-catalog", "title": "河南博物院馆藏总目", "url": "https://www.chnmus.net/", "level": "A", "note": "云纹铜禁独立详情页及失蜡法表述待核。" },
+    { "id": "source-henan-lotus-crane-history", "title": "河南博物院：莲鹤方壶出土百年专题", "url": "https://www.chnmus.net/ch/information/media/details.html?id=7135442555423952896", "level": "A", "note": "记录 1923 年发现、成对出土、战时南迁与分藏历史。" },
+    { "id": "source-henan-catalog", "title": "河南博物院馆藏总目", "url": "https://www.chnmus.net/", "level": "A", "note": "用于核对馆藏归属，不单独支撑细节表述。" },
+    { "id": "source-henan-cloud-bronze-jin", "title": "河南博物院：云纹铜禁馆藏页", "url": "https://www.chnmus.net/ch/collection/treasure/details.html?id=508168229516397923", "level": "A", "note": "记录器形、用途、附兽、出土情况、失蜡法与修复过程。" },
     { "id": "source-hubei-bells", "title": "湖北省博物馆：曾侯乙编钟馆藏页", "url": "https://m-www.hbww.org.cn/p/4695.html", "level": "A", "note": "规划提供的独立馆藏页。" },
     { "id": "source-hubei-zunpan", "title": "湖北省博物馆：曾侯乙尊盘馆藏页", "url": "https://www.hbww.org.cn/zgzb/p/6911.html", "level": "A", "note": "规划提供的独立馆藏页。" },
+    { "id": "source-hubei-zunpan-digital", "title": "湖北省文化和旅游厅：曾侯乙尊盘三维数字化复原成果", "url": "https://wlt.hubei.gov.cn/bmdt/xydt/202406/t20240609_5232253.shtml", "level": "A", "note": "用于核对工业 CT 揭示内部结构与复合工艺的研究成果。" },
     { "id": "source-hubei-goujian", "title": "湖北省博物馆：越王勾践剑馆藏页", "url": "https://hbww.org.cn/zgzb/p/4694.html", "level": "A", "note": "不使用神秘配方的单因果解释。" },
     { "id": "source-palace-changxin", "title": "故宫博物院何以中国展：长信宫灯", "url": "https://ggzl.dpm.org.cn/pages/exhibit_works/details?id=10933", "level": "A", "note": "页面记录河北博物院藏品。" },
     { "id": "source-hebeitour-jade-suit", "title": "河北旅游：刘胜金缕玉衣", "url": "https://m.hebeitour.com.cn/c/2022-03-09/512247.html", "level": "B", "note": "标注来源河北博物院，正式包仍需补独立馆藏页。" },
@@ -55,49 +59,318 @@
         "id": "artifact-eagle-tripod", "name": "鹰形陶鼎", "setId": "first-fire", "timelineOrder": 1, "aliases": [], "period": "新石器时代仰韶文化", "periodGroup": "prehistoric", "categoryIds": ["category-prehistoric-pottery", "category-sculpture"], "material": "陶", "use": "鼎形器皿", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
         "summary": "一件把猛禽雕塑与三足器皿结合在一起的陶器。", "highlight": "两腿和尾部构成三个稳定支点，器口设在背部。", "culturalNote": "它让动物造型与器物功能成为同一个完整结构。",
         "clues": [{ "id": "clue-eagle-tripod-1", "level": 1, "text": "我像一只站立的猛禽，却同时是一件器皿。" }, { "id": "clue-eagle-tripod-2", "level": 2, "text": "两腿和尾部形成三个稳定支点。" }, { "id": "clue-eagle-tripod-3", "level": 3, "text": "器口藏在背部与双翼之间。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "猛禽稳稳落地，也落入你的物华录。", "wrongAnswerExplanation": "容易与鸟形器物混淆；关键是鹰身同时构成三足鼎。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依规划提供的中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-eagle-tripod"], "assetRefs": { "fullAssetId": "asset-full-eagle-tripod", "detailAssetIds": ["asset-detail-eagle-tripod-1"], "fallbackAssetId": "asset-silhouette-eagle-tripod", "thumbnailAssetId": "asset-thumb-eagle-tripod" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "猛禽稳稳落地，也落入你的物华录。", "wrongAnswerExplanation": "容易与鸟形器物混淆；关键是鹰身同时构成三足鼎。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依规划提供的中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-eagle-tripod"], "assetRefs": { "fullAssetId": "asset-full-eagle-tripod", "detailAssetIds": ["asset-detail-eagle-tripod-1"], "fallbackAssetId": "asset-silhouette-eagle-tripod", "thumbnailAssetId": "asset-thumb-eagle-tripod" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "它把一只昂首的鹰和一件能稳稳站立的陶鼎烧成了同一个身体。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：鹰为什么站得这样稳", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-eagle-tripod"], "body": "先看轮廓：短喙向下弯，双眼圆睁，宽厚胸腹像一只收翼站立的鹰。它没有另外接上常见鼎足，而是让两条粗腿与向下延伸的尾部共同成为三个支点。背部双翼之间开出器口，动物雕塑与容器结构没有彼此遮掩，而是从同一团陶土里长成。" },
+            { "id": "making", "title": "陶土怎样同时成为鹰与鼎", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-eagle-tripod"], "body": "这件器物属于新石器时代仰韶文化，通体由陶土塑成。制作者既要把鹰首、胸腹和腿部塑出有力体量，也要保证背部开口、腹内空间与三点支撑能够共同工作。器表不靠繁密彩绘夺目，主要用整体造型表达力量；烧成之后，雕塑感和器皿功能便固定在同一个结构里。" },
+            { "id": "lived-world", "title": "它究竟装过什么", "narrativeMode": "open-question", "sourceIds": ["source-chnmuseum-eagle-tripod"], "body": "鼎形器皿通常让人想到容纳、加热或礼仪活动，但仅凭今天看到的外形，不能断言这件鹰形陶器曾装过哪一种食物，也不能替无名制作者补写具体仪式。可以确定的是，背部开口使腹腔具有容器属性，三点落地又让它能够稳定陈放；它不只是供人远看的动物塑像。" },
+            { "id": "journey", "title": "从仰韶遗存进入国家收藏", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-eagle-tripod"], "body": "馆方将它定为新石器时代仰韶文化器物，现藏中国国家博物馆。今天的名称把最醒目的两层身份并列起来：“鹰形”说明造型，“陶鼎”说明材料与器类。这样的命名也提醒观众，不要只凭第一眼把它归入鸟形雕塑；器口和支点同样是理解它的关键档案。" },
+            { "id": "why-now", "title": "为什么今天还要细看它", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-eagle-tripod"], "body": "仰韶文化常因彩陶图案而被认识，这件器物却把注意力拉回立体造型。鹰腿与尾羽既保持动物特征，又承担鼎足作用；背部轮廓既像收拢的双翼，又围出开口。它让我们具体看见，早期陶器制作并非只有在器表画纹样，也能用结构把自然形象与实用功能组织在一起。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-eagle-beak", "x": 0.25, "y": 0.35, "radius": 0.1, "label": "下弯鹰喙", "note": "短喙向下收拢，圆眼与宽胸让整件器物保持猛禽的正面特征。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-eagle-opening", "x": 0.76, "y": 0.31, "radius": 0.1, "label": "背部鼎口", "note": "双翼之间不是封闭背脊，而是通向腹腔的器口，说明它同时是一件容器。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-eagle-legs", "x": 0.53, "y": 0.72, "radius": 0.1, "label": "三点承托", "note": "两条粗腿与身后的尾部共同落地，把鹰的身体转换成稳定的三足结构。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-eagle-shape", "category": "shape", "label": "看形", "text": "猛禽的头、胸和双腿连成整体，背后尾部与两腿构成三个支点。", "npcHint": "别只看它像什么动物，数一数真正落地的支点。", "starCost": 1 },
+            { "id": "clue-eagle-material", "category": "material", "label": "辨材", "text": "通体由陶土塑成，表面不靠彩绘，力量感主要来自厚实的立体造型。", "npcHint": "器表很安静，材料和体量反而更容易被看清。", "starCost": 1 },
+            { "id": "clue-eagle-provenance", "category": "provenance", "label": "问来历", "text": "它属于新石器时代仰韶文化，现藏中国国家博物馆。", "npcHint": "把时代放回陶器史里，再判断它为何不是普通鸟塑。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "这件器物为什么既像鹰又能被归入鼎形器皿？", "options": [{ "id": "memory-eagle-a", "label": "鹰身内部有容纳空间，双腿与尾部构成三足" }, { "id": "memory-eagle-b", "label": "器表画有三只鹰，所以称为三足鼎" }, { "id": "memory-eagle-c", "label": "后来收藏者在鸟塑背部凿出了开口" }], "answerId": "memory-eagle-a", "explanation": "器口、腹腔和三点支撑都属于原有整体结构。它不是给普通鼎加鹰纹，也不是后期开孔的鸟塑，而是把动物造型与器皿功能同时塑成。", "sourceIds": ["source-chnmuseum-eagle-tripod"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-face-fish-basin", "reason": "两者都属于仰韶文化陶器，却分别用立体造型和彩绘图案组织形象。" }, { "artifactId": "artifact-four-ram-zun", "reason": "两者都让动物形象参与器物结构，可比较陶塑与青铜铸造的不同办法。" }],
+          "guideLines": {
+            "beforeObservation": ["先别急着叫出它的名字，看看动物身体怎样承担器皿结构。", "第一眼像鹰没有错，再找一找器口究竟藏在哪里。", "从喙、开口和落地点开始，三处证据会连成完整器形。"],
+            "clueOpened": ["这枚印说的是结构，回到图上找它对应的部位。", "材料线索不会直接报答案，但能排除真正的青铜鸟形器。", "来历只能缩小范围，最后仍要让器口和三足互相证明。"],
+            "correct": ["你认出的不是一只陶鹰，而是一只真正承担鼎结构的鹰。", "器口和三个支点彼此对上，这枚档案印落得稳。", "先看结构再认名称，这件早期陶器就不会只剩一个外号。"],
+            "incorrect": ["你看见了动物轮廓，却漏掉背部开口与三点承托。", "回到两条腿和尾部，答案藏在它如何站立。", "别被鸟形器的相似外观带走，先确认它是不是一件鼎形容器。"],
+            "archived": ["鹰已经落进泥火初声这一格，器形证据也一并收好。", "这份档案提醒我们，立体造型同样是史前陶艺的重要语言。", "收柜前再记一次：两腿加尾部，动物形象因此成为器物结构。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-face-fish-basin", "name": "人面鱼纹彩陶盆", "setId": "first-fire", "timelineOrder": 2, "aliases": [], "period": "新石器时代前期仰韶文化", "periodGroup": "prehistoric", "categoryIds": ["category-prehistoric-pottery"], "material": "彩陶", "use": "陶盆，具体用途与图像含义存在不同解释", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
         "summary": "盆内壁绘有彼此对称的人面与鱼纹组合。", "highlight": "圆形人面两侧与鱼纹衔接，图案位于器物内部。", "culturalNote": "图像含义存在多种观点，不能把单一宗教解释写成定论。",
         "clues": [{ "id": "clue-face-fish-basin-1", "level": 1, "text": "我的图案在器物内部，不只在外壁。" }, { "id": "clue-face-fish-basin-2", "level": 2, "text": "圆形人面两侧与鱼纹重合。" }, { "id": "clue-face-fish-basin-3", "level": 3, "text": "两组人面鱼纹对称绘于盆内壁。" }],
-        "difficulty": "normal", "distractorTags": ["pattern", "material", "period", "category"], "unlockCopy": "盆中的人鱼纹样已经收入图鉴。", "wrongAnswerExplanation": "同为彩陶纹样时容易混淆；这里的识别点是盆内对称的人面鱼纹。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "用途和图像意义保留争议，不作唯一解释。", "sourceIds": ["source-chnmuseum-face-fish-basin"], "assetRefs": { "fullAssetId": "asset-full-face-fish-basin", "detailAssetIds": ["asset-detail-face-fish-basin-1"], "fallbackAssetId": "asset-silhouette-face-fish-basin", "thumbnailAssetId": "asset-thumb-face-fish-basin" }, "contentVersion": "1.0.0"
+        "difficulty": "normal", "distractorTags": ["pattern", "material", "period", "category"], "unlockCopy": "盆中的人鱼纹样已经收入图鉴。", "wrongAnswerExplanation": "同为彩陶纹样时容易混淆；这里的识别点是盆内对称的人面鱼纹。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "用途和图像意义保留争议，不作唯一解释。", "sourceIds": ["source-chnmuseum-face-fish-basin"], "assetRefs": { "fullAssetId": "asset-full-face-fish-basin", "detailAssetIds": ["asset-detail-face-fish-basin-1"], "fallbackAssetId": "asset-silhouette-face-fish-basin", "thumbnailAssetId": "asset-thumb-face-fish-basin" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一只陶盆把人面与鱼纹画在内壁，让观看者必须俯身才能读到图像。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：图案为什么藏在盆里", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-face-fish-basin"], "body": "这是一件敞口陶盆，最醒目的黑彩并不铺在外壁，而是画在内壁。圆形人面居于构图中心，头顶带有尖角状装饰，耳侧或口部与鱼形相接；两组图像彼此呼应。盆沿、内腹和中心纹样共同规定了观看方式：人必须从上方向内看，才能读清人面与鱼的组合。" },
+            { "id": "making", "title": "红陶、黑彩与对称布局", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-face-fish-basin"], "body": "器物属于新石器时代仰韶文化，陶胎烧成后呈红褐色，内壁以黑彩组织人物和鱼形。制作者没有追求写实肖像，而是用圆、三角、短线和弧线概括五官与鱼身。对称关系让有限的盆内空间形成秩序，修补痕迹与表面磨损则提醒我们，今天看到的是经历埋藏和保护后的文物。" },
+            { "id": "lived-world", "title": "人面与鱼究竟是什么意思", "narrativeMode": "open-question", "sourceIds": ["source-chnmuseum-face-fish-basin"], "body": "关于人面鱼纹的含义，研究中存在图腾、巫术、葬俗或生活观察等不同解释。现有图像能证明人面与鱼被有意组合，却不能单凭一个纹样确定某种宗教故事，更不能把画中人物命名。与其追求唯一谜底，不如先分清可见事实、考古情境和后来的解释，这是阅读史前图像更可靠的方法。" },
+            { "id": "journey", "title": "从半坡遗址到博物馆展柜", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-face-fish-basin"], "body": "馆方记录这类人面鱼纹彩陶盆与西安半坡遗址的仰韶文化遗存相连，现藏中国国家博物馆。出土之后，器物从原有埋藏环境进入考古记录、修复和公共展示；裂缝与拼合线没有被抹去。它们既帮助恢复器形，也保留了文物经历地下埋藏和现代保护的可见痕迹。" },
+            { "id": "why-now", "title": "今天为什么不急着解谜", "narrativeMode": "bounded-context", "sourceIds": ["source-chnmuseum-face-fish-basin"], "body": "这件彩陶常因神秘图案被快速讲成一个完整故事，但真正值得练习的是证据分层：我们能描述盆内位置、对称关系和人鱼组合，也能说明它属于仰韶文化；至于图像的确切意义，则应保留多种可能。承认未知不会削弱文物魅力，反而让每一种解释都必须回到器物本身。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-basin-rim", "x": 0.5, "y": 0.33, "radius": 0.1, "label": "敞口深腹", "note": "宽阔盆口把视线引向内壁，说明主要图像原本就需要从上方观看。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-basin-face", "x": 0.61, "y": 0.54, "radius": 0.1, "label": "圆形人面", "note": "圆形轮廓内以短线概括五官，两侧尖角状结构与鱼形共同进入构图。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-basin-fish", "x": 0.31, "y": 0.56, "radius": 0.1, "label": "两侧鱼纹", "note": "鱼身用三角与网格化线条概括，并与中心人面形成对称呼应。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-basin-shape", "category": "shape", "label": "看形", "text": "敞口陶盆的关键图案位于内壁，必须从上方向器内观看。", "npcHint": "先看图案在哪里，再看它画了什么。", "starCost": 1 },
+            { "id": "clue-basin-material", "category": "material", "label": "辨材", "text": "红褐陶胎上以黑彩绘出圆形人面、三角和网格化鱼纹。", "npcHint": "彩绘位置与陶胎颜色，是排除其他彩陶盆的重要证据。", "starCost": 1 },
+            { "id": "clue-basin-provenance", "category": "provenance", "label": "问来历", "text": "它属于仰韶文化半坡类型，图像含义至今仍有多种解释。", "npcHint": "来历能确定文化背景，却不能替争议给出唯一答案。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "面对盆内的人面与鱼纹，哪种说法最符合资料边界？", "options": [{ "id": "memory-basin-a", "label": "图像组合可见，但确切含义仍存在不同解释" }, { "id": "memory-basin-b", "label": "它已经被证实记录了一位具体巫师的姓名" }, { "id": "memory-basin-c", "label": "鱼纹只是现代修复人员补画的装饰" }], "answerId": "memory-basin-a", "explanation": "人面、鱼纹、内壁位置和对称构图都是可观察事实；把它们解释成哪一种信仰或仪式仍有争议，不能把单一观点写成已经证实的故事。", "sourceIds": ["source-chnmuseum-face-fish-basin"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-eagle-tripod", "reason": "两者同属仰韶文化陶器，可比较立体动物塑造与内壁彩绘两种表达。" }, { "artifactId": "artifact-jiahu-flute", "reason": "两者都来自史前社会，却分别保存图像信息与可发声结构。" }],
+          "guideLines": {
+            "beforeObservation": ["图案不在最显眼的外壁，先顺着盆沿往器内看。", "先描述圆形、三角和鱼身，再讨论它们可能意味着什么。", "这件最容易被故事带跑，今天我们先把可见证据钉牢。"],
+            "clueOpened": ["位置是一条线索：内壁图案决定了观看方向。", "黑彩只告诉你制作方式，不会替图像争议作结论。", "知道它来自仰韶文化之后，仍要给未知留出位置。"],
+            "correct": ["你用内壁的人面鱼纹完成辨认，也守住了解释边界。", "这枚档案印落在证据上，没有落在未经证明的故事上。", "对称构图、彩陶材料与文化背景已经互相印证。"],
+            "incorrect": ["别只凭“鱼”字选答案，先确认人面和图案位置。", "相似彩陶很多，内壁对称的人面鱼纹才是组合锚点。", "回到盆沿往里看，答案不在外壁，也不在单一猜测里。"],
+            "archived": ["这只陶盆已经入格，未知部分也被如实写进档案。", "你收下的不只是图案，还有区分事实与解释的方法。", "泥火初声又亮一格；下一件也先从能看见的结构开始。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-jiahu-flute", "name": "贾湖骨笛", "setId": "first-fire", "timelineOrder": 3, "aliases": [], "period": "新石器时代贾湖遗址", "periodGroup": "prehistoric", "categoryIds": ["category-music"], "material": "禽鸟骨", "use": "可吹奏乐器", "dimensions": null, "excavation": "贾湖遗址", "museum": "河南博物院",
         "summary": "以禽鸟中空尺骨制成的早期可吹奏乐器。", "highlight": "细长骨管上排列经过计算的音孔。", "culturalNote": "同遗址出土同类器物存在不同时期和孔数，表述避免无条件称世界最早。",
         "clues": [{ "id": "clue-jiahu-flute-1", "level": 1, "text": "我细长中空，原料不是竹。" }, { "id": "clue-jiahu-flute-2", "level": 2, "text": "身上排列着经过计算的音孔。" }, { "id": "clue-jiahu-flute-3", "level": 3, "text": "同遗址出土了一批不同时期、不同孔数的同类器物。" }],
-        "difficulty": "normal", "distractorTags": ["use", "material", "shape", "period"], "unlockCopy": "来自远古的骨管声已收入物华录。", "wrongAnswerExplanation": "细长骨器容易与骨哨、骨针混淆；成列音孔说明它是可吹奏乐器。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "按馆藏页转写，最早类称号保持克制。", "sourceIds": ["source-henan-jiahu-flute"], "assetRefs": { "fullAssetId": "asset-full-jiahu-flute", "detailAssetIds": ["asset-detail-jiahu-flute-1"], "fallbackAssetId": "asset-silhouette-jiahu-flute", "thumbnailAssetId": "asset-thumb-jiahu-flute" }, "contentVersion": "1.0.0"
+        "difficulty": "normal", "distractorTags": ["use", "material", "shape", "period"], "unlockCopy": "来自远古的骨管声已收入物华录。", "wrongAnswerExplanation": "细长骨器容易与骨哨、骨针混淆；成列音孔说明它是可吹奏乐器。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "按馆藏页转写，最早类称号保持克制。", "sourceIds": ["source-henan-jiahu-flute"], "assetRefs": { "fullAssetId": "asset-full-jiahu-flute", "detailAssetIds": ["asset-detail-jiahu-flute-1"], "fallbackAssetId": "asset-silhouette-jiahu-flute", "thumbnailAssetId": "asset-thumb-jiahu-flute" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一截禽鸟尺骨上的成列音孔，把八千多年前的计算重新变成可以讨论的声音。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：一根骨管上的七孔秩序", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-jiahu-flute"], "body": "它的外形十分克制：一根细长、微弯的骨管，两端截去关节，管身排列圆形音孔。河南博物院馆藏这支长二十三点六厘米，出土于舞阳贾湖遗址 M282 号墓。若只看材料，它容易被误认作一般骨器；真正改变判断的是贯通内腔与经过安排的成列孔位。" },
+            { "id": "making", "title": "从禽鸟尺骨到可吹奏乐器", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-jiahu-flute"], "body": "制作者选取鹤类禽鸟中空的尺骨，锯去两端关节，再在骨管上钻出音孔。馆方资料提到骨管上留下的等分符号，说明长度、管径和孔距并非随手决定。骨质有天然弯曲和厚薄差异，制孔还要避免让管壁开裂；材料选择、测量和钻磨共同把一段骨头变成能够控制音高的器物。" },
+            { "id": "lived-world", "title": "我们怎样知道它真的能发声", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-jiahu-flute"], "body": "贾湖遗址出土了多支不同时期、不同孔数的骨笛，部分器物经过测音与试奏研究。馆方据此将它们认定为具有音乐性能的吹管乐器，而不是只凭外形作出判断。今天不能恢复某一场史前演奏的曲目和听众，却可以从孔位、音高测试和同类器物序列讨论早期人群如何制造并组织声音。" },
+            { "id": "journey", "title": "从贾湖墓葬到现代测音", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-jiahu-flute"], "body": "这支骨笛于一九八七年出土于河南舞阳贾湖遗址 M282 号墓，现藏河南博物院。离开墓葬后，它不仅被清理、保护和陈列，还进入音乐考古研究：研究者记录尺寸、孔数和材料，并以测音讨论其音阶能力。文物由此同时成为考古遗物、可观察的制作成果和早期音乐史的实物证据。" },
+            { "id": "why-now", "title": "为什么不只记住“最早”", "narrativeMode": "bounded-context", "sourceIds": ["source-henan-jiahu-flute"], "body": "“最早”一类称号很醒目，却容易遮住真正重要的证据。贾湖出土的是一批跨越不同时段、孔数有别的骨笛，它们让人看到制作方法和声音组织可以被长期观察。与其只背一个纪录，不如记住中空尺骨、成列音孔、等分痕迹和测音结果如何互相支持：早期音乐不是抽象想象，而有具体器物可以检验。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-flute-mouth", "x": 0.14, "y": 0.66, "radius": 0.1, "label": "骨管端口", "note": "截去关节后的端口露出中空内腔，这是它能够形成气柱的材料基础。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-flute-holes", "x": 0.55, "y": 0.5, "radius": 0.1, "label": "成列音孔", "note": "圆孔沿管身依次排列，孔距和位置共同参与改变吹奏时的有效管长。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-flute-surface", "x": 0.76, "y": 0.38, "radius": 0.1, "label": "骨质表面", "note": "表面保留天然骨质纹理与加工痕迹，说明原料不是竹管或金属铸件。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-flute-shape", "category": "shape", "label": "看形", "text": "细长中空管身排列多个圆形音孔，整体保持禽鸟长骨的轻微弯曲。", "npcHint": "一根骨针不会需要这样连续而有秩序的孔位。", "starCost": 1 },
+            { "id": "clue-flute-material", "category": "material", "label": "辨材", "text": "原料是鹤类禽鸟中空尺骨，两端关节被锯去后再钻磨制孔。", "npcHint": "先确认骨管天然中空，再理解为什么它适合成为吹管。", "starCost": 1 },
+            { "id": "clue-flute-provenance", "category": "provenance", "label": "问来历", "text": "一九八七年出土于河南舞阳贾湖遗址，同址发现多支同类器物。", "npcHint": "不要只背年代，成组发现才让制作序列更清楚。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "哪些证据共同支持它是一件可吹奏乐器？", "options": [{ "id": "memory-flute-a", "label": "中空骨管、成列音孔以及测音与试奏研究" }, { "id": "memory-flute-b", "label": "表面没有彩绘，所以一定用来演奏" }, { "id": "memory-flute-c", "label": "任何史前骨器都能吹奏完整乐曲" }], "answerId": "memory-flute-a", "explanation": "材料提供中空气柱，孔位用于改变有效管长，测音与试奏又验证音乐性能；三类证据相互支持，比单凭外形或醒目称号更可靠。", "sourceIds": ["source-henan-jiahu-flute"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-zenghouyi-bells", "reason": "两者都是可发声文物，可比较骨管孔位与青铜钟体如何组织音高。" }, { "artifactId": "artifact-face-fish-basin", "reason": "同属史前遗存，一个保存可发声结构，一个保存彩绘图像。" }],
+          "guideLines": {
+            "beforeObservation": ["先顺着管身找孔，不要把它当成普通细长骨器。", "端口、孔列和骨质表面，三处证据会一起说明用途。", "这件很安静，但结构已经把声音写在骨头上了。"],
+            "clueOpened": ["孔位不是装饰，想一想它们怎样改变管内气柱。", "知道材料以后，再看中空尺骨为何适合制作吹管。", "出土地点能确定背景，测音研究才进一步确认音乐性能。"],
+            "correct": ["你没有只靠“古老”二字，而是让结构与研究结果互证。", "中空、孔列和测音彼此接上，这支骨管可以归档了。", "一件乐器被认出，不只是因为它能像笛子那样摆放。"],
+            "incorrect": ["细长骨器很多，先找贯通内腔和成列音孔。", "别让年代替你作答，结构才是第一层证据。", "回到管身中段看孔距，它与普通骨针、骨哨并不相同。"],
+            "archived": ["远古骨管已经入格，孔位和声音证据一起封存。", "这份档案不只记一项纪录，也记下声音如何被制造。", "收柜前记住三件事：中空尺骨、成列音孔、测音研究。"]
+          },
+          "storyFactCheckStatus": "verified", "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-jade-dragon", "name": "红山玉龙", "setId": "first-fire", "timelineOrder": 4, "aliases": ["C形玉龙"], "period": "红山文化", "periodGroup": "prehistoric", "categoryIds": ["category-jade"], "material": "玉", "use": "玉器，具体用途资料待独立馆藏页核验", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
         "summary": "一件长身卷曲、无足，身体接近 C 形的玉龙。", "highlight": "突出的吻部与飘起长鬣意象形成鲜明侧影。", "culturalNote": "公众常用的称号不等同于学术定论。",
         "clues": [{ "id": "clue-jade-dragon-1", "level": 1, "text": "我的身体弯成接近 C 形。" }, { "id": "clue-jade-dragon-2", "level": 2, "text": "头部有突出的吻和飘起的长鬣意象。" }, { "id": "clue-jade-dragon-3", "level": 3, "text": "我常被公众冠以醒目的第一之称，但这里不会把称号当学术定论。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "material", "period", "category"], "unlockCopy": "卷曲的玉龙轮廓已收入物华录。", "wrongAnswerExplanation": "同类玉器都可能呈环形；长身、无足和扬起的鬣是关键。", "factCheckStatus": "pending-review", "sourceNote": "规划仅给出国家博物馆总目，独立馆藏页待定位。", "sourceIds": ["source-chnmuseum-catalog"], "assetRefs": { "fullAssetId": "asset-full-jade-dragon", "detailAssetIds": ["asset-detail-jade-dragon-1"], "fallbackAssetId": "asset-silhouette-jade-dragon", "thumbnailAssetId": "asset-thumb-jade-dragon" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["shape", "material", "period", "category"], "unlockCopy": "卷曲的玉龙轮廓已收入物华录。", "wrongAnswerExplanation": "同类玉器都可能呈环形；长身、无足和扬起的鬣是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写，具体用途仍不作定论。", "sourceIds": ["source-chnmuseum-jade-dragon"], "assetRefs": { "fullAssetId": "asset-full-jade-dragon", "detailAssetIds": ["asset-detail-jade-dragon-1"], "fallbackAssetId": "asset-silhouette-jade-dragon", "thumbnailAssetId": "asset-thumb-jade-dragon" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一整块墨绿色玉料被琢成卷曲若钩的身体，却把真正用途留在了问题里。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：一条没有足的弯曲身体", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-jade-dragon"], "body": "这件玉器高二十六厘米，躯体长而卷曲，整体接近 C 形。头部短小，吻部向前伸出，眼形细长，颈背上方扬起长鬣；身体没有刻出四足，却靠首尾转折形成有张力的侧影。中段可见穿孔，说明它并非只有正面造型，孔位也是理解悬挂、系缀可能性的重要线索。" },
+            { "id": "making", "title": "一整块玉料怎样变成弧线", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-jade-dragon"], "body": "馆方记录它由墨绿色玉料雕琢而成，通体经过磨制，表面光洁。制作者需要先确定长弧形轮廓，再处理头部、吻、鬣和尾端的厚薄转折，还要在身体中段钻孔。玉材不能像湿陶那样随意添补，每一次切削和琢磨都会减少原料；连贯的 C 形因此也是材料规划与长期加工的结果。" },
+            { "id": "lived-world", "title": "穿孔能否告诉我们用途", "narrativeMode": "open-question", "sourceIds": ["source-chnmuseum-jade-dragon"], "body": "中段穿孔说明这件玉器可能曾被系挂或固定，但仅凭一个孔，无法重建它具体佩戴在哪里、由谁使用或参与哪一种仪式。馆方专题曾讨论它与原始宗教、礼仪的可能联系，这仍不等于唯一结论。可以确定的是，造型、玉材和穿孔共同表明它不是普通工具；具体社会功能仍需结合更多考古情境理解。" },
+            { "id": "journey", "title": "一九七一年的发现与入藏", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-jade-dragon"], "body": "中国国家博物馆记录，这件玉龙于一九七一年在内蒙古翁牛特旗赛沁塔拉出土，属于红山文化，之后入藏国家博物馆。它曾因独特轮廓受到广泛关注，并常被称作“中华第一龙”。馆方同时把它放进更大的龙形遗存序列中观察：史前各地还有蚌塑、彩绘和雕塑等不同龙形材料。" },
+            { "id": "why-now", "title": "称号之外，怎样看见证据", "narrativeMode": "bounded-context", "sourceIds": ["source-chnmuseum-jade-dragon"], "body": "醒目的“第一龙”称号方便传播，却不应替代考古判断。馆方把它称为中国已发现时代较早的龙形象之一，并指出关于龙原型存在多种假说。今天细看这件玉器，更可靠的做法是记住可检验的特征：红山文化背景、卷曲若钩的身体、前伸吻部、扬鬣、玉材和穿孔，再讨论它在龙形发展序列中的意义。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-dragon-snout", "x": 0.22, "y": 0.31, "radius": 0.1, "label": "前伸吻部", "note": "短小头部向前伸出吻端，细长眼形让首部与普通环形玉器明显不同。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-dragon-mane", "x": 0.49, "y": 0.2, "radius": 0.1, "label": "扬起长鬣", "note": "颈背上方的长鬣沿弧线抬起，为光洁的 C 形身体增加方向与动势。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-dragon-hole", "x": 0.48, "y": 0.46, "radius": 0.1, "label": "中段穿孔", "note": "身体中段保留圆形穿孔，可支持系挂可能，却不足以单独确定具体用途。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-dragon-shape", "category": "shape", "label": "看形", "text": "长身无足，躯体卷曲若钩，短首前伸并在颈背扬起长鬣。", "npcHint": "先看整条弧线，再找头部怎样打破普通玉环的对称。", "starCost": 1 },
+            { "id": "clue-dragon-material", "category": "material", "label": "辨材", "text": "墨绿色玉料经整体雕琢和通体磨光，中段另有钻出的圆孔。", "npcHint": "玉材只能不断减去，连贯轮廓来自预先规划。", "starCost": 1 },
+            { "id": "clue-dragon-provenance", "category": "provenance", "label": "问来历", "text": "一九七一年出土于内蒙古翁牛特旗赛沁塔拉，属于红山文化。", "npcHint": "称号可以帮助记忆，地点、文化和器形才是档案证据。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "为什么不能只凭“中华第一龙”称号判断这件玉器？", "options": [{ "id": "memory-dragon-a", "label": "称号便于传播，器形、年代与出土信息才是可核对证据" }, { "id": "memory-dragon-b", "label": "因为这件玉器已经被证明与龙完全无关" }, { "id": "memory-dragon-c", "label": "因为所有史前龙形遗存都比它年代更晚" }], "answerId": "memory-dragon-a", "explanation": "馆方将其视为时代较早的龙形象之一，也说明龙原型存在多种假说。称号不能替代红山文化、出土地点与卷曲器形等可核对信息。", "sourceIds": ["source-chnmuseum-jade-dragon"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-eagle-tripod", "reason": "两者都以完整轮廓塑造动物意象，可比较玉材减法琢磨与陶土塑形。" }, { "artifactId": "artifact-lotus-crane-hu", "reason": "两者都借动物形成强烈动势，但所处时代、材料和器物功能不同。" }],
+          "guideLines": {
+            "beforeObservation": ["先把醒目的称号放一边，只看这条弧线怎样转折。", "吻部、长鬣和穿孔是三种不同证据，别只盯着 C 形。", "这件用途仍有未知，我们可以把看得见的部分先记牢。"],
+            "clueOpened": ["器形线索负责辨认，不负责替用途争议作结。", "玉材意味着不断琢去，完整弧线本身就是工艺结果。", "出土地点和文化归属比一个流行称号更适合写进档案。"],
+            "correct": ["你用卷曲身体、扬鬣与穿孔认出了它，没有只靠称号。", "这枚印既记录确定事实，也给用途未知留下了位置。", "器形与出土背景彼此对上，这条玉龙可以入格了。"],
+            "incorrect": ["环形玉器很多，回头找前伸吻部和颈背长鬣。", "别让“龙”字包办判断，先核对身体有没有足和穿孔。", "称号太响时更要慢一步，看清器物自己的轮廓。"],
+            "archived": ["卷曲玉龙已经入格，称号与证据被分开保存。", "你收下了一个答案，也保留了关于用途的开放问题。", "离柜前记住：红山文化、C 形身体、扬鬣和中段穿孔。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-houmuwu-ding", "name": "后母戊青铜方鼎", "setId": "ritual-bronze", "timelineOrder": 5, "aliases": ["司母戊鼎"], "period": "商王武丁时期", "periodGroup": "shang-zhou", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "青铜礼器", "dimensions": "重量 832.84 千克", "excavation": null, "museum": "中国国家博物馆",
         "summary": "长方深腹、两耳四柱足的大型青铜方鼎。", "highlight": "腹内壁铸有后母戊三字铭文，重量达 832.84 千克。", "culturalNote": "现行馆名使用后母戊，曾长期被称为司母戊鼎。",
         "clues": [{ "id": "clue-houmuwu-ding-1", "level": 1, "text": "我有两耳、长方深腹和四柱足。" }, { "id": "clue-houmuwu-ding-2", "level": 2, "text": "我重 832.84 千克。" }, { "id": "clue-houmuwu-ding-3", "level": 3, "text": "腹内壁铸有三个与现行馆名相同的字。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四足重器已经稳稳收入物华录。", "wrongAnswerExplanation": "同为青铜礼器时要看长方深腹、四柱足以及腹内三字铭文。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-houmuwu"], "assetRefs": { "fullAssetId": "asset-full-houmuwu-ding", "detailAssetIds": ["asset-detail-houmuwu-ding-1"], "fallbackAssetId": "asset-silhouette-houmuwu-ding", "thumbnailAssetId": "asset-thumb-houmuwu-ding" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四足重器已经稳稳收入物华录。", "wrongAnswerExplanation": "同为青铜礼器时要看长方深腹、四柱足以及腹内三字铭文。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-houmuwu"], "assetRefs": { "fullAssetId": "asset-full-houmuwu-ding", "detailAssetIds": ["asset-detail-houmuwu-ding-1"], "fallbackAssetId": "asset-silhouette-houmuwu-ding", "thumbnailAssetId": "asset-thumb-houmuwu-ding" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "八百三十二点八四千克的重量背后，是一套必须严密协同的商代大型铸造工程。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：长方深腹与四根柱足", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-houmuwu"], "body": "器物通高一百三十三厘米，顶部立着两只厚耳，折沿之下是长方形深腹，底部由四根粗壮柱足承托。腹部四角、上下边缘和足上端设置扉棱，云雷地纹之上分布兽面、鱼纹等装饰。巨大的尺度很醒目，但辨认它仍要回到方鼎的基本结构：双耳、方腹与四足。" },
+            { "id": "making", "title": "一吨铜料怎样协同浇注", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-houmuwu"], "body": "馆方研究指出，鼎身与四足整体铸造，双耳则在鼎身完成后装范浇铸。制作需要塑泥模、翻制多块陶范、合范并在短时间内连续灌入大量铜液；所需金属料超过一千千克。熔炉、范块、温度与人员节奏必须互相配合，因此这件重器不仅体现铸造技术，也保存了大型生产组织的证据。" },
+            { "id": "lived-world", "title": "重器为什么进入礼仪秩序", "narrativeMode": "bounded-context", "sourceIds": ["source-chnmuseum-houmuwu"], "body": "鼎早期具有烹煮和盛放功能，在商周礼制中又成为重要礼器。如此巨大的方鼎不适合被理解为普通炊具，它的材料消耗、纹饰、铭文和制作组织都指向高等级使用环境。我们不能据此虚构某一次具体祭祀，却能看到器物如何把资源、技术和身份集中在同一个庞大青铜结构中。" },
+            { "id": "journey", "title": "腹内三字与名称变化", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-houmuwu"], "body": "这件方鼎一九三九年出土于河南安阳武官村，现藏中国国家博物馆。腹内壁铸有“后母戊”三字，器物曾长期以“司母戊鼎”之名广为人知，现行馆名使用“后母戊”青铜方鼎。名称变化提醒我们，文物档案会随释读和研究更新；铭文字形本身不应由创意图像重新生成。" },
+            { "id": "why-now", "title": "重量不是唯一的答案", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-houmuwu"], "body": "它以八百三十二点八四千克成为目前已知中国古代最重的青铜器，这一数字容易成为唯一记忆点。更值得细看的是重量如何成为可能：复合陶范要准确拼合，铜液要连续灌注，鼎身、四足和后铸双耳要组成可靠整体。宏大并非抽象赞叹，而可以拆成材料、工序和协作的具体证据。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-ding-ears", "x": 0.23, "y": 0.2, "radius": 0.1, "label": "立耳与口沿", "note": "厚重立耳高出方形口沿，馆方研究指出双耳在鼎身铸成后另行装范浇铸。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-ding-body", "x": 0.52, "y": 0.48, "radius": 0.1, "label": "长方深腹", "note": "长方腹部四角与边缘设置扉棱，方正体量是区别圆鼎的第一层证据。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-ding-legs", "x": 0.34, "y": 0.76, "radius": 0.1, "label": "四根柱足", "note": "粗壮柱足从腹底向下承重，与鼎身整体铸成，支撑八百多千克器体。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-ding-shape", "category": "shape", "label": "看形", "text": "双立耳、长方深腹和四根柱足共同构成大型青铜方鼎轮廓。", "npcHint": "别被体量吓住，先把耳、腹和足三个结构读清。", "starCost": 1 },
+            { "id": "clue-ding-material", "category": "material", "label": "辨材", "text": "鼎身与四足整体范铸，双耳后铸，所需青铜金属料超过一千千克。", "npcHint": "重量背后是范块、铜液与多人协同，不只是材料多。", "starCost": 1 },
+            { "id": "clue-ding-provenance", "category": "provenance", "label": "问来历", "text": "一九三九年出土于河南安阳武官村，腹内三字形成现行馆名。", "npcHint": "旧称很熟悉，但归档要跟随当前馆方释名。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "这件重器的铸造为何能反映严密的生产组织？", "options": [{ "id": "memory-ding-a", "label": "多块陶范、大量铜液和分阶段铸造需要精确协同" }, { "id": "memory-ding-b", "label": "整器由一名工匠用整块青铜直接雕刻完成" }, { "id": "memory-ding-c", "label": "四足和双耳都是出土后才补装的现代部件" }], "answerId": "memory-ding-a", "explanation": "鼎身与四足整体铸造、双耳后铸，超过一吨金属料还要在短时间连续灌注。范块、熔炉、工序和人员必须严密配合。", "sourceIds": ["source-chnmuseum-houmuwu"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-four-ram-zun", "reason": "两者都是商代大型青铜礼器，可比较方鼎承重结构与方尊动物附饰。" }, { "artifactId": "artifact-zenghouyi-zunpan", "reason": "两者都体现复杂青铜生产组织，但一个重在大型范铸，一个重在多部件组合。" }],
+          "guideLines": {
+            "beforeObservation": ["先把八百多千克放在一边，从双耳、方腹和四足读起。", "这件宏大，却仍能拆成几个清楚的结构证据。", "找一处后铸部位、一处方腹和一根柱足，铸造逻辑就出现了。"],
+            "clueOpened": ["器形印帮你确认方鼎，重量还不能单独决定答案。", "材料印真正说的是协作：范块、铜液和浇注节奏。", "名称会随释读更新，归档时采用现行馆名。"],
+            "correct": ["你不只认出了重器，也读出了它背后的铸造组织。", "双耳、方腹、四足和腹内三字已经彼此对上。", "这枚大印落得稳，重量终于不再只是一个纪录。"],
+            "incorrect": ["大型青铜器不少，先确认它是长方腹还是圆腹。", "回到四根柱足和双立耳，别只凭“最大最重”猜。", "旧称容易干扰，先用现行馆名对应腹内铭文。"],
+            "archived": ["方鼎已经归入礼乐铸境，铸造协作也写进档案。", "收下重量数字，也收下范铸、后铸与连续灌注的证据。", "这一格很重，但真正托住它的是结构和组织。"]
+          },
+          "storyFactCheckStatus": "verified", "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-four-ram-zun", "name": "四羊方尊", "setId": "ritual-bronze", "timelineOrder": 6, "aliases": [], "period": "商代后期", "periodGroup": "shang-zhou", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "盛酒礼器尊", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
         "summary": "方正尊体四角各伸出一只卷角羊头。", "highlight": "羊头羊颈伸出器外，羊身与腿附着在腹部和圈足。", "culturalNote": "平面纹饰与立体动物雕塑在一件方尊上结合。",
         "clues": [{ "id": "clue-four-ram-zun-1", "level": 1, "text": "我的整体方正，却在四角长出动物立体头部。" }, { "id": "clue-four-ram-zun-2", "level": 2, "text": "卷角羊头伸出器外，羊身和腿附着在腹部与圈足。" }, { "id": "clue-four-ram-zun-3", "level": 3, "text": "我是盛酒礼器中的尊，不是用四足承腹的鼎。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四角羊首的青铜尊已收入物华录。", "wrongAnswerExplanation": "动物附饰并不少见；四角各有卷角羊头且器类为方尊才是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依国家博物馆馆方专题页转写。", "sourceIds": ["source-chnmuseum-four-ram"], "assetRefs": { "fullAssetId": "asset-full-four-ram-zun", "detailAssetIds": ["asset-detail-four-ram-zun-1"], "fallbackAssetId": "asset-silhouette-four-ram-zun", "thumbnailAssetId": "asset-thumb-four-ram-zun" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四角羊首的青铜尊已收入物华录。", "wrongAnswerExplanation": "动物附饰并不少见；四角各有卷角羊头且器类为方尊才是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依国家博物馆馆方专题页转写。", "sourceIds": ["source-chnmuseum-four-ram"], "assetRefs": { "fullAssetId": "asset-full-four-ram-zun", "detailAssetIds": ["asset-detail-four-ram-zun-1"], "fallbackAssetId": "asset-silhouette-four-ram-zun", "thumbnailAssetId": "asset-thumb-four-ram-zun" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "四只卷角羊不是贴在器表的徽章，而从方尊四角向外长成完整结构。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：方口四角为什么长出羊首", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-four-ram"], "body": "这件商代后期青铜尊有方口、大沿、长颈和鼓出的方形腹部。四角各伸出一只卷角羊首，羊颈、前胸与腿部继续贴合器腹和圈足；四面与转角的纹饰因此既保持方器秩序，又形成向外突出的动物体量。辨认时不能只数羊头，还要确认它们怎样与方尊身体连成整体。" },
+            { "id": "making", "title": "平面纹饰怎样变成立体羊群", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-four-ram"], "body": "器表以云雷纹为地，兽面、夔龙等纹样与立体羊首层层结合。铸造者需要处理方形器体的范块拼合，也要让羊角、头颈和器腹在浇铸后保持清晰与牢固。羊身并未完整独立出来，而是借腹部平面延展；这种半浮雕与圆雕相接的办法，让动物形象既突出又不破坏盛酒器的整体结构。" },
+            { "id": "lived-world", "title": "它是羊雕塑还是盛酒礼器", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-four-ram"], "body": "“尊”是商周时期重要的盛酒器类别，常见侈口、长颈和圈足。四只羊让这件器物极具雕塑感，却没有改变方尊的开口、腹腔与圈足功能。在礼仪环境中，酒器、纹饰和动物形象共同参与身份表达；今天不能重演某次具体宴飨，却能通过器类判断它并非一组独立摆放的青铜羊像。" },
+            { "id": "journey", "title": "从湖南宁乡发现到重新归档", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-four-ram"], "body": "馆方资料记录四羊方尊出土于湖南宁乡，现藏中国国家博物馆。器物在二十世纪经历发现、收藏与保护，复杂转角和突出附饰也使保存修复格外受关注。今天使用“四羊方尊”这一名称，正是把四角羊首与器类同时写入档案；若只称羊形青铜器，就会漏掉它作为尊的核心身份。" },
+            { "id": "why-now", "title": "复杂装饰怎样服从结构", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-four-ram"], "body": "这件器物常被赞叹为繁复华丽，但细看会发现装饰并非无边堆叠：四羊分守四角，方口、颈部和圈足维持上下轴线，平面纹样填充羊身与器腹之间的过渡。它让我们看到商代青铜工匠如何把几何秩序、动物造型和容器功能压进一个整体，而不是把美与技术分成两件事。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-zun-rim", "x": 0.5, "y": 0.21, "radius": 0.1, "label": "外侈方口", "note": "宽大的方形口沿和长颈先确立尊的器类，不能只因动物附饰把它看成雕塑。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-zun-rams", "x": 0.5, "y": 0.51, "radius": 0.1, "label": "四角羊首", "note": "卷角羊首从四角向外突出，头颈位置与方形器腹的转折严格对应。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-zun-relief", "x": 0.36, "y": 0.65, "radius": 0.1, "label": "羊身入腹", "note": "羊身与腿没有完全脱离器体，而以浮雕方式接入腹部和圈足纹饰。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-four-ram-shape", "category": "shape", "label": "看形", "text": "方口大沿、长颈方腹，四角各伸出一只卷角羊首。", "npcHint": "先确认尊的轮廓，再数四角动物，顺序别反了。", "starCost": 1 },
+            { "id": "clue-four-ram-material", "category": "material", "label": "辨材", "text": "青铜器表让平面纹样、浮雕羊身与立体羊首连续衔接。", "npcHint": "看看羊身从哪里结束，方尊器腹又从哪里开始。", "starCost": 1 },
+            { "id": "clue-four-ram-provenance", "category": "provenance", "label": "问来历", "text": "它属于商代后期，出土于湖南宁乡，现藏中国国家博物馆。", "npcHint": "地点和时代能排除相似动物尊，但器形仍是主证据。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "四只羊如何参与这件器物的整体结构？", "options": [{ "id": "memory-four-ram-a", "label": "羊首出自四角，羊身与腿继续融入器腹和圈足" }, { "id": "memory-four-ram-b", "label": "四只完整小羊出土后才被摆在方尊周围" }, { "id": "memory-four-ram-c", "label": "羊只画在器底，与方形器体没有关系" }], "answerId": "memory-four-ram-a", "explanation": "羊首、羊颈与器体铸成连续结构，羊身和腿借浮雕接入腹部、圈足。动物形象既突出，又服从方尊的容器轮廓。", "sourceIds": ["source-chnmuseum-four-ram"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-houmuwu-ding", "reason": "同属商代大型青铜礼器，可比较方尊装饰结构与方鼎承重结构。" }, { "artifactId": "artifact-lotus-crane-hu", "reason": "两者都以动物附饰制造动势，可观察商末与春秋青铜风格差异。" }],
+          "guideLines": {
+            "beforeObservation": ["先认方尊，再看羊；动物再醒目也不能盖过器类。", "口沿、羊首和羊身过渡，是三层不同的结构证据。", "别只数到四只羊，看看它们如何守住四个转角。"],
+            "clueOpened": ["器形印告诉你这是尊，不是一组独立动物雕塑。", "材料印要看平面、浮雕与圆雕怎样在青铜上接续。", "来历能缩小范围，四角结构才让答案真正落稳。"],
+            "correct": ["你同时认出了四羊和方尊，两层身份都没有漏。", "四角、方腹与圈足互相咬合，这枚档案印很准确。", "复杂纹饰没有把你带偏，结构仍然是主线。"],
+            "incorrect": ["动物形青铜器很多，先确认口沿和腹部是不是方尊。", "回到四个转角，羊首不是随意贴在正面中央。", "别把所有带羊纹的器物混在一起，找完整的四角组合。"],
+            "archived": ["四只羊已经随方尊入格，器形与装饰一起封存。", "这一件证明复杂可以有秩序，四角就是它的骨架。", "收柜时别只记羊首，也记住盛酒器尊的身份。"]
+          },
+          "storyFactCheckStatus": "verified", "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-lotus-crane-hu", "name": "莲鹤方壶", "setId": "ritual-bronze", "timelineOrder": 7, "aliases": [], "period": "春秋", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "青铜壶", "dimensions": null, "excavation": null, "museum": "河南博物院",
         "summary": "壶盖双层莲瓣中心立着一只展翅欲鸣的鹤。", "highlight": "龙形耳、攀爬翼龙和卷尾兽承托共同制造向上的动势。", "culturalNote": "成对器分藏的关系应在揭晓中说明，不能把同器另一件当普通错误项。",
         "clues": [{ "id": "clue-lotus-crane-hu-1", "level": 1, "text": "盖顶不是普通钮，而是一朵双层莲瓣。" }, { "id": "clue-lotus-crane-hu-2", "level": 2, "text": "莲心站着一只展翅欲鸣的鹤。" }, { "id": "clue-lotus-crane-hu-3", "level": 3, "text": "壶身还有龙形耳、攀爬翼龙和承托卷尾兽。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "莲瓣上的鹤已停入你的物华录。", "wrongAnswerExplanation": "复杂动物附饰容易混淆；盖顶双层莲瓣与立鹤是唯一组合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页转写。", "sourceIds": ["source-henan-lotus-crane"], "assetRefs": { "fullAssetId": "asset-full-lotus-crane-hu", "detailAssetIds": ["asset-detail-lotus-crane-hu-1"], "fallbackAssetId": "asset-silhouette-lotus-crane-hu", "thumbnailAssetId": "asset-thumb-lotus-crane-hu" }, "contentVersion": "1.0.0"
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "莲瓣上的鹤已停入你的物华录。", "wrongAnswerExplanation": "复杂动物附饰容易混淆；盖顶双层莲瓣与立鹤是唯一组合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页与出土百年专题转写。", "sourceIds": ["source-henan-lotus-crane", "source-henan-lotus-crane-history"], "assetRefs": { "fullAssetId": "asset-full-lotus-crane-hu", "detailAssetIds": ["asset-detail-lotus-crane-hu-1"], "fallbackAssetId": "asset-silhouette-lotus-crane-hu", "thumbnailAssetId": "asset-thumb-lotus-crane-hu" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "双层莲瓣托起一只展翅欲鸣的鹤，让沉重青铜从壶盖一路向上生长。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：鹤为何站在盛开的莲上", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-lotus-crane"], "body": "这件春秋青铜壶体量高大，壶盖展开双层莲瓣，中央立鹤昂首展翅。壶颈两侧有回首龙形耳，器身四面附有向上攀援的神兽，圈足下又由两只卷尾兽承托。视线从底部承兽、腹部攀龙一路升到莲瓣和立鹤，复杂附饰因此形成明确的向上动势。" },
+            { "id": "making", "title": "多层动物怎样接入一件方壶", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-lotus-crane"], "body": "壶身呈椭方体，修长颈部、鼓腹与圈足维持容器主体，莲瓣、鹤、龙耳和附兽则以不同体量向外展开。制作者要让立体附件牢固连接，又要保留蟠螭纹等细密表面。今天所见的秩序说明装饰并非随意叠放：底部负责承托，中段围绕腹部，顶部以莲与鹤收束视觉中心。" },
+            { "id": "lived-world", "title": "礼器与新动势如何共存", "narrativeMode": "bounded-context", "sourceIds": ["source-henan-lotus-crane"], "body": "壶是青铜酒具和礼器的重要类别，可用于祭祀、宴享等高等级活动。这件器物仍保留盛酒容器的颈、腹与足，却让莲瓣、飞鹤和攀兽带来比早期青铜器更活跃的视觉节奏。后人常把这种变化概括为春秋时代精神，但这是一种艺术史解释；器物本身首先证明的是结构与装饰已经出现新的组合方式。" },
+            { "id": "journey", "title": "一对方壶为何分藏两地", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-lotus-crane-history"], "body": "一九二三年，河南新郑李家楼郑公大墓出土一对形制、纹饰近似的方壶。抗战时期，河南博物馆部分珍品辗转运往武汉、重庆保护。新中国成立后，一件返回河南，现藏河南博物院；另一件调往北京，现藏故宫博物院。成对关系属于这件文物的重要历史，不能把另一件简单当成错误答案。" },
+            { "id": "why-now", "title": "为什么它看起来像要起飞", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-lotus-crane", "source-henan-lotus-crane-history"], "body": "沉重青铜不会真的飞起，但器物用结构制造了上升感：承兽用力托举，攀兽沿腹部向上，莲瓣向四周开放，鹤在最高处伸颈展翅。今天细看这条视觉路径，可以把“生动”“浪漫”等赞美拆回可观察证据，也能理解青铜礼器的变化不只发生在纹样上，还发生在整个轮廓和空间关系里。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-hu-crane", "x": 0.54, "y": 0.13, "radius": 0.1, "label": "展翅立鹤", "note": "鹤立在全器最高点，伸颈展翅，把沉重壶体的视觉方向明确引向上方。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-hu-lotus", "x": 0.49, "y": 0.26, "radius": 0.1, "label": "双层莲瓣", "note": "两层莲瓣从壶盖向外展开，既托住中央立鹤，也形成醒目的器名组合。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-hu-beasts", "x": 0.45, "y": 0.86, "radius": 0.1, "label": "卷尾承兽", "note": "圈足下的卷尾兽向外回首并承托器身，与腹部攀兽共同形成向上动势。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-lotus-crane-shape", "category": "shape", "label": "看形", "text": "高大的椭方壶顶展开双层莲瓣，莲心立着一只展翅长颈鹤。", "npcHint": "先从最高处往下看，器名的两个部分都在壶盖上。", "starCost": 1 },
+            { "id": "clue-lotus-crane-material", "category": "material", "label": "辨材", "text": "青铜壶身连接龙形耳、攀援附兽和圈足下的卷尾承兽。", "npcHint": "复杂不等于杂乱，沿着底部到顶部找连接顺序。", "starCost": 1 },
+            { "id": "clue-lotus-crane-provenance", "category": "provenance", "label": "问来历", "text": "一九二三年出土于河南新郑郑公大墓，成对器现分藏河南与北京。", "npcHint": "另一件是成对分藏，不是一个用来迷惑你的假答案。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "这件方壶的向上动势由哪些结构共同形成？", "options": [{ "id": "memory-lotus-crane-a", "label": "承兽、攀兽、展开莲瓣与最高处立鹤逐层上升" }, { "id": "memory-lotus-crane-b", "label": "只有壶身表面画了一条向上的直线" }, { "id": "memory-lotus-crane-c", "label": "现代展柜用钢丝把所有附件向上拉起" }], "answerId": "memory-lotus-crane-a", "explanation": "底部承托、中段攀援、顶部莲瓣展开和立鹤伸颈形成连续方向。所谓动势来自可见结构，不是把青铜真的描述成飞行。", "sourceIds": ["source-henan-lotus-crane"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-four-ram-zun", "reason": "两者都让动物附饰参与青铜器整体轮廓，可比较商末与春秋的组织方式。" }, { "artifactId": "artifact-cloud-bronze-jin", "reason": "同属春秋复杂青铜器，一件用垂直附饰制造上升感，一件以镂空兽群承托平面。" }],
+          "guideLines": {
+            "beforeObservation": ["从最高处的鹤往下看，找出整件器物的上升路线。", "莲、鹤、龙耳和承兽很多，但每一层都有自己的位置。", "别被繁复吓退，今天只追一条从足部到壶盖的动势。"],
+            "clueOpened": ["器形印先钉住莲与鹤，其他附兽负责补全结构。", "青铜附件层层连接，复杂仍然服从壶的主体。", "成对分藏是流传史，不要把另一件误当普通干扰项。"],
+            "correct": ["你沿着承兽、攀龙和莲鹤读出了整件方壶。", "器名、器形与成对出土关系都已经落进同一份档案。", "复杂附饰没有遮住主线，这枚印落得很清楚。"],
+            "incorrect": ["相似青铜壶很多，先找壶盖上同时出现的莲和鹤。", "别只看腹部纹饰，最高处才是最独特的组合。", "从底部承兽一路往上找，答案会在莲瓣中央停住。"],
+            "archived": ["莲上的鹤已经停入礼乐铸境，成对历史也一并收好。", "这件器物教会我们，动势可以从静止结构中被看见。", "收柜前记住：双层莲瓣、中央立鹤、上下相接的龙兽。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-cloud-bronze-jin", "name": "云纹铜禁", "setId": "ritual-bronze", "timelineOrder": 8, "aliases": [], "period": "春秋", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "承放酒器的案", "dimensions": null, "excavation": null, "museum": "河南博物院",
         "summary": "由繁密云纹和多只兽形构成的青铜承置器。", "highlight": "器身镂空，形态像一张被云与兽托起的案几。", "culturalNote": "禁在这里指承放酒器的器类，不是牢笼。复杂工艺与失蜡法的关系仍待独立来源复核。",
         "clues": [{ "id": "clue-cloud-bronze-jin-1", "level": 1, "text": "我的名字容易让人想到牢笼，其实我是一类承放酒器的案。" }, { "id": "clue-cloud-bronze-jin-2", "level": 2, "text": "器身由繁密云纹与多只兽形构成。" }, { "id": "clue-cloud-bronze-jin-3", "level": 3, "text": "复杂镂空结构常与一种精细铸造工艺的研究联系。" }],
-        "difficulty": "hard", "distractorTags": ["use", "pattern", "material", "category"], "unlockCopy": "云与兽托起的铜案已收入物华录。", "wrongAnswerExplanation": "与复杂青铜组合器易混淆；承置酒器的案形用途最关键。", "factCheckStatus": "pending-review", "sourceNote": "规划仅提供河南博物院总目，独立详情与工艺表述待核。", "sourceIds": ["source-henan-catalog"], "assetRefs": { "fullAssetId": "asset-full-cloud-bronze-jin", "detailAssetIds": ["asset-detail-cloud-bronze-jin-1"], "fallbackAssetId": "asset-silhouette-cloud-bronze-jin", "thumbnailAssetId": "asset-thumb-cloud-bronze-jin" }, "contentVersion": "1.0.0"
+        "difficulty": "hard", "distractorTags": ["use", "pattern", "material", "category"], "unlockCopy": "云与兽托起的铜案已收入物华录。", "wrongAnswerExplanation": "与复杂青铜组合器易混淆；承置酒器的案形用途最关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页核对器形、用途、附兽、出土与修复记录。", "sourceIds": ["source-henan-cloud-bronze-jin"], "assetRefs": { "fullAssetId": "asset-full-cloud-bronze-jin", "detailAssetIds": ["asset-detail-cloud-bronze-jin-1"], "fallbackAssetId": "asset-silhouette-cloud-bronze-jin", "thumbnailAssetId": "asset-thumb-cloud-bronze-jin" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "它名字里的禁不是牢笼，而是一张由云纹和兽群共同托起的青铜酒器案。",
+          "story": [
+            {
+              "id": "first-look", "title": "第一眼：兽群托起一片云", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-cloud-bronze-jin"],
+              "body": "先看整体轮廓，它像一张低矮的长方形案，却没有普通案几那样平直厚重的四足。承面之下，层层云纹被铸成通透的网，四周又有兽形攀附和承托。视线一旦沿边缘走一圈，就会发现动物不是后来贴上的点缀：向上攀援与向下承重的姿态，共同把长方形平台组织成一件完整器物。"
+            },
+            {
+              "id": "making", "title": "镂空怎样变成结构", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-cloud-bronze-jin"],
+              "body": "馆方资料记录，器身由多层粗细不同的铜梗支撑，铜梗之间是玲珑剔透的云纹；十二只龙形异兽攀附禁体，另有十二只兽在下方承托。研究者常由它讨论失蜡法铸造，但观看时更可靠的起点是成品留下的结构证据：连续镂空、立体附兽和承面必须在强度与通透感之间同时成立。"
+            },
+            {
+              "id": "lived-world", "title": "禁究竟用来做什么", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-cloud-bronze-jin"],
+              "body": "古代器名里的“禁”，指承放酒器的案形器具，并不是关押人或动物的牢笼。它把盛酒器抬离地面，也让酒器的陈设获得清晰中心。想象宴飨空间时，不必虚构某一次具体酒宴；只要把尊、壶等容器放回这片承面，就能理解兽群为何都朝向平台聚拢：繁复装饰最终仍服从承置酒器的用途。"
+            },
+            {
+              "id": "journey", "title": "从碎片重新站立", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-cloud-bronze-jin"],
+              "body": "1978 年，云纹铜禁出土于河南淅川下寺春秋楚墓。出土时器物已经严重破碎，复杂镂空和数量众多的附兽让辨认、拼合与加固格外困难。河南博物院的记录保留了它经过长期整理修复、由许多碎片重新恢复结构的过程。今天看到的完整轮廓，既是春秋铸造留下的证据，也是现代文物保护工作的一部分。"
+            },
+            {
+              "id": "why-now", "title": "今天为什么还要细看", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-cloud-bronze-jin"],
+              "body": "这件器物很容易被“巧夺天工”四个字匆匆概括，但细看会提出更具体的问题：镂空怎样保持承重，攀兽怎样接入主体，碎片又如何回到原位。官方资料能支持器形、附兽、用途和修复过程；对于每一道铸接的先后顺序，仍应让检测和研究继续回答。它提醒我们，惊叹之后还要分辨已经知道和仍待求证的部分。"
+            }
+          ],
+          "observationSpots": [
+            { "id": "spot-jin-platform", "x": 0.5, "y": 0.51, "radius": 0.1, "label": "案形承面", "note": "长方形平面是承置酒器的核心，繁密附饰都围绕这片承面组织。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-jin-openwork", "x": 0.5, "y": 0.58, "radius": 0.1, "label": "云纹镂空", "note": "多层铜梗与连续云纹形成通透器身，同时还要维持整体结构。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-jin-beasts", "x": 0.79, "y": 0.58, "radius": 0.1, "label": "兽形承托", "note": "攀附与承托的兽形不是孤立装饰，它们共同参与器物轮廓和支撑。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-jin-shape", "category": "shape", "label": "看形", "text": "我像一张低矮长方形案，承面下是连续通透的云纹结构。", "npcHint": "先把繁密兽形放到一边，看它最上方究竟托着什么。", "starCost": 1 },
+            { "id": "clue-jin-material", "category": "material", "label": "辨材", "text": "多层铜梗、镂空云纹与立体兽形共同组成青铜器身。", "npcHint": "通透不等于轻薄，找找哪些部分同时承担连接和支撑。", "starCost": 1 },
+            { "id": "clue-jin-provenance", "category": "provenance", "label": "问来历", "text": "我在河南淅川下寺春秋楚墓出土，曾由严重破碎状态长期修复。", "npcHint": "地点和年代能缩小范围，修复史则解释今天为何还能看到全貌。", "starCost": 1 }
+          ],
+          "memoryChallenge": {
+            "prompt": "这件器物名称里的“禁”最接近哪一种用途？",
+            "options": [
+              { "id": "memory-jin-a", "label": "承放酒器的案" },
+              { "id": "memory-jin-b", "label": "关押动物的笼" },
+              { "id": "memory-jin-c", "label": "悬挂乐器的架" }
+            ],
+            "answerId": "memory-jin-a",
+            "explanation": "这里的“禁”是承放酒器的案形器具；长方形承面、镂空器身和兽形支撑共同服务于这一用途。",
+            "sourceIds": ["source-henan-cloud-bronze-jin"]
+          },
+          "relatedArtifacts": [
+            { "artifactId": "artifact-lotus-crane-hu", "reason": "同属春秋复杂青铜器，可比较立体附兽怎样分别制造上升感与承托感。" },
+            { "artifactId": "artifact-zenghouyi-zunpan", "reason": "两者都以繁复镂空和多部件连接著称，但器物组合与具体用途不同。" }
+          ],
+          "guideLines": {
+            "beforeObservation": ["先别把它当成牢笼，沿最上方的长方形承面走一圈。", "兽很多也别急着数，先分清哪些向上攀、哪些在下方承托。", "把手机竖稳，从平台、镂空、兽足三层顺序往下看。"],
+            "clueOpened": ["看形签先钉住案形承面，这会把器名的误会解开。", "辨材签告诉你，通透云纹同时还是青铜结构的一部分。", "问来历签翻到修复一页，完整外观背后曾是大量碎片。"],
+            "correct": ["认对了，你没有被“禁”字带进牢笼，而是看见了承酒之案。", "这枚印落得很稳：平台、云纹与兽群三条证据彼此相扣。", "你读出了繁复中的用途，兽群终于不再只是热闹装饰。"],
+            "incorrect": ["这个答案也很复杂，但缺少承放酒器的长方形平台。", "先别追最奇异的兽，回到最上方那片平面再判断用途。", "名字会误导人；观察结构，比按现代字义猜测更可靠。"],
+            "archived": ["云纹铜禁已经入册，连同它从碎片复原的旅程一起收好。", "这一页记住的不是神秘工艺，而是承面、镂空与兽群的结构。", "礼乐铸境又亮一格，下次可以把它和尊盘的镂空并排细看。"]
+          },
+          "storyFactCheckStatus": "verified",
+          "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-zenghouyi-bells", "name": "曾侯乙编钟", "setId": "chu-sound", "timelineOrder": 9, "aliases": [], "period": "战国早期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-music"], "material": "青铜", "use": "成套乐器", "dimensions": "全套 65 件，钟架呈曲尺形", "excavation": null, "museum": "湖北省博物馆",
@@ -143,8 +416,7 @@
             "options": [
               { "id": "memory-bells-a", "label": "一次敲击必然同时发出两个音" },
               { "id": "memory-bells-b", "label": "敲击不同部位可以得到两个稳定音高" },
-              { "id": "memory-bells-c", "label": "两口钟必须成对同时演奏" },
-              { "id": "memory-bells-d", "label": "一件钟由两种金属分别发声" }
+              { "id": "memory-bells-c", "label": "两口钟必须成对同时演奏" }
             ],
             "answerId": "memory-bells-b",
             "explanation": "钟体的合瓦形结构、壁厚与敲击位置让同一件钟可以发出两个呈三度关系的音；这不是一次敲击同时响出两个音。",
@@ -169,7 +441,66 @@
         "id": "artifact-zenghouyi-zunpan", "name": "曾侯乙尊盘", "setId": "chu-sound", "timelineOrder": 10, "aliases": [], "period": "战国早期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "尊与盘组成的礼器组合", "dimensions": null, "excavation": null, "museum": "湖北省博物馆",
         "summary": "上置尊、下承盘的两件式青铜礼器组合。", "highlight": "尊口沿多层镂空如云，近看由龙蛇状纹样组成。", "culturalNote": "它以组合结构和繁复镂空见长，不是一只普通酒杯。",
         "clues": [{ "id": "clue-zenghouyi-zunpan-1", "level": 1, "text": "我由上面的尊和下面的盘两件组成。" }, { "id": "clue-zenghouyi-zunpan-2", "level": 2, "text": "口沿像云，近看由无数龙蛇状镂空纹组成。" }, { "id": "clue-zenghouyi-zunpan-3", "level": 3, "text": "我以结构繁复闻名，而不是一只普通酒杯。" }],
-        "difficulty": "hard", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "如凝云般的尊盘组合已收入物华录。", "wrongAnswerExplanation": "与繁复镂空青铜器易混淆；上尊下盘的两件组合是判断核心。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-zunpan"], "assetRefs": { "fullAssetId": "asset-full-zenghouyi-zunpan", "detailAssetIds": ["asset-detail-zenghouyi-zunpan-1"], "fallbackAssetId": "asset-silhouette-zenghouyi-zunpan", "thumbnailAssetId": "asset-thumb-zenghouyi-zunpan" }, "contentVersion": "1.0.0"
+        "difficulty": "hard", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "如凝云般的尊盘组合已收入物华录。", "wrongAnswerExplanation": "与繁复镂空青铜器易混淆；上尊下盘的两件组合是判断核心。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆馆藏页与湖北省文化和旅游厅数字化研究成果转写。", "sourceIds": ["source-hubei-zunpan", "source-hubei-zunpan-digital"], "assetRefs": { "fullAssetId": "asset-full-zenghouyi-zunpan", "detailAssetIds": ["asset-detail-zenghouyi-zunpan-1"], "fallbackAssetId": "asset-silhouette-zenghouyi-zunpan", "thumbnailAssetId": "asset-thumb-zenghouyi-zunpan" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一件尊落进一件盘，龙蛇般的镂空边缘把两件青铜礼器连成一座云团。",
+          "story": [
+            {
+              "id": "first-look", "title": "第一眼：云团里有两件器物", "narrativeMode": "verified-fact", "sourceIds": ["source-hubei-zunpan"],
+              "body": "远看时，它像一件轮廓极繁复的高大青铜器；把视线放到中部，才能分清上方是尊、下方是盘。尊的口沿向外铺展，多层镂空如同凝住的云，盘则在下方承接，形成稳定而宽阔的底部。认出这件器物的第一步不是数清每条龙蛇，而是先划出尊与盘的边界，看见两件器物如何组成一个整体。"
+            },
+            {
+              "id": "making", "title": "外表繁复，内部也有答案", "narrativeMode": "verified-fact", "sourceIds": ["source-hubei-zunpan", "source-hubei-zunpan-digital"],
+              "body": "尊盘的镂空附饰由大量彼此缠绕的龙蛇状构件组成，器身还结合铸接与焊接等多种连接方式。仅凭外观很难判断每个部件怎样进入主体。2024 年公布的三维数字化研究借助工业 CT 观察器物内部，让被铜锈和表面纹饰遮住的接合关系变得可分析。数字模型不是替代原物，而是帮助研究者从内外两面核对制造痕迹。"
+            },
+            {
+              "id": "lived-world", "title": "尊与盘为什么在一起", "narrativeMode": "verified-fact", "sourceIds": ["source-hubei-zunpan"],
+              "body": "“尊盘”不是给一只器物取的奇异名字，而是尊和盘组成的青铜礼器组合。尊位于上方，盘在下方承接，两件器物各有边界，又在陈设与使用中相互配合。我们无法从展柜中的静止器物重演某一次具体宴飨，却可以由组合关系理解它所在的礼仪空间：器物如何摆放、彼此如何承接，本身就是秩序的一部分。"
+            },
+            {
+              "id": "journey", "title": "与编钟同出的另一种复杂", "narrativeMode": "verified-fact", "sourceIds": ["source-hubei-zunpan", "source-hubei-bells"],
+              "body": "1978 年，曾侯乙尊盘出土于湖北随州曾侯乙墓，与著名的曾侯乙编钟来自同一座战国早期墓葬。编钟把声音、铭文和尺度组织成系统，尊盘则把镂空纹饰、器物组合和多种连接组织成系统。把两件文物并看，墓中世界便不再只剩一件“镇馆之宝”，而是能从礼乐、宴飨和制造技术多个侧面相互印证。"
+            },
+            {
+              "id": "why-now", "title": "今天怎样继续读它", "narrativeMode": "verified-fact", "sourceIds": ["source-hubei-zunpan-digital"],
+              "body": "尊盘最适合解释文物研究为什么不会在出土时结束。过去，人们主要从可见表面记录纹饰与器形；工业 CT、三维扫描和数字复原则能把内部结构、接合关系与零部件位置放进同一模型中比较。新技术并不自动给出唯一答案，但会增加可验证的证据。今天观看它，既要欣赏如云的口沿，也要记得真正关键的线索可能藏在肉眼看不到的连接处。"
+            }
+          ],
+          "observationSpots": [
+            { "id": "spot-zunpan-rim", "x": 0.5, "y": 0.25, "radius": 0.1, "label": "镂空尊口", "note": "向外铺展的多层口沿由龙蛇状构件缠绕，形成凝云般的轮廓。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-zunpan-climbers", "x": 0.5, "y": 0.49, "radius": 0.1, "label": "攀附龙兽", "note": "密集附饰跨过器身边缘，连接方式需要结合表面与内部证据判断。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-zunpan-pan", "x": 0.5, "y": 0.69, "radius": 0.1, "label": "尊盘组合", "note": "中部以下可辨出承接的盘，提醒我们面前其实是两件礼器的组合。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-zunpan-shape", "category": "shape", "label": "看形", "text": "我由上方的尊与下方的盘组成，口沿像向外铺开的镂空云团。", "npcHint": "先在最繁密的纹饰中划一条边界，找出上、下两件器物。", "starCost": 1 },
+            { "id": "clue-zunpan-material", "category": "material", "label": "辨材", "text": "青铜主体结合大量龙蛇状附饰，多种接合痕迹还藏在器物内部。", "npcHint": "肉眼看到的是表面，工业 CT 还能追到被纹饰遮住的连接。", "starCost": 1 },
+            { "id": "clue-zunpan-provenance", "category": "provenance", "label": "问来历", "text": "我在湖北随州一座战国早期国君墓出土，与六十五件成套乐器同出。", "npcHint": "别直接猜那套乐器；同一座墓里还有宴飨与礼器的另一条线索。", "starCost": 1 }
+          ],
+          "memoryChallenge": {
+            "prompt": "判断曾侯乙尊盘时，最关键的整体结构是什么？",
+            "options": [
+              { "id": "memory-zunpan-a", "label": "一只酒杯配固定底座" },
+              { "id": "memory-zunpan-b", "label": "上尊下盘的两件组合" },
+              { "id": "memory-zunpan-c", "label": "三层悬挂的乐器组合" }
+            ],
+            "answerId": "memory-zunpan-b",
+            "explanation": "它的名称直接指出尊与盘两件礼器的组合关系；繁复镂空很醒目，但上尊下盘才是稳定识别结构。",
+            "sourceIds": ["source-hubei-zunpan"]
+          },
+          "relatedArtifacts": [
+            { "artifactId": "artifact-zenghouyi-bells", "reason": "两者同出曾侯乙墓，可从礼乐声音与宴飨器用两条路径理解墓中世界。" },
+            { "artifactId": "artifact-cloud-bronze-jin", "reason": "两者都有复杂镂空和立体附饰，可比较承酒之案与尊盘组合的结构差异。" }
+          ],
+          "guideLines": {
+            "beforeObservation": ["先别数龙蛇，沿中部找出尊与盘相接的那条边界。", "最高处像云，最低处像盘；从上下轮廓读会更清楚。", "繁复器物也有主次，先找两件主体，再看攀附的小构件。"],
+            "clueOpened": ["看形签展开了上尊下盘，这比单独一处纹饰更可靠。", "辨材签提醒你，肉眼之外还有内部接合可以成为证据。", "问来历签把它放回曾侯乙墓，但别误选同出的编钟。"],
+            "correct": ["认对了，你先分清两件主体，才没有迷失在龙蛇云团里。", "这枚印收得漂亮：尊、盘、镂空和来历都彼此照应。", "你看到的不只是一团繁纹，而是一套被组织起来的礼器组合。"],
+            "incorrect": ["这个选项也有青铜镂空，但没有上尊下盘的双重边界。", "先把局部纹饰放远一点，看看整件器物究竟分成几层主体。", "同墓出土会制造干扰，答案仍要回到器形和用途上判断。"],
+            "archived": ["曾侯乙尊盘已经入册，表面的云团与内部连接一并记下。", "这一页教会我们，新技术可以让旧器物继续提供新的证据。", "楚风新声再添一格，下次把它和同墓编钟放在一起读。"]
+          },
+          "storyFactCheckStatus": "verified",
+          "storyContentVersion": "2.0.0-ten-complete"
+        }
       },
       {
         "id": "artifact-goujian-sword", "name": "越王勾践剑", "setId": "chu-sound", "timelineOrder": 11, "aliases": [], "period": "春秋晚期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-weapon"], "material": "青铜", "use": "剑", "dimensions": null, "excavation": null, "museum": "湖北省博物馆",
@@ -358,7 +689,6 @@
       "guideLandingImageAlt": "闭馆整理员许照手持档案站在工作台前",
       "guideIntroImageAlt": "闭馆整理员许照手持档案和无酸纸托站在修复室工作台前",
       "guideTaskLine": "你负责认，我负责守住资料边界。今晚先从五件能完整观察的旧物开始。",
-      "guideLegacyLine": "先看轮廓，再拆线索。旧物不会催你，慢一点反而看得清。",
       "guideIntroLine": "今晚一起把五件旧物送回它们的档案。",
       "guideHelpBody": "轻触图上的编号观察签就能查看细节；线索印可以任意拆开，第一枚不扣星。",
       "guideName": "许照",
@@ -372,9 +702,7 @@
       "wrongReviewTitle": "不改分，先看证据",
       "wrongReviewAction": "掀开展柜，看完整答案",
       "revealStoryAction": "翻开它的档案",
-      "legacyStoryPending": "档案摘记 · 完整故事整理中",
       "readingGate": "读完五札，离柜前许照会问你一件小事。",
-      "legacyArchiveAction": "继续入藏",
       "setCompleteEyebrow": "专题印已集齐",
       "setCompleteAction": "收下专题印",
       "lockedDetailEyebrow": "资料整理中",
@@ -388,7 +716,6 @@
       "archiveNextAction": "收好，去下一柜",
       "archiveRelatedTitle": "同卷可对看",
       "observationInstruction": "轻触图上的编号观察签，查看器形留下的三处证据。",
-      "legacyObservationInstruction": "这件藏品的互动观察仍在整理，可按顺序拆阅三枚线索签。",
       "observationGuideLabel": "许照带你看",
       "observationGuideFirst": "先点亮 01 号观察签，看看器形留下了什么。",
       "observationGuideContinue": "找到了。其余观察签也可以任意查看。",

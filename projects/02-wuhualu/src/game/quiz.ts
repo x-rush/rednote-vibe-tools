@@ -18,18 +18,18 @@ function canAddArtifact(selected: readonly Artifact[], candidate: Artifact): boo
   return sameMaterial < 2 && samePeriod < 2
 }
 
-export function selectRoundArtifacts(
-  artifacts: readonly Artifact[],
+export function selectRoundArtifacts<T extends Artifact>(
+  artifacts: readonly T[],
   seed: string,
   recentArtifactIds: readonly string[],
   count: number,
-): Artifact[] {
+): T[] {
   const random = createSeededRandom(seed)
   const recent = new Set(recentArtifactIds)
   const preferred = seededShuffle(artifacts.filter(({ id }) => !recent.has(id)), random)
   const deferred = seededShuffle(artifacts.filter(({ id }) => recent.has(id)), random)
   const ordered = [...preferred, ...deferred]
-  const selected: Artifact[] = []
+  const selected: T[] = []
 
   for (const artifact of ordered) {
     if (selected.length === count) break

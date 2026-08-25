@@ -3,7 +3,6 @@ import type { Dispatch } from 'react'
 import rawContent from './content/content.json'
 import { parseContent } from './content/validate.ts'
 import type { Artifact, ArtifactSetDefinition, GuideLines, StorySectionId } from './content/types.ts'
-import { hasArtifactExperienceV2 } from './content/types.ts'
 import { shouldShowExitAction } from './app/page-model.ts'
 import { buildArtifactDetailViewModel, buildRoundSummaryViewModel } from './game/view-models.ts'
 import { buildSetCollectionViewModel } from './game/catalog.ts'
@@ -20,7 +19,7 @@ import { MemoryChallenge } from './ui/MemoryChallenge.tsx'
 import { RevealCabinet } from './ui/RevealCabinet.tsx'
 import { SpotlightStage } from './ui/SpotlightStage.tsx'
 import { SetCollection } from './ui/SetCollection.tsx'
-import { filterPlayableArtifacts } from './ui/artifact-assets.ts'
+import { filterPlayableArtifacts, findIncompletePlayableArtifactIds } from './ui/artifact-assets.ts'
 import { APP_ICON_URL } from './ui/brand-assets.ts'
 import { buildObservationViewModel } from './ui/experience-view-model.ts'
 import { buildStoryViewModel } from './ui/story-view-model.ts'
@@ -30,6 +29,7 @@ const content = parseContent(rawContent)
 const artifacts = content.content.artifacts
 const sets = content.content.sets
 const playableArtifacts = filterPlayableArtifacts(artifacts)
+const incompletePlayableArtifactIds = findIncompletePlayableArtifactIds(artifacts)
 const candidates = content.content.distractorCandidates
 const copy = content.content.copy
 const validArtifactIds = new Set(artifacts.map(({ id }) => id))
@@ -48,6 +48,7 @@ function findSet(id: Artifact['setId']): ArtifactSetDefinition {
 
 function initialAppState(bootstrap: ReturnType<typeof loadStorage>): AppState {
   const state = createInitialState(bootstrap.payload)
+  if (incompletePlayableArtifactIds.length > 0) return appReducer(state, { type: 'dataError', message: copy.contentMissingMessage })
   if (bootstrap.recovery === 'corrupt-json') return appReducer(state, { type: 'dataError', message: copy.storageCorruptMessage })
   if (bootstrap.recovery === 'unsupported-schema') return appReducer(state, { type: 'dataError', message: copy.storageVersionMessage })
   if (bootstrap.recovery === 'invalid-payload') return appReducer(state, { type: 'dataError', message: copy.storageInvalidMessage })
@@ -58,7 +59,7 @@ function contextualGuideLine(state: AppState): string {
   if (!('questions' in state)) return copy.guideHomeLine
   const question = state.questions[state.session.index]
   const artifact = state.artifacts.find(item => item.id === question.artifactId)
-  if (!artifact || !hasArtifactExperienceV2(artifact)) return copy.guideLegacyLine
+  if (!artifact) return copy.contentMissingMessage
   const lines: GuideLines = artifact.experienceV2.guideLines
   if (state.screen === 'wrongReview') return lines.incorrect[0]
   if (state.screen === 'reveal' || state.screen === 'story' || state.screen === 'memory') return lines.correct[0]
@@ -153,26 +154,23 @@ function PlayExperience({ state, dispatch }: { state: PlayState; dispatch: Dispa
   if (!artifact) return <ErrorPanel message={copy.contentMissingMessage} onReset={() => dispatch({ type: 'recover' })} />
   const progress = state.session.caseProgress; const openedIds = progress?.openedClueIds ?? []
   const eliminatedId = progress?.eliminatedOptionId ?? null
-  const observation = buildObservationViewModel(artifact, question, openedIds, {
-    enhanced: copy.observationInstruction,
-    legacy: copy.legacyObservationInstruction,
-  })
+  const observation = buildObservationViewModel(artifact, openedIds, copy.observationInstruction)
   const selectedId = state.screen === 'answering' ? state.selectedOptionId : progress?.selectedOptionId ?? null
   const story = buildStoryViewModel(artifact, artifacts, content.sources)
 
   if (state.screen === 'observation' || state.screen === 'clueSelect' || state.screen === 'answering') return <section className="page case-page" aria-labelledby="case-title"><div className="progress-line"><span>卷宗 {state.session.index + 1} / {state.questions.length}</span><progress value={state.session.index + 1} max={state.questions.length} /></div><p className="section-label">{copy.observationEyebrow}</p><h1 id="case-title">{copy.observationTitle}</h1><SpotlightStage artifact={artifact} spots={observation.spots} foundIds={progress?.observedSpotIds ?? []} instruction={observation.instruction} copy={{ guideLabel: copy.observationGuideLabel, firstPrompt: copy.observationGuideFirst, continuePrompt: copy.observationGuideContinue, completePrompt: copy.observationGuideComplete, markerLabel: copy.observationMarkerLabel, progressLabel: copy.observationProgressLabel, askLabel: copy.guideAskAction }} onDiscover={spotId => dispatch({ type: 'discoverSpot', spotId })} onAsk={eliminatedId ? undefined : () => dispatch({ type: 'askGuide' })} /><ClueSealRail seals={observation.clueSeals} onOpen={clueId => dispatch({ type: 'openClue', clueId })} copy={{ label: copy.clueBoxLabel, title: copy.clueBoxTitle, firstFree: copy.clueFirstFree, openPrefix: copy.clueOpenPrefix, starBand: copy.clueStarBand }} /><ArchiveOptions options={question.options} selectedId={selectedId} eliminatedId={eliminatedId} onSelect={optionId => dispatch({ type: 'selectOption', optionId })} onConfirm={() => dispatch({ type: 'submitAnswer', answeredAt: new Date().toISOString() })} copy={{ prompt: copy.archivePrompt, eliminated: copy.guideEliminated, stampAction: copy.archiveStampAction, sealCharacter: copy.archiveSealCharacter }} /></section>
 
-  if (state.screen === 'wrongReview') return <section className="page wrong-review"><p className="section-label">{copy.wrongReviewEyebrow}</p><h1>{copy.wrongReviewTitle}</h1><GuidePresence line={hasArtifactExperienceV2(artifact) ? artifact.experienceV2.guideLines.incorrect[0] : artifact.wrongAnswerExplanation} {...guideProps} /><div className="fact-card"><p>{artifact.wrongAnswerExplanation}</p></div><button className="primary-button" type="button" onClick={() => dispatch({ type: 'continueToReveal' })}>{copy.wrongReviewAction}</button></section>
-  if (state.screen === 'reveal') return <section className="page"><RevealCabinet artifact={artifact} result={state.result} />{hasArtifactExperienceV2(artifact) && <GuidePresence line={artifact.experienceV2.guideLines.correct[0]} {...guideProps} />}<button className="primary-button" type="button" onClick={() => dispatch({ type: 'openStory' })}>{copy.revealStoryAction}</button></section>
+  if (state.screen === 'wrongReview') return <section className="page wrong-review"><p className="section-label">{copy.wrongReviewEyebrow}</p><h1>{copy.wrongReviewTitle}</h1><GuidePresence line={artifact.experienceV2.guideLines.incorrect[0]} {...guideProps} /><div className="fact-card"><p>{artifact.wrongAnswerExplanation}</p></div><button className="primary-button" type="button" onClick={() => dispatch({ type: 'continueToReveal' })}>{copy.wrongReviewAction}</button></section>
+  if (state.screen === 'reveal') return <section className="page"><RevealCabinet artifact={artifact} result={state.result} /><GuidePresence line={artifact.experienceV2.guideLines.correct[0]} {...guideProps} /><button className="primary-button" type="button" onClick={() => dispatch({ type: 'openStory' })}>{copy.revealStoryAction}</button></section>
 
   if (state.screen === 'story') {
-    const readIds = progress?.storyReadSections ?? []; const allRead = story.kind === 'enhanced' && readIds.length === story.sections.length
-    return <section className="page"><ArtifactStory model={story} readIds={readIds} legacyPendingLabel={copy.legacyStoryPending} onSectionRead={(sectionId: StorySectionId) => dispatch({ type: 'markStorySectionRead', sectionId })} copy={{ eyebrow: copy.storyEyebrow, navLabel: copy.storyNavLabel, sectionPrefix: copy.storySectionPrefix, sourcesLabel: copy.storySourcesLabel, sourceLevelSuffix: copy.storySourceLevelSuffix, readAction: copy.storyReadAction, readDone: copy.storyReadDone }} />{story.kind === 'enhanced' ? allRead ? <MemoryChallenge challenge={artifact.experienceV2!.memoryChallenge} answeredId={null} onAnswer={optionId => dispatch({ type: 'answerMemory', optionId })} onArchive={() => undefined} copy={memoryCopy} /> : <p className="reading-gate">{copy.readingGate}</p> : <button className="primary-button" type="button" onClick={() => dispatch({ type: 'archiveArtifact', artifacts, archivedAt: new Date().toISOString() })}>{copy.legacyArchiveAction}</button>}</section>
+    const readIds = progress?.storyReadSections ?? []; const allRead = readIds.length === story.sections.length
+    return <section className="page"><ArtifactStory model={story} readIds={readIds} onSectionRead={(sectionId: StorySectionId) => dispatch({ type: 'markStorySectionRead', sectionId })} copy={{ eyebrow: copy.storyEyebrow, navLabel: copy.storyNavLabel, sectionPrefix: copy.storySectionPrefix, sourcesLabel: copy.storySourcesLabel, sourceLevelSuffix: copy.storySourceLevelSuffix, readAction: copy.storyReadAction, readDone: copy.storyReadDone }} />{allRead ? <MemoryChallenge challenge={artifact.experienceV2.memoryChallenge} answeredId={null} onAnswer={optionId => dispatch({ type: 'answerMemory', optionId })} onArchive={() => undefined} copy={memoryCopy} /> : <p className="reading-gate">{copy.readingGate}</p>}</section>
   }
-  if (state.screen === 'memory' && hasArtifactExperienceV2(artifact)) return <section className="page"><MemoryChallenge challenge={artifact.experienceV2.memoryChallenge} answeredId={progress?.memoryAnswerId ?? null} onAnswer={() => undefined} onArchive={() => dispatch({ type: 'archiveArtifact', artifacts, archivedAt: new Date().toISOString() })} copy={memoryCopy} /></section>
+  if (state.screen === 'memory') return <section className="page"><MemoryChallenge challenge={artifact.experienceV2.memoryChallenge} answeredId={progress?.memoryAnswerId ?? null} onAnswer={() => undefined} onArchive={() => dispatch({ type: 'archiveArtifact', artifacts, archivedAt: new Date().toISOString() })} copy={memoryCopy} /></section>
   if (state.screen === 'archive') {
-    const set = findSet(artifact.setId); const position = artifacts.filter(item => item.setId === artifact.setId && item.timelineOrder <= artifact.timelineOrder).length; const guideLine = hasArtifactExperienceV2(artifact) ? artifact.experienceV2.guideLines.archived[0] : null
-    return <section className="page"><ArchiveTransfer artifact={artifact} set={set} position={position} related={story.kind === 'enhanced' ? story.related : []} guideLine={guideLine} onNext={() => dispatch({ type: 'nextQuestion' })} relatedTitle={copy.archiveRelatedTitle} nextAction={copy.archiveNextAction} guide={{ name: copy.guideName, role: copy.guideRole, askAction: copy.guideAskAction }} /></section>
+    const set = findSet(artifact.setId); const position = artifacts.filter(item => item.setId === artifact.setId && item.timelineOrder <= artifact.timelineOrder).length; const guideLine = artifact.experienceV2.guideLines.archived[0]
+    return <section className="page"><ArchiveTransfer artifact={artifact} set={set} position={position} related={story.related} guideLine={guideLine} onNext={() => dispatch({ type: 'nextQuestion' })} relatedTitle={copy.archiveRelatedTitle} nextAction={copy.archiveNextAction} guide={{ name: copy.guideName, role: copy.guideRole, askAction: copy.guideAskAction }} /></section>
   }
   if (state.screen === 'setComplete') { const set = findSet(state.completedSetId); return <section className="page set-complete"><p className="section-label">{copy.setCompleteEyebrow}</p><div className="set-seal" aria-hidden="true">{set.sealLabel}</div><h1>{set.name}</h1><p>{set.description}</p><GuidePresence line={set.guideCompleteLines[0]} {...guideProps} /><button className="primary-button" type="button" onClick={() => dispatch({ type: 'leaveSetComplete' })}>{copy.setCompleteAction}</button></section> }
   return <ErrorPanel message={copy.contentMissingMessage} onReset={() => dispatch({ type: 'recover' })} />

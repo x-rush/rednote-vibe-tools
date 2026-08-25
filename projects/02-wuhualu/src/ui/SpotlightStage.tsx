@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import type { Artifact, ObservationSpot } from '../content/types.ts'
 import { ArtifactMedia } from './ArtifactMedia.tsx'
+import { getRuntimeArtifactAssets } from './artifact-assets.ts'
 
 export type SpotlightStageCopy = {
   guideLabel: string
@@ -23,6 +24,7 @@ type SpotlightStageProps = {
 }
 
 export function SpotlightStage({ artifact, spots, foundIds, instruction, copy, onDiscover, onAsk }: SpotlightStageProps) {
+  const assets = getRuntimeArtifactAssets(artifact.id)
   const foundSpots = spots.filter(spot => foundIds.includes(spot.id))
   const isFirstObservation = foundSpots.length === 0
   const isComplete = spots.length > 0 && foundSpots.length === spots.length
@@ -31,7 +33,7 @@ export function SpotlightStage({ artifact, spots, foundIds, instruction, copy, o
   return (
     <section className="spotlight-shell" aria-labelledby="observation-instruction">
       <p id="observation-instruction" className="stage-instruction">{instruction}</p>
-      <div className="spotlight-stage">
+      <div className="spotlight-stage" style={{ aspectRatio: `${assets?.observationWidth ?? 4}/${assets?.observationHeight ?? 5}` }}>
         <ArtifactMedia artifactId={artifact.id} artifactName={artifact.name} role="observation" eager />
         {spots.map((spot, index) => {
           const found = foundIds.includes(spot.id)

@@ -72,6 +72,46 @@ describe('versioned local storage', () => {
     expect(loaded.payload.currentSession).toBeNull()
   })
 
+  it('adds empty V2 learning fields while preserving a V1 collection', () => {
+    const storage = new MemoryStorage()
+    storage.setItem(STORAGE_KEY, JSON.stringify({
+      schemaVersion: 1,
+      contentVersion: '1.0.0',
+      updatedAt: '2026-08-24T00:00:00.000Z',
+      collection: [{ artifactId: 'artifact-a', bestStars: 2, unlockedAt: '2026-08-24T00:00:00.000Z' }],
+      bestScore: 200,
+      recentAttempts: [],
+      currentSession: null,
+      recentArtifactIds: [],
+      settings: { muted: false, reducedMotion: false },
+    }))
+
+    const loaded = loadStorage(storage, validIds, '1.0.0', '2026-08-25T00:00:00.000Z')
+    expect(loaded.payload.collection).toHaveLength(1)
+    expect(loaded.payload.artifactProgress).toEqual([])
+    expect(loaded.payload.setSealIds).toEqual([])
+  })
+
+  it('round-trips and sanitizes V2 learning progress without storing media', () => {
+    const storage = new MemoryStorage()
+    const payload = createDefaultStoragePayload('2.0.0', '2026-08-25T00:00:00.000Z')
+    Object.assign(payload, {
+      artifactProgress: [
+        { artifactId: 'artifact-a', observedSpotIds: ['spot-a', 'spot-a'], storyReadSections: ['first-look', 'bad-section'], memoryCompleted: true },
+        { artifactId: 'artifact-stale', observedSpotIds: ['spot-stale'], storyReadSections: [], memoryCompleted: false },
+      ],
+      setSealIds: ['first-fire', 'not-a-set', 'first-fire'],
+    })
+    saveStorage(storage, payload)
+
+    const loaded = loadStorage(storage, validIds, '2.0.0', payload.updatedAt)
+    expect(loaded.payload.artifactProgress).toEqual([
+      { artifactId: 'artifact-a', observedSpotIds: ['spot-a'], storyReadSections: ['first-look'], memoryCompleted: true },
+    ])
+    expect(loaded.payload.setSealIds).toEqual(['first-fire'])
+    expect(loaded.recovery).toBe('sanitized-references')
+  })
+
   it('rejects Base64 or binary-shaped values at the persistence boundary', () => {
     const storage = new MemoryStorage()
     const payload = createDefaultStoragePayload('1.0.0')

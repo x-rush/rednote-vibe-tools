@@ -306,6 +306,13 @@ export type RecentAttempt = {
   answeredAt: string
 }
 
+export type ArtifactLearningProgress = {
+  artifactId: string
+  observedSpotIds: string[]
+  storyReadSections: StorySectionId[]
+  memoryCompleted: boolean
+}
+
 export type StoragePayload = {
   schemaVersion: 1
   contentVersion: string
@@ -315,5 +322,7 @@ export type StoragePayload = {
   recentAttempts: RecentAttempt[]
   currentSession: QuizSession | null
   recentArtifactIds: string[]
+  artifactProgress: ArtifactLearningProgress[]
+  setSealIds: ArtifactSetId[]
   settings: { muted: boolean; reducedMotion: boolean }
 }

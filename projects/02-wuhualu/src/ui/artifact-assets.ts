@@ -23,6 +23,7 @@ const runtimeAssets: Readonly<Record<string, RuntimeArtifactAssets>> = {
   'artifact-four-ram-zun': entry('artifact-four-ram-zun', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-ram-body-fusion.webp', 'clue-crop-square-rim-flanges.webp'], '创意重构（限定视角）'),
   'artifact-lotus-crane-hu': entry('artifact-lotus-crane-hu', 'reveal-creative-reconstruction-v2.webp', ['clue-crop-two-legged-crane-lotus.webp', 'clue-crop-two-supporting-beasts.webp']),
   'artifact-cloud-bronze-jin': entry('artifact-cloud-bronze-jin', 'reveal-creative-reconstruction-v3.webp', ['clue-crop-attached-beasts.webp', 'clue-crop-openwork-supports.webp']),
+  'artifact-zenghouyi-bells': entry('artifact-zenghouyi-bells', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-l-frame-three-tiers.webp', 'clue-crop-small-to-large-bells.webp'], '创意重构（非数字复原）'),
   'artifact-zenghouyi-zunpan': entry('artifact-zenghouyi-zunpan', 'reveal-creative-reconstruction-v2.webp', ['clue-crop-openwork-climbing-beasts.webp', 'clue-crop-zun-in-wide-pan.webp'], '创意重构（非数字复原）'),
 }
 

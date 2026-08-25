@@ -6,9 +6,9 @@ import { filterPlayableArtifacts, getRuntimeArtifactAssets, playableArtifactIds,
 describe('release artifact assets', () => {
   const artifacts = parseContent(rawContent).content.artifacts
 
-  it('exposes exactly nine playable artifacts that exist in content', () => {
-    expect(playableArtifactIds).toHaveLength(9)
-    expect(new Set(playableArtifactIds).size).toBe(9)
+  it('exposes exactly ten playable artifacts that exist in content', () => {
+    expect(playableArtifactIds).toHaveLength(10)
+    expect(new Set(playableArtifactIds).size).toBe(10)
     expect(filterPlayableArtifacts(artifacts).map(({ id }) => id).sort()).toEqual([...playableArtifactIds].sort())
   })
 

@@ -1,32 +1,55 @@
-# React + TypeScript + Vite
+# SBTI：山海兽格
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+纯前端、移动端优先的山海文化人格倾向测试。每局从 48 道题库中按四维均衡规则抽取 24 道二选一情境题，计算四组偏好，并映射为 16 种山海异兽人格结果。
 
-Currently, two official plugins are available:
+## 产品边界
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 这是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。
+- 结果页将古籍记载、历史图像和 SBTI 产品演绎分层展示，不把现代人格映射冒充传统文化结论。
+- 16 种异兽形象均基于独立参考 dossier 制作；正式图是艺术化创意重构，不是馆藏实物或古本原图。
 
-## React Compiler
+## 首发内容
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 48 道冻结题库，每局抽取 24 道，四个维度各 6 题。
+- 16 种冻结兽格、确定性平分规则与接近型结果说明。
+- 最近三次结果、未完成进度和设置均只保存在 `localStorage`。
+- 引导角色“闻山”提供首次三句说明、随时召回帮助和异常恢复提示。
+- 16 张参考核验正式图与 16 张同源轻量占位图；图片失败时继续降级为 CSS 墨影和文字。
 
-## Expanding the Oxlint configuration
+## 运行约束
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- React + TypeScript + Vite，构建产物为纯静态 HTML/CSS/JS。
+- 无后端、运行时 CDN、必需外部 API 或 Service Worker。
+- 业务内容只来自 `src/content/content.json`。
+- 不保存用户图片、Base64、音视频或 Blob。
+- Vite 使用相对资源基址，`dist/` 可作为小红书小工具 Web 静态包上传。
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## 开发与门禁
+
+在仓库根目录安装依赖后：
+
+```bash
+cd projects/01-sbti
+pnpm dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+提交前必须执行：
+
+```bash
+pnpm lint
+pnpm test
+pnpm build
+```
+
+响应式与交互门禁覆盖 375、390、430 CSS px，以及首次引导、24 题作答、平分、接近型、结果、历史、图片失败和存储异常路径。
+
+设计、证据与验收材料：
+
+- `DESIGN.md`
+- `UX-SPEC.md`
+- `UI-HANDOFF.md`
+- `PROMPTS.md`
+- `VISUAL-QA.md`
+- `design/preview.html`
+- `research/*-reference-dossier.md`
+- `public/assets/sbti/asset-manifest.json`

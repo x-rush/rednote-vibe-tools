@@ -88,7 +88,7 @@ type ResultScreenViewModel = {
 
 ## WSL 真实应用接入基线（2026-08-25）
 
-审查对象：`/home/xrush/project/www/rednote-vibe-tools/projects/01-sbti`
+审查对象：`projects/01-sbti`
 
 真实应用当前已经完成 48 题内容、选题、四维计分、结果映射、近邻型、状态机、历史记录、本地存储和错误恢复。`pnpm lint && pnpm test && pnpm build` 已通过，34/34 测试为绿。以下接入只改表现层和必要的 UI 状态，不重写 Foundation。
 

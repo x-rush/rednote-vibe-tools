@@ -17,3 +17,4 @@ projects/01-sbti/public/assets/*
 *.log
 .DS_Store
 Thumbs.db
+.playwright-cli

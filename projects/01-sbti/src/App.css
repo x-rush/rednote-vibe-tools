@@ -218,9 +218,20 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
 .option input { width: 20px; height: 20px; margin: 0; accent-color: var(--cinnabar); }
 .page--quiz .button--quiet { color: var(--ink-on-night); }
 .form-message { color: #e59889; }
-.dimension-list { display: grid; gap: var(--space-4); }
-.dimension > div { display: flex; justify-content: space-between; gap: var(--space-3); }
-.dimension meter { width: 100%; height: 12px; }
+.section-intro { margin: calc(var(--space-2) * -1) 0 var(--space-5); color: var(--ink-muted); font-size: var(--text-sm); }
+.dimension-list { display: grid; gap: var(--space-5); }
+.dimension__heading { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.dimension__heading span { color: var(--ink-soft); font-size: var(--text-sm); }
+.dimension__track { position: relative; display: block; height: 8px; margin-top: var(--space-2); border-radius: var(--radius-pill); background: color-mix(in srgb, var(--ink-soft) 14%, transparent); }
+.dimension__center { position: absolute; z-index: 2; top: -3px; bottom: -3px; left: 50%; width: 1px; background: var(--ink-muted); }
+.dimension__fill { position: absolute; top: 0; height: 100%; border-radius: var(--radius-pill); background: var(--cinnabar); }
+.dimension__fill--left { right: 50%; }
+.dimension__fill--right { left: 50%; }
+.dimension__poles { display: flex; justify-content: space-between; margin-top: var(--space-1); color: var(--ink-muted); font-size: var(--text-xs); }
+.neighbor-card { margin-top: var(--space-6); border: 1px solid color-mix(in srgb, var(--ink-soft) 24%, transparent); border-left: 3px solid var(--malachite); padding: var(--space-4); background: rgb(63 116 100 / 5%); }
+.neighbor-card .eyebrow { margin-bottom: var(--space-1); color: var(--malachite); }
+.neighbor-card > strong { font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif; font-size: var(--text-body-lg); }
+.neighbor-card > p:last-child { margin: var(--space-2) 0 0; color: var(--ink-soft); font-size: var(--text-sm); }
 .share-card { display: grid; gap: var(--space-3); margin-top: var(--space-8); border-bottom: 1px solid rgb(70 83 78 / 32%); }
 .share-card p, .share-card small { margin: 0; }
 .share-card strong { font-size: 1.2rem; line-height: 1.55; }

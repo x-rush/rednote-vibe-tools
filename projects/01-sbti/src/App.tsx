@@ -39,7 +39,10 @@ function ValidatedApp() {
   if (app.state.screen === 'calculating') return <CalculatingPage message={copy.calculating} />
   if (app.state.screen === 'result' && app.state.result) {
     const profile = content.content.resultTypes.find((item) => item.code === app.state.result!.code)!
-    return <ResultPage result={app.state.result} profile={profile} share={generateShareCardViewModel(app.state.result, content)} onHome={() => app.dispatch({ type: 'HOME' })} onRestart={app.restart} />
+    const neighbor = content.content.resultTypes.find((item) => item.code === app.state.result!.summary.neighborCode)
+    const neighborCreature = neighbor && content.content.creatures.find((item) => item.id === neighbor.creatureId)
+    const neighborLabel = neighbor && neighborCreature ? `${neighborCreature.name} · ${neighbor.chineseName}` : undefined
+    return <ResultPage result={app.state.result} profile={profile} neighborLabel={neighborLabel} share={generateShareCardViewModel(app.state.result, content)} onHome={() => app.dispatch({ type: 'HOME' })} onRestart={app.restart} />
   }
   if (app.state.screen === 'history') return <HistoryPage result={app.state.recentResult} emptyText={copy.emptyHistory} onOpen={() => app.dispatch({ type: 'OPEN_RECENT_RESULT' })} onBack={() => app.dispatch({ type: 'HOME' })} />
   return <LandingPage copy={copy} continuation={continuation} hasRecent={Boolean(app.state.recentResult)} muted={app.settings.muted} reducedMotion={app.settings.reducedMotion} onIntro={() => app.dispatch({ type: 'OPEN_INTRO' })} onRestart={app.restart} onContinue={() => app.state.progress && app.dispatch({ type: 'RESTORE', progress: app.state.progress })} onHistory={() => app.dispatch({ type: 'OPEN_HISTORY' })} onMuted={app.setMuted} onReducedMotion={app.setReducedMotion} onClear={app.clearAll} />

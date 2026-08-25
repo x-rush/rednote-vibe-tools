@@ -1,6 +1,8 @@
 .app-shell { width: min(100%, 720px); min-height: 100svh; margin: 0 auto; padding: max(18px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom)); }
 .brand-bar, .title-row, .progress-line { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .brand-bar { min-height: 62px; border-bottom: 1px solid var(--line); }
+.brand-identity { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand-icon { width: 36px; height: 36px; border-radius: 9px; flex: 0 0 auto; }
 .header-actions { display: flex; align-items: center; gap: 10px; }
 .guide-avatar-button { display: flex; align-items: center; gap: 6px; min-height: 48px; padding: 4px 8px 4px 4px; color: var(--ink); border: 1px solid var(--line); background: var(--paper); }
 .guide-avatar-button img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
@@ -23,11 +25,7 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .text-button { min-height: 44px; padding: 8px 0; color: var(--muted); background: transparent; }
 .text-button.wide { width: 100%; }
 .action-stack { display: grid; gap: 10px; margin-top: 28px; }
-.museum-mark { width: 76px; height: 94px; margin-bottom: 24px; border: 2px solid var(--ink); border-radius: 38px 38px 3px 3px; position: relative; }
-.museum-mark::before, .museum-mark::after, .museum-mark span { content: ""; position: absolute; background: var(--ink); }
-.museum-mark::before { width: 2px; height: 70%; left: 50%; bottom: 0; }
-.museum-mark::after { width: 54%; height: 2px; left: 23%; top: 46%; }
-.museum-mark span { width: 8px; height: 8px; border-radius: 50%; left: calc(50% - 3px); top: 18px; }
+.museum-mark { display: block; width: 88px; height: 88px; margin-bottom: 24px; border-radius: 22px; box-shadow: 0 12px 30px rgb(24 25 23 / 14%); }
 .guide-intro-card { position: relative; margin: 22px 0; border: 1px solid var(--line); background: var(--cabinet); overflow: hidden; }
 .guide-intro-card img { display: block; width: 100%; height: clamp(260px, 88vw, 440px); object-fit: cover; object-position: 50% 34%; }
 .guide-intro-card figcaption { display: grid; gap: 5px; padding: 14px 16px; text-align: left; background: var(--paper-strong); }

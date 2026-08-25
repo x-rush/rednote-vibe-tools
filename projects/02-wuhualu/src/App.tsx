@@ -8,6 +8,7 @@ import { appReducer, createInitialState, type AppState } from './state/game-stat
 import { clearStorage, loadStorage, saveStorage } from './storage/storage.ts'
 import { ArtifactMedia } from './ui/ArtifactMedia.tsx'
 import { filterPlayableArtifacts } from './ui/artifact-assets.ts'
+import { APP_ICON_URL } from './ui/brand-assets.ts'
 import './App.css'
 
 const content = parseContent(rawContent)
@@ -48,7 +49,7 @@ function App() {
   return (
     <main className="app-shell">
       <header className="brand-bar">
-        <div><p className="eyebrow">{copy.brand}</p><p className="brand-subtitle">{copy.subtitle}</p></div>
+        <div className="brand-identity"><img className="brand-icon" src={APP_ICON_URL} alt="" width="1024" height="1024" /><div><p className="eyebrow">{copy.brand}</p><p className="brand-subtitle">{copy.subtitle}</p></div></div>
         <div className="header-actions">
           <button className="guide-avatar-button" type="button" aria-label="向文物整理员许照求助" onClick={() => setGuideOpen(true)}><img src={`${import.meta.env.BASE_URL}assets/wuhualu/guide/guide-avatar-v1.webp`} alt="" width="160" height="160" /><span>问许照</span></button>
           {shouldShowExitAction(state.screen) && (
@@ -99,7 +100,7 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
     const hasSession = Boolean(state.payload.currentSession)
     return (
       <section className="page hero-page" aria-labelledby="landing-title">
-        <div className="museum-mark" aria-hidden="true"><span /></div>
+        <img className="museum-mark" src={APP_ICON_URL} alt="" width="1024" height="1024" />
         <p className="section-label">{copy.subtitle}</p>
         <h1 id="landing-title">{copy.landingTitle}</h1>
         <p className="lead">{copy.landingBody}</p>

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import content from './content.json'
-import { validateContent } from './validate.ts'
+import { hasArtifactExperienceV2 } from './types.ts'
+import { parseContent, validateContent } from './validate.ts'
 
 describe('production content package', () => {
   it('contains exactly 20 uniquely identified artifacts', () => {
@@ -19,6 +20,35 @@ describe('production content package', () => {
       expect(artifact.assetRefs.fallbackAssetId).toMatch(/^asset-[a-z0-9-]+$/)
       expect(artifact.unlockCopy.trim().length).toBeGreaterThan(0)
     }
+  })
+
+  it('groups all artifacts into five four-item sets with unique timeline positions', () => {
+    const parsed = parseContent(content)
+    const grouped = new Map(parsed.content.sets.map(set => [set.id, 0]))
+    for (const artifact of parsed.content.artifacts) {
+      grouped.set(artifact.setId, (grouped.get(artifact.setId) ?? 0) + 1)
+    }
+
+    expect(parsed.content.sets).toHaveLength(5)
+    expect([...grouped.values()]).toEqual([4, 4, 4, 4, 4])
+    expect(new Set(parsed.content.artifacts.map(({ timelineOrder }) => timelineOrder)).size).toBe(20)
+  })
+
+  it('accepts exactly one complete V2 golden experience without inventing the other nineteen', () => {
+    const parsed = parseContent(content)
+    const enhanced = parsed.content.artifacts.filter(hasArtifactExperienceV2)
+
+    expect(enhanced.map(({ id }) => id)).toEqual(['artifact-zenghouyi-bells'])
+    expect(enhanced[0].experienceV2.story).toHaveLength(5)
+    expect(enhanced[0].experienceV2.observationSpots).toHaveLength(3)
+    expect(enhanced[0].experienceV2.clueCards.map(({ label }) => label)).toEqual(['看形', '辨材', '问来历'])
+  })
+
+  it('rejects a partial V2 experience block', () => {
+    const broken = structuredClone(content) as unknown as { content: { artifacts: Array<Record<string, unknown>> } }
+    broken.content.artifacts[0].experienceV2 = { storyHook: '只有标题的半成品' }
+
+    expect(validateContent(broken).issues.some(({ path }) => path.includes('experienceV2'))).toBe(true)
   })
 
   it('reports invalid references and unsafe asset IDs with JSON paths', () => {

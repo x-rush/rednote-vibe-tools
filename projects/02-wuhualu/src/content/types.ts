@@ -20,6 +20,72 @@ export type FactCheckStatus = 'verified-from-provided-source' | 'pending-review'
 export type ArtifactDifficulty = 'easy' | 'normal' | 'hard'
 export type PeriodGroup = 'prehistoric' | 'shang-zhou' | 'spring-autumn-warring' | 'han' | 'tang'
 export type DistractorTag = 'shape' | 'use' | 'period' | 'material' | 'pattern' | 'category'
+export type ArtifactSetId = 'first-fire' | 'ritual-bronze' | 'chu-sound' | 'han-light' | 'tang-world'
+export type StorySectionId = 'first-look' | 'making' | 'lived-world' | 'journey' | 'why-now'
+
+export type ArtifactSetDefinition = {
+  id: ArtifactSetId
+  name: string
+  description: string
+  sealLabel: string
+  guideCompleteLines: string[]
+}
+
+export type StorySection = {
+  id: StorySectionId
+  title: string
+  body: string
+  sourceIds: string[]
+  narrativeMode: 'verified-fact' | 'bounded-context' | 'open-question'
+}
+
+export type ObservationSpot = {
+  id: string
+  x: number
+  y: number
+  radius: number
+  label: string
+  note: string
+  clueCategory: 'shape' | 'material' | 'craft' | 'trace'
+  assetRole: 'clue-1' | 'clue-2' | 'reveal'
+}
+
+export type ClueCard = {
+  id: string
+  category: 'shape' | 'material' | 'provenance'
+  label: '看形' | '辨材' | '问来历'
+  text: string
+  npcHint: string
+  starCost: 0 | 1
+}
+
+export type MemoryChallenge = {
+  prompt: string
+  options: { id: string; label: string }[]
+  answerId: string
+  explanation: string
+  sourceIds: string[]
+}
+
+export type GuideLines = {
+  beforeObservation: string[]
+  clueOpened: string[]
+  correct: string[]
+  incorrect: string[]
+  archived: string[]
+}
+
+export type ArtifactExperienceV2 = {
+  storyHook: string
+  story: StorySection[]
+  observationSpots: ObservationSpot[]
+  clueCards: ClueCard[]
+  memoryChallenge: MemoryChallenge
+  relatedArtifacts: { artifactId: string; reason: string }[]
+  guideLines: GuideLines
+  storyFactCheckStatus: 'verified' | 'mixed-with-bounded-context' | 'pending'
+  storyContentVersion: string
+}
 
 export type Artifact = {
   id: string
@@ -46,6 +112,13 @@ export type Artifact = {
   sourceIds: string[]
   assetRefs: AssetReference
   contentVersion: string
+  setId: ArtifactSetId
+  timelineOrder: number
+  experienceV2?: ArtifactExperienceV2
+}
+
+export function hasArtifactExperienceV2(artifact: Artifact): artifact is Artifact & { experienceV2: ArtifactExperienceV2 } {
+  return artifact.experienceV2 !== undefined
 }
 
 export type DistractorCandidate = {
@@ -136,6 +209,7 @@ export type WuhualuContentPackage = {
   sources: SourceRecord[]
   content: {
     artifacts: Artifact[]
+    sets: ArtifactSetDefinition[]
     categories: ArtifactCategory[]
     distractorCandidates: DistractorCandidate[]
     rounds: { id: string; artifactCount: 5; optionCount: 4; maxSameMaterial: 2; maxSamePeriodGroup: 2 }[]

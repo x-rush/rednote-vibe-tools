@@ -20,6 +20,15 @@ function ValidatedApp() {
   const content = contentResult.content!
   const app = useSbtiApp(content)
   const copy = content.content.experience
+  const continuationChapter = app.state.progress && app.currentQuestion
+    ? content.content.chapters.find((item) => item.id === app.currentQuestion!.chapterId)
+    : undefined
+  const continuation = app.state.progress && continuationChapter ? {
+    chapterLabel: `卷${continuationChapter.order} · ${continuationChapter.name}`,
+    current: app.state.progress.currentIndex + 1,
+    total: app.state.progress.questionIds.length,
+    updatedAt: app.lastSavedAt,
+  } : undefined
 
   if (app.state.screen === 'error') return <ErrorPage message={app.state.message ?? '内容或本机数据异常。'} onRecover={() => app.dispatch({ type: 'RECOVER' })} />
   if (app.state.screen === 'intro') return <IntroPage copy={copy} onBack={() => app.dispatch({ type: 'HOME' })} onStart={() => app.start()} />
@@ -33,7 +42,7 @@ function ValidatedApp() {
     return <ResultPage result={app.state.result} profile={profile} share={generateShareCardViewModel(app.state.result, content)} onHome={() => app.dispatch({ type: 'HOME' })} onRestart={app.restart} />
   }
   if (app.state.screen === 'history') return <HistoryPage result={app.state.recentResult} emptyText={copy.emptyHistory} onOpen={() => app.dispatch({ type: 'OPEN_RECENT_RESULT' })} onBack={() => app.dispatch({ type: 'HOME' })} />
-  return <LandingPage copy={copy} canContinue={Boolean(app.state.progress)} hasRecent={Boolean(app.state.recentResult)} muted={app.settings.muted} reducedMotion={app.settings.reducedMotion} onIntro={() => app.dispatch({ type: 'OPEN_INTRO' })} onContinue={() => app.state.progress && app.dispatch({ type: 'RESTORE', progress: app.state.progress })} onHistory={() => app.dispatch({ type: 'OPEN_HISTORY' })} onMuted={app.setMuted} onReducedMotion={app.setReducedMotion} onClear={app.clearAll} />
+  return <LandingPage copy={copy} continuation={continuation} hasRecent={Boolean(app.state.recentResult)} muted={app.settings.muted} reducedMotion={app.settings.reducedMotion} onIntro={() => app.dispatch({ type: 'OPEN_INTRO' })} onRestart={app.restart} onContinue={() => app.state.progress && app.dispatch({ type: 'RESTORE', progress: app.state.progress })} onHistory={() => app.dispatch({ type: 'OPEN_HISTORY' })} onMuted={app.setMuted} onReducedMotion={app.setReducedMotion} onClear={app.clearAll} />
 }
 
 function App() {

@@ -80,6 +80,26 @@ export type ExperienceCopy = {
   subtitle: string
   duration: string
   intro: string[]
+  guide: {
+    name: string
+    role: string
+    steps: string[]
+  }
+  surfaces: {
+    brandCode: string
+    brandName: string
+    brandSeal: string
+    landingEyebrow: string
+    landingQuestion: string
+    landingFreshKicker: string
+    landingContinueKicker: string
+    landingMeta: string
+    landingFootnote: string
+    introEyebrow: string
+    introTitle: string
+    introLead: string
+    introPrivacy: string
+  }
   disclaimer: string
   calculating: string
   emptyHistory: string
@@ -101,4 +121,3 @@ export type SbtiContentPackage = {
     tieBreakers: Array<{ dimension: DimensionCode; questionId: string }>
   }
 }
-

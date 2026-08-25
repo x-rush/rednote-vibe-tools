@@ -2,6 +2,7 @@ import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import type { SbtiContentPackage } from '../content/types'
 import { generateQuizResult, recordAnswer } from '../quiz/scoring'
 import { selectQuestionIds } from '../quiz/selection'
+import { clearGuideState } from '../guide/guideState'
 import {
   clearStorage,
   hydrateStoredResult,
@@ -35,6 +36,11 @@ export function useSbtiApp(content: SbtiContentPackage) {
   const calculationSeed = useRef<string | undefined>(undefined)
 
   useEffect(() => {
+    document.documentElement.dataset.reducedMotion = String(settings.reducedMotion)
+    return () => { delete document.documentElement.dataset.reducedMotion }
+  }, [settings.reducedMotion])
+
+  useEffect(() => {
     if (state.screen !== 'calculating' || !state.progress || calculationSeed.current === state.progress.seed) return
     calculationSeed.current = state.progress.seed
     const result = generateQuizResult(state.progress.questionIds, state.progress.answers, content, new Date().toISOString())
@@ -43,10 +49,11 @@ export function useSbtiApp(content: SbtiContentPackage) {
 
   useEffect(() => {
     if (!shouldPersistScreen(state.screen)) return
+    const updatedAt = new Date().toISOString()
     const payload: StoragePayload = {
       schemaVersion: 1,
       quizVersion: content.contentVersion,
-      updatedAt: new Date().toISOString(),
+      updatedAt,
       data: {
         activeProgress: state.progress,
         recentResult: state.recentResult ? toStoredResult(state.recentResult) : undefined,
@@ -78,6 +85,7 @@ export function useSbtiApp(content: SbtiContentPackage) {
   function clearAll() {
     if (!window.confirm('清空本工具的答题进度和最近结果？此操作无法撤销。')) return
     clearStorage(window.localStorage)
+    clearGuideState(window.localStorage)
     dispatch({ type: 'CLEAR_ALL' })
     setSettings(DEFAULT_SETTINGS)
   }
@@ -90,6 +98,7 @@ export function useSbtiApp(content: SbtiContentPackage) {
   return {
     state,
     settings,
+    lastSavedAt: loaded.status === 'ready' ? loaded.payload.updatedAt : undefined,
     currentQuestion,
     selectedOptionId,
     dispatch,

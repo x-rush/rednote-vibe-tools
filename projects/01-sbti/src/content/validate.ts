@@ -167,6 +167,26 @@ export function validateContent(input: unknown): SbtiContentPackage {
   if (chapters.length !== 4) issues.push('$.content.chapters: expected exactly 4 chapters')
   if (tieBreakers.length !== 4) issues.push('$.content.tieBreakers: expected exactly 4 tie breakers')
   if (!isRecord(content.experience)) issues.push('$.content.experience: expected an object')
+  else {
+    requiredStrings(content.experience, ['title', 'subtitle', 'duration', 'disclaimer', 'calculating', 'emptyHistory'], '$.content.experience', issues)
+    if (!Array.isArray(content.experience.intro) || content.experience.intro.some((item) => typeof item !== 'string' || item.trim() === '')) {
+      issues.push('$.content.experience.intro: expected non-empty strings')
+    }
+    if (!isRecord(content.experience.guide)) issues.push('$.content.experience.guide: expected an object')
+    else {
+      requiredStrings(content.experience.guide, ['name', 'role'], '$.content.experience.guide', issues)
+      if (!Array.isArray(content.experience.guide.steps) || content.experience.guide.steps.length !== 3 || content.experience.guide.steps.some((item) => typeof item !== 'string' || item.trim() === '')) {
+        issues.push('$.content.experience.guide.steps: expected exactly three non-empty strings')
+      }
+    }
+    if (!isRecord(content.experience.surfaces)) issues.push('$.content.experience.surfaces: expected an object')
+    else {
+      requiredStrings(content.experience.surfaces, [
+        'brandCode', 'brandName', 'brandSeal', 'landingEyebrow', 'landingQuestion', 'landingFreshKicker', 'landingContinueKicker',
+        'landingMeta', 'landingFootnote', 'introEyebrow', 'introTitle', 'introLead', 'introPrivacy',
+      ], '$.content.experience.surfaces', issues)
+    }
+  }
 
   const questionIds = unique(questions, (item) => item.id, '$.content.questions', issues)
   const questionById = new Map(questions.filter(isRecord).map((item) => [String(item.id), item]))

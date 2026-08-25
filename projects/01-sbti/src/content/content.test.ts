@@ -23,6 +23,24 @@ describe('production content package', () => {
     expect(validateContent(rawContent).content.questions).toHaveLength(48)
   })
 
+  it('requires the three-step Wenshan guide copy in the content package', () => {
+    const broken = structuredClone(rawContent) as unknown as {
+      content: { experience: { guide?: unknown } }
+    }
+    delete broken.content.experience.guide
+
+    expect(() => validateContent(broken)).toThrow(/\$\.content\.experience\.guide/)
+  })
+
+  it('requires landing and intro business copy outside JSX', () => {
+    const broken = structuredClone(rawContent) as unknown as {
+      content: { experience: { surfaces?: unknown } }
+    }
+    delete broken.content.experience.surfaces
+
+    expect(() => validateContent(broken)).toThrow(/\$\.content\.experience\.surfaces/)
+  })
+
   it('reports the JSON path of an invalid dimension score', () => {
     const broken = structuredClone(rawContent) as unknown as {
       content: { questions: Array<{ options: Array<{ score: { dimension: string } }> }> }

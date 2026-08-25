@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" viewBox="0 0 300 150" role="img" aria-labelledby="title desc">
+  <title id="title">云纹铜禁核验剪影</title>
+  <desc id="desc">低矮长方禁体、四侧攀附兽和独立底部座兽的结构化剪影；不复制或虚构具体云纹。</desc>
+  <rect width="300" height="150" fill="#eee9dc"/>
+  <g fill="#171b1a">
+    <path d="M34 57h232v53H34z"/>
+    <path d="M26 61c-10 8-13 26-6 41 4 8 10 12 18 11V55c-5 0-9 2-12 6zm248 0c10 8 13 26 6 41-4 8-10 12-18 11V55c5 0 9 2 12 6z"/>
+    <path d="M55 38h13v26H55zm-8-7c5-8 17-9 25-3l7 6-10 7H49l-8-5z"/>
+    <path d="M110 38h13v26h-13zm-8-7c5-8 17-9 25-3l7 6-10 7h-20l-8-5z"/>
+    <path d="M165 38h13v26h-13zm-8-7c5-8 17-9 25-3l7 6-10 7h-20l-8-5z"/>
+    <path d="M220 38h13v26h-13zm-8-7c5-8 17-9 25-3l7 6-10 7h-20l-8-5z"/>
+    <path d="M55 52h14v57H55zm55 0h14v57h-14zm55 0h14v57h-14zm55 0h14v57h-14z"/>
+    <path d="M47 105h18v25H47zm47 0h18v25H94zm47 0h18v25h-18zm47 0h18v25h-18zm47 0h18v25h-18z"/>
+  </g>
+  <g fill="#eee9dc" opacity=".9">
+    <path d="M47 68h206v30H47z"/>
+  </g>
+  <g fill="#171b1a">
+    <path d="M55 52h14v57H55zm55 0h14v57h-14zm55 0h14v57h-14zm55 0h14v57h-14z"/>
+    <path d="M48 50h28l-6 10H54zm55 0h28l-6 10h-16zm55 0h28l-6 10h-16zm55 0h28l-6 10h-16z"/>
+  </g>
+  <g stroke="#9b7950" stroke-width="2" opacity=".75">
+    <path d="M48 73h204M48 80h204M48 87h204M48 94h204"/>
+    <path d="M58 68v30m18-30v30m18-30v30m18-30v30m18-30v30m18-30v30m18-30v30m18-30v30m18-30v30m18-30v30m18-30v30"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 180" role="img" aria-labelledby="title desc">
+  <title id="title">贾湖骨笛核验剪影</title>
+  <desc id="desc">一支细长略弯、两端开放的骨管轮廓，七个主要音孔按参考位置排列。</desc>
+  <path d="M28 125C128 115 254 85 392 48" fill="none" stroke="#171a19" stroke-width="31" stroke-linecap="round"/>
+  <g fill="#eee9dc" opacity=".96">
+    <circle cx="119" cy="111" r="6"/><circle cx="161" cy="103" r="6"/><circle cx="204" cy="93" r="6"/><circle cx="247" cy="82" r="6"/><circle cx="289" cy="71" r="6"/><circle cx="330" cy="60" r="6"/><circle cx="366" cy="51" r="6"/>
+  </g>
+  <ellipse cx="28" cy="125" rx="7" ry="13" fill="#eee9dc" transform="rotate(82 28 125)"/>
+  <ellipse cx="392" cy="48" rx="7" ry="13" fill="#eee9dc" transform="rotate(74 392 48)"/>
+</svg>

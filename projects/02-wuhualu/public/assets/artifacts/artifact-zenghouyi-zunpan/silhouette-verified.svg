@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="250" viewBox="0 0 280 250" role="img" aria-labelledby="title desc">
+  <title id="title">曾侯乙尊盘结构剪影</title>
+  <desc id="desc">高尊竖立在宽大圆盘中央，尊口与盘口分别展开镂空体量的结构示意，不复制具体龙蛇纹。</desc>
+  <rect width="280" height="250" fill="#eee9dc"/>
+  <g fill="#171b1a">
+    <!-- 上尊：展开口沿、颈腹与圈足。 -->
+    <path d="M86 26h108l-8 28H94z"/>
+    <path d="M105 48h70l-8 93h-54z"/>
+    <path d="M101 128h78l10 22H91z"/>
+    <!-- 下盘：用椭圆围合和下腹弧度区分于铜禁或案几。 -->
+    <ellipse cx="140" cy="137" rx="118" ry="32"/>
+    <path d="M24 137c4 31 8 49 18 62 52 19 144 19 196 0 10-13 14-31 18-62-48 25-184 25-232 0z"/>
+    <path d="M7 119h54v28H7zM219 119h54v28h-54z" opacity=".9"/>
+    <path d="M46 190c50 14 138 14 188 0l-12 20H58z"/>
+    <path d="M48 202h22l-7 32H45zM104 202h22l-4 32h-21zM154 202h22l3 32h-21zM210 202h22l3 32h-18z"/>
+  </g>
+  <ellipse cx="140" cy="132" rx="92" ry="17" fill="#eee9dc"/>
+  <path d="M91 128h98v22H91z" fill="#171b1a"/>
+  <g stroke="#9b7950" stroke-width="3" opacity=".82" fill="none">
+    <path d="M96 43h88M108 91h64M30 143h220M38 181h204"/>
+    <path d="M101 32c12-10 24-10 36 0M143 32c12-10 24-10 36 0"/>
+  </g>
+</svg>

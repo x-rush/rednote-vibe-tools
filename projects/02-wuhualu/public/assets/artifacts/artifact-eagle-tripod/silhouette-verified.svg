@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" role="img" aria-labelledby="title desc">
+  <title id="title">鹰形陶鼎核验剪影</title>
+  <desc id="desc">站立鹰形器，两腿与向下尾部组成三个支点，背部有器口转折。</desc>
+  <path fill="#171a19" d="M52 88 17 107l21 21 39-3c-12 23-17 50-14 80l8 68c2 15 12 24 28 24h18l-5 39c-2 12 7 20 20 20h28c12 0 20-8 19-20l-3-39h44l-2 39c-1 12 7 20 19 20h25c13 0 22-9 20-21l-5-42h9c18 0 29-10 31-27l7-68c5-44-4-84-26-110-21-24-50-36-89-36h-47c-42 0-74 15-94 46l-17-10Z"/>
+  <path fill="#eee9dc" d="M184 70c25 0 48 5 65 15-25-3-48-1-68 5-20-6-44-8-68-4 17-11 41-16 71-16Z" opacity=".96"/>
+  <path d="M135 147c-23 25-29 68-10 103 15 27 45 35 73 22-25-13-36-36-34-67 2-24-7-44-29-58Z" fill="none" stroke="#eee9dc" stroke-width="7" stroke-linecap="round" opacity=".42"/>
+  <circle cx="61" cy="105" r="8" fill="#eee9dc" opacity=".86"/>
+  <path d="M246 287 274 356h-34Z" fill="#171a19"/>
+</svg>

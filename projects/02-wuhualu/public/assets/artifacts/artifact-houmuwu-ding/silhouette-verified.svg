@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="260" viewBox="0 0 240 260" role="img" aria-labelledby="title desc">
+  <title id="title">后母戊青铜方鼎结构剪影</title>
+  <desc id="desc">双立耳、长方形深腹与四根柱足的核验结构剪影，不含铭文或具体纹饰。</desc>
+  <rect width="240" height="260" fill="#eee9dc"/>
+  <g fill="#171b1a">
+    <!-- 后排两足只露出外侧，避免把透视遮挡误画成两块宽脚。 -->
+    <path d="M48 164h28l-3 59H52zM164 164h28l-4 59h-23z" opacity=".88"/>
+    <!-- 前排两足置于腹部之前，四足关系在小尺寸下仍清楚。 -->
+    <path d="M76 164h34l-3 82H78zM132 164h34l-4 82h-27z"/>
+    <path d="M42 70h156v104H42z"/>
+    <path d="M34 60h172v18H34z"/>
+    <path d="M56 18h43v49H56zm85 0h43v49h-43z"/>
+  </g>
+  <g fill="#eee9dc">
+    <path d="M66 28h23v39H66zm85 0h23v39h-23z"/>
+  </g>
+  <g stroke="#9b7950" stroke-width="3" opacity=".82">
+    <path d="M43 84h154M43 158h154M55 70v104M120 70v104M185 70v104"/>
+  </g>
+</svg>

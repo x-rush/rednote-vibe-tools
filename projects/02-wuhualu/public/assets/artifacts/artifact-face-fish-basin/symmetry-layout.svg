@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" role="img" aria-labelledby="title desc">
+  <title id="title">两组人面鱼纹对称分布结构示意</title>
+  <desc id="desc">两个无纹样细节的圆形占位相对分布；仅表达结构，不复制或补画实物纹样。</desc>
+  <ellipse cx="180" cy="120" rx="156" ry="92" fill="none" stroke="#9b7950" stroke-width="4"/>
+  <circle cx="105" cy="120" r="38" fill="#d7cfbe" stroke="#171a19" stroke-width="4"/>
+  <circle cx="255" cy="120" r="38" fill="#d7cfbe" stroke="#171a19" stroke-width="4"/>
+  <path d="M152 120h56m-10-10 10 10-10 10m-36-20-10 10 10 10" fill="none" stroke="#9b7950" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

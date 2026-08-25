@@ -1,0 +1,701 @@
+{
+  "project": "wuhualu",
+  "version": 6,
+  "status": "nine-artifacts-all-static-roles-three-width-approved",
+  "policy": {
+    "referenceRequired": true,
+    "museumPhotoBundlingDefault": false,
+    "aiLabel": "创意重构",
+    "ancientScriptGeneratedByAi": false
+  },
+  "releaseGate": {
+    "roundArtifactCount": 5,
+    "playableStaticArtifactIds": [
+      "artifact-eagle-tripod",
+      "artifact-face-fish-basin",
+      "artifact-jiahu-flute",
+      "artifact-jade-dragon",
+      "artifact-houmuwu-ding",
+      "artifact-four-ram-zun",
+      "artifact-lotus-crane-hu",
+      "artifact-cloud-bronze-jin",
+      "artifact-zenghouyi-zunpan"
+    ],
+    "textFallbackOnlyArtifactIds": [
+      "artifact-goujian-sword",
+      "artifact-changxin-lamp"
+    ],
+    "referenceRequiredArtifactIds": [
+      "artifact-zenghouyi-bells",
+      "artifact-liusheng-jade-suit",
+      "artifact-boshan-incense-burner",
+      "artifact-storyteller-drummer",
+      "artifact-wuzetian-gold-slip",
+      "artifact-dancing-horse-flask",
+      "artifact-grape-bird-sachet",
+      "artifact-tricolor-music-camel",
+      "artifact-bronze-rhino-zun"
+    ],
+    "unknownArtifactPolicy": "exclude-from-image-round",
+    "insufficientPoolPolicy": "recoverable-error-do-not-expand",
+    "remainingBeforeRelease": [
+      "real-app-integration",
+      "dynamic-five-round-qa",
+      "asset-failure-qa",
+      "runtime-performance-qa"
+    ]
+  },
+  "systems": [
+    {
+      "id": "museum-cabinet",
+      "type": "css",
+      "status": "planned"
+    },
+    {
+      "id": "collection-labels",
+      "type": "svg-css",
+      "status": "planned"
+    },
+    {
+      "id": "stars-and-category-seals",
+      "type": "svg-css",
+      "status": "planned"
+    },
+    {
+      "id": "reveal-spotlight",
+      "type": "css-dom-motion",
+      "status": "planned",
+      "reducedMotion": "crossfade"
+    }
+  ],
+  "guide": [
+    {
+      "id": "guide-xuzhao-master",
+      "character": "许照",
+      "alias": "阿照",
+      "role": "修复学徒兼图录助理",
+      "type": "webp",
+      "src": "wuhualu/guide/guide-master-v1.webp",
+      "width": 900,
+      "height": 1200,
+      "bytes": 56514,
+      "maxBytes": 180000,
+      "status": "single-asset-and-four-state-three-width-qa-approved",
+      "referenceDossier": "../../research/xuzhao-reference-dossier.md",
+      "integratedStates": [
+        "first-intro",
+        "wrong-answer-feedback",
+        "help-recall",
+        "recovery"
+      ],
+      "remaining": [
+        "real-app-dynamic-qa"
+      ]
+    },
+    {
+      "id": "guide-xuzhao-avatar",
+      "character": "许照",
+      "type": "webp",
+      "src": "wuhualu/guide/guide-avatar-v1.webp",
+      "width": 160,
+      "height": 160,
+      "bytes": 3186,
+      "maxBytes": 12000,
+      "status": "first-intro-three-width-qa-approved"
+    },
+    {
+      "id": "guide-xuzhao-placeholder",
+      "character": "许照",
+      "type": "webp",
+      "src": "wuhualu/guide/guide-placeholder-v1.webp",
+      "width": 72,
+      "height": 96,
+      "bytes": 1422,
+      "maxBytes": 4000,
+      "status": "single-asset-technical-qa-approved"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "artifact-eagle-tripod",
+      "status": "creative-reconstruction-v1-reveal-clues-fallback-three-width-approved",
+      "referenceDossier": "../../research/artifact-eagle-tripod-reference-dossier.md",
+      "projectStyle": "closed-museum-modern-archive",
+      "pageRole": "reveal-protagonist-and-clue-source",
+      "interactionMoment": "post-submit-object-recognition-and-pre-submit-observation",
+      "styleFitReview": "single-asset-and-ui-second-pass",
+      "reveal": "artifacts/artifact-eagle-tripod/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-eagle-tripod/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-eagle-tripod/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-eagle-tripod/clue-crop-support.webp",
+        "artifacts/artifact-eagle-tripod/clue-crop-opening.webp"
+      ],
+      "dimensions": {
+        "width": 900,
+        "height": 1125
+      },
+      "bytes": 105342,
+      "integratedScreens": [
+        "case-reveal-eagle-tripod",
+        "case-w1-clue-crops-a",
+        "case-w1-clue-crops-b",
+        "case-w1-silhouette-fallback",
+        "case-w1-catalog",
+        "case-w1-detail-eagle-tripod"
+      ],
+      "qa": {
+        "singleAsset": "conditional-pass",
+        "derivedAssetReview": "passed",
+        "responsiveWidths": [
+          375,
+          390,
+          430
+        ],
+        "brokenImages": 0,
+        "objectFit": "contain-or-role-specific-cover",
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed",
+        "verified": [
+          "two-legs-plus-tail-three-supports",
+          "hooked-beak",
+          "round-eye",
+          "attached-wing",
+          "back-opening",
+          "aged-pottery",
+          "no-text-or-gacha-effects",
+          "derived-crops-do-not-regenerate-or-invent-detail"
+        ],
+        "note": "Far wing is naturally occluded by the three-quarter view; structure remains understandable. Three supports remain legible at fallback size without exaggerating anatomy."
+      },
+      "remaining": [
+        "real-app-dynamic-qa"
+      ],
+      "immutable": [
+        "two-legs-plus-tail-three-supports",
+        "hooked-beak",
+        "round-eyes",
+        "side-wings",
+        "back-opening",
+        "dark-reddish-brown-pottery"
+      ]
+    },
+    {
+      "id": "artifact-face-fish-basin",
+      "status": "creative-reconstruction-v1-visible-scope-reveal-clues-fallback-three-width-approved",
+      "referenceDossier": "../../research/artifact-face-fish-basin-reference-dossier.md",
+      "projectStyle": "closed-museum-modern-archive",
+      "pageRole": "reveal-protagonist-and-pattern-source",
+      "interactionMoment": "post-submit-interior-pattern-recognition-and-pre-submit-observation",
+      "styleFitReview": "single-asset-and-ui-second-pass",
+      "reveal": "artifacts/artifact-face-fish-basin/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-face-fish-basin/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-face-fish-basin/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-face-fish-basin/clue-crop-face-fish.webp"
+      ],
+      "explanatoryDiagram": "artifacts/artifact-face-fish-basin/symmetry-layout.svg",
+      "dimensions": {
+        "width": 900,
+        "height": 1125
+      },
+      "bytes": 95046,
+      "integratedScreens": [
+        "case-reveal-face-fish-basin",
+        "case-w1-clue-crops-a",
+        "case-w1-clue-crops-b",
+        "case-w1-silhouette-fallback",
+        "case-w1-catalog",
+        "case-w1-detail-face-fish-basin"
+      ],
+      "qa": {
+        "singleAsset": "conditional-pass",
+        "derivedAssetReview": "passed",
+        "responsiveWidths": [
+          375,
+          390,
+          430
+        ],
+        "brokenImages": 0,
+        "objectFit": "contain-or-role-specific-cover",
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed",
+        "verified": [
+          "one-visible-face-fish-group-only",
+          "no-invented-occluded-second-group",
+          "intermittent-black-rim-band",
+          "red-orange-aged-pottery",
+          "visible-cracks-chips-and-repair-history",
+          "no-text-or-gacha-effects",
+          "symmetry-diagram-has-no-invented-pattern"
+        ],
+        "note": "AI output is a visible-scope creative reconstruction, not a documentary copy of each pigment line. The separate symmetry diagram communicates only official two-group structure."
+      },
+      "remaining": [
+        "real-app-dynamic-qa"
+      ],
+      "immutable": [
+        "interior-pattern",
+        "official-text-confirms-two-symmetrical-groups",
+        "generated-image-must-not-invent-occluded-second-group",
+        "intermittent-black-rim-band",
+        "red-pottery",
+        "visible-repair-history"
+      ]
+    },
+    {
+      "id": "artifact-jiahu-flute",
+      "status": "creative-reconstruction-v2-seven-hole-reveal-clues-fallback-three-width-approved",
+      "referenceDossier": "../../research/artifact-jiahu-flute-reference-dossier.md",
+      "projectStyle": "closed-museum-modern-archive",
+      "pageRole": "reveal-protagonist-and-hole-layout-source",
+      "interactionMoment": "post-submit-material-and-sound-discovery-and-pre-submit-observation",
+      "styleFitReview": "single-asset-and-ui-second-pass",
+      "reveal": "artifacts/artifact-jiahu-flute/reveal-creative-reconstruction-v2.webp",
+      "silhouette": "artifacts/artifact-jiahu-flute/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-jiahu-flute/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-jiahu-flute/clue-crop-holes.webp",
+        "artifacts/artifact-jiahu-flute/clue-crop-bone-surface.webp"
+      ],
+      "dimensions": {
+        "width": 900,
+        "height": 1125
+      },
+      "bytes": 33276,
+      "integratedScreens": [
+        "case-reveal-jiahu-flute",
+        "case-w1-clue-crops-a",
+        "case-w1-clue-crops-b",
+        "case-w1-silhouette-fallback",
+        "case-w1-catalog",
+        "case-w1-detail-jiahu-flute"
+      ],
+      "qa": {
+        "singleAsset": "conditional-pass",
+        "derivedAssetReview": "passed",
+        "responsiveWidths": [
+          375,
+          390,
+          430
+        ],
+        "brokenImages": 0,
+        "objectFit": "contain-or-role-specific-cover",
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed",
+        "verified": [
+          "one-flute-only",
+          "exactly-seven-visible-main-holes",
+          "both-ends-open",
+          "slightly-curved-hollow-bone-tube",
+          "no-m282-21-stitching-holes",
+          "no-modern-flute-parts",
+          "no-text-or-sound-effects",
+          "seven-holes-remain-legible-in-crop-and-fallback"
+        ],
+        "rejectedVersion": "v1 had a tiny pinhole-like dark blemish adjacent to the uppermost main hole that could read as an eighth hole"
+      },
+      "remaining": [
+        "real-app-dynamic-qa"
+      ],
+      "immutable": [
+        "single-hollow-bird-bone-tube",
+        "seven-main-holes",
+        "open-ends",
+        "light-brown-aged-bone",
+        "no-modern-flute-parts"
+      ],
+      "dataNote": "Use 23.1 cm from the official appraise card; the official treasure page contains a conflicting 23.6 cm field."
+    },
+    {
+      "id": "artifact-jade-dragon",
+      "status": "creative-reconstruction-v2-hidden-mount-reveal-clues-fallback-three-width-approved",
+      "referenceDossier": "../../research/artifact-jade-dragon-reference-dossier.md",
+      "projectStyle": "closed-museum-modern-archive",
+      "pageRole": "reveal-protagonist-and-silhouette-source",
+      "interactionMoment": "post-submit-silhouette-differentiation-and-pre-submit-observation",
+      "styleFitReview": "single-asset-and-ui-second-pass",
+      "reveal": "artifacts/artifact-jade-dragon/reveal-creative-reconstruction-v2.webp",
+      "silhouette": "artifacts/artifact-jade-dragon/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-jade-dragon/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-jade-dragon/clue-crop-mane.webp",
+        "artifacts/artifact-jade-dragon/clue-crop-suspension.webp"
+      ],
+      "dimensions": {
+        "width": 900,
+        "height": 1125
+      },
+      "bytes": 54694,
+      "integratedScreens": [
+        "case-reveal-jade-dragon",
+        "case-w1-clue-crops-a",
+        "case-w1-clue-crops-b",
+        "case-w1-silhouette-fallback",
+        "case-w1-catalog",
+        "case-w1-detail-jade-dragon"
+      ],
+      "qa": {
+        "singleAsset": "conditional-pass",
+        "derivedAssetReview": "passed",
+        "responsiveWidths": [
+          375,
+          390,
+          430
+        ],
+        "brokenImages": 0,
+        "objectFit": "contain-or-role-specific-cover",
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed",
+        "verified": [
+          "reverse-c-shaped-body",
+          "short-upturned-snout",
+          "slender-eye",
+          "long-recurved-mane",
+          "no-limbs-or-claws",
+          "one-back-suspension-hole",
+          "dark-green-opaque-aged-jade",
+          "no-fantasy-dragon-features",
+          "mane-and-single-hole-remain-legible-in-crops"
+        ],
+        "rejectedVersion": "v1 had multiple visible clear support clips around the object"
+      },
+      "remaining": [
+        "real-app-dynamic-qa"
+      ],
+      "immutable": [
+        "reverse-c-shaped-body",
+        "short-upturned-snout",
+        "slender-eye",
+        "long-recurved-mane",
+        "no-limbs-or-claws",
+        "back-suspension-hole",
+        "dark-green-jade"
+      ]
+    },
+    {
+      "id": "artifact-houmuwu-ding",
+      "status": "creative-reconstruction-v2-all-static-roles-three-width-approved",
+      "referenceDossier": "../../research/artifact-houmuwu-ding-reference-dossier.md",
+      "projectStyle": "closed-museum-modern-archive",
+      "pageRole": "reveal-protagonist-and-monumental-vessel-evidence",
+      "interactionMoment": "post-submit-rectangular-body-four-pillar-leg-recognition",
+      "styleFitReview": "single-asset-and-ui-second-pass",
+      "reveal": "artifacts/artifact-houmuwu-ding/reveal-creative-reconstruction-v2.webp",
+      "silhouette": "artifacts/artifact-houmuwu-ding/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-houmuwu-ding/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-houmuwu-ding/clue-crop-handles-rim.webp",
+        "artifacts/artifact-houmuwu-ding/clue-crop-four-legs-flanges.webp"
+      ],
+      "dimensions": {
+        "width": 900,
+        "height": 1125
+      },
+      "bytes": 161690,
+      "integratedScreens": [
+        "case-reveal-houmuwu-ding",
+        "case-houmuwu-ding-clues",
+        "case-houmuwu-ding-fallback",
+        "case-houmuwu-ding-catalog",
+        "case-houmuwu-ding-detail"
+      ],
+      "qa": {
+        "singleAsset": "conditional-pass",
+        "derivedAssetReview": "passed",
+        "responsiveWidths": [375, 390, 430],
+        "brokenImages": 0,
+        "objectFit": "contain",
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed",
+        "textGate": "passed",
+        "rejectedVersion": "v1-multiple-handle-holes-perforated-legs-and-glyph-like-ornament",
+        "verified": [
+          "two-upright-handles-one-continuous-opening-each",
+          "rectangular-deep-body",
+          "four-coherent-cylindrical-pillar-legs",
+          "vertical-flanges",
+          "aged-bronze-not-gold-or-iron",
+          "no-visible-or-fake-inscription",
+          "no-lid-fire-smoke-or-fantasy-effects"
+        ],
+        "note": "Ornament is a bounded creative reconstruction, not a per-pattern copy. Official pages differ on lower-leg string-band count; it is not used as a puzzle fact."
+      },
+      "remaining": [
+        "real-app-dynamic-qa",
+        "runtime-performance-qa"
+      ]
+    },
+    {
+      "id": "artifact-four-ram-zun",
+      "status": "creative-reconstruction-v1-all-static-roles-three-width-approved-viewpoint-limited",
+      "referenceDossier": "../../research/artifact-four-ram-zun-reference-dossier.md",
+      "reveal": "artifacts/artifact-four-ram-zun/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-four-ram-zun/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-four-ram-zun/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-four-ram-zun/clue-crop-ram-body-fusion.webp",
+        "artifacts/artifact-four-ram-zun/clue-crop-square-rim-flanges.webp"
+      ],
+      "dimensions": { "width": 900, "height": 1125 },
+      "bytes": 146956,
+      "integratedScreens": [
+        "case-reveal-four-ram-zun",
+        "case-four-ram-zun-clues",
+        "case-four-ram-zun-fallback",
+        "case-four-ram-zun-catalog",
+        "case-four-ram-zun-detail"
+      ],
+      "qa": {
+        "singleAsset": "conditional-pass-viewpoint-limited",
+        "derivedAssetReview": "passed",
+        "responsiveWidths": [375, 390, 430],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed"
+      },
+      "remaining": [
+        "real-app-dynamic-qa",
+        "runtime-performance-qa"
+      ]
+    },
+    {
+      "id": "artifact-lotus-crane-hu",
+      "status": "creative-reconstruction-v2-all-static-roles-three-width-approved-henan-object-locked",
+      "referenceDossier": "../../research/artifact-lotus-crane-hu-reference-dossier.md",
+      "reveal": "artifacts/artifact-lotus-crane-hu/reveal-creative-reconstruction-v2.webp",
+      "silhouette": "artifacts/artifact-lotus-crane-hu/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-lotus-crane-hu/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-lotus-crane-hu/clue-crop-two-legged-crane-lotus.webp",
+        "artifacts/artifact-lotus-crane-hu/clue-crop-two-supporting-beasts.webp"
+      ],
+      "dimensions": { "width": 900, "height": 1125 },
+      "bytes": 120150,
+      "integratedScreens": [
+        "case-reveal-lotus-crane-hu",
+        "case-lotus-crane-hu-clues",
+        "case-lotus-crane-hu-fallback",
+        "case-lotus-crane-hu-catalog",
+        "case-lotus-crane-hu-detail"
+      ],
+      "qa": {
+        "singleAsset": "pass-henan-object-locked",
+        "derivedAssetReview": "passed",
+        "responsiveWidths": [375, 390, 430],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed"
+      },
+      "remaining": [
+        "real-app-dynamic-qa",
+        "runtime-performance-qa"
+      ]
+    },
+    {
+      "id": "artifact-cloud-bronze-jin",
+      "status": "creative-reconstruction-v3-all-static-roles-three-width-approved",
+      "referenceDossier": "../../research/artifact-cloud-bronze-jin-reference-dossier.md",
+      "projectStyle": "closed-museum-modern-archive",
+      "pageRole": "reveal-protagonist-and-structure-evidence",
+      "interactionMoment": "post-submit-two-beast-systems-and-purpose-recognition",
+      "styleFitReview": "single-asset-and-ui-second-pass",
+      "reveal": "artifacts/artifact-cloud-bronze-jin/reveal-creative-reconstruction-v3.webp",
+      "revealWide": "artifacts/artifact-cloud-bronze-jin/reveal-wide-creative-reconstruction-v3.webp",
+      "silhouette": "artifacts/artifact-cloud-bronze-jin/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-cloud-bronze-jin/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-cloud-bronze-jin/clue-crop-attached-beasts.webp",
+        "artifacts/artifact-cloud-bronze-jin/clue-crop-openwork-supports.webp"
+      ],
+      "dimensions": {
+        "portrait": [900, 1125],
+        "wide": [1200, 675]
+      },
+      "bytes": {
+        "portrait": 92852,
+        "wide": 135464
+      },
+      "structureAnnotation": "../../research/references/artifact-cloud-bronze-jin/structure-annotation.svg",
+      "integratedScreens": [
+        "case-reveal-cloud-bronze-jin",
+        "case-cloud-bronze-jin-clues",
+        "case-cloud-bronze-jin-fallback",
+        "case-cloud-bronze-jin-catalog",
+        "case-cloud-bronze-jin-detail"
+      ],
+      "qa": {
+        "singleAsset": "conditional-pass",
+        "responsiveWidths": [375, 390, 430],
+        "brokenImages": 0,
+        "objectFit": "contain",
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed",
+        "textGate": "passed",
+        "derivedAssetReview": "passed",
+        "catalogAndDetailReview": "passed",
+        "rejectedVersions": [
+          "v1-chest-panel-and-columnized-beasts",
+          "v2-fantasy-dragon-crowd-and-system-merge"
+        ],
+        "verified": [
+          "low-elongated-restored-silhouette",
+          "front-four-and-far-four-attached-beast-organization",
+          "left-right-end-groups-consistent-with-official-reference",
+          "supporting-beasts-remain-separate-system",
+          "continuous-openwork-not-drawer-panels",
+          "aged-repaired-bronze",
+          "no-text-gacha-or-fantasy-altar"
+        ],
+        "note": "Natural far-side and underside occlusion is accepted. Image is not a per-rod restoration and must retain the AI creative reconstruction label."
+      },
+      "remaining": [
+        "real-app-dynamic-qa"
+      ]
+    },
+    {
+      "id": "artifact-zenghouyi-bells",
+      "status": "reference-required"
+    },
+    {
+      "id": "artifact-zenghouyi-zunpan",
+      "status": "creative-reconstruction-v2-all-static-roles-three-width-approved-non-digital-label-required",
+      "referenceDossier": "../../research/artifact-zenghouyi-zunpan-reference-dossier.md",
+      "reveal": "artifacts/artifact-zenghouyi-zunpan/reveal-creative-reconstruction-v2.webp",
+      "silhouette": "artifacts/artifact-zenghouyi-zunpan/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-zenghouyi-zunpan/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-zenghouyi-zunpan/clue-crop-openwork-climbing-beasts.webp",
+        "artifacts/artifact-zenghouyi-zunpan/clue-crop-zun-in-wide-pan.webp"
+      ],
+      "dimensions": { "width": 900, "height": 1125 },
+      "bytes": 174760,
+      "integratedScreens": [
+        "case-reveal-zenghouyi-zunpan",
+        "case-zenghouyi-zunpan-clues",
+        "case-zenghouyi-zunpan-fallback",
+        "case-zenghouyi-zunpan-catalog",
+        "case-zenghouyi-zunpan-detail"
+      ],
+      "qa": {
+        "singleAsset": "conditional-pass-non-digital-label-required",
+        "derivedAssetReview": "passed",
+        "responsiveWidths": [375, 390, 430],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "mainActionPersistent": true,
+        "factScrollReachability": "passed"
+      },
+      "remaining": [
+        "real-app-dynamic-qa",
+        "runtime-performance-qa"
+      ]
+    },
+    {
+      "id": "artifact-goujian-sword",
+      "status": "creative-reconstruction-v2-conditional",
+      "reveal": "artifacts/artifact-goujian-sword/reveal-creative-reconstruction.webp",
+      "referenceDossier": "../../research/artifact-goujian-sword-reference-dossier.md",
+      "integratedScreens": [
+        "correct-reveal",
+        "wrong-reveal",
+        "artifact-detail",
+        "catalog"
+      ],
+      "remaining": [
+        "verified-silhouette-svg",
+        "tested-clue-crops",
+        "real-app-dynamic-qa"
+      ]
+    },
+    {
+      "id": "artifact-changxin-lamp",
+      "status": "creative-reconstruction-v1-conditional",
+      "reveal": "artifacts/artifact-changxin-lamp/reveal-creative-reconstruction.webp",
+      "referenceDossier": "../../research/artifact-changxin-lamp-reference-dossier.md",
+      "dimensions": {
+        "width": 900,
+        "height": 1125
+      },
+      "bytes": 76748,
+      "integratedScreens": [
+        "round-summary",
+        "catalog",
+        "artifact-detail"
+      ],
+      "qa": {
+        "singleAsset": "passed",
+        "responsiveWidths": [
+          375,
+          390,
+          430
+        ],
+        "brokenImages": 0,
+        "objectFit": "contain",
+        "permanentAiNatureLabel": true,
+        "scrollReachability": "passed"
+      },
+      "remaining": [
+        "verified-silhouette-svg",
+        "tested-clue-crops",
+        "smoke-path-explanatory-svg",
+        "real-app-dynamic-qa"
+      ]
+    },
+    {
+      "id": "artifact-liusheng-jade-suit",
+      "status": "reference-required"
+    },
+    {
+      "id": "artifact-boshan-incense-burner",
+      "status": "reference-required"
+    },
+    {
+      "id": "artifact-storyteller-drummer",
+      "status": "reference-required"
+    },
+    {
+      "id": "artifact-wuzetian-gold-slip",
+      "status": "reference-required"
+    },
+    {
+      "id": "artifact-dancing-horse-flask",
+      "status": "reference-required"
+    },
+    {
+      "id": "artifact-grape-bird-sachet",
+      "status": "reference-required"
+    },
+    {
+      "id": "artifact-tricolor-music-camel",
+      "status": "reference-required"
+    },
+    {
+      "id": "artifact-bronze-rhino-zun",
+      "status": "reference-required"
+    }
+  ],
+  "perArtifactRequired": [
+    "verified-silhouette-svg",
+    "reveal-image",
+    "one-or-two-tested-crops",
+    "source-metadata",
+    "image-nature-label",
+    "fallback-alt"
+  ],
+  "forbidden": [
+    "unlicensed-museum-photo-in-bundle",
+    "invented-pattern",
+    "repaired-damage-without-label",
+    "fake-ancient-script",
+    "rarity-glow"
+  ]
+}

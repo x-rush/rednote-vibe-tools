@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260" role="img" aria-labelledby="title desc">
+  <title id="title">四羊青铜方尊结构剪影</title>
+  <desc id="desc">外撇方口、高颈、宽肩、四角羊体与圈足相连的结构示意，不复制具体纹饰。</desc>
+  <rect width="260" height="260" fill="#eee9dc"/>
+  <g fill="#171b1a">
+    <path d="M34 35h192l-11 18H45z"/>
+    <path d="M58 50h144l-23 75H81z"/>
+    <path d="M54 116h152l-20 70H74z"/>
+    <path d="M78 178h104l14 49H64z"/>
+    <path d="M76 121c-18-13-37-12-52 1L10 138l14 13c12 11 29 11 48 1l14-8zM184 121c18-13 37-12 52 1l14 16-14 13c-12 11-29 11-48 1l-14-8z"/>
+    <path d="M111 119h38l-7 44-12 14-12-14z"/>
+    <path d="M94 119c-10-23-35-25-49-8 18-8 32 2 32 23zm72 0c10-23 35-25 49-8-18-8-32 2-32 23z" opacity=".86"/>
+  </g>
+  <g stroke="#9b7950" stroke-width="3" opacity=".82" fill="none">
+    <path d="M130 50v136M80 125h100M73 185h114"/>
+    <path d="M32 136c12-14 28-11 38 2M228 136c-12-14-28-11-38 2M116 130c8-13 20-13 28 0"/>
+  </g>
+</svg>

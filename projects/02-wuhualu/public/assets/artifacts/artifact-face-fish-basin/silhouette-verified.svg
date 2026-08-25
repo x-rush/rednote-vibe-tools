@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" role="img" aria-labelledby="title desc">
+  <title id="title">人面鱼纹彩陶盆核验剪影</title>
+  <desc id="desc">敞口浅腹彩陶盆的完整外轮廓，不显示盆内纹样。</desc>
+  <path fill="#171a19" fill-rule="evenodd" d="M18 82c0-35 72-63 162-63s162 28 162 63v10c0 17-12 32-31 45l-25 72c-8 31-47 52-106 52S82 240 74 209l-25-72C30 124 18 109 18 92V82Zm30 0c0 20 59 38 132 38s132-18 132-38-59-38-132-38S48 62 48 82Z"/>
+  <path fill="none" stroke="#eee9dc" stroke-width="5" stroke-linecap="round" d="m92 213 11-24m155 25-10-24" opacity=".55"/>
+</svg>

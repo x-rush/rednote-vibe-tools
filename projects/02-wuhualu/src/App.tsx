@@ -6,10 +6,13 @@ import { shouldShowExitAction } from './app/page-model.ts'
 import { buildArtifactDetailViewModel, buildRoundSummaryViewModel } from './game/view-models.ts'
 import { appReducer, createInitialState, type AppState } from './state/game-state.ts'
 import { clearStorage, loadStorage, saveStorage } from './storage/storage.ts'
+import { ArtifactMedia } from './ui/ArtifactMedia.tsx'
+import { filterPlayableArtifacts } from './ui/artifact-assets.ts'
 import './App.css'
 
 const content = parseContent(rawContent)
 const artifacts = content.content.artifacts
+const playableArtifacts = filterPlayableArtifacts(artifacts)
 const candidates = content.content.distractorCandidates
 const copy = content.content.copy
 const validArtifactIds = new Set(artifacts.map(({ id }) => id))
@@ -28,6 +31,7 @@ function initialAppState(bootstrap: ReturnType<typeof loadStorage>): AppState {
 
 function App() {
   const [bootstrap] = useState(() => loadStorage(window.localStorage, validArtifactIds, content.contentVersion))
+  const [guideOpen, setGuideOpen] = useState(false)
   const allowPersistence = useRef(!['corrupt-json', 'unsupported-schema', 'invalid-payload'].includes(bootstrap.recovery ?? ''))
   const [state, dispatch] = useReducer(appReducer, bootstrap, initialAppState)
 
@@ -45,12 +49,42 @@ function App() {
     <main className="app-shell">
       <header className="brand-bar">
         <div><p className="eyebrow">{copy.brand}</p><p className="brand-subtitle">{copy.subtitle}</p></div>
-        {shouldShowExitAction(state.screen) && (
-          <button className="text-button" type="button" onClick={() => dispatch({ type: 'exitRound' })}>{copy.exitAction}</button>
-        )}
+        <div className="header-actions">
+          <button className="guide-avatar-button" type="button" aria-label="向文物整理员许照求助" onClick={() => setGuideOpen(true)}><img src={`${import.meta.env.BASE_URL}assets/wuhualu/guide/guide-avatar-v1.webp`} alt="" width="160" height="160" /><span>问许照</span></button>
+          {shouldShowExitAction(state.screen) && (
+            <button className="text-button" type="button" onClick={() => dispatch({ type: 'exitRound' })}>{copy.exitAction}</button>
+          )}
+        </div>
       </header>
       <Screen state={state} dispatch={dispatch} resetAfterError={resetAfterError} />
+      {guideOpen && <GuideHelpSheet onClose={() => setGuideOpen(false)} />}
     </main>
+  )
+}
+
+function GuideHelpSheet({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose()
+    }
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
+
+  return (
+    <div className="guide-overlay" role="presentation" onClick={onClose}>
+      <section className="guide-sheet" role="dialog" aria-modal="true" aria-labelledby="guide-help-title" onClick={event => event.stopPropagation()}>
+        <div className="guide-identity"><img src={`${import.meta.env.BASE_URL}assets/wuhualu/guide/guide-avatar-v1.webp`} alt="文物整理员许照" width="160" height="160" /><div><p>闭馆整理员</p><h2 id="guide-help-title">许照</h2></div></div>
+        <p>先观察局部，再读文字线索。每多看一条线索，本题会少一颗星；猜错不会立刻报出答案，你可以回到藏品台继续观察。</p>
+        <ul><li>一局五件，每件四个选项。</li><li>揭晓后的文物会收入本地图鉴。</li><li>图像无法加载时，可以只凭文字继续完成题局。</li></ul>
+        <button className="primary-button" type="button" autoFocus onClick={onClose}>回到藏品台</button>
+      </section>
+    </div>
   )
 }
 
@@ -74,7 +108,7 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
           <div><dt>{copy.bestScoreLabel}</dt><dd>{state.payload.bestScore}</dd></div>
         </dl>
         <div className="action-stack">
-          {hasSession && <button className="primary-button" type="button" onClick={() => dispatch({ type: 'resumeRound', artifacts, candidates })}>{copy.continueAction}</button>}
+          {hasSession && <button className="primary-button" type="button" onClick={() => dispatch({ type: 'resumeRound', artifacts: playableArtifacts, candidates })}>{copy.continueAction}</button>}
           <button className={hasSession ? 'secondary-button' : 'primary-button'} type="button" onClick={() => dispatch({ type: 'showIntro' })}>{copy.startAction}</button>
           <button className="text-button wide" type="button" onClick={() => dispatch({ type: 'openCollection' })}>{copy.collectionAction}</button>
         </div>
@@ -87,11 +121,12 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
       <section className="page" aria-labelledby="intro-title">
         <p className="section-label">01 · {copy.subtitle}</p>
         <h1 id="intro-title">{copy.introTitle}</h1>
+        <figure className="guide-intro-card"><img src={`${import.meta.env.BASE_URL}assets/wuhualu/guide/guide-master-v1.webp`} alt="文物整理员许照在修复室准备藏品档案" width="900" height="1200" /><figcaption><span>闭馆整理员 · 许照</span><strong>“今晚一起把五件旧物送回它们的档案。”</strong></figcaption></figure>
         <p className="lead">{copy.introBody}</p>
         <div className="rule-grid" aria-label={copy.introTitle}>
-          <div><strong>5</strong><span>{copy.progressLabel}</span></div>
-          <div><strong>3</strong><span>{copy.cluesTitle}</span></div>
-          <div><strong>4</strong><span>{copy.optionsTitle}</span></div>
+          <div><strong>5</strong><span>每轮五件</span></div>
+          <div><strong>3</strong><span>递进线索</span></div>
+          <div><strong>4</strong><span>四选一作答</span></div>
         </div>
         <button className="primary-button" type="button" onClick={() => dispatch({ type: 'showModeSelect' })}>{copy.introAction}</button>
       </section>
@@ -104,10 +139,10 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
         <p className="section-label">02 · {copy.subtitle}</p>
         <h1 id="mode-title">{copy.modeTitle}</h1>
         <div className="mode-grid">
-          <button className="mode-card" type="button" onClick={() => dispatch({ type: 'startRound', seed: `daily-${new Date().toISOString().slice(0, 10)}`, artifacts, candidates, recentArtifactIds: state.payload.recentArtifactIds })}>
+          <button className="mode-card" type="button" onClick={() => dispatch({ type: 'startRound', seed: `daily-${new Date().toISOString().slice(0, 10)}`, artifacts: playableArtifacts, candidates, recentArtifactIds: state.payload.recentArtifactIds })}>
             <span className="mode-index">A</span><strong>{copy.dailyMode}</strong><span>{content.meta.updatedAt}</span>
           </button>
-          <button className="mode-card" type="button" onClick={() => dispatch({ type: 'startRound', seed: `practice-${Date.now()}`, artifacts, candidates, recentArtifactIds: state.payload.recentArtifactIds })}>
+          <button className="mode-card" type="button" onClick={() => dispatch({ type: 'startRound', seed: `practice-${Date.now()}`, artifacts: playableArtifacts, candidates, recentArtifactIds: state.payload.recentArtifactIds })}>
             <span className="mode-index">B</span><strong>{copy.practiceMode}</strong><span>{content.contentVersion}</span>
           </button>
         </div>
@@ -117,14 +152,16 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
 
   if (state.screen === 'question' || state.screen === 'clueRevealed' || state.screen === 'answering') {
     const question = state.questions[state.session.index]
+    const artifact = findArtifact(question.artifactId)
+    if (!artifact) return <ErrorPanel message={copy.contentMissingMessage} onReset={() => dispatch({ type: 'recover' })} />
     const selectedOptionId = state.screen === 'answering' ? state.selectedOptionId : null
     const visibleClues = question.clues.filter(({ id }) => state.session.revealedClueIds.includes(id))
     return (
       <section className="page" aria-labelledby="question-title">
         <div className="progress-line"><span>{state.session.index + 1} / {state.questions.length}</span><progress value={state.session.index + 1} max={state.questions.length} /></div>
         <h1 id="question-title">{copy.optionsTitle}</h1>
-        <div className="artifact-stage" aria-label={copy.placeholderText}>
-          <div className="placeholder-form" aria-hidden="true"><span /><span /><span /></div><p>{copy.placeholderText}</p>
+        <div className="artifact-stage">
+          <ArtifactMedia artifactId={artifact.id} artifactName={artifact.name} role="clue" revealedClueCount={visibleClues.length} eager />
         </div>
         <section className="clue-panel" aria-labelledby="clues-title">
           <h2 id="clues-title">{copy.cluesTitle}</h2>
@@ -150,6 +187,7 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
         <p className="section-label" aria-live="polite">{state.result.correct ? state.result.feedback : artifact.wrongAnswerExplanation}</p>
         <h1 id="feedback-title">{artifact.name}</h1>
         <div className="star-result" aria-label={`${state.result.stars} / 3`}>{state.result.stars} / 3</div>
+        <ArtifactMedia artifactId={artifact.id} artifactName={artifact.name} role="reveal" eager showNature />
         <section className="fact-card"><h2>{copy.factsTitle}</h2><p>{artifact.highlight}</p><p>{artifact.culturalNote}</p><small>{copy.sourceStatusTitle} · {artifact.factCheckStatus}</small></section>
         <div className="action-stack">
           {!state.result.correct && <button className="secondary-button" type="button" onClick={() => dispatch({ type: 'continueObserving' })}>{copy.retryAction}</button>}
@@ -183,7 +221,7 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
         <ul className="collection-grid">
           {artifacts.map(artifact => {
             const entry = collectionMap.get(artifact.id)
-            return <li key={artifact.id}><button className="collection-card" type="button" disabled={!entry} onClick={() => dispatch({ type: 'openArtifact', artifactId: artifact.id })}><span className="collection-figure" aria-hidden="true" /><strong>{entry ? artifact.name : copy.lockedText}</strong><small>{entry ? `${entry.bestStars} / 3` : artifact.periodGroup}</small></button></li>
+            return <li key={artifact.id}><button className="collection-card" type="button" disabled={!entry} onClick={() => dispatch({ type: 'openArtifact', artifactId: artifact.id })}><ArtifactMedia artifactId={artifact.id} artifactName={entry ? artifact.name : copy.lockedText} role={entry ? 'thumbnail' : 'silhouette'} /><strong>{entry ? artifact.name : copy.lockedText}</strong><small>{entry ? `${entry.bestStars} / 3` : artifact.periodGroup}</small></button></li>
           })}
         </ul>
         <button className="secondary-button" type="button" onClick={() => dispatch({ type: 'closeCollection' })}>{copy.backAction}</button>
@@ -199,7 +237,7 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
     return (
       <article className="page" aria-labelledby="detail-title">
         <p className="section-label">{model.subtitle}</p><h1 id="detail-title">{model.title}</h1>
-        <div className="artifact-stage detail-stage"><div className="placeholder-form" aria-hidden="true"><span /><span /><span /></div><p>{copy.placeholderText}</p></div>
+        <ArtifactMedia artifactId={artifact.id} artifactName={artifact.name} role="reveal" showNature className="detail-stage" />
         <p className="tag-line">{model.categoryNames.join(' · ')}</p>
         <section className="fact-card"><h2>{copy.factsTitle}</h2>{model.facts.map(fact => <p key={fact}>{fact}</p>)}</section>
         <dl className="detail-list">

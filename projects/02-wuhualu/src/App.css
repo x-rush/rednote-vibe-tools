@@ -1,6 +1,10 @@
 .app-shell { width: min(100%, 720px); min-height: 100svh; margin: 0 auto; padding: max(18px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom)); }
 .brand-bar, .title-row, .progress-line { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .brand-bar { min-height: 62px; border-bottom: 1px solid var(--line); }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.guide-avatar-button { display: flex; align-items: center; gap: 6px; min-height: 48px; padding: 4px 8px 4px 4px; color: var(--ink); border: 1px solid var(--line); background: var(--paper); }
+.guide-avatar-button img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+.guide-avatar-button span { font-size: .72rem; font-weight: 750; }
 .eyebrow, .brand-subtitle, .section-label { margin: 0; letter-spacing: .12em; text-transform: uppercase; }
 .eyebrow { color: var(--ink); font-size: .92rem; font-weight: 800; }
 .brand-subtitle { color: var(--muted); font-size: .7rem; }
@@ -24,6 +28,20 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .museum-mark::before { width: 2px; height: 70%; left: 50%; bottom: 0; }
 .museum-mark::after { width: 54%; height: 2px; left: 23%; top: 46%; }
 .museum-mark span { width: 8px; height: 8px; border-radius: 50%; left: calc(50% - 3px); top: 18px; }
+.guide-intro-card { position: relative; margin: 22px 0; border: 1px solid var(--line); background: var(--cabinet); overflow: hidden; }
+.guide-intro-card img { display: block; width: 100%; height: clamp(260px, 88vw, 440px); object-fit: cover; object-position: 50% 34%; }
+.guide-intro-card figcaption { display: grid; gap: 5px; padding: 14px 16px; text-align: left; background: var(--paper-strong); }
+.guide-intro-card figcaption span { color: var(--accent); font-size: .72rem; font-weight: 750; letter-spacing: .1em; }
+.guide-intro-card figcaption strong { font-family: "Songti SC", SimSun, serif; font-size: 1rem; line-height: 1.55; }
+.guide-overlay { position: fixed; z-index: 20; inset: 0; display: grid; align-items: end; padding: 16px; background: rgba(24, 23, 20, .62); }
+.guide-sheet { width: min(100%, 520px); max-height: min(78svh, 640px); margin: 0 auto; padding: 20px; overflow-y: auto; color: var(--ink); border: 1px solid var(--line-strong); background: var(--paper); box-shadow: 0 -18px 50px rgba(20, 18, 14, .24); }
+.guide-sheet > p, .guide-sheet li { line-height: 1.7; }
+.guide-sheet ul { padding-left: 20px; color: var(--muted); }
+.guide-identity { display: flex; align-items: center; gap: 12px; }
+.guide-identity img { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; }
+.guide-identity p, .guide-identity h2 { margin: 0; }
+.guide-identity p { color: var(--accent); font-size: .72rem; letter-spacing: .1em; }
+.guide-identity h2 { margin-top: 3px; font: 700 1.5rem "Songti SC", SimSun, serif; }
 .stats-row, .summary-grid, .detail-list { display: grid; gap: 1px; padding: 1px; background: var(--line); }
 .stats-row { grid-template-columns: 1fr 1fr; margin: 32px 0; }
 .stats-row div, .summary-grid div, .detail-list div { padding: 14px; background: var(--paper); }
@@ -40,15 +58,22 @@ dd { margin: 5px 0 0; font-size: 1.08rem; font-weight: 750; }
 .mode-index { align-self: center; grid-row: 1 / 3; font: 700 1.4rem Georgia, serif; color: var(--accent); }
 .progress-line { color: var(--muted); font-variant-numeric: tabular-nums; }
 progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
-.artifact-stage { display: grid; place-items: center; min-height: 238px; margin: 24px 0; padding: 24px; text-align: center; border: 1px solid var(--line); background: var(--cabinet); }
-.artifact-stage p { max-width: 29ch; margin: 18px 0 0; color: var(--muted); font-size: .78rem; line-height: 1.5; }
-.placeholder-form { width: 92px; height: 132px; position: relative; border: 2px solid var(--placeholder); border-radius: 48% 48% 20% 20%; opacity: .65; }
-.placeholder-form::before, .placeholder-form::after, .placeholder-form span { content: ""; position: absolute; background: var(--placeholder); }
-.placeholder-form::before { width: 38px; height: 2px; left: 25px; top: 34px; }
-.placeholder-form::after { width: 2px; height: 82px; left: 44px; top: 35px; }
-.placeholder-form span:nth-child(1) { width: 14px; height: 14px; left: 37px; top: 12px; border-radius: 50%; }
-.placeholder-form span:nth-child(2) { width: 26px; height: 2px; left: 7px; bottom: 20px; transform: rotate(-18deg); }
-.placeholder-form span:nth-child(3) { width: 26px; height: 2px; right: 7px; bottom: 20px; transform: rotate(18deg); }
+.artifact-stage { display: grid; place-items: center; min-height: 238px; margin: 24px 0; padding: 12px; text-align: center; border: 1px solid var(--line); background: var(--cabinet); overflow: hidden; }
+.artifact-media { width: 100%; margin: 20px 0; border: 1px solid var(--line); background: var(--cabinet); overflow: hidden; }
+.artifact-stage .artifact-media { margin: 0; border: 0; background: transparent; }
+.artifact-media img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: contain; background: radial-gradient(circle at 50% 42%, rgba(210, 188, 134, .18), transparent 62%); }
+.artifact-media--clue img { max-height: 330px; object-fit: cover; }
+.artifact-media--thumbnail { margin: 0; border: 0; background: transparent; }
+.artifact-media--thumbnail img, .artifact-media--silhouette img { height: 96px; aspect-ratio: 1; object-fit: contain; }
+.artifact-media--silhouette { margin: 0; border: 0; background: transparent; opacity: .52; }
+.artifact-media figcaption { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; padding: 12px 14px; text-align: left; color: var(--ink); background: var(--paper-strong); border-top: 1px solid var(--line); }
+.artifact-media figcaption span { color: var(--muted); font-size: .7rem; letter-spacing: .12em; }
+.artifact-media figcaption strong { font-size: .82rem; }
+.artifact-media figcaption small { grid-column: 1 / -1; color: var(--muted); line-height: 1.5; }
+.artifact-media__fallback { display: grid; place-items: center; min-height: 238px; padding: 24px; color: var(--muted); text-align: center; }
+.artifact-media__fallback span { width: 68px; height: 92px; border: 1px solid currentColor; border-radius: 48% 48% 20% 20%; opacity: .5; }
+.artifact-media__fallback p { max-width: 24ch; margin: 14px 0 0; font-size: .78rem; line-height: 1.6; }
+.primary-button, .secondary-button, .text-button { min-height: 48px; }
 .clue-panel, .fact-card { margin: 20px 0; padding: 20px; border-left: 3px solid var(--accent); background: var(--paper-strong); }
 .clue-panel ol { display: grid; gap: 10px; padding-left: 22px; line-height: 1.65; }
 .options-grid { display: grid; gap: 9px; margin: 22px 0; padding: 0; border: 0; }
@@ -64,10 +89,9 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 .collection-page h1 { font-size: clamp(2rem, 8vw, 3rem); }
 .title-row > span { color: var(--muted); }
 .collection-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 22px 0; padding: 0; list-style: none; }
-.collection-card { display: grid; width: 100%; min-height: 166px; padding: 14px; text-align: left; color: var(--ink); border: 1px solid var(--line); background: var(--paper); }
+.collection-card { display: grid; grid-template-rows: 96px auto auto; width: 100%; min-height: 166px; padding: 10px; text-align: left; color: var(--ink); border: 1px solid var(--line); background: var(--paper); overflow: hidden; }
 .collection-card strong { margin-top: 12px; overflow-wrap: anywhere; }
 .collection-card small { color: var(--muted); }
-.collection-figure { width: 44px; height: 62px; justify-self: center; border: 1px solid currentColor; border-radius: 48% 48% 20% 20%; opacity: .55; }
 .collection-card:disabled { color: var(--muted); background: transparent; }
 .empty-state { padding: 20px; color: var(--muted); border: 1px dashed var(--line-strong); line-height: 1.7; }
 .detail-stage { min-height: 200px; }

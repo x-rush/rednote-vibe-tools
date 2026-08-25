@@ -185,6 +185,19 @@ export type ContentCopy = {
   replayAction: string
   closeAction: string
   factsTitle: string
+  detailEyebrow: string
+  detailHookLabel: string
+  detailEvidenceTitle: string
+  detailNarrativeTitle: string
+  detailChapterFormTitle: string
+  detailChapterWorldTitle: string
+  detailChapterJourneyTitle: string
+  detailArchiveTitle: string
+  detailDimensionsLabel: string
+  detailExcavationLabel: string
+  detailMuseumLabel: string
+  detailRelatedTitle: string
+  detailSourcesTitle: string
   cluesTitle: string
   optionsTitle: string
   placeholderText: string
@@ -370,6 +383,21 @@ export type ArtifactDetailViewModel = {
   bestStars: 0 | 1 | 2 | 3
   verificationLabel: string
   sourceNote: string
+  editorial: {
+    hook: string
+    evidence: {
+      id: string
+      label: string
+      note: string
+      category: ObservationSpot['clueCategory']
+    }[]
+    chapters: {
+      id: 'form-and-craft' | 'lived-world' | 'journey-to-now'
+      sections: StorySection[]
+    }[]
+    related: { artifactId: string; name: string; reason: string }[]
+    sources: Pick<SourceRecord, 'id' | 'title' | 'url' | 'level'>[]
+  } | null
 }
 
 export type RoundSummaryViewModel = {

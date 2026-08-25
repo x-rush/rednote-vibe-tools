@@ -5,15 +5,42 @@ import type {
   CollectionEntry,
   QuizSession,
   RoundSummaryViewModel,
+  SourceRecord,
 } from '../content/types.ts'
+import { isCompleteArtifact } from '../content/types.ts'
 
 export function buildArtifactDetailViewModel(
   artifact: Artifact,
   entry: CollectionEntry | undefined,
   categories: readonly ArtifactCategory[],
   verificationLabels: { verified: string; pending: string },
+  context: { artifacts: readonly Artifact[]; sources: readonly SourceRecord[] },
 ): ArtifactDetailViewModel {
   const categoryNames = artifact.categoryIds.map(id => categories.find(category => category.id === id)?.name ?? id)
+  const artifactMap = new Map(context.artifacts.map(item => [item.id, item]))
+  const sourceMap = new Map(context.sources.map(source => [source.id, source]))
+  const editorial = isCompleteArtifact(artifact) ? {
+    hook: artifact.experienceV2.storyHook,
+    evidence: artifact.experienceV2.observationSpots.map(spot => ({
+      id: spot.id,
+      label: spot.label,
+      note: spot.note,
+      category: spot.clueCategory,
+    })),
+    chapters: [
+      { id: 'form-and-craft' as const, sections: artifact.experienceV2.story.slice(0, 2) },
+      { id: 'lived-world' as const, sections: artifact.experienceV2.story.slice(2, 3) },
+      { id: 'journey-to-now' as const, sections: artifact.experienceV2.story.slice(3, 5) },
+    ],
+    related: artifact.experienceV2.relatedArtifacts.flatMap(related => {
+      const item = artifactMap.get(related.artifactId)
+      return item ? [{ ...related, name: item.name }] : []
+    }),
+    sources: [...new Set(artifact.experienceV2.story.flatMap(section => section.sourceIds))].flatMap(id => {
+      const source = sourceMap.get(id)
+      return source ? [{ id: source.id, title: source.title, url: source.url, level: source.level }] : []
+    }),
+  } : null
   return {
     id: artifact.id,
     title: artifact.name,
@@ -29,6 +56,7 @@ export function buildArtifactDetailViewModel(
     bestStars: entry?.bestStars ?? 0,
     verificationLabel: artifact.factCheckStatus === 'verified-from-provided-source' ? verificationLabels.verified : verificationLabels.pending,
     sourceNote: artifact.sourceNote,
+    editorial,
   }
 }
 

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import rawContent from '../content/content.json'
 import { parseContent } from '../content/validate.ts'
-import type { QuizSession } from '../content/types.ts'
+import { isCompleteArtifact, type QuizSession } from '../content/types.ts'
 import { buildArtifactDetailViewModel, buildRoundSummaryViewModel } from './view-models.ts'
 
 const content = parseContent(rawContent)
@@ -14,6 +14,7 @@ describe('artifact detail view model', () => {
       { artifactId: artifact.id, bestStars: 2, unlockedAt: '2026-08-24T00:00:00.000Z' },
       content.content.categories,
       { verified: '来源已确认测试', pending: '来源待确认测试' },
+      { artifacts: content.content.artifacts, sources: content.sources },
     )
     expect(model).toMatchObject({
       id: artifact.id,
@@ -27,6 +28,67 @@ describe('artifact detail view model', () => {
     expect(model.facts).toEqual([artifact.summary, artifact.highlight, artifact.culturalNote])
     expect(model.verificationLabel.length).toBeGreaterThan(0)
     expect(model.verificationLabel).toBe('来源已确认测试')
+  })
+
+  it('reframes five story sections as three editorial chapters with observation evidence', () => {
+    const artifact = content.content.artifacts[0]
+    const model = buildArtifactDetailViewModel(
+      artifact,
+      { artifactId: artifact.id, bestStars: 3, unlockedAt: '2026-08-24T00:00:00.000Z' },
+      content.content.categories,
+      { verified: '来源已确认测试', pending: '来源待确认测试' },
+      { artifacts: content.content.artifacts, sources: content.sources },
+    )
+
+    expect(model.editorial?.hook.length).toBeGreaterThan(0)
+    expect(model.editorial?.evidence.map(({ label }) => label)).toEqual(['下弯鹰喙', '背部鼎口', '三点承托'])
+    expect(model.editorial?.chapters.map(({ id }) => id)).toEqual(['form-and-craft', 'lived-world', 'journey-to-now'])
+    expect(model.editorial?.chapters.map(chapter => chapter.sections.map(({ id }) => id))).toEqual([
+      ['first-look', 'making'],
+      ['lived-world'],
+      ['journey', 'why-now'],
+    ])
+  })
+
+  it('resolves related artifacts and deduplicates chapter sources for the detail footer', () => {
+    const artifact = content.content.artifacts[0]
+    const model = buildArtifactDetailViewModel(
+      artifact,
+      { artifactId: artifact.id, bestStars: 3, unlockedAt: '2026-08-24T00:00:00.000Z' },
+      content.content.categories,
+      { verified: '来源已确认测试', pending: '来源待确认测试' },
+      { artifacts: content.content.artifacts, sources: content.sources },
+    )
+
+    expect(model.editorial?.related.map(({ artifactId, name }) => [artifactId, name])).toEqual([
+      ['artifact-face-fish-basin', '人面鱼纹彩陶盆'],
+      ['artifact-four-ram-zun', '四羊方尊'],
+    ])
+    expect(model.editorial?.sources.map(({ id }) => id)).toEqual(['source-chnmuseum-eagle-tripod'])
+  })
+
+  it('builds complete and uniquely sourced editorial details for all ten playable artifacts', () => {
+    const playable = content.content.artifacts.filter(isCompleteArtifact)
+    expect(playable).toHaveLength(10)
+
+    for (const artifact of playable) {
+      const model = buildArtifactDetailViewModel(
+        artifact,
+        { artifactId: artifact.id, bestStars: 3, unlockedAt: '2026-08-24T00:00:00.000Z' },
+        content.content.categories,
+        { verified: '来源已确认测试', pending: '来源待确认测试' },
+        { artifacts: content.content.artifacts, sources: content.sources },
+      )
+      const editorial = model.editorial
+      expect(editorial, artifact.id).not.toBeNull()
+      if (!editorial) continue
+      expect(editorial.evidence, artifact.id).toHaveLength(3)
+      expect(editorial.chapters, artifact.id).toHaveLength(3)
+      expect(editorial.chapters.flatMap(chapter => chapter.sections), artifact.id).toHaveLength(5)
+      expect(editorial.related.length, artifact.id).toBeGreaterThan(0)
+      expect(editorial.sources.length, artifact.id).toBeGreaterThan(0)
+      expect(new Set(editorial.sources.map(source => source.id)).size, artifact.id).toBe(editorial.sources.length)
+    }
   })
 })
 

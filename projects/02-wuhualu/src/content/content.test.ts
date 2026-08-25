@@ -127,6 +127,10 @@ describe('production content package', () => {
       'introObserveTitle', 'introObserveBody', 'introClueTitle', 'introClueBody',
       'introArchiveTitle', 'introArchiveBody',
       'guideLandingImageAlt', 'guideIntroImageAlt',
+      'detailEyebrow', 'detailHookLabel', 'detailEvidenceTitle', 'detailNarrativeTitle',
+      'detailChapterFormTitle', 'detailChapterWorldTitle', 'detailChapterJourneyTitle',
+      'detailArchiveTitle', 'detailDimensionsLabel', 'detailExcavationLabel', 'detailMuseumLabel',
+      'detailRelatedTitle', 'detailSourcesTitle',
     ] as const
     for (const key of required) expect(content.content.copy[key].trim().length, key).toBeGreaterThan(0)
     expect(content.content.copy).not.toHaveProperty('guideLegacyLine')

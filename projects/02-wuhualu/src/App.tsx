@@ -3,14 +3,14 @@ import type { Dispatch } from 'react'
 import rawContent from './content/content.json'
 import { parseContent } from './content/validate.ts'
 import type { Artifact, ArtifactSetDefinition, GuideLines, StorySectionId } from './content/types.ts'
-import { guidePresentationForScreen, shouldShowExitAction } from './app/page-model.ts'
+import { guidePresentationForScreen, pageScrollScope, shouldShowExitAction } from './app/page-model.ts'
 import { buildArtifactDetailViewModel, buildRoundSummaryViewModel } from './game/view-models.ts'
 import { buildSetCollectionViewModel } from './game/catalog.ts'
 import { appReducer, createInitialState, type AppAction, type AppState, type PlayState } from './state/game-state.ts'
 import { clearStorage, loadStorage, saveStorage } from './storage/storage.ts'
 import { ArchiveOptions } from './ui/ArchiveOptions.tsx'
 import { ArchiveTransfer } from './ui/ArchiveTransfer.tsx'
-import { ArtifactMedia } from './ui/ArtifactMedia.tsx'
+import { ArtifactEditorialDetail } from './ui/ArtifactEditorialDetail.tsx'
 import { ArtifactStory } from './ui/ArtifactStory.tsx'
 import { ClueSealRail } from './ui/ClueSealRail.tsx'
 import { GuidePresence } from './ui/GuidePresence.tsx'
@@ -73,8 +73,10 @@ function App() {
   const guideButtonRef = useRef<HTMLButtonElement>(null)
   const allowPersistence = useRef(!['corrupt-json', 'unsupported-schema', 'invalid-payload'].includes(bootstrap.recovery ?? ''))
   const [state, dispatch] = useReducer(appReducer, bootstrap, initialAppState)
+  const scrollScope = pageScrollScope(state)
 
   useEffect(() => { if (allowPersistence.current) saveStorage(window.localStorage, state.payload) }, [state.payload])
+  useEffect(() => { window.scrollTo(0, 0) }, [scrollScope])
   const resetAfterError = () => { clearStorage(window.localStorage); allowPersistence.current = true; dispatch({ type: 'recover' }) }
   const closeGuide = () => {
     setGuideOpen(false)
@@ -141,8 +143,14 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
     const artifact = findArtifact(state.artifactId); const entry = state.payload.collection.find(item => item.artifactId === state.artifactId)
     if (!artifact) return <ErrorPanel message={copy.contentMissingMessage} onReset={() => dispatch({ type: 'closeDetail' })} />
     if (!entry) return <article className="page locked-detail"><p className="section-label">{copy.lockedDetailEyebrow}</p><h1>{artifact.name}</h1><div className="locked-detail-slot" role="img" aria-label={`${artifact.name}档案尚未解锁`}><span aria-hidden="true" /></div><p>{findSet(artifact.setId).description}</p><p>{copy.lockedDetailBody}</p><button className="secondary-button" type="button" onClick={() => dispatch({ type: 'closeDetail' })}>{copy.backAction}</button></article>
-    const model = buildArtifactDetailViewModel(artifact, entry, content.content.categories, { verified: copy.verifiedLabel, pending: copy.pendingLabel })
-    return <article className="page" aria-labelledby="detail-title"><p className="section-label">{model.subtitle}</p><h1 id="detail-title">{model.title}</h1><ArtifactMedia artifactId={artifact.id} artifactName={artifact.name} role="reveal" showNature className="detail-stage" /><p className="tag-line">{model.categoryNames.join(' · ')}</p><section className="fact-card"><h2>{copy.factsTitle}</h2>{model.facts.map(fact => <p key={fact}>{fact}</p>)}</section><dl className="detail-list">{model.dimensions && <div><dt>尺寸</dt><dd>{model.dimensions}</dd></div>}{model.excavation && <div><dt>出土</dt><dd>{model.excavation}</dd></div>}{model.museum && <div><dt>收藏</dt><dd>{model.museum}</dd></div>}<div><dt>{copy.sourceStatusTitle}</dt><dd>{model.verificationLabel}。{model.sourceNote}</dd></div></dl><button className="secondary-button" type="button" onClick={() => dispatch({ type: 'closeDetail' })}>{copy.backAction}</button></article>
+    const model = buildArtifactDetailViewModel(
+      artifact,
+      entry,
+      content.content.categories,
+      { verified: copy.verifiedLabel, pending: copy.pendingLabel },
+      { artifacts, sources: content.sources },
+    )
+    return <ArtifactEditorialDetail model={model} copy={copy} onBack={() => dispatch({ type: 'closeDetail' })} />
   }
   if (state.screen === 'error') return <ErrorPanel message={state.message} onReset={resetAfterError} />
   return null

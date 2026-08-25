@@ -20,9 +20,16 @@ export type ScreenName =
 
 export type GuidePresentation = 'compact' | 'stage'
 export type PageChrome = { title: string; primaryAction: string; guidePresentation: GuidePresentation }
+type ScrollScopeState = { screen: ScreenName; session?: { index: number }; artifactId?: string }
+
+export function pageScrollScope(state: ScrollScopeState): string {
+  if (['observation', 'clueSelect', 'answering'].includes(state.screen) && state.session) return `case:${state.session.index}`
+  if (state.screen === 'artifactDetail' && state.artifactId) return `artifactDetail:${state.artifactId}`
+  return state.screen
+}
 
 export function guidePresentationForScreen(screen: ScreenName): GuidePresentation {
-  return ['wrongReview', 'reveal', 'setComplete'].includes(screen) ? 'stage' : 'compact'
+  return ['wrongReview', 'setComplete'].includes(screen) ? 'stage' : 'compact'
 }
 
 export function shouldShowExitAction(screen: ScreenName): boolean {

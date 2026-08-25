@@ -3,8 +3,8 @@
   "updatedAt": "2026-08-25",
   "projectId": "01-sbti",
   "portal": {
-    "name": "SBTI 山海兽格",
-    "slogan": "二十四问，寻你的山海兽格",
+    "name": "SHBTI｜山海兽格测试",
+    "slogan": "二十四问入山海，遇见你的异兽",
     "icon": {
       "path": "release-assets/tool-icon-v1.png",
       "format": "PNG",
@@ -19,6 +19,6 @@
     "release-assets/qa-tool-icon-128.png",
     "release-assets/qa-tool-icon-64.png"
   ],
-  "runtimeBundle": "SBTI-山海兽格-小工具包-20260825.zip",
+  "runtimeBundle": "SHBTI-山海兽格-小工具包-20260825.zip",
   "runtimeBundleIncludesPortalAssets": false
 }

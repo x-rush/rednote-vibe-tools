@@ -89,7 +89,7 @@ export type SourceRecord = {
 }
 
 export type BrandIdentityCopy = {
-  formalName: 'SBTI｜山海兽格测试'
+  formalName: 'SHBTI｜山海兽格测试'
   englishExpansion: 'Shanhai Beast Temperament Indicator'
   chineseMeaning: '山海异兽性格倾向指标'
   boundary: '娱乐性自我探索工具，不是专业心理测评。'
@@ -166,6 +166,23 @@ export type ExperienceCopy = {
     introTitle: string
     introLead: string
     introPrivacy: string
+  }
+  shareCard: {
+    triggerLabel: string
+    launchDescription: string
+    title: string
+    cardEyebrow: string
+    guideLabel: string
+    guideSeal: string
+    generating: string
+    previewAlt: string
+    saveLabel: string
+    savingLabel: string
+    success: string
+    unsupported: string
+    failure: string
+    retryLabel: string
+    closeLabel: string
   }
   disclaimer: string
   calculating: string

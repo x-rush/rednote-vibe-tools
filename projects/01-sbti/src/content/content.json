@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0",
   "projectId": "sbti",
   "meta": {
-    "title": "SBTI｜山海兽格测试",
+    "title": "SHBTI｜山海兽格测试",
     "locale": "zh-CN",
     "updatedAt": "2026-08-23"
   },
@@ -52,7 +52,7 @@
   ],
   "content": {
     "experience": {
-      "title": "SBTI｜山海兽格测试",
+      "title": "SHBTI｜山海兽格测试",
       "subtitle": "看看你在山海世界里，更习惯怎样回应、观察、决断与前行。",
       "duration": "约 2–3 分钟 · 每轮 24 题",
       "intro": [
@@ -61,7 +61,7 @@
         "偏好没有高下优劣；结果描述当下倾向，不是对你的绝对定义。"
       ],
       "identity": {
-        "formalName": "SBTI｜山海兽格测试",
+        "formalName": "SHBTI｜山海兽格测试",
         "englishExpansion": "Shanhai Beast Temperament Indicator",
         "chineseMeaning": "山海异兽性格倾向指标",
         "boundary": "娱乐性自我探索工具，不是专业心理测评。"
@@ -156,7 +156,7 @@
             {
               "id": "cultural-boundary",
               "label": "古籍记录和产品创作如何区分？",
-              "answer": "异兽典籍记录与 SBTI 创意解读会分开呈现；人格映射属于产品演绎，并非古籍原意。"
+              "answer": "异兽典籍记录与 SHBTI 创意解读会分开呈现；人格映射属于产品演绎，并非古籍原意。"
             }
           ]
         },
@@ -174,10 +174,10 @@
         }
       },
       "surfaces": {
-        "brandCode": "SBTI",
+        "brandCode": "SHBTI",
         "brandName": "山海兽格",
         "brandSeal": "兽格",
-        "landingEyebrow": "SBTI · 山海司夜读卷",
+        "landingEyebrow": "SHBTI · 山海司夜读卷",
         "landingQuestion": "你会循着哪一种方式入山？",
         "landingFreshKicker": "一卷二十四问",
         "landingContinueKicker": "旧卷尚未合拢",
@@ -186,9 +186,26 @@
         "introEyebrow": "入山前 · 阅卷须知",
         "introTitle": "先说清楚，再请你落笔",
         "introLead": "守卷人只辨本次选择留下的足迹，不替你定终身的名字。",
-        "introPrivacy": "不会上传你的答案，也不会保存图片或音视频。"
+        "introPrivacy": "不会上传你的答案，也不会在本工具中留存图片或音视频。"
       },
-      "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估、招聘、教育分流或重要人生决策。",
+      "shareCard": {
+        "triggerLabel": "生成我的兽志卡",
+        "launchDescription": "闻山把异兽、本次四维足迹与批注誊成一张可保存的兽志卡。",
+        "title": "你的山海兽志卡",
+        "cardEyebrow": "山海司 · 兽格志",
+        "guideLabel": "闻山批注",
+        "guideSeal": "闻山",
+        "generating": "闻山正在为你誊写兽志……",
+        "previewAlt": "山海兽格结果分享卡预览",
+        "saveLabel": "保存到相册",
+        "savingLabel": "正在收入相册……",
+        "success": "兽志已收入相册",
+        "unsupported": "当前环境可以预览；请在小红书真机中保存到相册。",
+        "failure": "未能保存。请检查相册权限后重试。",
+        "retryLabel": "重新誊写",
+        "closeLabel": "关闭预览"
+      },
+      "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估、招聘、教育分流或重要人生决策。",
       "calculating": "正在汇拢四维足迹，让你的山海兽格显形。",
       "emptyHistory": "本机还没有完成过测评。"
     },
@@ -3033,8 +3050,8 @@
         "shareTitle": "我的山海兽格是陆吾·山司型",
         "shareLine": "走到局面中央，查清事实，再把纷乱放回各自的位置。",
         "classicalNote": "虎身九尾、人面虎爪，司天之九部及帝之囿时。 形貌与职掌来自原典；人格为创作。",
-        "creativeNote": "主动接手、核对线索、按规则收束；借原典职掌意象。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "主动接手、核对线索、按规则收束；借原典职掌意象。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-luwu",
         "neighborCodes": [
           "RTLM",
@@ -3086,8 +3103,8 @@
         "shareTitle": "我的山海兽格是耳鼠·飞策型",
         "shareLine": "靠近现场、快速试一步，再根据真实反馈换下一步。",
         "classicalNote": "鼠形、兔首、麋身，能以尾飞，声如犬嗥。 耳鼠形貌和以尾飞来自原典；人格为创作。",
-        "creativeNote": "迅速响应、捕捉现场细节、边走边修正；借“以尾飞”意象。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "迅速响应、捕捉现场细节、边走边修正；借“以尾飞”意象。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-ershu",
         "neighborCodes": [
           "RTLS",
@@ -3139,8 +3156,8 @@
         "shareTitle": "我的山海兽格是当康·丰候型",
         "shareLine": "把关心变成安排，让一群人切实过得更好。",
         "classicalNote": "豕形有牙，鸣声自呼其名，出现与丰穰相联。 丰穰是古籍征候；关系风格为创作。",
-        "creativeNote": "让众人受益，把可执行的照顾落地；借丰穰征候意象。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "让众人受益，把可执行的照顾落地；借丰穰征候意象。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-dangkang",
         "neighborCodes": [
           "RTEM",
@@ -3192,8 +3209,8 @@
         "shareTitle": "我的山海兽格是狌狌·歌游型",
         "shareLine": "从人与现场得到能量，跟着真实感受调整节奏。",
         "classicalNote": "形近禺而白耳，伏行人走。 狌狌形貌行动来自原典；人格为创作。",
-        "creativeNote": "在互动中读具体反馈，重体验，愿意临场换法。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "在互动中读具体反馈，重体验，愿意临场换法。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-xingxing",
         "neighborCodes": [
           "RTES",
@@ -3245,8 +3262,8 @@
         "shareTitle": "我的山海兽格是英招·巡境型",
         "shareLine": "看整片地图，也亲自巡视每个关键节点。",
         "classicalNote": "人面马身、虎文鸟翼，巡游四海，与帝之平圃相关。 英招形貌、巡游来自原典；人格为创作。",
-        "creativeNote": "面向全局巡视，把远景压成秩序与节点。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "面向全局巡视，把远景压成秩序与节点。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-yingzhao",
         "neighborCodes": [
           "RTLS",
@@ -3298,8 +3315,8 @@
         "shareTitle": "我的山海兽格是帝江·无界舞型",
         "shareLine": "先捕捉整体节奏，让答案在移动中显形。",
         "classicalNote": "黄囊、赤如丹火，六足四翼，无面目，识歌舞。 帝江形貌和歌舞来自原典；人格为创作。",
-        "creativeNote": "先感受整体节奏，以理路辨方向，却不急于定形。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "先感受整体节奏，以理路辨方向，却不急于定形。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-dijiang",
         "neighborCodes": [
           "RVLS",
@@ -3351,8 +3368,8 @@
         "shareTitle": "我的山海兽格是讙·定声型",
         "shareLine": "听见不同声音，再提炼出大家可以共同遵守的约定。",
         "classicalNote": "形如狸，一目三尾，声音可拟百声。 讙一目三尾、声拟百声来自原典；人格为创作。",
-        "creativeNote": "听见多方声音，提炼共同价值，再推动形成约定。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "听见多方声音，提炼共同价值，再推动形成约定。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-huan",
         "neighborCodes": [
           "RTES",
@@ -3404,8 +3421,8 @@
         "shareTitle": "我的山海兽格是凤凰·丹歌型",
         "shareLine": "让一群人看见共同愿景，也为新的表达保留空间。",
         "classicalNote": "五采之文，自歌自舞，出现则天下安宁。 凤凰五采歌舞安宁来自原典；人格为创作。",
-        "creativeNote": "把群体愿景与价值带到公共场域，同时容纳新的表达。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "把群体愿景与价值带到公共场域，同时容纳新的表达。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-fenghuang",
         "neighborCodes": [
           "RTEM",
@@ -3457,8 +3474,8 @@
         "shareTitle": "我的山海兽格是旋龟·负图型",
         "shareLine": "安静核对细节，等证据咬合后再判断。",
         "classicalNote": "龟身、鸟首、虺尾，声音如劈木。 旋龟形貌声音来自原典；人格为创作。",
-        "creativeNote": "独自观察细部，按逻辑反复核验，再形成稳定判断。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "独自观察细部，按逻辑反复核验，再形成稳定判断。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-xuangui",
         "neighborCodes": [
           "HTLM",
@@ -3510,8 +3527,8 @@
         "shareTitle": "我的山海兽格是毕方·火迹型",
         "shareLine": "对异常迹象敏锐，会独自追到背后因果。",
         "classicalNote": "鹤形，一足，赤文青质白喙，出现与怪火相联。 毕方形貌与怪火征候来自原典；人格为创作。",
-        "creativeNote": "对异常征兆敏感，独立判断因果，同时为新信息留门。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "对异常征兆敏感，独立判断因果，同时为新信息留门。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-bifang",
         "neighborCodes": [
           "HTLS",
@@ -3563,8 +3580,8 @@
         "shareTitle": "我的山海兽格是精卫·填海型",
         "shareLine": "不一定高声表态，却用具体行动守住承诺。",
         "classicalNote": "女娃溺海后所化，常衔西山木石填海。 精卫填海来自原典；人格为创作。",
-        "creativeNote": "安静而具体地照料承诺，以小行动完成长期心愿。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "安静而具体地照料承诺，以小行动完成长期心愿。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-jingwei",
         "neighborCodes": [
           "HTEM",
@@ -3616,8 +3633,8 @@
         "shareTitle": "我的山海兽格是鹿蜀·谣尾型",
         "shareLine": "细腻温和，从具体相处找到舒服距离。",
         "classicalNote": "形如马，白首、虎文、赤尾，声音如歌谣。 鹿蜀形貌与声如谣来自原典；人格为创作。",
-        "creativeNote": "细腻读取实际感受，温和靠近，不把关系锁死。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "细腻读取实际感受，温和靠近，不把关系锁死。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-lushu",
         "neighborCodes": [
           "HTES",
@@ -3669,8 +3686,8 @@
         "shareTitle": "我的山海兽格是开明兽·多面门型",
         "shareLine": "同时从多个方向看问题，最终会选择一扇门守住。",
         "classicalNote": "虎身而九首，皆人面，立于昆仑之上。 开明兽虎身九首人面来自原典；陆吾职掌不属于它。",
-        "creativeNote": "同时看到多个视角，以整体模型判断，再守住选定边界。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "同时看到多个视角，以整体模型判断，再守住选定边界。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-kaimingshou",
         "neighborCodes": [
           "HTLS",
@@ -3722,8 +3739,8 @@
         "shareTitle": "我的山海兽格是烛阴·司晦型",
         "shareLine": "从长时间尺度观察变化，为未来保留可转向的坐标。",
         "classicalNote": "人面蛇身、赤色，叙述涉及昼夜、冬夏与风雨。 烛阴及昼夜冬夏意象来自原典；人格为创作。",
-        "creativeNote": "从长周期看局势，独立推演，并为变化保留余地。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "从长周期看局势，独立推演，并为变化保留余地。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-zhuyin",
         "neighborCodes": [
           "RVLM",
@@ -3775,8 +3792,8 @@
         "shareTitle": "我的山海兽格是朏朏·安忧型",
         "shareLine": "察觉未说出口的疲惫，用安静陪伴给人支点。",
         "classicalNote": "形如狸，白尾有鬣，畜养可已忧。 “养之已忧”为神话，不构成心理疗效。",
-        "creativeNote": "洞察未说出口的情绪，以稳定陪伴提供支点。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "洞察未说出口的情绪，以稳定陪伴提供支点。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-feifei",
         "neighborCodes": [
           "HTES",
@@ -3828,8 +3845,8 @@
         "shareTitle": "我的山海兽格是九尾狐·青丘型",
         "shareLine": "内在世界丰盛，善于读懂关系中未明说的暗流。",
         "classicalNote": "狐形九尾，声如婴儿，会食人。 九尾、婴儿声、食人来自原典；绝不粉饰。",
-        "creativeNote": "内在世界丰盛，读取隐喻与关系张力，转换表达路径。 以上人格关联均为 SBTI 产品创作。",
-        "disclaimer": "SBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
+        "creativeNote": "内在世界丰盛，读取隐喻与关系张力，转换表达路径。 以上人格关联均为 SHBTI 产品创作。",
+        "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估或重要人生决策。",
         "artAssetId": "creature-jiuweihu",
         "neighborCodes": [
           "RVEM",

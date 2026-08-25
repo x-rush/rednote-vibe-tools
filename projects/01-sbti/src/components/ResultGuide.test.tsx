@@ -26,6 +26,7 @@ it('keeps Wenshan as a secondary result-help entry beside the beast profile', ()
       share={generateShareCardViewModel(result, content)}
       guide={content.content.experience.guide}
       identity={content.content.experience.identity}
+      shareCardCopy={content.content.experience.shareCard}
       dimensionDefinitions={content.content.dimensions}
       onHome={vi.fn()}
       onRestart={vi.fn()}
@@ -39,6 +40,8 @@ it('keeps Wenshan as a secondary result-help entry beside the beast profile', ()
   expect(html).toContain('卷三 · 天赋与行旅')
   expect(html).toContain('卷五 · 风浪与回山')
   expect(html).toContain('可分享兽志签')
+  expect(html).toContain('生成我的兽志卡')
+  expect(html).toContain('闻山把异兽、本次四维足迹与批注誊成一张可保存的兽志卡。')
   expect(html).toContain((profile as typeof profile & { wenshanNote: string }).wenshanNote)
   for (const quote of (profile as typeof profile & { shareQuotes: string[] }).shareQuotes) expect(html).toContain(quote)
   expect(html).not.toContain(result.code)

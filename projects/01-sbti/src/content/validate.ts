@@ -30,7 +30,7 @@ export class ContentValidationError extends Error {
   readonly issues: string[]
 
   constructor(issues: string[]) {
-    super(`SBTI content validation failed:\n${issues.join('\n')}`)
+    super(`SHBTI content validation failed:\n${issues.join('\n')}`)
     this.name = 'ContentValidationError'
     this.issues = issues
   }
@@ -260,7 +260,7 @@ export function validateContent(input: unknown): SbtiContentPackage {
       const identityPath = '$.content.experience.identity'
       requiredStrings(identity, ['formalName', 'englishExpansion', 'chineseMeaning', 'boundary'], identityPath, issues)
       const expected = {
-        formalName: 'SBTI｜山海兽格测试',
+        formalName: 'SHBTI｜山海兽格测试',
         englishExpansion: 'Shanhai Beast Temperament Indicator',
         chineseMeaning: '山海异兽性格倾向指标',
         boundary: '娱乐性自我探索工具，不是专业心理测评。',
@@ -310,6 +310,13 @@ export function validateContent(input: unknown): SbtiContentPackage {
         'brandCode', 'brandName', 'brandSeal', 'landingEyebrow', 'landingQuestion', 'landingFreshKicker', 'landingContinueKicker',
         'landingMeta', 'landingFootnote', 'introEyebrow', 'introTitle', 'introLead', 'introPrivacy',
       ], '$.content.experience.surfaces', issues)
+    }
+    if (!isRecord(content.experience.shareCard)) issues.push('$.content.experience.shareCard: expected an object')
+    else {
+      requiredStrings(content.experience.shareCard, [
+        'triggerLabel', 'launchDescription', 'title', 'cardEyebrow', 'guideLabel', 'guideSeal', 'generating', 'previewAlt', 'saveLabel', 'savingLabel',
+        'success', 'unsupported', 'failure', 'retryLabel', 'closeLabel',
+      ], '$.content.experience.shareCard', issues)
     }
   }
 

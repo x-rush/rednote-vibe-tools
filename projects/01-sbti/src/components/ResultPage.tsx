@@ -1,18 +1,23 @@
-import { useRef, useState } from 'react'
-import type { BrandIdentityCopy, DimensionDefinition, GuideCopy, PersonalityType } from '../content/types'
+import { useMemo, useRef, useState } from 'react'
+import type { BrandIdentityCopy, DimensionDefinition, ExperienceCopy, GuideCopy, PersonalityType } from '../content/types'
 import { deriveGuideMoment } from '../guide/guideMoment'
 import type { QuizResult, ShareCardViewModel } from '../quiz/types'
 import { formatResultIdentity, toDimensionDisplay } from '../quiz/presentation'
+import { createShareCardModel } from '../share/shareCardModel'
 import { BeastPortrait } from './BeastPortrait'
 import { GuidePresence } from './guide/GuidePresence'
 import { GuideTopicSheet } from './guide/GuideTopicSheet'
+import { ShareCardSheet } from './ShareCardSheet'
 
-type Props = { result: QuizResult; profile: PersonalityType; neighborLabel: string; share: ShareCardViewModel; guide: GuideCopy; identity: BrandIdentityCopy; dimensionDefinitions: DimensionDefinition[]; onHome: () => void; onRestart: () => void }
+type Props = { result: QuizResult; profile: PersonalityType; neighborLabel: string; share: ShareCardViewModel; guide: GuideCopy; identity: BrandIdentityCopy; shareCardCopy: ExperienceCopy['shareCard']; dimensionDefinitions: DimensionDefinition[]; onHome: () => void; onRestart: () => void }
 
-export function ResultPage({ result, profile, neighborLabel, share, guide, identity, dimensionDefinitions, onHome, onRestart }: Props) {
+export function ResultPage({ result, profile, neighborLabel, share, guide, identity, shareCardCopy, dimensionDefinitions, onHome, onRestart }: Props) {
   const [helpOpen, setHelpOpen] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
   const guideReturnRef = useRef<HTMLButtonElement | null>(null)
+  const shareReturnRef = useRef<HTMLButtonElement | null>(null)
   const guideMoment = deriveGuideMoment({ screen: 'result', requestedHelp: helpOpen ? 'result' : undefined })
+  const shareCardModel = useMemo(() => createShareCardModel({ result, profile, share, dimensions: dimensionDefinitions, identity, copy: shareCardCopy }), [dimensionDefinitions, identity, profile, result, share, shareCardCopy])
   return (
     <main className="page page--result" data-state="revealed">
       <header className="result-hero"><p className="eyebrow">你的山海兽格</p><h1>{formatResultIdentity(result.summary.creatureName, result.summary.typeName)}</h1><p className="lead">{result.summary.coreDescription}</p></header>
@@ -105,6 +110,10 @@ export function ResultPage({ result, profile, neighborLabel, share, guide, ident
         })}</div>
         <small>{share.disclaimer}</small>
       </article>
+      <div className="share-card-launch">
+        <p>{shareCardCopy.launchDescription}</p>
+        <button ref={shareReturnRef} type="button" className="button button--primary" onClick={() => setShareOpen(true)}>{shareCardCopy.triggerLabel}</button>
+      </div>
       <p className="disclaimer">{profile.disclaimer}</p>
       <aside className="result-identity" aria-label="关于山海兽格测试"><strong>{identity.chineseMeaning}</strong><p>{identity.boundary}</p></aside>
       <nav className="button-row" aria-label="结果页操作"><button type="button" className="button button--quiet" onClick={onHome}>返回首页</button><button type="button" className="button button--primary" onClick={onRestart}>重新测评</button></nav>
@@ -118,6 +127,7 @@ export function ResultPage({ result, profile, neighborLabel, share, guide, ident
           onClose={() => setHelpOpen(false)}
         />
       )}
+      {shareOpen && <ShareCardSheet model={shareCardModel} copy={shareCardCopy} returnFocusRef={shareReturnRef} onClose={() => setShareOpen(false)} />}
     </main>
   )
 }

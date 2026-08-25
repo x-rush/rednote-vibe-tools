@@ -23,7 +23,7 @@ const payload: StoragePayload = {
   },
 }
 
-describe('SBTI local storage adapter', () => {
+describe('SHBTI local storage adapter', () => {
   it('returns an empty outcome when no data exists', () => {
     expect(loadStorage(new MemoryStorage(), content)).toEqual({ status: 'empty' })
   })
@@ -70,7 +70,7 @@ describe('SBTI local storage adapter', () => {
     expect(loadStorage(storage, content)).toEqual({ status: 'recovered', reason: '题库版本不匹配' })
   })
 
-  it('clears only the SBTI project key', () => {
+  it('clears only the SHBTI project key', () => {
     const storage = new MemoryStorage()
     storage.setItem(STORAGE_KEY, JSON.stringify(payload))
     storage.setItem('xhs-tool:another:state:v1', 'keep')

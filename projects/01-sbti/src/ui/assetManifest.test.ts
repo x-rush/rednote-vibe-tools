@@ -23,7 +23,7 @@ function diskPath(src: string) {
   return resolve(publicRoot, src.replace(/^\.\//, ''))
 }
 
-describe('SBTI release asset manifest', () => {
+describe('SHBTI release asset manifest', () => {
   const profiles = releaseManifest.items.filter((item) => item.id.startsWith('sbti.beast.') && item.id.endsWith('.profile'))
   const placeholders = releaseManifest.items.filter((item) => item.id.startsWith('sbti.beast.') && item.id.endsWith('.placeholder'))
 

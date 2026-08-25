@@ -8,7 +8,7 @@ import { LandingPage } from './LandingPage'
 const content = validateContent(rawContent)
 const copy = content.content.experience
 
-describe('formal SBTI identity', () => {
+describe('formal SHBTI identity', () => {
   beforeAll(() => {
     vi.stubGlobal('window', { localStorage: { getItem: () => null, setItem: vi.fn(), removeItem: vi.fn() } })
   })

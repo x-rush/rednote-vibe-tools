@@ -23,10 +23,10 @@ describe('production content package', () => {
     expect(validateContent(rawContent).content.questions).toHaveLength(48)
   })
 
-  it('requires the formal SBTI identity and Chinese dimension display names', () => {
+  it('requires the formal SHBTI identity and Chinese dimension display names', () => {
     const content = validateContent(rawContent)
     expect(content.content.experience.identity).toEqual({
-      formalName: 'SBTI｜山海兽格测试',
+      formalName: 'SHBTI｜山海兽格测试',
       englishExpansion: 'Shanhai Beast Temperament Indicator',
       chineseMeaning: '山海异兽性格倾向指标',
       boundary: '娱乐性自我探索工具，不是专业心理测评。',

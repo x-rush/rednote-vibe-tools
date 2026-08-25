@@ -11,8 +11,8 @@
       "width": 512,
       "height": 512,
       "maxPortalBytes": 5242880,
-      "source": "public/assets/artifacts/artifact-four-ram-zun/reveal-creative-reconstruction-v1.webp",
-      "treatment": "verified-art deterministic brand composition; no generative redraw"
+      "source": "public/assets/wuhualu/brand/app-icon-v2.png",
+      "treatment": "approved generated brand icon; deterministic Lanczos downscale only"
     }
   },
   "qaDerivatives": [

@@ -15,7 +15,7 @@ function runGame(seed: string, correctPattern: readonly boolean[]): AppState {
     candidates: content.content.distractorCandidates, recentArtifactIds: [],
   })
   for (let index = 0; index < 5; index += 1) {
-    if (state.screen !== 'question') throw new Error(`expected question ${index}`)
+    if (state.screen !== 'observation') throw new Error(`expected observation ${index}`)
     const question = state.questions[state.session.index]
     const option = correctPattern[index]
       ? question.correctOptionId
@@ -23,7 +23,20 @@ function runGame(seed: string, correctPattern: readonly boolean[]): AppState {
     if (!option) throw new Error('missing option')
     state = appReducer(state, { type: 'selectOption', optionId: option })
     state = appReducer(state, { type: 'submitAnswer', answeredAt: `2026-08-24T00:0${index}:00.000Z` })
-    state = appReducer(state, { type: 'nextQuestion' })
+    if (state.screen === 'wrongReview') state = appReducer(state, { type: 'continueToReveal' })
+    if (state.screen !== 'reveal') throw new Error(`expected reveal ${index}`)
+    state = appReducer(state, { type: 'openStory' })
+    if (state.screen !== 'story') throw new Error(`expected story ${index}`)
+    const artifact = content.content.artifacts.find(({ id }) => id === question.artifactId)
+    if (!artifact) throw new Error('missing artifact')
+    if (artifact.experienceV2) {
+      for (const section of artifact.experienceV2.story) state = appReducer(state, { type: 'markStorySectionRead', sectionId: section.id })
+      state = appReducer(state, { type: 'answerMemory', optionId: artifact.experienceV2.memoryChallenge.answerId })
+    }
+    state = appReducer(state, { type: 'archiveArtifact', artifacts: content.content.artifacts, archivedAt: `2026-08-24T00:0${index}:30.000Z` })
+    state = state.screen === 'setComplete'
+      ? appReducer(state, { type: 'leaveSetComplete' })
+      : appReducer(state, { type: 'nextQuestion' })
   }
   return state
 }

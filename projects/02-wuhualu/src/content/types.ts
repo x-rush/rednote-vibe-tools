@@ -245,6 +245,27 @@ export type QuizSessionAnswer = {
   points: number
 }
 
+export type CasePhase =
+  | 'observation'
+  | 'clueSelect'
+  | 'answering'
+  | 'wrongReview'
+  | 'reveal'
+  | 'story'
+  | 'memory'
+  | 'archive'
+  | 'setComplete'
+
+export type CaseProgress = {
+  phase: CasePhase
+  openedClueIds: string[]
+  observedSpotIds: string[]
+  storyReadSections: StorySectionId[]
+  selectedOptionId: string | null
+  memoryAnswerId: string | null
+  completedSetId: ArtifactSetId | null
+}
+
 export type QuizSession = {
   seed: string
   artifactIds: string[]
@@ -253,6 +274,7 @@ export type QuizSession = {
   revealedClueIds: string[]
   score: number
   streak: number
+  caseProgress?: CaseProgress
 }
 
 export type GuessResult = {

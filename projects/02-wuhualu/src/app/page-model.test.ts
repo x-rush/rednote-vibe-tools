@@ -8,8 +8,9 @@ const copy = parseContent(rawContent).content.copy
 describe('semantic page model', () => {
   it('gives every required screen a title and primary action from content copy', () => {
     const screens: ScreenName[] = [
-      'landing', 'intro', 'modeSelect', 'question', 'clueRevealed', 'answering',
-      'feedback', 'collection', 'artifactDetail', 'summary', 'error',
+      'landing', 'intro', 'modeSelect', 'observation', 'clueSelect', 'answering',
+      'wrongReview', 'reveal', 'story', 'memory', 'archive', 'setComplete',
+      'collection', 'artifactDetail', 'summary', 'error',
     ]
     for (const screen of screens) {
       const chrome = getPageChrome(screen, copy)
@@ -19,8 +20,8 @@ describe('semantic page model', () => {
   })
 
   it('only exposes the round-exit action during active play', () => {
-    expect(shouldShowExitAction('question')).toBe(true)
-    expect(shouldShowExitAction('feedback')).toBe(true)
+    expect(shouldShowExitAction('observation')).toBe(true)
+    expect(shouldShowExitAction('story')).toBe(true)
     expect(shouldShowExitAction('intro')).toBe(false)
     expect(shouldShowExitAction('collection')).toBe(false)
     expect(shouldShowExitAction('summary')).toBe(false)

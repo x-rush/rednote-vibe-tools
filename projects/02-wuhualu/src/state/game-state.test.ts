@@ -1,53 +1,134 @@
 import { describe, expect, it } from 'vitest'
 import rawContent from '../content/content.json'
+import { hasArtifactExperienceV2, type StoragePayload } from '../content/types.ts'
 import { parseContent } from '../content/validate.ts'
 import { createDefaultStoragePayload } from '../storage/storage.ts'
-import { appReducer, createInitialState } from './game-state.ts'
+import { appReducer, createInitialState, type AppState } from './game-state.ts'
 
 const content = parseContent(rawContent)
-const payload = createDefaultStoragePayload(content.contentVersion, '2026-08-24T00:00:00.000Z')
+const NOW = '2026-08-25T00:01:00.000Z'
 
-function startedState() {
+function startWithSeed(seed: string, payload = createDefaultStoragePayload(content.contentVersion, '2026-08-25T00:00:00.000Z')): AppState {
   let state = createInitialState(payload)
   state = appReducer(state, { type: 'showIntro' })
   state = appReducer(state, { type: 'showModeSelect' })
-  state = appReducer(state, {
-    type: 'startRound', seed: 'state-test', artifacts: content.content.artifacts,
+  return appReducer(state, {
+    type: 'startRound', seed, artifacts: content.content.artifacts,
     candidates: content.content.distractorCandidates, recentArtifactIds: [],
   })
-  return state
 }
 
-describe('application state machine', () => {
-  it('moves from landing through intro and mode selection to a five-item question', () => {
-    const state = startedState()
-    expect(state.screen).toBe('question')
-    if (state.screen !== 'question') throw new Error('expected question')
+function startedGoldenState(payload?: StoragePayload): AppState {
+  for (let index = 0; index < 200; index += 1) {
+    const state = startWithSeed(`golden-${index}`, payload)
+    if ('questions' in state && state.questions[state.session.index]?.artifactId === 'artifact-zenghouyi-bells') return state
+  }
+  throw new Error('could not select golden artifact first')
+}
+
+function goldenExperience() {
+  const artifact = content.content.artifacts.find(({ id }) => id === 'artifact-zenghouyi-bells')
+  if (!artifact || !hasArtifactExperienceV2(artifact)) throw new Error('missing golden artifact')
+  return artifact.experienceV2
+}
+
+function answerCurrent(state: AppState, correct: boolean): AppState {
+  if (state.screen !== 'observation' && state.screen !== 'clueSelect') throw new Error('expected open case')
+  const question = state.questions[state.session.index]
+  const optionId = correct ? question.correctOptionId : question.options.find(option => !option.isCorrect)?.id
+  if (!optionId) throw new Error('missing option')
+  state = appReducer(state, { type: 'selectOption', optionId })
+  return appReducer(state, { type: 'submitAnswer', answeredAt: NOW })
+}
+
+describe('application V2 state machine', () => {
+  it('moves from landing through intake and mode selection to a five-item observation case', () => {
+    const state = startWithSeed('state-test')
+    expect(state.screen).toBe('observation')
+    if (state.screen !== 'observation') throw new Error('expected observation')
     expect(state.questions).toHaveLength(5)
-    expect(state.session.revealedClueIds).toHaveLength(1)
+    expect(state.session.caseProgress?.openedClueIds).toEqual([])
+    expect(state.session.caseProgress?.phase).toBe('observation')
   })
 
-  it('reveals, selects, submits once, unlocks, and advances', () => {
-    let state = startedState()
-    state = appReducer(state, { type: 'revealClue' })
-    expect(state.screen).toBe('clueRevealed')
-    if (state.screen !== 'clueRevealed') throw new Error('expected clue')
-    const correct = state.questions[0].correctOptionId
-    state = appReducer(state, { type: 'selectOption', optionId: correct })
-    expect(state.screen).toBe('answering')
-    state = appReducer(state, { type: 'submitAnswer', answeredAt: '2026-08-24T00:01:00.000Z' })
-    expect(state.screen).toBe('feedback')
-    if (state.screen !== 'feedback') throw new Error('expected feedback')
-    expect(state.result).toMatchObject({ correct: true, stars: 2, points: 200 })
+  it('runs the golden artifact through observation, story, memory, and archive', () => {
+    const experience = goldenExperience()
+    let state = startedGoldenState()
+    if (state.screen !== 'observation') throw new Error('expected observation')
+    state = appReducer(state, { type: 'discoverSpot', spotId: experience.observationSpots[0].id })
+    state = appReducer(state, { type: 'openClue', clueId: experience.clueCards[0].id })
+    expect(state.screen).toBe('clueSelect')
+    if (state.screen !== 'clueSelect') throw new Error('expected clue select')
+    expect(state.session.caseProgress?.openedClueIds).toEqual([experience.clueCards[0].id])
+    state = answerCurrent(state, true)
+    expect(state.screen).toBe('reveal')
+    if (state.screen !== 'reveal') throw new Error('expected reveal')
+    expect(state.result).toMatchObject({ correct: true, stars: 3, points: 300 })
     expect(state.payload.collection).toHaveLength(1)
-    const duplicate = appReducer(state, { type: 'submitAnswer', answeredAt: '2026-08-24T00:01:01.000Z' })
-    expect(duplicate).toBe(state)
+    expect(appReducer(state, { type: 'submitAnswer', answeredAt: NOW })).toBe(state)
+
+    state = appReducer(state, { type: 'openStory' })
+    expect(state.screen).toBe('story')
+    for (const section of experience.story) state = appReducer(state, { type: 'markStorySectionRead', sectionId: section.id })
+    state = appReducer(state, { type: 'answerMemory', optionId: experience.memoryChallenge.answerId })
+    expect(state.screen).toBe('memory')
+    state = appReducer(state, { type: 'archiveArtifact', artifacts: content.content.artifacts, archivedAt: NOW })
+    expect(state.screen).toBe('archive')
+    expect(state.payload.artifactProgress).toEqual([{
+      artifactId: 'artifact-zenghouyi-bells',
+      observedSpotIds: [experience.observationSpots[0].id],
+      storyReadSections: experience.story.map(({ id }) => id),
+      memoryCompleted: true,
+    }])
     state = appReducer(state, { type: 'nextQuestion' })
-    expect(state.screen).toBe('question')
+    expect(state.screen).toBe('observation')
+  })
+
+  it('routes an incorrect stamp through review before the same full reveal', () => {
+    let state = startedGoldenState()
+    state = answerCurrent(state, false)
+    expect(state.screen).toBe('wrongReview')
+    const duplicate = appReducer(state, { type: 'submitAnswer', answeredAt: NOW })
+    expect(duplicate).toBe(state)
+    state = appReducer(state, { type: 'continueToReveal' })
+    expect(state.screen).toBe('reveal')
+    if (state.screen !== 'reveal') throw new Error('expected reveal')
+    expect(state.result.correct).toBe(false)
+    expect(state.payload.collection).toHaveLength(1)
+  })
+
+  it('restores the exact story phase from a persisted current session', () => {
+    const experience = goldenExperience()
+    let state = answerCurrent(startedGoldenState(), true)
+    state = appReducer(state, { type: 'openStory' })
+    state = appReducer(state, { type: 'markStorySectionRead', sectionId: experience.story[0].id })
+    const payload = state.payload
+
+    state = createInitialState(payload)
+    state = appReducer(state, { type: 'resumeRound', artifacts: content.content.artifacts, candidates: content.content.distractorCandidates })
+    expect(state.screen).toBe('story')
+    if (state.screen !== 'story') throw new Error('expected story')
+    expect(state.session.caseProgress?.storyReadSections).toEqual([experience.story[0].id])
+  })
+
+  it('awards a set seal once when archiving the fourth collected artifact', () => {
+    const payload = createDefaultStoragePayload(content.contentVersion, '2026-08-25T00:00:00.000Z')
+    payload.collection = content.content.artifacts
+      .filter(artifact => artifact.setId === 'chu-sound' && artifact.id !== 'artifact-zenghouyi-bells')
+      .map(artifact => ({ artifactId: artifact.id, bestStars: 2, unlockedAt: payload.updatedAt }))
+    let state = answerCurrent(startedGoldenState(payload), true)
+    state = appReducer(state, { type: 'openStory' })
+    for (const section of goldenExperience().story) state = appReducer(state, { type: 'markStorySectionRead', sectionId: section.id })
+    state = appReducer(state, { type: 'answerMemory', optionId: goldenExperience().memoryChallenge.answerId })
+    state = appReducer(state, { type: 'archiveArtifact', artifacts: content.content.artifacts, archivedAt: NOW })
+
+    expect(state.screen).toBe('setComplete')
+    expect(state.payload.setSealIds).toEqual(['chu-sound'])
+    expect(appReducer(state, { type: 'archiveArtifact', artifacts: content.content.artifacts, archivedAt: NOW })).toBe(state)
   })
 
   it('supports collection, detail, exit, replay, error, and recovery states', () => {
-    let state = startedState()
+    let state = startWithSeed('navigation-test')
     state = appReducer(state, { type: 'exitRound' })
     expect(state.screen).toBe('landing')
     state = appReducer(state, { type: 'openCollection' })

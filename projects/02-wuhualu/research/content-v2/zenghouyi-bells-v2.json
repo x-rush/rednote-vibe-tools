@@ -1,0 +1,160 @@
+{
+  "artifactId": "artifact-zenghouyi-bells",
+  "setId": "chu-sound",
+  "timelineOrder": 9,
+  "storyHook": "它不是一口钟，而是一座把声音、尺度与文字共同悬在梁上的礼乐档案。",
+  "story": [
+    {
+      "id": "first-look",
+      "title": "第一眼：一面会转弯的钟墙",
+      "body": "先别急着数钟。站远一点看，你会发现整套钟架并不是一条笔直的墙，而是呈曲尺形转折，像两翼在展厅中围出一个空间。馆方记录钟架长 7.48 米、高 2.65 米；六十五件钟分三层八组悬挂，上层较小，中、下层逐渐增大。尺度、重量和位置不是随意堆叠，而是一套能够实际演奏的有序系统。",
+      "sourceIds": ["source-hubei-bells"],
+      "narrativeMode": "verified-fact"
+    },
+    {
+      "id": "making",
+      "title": "它怎样被组织起来",
+      "body": "这套编钟依靠铜木复合钟架承重：红黑漆木横梁连接青铜构件，钟体被分层悬起。上层三组共十九件钮钟，中、下层五组共四十五件甬钟，再加一件楚惠王赠送的镈钟，合为六十五件。钟、钟架和挂钟构件上共有三千七百五十五字铭文，涉及编号、记事、标音和乐律理论。图像只表现结构，不生成或临摹这些铭文。",
+      "sourceIds": ["source-hubei-bells", "source-unesco-bells-2025"],
+      "narrativeMode": "verified-fact"
+    },
+    {
+      "id": "lived-world",
+      "title": "一钟为什么能有两个音",
+      "body": "编钟最令人惊讶的地方不只在数量。每件钟在不同敲击部位可以发出两个呈三度关系的音，整套音域跨五个半八度，中心音区十二个半音齐备，能够演奏五声、六声或七声音阶。这里的“双音”不是说一次敲击同时冒出两个音，而是钟体形状、壁厚与敲击位置共同形成两套稳定音高。声音与铭文相互印证，使这组器物也是一份可被演奏的音乐知识。",
+      "sourceIds": ["source-hubei-bells", "source-unesco-bells-2025"],
+      "narrativeMode": "verified-fact"
+    },
+    {
+      "id": "journey",
+      "title": "从曾侯乙墓来到今天",
+      "body": "1978 年，这套编钟出土于湖北随州曾侯乙墓，年代为战国早期。整套器物中那件由楚惠王赠送的镈钟，让我们在一座墓葬里看见诸侯之间可以被具体物证确认的交往。出土之后，人们不只是修复和陈列这些钟，还要重新读懂钟上的标音、不同诸侯国的音名关系，以及两千多年前声音如何被制作、记录和传递。",
+      "sourceIds": ["source-hubei-bells"],
+      "narrativeMode": "verified-fact"
+    },
+    {
+      "id": "why-now",
+      "title": "今天为什么还要看它",
+      "body": "2025 年，曾侯乙编钟列入联合国教科文组织《世界记忆名录》。被强调的不只是宏大的外形，还有三千七百五十五字铭文与其中保存的音乐信息：它们构成现存极早、规模罕见的音乐理论考古文献，展示音高之间可以被命名、比较和计算。今天再看编钟，我们面对的不是一句笼统的“古人很聪明”，而是一套仍能让声音、文字、数学关系彼此对证的知识系统。",
+      "sourceIds": ["source-unesco-bells-2025"],
+      "narrativeMode": "verified-fact"
+    }
+  ],
+  "observationSpots": [
+    {
+      "id": "spot-bells-corner",
+      "x": 0.47,
+      "y": 0.48,
+      "radius": 0.13,
+      "label": "钟架转折",
+      "note": "两翼在这里转折，说明它不是一排贴墙悬挂的钟。",
+      "clueCategory": "shape",
+      "assetRole": "clue-1"
+    },
+    {
+      "id": "spot-bells-scale",
+      "x": 0.75,
+      "y": 0.5,
+      "radius": 0.15,
+      "label": "上小下大",
+      "note": "上层钮钟较小，中、下层甬钟逐渐增大，三层有明确尺度秩序。",
+      "clueCategory": "craft",
+      "assetRole": "clue-2"
+    },
+    {
+      "id": "spot-bells-support",
+      "x": 0.86,
+      "y": 0.62,
+      "radius": 0.1,
+      "label": "铜木承重",
+      "note": "红黑漆木横梁由青铜构件和人物形支柱共同承托。",
+      "clueCategory": "material",
+      "assetRole": "reveal"
+    }
+  ],
+  "clueCards": [
+    {
+      "id": "clue-bells-shape",
+      "category": "shape",
+      "label": "看形",
+      "text": "我不是一口钟，而是沿曲尺形钟架分三层悬挂的一整套乐器。",
+      "npcHint": "别只盯着最大的钟，先看整座架子怎样转弯。",
+      "costIfAdditional": 1
+    },
+    {
+      "id": "clue-bells-material",
+      "category": "material",
+      "label": "辨材",
+      "text": "红黑漆木横梁与青铜承重构件一起托起大小递变的钟体。",
+      "npcHint": "这不是一面全金属的现代支架，木与铜各有职责。",
+      "costIfAdditional": 1
+    },
+    {
+      "id": "clue-bells-provenance",
+      "category": "provenance",
+      "label": "问来历",
+      "text": "1978 年出土于湖北随州一座战国早期国君墓，全套共六十五件。",
+      "npcHint": "数量很醒目，但真正的答案还藏在“成套”和“分层”里。",
+      "costIfAdditional": 1
+    }
+  ],
+  "memoryChallenge": {
+    "prompt": "“一钟双音”在这里准确指什么？",
+    "options": [
+      { "id": "a", "label": "一次敲击必然同时发出两个音" },
+      { "id": "b", "label": "敲击不同部位可以得到两个稳定音高" },
+      { "id": "c", "label": "两口钟必须成对同时演奏" },
+      { "id": "d", "label": "一件钟由两种金属分别发声" }
+    ],
+    "answerId": "b",
+    "explanation": "钟体的合瓦形结构、壁厚与敲击位置让同一件钟可以发出两个呈三度关系的音；这不是一次敲击同时响出两个音。",
+    "sourceIds": ["source-hubei-bells", "source-unesco-bells-2025"]
+  },
+  "relatedArtifacts": [
+    {
+      "artifactId": "artifact-zenghouyi-zunpan",
+      "reason": "同出曾侯乙墓：一件保存礼乐声音与理论，一件展示复杂青铜铸造和宴飨器用。"
+    },
+    {
+      "artifactId": "artifact-jiahu-flute",
+      "reason": "两件都让古代声音留下可验证的物质证据，但时代、材料和音乐系统完全不同。"
+    }
+  ],
+  "guideLines": {
+    "beforeObservation": [
+      "这一柜太大，先退半步，看整座架子，不要急着数。",
+      "光扫过转角时停一下：这套乐器不是贴墙排开的。",
+      "先找层级，再看单件。大器物也要从结构入手。"
+    ],
+    "clueOpened": [
+      "你拆开的是“看形”签，答案会藏在整体轮廓里。",
+      "这一签说的是材料关系：木梁和铜架缺一不可。",
+      "来历能缩小范围，但别让一个数字替你完成全部判断。"
+    ],
+    "correct": [
+      "认对了。你看到的不是钟墙，而是一整套礼乐系统。",
+      "落印准确。现在把耳朵也借给这份档案。",
+      "你抓住了三层和转角，六十五件才不再只是一个数字。"
+    ],
+    "incorrect": [
+      "这个选项也有成套乐器的迷惑性，但没有曲尺形三层钟架。",
+      "你被青铜和体量带偏了；决定性证据其实是大小递变的悬钟。",
+      "先不急着改答案，我们回到转角、三层和钟体形状。"
+    ],
+    "archived": [
+      "标签入册。今天你收下的不只是声音，还有写在钟上的音乐知识。",
+      "这一页很重——六十五件钟，也是一份可以演奏的档案。",
+      "楚风新声添了一格。下一次再来听它和骨笛有什么不同。"
+    ]
+  },
+  "storyFactCheckStatus": "verified",
+  "storyContentVersion": "2.0.0-golden-sample",
+  "sourceAdditions": [
+    {
+      "id": "source-unesco-bells-2025",
+      "title": "UNESCO Memory of the World：The Suizhou Bianzhong of Marquis Yi of Zeng",
+      "url": "https://www.unesco.org/en/memory-world/suizhou-bianzhong-marquis-yi-zeng",
+      "level": "A"
+    }
+  ]
+}

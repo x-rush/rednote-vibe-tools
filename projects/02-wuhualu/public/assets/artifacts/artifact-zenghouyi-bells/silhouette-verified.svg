@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" role="img" aria-labelledby="title desc">
+  <title id="title">曾侯乙编钟结构剪影</title>
+  <desc id="desc">曲尺形转折的三层钟架，上层小钟、中下层大钟逐级排列</desc>
+  <defs>
+    <g id="smallBell"><path d="M-11 0h22l-2 18-5 9H-4l-5-9Z"/></g>
+    <g id="midBell"><path d="M-15 0h30l-3 27-7 12H-5l-7-12Z"/></g>
+    <g id="largeBell"><path d="M-21 0h42l-4 39-10 17H-7l-10-17Z"/></g>
+  </defs>
+  <g fill="none" stroke="#9b7950" stroke-linecap="square" stroke-width="7">
+    <path d="M46 86H288L548 46"/>
+    <path d="M46 164H288L548 124"/>
+    <path d="M46 254H288L548 214"/>
+    <path d="M46 76v238M288 76v238M548 36v278" stroke-width="10"/>
+  </g>
+  <g fill="#607d70" stroke="#e7d8b4" stroke-width="2">
+    <use href="#smallBell" x="78" y="93"/><use href="#smallBell" x="112" y="93"/><use href="#smallBell" x="146" y="93"/><use href="#smallBell" x="180" y="93"/><use href="#smallBell" x="214" y="93"/><use href="#smallBell" x="248" y="93"/>
+    <use href="#smallBell" x="322" y="80"/><use href="#smallBell" x="358" y="74"/><use href="#smallBell" x="394" y="69"/><use href="#smallBell" x="430" y="63"/><use href="#smallBell" x="466" y="58"/><use href="#smallBell" x="502" y="52"/>
+    <use href="#midBell" x="78" y="171"/><use href="#midBell" x="122" y="171"/><use href="#midBell" x="166" y="171"/><use href="#midBell" x="210" y="171"/><use href="#midBell" x="254" y="171"/>
+    <use href="#midBell" x="324" y="153"/><use href="#midBell" x="372" y="146"/><use href="#midBell" x="420" y="138"/><use href="#midBell" x="468" y="131"/><use href="#midBell" x="516" y="124"/>
+    <use href="#largeBell" x="82" y="261"/><use href="#largeBell" x="140" y="261"/><use href="#largeBell" x="198" y="261"/><use href="#largeBell" x="256" y="261"/>
+    <use href="#largeBell" x="330" y="244"/><use href="#largeBell" x="390" y="235"/><use href="#largeBell" x="450" y="226"/><use href="#largeBell" x="510" y="217"/>
+  </g>
+</svg>

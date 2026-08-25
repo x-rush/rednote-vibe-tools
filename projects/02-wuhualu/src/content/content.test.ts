@@ -41,6 +41,7 @@ describe('production content package', () => {
     expect(enhanced.map(({ id }) => id)).toEqual(['artifact-zenghouyi-bells'])
     expect(enhanced[0].experienceV2.story).toHaveLength(5)
     expect(enhanced[0].experienceV2.observationSpots).toHaveLength(3)
+    expect(new Set(enhanced[0].experienceV2.observationSpots.map(({ assetRole }) => assetRole))).toEqual(new Set(['observation']))
     expect(enhanced[0].experienceV2.clueCards.map(({ label }) => label)).toEqual(['看形', '辨材', '问来历'])
   })
 
@@ -87,7 +88,9 @@ describe('production content package', () => {
       'legacyArchiveAction', 'setCompleteEyebrow', 'setCompleteAction', 'lockedDetailEyebrow',
       'lockedDetailBody', 'memoryEyebrow', 'memoryTitle', 'memorySubmitAction', 'memoryCorrect',
       'memoryIncorrect', 'memoryArchiveAction', 'archiveNextAction', 'archiveRelatedTitle',
-      'observationInstruction', 'legacyObservationInstruction', 'clueBoxLabel', 'clueBoxTitle',
+      'observationInstruction', 'legacyObservationInstruction', 'observationGuideLabel',
+      'observationGuideFirst', 'observationGuideContinue', 'observationGuideComplete',
+      'observationMarkerLabel', 'observationProgressLabel', 'clueBoxLabel', 'clueBoxTitle',
       'clueFirstFree', 'clueOpenPrefix', 'clueStarBand', 'archivePrompt', 'guideEliminated',
       'archiveStampAction', 'archiveSealCharacter', 'storyEyebrow', 'storyNavLabel',
       'storySectionPrefix', 'storySourcesLabel', 'storySourceLevelSuffix', 'storyReadAction', 'storyReadDone',
@@ -96,5 +99,33 @@ describe('production content package', () => {
       'guideLandingImageAlt', 'guideIntroImageAlt',
     ] as const
     for (const key of required) expect(content.content.copy[key].trim().length, key).toBeGreaterThan(0)
+  })
+
+  it('describes observation as a touch interaction instead of pointer movement', () => {
+    const copy = content.content.copy
+    expect([copy.landingBody, copy.introObserveBody, copy.guideHelpBody, copy.observationInstruction].join('\n')).not.toContain('移动光斑')
+    expect(copy.observationInstruction).toContain('轻触')
+  })
+
+  it('rejects a content package missing mobile observation guidance', () => {
+    const broken = structuredClone(content) as unknown as { content: { copy: Record<string, unknown> } }
+    delete broken.content.copy.observationGuideFirst
+
+    expect(validateContent(broken).issues).toContainEqual({
+      path: '$.content.copy.observationGuideFirst',
+      message: '界面文案不能为空',
+    })
+  })
+
+  it('rejects observation points calibrated against a changing clue image', () => {
+    const broken = structuredClone(content)
+    const enhanced = broken.content.artifacts.find(artifact => artifact.experienceV2)
+    if (!enhanced?.experienceV2) throw new Error('missing golden experience')
+    enhanced.experienceV2.observationSpots[0].assetRole = 'clue-1'
+
+    expect(validateContent(broken).issues).toContainEqual({
+      path: '$.content.artifacts[8].experienceV2.observationSpots[0].assetRole',
+      message: '观察点资源角色非法',
+    })
   })
 })

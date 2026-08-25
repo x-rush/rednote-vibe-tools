@@ -47,7 +47,7 @@ export type ObservationSpot = {
   label: string
   note: string
   clueCategory: 'shape' | 'material' | 'craft' | 'trace'
-  assetRole: 'clue-1' | 'clue-2' | 'reveal'
+  assetRole: 'observation'
 }
 
 export type ClueCard = {
@@ -236,6 +236,12 @@ export type ContentCopy = {
   archiveRelatedTitle: string
   observationInstruction: string
   legacyObservationInstruction: string
+  observationGuideLabel: string
+  observationGuideFirst: string
+  observationGuideContinue: string
+  observationGuideComplete: string
+  observationMarkerLabel: string
+  observationProgressLabel: string
   clueBoxLabel: string
   clueBoxTitle: string
   clueFirstFree: string

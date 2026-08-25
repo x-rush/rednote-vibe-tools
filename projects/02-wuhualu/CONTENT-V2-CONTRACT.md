@@ -19,7 +19,7 @@ type ObservationSpot = {
   label: string
   note: string
   clueCategory: 'shape' | 'material' | 'craft' | 'trace'
-  assetRole: 'clue-1' | 'clue-2' | 'reveal'
+  assetRole: 'observation'
 }
 
 type ClueCard = {
@@ -59,6 +59,8 @@ type ArtifactV2 = ArtifactV1 & {
   storyContentVersion: string
 }
 ```
+
+同一观察台上的全部 `observationSpots` 必须使用一张经过统一坐标校准的 `observation` 底图；拆开线索印不得更换这张底图或移动已显示的观察签。
 
 ## 内容长度门禁
 

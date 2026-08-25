@@ -1,68 +1,80 @@
-import { useRef } from 'react'
-import type { CSSProperties, PointerEvent } from 'react'
+import type { CSSProperties } from 'react'
 import type { Artifact, ObservationSpot } from '../content/types.ts'
-import { hitObservationSpot } from '../game/experience.ts'
 import { ArtifactMedia } from './ArtifactMedia.tsx'
+
+export type SpotlightStageCopy = {
+  guideLabel: string
+  firstPrompt: string
+  continuePrompt: string
+  completePrompt: string
+  markerLabel: string
+  progressLabel: string
+  askLabel: string
+}
 
 type SpotlightStageProps = {
   artifact: Artifact
   spots: readonly ObservationSpot[]
   foundIds: readonly string[]
-  revealedClueCount: number
   instruction: string
+  copy: SpotlightStageCopy
   onDiscover: (spotId: string) => void
+  onAsk?: () => void
 }
 
-export function SpotlightStage({ artifact, spots, foundIds, revealedClueCount, instruction, onDiscover }: SpotlightStageProps) {
-  const stageRef = useRef<HTMLDivElement>(null)
-
-  const inspectPoint = (event: PointerEvent<HTMLDivElement>) => {
-    const stage = stageRef.current
-    if (!stage) return
-    const rect = stage.getBoundingClientRect()
-    const x = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width))
-    const y = Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height))
-    stage.style.setProperty('--spot-x', `${x * 100}%`)
-    stage.style.setProperty('--spot-y', `${y * 100}%`)
-    const found = hitObservationSpot(spots, { x, y }, foundIds)
-    if (found) onDiscover(found.id)
-  }
+export function SpotlightStage({ artifact, spots, foundIds, instruction, copy, onDiscover, onAsk }: SpotlightStageProps) {
+  const foundSpots = spots.filter(spot => foundIds.includes(spot.id))
+  const isFirstObservation = foundSpots.length === 0
+  const isComplete = spots.length > 0 && foundSpots.length === spots.length
+  const guidePrompt = isComplete ? copy.completePrompt : isFirstObservation ? copy.firstPrompt : copy.continuePrompt
 
   return (
     <section className="spotlight-shell" aria-labelledby="observation-instruction">
       <p id="observation-instruction" className="stage-instruction">{instruction}</p>
-      <div
-        ref={stageRef}
-        className="spotlight-stage"
-        style={{ '--spot-x': '50%', '--spot-y': '48%' } as CSSProperties}
-        onPointerMove={inspectPoint}
-        onPointerDown={event => {
-          event.currentTarget.setPointerCapture(event.pointerId)
-          inspectPoint(event)
-        }}
-      >
-        <ArtifactMedia artifactId={artifact.id} artifactName={artifact.name} role="clue" revealedClueCount={revealedClueCount} eager />
-        {spots.length > 0 && <div className="spotlight-veil" aria-hidden="true" />}
-        {foundIds.map(id => {
-          const spot = spots.find(item => item.id === id)
-          return spot ? <span key={id} className="spot-found-ring" style={{ left: `${spot.x * 100}%`, top: `${spot.y * 100}%` }} aria-hidden="true" /> : null
+      <div className="spotlight-stage">
+        <ArtifactMedia artifactId={artifact.id} artifactName={artifact.name} role="observation" eager />
+        {spots.map((spot, index) => {
+          const found = foundIds.includes(spot.id)
+          const markerNumber = String(index + 1).padStart(2, '0')
+          const markerState = found ? 'is-found' : isFirstObservation && index === 0 ? 'is-recommended' : isFirstObservation ? 'is-muted' : ''
+          return (
+            <button
+              key={spot.id}
+              className={`inspection-marker ${markerState}`.trim()}
+              type="button"
+              style={{ left: `${spot.x * 100}%`, top: `${spot.y * 100}%` } as CSSProperties}
+              aria-label={`${copy.markerLabel} ${markerNumber}`}
+              aria-pressed={found}
+              onClick={() => onDiscover(spot.id)}
+            >
+              <span>{markerNumber}</span>
+            </button>
+          )
         })}
       </div>
       {spots.length > 0 && (
-        <div className="spot-keyboard-list" aria-label="键盘观察入口">
-          {spots.map((spot, index) => {
-            const found = foundIds.includes(spot.id)
-            return (
-              <button key={spot.id} className={found ? 'spot-key found' : 'spot-key'} type="button" onClick={() => onDiscover(spot.id)}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <strong>{found ? spot.label : '观察这一处'}</strong>
-                {found && <small>{spot.note}</small>}
-              </button>
-            )
-          })}
-        </div>
+        <>
+          <aside className="inspection-guide">
+            <img src={`${import.meta.env.BASE_URL}assets/wuhualu/guide/guide-avatar-v1.webp`} alt="" width="160" height="160" />
+            <div>
+              <p>{copy.guideLabel}</p>
+              <blockquote>{guidePrompt}</blockquote>
+              {onAsk && <button className="inspection-guide__action" type="button" onClick={onAsk}>{copy.askLabel}</button>}
+            </div>
+          </aside>
+          <div className="inspection-results" aria-live="polite">
+            {foundSpots.length > 0 && (
+              <ol className="inspection-notes">
+                {foundSpots.map(spot => {
+                  const index = spots.findIndex(item => item.id === spot.id)
+                  return <li key={spot.id}><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{spot.label}</strong><p>{spot.note}</p></div></li>
+                })}
+              </ol>
+            )}
+            <p className="inspection-progress">{copy.progressLabel} {foundSpots.length} / {spots.length}</p>
+          </div>
+        </>
       )}
-      <p className="sr-status" aria-live="polite">已找到 {foundIds.length} / {spots.length} 处观察点</p>
     </section>
   )
 }

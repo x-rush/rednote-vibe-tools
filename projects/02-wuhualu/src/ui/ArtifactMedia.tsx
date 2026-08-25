@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { getRuntimeArtifactAssets, selectClueAsset } from './artifact-assets.ts'
 
-type ArtifactMediaRole = 'clue' | 'reveal' | 'thumbnail' | 'silhouette'
+type ArtifactMediaRole = 'observation' | 'clue' | 'reveal' | 'thumbnail' | 'silhouette'
 
 type ArtifactMediaProps = {
   artifactId: string
@@ -16,6 +16,7 @@ type ArtifactMediaProps = {
 function roleSource(role: ArtifactMediaRole, artifactId: string, revealedClueCount: number): string | undefined {
   const assets = getRuntimeArtifactAssets(artifactId)
   if (!assets) return undefined
+  if (role === 'observation') return assets.observation
   if (role === 'clue') return selectClueAsset(artifactId, revealedClueCount)
   if (role === 'thumbnail') return assets.thumbnail
   if (role === 'silhouette') return assets.silhouette
@@ -45,13 +46,16 @@ export function ArtifactMedia({
     setMediaState({ key: primary, source: undefined, failed: true })
   }
 
-  const alt = role === 'clue' ? '当前藏品的局部观察线索，不包含答案文字' : `${artifactName}的艺术化文物图像`
+  const concealsAnswer = role === 'clue' || role === 'observation'
+  const alt = concealsAnswer ? '当前藏品的局部观察线索，不包含答案文字' : `${artifactName}的艺术化文物图像`
+  const width = role === 'observation' ? assets?.observationWidth ?? 1200 : assets?.width ?? 900
+  const height = role === 'observation' ? assets?.observationHeight ?? 800 : assets?.height ?? 1125
 
   return (
     <figure className={`artifact-media artifact-media--${role} ${className}`.trim()}>
       {source && assets && !failed
-        ? <img src={source} alt={alt} width={assets.width} height={assets.height} loading={eager ? 'eager' : 'lazy'} decoding="async" onError={handleError} />
-        : <div className="artifact-media__fallback" role="img" aria-label={`${artifactName}图像暂不可用`}><span aria-hidden="true" /><p>图像暂不可用，请根据文字线索继续判断</p></div>}
+        ? <img src={source} alt={alt} width={width} height={height} loading={eager ? 'eager' : 'lazy'} decoding="async" onError={handleError} />
+        : <div className="artifact-media__fallback" role="img" aria-label={concealsAnswer ? alt : `${artifactName}图像暂不可用`}><span aria-hidden="true" /><p>图像暂不可用，请根据文字线索继续判断</p></div>}
       {showNature && assets && <figcaption><span>图像性质</span><strong>{assets.nature}</strong><small>用于互动辨识，不替代馆藏实物照片</small></figcaption>}
     </figure>
   )

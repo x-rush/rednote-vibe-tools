@@ -13,6 +13,7 @@ describe('release artifact assets', () => {
     expect(filterPlayableArtifacts(artifacts).map(({ id }) => id).sort()).toEqual([...playableArtifactIds].sort())
     expect([...assetManifest.releaseGate.playableStaticArtifactIds].sort()).toEqual([...playableArtifactIds].sort())
     expect(assetManifest.releaseGate.referenceRequiredArtifactIds).not.toContain('artifact-zenghouyi-bells')
+    expect(getRuntimeArtifactAssets('artifact-zenghouyi-bells')?.observation).toContain('reveal-wide-creative-reconstruction-v1.webp')
   })
 
   it.each(playableArtifactIds)('%s has every static role and local URLs', id => {
@@ -22,7 +23,7 @@ describe('release artifact assets', () => {
     expect(assets?.silhouette).toMatch(/silhouette-verified\.svg$/)
     expect(assets?.thumbnail).toMatch(/thumb\.webp$/)
     expect(assets?.clues.length).toBeGreaterThan(0)
-    for (const path of [assets?.reveal, assets?.silhouette, assets?.thumbnail, ...(assets?.clues ?? [])]) {
+    for (const path of [assets?.observation, assets?.reveal, assets?.silhouette, assets?.thumbnail, ...(assets?.clues ?? [])]) {
       expect(path).not.toMatch(/^https?:/)
     }
   })

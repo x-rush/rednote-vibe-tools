@@ -13,7 +13,7 @@ const SET_IDS = new Set(['first-fire', 'ritual-bronze', 'chu-sound', 'han-light'
 const STORY_IDS = ['first-look', 'making', 'lived-world', 'journey', 'why-now'] as const
 const NARRATIVE_MODES = new Set(['verified-fact', 'bounded-context', 'open-question'])
 const OBSERVATION_CATEGORIES = new Set(['shape', 'material', 'craft', 'trace'])
-const OBSERVATION_ROLES = new Set(['clue-1', 'clue-2', 'reveal'])
+const OBSERVATION_ROLES = new Set(['observation'])
 const CLUE_CATEGORIES = ['shape', 'material', 'provenance'] as const
 const CLUE_LABELS = ['看形', '辨材', '问来历'] as const
 const STORY_STATUSES = new Set(['verified', 'mixed-with-bounded-context', 'pending'])
@@ -289,7 +289,9 @@ export function validateContent(input: unknown): ContentValidationResult {
     'legacyArchiveAction', 'setCompleteEyebrow', 'setCompleteAction', 'lockedDetailEyebrow',
     'lockedDetailBody', 'memoryEyebrow', 'memoryTitle', 'memorySubmitAction', 'memoryCorrect',
     'memoryIncorrect', 'memoryArchiveAction', 'archiveNextAction', 'archiveRelatedTitle',
-    'observationInstruction', 'legacyObservationInstruction', 'clueBoxLabel', 'clueBoxTitle',
+    'observationInstruction', 'legacyObservationInstruction', 'observationGuideLabel',
+    'observationGuideFirst', 'observationGuideContinue', 'observationGuideComplete',
+    'observationMarkerLabel', 'observationProgressLabel', 'clueBoxLabel', 'clueBoxTitle',
     'clueFirstFree', 'clueOpenPrefix', 'clueStarBand', 'archivePrompt', 'guideEliminated',
     'archiveStampAction', 'archiveSealCharacter', 'storyEyebrow', 'storyNavLabel',
     'storySectionPrefix', 'storySourcesLabel', 'storySourceLevelSuffix', 'storyReadAction', 'storyReadDone',

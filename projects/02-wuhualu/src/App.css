@@ -28,15 +28,13 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .museum-mark { display: block; width: 72px; height: 72px; border-radius: 18px; box-shadow: 0 12px 30px rgb(24 25 23 / 14%); }
 .landing-heading { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 18px; align-items: start; }
 .landing-heading h1 { margin-top: 7px; font-size: clamp(2rem, 9vw, 3.2rem); }
-.guide-portrait-card { margin: 24px 0; border: 1px solid var(--line-strong); background: var(--cabinet); overflow: hidden; }
-.guide-portrait-card__media { display: grid; align-items: end; min-width: 0; background: radial-gradient(circle at 52% 30%, rgb(232 213 170 / 18%), transparent 66%), var(--cabinet); overflow: hidden; }
-.guide-portrait-card__media img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center top; }
-.guide-portrait-card figcaption { display: grid; align-content: center; gap: 8px; min-width: 0; padding: 18px; color: var(--label); }
+.guide-portrait-card { position: relative; isolation: isolate; width: min(100%, 520px); height: clamp(360px, 112vw, 520px); margin: 24px auto; border: 1px solid var(--line-strong); background: var(--cabinet); overflow: hidden; }
+.guide-portrait-card__media { position: absolute; inset: 0; min-width: 0; background: radial-gradient(circle at 52% 30%, rgb(232 213 170 / 18%), transparent 66%), var(--cabinet); overflow: hidden; }
+.guide-portrait-card__media::after { content: ''; position: absolute; inset: 42% 0 0; background: linear-gradient(to bottom, transparent, rgb(17 20 22 / 52%)); pointer-events: none; }
+.guide-portrait-card__media img { display: block; width: 100%; height: 100%; }
+.guide-portrait-card figcaption { position: absolute; z-index: 1; right: 12px; bottom: 12px; left: 12px; display: grid; align-content: center; gap: 8px; min-width: 0; padding: 16px; color: var(--ink); border: 1px solid rgb(91 69 43 / 42%); background: rgb(248 245 237 / 94%); box-shadow: 0 10px 30px rgb(16 17 16 / 24%); }
 .guide-portrait-card figcaption span { color: #d7a98b; font-size: .7rem; font-weight: 750; letter-spacing: .1em; }
 .guide-portrait-card blockquote { margin: 0; font: 700 1rem/1.7 "Songti SC", SimSun, serif; }
-.guide-portrait-card--landing { display: grid; grid-template-columns: minmax(128px, 42%) minmax(0, 1fr); min-height: 190px; }
-.guide-portrait-card--landing .guide-portrait-card__media { align-self: stretch; }
-.guide-portrait-card--landing .guide-portrait-card__media img { align-self: end; }
 .guide-portrait-card--intro .guide-portrait-card__media { background: #d8d8d2; }
 .guide-portrait-card--intro figcaption { color: var(--ink); background: var(--paper-strong); }
 .guide-portrait-card--intro blockquote { font-size: 1.08rem; }
@@ -46,15 +44,12 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .intro-steps li > span { display: grid; place-items: center; align-self: start; width: 42px; height: 42px; color: var(--accent); border: 1px solid currentColor; font: 700 .76rem Georgia, serif; transform: rotate(-3deg); }
 .intro-steps strong { font: 700 1.08rem "Songti SC", SimSun, serif; }
 .intro-steps p { margin: 7px 0 0; color: var(--muted); font-size: .86rem; line-height: 1.7; }
-.guide-overlay { position: fixed; z-index: 20; inset: 0; display: grid; align-items: end; padding: 16px; background: rgba(24, 23, 20, .62); }
-.guide-sheet { width: min(100%, 520px); max-height: min(78svh, 640px); margin: 0 auto; padding: 20px; overflow-y: auto; color: var(--ink); border: 1px solid var(--line-strong); background: var(--paper); box-shadow: 0 -18px 50px rgba(20, 18, 14, .24); }
-.guide-sheet > p, .guide-sheet li { line-height: 1.7; }
-.guide-sheet ul { padding-left: 20px; color: var(--muted); }
-.guide-identity { display: flex; align-items: center; gap: 12px; }
-.guide-identity img { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; }
-.guide-identity p, .guide-identity h2 { margin: 0; }
-.guide-identity p { color: var(--accent); font-size: .72rem; letter-spacing: .1em; }
-.guide-identity h2 { margin-top: 3px; font: 700 1.5rem "Songti SC", SimSun, serif; }
+.guide-overlay { position: fixed; z-index: 20; inset: 0; display: grid; align-items: end; padding: 10px; background: rgba(24, 23, 20, .72); }
+.guide-sheet { position: relative; width: min(100%, 520px); max-height: calc(100svh - 20px); margin: 0 auto; overflow-y: auto; color: var(--ink); border: 1px solid var(--line-strong); background: var(--paper); box-shadow: 0 -18px 50px rgba(20, 18, 14, .34); outline: 0; }
+.guide-sheet__close { position: absolute; z-index: 4; top: 10px; right: 10px; display: grid; place-items: center; width: 48px; min-height: 48px; padding: 0; color: #fff; border: 1px solid rgb(255 255 255 / 58%); border-radius: 50%; background: rgb(24 23 20 / 64%); font-size: 1.6rem; }
+.guide-sheet__controls { padding: 16px; border-top: 1px solid var(--line); background: var(--paper); }
+.guide-sheet__controls p { margin: 0 0 14px; color: var(--muted); line-height: 1.7; }
+.guide-sheet .guide-presence--stage { width: 100%; height: min(62svh, 500px); margin: 0; border: 0; }
 .stats-row, .summary-grid, .detail-list { display: grid; gap: 1px; padding: 1px; background: var(--line); }
 .stats-row { grid-template-columns: 1fr 1fr; margin: 32px 0; }
 .stats-row div, .summary-grid div, .detail-list div { padding: 14px; background: var(--paper); }
@@ -152,11 +147,17 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 .clue-seal.opened { grid-column: span 3; min-height: 112px; color: var(--ink); border-color: var(--line-strong); background: #eee3cc; }
 .clue-seal.opened::after { border-color: rgb(130 61 47 / 18%); }
 
-.guide-presence { display: grid; grid-template-columns: 58px 1fr; gap: 12px; margin: 22px 0; padding: 14px; border: 1px solid var(--line); background: var(--paper); }
-.guide-presence img { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; }
+.guide-presence { margin: 22px 0; border: 1px solid var(--line); background: var(--paper); }
+.guide-presence--compact { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 12px; padding: 14px; }
+.guide-presence--compact .guide-presence__portrait img { display: block; width: 58px; height: 58px; border-radius: 50%; object-fit: cover; }
 .guide-presence p { margin: 0; color: var(--accent); font-size: .7rem; letter-spacing: .08em; }
-.guide-presence blockquote, .guide-sheet blockquote { margin: 7px 0 0; font: 700 .95rem/1.65 "Songti SC", SimSun, serif; }
+.guide-presence blockquote { margin: 7px 0 0; font: 700 .95rem/1.65 "Songti SC", SimSun, serif; }
 .guide-presence button { min-height: 44px; margin-top: 9px; padding: 6px 10px; color: var(--accent); border: 1px solid currentColor; background: transparent; font-size: .75rem; }
+.guide-presence--stage { position: relative; isolation: isolate; width: min(100%, 520px); height: clamp(360px, 112vw, 520px); margin: 24px auto; overflow: hidden; color: var(--ink); background: #252a2c; }
+.guide-presence--stage .guide-presence__portrait { position: absolute; inset: 0; }
+.guide-presence--stage .guide-presence__portrait::after { content: ''; position: absolute; inset: 38% 0 0; background: linear-gradient(to bottom, transparent, rgb(17 20 22 / 58%)); pointer-events: none; }
+.guide-presence--stage .guide-presence__portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.guide-presence--stage .guide-presence__dialogue { position: absolute; z-index: 1; right: 12px; bottom: 12px; left: 12px; padding: 16px; border: 1px solid rgb(91 69 43 / 42%); background: rgb(248 245 237 / 94%); box-shadow: 0 10px 30px rgb(16 17 16 / 24%); }
 
 .archive-options { margin: 30px 0 0; padding: 0; border: 0; }
 .archive-options legend { margin-bottom: 12px; color: var(--muted); font-size: .78rem; }
@@ -241,6 +242,9 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
   .inspection-marker.is-found { animation: marker-found 260ms ease-out; }
   .guide-portrait-card__media img { animation: guide-arrive 440ms cubic-bezier(.22, .72, .24, 1) both; }
   .guide-portrait-card figcaption { animation: guide-note-in 320ms 100ms ease-out both; }
+  .guide-presence--stage .guide-presence__portrait img { animation: guide-stage-in 440ms cubic-bezier(.22, .72, .24, 1) both; }
+  .guide-presence--stage .guide-presence__dialogue { animation: guide-dialogue-in 280ms 120ms ease-out both; }
+  .guide-sheet { animation: guide-sheet-in 240ms ease-out both; }
   .intro-steps li { animation: guide-note-in 260ms ease-out both; }
   .intro-steps li:nth-child(2) { animation-delay: 60ms; }
   .intro-steps li:nth-child(3) { animation-delay: 120ms; }
@@ -258,3 +262,6 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 @keyframes marker-found { from { transform: translate(-50%, -50%) scale(.72); } }
 @keyframes guide-arrive { from { opacity: 0; transform: translateY(14px); } }
 @keyframes guide-note-in { from { opacity: 0; transform: translateX(10px); } }
+@keyframes guide-stage-in { from { opacity: .55; transform: translateX(18px) scale(1.015); } }
+@keyframes guide-dialogue-in { from { opacity: 0; transform: translateY(12px); } }
+@keyframes guide-sheet-in { from { opacity: 0; transform: translateY(20px); } }

@@ -26,4 +26,12 @@ describe('semantic page model', () => {
     expect(shouldShowExitAction('collection')).toBe(false)
     expect(shouldShowExitAction('summary')).toBe(false)
   })
+
+  it('reserves large guide dialogue for key narrative screens', () => {
+    expect(getPageChrome('wrongReview', copy)).toMatchObject({ guidePresentation: 'stage' })
+    expect(getPageChrome('reveal', copy)).toMatchObject({ guidePresentation: 'stage' })
+    expect(getPageChrome('setComplete', copy)).toMatchObject({ guidePresentation: 'stage' })
+    expect(getPageChrome('observation', copy)).toMatchObject({ guidePresentation: 'compact' })
+    expect(getPageChrome('modeSelect', copy)).toMatchObject({ guidePresentation: 'compact' })
+  })
 })

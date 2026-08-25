@@ -7,15 +7,15 @@ type GuidePortraitCardProps = {
   line: string
 }
 
-const uncroppedPortraitStyle = { aspectRatio: '3 / 4', objectFit: 'contain' } as const
+const portraitStyle = { objectFit: 'cover', objectPosition: 'center top' } as const
 
 export function GuidePortraitCard({ variant, imageSrc, imageAlt, guideName, guideRole, line }: GuidePortraitCardProps) {
   return (
     <figure className={`guide-portrait-card guide-portrait-card--${variant}`}>
       <div className="guide-portrait-card__media">
-        <img src={imageSrc} alt={imageAlt} width="900" height="1200" style={uncroppedPortraitStyle} />
+        <img src={imageSrc} alt={imageAlt} width="900" height="1200" style={portraitStyle} />
       </div>
-      <figcaption>
+      <figcaption className="guide-portrait-card__dialogue">
         <span>{guideRole} · {guideName}</span>
         <blockquote>“{line}”</blockquote>
       </figcaption>

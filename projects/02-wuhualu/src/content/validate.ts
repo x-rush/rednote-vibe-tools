@@ -274,14 +274,15 @@ export function validateContent(input: unknown): ContentValidationResult {
   const copy = input.content.copy
   const requiredCopy = [
     'brand', 'subtitle', 'landingTitle', 'landingBody', 'startAction', 'continueAction', 'introTitle',
-    'introBody', 'introAction', 'modeTitle', 'dailyMode', 'practiceMode', 'clueAction', 'submitAction',
+    'introBody', 'introAction', 'introObserveTitle', 'introObserveBody', 'introClueTitle', 'introClueBody',
+    'introArchiveTitle', 'introArchiveBody', 'modeTitle', 'dailyMode', 'practiceMode', 'clueAction', 'submitAction',
     'nextAction', 'collectionTitle', 'emptyCollection', 'summaryTitle', 'errorTitle', 'resetAction',
     'backAction', 'exitAction', 'collectionAction', 'retryAction', 'replayAction', 'closeAction',
     'factsTitle', 'cluesTitle', 'optionsTitle', 'placeholderText', 'lockedText', 'scoreLabel',
     'bestScoreLabel', 'progressLabel', 'sourceStatusTitle',
     'storageCorruptMessage', 'storageVersionMessage', 'storageInvalidMessage', 'contentMissingMessage',
     'verifiedLabel', 'pendingLabel', 'collectorPerfect', 'collectorHigh', 'collectorMid', 'collectorLow',
-    'guideHomeLine', 'guideTaskLine', 'guideLegacyLine', 'guideIntroLine', 'guideHelpBody',
+    'guideHomeLine', 'guideLandingImageAlt', 'guideIntroImageAlt', 'guideTaskLine', 'guideLegacyLine', 'guideIntroLine', 'guideHelpBody',
     'guideName', 'guideRole', 'guideAskAction', 'guideReturnAction', 'taskBoardLabel',
     'observationEyebrow', 'observationTitle', 'wrongReviewEyebrow', 'wrongReviewTitle',
     'wrongReviewAction', 'revealStoryAction', 'legacyStoryPending', 'readingGate',

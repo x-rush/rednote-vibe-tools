@@ -91,6 +91,9 @@ describe('production content package', () => {
       'clueFirstFree', 'clueOpenPrefix', 'clueStarBand', 'archivePrompt', 'guideEliminated',
       'archiveStampAction', 'archiveSealCharacter', 'storyEyebrow', 'storyNavLabel',
       'storySectionPrefix', 'storySourcesLabel', 'storySourceLevelSuffix', 'storyReadAction', 'storyReadDone',
+      'introObserveTitle', 'introObserveBody', 'introClueTitle', 'introClueBody',
+      'introArchiveTitle', 'introArchiveBody',
+      'guideLandingImageAlt', 'guideIntroImageAlt',
     ] as const
     for (const key of required) expect(content.content.copy[key].trim().length, key).toBeGreaterThan(0)
   })

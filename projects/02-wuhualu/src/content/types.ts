@@ -159,6 +159,12 @@ export type ContentCopy = {
   introTitle: string
   introBody: string
   introAction: string
+  introObserveTitle: string
+  introObserveBody: string
+  introClueTitle: string
+  introClueBody: string
+  introArchiveTitle: string
+  introArchiveBody: string
   modeTitle: string
   dailyMode: string
   practiceMode: string
@@ -196,6 +202,8 @@ export type ContentCopy = {
   collectorMid: string
   collectorLow: string
   guideHomeLine: string
+  guideLandingImageAlt: string
+  guideIntroImageAlt: string
   guideTaskLine: string
   guideLegacyLine: string
   guideIntroLine: string

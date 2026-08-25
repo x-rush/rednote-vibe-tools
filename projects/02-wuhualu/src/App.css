@@ -12,7 +12,7 @@
 .brand-subtitle { color: var(--muted); font-size: .7rem; }
 .section-label { color: var(--accent); font-size: .75rem; font-weight: 750; }
 .page { padding: 34px 0 12px; }
-.hero-page { padding-top: 56px; }
+.hero-page { padding-top: 38px; }
 h1 { max-width: 13ch; margin: 10px 0 16px; font-family: "Songti SC", SimSun, serif; font-size: clamp(2.1rem, 10vw, 4rem); letter-spacing: -.04em; line-height: 1.08; }
 h2 { margin: 0 0 14px; font-size: 1rem; }
 .lead { max-width: 34rem; color: var(--muted); font-size: 1.03rem; line-height: 1.75; }
@@ -25,12 +25,27 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .text-button { min-height: 44px; padding: 8px 0; color: var(--muted); background: transparent; }
 .text-button.wide { width: 100%; }
 .action-stack { display: grid; gap: 10px; margin-top: 28px; }
-.museum-mark { display: block; width: 88px; height: 88px; margin-bottom: 24px; border-radius: 22px; box-shadow: 0 12px 30px rgb(24 25 23 / 14%); }
-.guide-intro-card { position: relative; margin: 22px 0; border: 1px solid var(--line); background: var(--cabinet); overflow: hidden; }
-.guide-intro-card img { display: block; width: 100%; height: clamp(260px, 88vw, 440px); object-fit: cover; object-position: 50% 34%; }
-.guide-intro-card figcaption { display: grid; gap: 5px; padding: 14px 16px; text-align: left; background: var(--paper-strong); }
-.guide-intro-card figcaption span { color: var(--accent); font-size: .72rem; font-weight: 750; letter-spacing: .1em; }
-.guide-intro-card figcaption strong { font-family: "Songti SC", SimSun, serif; font-size: 1rem; line-height: 1.55; }
+.museum-mark { display: block; width: 72px; height: 72px; border-radius: 18px; box-shadow: 0 12px 30px rgb(24 25 23 / 14%); }
+.landing-heading { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 18px; align-items: start; }
+.landing-heading h1 { margin-top: 7px; font-size: clamp(2rem, 9vw, 3.2rem); }
+.guide-portrait-card { margin: 24px 0; border: 1px solid var(--line-strong); background: var(--cabinet); overflow: hidden; }
+.guide-portrait-card__media { display: grid; align-items: end; min-width: 0; background: radial-gradient(circle at 52% 30%, rgb(232 213 170 / 18%), transparent 66%), var(--cabinet); overflow: hidden; }
+.guide-portrait-card__media img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center top; }
+.guide-portrait-card figcaption { display: grid; align-content: center; gap: 8px; min-width: 0; padding: 18px; color: var(--label); }
+.guide-portrait-card figcaption span { color: #d7a98b; font-size: .7rem; font-weight: 750; letter-spacing: .1em; }
+.guide-portrait-card blockquote { margin: 0; font: 700 1rem/1.7 "Songti SC", SimSun, serif; }
+.guide-portrait-card--landing { display: grid; grid-template-columns: minmax(128px, 42%) minmax(0, 1fr); min-height: 190px; }
+.guide-portrait-card--landing .guide-portrait-card__media { align-self: stretch; }
+.guide-portrait-card--landing .guide-portrait-card__media img { align-self: end; }
+.guide-portrait-card--intro .guide-portrait-card__media { background: #d8d8d2; }
+.guide-portrait-card--intro figcaption { color: var(--ink); background: var(--paper-strong); }
+.guide-portrait-card--intro blockquote { font-size: 1.08rem; }
+.intro-lead { margin: 30px 0 16px; }
+.intro-steps { margin: 0 0 28px; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
+.intro-steps li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.intro-steps li > span { display: grid; place-items: center; align-self: start; width: 42px; height: 42px; color: var(--accent); border: 1px solid currentColor; font: 700 .76rem Georgia, serif; transform: rotate(-3deg); }
+.intro-steps strong { font: 700 1.08rem "Songti SC", SimSun, serif; }
+.intro-steps p { margin: 7px 0 0; color: var(--muted); font-size: .86rem; line-height: 1.7; }
 .guide-overlay { position: fixed; z-index: 20; inset: 0; display: grid; align-items: end; padding: 16px; background: rgba(24, 23, 20, .62); }
 .guide-sheet { width: min(100%, 520px); max-height: min(78svh, 640px); margin: 0 auto; padding: 20px; overflow-y: auto; color: var(--ink); border: 1px solid var(--line-strong); background: var(--paper); box-shadow: 0 -18px 50px rgba(20, 18, 14, .24); }
 .guide-sheet > p, .guide-sheet li { line-height: 1.7; }
@@ -222,6 +237,11 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
   .story-sections > section { animation: story-in 160ms ease-out both; }
   .archive-label-card { animation: archive-in 400ms ease-out both; }
   .spot-found-ring { animation: spot-ring 420ms ease-out; }
+  .guide-portrait-card__media img { animation: guide-arrive 440ms cubic-bezier(.22, .72, .24, 1) both; }
+  .guide-portrait-card figcaption { animation: guide-note-in 320ms 100ms ease-out both; }
+  .intro-steps li { animation: guide-note-in 260ms ease-out both; }
+  .intro-steps li:nth-child(2) { animation-delay: 60ms; }
+  .intro-steps li:nth-child(3) { animation-delay: 120ms; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -233,3 +253,5 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 @keyframes story-in { from { opacity: 0; transform: translateY(8px); } }
 @keyframes archive-in { from { opacity: 0; transform: scale(.94) translateY(14px); } }
 @keyframes spot-ring { from { opacity: 0; transform: translate(-50%, -50%) scale(.4); } }
+@keyframes guide-arrive { from { opacity: 0; transform: translateY(14px); } }
+@keyframes guide-note-in { from { opacity: 0; transform: translateX(10px); } }

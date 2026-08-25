@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import type { SbtiContentPackage } from '../content/types'
+import type { ShbtiContentPackage } from '../content/types'
 import { generateQuizResult, recordAnswer } from '../quiz/scoring'
 import { selectQuestionIds } from '../quiz/selection'
 import { clearGuideState } from '../guide/guideState'
@@ -20,7 +20,7 @@ export function shouldPersistScreen(screen: AppScreen, persistenceEnabled = true
   return persistenceEnabled && screen !== 'error'
 }
 
-function initialStateFromStorage(content: SbtiContentPackage, loaded: ReturnType<typeof loadStorage>): AppState {
+function initialStateFromStorage(content: ShbtiContentPackage, loaded: ReturnType<typeof loadStorage>): AppState {
   if (loaded.status === 'ready') {
     const recent = loaded.payload.data.recentResult ? hydrateStoredResult(loaded.payload.data.recentResult, content) : undefined
     return createInitialState(recent, loaded.payload.data.activeProgress)
@@ -30,7 +30,7 @@ function initialStateFromStorage(content: SbtiContentPackage, loaded: ReturnType
   return createInitialState()
 }
 
-export function useSbtiApp(content: SbtiContentPackage) {
+export function useShbtiApp(content: ShbtiContentPackage) {
   const loaded = useMemo(() => loadStorage(window.localStorage, content), [content])
   const [state, dispatch] = useReducer(appReducer, initialStateFromStorage(content, loaded))
   const [settings, setSettings] = useState(loaded.status === 'ready' ? loaded.payload.data.settings : DEFAULT_SETTINGS)

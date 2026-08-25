@@ -1,4 +1,4 @@
-# SBTI 山海兽格 · 狌狌参考证据档案
+# SHBTI 山海兽格 · 狌狌参考证据档案
 
 状态：`REFERENCE INPUT LOCKED / GENERATION PENDING`
 类型映射：`RTEM`。本项目 UI 使用便于识别的显示名“狌狌”；不得把它直接等同于现代动物学意义上的猩猩。

@@ -4,7 +4,7 @@ import { validateContent } from '../content/validate'
 import { selectQuestionIds } from '../quiz/selection'
 import type { QuizResult } from '../quiz/types'
 import { appReducer, createInitialState, restoreQuizProgress } from './state'
-import { shouldPersistScreen } from './useSbtiApp'
+import { shouldPersistScreen } from './useShbtiApp'
 
 const content = validateContent(rawContent)
 const questionIds = selectQuestionIds(content, 'state-seed')

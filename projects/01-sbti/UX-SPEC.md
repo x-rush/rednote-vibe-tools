@@ -1,4 +1,4 @@
-# SBTI｜山海兽格测试 UX Specification
+# SHBTI｜山海兽格测试 UX Specification
 
 状态：`SECOND-PASS UX SPEC`  
 依据：冻结 MVP、FLOW CONTRACT、正式 48 题/16 型映射、`DESIGN.md`。
@@ -138,7 +138,7 @@
 
 1. 《山海经》怎么记载。
 2. 后世/现代如何理解（有内容时）。
-3. SBTI 如何重新想象。
+3. SHBTI 如何重新想象。
 
 每段显示 claim level 或用户可懂标签。来源抽屉列出篇章和链接。外部链接打开失败不影响返回结果。
 

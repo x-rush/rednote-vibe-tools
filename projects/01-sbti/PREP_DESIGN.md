@@ -1,8 +1,8 @@
-# SBTI Foundation Design
+# SHBTI Foundation Design
 
 ## Goal
 
-Prepare a complete, deterministic, local-only foundation for SBTI 山海兽格: validated launch content, pure quiz logic, recoverable state and storage, a semantic React shell, and automated verification. Final visual design and assets remain out of scope.
+Prepare a complete, deterministic, local-only foundation for SHBTI 山海兽格: validated launch content, pure quiz logic, recoverable state and storage, a semantic React shell, and automated verification. Final visual design and assets remain out of scope.
 
 ## Boundaries
 
@@ -26,7 +26,7 @@ The 16 mappings remain exactly as frozen in docs/15 and docs/30. Classical facts
 
 ## Validation
 
-The content validator accepts unknown input and returns a fully typed `SbtiContentPackage` or throws `ContentValidationError` containing JSON paths. It checks the envelope, exact production counts, allowed IDs and enums, uniqueness, chapter/dimension cell coverage, two valid options per question, symmetric scoring, tie-breaker references, complete 16-code coverage, one unique creature per type, asset ID shape, required result/share copy, source references, and dangling neighbor references.
+The content validator accepts unknown input and returns a fully typed `ShbtiContentPackage` or throws `ContentValidationError` containing JSON paths. It checks the envelope, exact production counts, allowed IDs and enums, uniqueness, chapter/dimension cell coverage, two valid options per question, symmetric scoring, tie-breaker references, complete 16-code coverage, one unique creature per type, asset ID shape, required result/share copy, source references, and dangling neighbor references.
 
 Validation runs during application startup and directly in content tests. Production errors render a recoverable error screen; development errors retain readable paths without silently repairing the package.
 
@@ -52,7 +52,7 @@ React is limited to orchestration and rendering view models. Scoring and persist
 
 ## Storage
 
-The adapter owns `xhs-tool:sbti:state:v1`. Its envelope contains `schemaVersion: 1`, `quizVersion`, and a bounded data object with the active run, at most one recent result, and settings. Loading performs parse, schema/version, field, and current-content reference checks. Corrupt JSON, missing fields, future versions, stale question/option IDs, and invalid results return a typed recovery outcome and safely remove only this project's key when requested.
+The adapter owns `xhs-tool:shbti:state:v1`. Its envelope contains `schemaVersion: 1`, `quizVersion`, and a bounded data object with the active run, at most one recent result, and settings. Loading performs parse, schema/version, field, and current-content reference checks. Corrupt JSON, missing fields, future versions, stale question/option IDs, and invalid results return a typed recovery outcome and safely remove only this project's key when requested.
 
 ## Semantic UI shell
 

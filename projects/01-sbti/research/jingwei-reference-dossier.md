@@ -42,5 +42,5 @@
 - [x] 原典形貌、身世与行动边界冻结。
 - [x] 现实乌鸦解剖参考和 Commons 元数据本地化。
 - [x] V1 单资源事实检查通过：乌鸦形、文首、白喙、两条赤腿与两只赤足、双翼和正常尾羽成立；嘴中只有一根树枝；无少女、人脸、凤凰、文字或现代物件。
-- [x] 正式 WebP：`public/assets/sbti/beasts/jingwei/profile-v1-reference-verified.webp`，900×1125、125,614 bytes；占位图 72×90、980 bytes。
+- [x] 正式 WebP：`public/assets/shbti/beasts/jingwei/profile-v1-reference-verified.webp`，900×1125、125,614 bytes；占位图 72×90、980 bytes。
 - [x] HTES 独立结果页完成 375/390/430 二检：0 断图、0 横向溢出、图像在手机框内、文案完整且无需内部滚动；430px 截图人工复核通过。

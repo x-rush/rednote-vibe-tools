@@ -1,4 +1,4 @@
-# SBTI 山海兽格 Foundation 准备报告
+# SHBTI 山海兽格 Foundation 准备报告
 
 日期：2026-08-24  
 范围：仅 `projects/01-sbti/**`
@@ -16,7 +16,7 @@
 - `PREP_DESIGN.md`、`FOUNDATION_PLAN.md`、`PREP_REPORT.md`
 - `src/content/types.ts`、`src/content/validate.ts`
 - `src/quiz/types.ts`、`src/quiz/selection.ts`、`src/quiz/scoring.ts`、`src/quiz/scoring.test.ts`
-- `src/app/state.ts`、`src/app/state.test.ts`、`src/app/useSbtiApp.ts`
+- `src/app/state.ts`、`src/app/state.test.ts`、`src/app/useShbtiApp.ts`
 - `src/storage/storage.ts`、`src/storage/storage.test.ts`
 - `src/components/LandingPage.tsx`、`IntroPage.tsx`、`QuizPage.tsx`、`CalculatingPage.tsx`、`ResultPage.tsx`、`HistoryPage.tsx`、`ErrorPage.tsx`
 
@@ -83,7 +83,7 @@ landing → intro → quiz → calculating → result
 
 ## 本地存储 Schema
 
-键：`xhs-tool:sbti:state:v1`
+键：`xhs-tool:shbti:state:v1`
 
 ```ts
 type StoragePayload = {
@@ -160,7 +160,7 @@ type StoragePayload = {
 
 ## 后续 UI 应调用的核心接口
 
-- 内容：`validateContent(raw)`、`SbtiContentPackage`
+- 内容：`validateContent(raw)`、`ShbtiContentPackage`
 - 抽题：`selectQuestionIds(content, seed)`
 - 答案：`recordAnswer`、`isQuestionAnswered`、`calculateProgress`
 - 计分：`aggregateDimensionScores`、`determineTypeCode`、`generateQuizResult`
@@ -169,7 +169,7 @@ type StoragePayload = {
 - 状态：`createInitialState`、`appReducer`、`restoreQuizProgress`
 - 存储：`loadStorage`、`saveStorage`、`clearStorage`、`toStoredResult`、`hydrateStoredResult`
 
-React 页面通过 `useSbtiApp` 组合这些接口；后续 UI 不应把计分或 localStorage 调用移进组件点击逻辑。
+React 页面通过 `useShbtiApp` 组合这些接口；后续 UI 不应把计分或 localStorage 调用移进组件点击逻辑。
 
 ## Windows 端待提供资源 ID
 
@@ -197,7 +197,7 @@ creature-jiuweihu
 建议在 Windows 端 `asset-manifest.json` 冻结以下附加槽位 ID；接入前以 UI-HANDOFF 最终命名为准：
 
 ```text
-hero-sbti
+hero-shbti
 chapter-entry-background
 chapter-trace-background
 chapter-change-background

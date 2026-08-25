@@ -16,6 +16,7 @@ export type ShareCardModel = {
   boundary: string
   imageSrc?: string
   placeholderSrc?: string
+  imageFocusY: number
 }
 
 type ShareCardModelInput = {
@@ -48,5 +49,6 @@ export function createShareCardModel(input: ShareCardModelInput): ShareCardModel
     boundary: input.identity.boundary,
     imageSrc: asset?.src,
     placeholderSrc: asset?.placeholder,
+    imageFocusY: asset?.shareFocusY ?? 0.5,
   }
 }

@@ -1,6 +1,6 @@
 # SHBTI｜山海兽格测试
 
-`SHBTI` 的英文释义为 `Shanhai Beast Temperament Indicator`，中文解释为“山海异兽性格倾向指标”。这是纯前端、移动端优先的山海文化人格倾向测试。每局从 48 道题库中按四维均衡规则抽取 24 道四选一情境题，计算四组偏好，并映射为 16 种山海异兽人格结果。
+`SHBTI` 的英文释义为 `Shan Hai Beast Temperament Indicator`，中文解释为“山海异兽性格倾向指标”。这是纯前端、移动端优先的山海文化人格倾向测试。每局从 48 道题库中按四维均衡规则抽取 24 道四选一情境题，计算四组偏好，并映射为 16 种山海异兽人格结果。
 
 ## 产品边界
 
@@ -58,4 +58,4 @@ pnpm build
 - `design/preview-v2.html`
 - `ART-REQUEST.md`
 - `research/*-reference-dossier.md`
-- `public/assets/sbti/asset-manifest.json`
+- `public/assets/shbti/asset-manifest.json`

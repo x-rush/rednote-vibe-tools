@@ -90,7 +90,7 @@ export type SourceRecord = {
 
 export type BrandIdentityCopy = {
   formalName: 'SHBTI｜山海兽格测试'
-  englishExpansion: 'Shanhai Beast Temperament Indicator'
+  englishExpansion: 'Shan Hai Beast Temperament Indicator'
   chineseMeaning: '山海异兽性格倾向指标'
   boundary: '娱乐性自我探索工具，不是专业心理测评。'
 }
@@ -189,10 +189,10 @@ export type ExperienceCopy = {
   emptyHistory: string
 }
 
-export type SbtiContentPackage = {
+export type ShbtiContentPackage = {
   schemaVersion: 1
   contentVersion: string
-  projectId: 'sbti'
+  projectId: 'shbti'
   meta: { title: string; locale: 'zh-CN'; updatedAt: string }
   sources: SourceRecord[]
   content: {

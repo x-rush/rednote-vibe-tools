@@ -1,4 +1,4 @@
-import type { ChapterCode, DimensionCode, Question, SbtiContentPackage } from '../content/types'
+import type { ChapterCode, DimensionCode, Question, ShbtiContentPackage } from '../content/types'
 
 function hashSeed(seed: string) {
   let value = 2166136261
@@ -48,7 +48,7 @@ function orderChapter(questions: Question[], random: () => number, priorDimensio
   return result
 }
 
-export function selectQuestionIds(content: SbtiContentPackage, seed: string): string[] {
+export function selectQuestionIds(content: ShbtiContentPackage, seed: string): string[] {
   if (seed.trim() === '') throw new Error('A non-empty seed is required')
   const random = createRandom(seed)
   const chapters: ChapterCode[] = ['entry', 'trace', 'change', 'return']

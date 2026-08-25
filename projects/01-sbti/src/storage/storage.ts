@@ -1,9 +1,10 @@
-import type { SbtiContentPackage } from '../content/types'
+import type { ShbtiContentPackage } from '../content/types'
 import { restoreQuizProgress } from '../app/state'
 import { generateResultSummary } from '../quiz/scoring'
 import type { DimensionResult, QuizProgress, QuizResult } from '../quiz/types'
 
-export const STORAGE_KEY = 'xhs-tool:sbti:state:v1'
+export const STORAGE_KEY = 'xhs-tool:shbti:state:v1'
+const LEGACY_STORAGE_KEY = ['xhs-tool:s', 'bti:state:v1'].join('')
 
 export type StorageLike = {
   getItem(key: string): string | null
@@ -39,16 +40,16 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-function recover(storage: StorageLike, reason: string): StorageLoadResult {
+function recover(storage: StorageLike, key: string, reason: string): StorageLoadResult {
   try {
-    storage.removeItem(STORAGE_KEY)
+    storage.removeItem(key)
   } catch {
     return { status: 'unavailable', reason: '本机存储不可用' }
   }
   return { status: 'recovered', reason }
 }
 
-function validatePayload(value: unknown, content: SbtiContentPackage): StoragePayload {
+function validatePayload(value: unknown, content: ShbtiContentPackage): StoragePayload {
   if (!isRecord(value) || !isRecord(value.data) || typeof value.quizVersion !== 'string' || typeof value.updatedAt !== 'string') throw new Error('fields')
   if (value.schemaVersion !== 1) throw new Error('schema')
   if (value.quizVersion !== content.contentVersion) throw new Error('quiz-version')
@@ -70,10 +71,15 @@ function validatePayload(value: unknown, content: SbtiContentPackage): StoragePa
   return value as StoragePayload
 }
 
-export function loadStorage(storage: StorageLike, content: SbtiContentPackage): StorageLoadResult {
+export function loadStorage(storage: StorageLike, content: ShbtiContentPackage): StorageLoadResult {
   let stored: string | null
+  let sourceKey = STORAGE_KEY
   try {
     stored = storage.getItem(STORAGE_KEY)
+    if (stored === null) {
+      sourceKey = LEGACY_STORAGE_KEY
+      stored = storage.getItem(LEGACY_STORAGE_KEY)
+    }
   } catch {
     return { status: 'unavailable', reason: '本机存储不可用' }
   }
@@ -82,33 +88,44 @@ export function loadStorage(storage: StorageLike, content: SbtiContentPackage): 
   try {
     parsed = JSON.parse(stored)
   } catch {
-    return recover(storage, '数据不是有效 JSON')
+    return recover(storage, sourceKey, '数据不是有效 JSON')
   }
+  let payload: StoragePayload
   try {
-    return { status: 'ready', payload: validatePayload(parsed, content) }
+    payload = validatePayload(parsed, content)
   } catch (error) {
     const reason = error instanceof Error ? error.message : 'fields'
-    if (reason === 'schema') return recover(storage, '不支持的存储版本')
-    if (reason === 'quiz-version') return recover(storage, '题库版本不匹配')
-    if (reason === 'references') return recover(storage, '存档引用的题目或选项已失效')
-    return recover(storage, '字段缺失')
+    if (reason === 'schema') return recover(storage, sourceKey, '不支持的存储版本')
+    if (reason === 'quiz-version') return recover(storage, sourceKey, '题库版本不匹配')
+    if (reason === 'references') return recover(storage, sourceKey, '存档引用的题目或选项已失效')
+    return recover(storage, sourceKey, '字段缺失')
   }
+  if (sourceKey === LEGACY_STORAGE_KEY) {
+    try {
+      storage.setItem(STORAGE_KEY, JSON.stringify(payload))
+      storage.removeItem(LEGACY_STORAGE_KEY)
+    } catch {
+      return { status: 'unavailable', reason: '本机存储不可用' }
+    }
+  }
+  return { status: 'ready', payload }
 }
 
-export function saveStorage(storage: StorageLike, payload: StoragePayload, content: SbtiContentPackage) {
+export function saveStorage(storage: StorageLike, payload: StoragePayload, content: ShbtiContentPackage) {
   const valid = validatePayload(payload, content)
   storage.setItem(STORAGE_KEY, JSON.stringify(valid))
 }
 
 export function clearStorage(storage: StorageLike) {
   storage.removeItem(STORAGE_KEY)
+  storage.removeItem(LEGACY_STORAGE_KEY)
 }
 
 export function toStoredResult(result: QuizResult): StoredQuizResult {
   return { code: result.code, completedAt: result.completedAt, contentVersion: result.contentVersion, dimensions: result.summary.dimensions }
 }
 
-export function hydrateStoredResult(result: StoredQuizResult, content: SbtiContentPackage): QuizResult {
+export function hydrateStoredResult(result: StoredQuizResult, content: ShbtiContentPackage): QuizResult {
   return {
     code: result.code,
     completedAt: result.completedAt,

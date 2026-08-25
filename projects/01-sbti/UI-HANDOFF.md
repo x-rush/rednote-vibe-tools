@@ -1,4 +1,4 @@
-# SBTI UI Handoff
+# SHBTI UI Handoff
 
 状态：`DESIGN APPROVED / ASSET BASELINE IN PROGRESS`
 
@@ -56,7 +56,7 @@ type ResultScreenViewModel = {
 
 ## Asset Contract
 
-- 资源根目录建议：`public/assets/sbti/`。
+- 资源根目录建议：`public/assets/shbti/`。
 - 异兽主图：`beasts/{beastId}/profile.webp`。
 - 低清占位：`beasts/{beastId}/placeholder.webp`。
 - 剪影 fallback：`beasts/_fallback/silhouette.svg`。
@@ -84,7 +84,7 @@ type ResultScreenViewModel = {
 | 召回帮助 | `case-guide-wenshan-recall` | 用户点闻山头像 | 回到当前题 | 当前题号和全部已答题 |
 | 异常恢复 | `case-guide-wenshan-recovery` | 本地历史写入失败 | 保存分享卡／重试写卷 | 本次答案摘要、四维和结果；不得用旧结果覆盖 |
 
-正式资源使用 `public/assets/sbti/guide` 的 master／avatar／placeholder；对话必须为 DOM 文本，图片失败仍允许跳过、继续和保存分享卡。
+正式资源使用 `public/assets/shbti/guide` 的 master／avatar／placeholder；对话必须为 DOM 文本，图片失败仍允许跳过、继续和保存分享卡。
 
 ## WSL 真实应用接入基线（2026-08-25）
 
@@ -97,7 +97,7 @@ type ResultScreenViewModel = {
 - `src/content/content.json`、`types.ts`、`validate.ts`：除非发现设计字段确实缺失，否则不改内容契约。
 - `src/quiz/scoring.ts`、`selection.ts`：不得为了页面表现改计分、平分或选题规则。
 - `src/storage/storage.ts`：保留版本校验、损坏回退和仅存结构化状态的边界。
-- `src/app/state.ts`、`useSbtiApp.ts`：保留现有主屏状态；新增引导、动效和抽屉状态优先作为组件局部 UI 状态，只有需要跨刷新恢复时才进入 reducer／storage。
+- `src/app/state.ts`、`useShbtiApp.ts`：保留现有主屏状态；新增引导、动效和抽屉状态优先作为组件局部 UI 状态，只有需要跨刷新恢复时才进入 reducer／storage。
 - 现有测试不得删除或弱化；表现层接入完成后仍执行原 34 项测试。
 
 ### 组件接入矩阵
@@ -126,7 +126,7 @@ src/components/ChapterInterlude.tsx
 src/components/RevealSequence.tsx
 ```
 
-`BeastPortrait` 统一处理正式图、低清占位和失败剪影；页面组件不得各自实现另一套 `onError`。`SourceDrawer` 中“典籍记录”“形象参考”“SBTI 创意解读”必须是三个可见层级，不以颜色作为唯一差异。
+`BeastPortrait` 统一处理正式图、低清占位和失败剪影；页面组件不得各自实现另一套 `onError`。`SourceDrawer` 中“典籍记录”“形象参考”“SHBTI 创意解读”必须是三个可见层级，不以颜色作为唯一差异。
 
 ### 结果代码到正式资源
 
@@ -134,28 +134,28 @@ src/components/RevealSequence.tsx
 
 | code | beastId | 正式图 |
 |---|---|---|
-| `RTLS` | `luwu` | `/assets/sbti/beasts/luwu/profile-v2-reference-verified.webp` |
-| `RTLM` | `ershu` | `/assets/sbti/beasts/ershu/profile-v2-reference-verified.webp` |
-| `RTES` | `dangkang` | `/assets/sbti/beasts/dangkang/profile-v1-reference-verified.webp` |
-| `RTEM` | `xingxing` | `/assets/sbti/beasts/xingxing/profile-v2-reference-verified.webp` |
-| `RVLS` | `yingzhao` | `/assets/sbti/beasts/yingzhao/profile-v1-reference-verified.webp` |
-| `RVLM` | `dijiang` | `/assets/sbti/beasts/dijiang/profile-v2-reference-verified.webp` |
-| `RVES` | `huan` | `/assets/sbti/beasts/huan/profile-v1-reference-verified.webp` |
-| `RVEM` | `fenghuang` | `/assets/sbti/beasts/fenghuang/profile-v1-reference-verified.webp` |
-| `HTLS` | `xuangui` | `/assets/sbti/beasts/xuangui/profile-v3-reference-verified.webp` |
-| `HTLM` | `bifang` | `/assets/sbti/beasts/bifang/profile-v1-reference-verified.webp` |
-| `HTES` | `jingwei` | `/assets/sbti/beasts/jingwei/profile-v1-reference-verified.webp` |
-| `HTEM` | `lushu` | `/assets/sbti/beasts/lushu/profile-v2-reference-verified.webp` |
-| `HVLS` | `kaimingshou` | `/assets/sbti/beasts/kaimingshou/profile-v1-reference-verified.webp` |
-| `HVLM` | `zhuyin` | `/assets/sbti/beasts/zhuyin/profile-v1-reference-verified.webp` |
-| `HVES` | `feifei` | `/assets/sbti/beasts/feifei/profile-v2-reference-verified.webp` |
-| `HVEM` | `jiuweihu` | `/assets/sbti/beasts/jiuweihu/profile-v3-reference-verified.webp` |
+| `RTLS` | `luwu` | `/assets/shbti/beasts/luwu/profile-v2-reference-verified.webp` |
+| `RTLM` | `ershu` | `/assets/shbti/beasts/ershu/profile-v2-reference-verified.webp` |
+| `RTES` | `dangkang` | `/assets/shbti/beasts/dangkang/profile-v1-reference-verified.webp` |
+| `RTEM` | `xingxing` | `/assets/shbti/beasts/xingxing/profile-v2-reference-verified.webp` |
+| `RVLS` | `yingzhao` | `/assets/shbti/beasts/yingzhao/profile-v1-reference-verified.webp` |
+| `RVLM` | `dijiang` | `/assets/shbti/beasts/dijiang/profile-v2-reference-verified.webp` |
+| `RVES` | `huan` | `/assets/shbti/beasts/huan/profile-v1-reference-verified.webp` |
+| `RVEM` | `fenghuang` | `/assets/shbti/beasts/fenghuang/profile-v1-reference-verified.webp` |
+| `HTLS` | `xuangui` | `/assets/shbti/beasts/xuangui/profile-v3-reference-verified.webp` |
+| `HTLM` | `bifang` | `/assets/shbti/beasts/bifang/profile-v1-reference-verified.webp` |
+| `HTES` | `jingwei` | `/assets/shbti/beasts/jingwei/profile-v1-reference-verified.webp` |
+| `HTEM` | `lushu` | `/assets/shbti/beasts/lushu/profile-v2-reference-verified.webp` |
+| `HVLS` | `kaimingshou` | `/assets/shbti/beasts/kaimingshou/profile-v1-reference-verified.webp` |
+| `HVLM` | `zhuyin` | `/assets/shbti/beasts/zhuyin/profile-v1-reference-verified.webp` |
+| `HVES` | `feifei` | `/assets/shbti/beasts/feifei/profile-v2-reference-verified.webp` |
+| `HVEM` | `jiuweihu` | `/assets/shbti/beasts/jiuweihu/profile-v3-reference-verified.webp` |
 
 占位图从 manifest 的 `fallback` 读取；无独立占位图的结果统一进入 `_fallback/silhouette.svg`，不得临时使用 emoji、网络图片或另一只兽的图。
 
 ### 资源同步门禁
 
-1. 从 Windows 设计工作区同步时，以 `public/assets/sbti/asset-manifest.json` 为白名单；参考原图、批次拼图、拒绝稿和 QA 截图不得进入首发包。
+1. 从 Windows 设计工作区同步时，以 `public/assets/shbti/asset-manifest.json` 为白名单；参考原图、批次拼图、拒绝稿和 QA 截图不得进入首发包。
 2. 同步后的每个 `src` 和 `fallback` 必须存在，文件字节不得超过 manifest 的 `maxBytes`。
 3. 运行时不得读取 `research/`，考据档案只随仓库保存，不进入用户下载的静态包。
 4. `<img>` 必须有固定 `width`／`height` 或 `aspect-ratio: 4 / 5`，避免显形页 CLS。
@@ -191,7 +191,7 @@ src/components/RevealSequence.tsx
 - `GuideSheet`：首次引导、章节交接、答题帮助和结果帮助共用卷页；打开聚焦标题，Escape 关闭，关闭后归还焦点。
 - `VolumeProgress`：四枚卷印和 `第 N 章 · current / 24` 文本；完成、当前和未开始均有非颜色提示。
 - `ChoiceSlip`：保留原生 radio 语义，整签可点，最小高度 72px；朱印只表示本题已选。
-- `QuizExperience`：只管理递卷／收卷和帮助的瞬时 UI；正式答案、题号与存储仍由 `useSbtiApp` 管理。
+- `QuizExperience`：只管理递卷／收卷和帮助的瞬时 UI；正式答案、题号与存储仍由 `useShbtiApp` 管理。
 - `RevealSequence`：`collecting → reading → complete`，可跳过，减少动态直接到 complete 语义终态。
 
 稳定 CSS 入口为 `.landing-guide`、`.guide-presence`、`.guide-sheet`、`.volume-progress`、`.choice-slip`、`.chapter-interlude`、`.reveal-sequence`。任何后续调整不得把头像改为遮挡底部操作的 fixed 悬浮层，也不得把四个行动签压成双列或横滑。

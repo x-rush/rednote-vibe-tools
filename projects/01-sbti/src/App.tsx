@@ -1,6 +1,6 @@
 import rawContent from './content/content.json'
 import { validateContent } from './content/validate'
-import { useSbtiApp } from './app/useSbtiApp'
+import { useShbtiApp } from './app/useShbtiApp'
 import { generateShareCardViewModel } from './quiz/scoring'
 import { CalculatingPage } from './components/CalculatingPage'
 import { ErrorPage } from './components/ErrorPage'
@@ -19,7 +19,7 @@ const contentResult = (() => {
 
 function ValidatedApp() {
   const content = contentResult.content!
-  const app = useSbtiApp(content)
+  const app = useShbtiApp(content)
   const systemReducedMotion = useSystemReducedMotion()
   const reducedMotion = effectiveReducedMotion(app.settings.reducedMotion, systemReducedMotion)
   const copy = content.content.experience

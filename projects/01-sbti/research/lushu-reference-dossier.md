@@ -2,7 +2,7 @@
 
 状态：REFERENCE READY / 2026-08-24
 
-目标类型：HTEM「谣尾型」。本档案只约束兽体事实；人格描述属于 SBTI 产品演绎。
+目标类型：HTEM「谣尾型」。本档案只约束兽体事实；人格描述属于 SHBTI 产品演绎。
 
 ## 1. 原典事实
 
@@ -44,6 +44,6 @@
 - [x] 后世历史图像已下载并保存来源元数据。
 - [x] V1 生成后因条纹过密、第一眼近似斑马而退回，保存在 `research/rejected/lushu/v1-too-zebra-like.png`。
 - [x] V2 单资源事实检查通过：马形、白首、疏密不均的虎式条纹、赤尾、无角无翼；四足与蹄部可理解，主体未被硬切。
-- [x] 正式主图导出为 `public/assets/sbti/beasts/lushu/profile-v2-reference-verified.webp`，900×1125、121,390 bytes。
-- [x] 低内存占位导出为 `public/assets/sbti/beasts/lushu/placeholder-v2.webp`，72×90、958 bytes。
+- [x] 正式主图导出为 `public/assets/shbti/beasts/lushu/profile-v2-reference-verified.webp`，900×1125、121,390 bytes。
+- [x] 低内存占位导出为 `public/assets/shbti/beasts/lushu/placeholder-v2.webp`，72×90、958 bytes。
 - [x] 装回 HTEM 独立结果页并完成 375/390/430 二检：0 断图、0 横向溢出、图像在手机框内、文案完整、页面无需内部滚动；430px 截图人工复核通过。

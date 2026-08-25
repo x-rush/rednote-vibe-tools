@@ -44,6 +44,30 @@ describe('SHBTI local storage adapter', () => {
     expect(loadStorage(storage, content)).toEqual({ status: 'ready', payload })
   })
 
+  it('migrates valid progress from the previous project namespace', () => {
+    const storage = new MemoryStorage()
+    const legacyKey = ['xhs-tool:s', 'bti:state:v1'].join('')
+    storage.setItem(legacyKey, JSON.stringify(payload))
+
+    expect(loadStorage(storage, content)).toEqual({ status: 'ready', payload })
+    expect(storage.getItem('xhs-tool:shbti:state:v1')).toBe(JSON.stringify(payload))
+    expect(storage.getItem(legacyKey)).toBeNull()
+  })
+
+  it('preserves previous progress when migration cannot write the new key', () => {
+    const legacyKey = ['xhs-tool:s', 'bti:state:v1'].join('')
+    const stored = JSON.stringify(payload)
+    const values = new Map([[legacyKey, stored]])
+    const storage = {
+      getItem(key: string) { return values.get(key) ?? null },
+      setItem() { throw new Error('blocked') },
+      removeItem(key: string) { values.delete(key) },
+    }
+
+    expect(loadStorage(storage, content)).toEqual({ status: 'unavailable', reason: '本机存储不可用' })
+    expect(storage.getItem(legacyKey)).toBe(stored)
+  })
+
   it.each([
     ['corrupt JSON', '{"schemaVersion":', '数据不是有效 JSON'],
     ['unknown schema', JSON.stringify({ ...payload, schemaVersion: 99 }), '不支持的存储版本'],
@@ -72,10 +96,15 @@ describe('SHBTI local storage adapter', () => {
 
   it('clears only the SHBTI project key', () => {
     const storage = new MemoryStorage()
+    const legacyKey = ['xhs-tool:s', 'bti:state:v1'].join('')
     storage.setItem(STORAGE_KEY, JSON.stringify(payload))
+    storage.setItem('xhs-tool:shbti:state:v1', JSON.stringify(payload))
+    storage.setItem(legacyKey, JSON.stringify(payload))
     storage.setItem('xhs-tool:another:state:v1', 'keep')
     clearStorage(storage)
     expect(storage.getItem(STORAGE_KEY)).toBeNull()
+    expect(storage.getItem('xhs-tool:shbti:state:v1')).toBeNull()
+    expect(storage.getItem(legacyKey)).toBeNull()
     expect(storage.getItem('xhs-tool:another:state:v1')).toBe('keep')
   })
 })

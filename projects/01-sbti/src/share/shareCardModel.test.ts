@@ -45,8 +45,9 @@ describe('share card model', () => {
       preferredPoles: ['应世', '察微', '衡理', '守形'],
       brand: 'SHBTI｜山海兽格测试',
       boundary: '娱乐性自我探索工具，不是专业心理测评。',
-      imageSrc: './assets/sbti/beasts/luwu/profile-v2-reference-verified.webp',
-      placeholderSrc: './assets/sbti/beasts/luwu/placeholder-v2.webp',
+      imageSrc: './assets/shbti/beasts/luwu/profile-v2-reference-verified.webp',
+      placeholderSrc: './assets/shbti/beasts/luwu/placeholder-v2.webp',
+      imageFocusY: 0.5,
     })
     expect(JSON.stringify(model)).not.toContain('RTLS')
     expect(JSON.stringify(model)).not.toContain('RH')

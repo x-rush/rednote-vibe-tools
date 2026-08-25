@@ -91,7 +91,7 @@ export function GuideSheet(props: GuideSheetProps) {
           >
             {portraitStage !== 'css' && (
               <img
-                src={portraitStage === 'master' ? getGuidePortrait(props.portraitVariant ?? 'default') : './assets/sbti/guide/guide-placeholder-v1.webp'}
+                src={portraitStage === 'master' ? getGuidePortrait(props.portraitVariant ?? 'default') : './assets/shbti/guide/guide-placeholder-v1.webp'}
                 alt=""
                 width="900"
                 height="1200"

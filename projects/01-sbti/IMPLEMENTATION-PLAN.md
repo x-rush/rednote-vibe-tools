@@ -1,10 +1,10 @@
-# SBTI UI 与闻山陪行体验 Implementation Plan
+# SHBTI UI 与闻山陪行体验 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 将现有四选项 SBTI 改造成“闻山陪行的山海夜读卷”，加入四卷进度、行动签、章节交接、显形仪式与上下文帮助，同时保持既有题库、计分、存储和结果映射不变。
+**Goal:** 将现有四选项 SHBTI 改造成“闻山陪行的山海夜读卷”，加入四卷进度、行动签、章节交接、显形仪式与上下文帮助，同时保持既有题库、计分、存储和结果映射不变。
 
-**Architecture:** 业务台词继续由 `src/content/content.json` 驱动；NPC 出现规则和章节边界由纯函数派生；通用闻山卷页、进度、行动签和显形组件保持无业务状态。`QuizExperience` 只编排一次性章节过场，`useSbtiApp` 继续拥有正式测评状态和持久化。
+**Architecture:** 业务台词继续由 `src/content/content.json` 驱动；NPC 出现规则和章节边界由纯函数派生；通用闻山卷页、进度、行动签和显形组件保持无业务状态。`QuizExperience` 只编排一次性章节过场，`useShbtiApp` 继续拥有正式测评状态和持久化。
 
 **Tech Stack:** React 19、TypeScript 6、Vite 8、Vitest 4、原生 CSS；不新增依赖。
 
@@ -128,7 +128,7 @@ Expected: PASS；内容 JSON 被返回为完整类型。
 
 - [ ] **Step 7: 提交检查点**
 
-运行 `git diff --check -- projects/01-sbti/src/content`。获授权时只暂存本任务四个精确文件，提交消息为 `feat(sbti): add Wenshan journey copy contract`。
+运行 `git diff --check -- projects/01-sbti/src/content`。获授权时只暂存本任务四个精确文件，提交消息为 `feat(shbti): add Wenshan journey copy contract`。
 
 ### Task 2: 建立 NPC 时刻与章节边界纯函数
 
@@ -227,7 +227,7 @@ Expected: 两个测试文件全部 PASS。
 
 - [ ] **Step 7: 提交检查点**
 
-运行项目限定 `git diff --check`。获授权时只提交本任务四个文件，消息为 `feat(sbti): derive Wenshan journey moments`。
+运行项目限定 `git diff --check`。获授权时只提交本任务四个文件，消息为 `feat(shbti): derive Wenshan journey moments`。
 
 ### Task 3: 收敛通用闻山组件
 
@@ -315,7 +315,7 @@ Expected: 测试与构建 PASS，无 `guide.steps` 或 `GuideIntro` 残留引用
 
 - [ ] **Step 7: 提交检查点**
 
-运行限定路径 `git diff --check`。获授权时只提交本任务组件，消息为 `feat(sbti): unify Wenshan guide surfaces`。
+运行限定路径 `git diff --check`。获授权时只提交本任务组件，消息为 `feat(shbti): unify Wenshan guide surfaces`。
 
 ### Task 4: 实现四卷进度、行动签与章节交接
 
@@ -407,7 +407,7 @@ Expected: 测试与构建 PASS；原计分和 reducer 行为不变。
 
 - [ ] **Step 9: 提交检查点**
 
-运行限定路径 `git diff --check`。获授权时精确提交本任务文件，消息为 `feat(sbti): add four-volume quiz journey`。
+运行限定路径 `git diff --check`。获授权时精确提交本任务文件，消息为 `feat(shbti): add four-volume quiz journey`。
 
 ### Task 5: 接入首页、显形、结果帮助与恢复
 
@@ -420,7 +420,7 @@ Expected: 测试与构建 PASS；原计分和 reducer 行为不变。
 - Modify: `src/components/ErrorPage.tsx`
 - Modify: `src/app/state.ts`
 - Modify: `src/app/state.test.ts`
-- Modify: `src/app/useSbtiApp.ts`
+- Modify: `src/app/useShbtiApp.ts`
 - Modify: `src/App.tsx`
 
 **Interfaces:**
@@ -468,7 +468,7 @@ Expected: reducer用例 PASS，显形用例因模块缺失 FAIL。
 
 标准动态按 `collecting → reading → complete` 推进，总时长不超过 1.8 秒，并提供“跳过显形”。减少动态首次渲染即展示四枚印和 complete 文案，再由“展开兽志”按钮调用 `onComplete`，不得在 render 期间更新状态。
 
-删除 `useSbtiApp` 自动 dispatch `CALCULATED` 的 effect，公开：
+删除 `useShbtiApp` 自动 dispatch `CALCULATED` 的 effect，公开：
 
 ```ts
 function completeReveal() {
@@ -526,7 +526,7 @@ Expected: 全部测试 PASS；显形不会自动跳过；错误 reason 可区分
 
 - [ ] **Step 9: 提交检查点**
 
-运行限定路径 `git diff --check`。获授权时精确提交本任务文件，消息为 `feat(sbti): complete Wenshan reveal and recovery flow`。
+运行限定路径 `git diff --check`。获授权时精确提交本任务文件，消息为 `feat(shbti): complete Wenshan reveal and recovery flow`。
 
 ### Task 6: 完成夜读卷视觉、文档与发布门禁
 

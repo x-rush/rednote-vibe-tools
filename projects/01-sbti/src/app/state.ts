@@ -1,4 +1,4 @@
-import type { SbtiContentPackage } from '../content/types'
+import type { ShbtiContentPackage } from '../content/types'
 import type { QuizAnswer, QuizProgress, QuizResult } from '../quiz/types'
 
 export type AppScreen = 'landing' | 'intro' | 'quiz' | 'calculating' | 'result' | 'history' | 'error'
@@ -80,7 +80,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
   }
 }
 
-export function restoreQuizProgress(progress: QuizProgress, content: SbtiContentPackage): QuizProgress {
+export function restoreQuizProgress(progress: QuizProgress, content: ShbtiContentPackage): QuizProgress {
   if (progress.questionIds.length !== 24 || new Set(progress.questionIds).size !== 24) throw new Error('Saved progress must contain 24 unique questions')
   const questions = new Map(content.content.questions.map((question) => [question.id, question]))
   for (const questionId of progress.questionIds) {

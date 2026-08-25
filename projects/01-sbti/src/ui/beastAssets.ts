@@ -2,25 +2,26 @@ export type BeastAsset = {
   beastId: string
   src: string
   placeholder?: string
+  shareFocusY: number
 }
 
 const BEAST_ASSETS: Readonly<Record<string, BeastAsset>> = {
-  RTLS: { beastId: 'luwu', src: './assets/sbti/beasts/luwu/profile-v2-reference-verified.webp', placeholder: './assets/sbti/beasts/luwu/placeholder-v2.webp' },
-  RTLM: { beastId: 'ershu', src: './assets/sbti/beasts/ershu/profile-v2-reference-verified.webp', placeholder: './assets/sbti/beasts/ershu/placeholder-v2.webp' },
-  RTES: { beastId: 'dangkang', src: './assets/sbti/beasts/dangkang/profile-v1-reference-verified.webp', placeholder: './assets/sbti/beasts/dangkang/placeholder-v1.webp' },
-  RTEM: { beastId: 'xingxing', src: './assets/sbti/beasts/xingxing/profile-v2-reference-verified.webp', placeholder: './assets/sbti/beasts/xingxing/placeholder-v2.webp' },
-  RVLS: { beastId: 'yingzhao', src: './assets/sbti/beasts/yingzhao/profile-v1-reference-verified.webp', placeholder: './assets/sbti/beasts/yingzhao/placeholder-v1.webp' },
-  RVLM: { beastId: 'dijiang', src: './assets/sbti/beasts/dijiang/profile-v2-reference-verified.webp', placeholder: './assets/sbti/beasts/dijiang/placeholder-v2.webp' },
-  RVES: { beastId: 'huan', src: './assets/sbti/beasts/huan/profile-v1-reference-verified.webp', placeholder: './assets/sbti/beasts/huan/placeholder-v1.webp' },
-  RVEM: { beastId: 'fenghuang', src: './assets/sbti/beasts/fenghuang/profile-v1-reference-verified.webp', placeholder: './assets/sbti/beasts/fenghuang/placeholder-v1.webp' },
-  HTLS: { beastId: 'xuangui', src: './assets/sbti/beasts/xuangui/profile-v3-reference-verified.webp', placeholder: './assets/sbti/beasts/xuangui/placeholder-v3.webp' },
-  HTLM: { beastId: 'bifang', src: './assets/sbti/beasts/bifang/profile-v1-reference-verified.webp', placeholder: './assets/sbti/beasts/bifang/placeholder-v1.webp' },
-  HTES: { beastId: 'jingwei', src: './assets/sbti/beasts/jingwei/profile-v1-reference-verified.webp', placeholder: './assets/sbti/beasts/jingwei/placeholder-v1.webp' },
-  HTEM: { beastId: 'lushu', src: './assets/sbti/beasts/lushu/profile-v2-reference-verified.webp', placeholder: './assets/sbti/beasts/lushu/placeholder-v2.webp' },
-  HVLS: { beastId: 'kaimingshou', src: './assets/sbti/beasts/kaimingshou/profile-v1-reference-verified.webp', placeholder: './assets/sbti/beasts/kaimingshou/placeholder-v1.webp' },
-  HVLM: { beastId: 'zhuyin', src: './assets/sbti/beasts/zhuyin/profile-v1-reference-verified.webp', placeholder: './assets/sbti/beasts/zhuyin/placeholder-v1.webp' },
-  HVES: { beastId: 'feifei', src: './assets/sbti/beasts/feifei/profile-v2-reference-verified.webp', placeholder: './assets/sbti/beasts/feifei/placeholder-v2.webp' },
-  HVEM: { beastId: 'jiuweihu', src: './assets/sbti/beasts/jiuweihu/profile-v3-reference-verified.webp', placeholder: './assets/sbti/beasts/jiuweihu/placeholder-v3.webp' },
+  RTLS: { beastId: 'luwu', src: './assets/shbti/beasts/luwu/profile-v2-reference-verified.webp', placeholder: './assets/shbti/beasts/luwu/placeholder-v2.webp', shareFocusY: 0.5 },
+  RTLM: { beastId: 'ershu', src: './assets/shbti/beasts/ershu/profile-v2-reference-verified.webp', placeholder: './assets/shbti/beasts/ershu/placeholder-v2.webp', shareFocusY: 0.5 },
+  RTES: { beastId: 'dangkang', src: './assets/shbti/beasts/dangkang/profile-v1-reference-verified.webp', placeholder: './assets/shbti/beasts/dangkang/placeholder-v1.webp', shareFocusY: 0.5 },
+  RTEM: { beastId: 'xingxing', src: './assets/shbti/beasts/xingxing/profile-v2-reference-verified.webp', placeholder: './assets/shbti/beasts/xingxing/placeholder-v2.webp', shareFocusY: 0.5 },
+  RVLS: { beastId: 'yingzhao', src: './assets/shbti/beasts/yingzhao/profile-v1-reference-verified.webp', placeholder: './assets/shbti/beasts/yingzhao/placeholder-v1.webp', shareFocusY: 0.3 },
+  RVLM: { beastId: 'dijiang', src: './assets/shbti/beasts/dijiang/profile-v2-reference-verified.webp', placeholder: './assets/shbti/beasts/dijiang/placeholder-v2.webp', shareFocusY: 0.5 },
+  RVES: { beastId: 'huan', src: './assets/shbti/beasts/huan/profile-v1-reference-verified.webp', placeholder: './assets/shbti/beasts/huan/placeholder-v1.webp', shareFocusY: 0.5 },
+  RVEM: { beastId: 'fenghuang', src: './assets/shbti/beasts/fenghuang/profile-v1-reference-verified.webp', placeholder: './assets/shbti/beasts/fenghuang/placeholder-v1.webp', shareFocusY: 0.25 },
+  HTLS: { beastId: 'xuangui', src: './assets/shbti/beasts/xuangui/profile-v3-reference-verified.webp', placeholder: './assets/shbti/beasts/xuangui/placeholder-v3.webp', shareFocusY: 0.4 },
+  HTLM: { beastId: 'bifang', src: './assets/shbti/beasts/bifang/profile-v1-reference-verified.webp', placeholder: './assets/shbti/beasts/bifang/placeholder-v1.webp', shareFocusY: 0.25 },
+  HTES: { beastId: 'jingwei', src: './assets/shbti/beasts/jingwei/profile-v1-reference-verified.webp', placeholder: './assets/shbti/beasts/jingwei/placeholder-v1.webp', shareFocusY: 0.5 },
+  HTEM: { beastId: 'lushu', src: './assets/shbti/beasts/lushu/profile-v2-reference-verified.webp', placeholder: './assets/shbti/beasts/lushu/placeholder-v2.webp', shareFocusY: 0.3 },
+  HVLS: { beastId: 'kaimingshou', src: './assets/shbti/beasts/kaimingshou/profile-v1-reference-verified.webp', placeholder: './assets/shbti/beasts/kaimingshou/placeholder-v1.webp', shareFocusY: 0.25 },
+  HVLM: { beastId: 'zhuyin', src: './assets/shbti/beasts/zhuyin/profile-v1-reference-verified.webp', placeholder: './assets/shbti/beasts/zhuyin/placeholder-v1.webp', shareFocusY: 0.25 },
+  HVES: { beastId: 'feifei', src: './assets/shbti/beasts/feifei/profile-v2-reference-verified.webp', placeholder: './assets/shbti/beasts/feifei/placeholder-v2.webp', shareFocusY: 0.5 },
+  HVEM: { beastId: 'jiuweihu', src: './assets/shbti/beasts/jiuweihu/profile-v3-reference-verified.webp', placeholder: './assets/shbti/beasts/jiuweihu/placeholder-v3.webp', shareFocusY: 0.5 },
 }
 
 export function getBeastAsset(code: string): BeastAsset | undefined {

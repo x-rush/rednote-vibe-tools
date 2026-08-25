@@ -5,7 +5,7 @@ import type {
   PersonalityType,
   PoleCode,
   Question,
-  SbtiContentPackage,
+  ShbtiContentPackage,
 } from './types'
 
 const ID_PATTERN = /^[a-z][a-z0-9-]*$/
@@ -222,11 +222,11 @@ function validateType(value: unknown, index: number, creatureIds: Set<string>, i
   return true
 }
 
-export function validateContent(input: unknown): SbtiContentPackage {
+export function validateContent(input: unknown): ShbtiContentPackage {
   const issues: string[] = []
   if (!isRecord(input)) throw new ContentValidationError(['$: expected an object'])
   if (input.schemaVersion !== 1) issues.push('$.schemaVersion: expected 1')
-  if (input.projectId !== 'sbti') issues.push('$.projectId: expected sbti')
+  if (input.projectId !== 'shbti') issues.push('$.projectId: expected shbti')
   stringAt(input.contentVersion, '$.contentVersion', issues)
   if (!isRecord(input.meta)) issues.push('$.meta: expected an object')
   if (!Array.isArray(input.sources)) issues.push('$.sources: expected an array')
@@ -261,7 +261,7 @@ export function validateContent(input: unknown): SbtiContentPackage {
       requiredStrings(identity, ['formalName', 'englishExpansion', 'chineseMeaning', 'boundary'], identityPath, issues)
       const expected = {
         formalName: 'SHBTI｜山海兽格测试',
-        englishExpansion: 'Shanhai Beast Temperament Indicator',
+        englishExpansion: 'Shan Hai Beast Temperament Indicator',
         chineseMeaning: '山海异兽性格倾向指标',
         boundary: '娱乐性自我探索工具，不是专业心理测评。',
       }
@@ -420,5 +420,5 @@ export function validateContent(input: unknown): SbtiContentPackage {
   }
 
   if (issues.length > 0) throw new ContentValidationError(issues)
-  return input as SbtiContentPackage
+  return input as ShbtiContentPackage
 }

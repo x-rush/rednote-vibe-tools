@@ -55,5 +55,5 @@
 - [x] 历史开明兽图和现实虎体参考本地化并保存元数据。
 - [x] 九首可数构图冻结。
 - [x] 生成并逐脸核数、逐肢体检查：中央主面 1、左侧 4、右侧 4，合计恰好 9；单一虎身、可信四足与恰好一条正常虎尾成立。
-- [x] 导出正式 WebP 与占位图：`public/assets/sbti/beasts/kaimingshou/profile-v1-reference-verified.webp`（900×1125、146,110 bytes）与 `placeholder-v1.webp`（72×90、994 bytes）。
+- [x] 导出正式 WebP 与占位图：`public/assets/shbti/beasts/kaimingshou/profile-v1-reference-verified.webp`（900×1125、146,110 bytes）与 `placeholder-v1.webp`（72×90、994 bytes）。
 - [x] 装回 HVLS 独立结果页并完成 375/390/430 二检：0 断图、0 横向溢出、图像在手机框内、必需文案完整、纵向无需滚动；430px 截图人工复核通过。

@@ -1,4 +1,4 @@
-import type { DimensionCode, PoleCode, SbtiContentPackage } from '../content/types'
+import type { DimensionCode, PoleCode, ShbtiContentPackage } from '../content/types'
 import type {
   DimensionResult,
   ProgressSummary,
@@ -21,7 +21,7 @@ export function recordAnswer(
   answers: QuizAnswer[],
   questionId: string,
   optionId: string,
-  content: SbtiContentPackage,
+  content: ShbtiContentPackage,
 ): QuizAnswer[] {
   const question = content.content.questions.find((item) => item.id === questionId)
   if (!question) throw new Error(`Unknown question ID: ${questionId}`)
@@ -42,7 +42,7 @@ export function calculateProgress(questionIds: string[], answers: QuizAnswer[]):
 export function aggregateDimensionScores(
   questionIds: string[],
   answers: QuizAnswer[],
-  content: SbtiContentPackage,
+  content: ShbtiContentPackage,
 ) {
   const scores = Object.fromEntries(['R', 'H', 'T', 'V', 'L', 'E', 'S', 'M'].map((pole) => [pole, 0])) as Record<PoleCode, number>
   const selected = new Set(questionIds)
@@ -59,7 +59,7 @@ export function aggregateDimensionScores(
   return scores
 }
 
-function dimensionResults(questionIds: string[], answers: QuizAnswer[], content: SbtiContentPackage): DimensionResult[] {
+function dimensionResults(questionIds: string[], answers: QuizAnswer[], content: ShbtiContentPackage): DimensionResult[] {
   const scores = aggregateDimensionScores(questionIds, answers, content)
   const byQuestion = answerMap(answers)
   return (Object.entries(DIMENSION_POLES) as Array<[DimensionCode, [PoleCode, PoleCode]]>).map(([dimension, [leftPole, rightPole]]) => {
@@ -89,12 +89,12 @@ function assertComplete(questionIds: string[], answers: QuizAnswer[]) {
   if (questionIds.length !== 24 || progress.answered !== 24) throw new Error('A formal result requires exactly 24 answered questions')
 }
 
-export function determineTypeCode(questionIds: string[], answers: QuizAnswer[], content: SbtiContentPackage) {
+export function determineTypeCode(questionIds: string[], answers: QuizAnswer[], content: ShbtiContentPackage) {
   assertComplete(questionIds, answers)
   return dimensionResults(questionIds, answers, content).map((item) => item.preferredPole).join('')
 }
 
-export function findBeastForType(code: string, content: SbtiContentPackage) {
+export function findBeastForType(code: string, content: ShbtiContentPackage) {
   const type = content.content.resultTypes.find((item) => item.code === code)
   if (!type) throw new Error(`Unknown personality type: ${code}`)
   const creature = content.content.creatures.find((item) => item.id === type.creatureId)
@@ -105,7 +105,7 @@ export function findBeastForType(code: string, content: SbtiContentPackage) {
 export function generateResultSummary(
   code: string,
   dimensions: DimensionResult[],
-  content: SbtiContentPackage,
+  content: ShbtiContentPackage,
 ): ResultSummary {
   const { type, creature } = findBeastForType(code, content)
   const weakestIndex = dimensions.reduce((best, item, index) => item.strength < dimensions[best]!.strength ? index : best, 0)
@@ -124,7 +124,7 @@ export function generateResultSummary(
 export function generateQuizResult(
   questionIds: string[],
   answers: QuizAnswer[],
-  content: SbtiContentPackage,
+  content: ShbtiContentPackage,
   completedAt = 'local-result',
 ): QuizResult {
   assertComplete(questionIds, answers)
@@ -133,7 +133,7 @@ export function generateQuizResult(
   return { code, completedAt, contentVersion: content.contentVersion, summary: generateResultSummary(code, dimensions, content) }
 }
 
-export function generateShareCardViewModel(result: QuizResult, content?: SbtiContentPackage): ShareCardViewModel {
+export function generateShareCardViewModel(result: QuizResult, content?: ShbtiContentPackage): ShareCardViewModel {
   if (!content) {
     return {
       code: result.code,

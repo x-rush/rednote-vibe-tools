@@ -37,6 +37,16 @@ describe('Wenshan guide version state', () => {
     expect(isGuideUnseen(storage)).toBe(false)
   })
 
+  it('migrates the dismissed state from the previous project namespace', () => {
+    const storage = new MemoryStorage()
+    const legacyKey = ['xhs-tool:s', 'bti:guide:v1'].join('')
+    storage.setItem(legacyKey, JSON.stringify({ guideVersion: 1, dismissed: true }))
+
+    expect(isGuideUnseen(storage)).toBe(false)
+    expect(storage.getItem(GUIDE_STORAGE_KEY)).toBe(JSON.stringify({ guideVersion: 1, dismissed: true }))
+    expect(storage.getItem(legacyKey)).toBeNull()
+  })
+
   it('keeps the guide recoverable when browser storage is unavailable', () => {
     const unavailable = {
       getItem() { throw new Error('blocked') },
@@ -49,12 +59,15 @@ describe('Wenshan guide version state', () => {
 
   it('clears only the guide key', () => {
     const storage = new MemoryStorage()
+    const legacyKey = ['xhs-tool:s', 'bti:guide:v1'].join('')
     storage.setItem(GUIDE_STORAGE_KEY, '{}')
+    storage.setItem(legacyKey, '{}')
     storage.setItem('xhs-tool:another:state:v1', 'keep')
 
     clearGuideState(storage)
 
     expect(storage.getItem(GUIDE_STORAGE_KEY)).toBeNull()
+    expect(storage.getItem(legacyKey)).toBeNull()
     expect(storage.getItem('xhs-tool:another:state:v1')).toBe('keep')
   })
 })

@@ -20,6 +20,7 @@ const model: ShareCardModel = {
   boundary: '娱乐性自我探索工具，不是专业心理测评。',
   imageSrc: './beast.webp',
   placeholderSrc: './placeholder.webp',
+  imageFocusY: 0.5,
 }
 
 describe('share card sheet', () => {

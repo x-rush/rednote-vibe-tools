@@ -4,7 +4,7 @@ import { existsSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
-import manifest from '../../public/assets/sbti/asset-manifest.json'
+import manifest from '../../public/assets/shbti/asset-manifest.json'
 
 const publicRoot = fileURLToPath(new URL('../../public/', import.meta.url))
 type ReleaseAsset = {
@@ -24,8 +24,8 @@ function diskPath(src: string) {
 }
 
 describe('SHBTI release asset manifest', () => {
-  const profiles = releaseManifest.items.filter((item) => item.id.startsWith('sbti.beast.') && item.id.endsWith('.profile'))
-  const placeholders = releaseManifest.items.filter((item) => item.id.startsWith('sbti.beast.') && item.id.endsWith('.placeholder'))
+  const profiles = releaseManifest.items.filter((item) => item.id.startsWith('shbti.beast.') && item.id.endsWith('.profile'))
+  const placeholders = releaseManifest.items.filter((item) => item.id.startsWith('shbti.beast.') && item.id.endsWith('.placeholder'))
 
   it('ships one reference-verified profile and one same-beast placeholder for all 16 types', () => {
     expect(profiles).toHaveLength(16)
@@ -47,7 +47,7 @@ describe('SHBTI release asset manifest', () => {
   it('keeps all beast profiles releasable and wired to an existing lightweight fallback', () => {
     for (const profile of profiles) {
       expect(profile.shippingBlocked).toBe(false)
-      expect(profile.fallback).toMatch(/^\.\/assets\/sbti\/beasts\/.+\/placeholder-v\d+\.webp$/)
+      expect(profile.fallback).toMatch(/^\.\/assets\/shbti\/beasts\/.+\/placeholder-v\d+\.webp$/)
       const fallbackPath = diskPath(profile.fallback!)
       expect(existsSync(fallbackPath), `${profile.id}: ${profile.fallback}`).toBe(true)
       expect(statSync(fallbackPath).size).toBe(profile.fallbackBytes)

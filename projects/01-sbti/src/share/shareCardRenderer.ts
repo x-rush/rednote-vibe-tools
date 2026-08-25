@@ -51,7 +51,7 @@ function drawWrappedText(context: CanvasRenderingContext2D, text: string, x: num
   return y + clipped.length * lineHeight
 }
 
-function drawCoverImage(context: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number, height: number) {
+function drawCoverImage(context: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number, height: number, focusY: number) {
   const sourceWidth = image.naturalWidth || image.width
   const sourceHeight = image.naturalHeight || image.height
   const targetRatio = width / height
@@ -65,7 +65,8 @@ function drawCoverImage(context: CanvasRenderingContext2D, image: HTMLImageEleme
     sx = (sourceWidth - sw) / 2
   } else {
     sh = sourceWidth / targetRatio
-    sy = (sourceHeight - sh) / 2
+    const clampedFocusY = Math.min(1, Math.max(0, focusY))
+    sy = Math.min(sourceHeight - sh, Math.max(0, sourceHeight * clampedFocusY - sh / 2))
   }
   context.drawImage(image, sx, sy, sw, sh, x, y, width, height)
 }
@@ -126,7 +127,7 @@ export async function renderShareCard(canvas: HTMLCanvasElement, model: ShareCar
   context.save()
   roundedRect(context, 72, 154, 936, 562, 10)
   context.clip()
-  if (artwork.image) drawCoverImage(context, artwork.image, 72, 154, 936, 562)
+  if (artwork.image) drawCoverImage(context, artwork.image, 72, 154, 936, 562, model.imageFocusY)
   else drawInkFallback(context)
   context.restore()
   context.strokeStyle = 'rgba(24, 35, 33, 0.55)'

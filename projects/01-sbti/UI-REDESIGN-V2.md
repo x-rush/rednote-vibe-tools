@@ -1,4 +1,4 @@
-# SBTI｜山海兽格测试 UI/UX v2
+# SHBTI｜山海兽格测试 UI/UX v2
 
 状态：已实现
 
@@ -10,8 +10,8 @@
 
 正式产品定义如下：
 
-- 正式名：`SBTI｜山海兽格测试`
-- 英文释义：`Shanhai Beast Temperament Indicator`
+- 正式名：`SHBTI｜山海兽格测试`
+- 英文释义：`Shan Hai Beast Temperament Indicator`
 - 中文解释：`山海异兽性格倾向指标`
 - 产品边界：娱乐性自我探索工具，不是专业心理测评。
 

@@ -1,4 +1,4 @@
-# SBTI｜山海兽格测试｜Codex CLI 开工说明
+# SHBTI｜山海兽格测试｜Codex CLI 开工说明
 
 ## 必读顺序
 

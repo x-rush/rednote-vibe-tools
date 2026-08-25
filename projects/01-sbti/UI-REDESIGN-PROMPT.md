@@ -1,4 +1,4 @@
-# SBTI 山海兽格 · UI/UX 重设计会话提示词
+# SHBTI 山海兽格 · UI/UX 重设计会话提示词
 
 你在 `~/project/www/rednote-vibe-tools` 工作，本轮只为 `projects/01-sbti` 重新设计 UI/UX、玩法呈现和交互特效，不写 React/TypeScript 业务代码，不修改其他项目、根配置、锁文件或 `docs/`。
 

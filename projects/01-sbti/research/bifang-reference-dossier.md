@@ -47,5 +47,5 @@
 - [x] 两张现实鹤类参考及 Commons 元数据本地化。
 - [x] 后世古图/图谱入口登记。
 - [x] V1 单资源事实检查通过：鹤形、青质赤文、白喙；解剖上只有一条腿和一只足，无隐藏第二脚或断肢感；无主动火焰和西式凤凰元素。远侧翼因自然侧身被近侧翼覆盖，构图可接受。
-- [x] 正式 WebP：`public/assets/sbti/beasts/bifang/profile-v1-reference-verified.webp`，900×1125、102,426 bytes；占位图 72×90、714 bytes。
+- [x] 正式 WebP：`public/assets/shbti/beasts/bifang/profile-v1-reference-verified.webp`，900×1125、102,426 bytes；占位图 72×90、714 bytes。
 - [x] HTLM 独立结果页完成 375/390/430 二检：0 断图、0 横向溢出、图像在手机框内、全部结果文案可见且无需内部滚动；430px 截图人工复核通过。

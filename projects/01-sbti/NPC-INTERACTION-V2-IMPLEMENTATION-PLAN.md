@@ -1,8 +1,8 @@
-# SBTI 闻山陪行与中文显形 Implementation Plan
+# SHBTI 闻山陪行与中文显形 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 将 SBTI 的用户界面统一为中文维度表达，扩展闻山的状态驱动陪行与预设问答，并加入短促、可跳过、可降级的卷册动画。
+**Goal:** 将 SHBTI 的用户界面统一为中文维度表达，扩展闻山的状态驱动陪行与预设问答，并加入短促、可跳过、可降级的卷册动画。
 
 **Architecture:** 内部维度代码、结果代码、计分与存储 schema 保持不变；内容包增加品牌、中文维度显示和闻山问答契约，显示层只消费中文视图模型。闻山当前台词由纯函数派生，问答选择与动画步骤保持为组件瞬时状态，统一复用现有 `GuideSheet` 的焦点、inert 和图片降级能力。
 
@@ -13,8 +13,8 @@
 ## Global Constraints
 
 - 只修改 `projects/01-sbti`。
-- 正式名固定为 `SBTI｜山海兽格测试`。
-- 英文释义固定为 `Shanhai Beast Temperament Indicator`，只出现在关于测试或完整说明区域。
+- 正式名固定为 `SHBTI｜山海兽格测试`。
+- 英文释义固定为 `Shan Hai Beast Temperament Indicator`，只出现在关于测试或完整说明区域。
 - 中文解释固定为 `山海异兽性格倾向指标`。
 - 产品边界固定为“娱乐性自我探索工具，不是专业心理测评”。
 - 用户可见界面、无障碍名称、动画文字和分享文案不得出现内部维度代码或四字母结果代码。
@@ -43,11 +43,11 @@
 在 `content.test.ts` 增加断言：
 
 ```ts
-it('requires the formal SBTI identity and Chinese dimension display names', () => {
+it('requires the formal SHBTI identity and Chinese dimension display names', () => {
   const content = validateContent(rawContent)
   expect(content.content.experience.identity).toEqual({
-    formalName: 'SBTI｜山海兽格测试',
-    englishExpansion: 'Shanhai Beast Temperament Indicator',
+    formalName: 'SHBTI｜山海兽格测试',
+    englishExpansion: 'Shan Hai Beast Temperament Indicator',
     chineseMeaning: '山海异兽性格倾向指标',
     boundary: '娱乐性自我探索工具，不是专业心理测评。',
   })
@@ -83,8 +83,8 @@ Expected: FAIL，指出 `identity`、`displayName` 或 `quizCompanion` 尚不存
 
 ```ts
 export type BrandIdentityCopy = {
-  formalName: 'SBTI｜山海兽格测试'
-  englishExpansion: 'Shanhai Beast Temperament Indicator'
+  formalName: 'SHBTI｜山海兽格测试'
+  englishExpansion: 'Shan Hai Beast Temperament Indicator'
   chineseMeaning: '山海异兽性格倾向指标'
   boundary: '娱乐性自我探索工具，不是专业心理测评。'
 }
@@ -381,7 +381,7 @@ Expected: 无输出。
 
 ---
 
-### Task 6: 在品牌说明和结果页接入正式 SBTI 定义
+### Task 6: 在品牌说明和结果页接入正式 SHBTI 定义
 
 **Files:**
 - Modify: `projects/01-sbti/src/components/LandingPage.tsx`
@@ -614,7 +614,7 @@ Expected: lint 0 warning、0 error；全部测试文件与测试项通过；Vite
 document.body.innerText.match(/\b(RH|TV|LE|SM|[RHTVLESM]{4})\b/g)
 ```
 
-Expected: `null`。允许正式品牌字符串 `SBTI`。
+Expected: `null`。允许正式品牌字符串 `SHBTI`。
 
 - [ ] **Step 7: 检查控制台与构建体积**
 

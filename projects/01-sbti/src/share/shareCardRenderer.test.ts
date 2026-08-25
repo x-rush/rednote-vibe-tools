@@ -16,16 +16,21 @@ const model: ShareCardModel = {
   boundary: '娱乐性自我探索工具，不是专业心理测评。',
   imageSrc: './beast.webp',
   placeholderSrc: './placeholder.webp',
+  imageFocusY: 0.5,
 }
 
 function fakeCanvas() {
   const texts: string[] = []
   const textDraws: Array<{ text: string; x: number; y: number; width: number }> = []
   const images: unknown[] = []
+  const imageDraws: unknown[][] = []
   const context = {
     fillStyle: '', strokeStyle: '', lineWidth: 1, font: '', textAlign: 'left', textBaseline: 'alphabetic', globalAlpha: 1,
     fillRect: vi.fn(), strokeRect: vi.fn(), beginPath: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(), quadraticCurveTo: vi.fn(), closePath: vi.fn(), fill: vi.fn(), stroke: vi.fn(), save: vi.fn(), restore: vi.fn(), clip: vi.fn(), arc: vi.fn(), translate: vi.fn(), rotate: vi.fn(),
-    drawImage: vi.fn((image: unknown) => images.push(image)),
+    drawImage: vi.fn((...args: unknown[]) => {
+      images.push(args[0])
+      imageDraws.push(args)
+    }),
     fillText: vi.fn((text: string, x: number, y: number) => {
       texts.push(text)
       textDraws.push({ text, x, y, width: text.length * 40 })
@@ -38,7 +43,7 @@ function fakeCanvas() {
     getContext: vi.fn(() => context),
     toDataURL: vi.fn(() => 'data:image/png;base64,rendered'),
   }
-  return { canvas, texts, textDraws, images }
+  return { canvas, texts, textDraws, images, imageDraws }
 }
 
 describe('share card canvas renderer', () => {
@@ -73,6 +78,21 @@ describe('share card canvas renderer', () => {
     expect(loadImage).toHaveBeenNthCalledWith(1, './beast.webp')
     expect(loadImage).toHaveBeenNthCalledWith(2, './placeholder.webp')
     expect(target.images).toContain(placeholder)
+  })
+
+  it('honours an audited upper focal point so a top-positioned face stays inside the artwork crop', async () => {
+    const target = fakeCanvas()
+    const beast = { width: 900, height: 1125 }
+
+    await renderShareCard(
+      target.canvas as unknown as HTMLCanvasElement,
+      { ...model, imageFocusY: 0.25 } as ShareCardModel,
+      async () => beast as unknown as HTMLImageElement,
+    )
+
+    const [, , sourceY] = target.imageDraws[0]
+    expect(sourceY).toEqual(expect.any(Number))
+    expect(sourceY as number).toBeLessThanOrEqual(20)
   })
 
   it('keeps the product boundary above the inner frame with a readable bottom margin', async () => {

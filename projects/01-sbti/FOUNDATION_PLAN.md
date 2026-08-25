@@ -1,8 +1,8 @@
-# SBTI Foundation Implementation Plan
+# SHBTI Foundation Implementation Plan
 
 > **For agentic workers:** Execute inline with test-driven development. Shared-workspace rules prohibit subagent edits and every Git write operation for this task.
 
-**Goal:** Build the complete pre-design engineering foundation for the 48-question, 16-result SBTI quiz.
+**Goal:** Build the complete pre-design engineering foundation for the 48-question, 16-result SHBTI quiz.
 
 **Architecture:** A validated JSON content package feeds pure selection/scoring functions, a pure reducer, and a versioned storage adapter. Thin React page components consume typed props and view models; visual treatment remains a restrained mobile-safe placeholder.
 
@@ -28,7 +28,7 @@
 - Replace: `src/content/content.test.ts`
 
 **Interfaces:**
-- Produces `SbtiContentPackage`, `Question`, `AnswerOption`, `DimensionCode`, `DimensionScore`, `BeastProfile`, `PersonalityType`, and `validateContent(input: unknown): SbtiContentPackage`.
+- Produces `ShbtiContentPackage`, `Question`, `AnswerOption`, `DimensionCode`, `DimensionScore`, `BeastProfile`, `PersonalityType`, and `validateContent(input: unknown): ShbtiContentPackage`.
 
 - [ ] Write content tests that require the production counts, exact type-code set, unique IDs, valid option scoring, valid source/creature/neighbor/tie-breaker references, and actionable JSON paths for malformed fixtures.
 - [ ] Run `pnpm test src/content/content.test.ts` and verify the production-count assertion fails against the scaffold.
@@ -85,7 +85,7 @@
 - Create: `src/storage/storage.test.ts`
 
 **Interfaces:**
-- Produces `StoragePayload`, `StorageLike`, `loadStorage`, `saveStorage`, `clearStorage`, and the fixed key `xhs-tool:sbti:state:v1`.
+- Produces `StoragePayload`, `StorageLike`, `loadStorage`, `saveStorage`, `clearStorage`, and the fixed key `xhs-tool:shbti:state:v1`.
 
 - [ ] Write failing tests for no data, valid round-trip, corrupt JSON, missing fields, future schema, stale content references, and bounded result storage.
 - [ ] Implement validation and typed recovery outcomes without direct storage access in quiz logic.
@@ -94,7 +94,7 @@
 ### Task 6: Semantic React flow and neutral mobile shell
 
 **Files:**
-- Create: `src/app/useSbtiApp.ts`
+- Create: `src/app/useShbtiApp.ts`
 - Create: `src/components/LandingPage.tsx`
 - Create: `src/components/IntroPage.tsx`
 - Create: `src/components/QuizPage.tsx`

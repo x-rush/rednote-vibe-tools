@@ -23,6 +23,8 @@
   background-image:
     radial-gradient(circle at 84% 8%, rgb(183 154 98 / 9%), transparent 28%),
     linear-gradient(115deg, transparent 0 48%, rgb(121 164 147 / 3%) 49%, transparent 50%);
+  background-repeat: no-repeat;
+  background-size: auto;
 }
 
 .page--center { display: grid; align-content: center; text-align: center; }
@@ -148,7 +150,7 @@ p, li { line-height: 1.7; }
 .settings-sheet { margin-top: var(--space-2); border-block: 1px solid rgb(238 226 199 / 13%); }
 .settings-sheet summary { display: flex; min-height: 52px; align-items: center; justify-content: space-between; gap: var(--space-3); color: rgb(238 226 199 / 78%); cursor: pointer; }
 .settings-sheet summary::marker { color: var(--gold-muted); }
-.settings-sheet summary small { color: rgb(238 226 199 / 45%); }
+.settings-sheet summary small { color: rgb(238 226 199 / 62%); }
 .settings-sheet__body { border-top: 1px solid rgb(238 226 199 / 10%); padding: var(--space-2) 0 var(--space-3); }
 .setting-row { display: flex; min-height: 58px; align-items: center; justify-content: space-between; gap: var(--space-4); border-bottom: 1px solid rgb(238 226 199 / 8%); cursor: pointer; }
 .setting-row span, .setting-row strong, .setting-row small { display: block; }
@@ -161,7 +163,7 @@ p, li { line-height: 1.7; }
 .settings-sheet__note { margin: var(--space-4) 0; border-left: 2px solid var(--gold-muted); padding-left: var(--space-3); }
 .settings-sheet__note strong { font-size: var(--text-sm); }
 .settings-sheet__note p { margin: var(--space-1) 0 0; color: rgb(238 226 199 / 60%); font-size: var(--text-xs); }
-.landing-footnote { margin: var(--space-3) 0 0; color: rgb(238 226 199 / 38%); font-size: var(--text-xs); text-align: center; }
+.landing-footnote { margin: var(--space-3) 0 0; color: rgb(238 226 199 / 56%); font-size: var(--text-xs); text-align: center; }
 
 /* Wenshan guide */
 .guide-overlay { position: fixed; z-index: 50; inset: 0; display: grid; align-items: end; justify-items: center; padding-top: env(safe-area-inset-top); background: rgb(4 10 9 / 72%); animation: veil-in var(--duration-short) ease both; }

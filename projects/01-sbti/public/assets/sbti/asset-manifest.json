@@ -1,13 +1,16 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "projectId": "01-sbti",
-  "updatedAt": "2026-08-24",
+  "updatedAt": "2026-08-25",
   "items": [
     {
       "id": "sbti.beast.luwu.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V2 result illustration integrated in result and share preview",
-      "contentIds": ["luwu", "RTLS"],
+      "contentIds": [
+        "luwu",
+        "RTLS"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -21,15 +24,35 @@
       "promptTemplateId": "sbti-beast-master-v2-reference-verified",
       "status": "single-asset-and-three-width-page-integration-qa-approved-after-tail-revision",
       "referenceReview": "passed-primary-nine-tail-with-1786-nine-head-variant-documented",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["result","share","source"],"brokenImages":0,"horizontalOverflow":0,"sourceLayersPresent":true,"objectFit":"cover-near-identical-4x5-aspect-no-visible-crop"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "result",
+          "share",
+          "source"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "sourceLayersPresent": true,
+        "objectFit": "cover-near-identical-4x5-aspect-no-visible-crop"
+      },
       "shippingBlocked": false,
-      "remaining": ["real-app-dynamic-qa"]
+      "remaining": [],
+      "bytes": 160822,
+      "fallbackBytes": 1090
     },
     {
       "id": "sbti.beast.luwu.placeholder",
       "projectId": "01-sbti",
       "usage": "blur-up placeholder",
-      "contentIds": ["luwu", "RTLS"],
+      "contentIds": [
+        "luwu",
+        "RTLS"
+      ],
       "kind": "illustration",
       "width": 72,
       "height": 90,
@@ -44,13 +67,17 @@
       "status": "technical-qa-approved",
       "referenceReview": "passed",
       "shippingBlocked": false,
-      "remaining": ["real-app-load-transition-qa"]
+      "remaining": [],
+      "bytes": 1090
     },
     {
       "id": "sbti.beast.ershu.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V2 close-type and history illustration",
-      "contentIds": ["ershu", "RTLM"],
+      "contentIds": [
+        "ershu",
+        "RTLM"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -60,21 +87,63 @@
       "bytes": 108476,
       "maxBytes": 180000,
       "safeArea": "preserve both ears, four hooved legs, single raised tail and tail tip",
-      "fallback": "CSS ink silhouette pending",
+      "fallback": "/assets/sbti/beasts/ershu/placeholder-v2.webp",
       "license": "AI-generated for this project; 1644 Jiang Yinghao public-domain line art used as historical reference",
       "promptTemplateId": "sbti-ershu-v2-reference-verified",
       "status": "v2-approved-after-v1-rabbit-silhouette-rejection-and-three-width-page-integration",
       "referenceDossier": "../../../research/ershu-reference-dossier.md",
       "referenceReview": "passed-text-shape-and-1644-image-layers-separated",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["close-type-result","history"],"brokenImages":0,"horizontalOverflow":0,"scrollReachability":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "close-type-result",
+          "history"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "scrollReachability": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["dedicated-result-and-share-copy","placeholder","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": [],
+      "fallbackBytes": 498
+    },
+    {
+      "id": "sbti.beast.ershu.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "ershu",
+        "RTLM"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/ershu/placeholder-v2.webp",
+      "bytes": 498,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.ershu.profile",
+      "promptTemplateId": "sbti-ershu-v2-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.xingxing.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V2 history illustration; dedicated result pending",
-      "contentIds": ["xingxing", "RTEM"],
+      "contentIds": [
+        "xingxing",
+        "RTEM"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -84,21 +153,61 @@
       "bytes": 112946,
       "maxBytes": 180000,
       "safeArea": "preserve two white ears, four limbs, single long tail and all tips",
-      "fallback": "CSS ink silhouette pending",
+      "fallback": "/assets/sbti/beasts/xingxing/placeholder-v2.webp",
       "license": "AI-generated for this project; Wang Fu 1895 public-domain print used as historical reference",
       "promptTemplateId": "sbti-xingxing-v2-reference-verified",
       "status": "v2-approved-after-v1-single-ear-rejection-and-history-three-width-integration",
       "referenceDossier": "../../../research/xingxing-reference-dossier.md",
       "referenceReview": "passed-two-white-ears-long-tail-four-limbs-beast-face",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["history"],"backgroundLoaded":true,"horizontalOverflow":0},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "history"
+        ],
+        "backgroundLoaded": true,
+        "horizontalOverflow": 0
+      },
       "shippingBlocked": false,
-      "remaining": ["dedicated-result","interpretation","share-card","placeholder","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": [],
+      "fallbackBytes": 542
+    },
+    {
+      "id": "sbti.beast.xingxing.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "xingxing",
+        "RTEM"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/xingxing/placeholder-v2.webp",
+      "bytes": 542,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.xingxing.profile",
+      "promptTemplateId": "sbti-xingxing-v2-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.yingzhao.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V1 close-type illustration",
-      "contentIds": ["yingzhao", "RVLS"],
+      "contentIds": [
+        "yingzhao",
+        "RVLS"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -108,21 +217,63 @@
       "bytes": 176696,
       "maxBytes": 180000,
       "safeArea": "preserve one human face, two wings, four horse legs and hooves, tiger stripes and single tail",
-      "fallback": "CSS ink silhouette pending",
+      "fallback": "/assets/sbti/beasts/yingzhao/placeholder-v1.webp",
       "license": "AI-generated for this project; Gujin Tushu Jicheng public-domain print used as historical reference",
       "promptTemplateId": "sbti-yingzhao-v1-reference-verified",
       "status": "v1-single-asset-approved-compressed-under-budget-and-close-type-three-width-integration-passed",
       "referenceDossier": "../../../research/yingzhao-reference-dossier.md",
       "referenceReview": "passed-text-priority-over-later-humanized-body-version",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["close-type-result"],"pairedWith":"RTLS luwu","brokenImages":0,"horizontalOverflow":0,"scrollReachability":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "close-type-result"
+        ],
+        "pairedWith": "RTLS luwu",
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "scrollReachability": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["dedicated-result","interpretation","share-card","placeholder","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": [],
+      "fallbackBytes": 776
+    },
+    {
+      "id": "sbti.beast.yingzhao.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "yingzhao",
+        "RVLS"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/yingzhao/placeholder-v1.webp",
+      "bytes": 776,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.yingzhao.profile",
+      "promptTemplateId": "sbti-yingzhao-v1-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.dangkang.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V1 close-type illustration",
-      "contentIds": ["dangkang", "RTES"],
+      "contentIds": [
+        "dangkang",
+        "RTES"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -132,21 +283,63 @@
       "bytes": 156738,
       "maxBytes": 180000,
       "safeArea": "preserve two ears, four feet, short tail and paired modest tusks",
-      "fallback": "CSS ink silhouette pending",
+      "fallback": "/assets/sbti/beasts/dangkang/placeholder-v1.webp",
       "license": "AI-generated for this project; Jiang Yinghao Ming print reproduced by National Library of China journal used as internal historical reference",
       "promptTemplateId": "sbti-dangkang-v1-reference-verified",
       "status": "v1-single-asset-approved-and-close-type-three-width-integration-passed",
       "referenceDossier": "../../../research/dangkang-reference-dossier.md",
       "referenceReview": "passed-pig-form-paired-teeth-four-feet-short-tail-no-boss-styling",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["close-type-result"],"pairedWith":"RTEM xingxing","brokenImages":0,"horizontalOverflow":0,"scrollReachability":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "close-type-result"
+        ],
+        "pairedWith": "RTEM xingxing",
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "scrollReachability": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["dedicated-result","interpretation","share-card","placeholder","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": [],
+      "fallbackBytes": 536
+    },
+    {
+      "id": "sbti.beast.dangkang.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "dangkang",
+        "RTES"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/dangkang/placeholder-v1.webp",
+      "bytes": 536,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.dangkang.profile",
+      "promptTemplateId": "sbti-dangkang-v1-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.dijiang.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V2 close-type illustration",
-      "contentIds": ["dijiang", "RVLM"],
+      "contentIds": [
+        "dijiang",
+        "RVLM"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -156,21 +349,63 @@
       "bytes": 94420,
       "maxBytes": 180000,
       "safeArea": "preserve exactly four separately visible wings and exactly six separately visible legs; never crop body edges into a false head",
-      "fallback": "CSS ink silhouette pending",
+      "fallback": "/assets/sbti/beasts/dijiang/placeholder-v2.webp",
       "license": "AI-generated for this project; Hu Wenhuan Ming-dynasty public-domain Shanhaijing illustration used as historical reference",
       "promptTemplateId": "sbti-dijiang-v2-reference-verified",
       "status": "v2-approved-after-v1-seven-leg-rejection-and-close-type-three-width-integration-passed",
       "referenceDossier": "../../../research/dijiang-reference-dossier.md",
       "referenceReview": "passed-text-priority-six-legs-four-wings-faceless; historical-side-view-used-for-form-only",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["close-type-result"],"pairedWith":"RVLS yingzhao","brokenImages":0,"horizontalOverflow":0,"scrollReachability":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "close-type-result"
+        ],
+        "pairedWith": "RVLS yingzhao",
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "scrollReachability": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["dedicated-result","interpretation","share-card","placeholder","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": [],
+      "fallbackBytes": 908
+    },
+    {
+      "id": "sbti.beast.dijiang.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "dijiang",
+        "RVLM"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/dijiang/placeholder-v2.webp",
+      "bytes": 908,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.dijiang.profile",
+      "promptTemplateId": "sbti-dijiang-v2-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.huan.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V1 close-type illustration",
-      "contentIds": ["huan", "RVES"],
+      "contentIds": [
+        "huan",
+        "RVES"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -180,21 +415,63 @@
       "bytes": 124484,
       "maxBytes": 180000,
       "safeArea": "preserve exactly one central eye, all four paws and exactly three separately visible tail tips",
-      "fallback": "CSS ink silhouette pending",
+      "fallback": "/assets/sbti/beasts/huan/placeholder-v1.webp",
       "license": "AI-generated for this project; real late-traditional Huan illustration used as secondary composition reference; classical text controls morphology",
       "promptTemplateId": "sbti-huan-v1-reference-verified",
       "status": "v1-single-asset-approved-and-close-type-three-width-integration-passed",
       "referenceDossier": "../../../research/huan-reference-dossier.md",
       "referenceReview": "passed-classical-one-eye-three-tail-feline-priority; two-tail-and-five-tail-variants-separated",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["close-type-result"],"pairedWith":"RTES dangkang","brokenImages":0,"horizontalOverflow":0,"scrollReachability":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "close-type-result"
+        ],
+        "pairedWith": "RTES dangkang",
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "scrollReachability": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["dedicated-result","interpretation","share-card","placeholder","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": [],
+      "fallbackBytes": 850
+    },
+    {
+      "id": "sbti.beast.huan.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "huan",
+        "RVES"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/huan/placeholder-v1.webp",
+      "bytes": 850,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.huan.profile",
+      "promptTemplateId": "sbti-huan-v1-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.fenghuang.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V1 close-type illustration",
-      "contentIds": ["fenghuang", "RVEM"],
+      "contentIds": [
+        "fenghuang",
+        "RVEM"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -204,21 +481,63 @@
       "bytes": 151756,
       "maxBytes": 180000,
       "safeArea": "preserve crest, both wing tips, both feet and all long tail-feather tips",
-      "fallback": "CSS ink silhouette pending",
+      "fallback": "/assets/sbti/beasts/fenghuang/placeholder-v1.webp",
       "license": "AI-generated for this project; Hu Wenhuan Ming-dynasty public-domain Shanhaijing illustration used as historical reference",
       "promptTemplateId": "sbti-fenghuang-v1-reference-verified",
       "status": "v1-single-asset-approved-and-close-type-three-width-integration-passed",
       "referenceDossier": "../../../research/fenghuang-reference-dossier.md",
       "referenceReview": "passed-chicken-pheasant-foundation-five-mineral-colors-two-wings-two-feet-no-western-firebird",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["close-type-result"],"pairedWith":"RVES huan","brokenImages":0,"horizontalOverflow":0,"scrollReachability":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "close-type-result"
+        ],
+        "pairedWith": "RVES huan",
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "scrollReachability": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["dedicated-result","interpretation","share-card","placeholder","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": [],
+      "fallbackBytes": 856
+    },
+    {
+      "id": "sbti.beast.fenghuang.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "fenghuang",
+        "RVEM"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/fenghuang/placeholder-v1.webp",
+      "bytes": 856,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.fenghuang.profile",
+      "promptTemplateId": "sbti-fenghuang-v1-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.xuangui.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V3 dedicated result illustration",
-      "contentIds": ["xuangui", "HTLS"],
+      "contentIds": [
+        "xuangui",
+        "HTLS"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -228,21 +547,63 @@
       "bytes": 134288,
       "maxBytes": 180000,
       "safeArea": "preserve bird beak, shell rim, all visible feet and entire headless serpent-tail tip; far rear leg may be naturally occluded",
-      "fallback": "CSS ink silhouette pending",
+      "fallback": "/assets/sbti/beasts/xuangui/placeholder-v3.webp",
       "license": "AI-generated for this project; Hu Wenhuan Ming and Wang Fu public-domain Shanhaijing illustrations used as historical references",
       "promptTemplateId": "sbti-xuangui-v3-reference-verified",
       "status": "v3-selected-for-natural-occlusion-and-composition-after-user-review; dedicated-result-three-width-page-integration-passed",
       "referenceDossier": "../../../research/xuangui-reference-dossier.md",
       "referenceReview": "passed-bird-head-tortoise-body-credible-four-leg-structure-single-headless-serpent-tail-no-xuanwu-or-dragon-turtle",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["dedicated-result"],"brokenImages":0,"horizontalOverflow":0,"imageInsidePhone":true,"verticalFit":"passed-all-required-copy-visible"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "dedicated-result"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "imageInsidePhone": true,
+        "verticalFit": "passed-all-required-copy-visible"
+      },
       "shippingBlocked": false,
-      "remaining": ["interpretation","share-card","placeholder","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": [],
+      "fallbackBytes": 720
+    },
+    {
+      "id": "sbti.beast.xuangui.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "xuangui",
+        "HTLS"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/xuangui/placeholder-v3.webp",
+      "bytes": 720,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.xuangui.profile",
+      "promptTemplateId": "sbti-xuangui-v3-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.lushu.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V2 result illustration",
-      "contentIds": ["lushu", "HTEM"],
+      "contentIds": [
+        "lushu",
+        "HTEM"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -259,15 +620,57 @@
       "status": "v2-single-asset-fact-and-technical-qa-approved; dedicated-result-three-width-page-integration-passed",
       "referenceDossier": "../../../research/lushu-reference-dossier.md",
       "referenceReview": "passed-horse-body-white-head-irregular-tiger-markings-red-tail-no-horn-no-wing; v1-rejected-as-too-zebra-like",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["dedicated-result"],"brokenImages":0,"horizontalOverflow":0,"imageInsidePhone":true,"verticalFit":"passed","visualReview":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "dedicated-result"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "imageInsidePhone": true,
+        "verticalFit": "passed",
+        "visualReview": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["interpretation","share-card","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": []
+    },
+    {
+      "id": "sbti.beast.lushu.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "lushu",
+        "HTEM"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/lushu/placeholder-v2.webp",
+      "bytes": 958,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.lushu.profile",
+      "promptTemplateId": "sbti-lushu-v2-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.bifang.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V1 dedicated result illustration",
-      "contentIds": ["bifang", "HTLM"],
+      "contentIds": [
+        "bifang",
+        "HTLM"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -284,15 +687,57 @@
       "status": "v1-single-asset-fact-and-technical-qa-approved; dedicated-result-three-width-page-integration-passed",
       "referenceDossier": "../../../research/bifang-reference-dossier.md",
       "referenceReview": "passed-crane-form-exactly-one-anatomical-leg-one-foot-white-beak-blue-body-red-nontext-markings-no-active-fire-no-western-phoenix",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["dedicated-result"],"brokenImages":0,"horizontalOverflow":0,"imageInsidePhone":true,"verticalFit":"passed","visualReview":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "dedicated-result"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "imageInsidePhone": true,
+        "verticalFit": "passed",
+        "visualReview": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["interpretation","share-card","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": []
+    },
+    {
+      "id": "sbti.beast.bifang.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "bifang",
+        "HTLM"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/bifang/placeholder-v1.webp",
+      "bytes": 714,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.bifang.profile",
+      "promptTemplateId": "sbti-bifang-v1-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.jingwei.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V1 dedicated result illustration",
-      "contentIds": ["jingwei", "HTES"],
+      "contentIds": [
+        "jingwei",
+        "HTES"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -309,15 +754,57 @@
       "status": "v1-single-asset-fact-and-technical-qa-approved; dedicated-result-three-width-page-integration-passed",
       "referenceDossier": "../../../research/jingwei-reference-dossier.md",
       "referenceReview": "passed-crow-form-patterned-head-white-beak-two-red-legs-and-feet-one-twig-no-human-form-no-phoenix",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["dedicated-result"],"brokenImages":0,"horizontalOverflow":0,"imageInsidePhone":true,"verticalFit":"passed","visualReview":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "dedicated-result"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "imageInsidePhone": true,
+        "verticalFit": "passed",
+        "visualReview": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["interpretation","share-card","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": []
+    },
+    {
+      "id": "sbti.beast.jingwei.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "jingwei",
+        "HTES"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/jingwei/placeholder-v1.webp",
+      "bytes": 980,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.jingwei.profile",
+      "promptTemplateId": "sbti-jingwei-v1-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.kaimingshou.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V1 dedicated result illustration",
-      "contentIds": ["kaimingshou", "HVLS"],
+      "contentIds": [
+        "kaimingshou",
+        "HVLS"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -334,15 +821,57 @@
       "status": "v1-single-asset-fact-and-technical-qa-approved; dedicated-result-three-width-page-integration-passed",
       "referenceDossier": "../../../research/kaimingshou-reference-dossier.md",
       "referenceReview": "passed-one-central-plus-four-left-plus-four-right-human-faces-exactly-nine-one-tiger-body-four-leg-structure-one-normal-tail-no-luwu-office",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["dedicated-result"],"brokenImages":0,"horizontalOverflow":0,"imageInsidePhone":true,"verticalFit":"passed","visualReview":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "dedicated-result"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "imageInsidePhone": true,
+        "verticalFit": "passed",
+        "visualReview": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["interpretation","share-card","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": []
+    },
+    {
+      "id": "sbti.beast.kaimingshou.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "kaimingshou",
+        "HVLS"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/kaimingshou/placeholder-v1.webp",
+      "bytes": 994,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.kaimingshou.profile",
+      "promptTemplateId": "sbti-kaimingshou-v1-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.zhuyin.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V1 dedicated result illustration",
-      "contentIds": ["zhuyin", "HVLM"],
+      "contentIds": [
+        "zhuyin",
+        "HVLM"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -359,15 +888,57 @@
       "status": "v1-single-asset-fact-and-technical-qa-approved; dedicated-result-three-width-page-integration-passed",
       "referenceDossier": "../../../research/zhuyin-reference-dossier.md",
       "referenceReview": "passed-exactly-one-human-face-one-continuous-red-serpent-body-zero-limbs-one-tail-tip-no-dragon-anatomy-or-scientific-claim",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["dedicated-result"],"brokenImages":0,"horizontalOverflow":0,"imageInsidePhone":true,"verticalFit":"passed","visualReview":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "dedicated-result"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "imageInsidePhone": true,
+        "verticalFit": "passed",
+        "visualReview": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["interpretation","share-card","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": []
+    },
+    {
+      "id": "sbti.beast.zhuyin.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "zhuyin",
+        "HVLM"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/zhuyin/placeholder-v1.webp",
+      "bytes": 838,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.zhuyin.profile",
+      "promptTemplateId": "sbti-zhuyin-v1-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.feifei.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V2 dedicated result illustration",
-      "contentIds": ["feifei", "HVES"],
+      "contentIds": [
+        "feifei",
+        "HVES"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -388,15 +959,59 @@
       "status": "v2-single-asset-fact-style-and-technical-qa-approved; dedicated-result-three-width-page-integration-passed",
       "referenceDossier": "../../../research/feifei-reference-dossier.md",
       "referenceReview": "passed-li-shaped-wild-quadruped-one-white-tail-root-to-tip-neck-shoulder-mane-no-medical-claim; v1-rejected-for-literal-leopard-spots",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["dedicated-result"],"brokenImages":0,"horizontalOverflow":0,"imageInsidePhone":true,"verticalFit":"passed","projectStyleFit":"passed","pageRoleFit":"passed","visualReview":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "dedicated-result"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "imageInsidePhone": true,
+        "verticalFit": "passed",
+        "projectStyleFit": "passed",
+        "pageRoleFit": "passed",
+        "visualReview": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["interpretation","share-card","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": []
+    },
+    {
+      "id": "sbti.beast.feifei.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "feifei",
+        "HVES"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/feifei/placeholder-v2.webp",
+      "bytes": 800,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.feifei.profile",
+      "promptTemplateId": "sbti-feifei-v2-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.beast.jiuweihu.profile",
       "projectId": "01-sbti",
       "usage": "reference-verified V3 dedicated result illustration",
-      "contentIds": ["jiuweihu", "HVEM"],
+      "contentIds": [
+        "jiuweihu",
+        "HVEM"
+      ],
       "kind": "illustration",
       "width": 900,
       "height": 1125,
@@ -417,9 +1032,50 @@
       "status": "v3-single-asset-fact-style-and-technical-qa-approved-after-eleven-and-eight-tail-rejections; dedicated-result-three-width-page-integration-passed",
       "referenceDossier": "../../../research/jiuweihu-reference-dossier.md",
       "referenceReview": "passed-one-animal-fox-four-leg-structure-exactly-nine-furry-tail-tips-no-human-form-auspicious-pet-or-danger-erasure",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["dedicated-result"],"brokenImages":0,"horizontalOverflow":0,"imageInsidePhone":true,"verticalFit":"passed","projectStyleFit":"passed","pageRoleFit":"passed","visualReview":"passed"},
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "dedicated-result"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "imageInsidePhone": true,
+        "verticalFit": "passed",
+        "projectStyleFit": "passed",
+        "pageRoleFit": "passed",
+        "visualReview": "passed"
+      },
       "shippingBlocked": false,
-      "remaining": ["interpretation","share-card","image-failure-fallback","real-app-dynamic-qa"]
+      "remaining": []
+    },
+    {
+      "id": "sbti.beast.jiuweihu.placeholder",
+      "projectId": "01-sbti",
+      "usage": "blur-up placeholder derived from the same reference-verified profile",
+      "contentIds": [
+        "jiuweihu",
+        "HVEM"
+      ],
+      "kind": "illustration",
+      "width": 72,
+      "height": 90,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/beasts/jiuweihu/placeholder-v3.webp",
+      "bytes": 658,
+      "maxBytes": 4000,
+      "safeArea": "same crop as master",
+      "fallback": "CSS ink silhouette",
+      "license": "Derived from sbti.beast.jiuweihu.profile",
+      "promptTemplateId": "sbti-jiuweihu-v3-reference-verified",
+      "status": "technical-qa-approved-derived-from-reference-verified-profile",
+      "referenceReview": "inherits-approved-profile-composition",
+      "shippingBlocked": false,
+      "remaining": []
     },
     {
       "id": "sbti.guide.wenshan.master",
@@ -436,8 +1092,26 @@
       "license": "AI-generated for this project; two Metropolitan Museum of Art public-domain works used only as clothing and document-handling references",
       "referenceDossier": "../../../research/wenshan-reference-dossier.md",
       "status": "single-asset-and-four-state-three-width-qa-approved",
-      "pageIntegrationQa": {"widths":[375,390,430],"screens":["first-intro","node-feedback","recall-help","recovery"],"brokenImages":0,"horizontalOverflow":0,"minActionHeight":46},
-      "remaining": ["real-app-dynamic-qa"]
+      "pageIntegrationQa": {
+        "widths": [
+          375,
+          390,
+          430
+        ],
+        "screens": [
+          "first-intro",
+          "node-feedback",
+          "recall-help",
+          "recovery"
+        ],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "minActionHeight": 46
+      },
+      "remaining": [
+        "real-app-dynamic-qa"
+      ],
+      "fallbackBytes": 684
     },
     {
       "id": "sbti.guide.wenshan.avatar",
@@ -465,22 +1139,105 @@
     }
   ],
   "batchPlan": [
-    {"code":"RTLS","beast":"luwu","status":"golden-v2-three-width-page-integration-passed-real-app-pending"},
-    {"code":"RTLM","beast":"ershu","status":"golden-v2-close-type-and-history-integration-passed-dedicated-result-pending"},
-    {"code":"RTES","beast":"dangkang","status":"golden-v1-close-type-integration-passed-dedicated-result-pending"},
-    {"code":"RTEM","beast":"xingxing","status":"golden-v2-history-integration-passed-dedicated-result-pending"},
-    {"code":"RVLS","beast":"yingzhao","status":"golden-v1-close-type-integration-passed-dedicated-result-pending"},
-    {"code":"RVLM","beast":"dijiang","status":"golden-v2-close-type-integration-passed-dedicated-result-pending"},
-    {"code":"RVES","beast":"huan","status":"golden-v1-close-type-integration-passed-dedicated-result-pending"},
-    {"code":"RVEM","beast":"fenghuang","status":"golden-v1-close-type-integration-passed-dedicated-result-pending"},
-    {"code":"HTLS","beast":"xuangui","status":"golden-v3-dedicated-result-three-width-page-integration-passed"},
-    {"code":"HTLM","beast":"bifang","status":"golden-v1-dedicated-result-three-width-page-integration-passed"},
-    {"code":"HTES","beast":"jingwei","status":"golden-v1-dedicated-result-three-width-page-integration-passed"},
-    {"code":"HTEM","beast":"lushu","status":"golden-v2-dedicated-result-three-width-page-integration-passed"},
-    {"code":"HVLS","beast":"kaimingshou","status":"golden-v1-dedicated-result-three-width-page-integration-passed"},
-    {"code":"HVLM","beast":"zhuyin","status":"golden-v1-dedicated-result-three-width-page-integration-passed"},
-    {"code":"HVES","beast":"feifei","status":"golden-v2-dedicated-result-three-width-page-integration-passed"},
-    {"code":"HVEM","beast":"jiuweihu","status":"golden-v3-dedicated-result-three-width-page-integration-passed"}
+    {
+      "code": "RTLS",
+      "beast": "luwu",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "RTLM",
+      "beast": "ershu",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "RTES",
+      "beast": "dangkang",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "RTEM",
+      "beast": "xingxing",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "RVLS",
+      "beast": "yingzhao",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "RVLM",
+      "beast": "dijiang",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "RVES",
+      "beast": "huan",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "RVEM",
+      "beast": "fenghuang",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "HTLS",
+      "beast": "xuangui",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "HTLM",
+      "beast": "bifang",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "HTES",
+      "beast": "jingwei",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "HTEM",
+      "beast": "lushu",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "HVLS",
+      "beast": "kaimingshou",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "HVLM",
+      "beast": "zhuyin",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "HVES",
+      "beast": "feifei",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    },
+    {
+      "code": "HVEM",
+      "beast": "jiuweihu",
+      "status": "release-ready-reference-verified-profile-placeholder-and-three-width-integration-passed"
+    }
   ],
-  "shippingGate":"all images require individual reference dossier, single-asset QA, responsive page integration QA, and manifest byte check"
+  "shippingGate": "passed: reference dossiers, individual fact/style QA, 16 profile and same-beast placeholder mappings, responsive page integration, manifest byte contract, and real release-package flow",
+  "releaseGate": {
+    "status": "passed",
+    "verifiedAt": "2026-08-25",
+    "profiles": 16,
+    "placeholders": 16,
+    "referenceDossiers": 17,
+    "previewPhoneStates": 29,
+    "checks": [
+      "manifest-path-byte-and-budget-contract",
+      "fresh-install-lint-51-tests-build",
+      "375-390-430-no-horizontal-overflow",
+      "full-first-guide-intro-24-question-result-flow",
+      "result-profile-load-and-console-clean"
+    ],
+    "deploymentBoundary": "Serve dist contents as the small-tool package root; no runtime CDN or external API.",
+    "nonBlockingFollowups": [
+      "repeat scroll-feel check inside the real Xiaohongshu container after portal upload"
+    ]
+  }
 }

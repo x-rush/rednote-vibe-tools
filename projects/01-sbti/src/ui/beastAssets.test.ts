@@ -16,6 +16,8 @@ describe('beast release asset mapping', () => {
     expect(new Set(assets.map((asset) => asset!.beastId)).size).toBe(16)
     expect(new Set(assets.map((asset) => asset!.src)).size).toBe(16)
     expect(assets.every((asset) => asset!.src.endsWith('reference-verified.webp'))).toBe(true)
+    expect(new Set(assets.map((asset) => asset!.placeholder)).size).toBe(16)
+    expect(assets.every((asset) => asset!.placeholder?.endsWith('.webp'))).toBe(true)
   })
 
   it('maps a result code to its manifest-approved beast and placeholder', () => {
@@ -26,10 +28,11 @@ describe('beast release asset mapping', () => {
     })
   })
 
-  it('does not substitute another beast when a profile has no placeholder', () => {
+  it('uses the derived placeholder for the same beast instead of substituting another profile', () => {
     expect(getBeastAsset('RTLM')).toEqual({
       beastId: 'ershu',
       src: '/assets/sbti/beasts/ershu/profile-v2-reference-verified.webp',
+      placeholder: '/assets/sbti/beasts/ershu/placeholder-v2.webp',
     })
   })
 

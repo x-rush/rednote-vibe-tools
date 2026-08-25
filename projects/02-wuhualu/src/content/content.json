@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "2.1.0-fifteen-artifacts",
+  "contentVersion": "3.0.0-twenty-artifacts",
   "projectId": "wuhualu",
   "meta": {
     "title": "物华录：文物寻踪",
@@ -29,11 +29,14 @@
     { "id": "source-chnmuseum-jade-suit", "title": "中国国家博物馆满城汉墓特展：金缕玉衣", "url": "https://www.chnmuseum.cn/Portals/0/web/exhibition/exhibitions/201812han/43.html", "level": "A", "note": "记录十二个可装殓部件、玉片形状、穿孔与编缀工序。" },
     { "id": "source-hebeitour-jade-suit", "title": "河北旅游：刘胜金缕玉衣", "url": "https://m.hebeitour.com.cn/c/2022-03-09/512247.html", "level": "B", "note": "标注来源河北博物院，正式包仍需补独立馆藏页。" },
     { "id": "source-hebei-boshan", "title": "河北博物院：错金铜博山炉", "url": "https://www.hebeimuseum.org.cn/show-33-2-1.html", "level": "A", "note": "记录出土、尺寸、错金、山形炉盖、镂孔与三龙承托结构。" },
-    { "id": "source-chnmuseum-storyteller", "title": "中国国家博物馆：击鼓说唱俑馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247253.shtml", "level": "A", "note": "规划提供的独立馆藏页。" },
-    { "id": "source-henan-gold-slip", "title": "河南博物院：武则天金简馆藏页", "url": "https://www.chnmus.net/ch/collection/treasure/details.html?id=508161850642982087", "level": "A", "note": "规划提供的独立馆藏页。" },
-    { "id": "source-shaanxi-horse-flask", "title": "陕西历史博物馆：舞马衔杯纹银壶馆藏页", "url": "https://www.sxhm.com/collections/detail/10117.html", "level": "A", "note": "规划提供的独立馆藏页。" },
-    { "id": "source-shaanxi-sachet", "title": "陕西历史博物馆：葡萄花鸟纹银香囊教育专题", "url": "https://www.sxhm.com/education/detail/228.html", "level": "A", "note": "精确机械结构仍需馆方研究来源复核。" },
-    { "id": "source-shaanxi-catalog", "title": "陕西历史博物馆馆藏入口", "url": "https://www.sxhm.com/Site/Index/index.html", "level": "A", "note": "三彩载乐骆驼俑独立藏品页待定位。" },
+    { "id": "source-chnmuseum-storyteller", "title": "中国国家博物馆：击鼓说唱俑馆藏说明", "url": "https://www.chnmuseum.cn/portals/0/web/zt/202305sshhg/", "level": "A", "note": "记录尺寸、出土、外形动作与汉代俳优表演背景。" },
+    { "id": "source-henan-gold-slip", "title": "河南博物院：武则天除罪金简", "url": "https://www.chnmus.net/sitesources/hnsbwy/page_pc/dzjp/zpjc/qt/article034e13f8e743497180f2ad3f2d9c5321.html", "level": "A", "note": "记录尺寸、重量、发现地点、铭文行数与投简用途。" },
+    { "id": "source-shaanxi-horse-flask", "title": "陕西历史博物馆：唐鎏金舞马衔杯纹皮囊式银壶", "url": "https://www.sxhm.com/collections/detail/469.html", "level": "A", "note": "记录皮囊形制、银链提梁、捶揲模压焊接、舞马图像和何家村展出信息。" },
+    { "id": "source-baoji-horse-flask", "title": "宝鸡市文物局：唐舞马衔杯仿皮囊式银壶", "url": "https://wwj.baoji.gov.cn/col1892/col17273/202505/t20250520_1150047.html", "level": "A", "note": "核对通高、口径、腹径、壁厚、重量与何家村出土信息。" },
+    { "id": "source-shaanxi-sachet-collection", "title": "陕西历史博物馆：葡萄花鸟纹银香囊馆藏页", "url": "https://www.sxhm.com/collections/detail/9948", "level": "A", "note": "记录年代、馆藏等级、直径、链长、重量与器物类别。" },
+    { "id": "source-xinhua-sachet-mechanics", "title": "新华社：这件唐代香囊，暗藏多少机巧", "url": "https://www.cnr.cn/sxpd/c/qz/20230622/t20230622_526299112.shtml", "level": "A", "note": "新华社客户端报道并直接引述陕西历史博物馆典藏部主任，记录银质球壳、葡萄花鸟纹、双层同心机环、金香盂与重力持平原理。" },
+    { "id": "source-shaanxi-camel", "title": "陕西历史博物馆：唐三彩载乐骆驼俑", "url": "https://www.sxhm.com/collections/detail/509.html", "level": "A", "note": "记录骆驼、平台、七名男乐手与中央女歌者的完整组合。" },
+    { "id": "source-shaanxi-camel-specs", "title": "陕西省文物局：三彩载乐骆驼俑", "url": "https://wwj.shaanxi.gov.cn/wwsx/szjs/202406/t20240626_2334335.html", "level": "A", "note": "核对一级文物、1959 年中堡村唐墓出土及通高、驼高。" },
     { "id": "source-chnmuseum-rhino", "title": "中国国家博物馆馆长之选：错金银云纹铜犀尊", "url": "https://www.chnmuseum.cn/portals/0/web/zt/202009gmdc/ins-dc.html", "level": "A", "note": "规划提供的馆方专题页。" },
     { "id": "source-chnmuseum-rhino-study", "title": "中国国家博物馆研究文章：犀牛的绝唱", "url": "https://www.chnmuseum.cn/yj/xscg/xslw/201812/t20181224_33112.shtml", "level": "A", "note": "记录尺寸、1963 年陕西兴平出土、盛酒结构、错金银工艺与古代犀牛背景。" },
     { "id": "source-unesco-bells-2025", "title": "UNESCO Memory of the World：The Suizhou Bianzhong of Marquis Yi of Zeng", "url": "https://www.unesco.org/en/memory-world/suizhou-bianzhong-marquis-yi-zeng", "level": "A", "note": "用于核对编钟铭文、音乐知识与 2025 年列入《世界记忆名录》的事实。" }
@@ -651,34 +654,184 @@
         }
       },
       {
-        "id": "artifact-storyteller-drummer", "name": "击鼓说唱俑", "setId": "han-light", "timelineOrder": 16, "aliases": [], "period": "东汉", "periodGroup": "han", "categoryIds": ["category-sculpture"], "material": "陶", "use": "表现俳优说唱状态的陶俑", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
+        "id": "artifact-storyteller-drummer", "name": "击鼓说唱俑", "setId": "han-light", "timelineOrder": 16, "aliases": [], "period": "东汉", "periodGroup": "han", "categoryIds": ["category-sculpture"], "material": "陶", "use": "表现俳优说唱状态的陶俑", "dimensions": "高 56 厘米", "excavation": "1957 年四川成都天回山出土", "museum": "中国国家博物馆",
         "summary": "袒胸露腹、张口嘻笑，抱鼓举槌的说唱表演陶俑。", "highlight": "夸张动作、身体重心、笑容与鼓槌共同凝固表演瞬间。", "culturalNote": "它不是肃立仪仗俑，而是具有强烈动态的表演者形象。",
         "clues": [{ "id": "clue-storyteller-drummer-1", "level": 1, "text": "我袒胸露腹、动作夸张，不是肃立的仪仗俑。" }, { "id": "clue-storyteller-drummer-2", "level": 2, "text": "左臂抱扁鼓，右手举槌。" }, { "id": "clue-storyteller-drummer-3", "level": 3, "text": "张口嘻笑，表现俳优说唱状态。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "笑声与鼓槌定格的表演者已收入物华录。", "wrongAnswerExplanation": "表演陶俑动作都很鲜明；扁鼓、举槌与嘻笑神态组合才是识别点。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-storyteller"], "assetRefs": { "fullAssetId": "asset-full-storyteller-drummer", "detailAssetIds": ["asset-detail-storyteller-drummer-1"], "fallbackAssetId": "asset-silhouette-storyteller-drummer", "thumbnailAssetId": "asset-thumb-storyteller-drummer" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "笑声与鼓槌定格的表演者已收入物华录。", "wrongAnswerExplanation": "表演陶俑动作都很鲜明；扁鼓、举槌与嘻笑神态组合才是识别点。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆馆方说明转写。", "sourceIds": ["source-chnmuseum-storyteller"], "assetRefs": { "fullAssetId": "asset-full-storyteller-drummer", "detailAssetIds": ["asset-detail-storyteller-drummer-1", "asset-detail-storyteller-drummer-2"], "fallbackAssetId": "asset-silhouette-storyteller-drummer", "thumbnailAssetId": "asset-thumb-storyteller-drummer" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "鼓槌尚未落下，笑声却仿佛已经从一千八百年前传来。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：笑容为什么比身份更抢眼", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-storyteller"], "body": "他头戴帻，额前有花饰，袒胸露腹、两肩高耸，穿裤而赤足。左臂环抱扁鼓，右手高举鼓槌，张开的嘴和眯起的眼把笑意推到最前面。身体没有端坐，腿脚与肩背都在用力，像一句俏皮话刚说到包袱处，下一拍鼓点就要落下。" },
+            { "id": "making", "title": "陶塑怎样留下一个正在发生的动作", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-storyteller"], "body": "工匠没有追求端正对称，而是放大表演最有感染力的部分：高耸的肩、突出的腹部、扬起的手臂和咧开的笑口。扁鼓贴住左臂，使道具与身体成为稳定支点；右手鼓槌则把视线引向尚未发生的击打。静止的陶土因此获得了节拍与方向。" },
+            { "id": "lived-world", "title": "汉代俳优怎样逗人发笑", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-storyteller"], "body": "馆方资料将这一形象解释为俳优说唱。汉代俳优以调谑、滑稽和讽刺性的表演博取观众笑声，常边击鼓边歌唱，也会即兴应对。四川东汉墓中曾出土多件相近形象，说明这类说唱表演在当时蜀地并非孤例，而是可被辨认的娱乐生活片段。" },
+            { "id": "journey", "title": "从天回山崖墓到国家博物馆", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-storyteller"], "body": "这件东汉陶俑高五十六厘米，一九五七年出土于四川成都天回山，现藏中国国家博物馆。墓中陶俑不能替我们复原一场完整演出，却把表演者最鲜明的姿态保存下来。出土地、同类陶俑与馆方释读共同建立了它作为蜀地说唱形象的证据链。" },
+            { "id": "why-now", "title": "为什么今天仍会被这一笑打动", "narrativeMode": "bounded-context", "sourceIds": ["source-chnmuseum-storyteller"], "body": "我们听不见他当年说了什么，也不知道观众为何发笑，但身体语言仍然有效：鼓、槌、张口与倾斜的重心让表演在眼前启动。把它称为曲艺某一门类的直接起点会越过证据；更稳妥的理解，是把它看作汉代说唱与俳优活动留下的一帧生动画面。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-storyteller-face", "x": 0.53, "y": 0.27, "radius": 0.1, "label": "张口嘻笑", "note": "张开的嘴、眯起的眼和额头纹路，把表演高潮凝固在面部。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-storyteller-drum", "x": 0.76, "y": 0.4, "radius": 0.11, "label": "左臂扁鼓", "note": "扁鼓被左臂环抱在身侧，是识别说唱表演而非普通坐俑的关键道具。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-storyteller-beater", "x": 0.24, "y": 0.32, "radius": 0.1, "label": "右手鼓槌", "note": "高举鼓槌制造尚未落下的节拍，与夸张身体重心共同形成动势。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-storyteller-shape", "category": "shape", "label": "看形", "text": "袒胸露腹、耸肩赤足，张口笑着做出夸张的坐姿。", "npcHint": "别先找官阶与服饰，先看这张脸正在做什么。", "starCost": 1 },
+            { "id": "clue-storyteller-material", "category": "material", "label": "辨材", "text": "陶土把一瞬间的表演动作塑成立体明器，而非可活动玩偶。", "npcHint": "鼓槌不会真的落下，动作却被陶塑完整保存。", "starCost": 1 },
+            { "id": "clue-storyteller-provenance", "category": "provenance", "label": "问来历", "text": "东汉，高 56 厘米，1957 年四川成都天回山出土。", "npcHint": "蜀地同类陶俑能帮助确认这不是孤立的奇怪姿势。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "哪组细节共同证明他正在说唱表演？", "options": [{ "id": "memory-storyteller-a", "label": "左臂抱扁鼓、右手举槌并张口嘻笑" }, { "id": "memory-storyteller-b", "label": "双手执笏、正襟危坐并穿朝服" }, { "id": "memory-storyteller-c", "label": "怀抱琵琶、闭目跪坐并戴高冠" }], "answerId": "memory-storyteller-a", "explanation": "扁鼓、鼓槌与嘻笑神态构成彼此支持的表演证据；夸张姿态也与肃立仪仗俑明显不同。", "sourceIds": ["source-chnmuseum-storyteller"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-tricolor-music-camel", "reason": "两者都保存古代乐舞表演，可比较单人说唱与多人乐团。" }, { "artifactId": "artifact-eagle-tripod", "reason": "两者同为陶质造型，却分别把器用和人物动态作为核心。" }],
+          "guideLines": {
+            "beforeObservation": ["先看他的表情，再顺着左右手找到声音的来源。", "鼓、槌和笑口必须一起出现，才不是普通坐俑。", "这一件不用猜台词，身体动作本身就是证据。"],
+            "clueOpened": ["你找到了笑脸，下一步确认他手里是否有表演道具。", "扁鼓已经出现，再找那根尚未落下的鼓槌。", "出土地能补足背景，但不能代替眼前的姿势判断。"],
+            "correct": ["笑口、扁鼓和鼓槌都对上了，说唱俑归档。", "你从一个静止陶俑里读出了正在发生的节拍。", "身份不靠标签猜，动作与道具已经互相证明。"],
+            "incorrect": ["先别被笑容单独说服，检查左右手的鼓和槌。", "舞俑也会动作夸张，但这里还有明确的击鼓组合。", "从面部看到手臂，再看重心，完整姿态会给出答案。"],
+            "archived": ["汉室长明的最后一格，收下了一阵看不见的笑声。", "陶土没有声音，却把说唱者的节拍保留到了今天。", "这一柜封签完成，下一站去读嵩山石缝里的一封金色奏文。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "3.0.0-twenty-complete"
+        }
       },
       {
-        "id": "artifact-wuzetian-gold-slip", "name": "武则天金简", "setId": "tang-world", "timelineOrder": 17, "aliases": [], "period": "唐代武周", "periodGroup": "tang", "categoryIds": ["category-gold-silver"], "material": "金", "use": "有铭文的金质简片", "dimensions": null, "excavation": "嵩山峻极峰石缝发现", "museum": "河南博物院",
+        "id": "artifact-wuzetian-gold-slip", "name": "武则天金简", "setId": "tang-world", "timelineOrder": 17, "aliases": ["武则天除罪金简"], "period": "唐代武周（公元 700 年）", "periodGroup": "tang", "categoryIds": ["category-gold-silver"], "material": "金", "use": "道教投简仪式中的金质奏文", "dimensions": "长 36.2 厘米、宽 8 厘米、重 223.5 克", "excavation": "1982 年河南登封嵩山峻极峰北侧石缝发现", "museum": "河南博物院",
         "summary": "一片有文字的金质长方形薄片，发现于嵩山石缝。", "highlight": "铭文含大周国主武曌等内容，落款指向公元 700 年七月七日。", "culturalNote": "它不是印玺，而是以第一人称身份投递的金简。",
         "clues": [{ "id": "clue-wuzetian-gold-slip-1", "level": 1, "text": "我是一片有文字的金质长方形薄片，不是印玺。" }, { "id": "clue-wuzetian-gold-slip-2", "level": 2, "text": "我发现于嵩山峻极峰石缝。" }, { "id": "clue-wuzetian-gold-slip-3", "level": 3, "text": "铭文含大周国主武曌等内容，落款指向公元 700 年七月七日。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "material", "use", "period"], "unlockCopy": "嵩山石缝中的金质文字已收入物华录。", "wrongAnswerExplanation": "与金册、玉简等有铭器物易混淆；金质薄片与武曌第一人称铭文是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页转写。", "sourceIds": ["source-henan-gold-slip"], "assetRefs": { "fullAssetId": "asset-full-wuzetian-gold-slip", "detailAssetIds": ["asset-detail-wuzetian-gold-slip-1"], "fallbackAssetId": "asset-silhouette-wuzetian-gold-slip", "thumbnailAssetId": "asset-thumb-wuzetian-gold-slip" }, "contentVersion": "1.0.0"
+        "difficulty": "normal", "distractorTags": ["shape", "material", "use", "period"], "unlockCopy": "嵩山石缝中的金质文字已收入物华录。", "wrongAnswerExplanation": "与金册、玉简等有铭器物易混淆；金质薄片与武曌第一人称铭文是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页转写。", "sourceIds": ["source-henan-gold-slip"], "assetRefs": { "fullAssetId": "asset-full-wuzetian-gold-slip", "detailAssetIds": ["asset-detail-wuzetian-gold-slip-1", "asset-detail-wuzetian-gold-slip-2"], "fallbackAssetId": "asset-silhouette-wuzetian-gold-slip", "thumbnailAssetId": "asset-thumb-wuzetian-gold-slip" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一片没有华丽纹饰的黄金，把女皇晚年的祈愿送进嵩山。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：为什么它不像想象中的皇家宝物", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-gold-slip"], "body": "它只是一片竖长方形金片，整体无纹饰，长三十六点二厘米、宽八厘米，重二百二十三点五克。真正重要的不是装饰，而是正面双钩錾刻的三行六十三字。规整的边界与密集文字使它更像一份耐久的文书，而不是用于盖印的玺或成套册页。" },
+            { "id": "making", "title": "六十三个字怎样被留在金面上", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-gold-slip"], "body": "馆方资料记载，金简正面以双钩楷书錾刻三行铭文。所谓双钩，是用两道线勾出字形轮廓；錾刻则由工具在金面留下凹痕。金片没有以繁缛纹样分散注意力，文字本身就是构图主体。工匠把政治身份、信仰愿望、时间和执行者压缩进一块薄金片。" },
+            { "id": "lived-world", "title": "这份金色奏文要送给谁", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-gold-slip"], "body": "铭文以“大周国主武曌”点明投简者，叙述其向中岳嵩高山门投金简、请求三官九府除罪消灾的愿望，并记录使臣胡超。它属于道教投简仪式语境：奏文并非写给人间官署，而是被投入山川，向神灵递送。公元七百年的七月七日也被明确刻入文中。" },
+            { "id": "journey", "title": "一九八二年，石缝里露出金光", "narrativeMode": "verified-fact", "sourceIds": ["source-henan-gold-slip"], "body": "一九八二年五月，这件金简在河南登封嵩山峻极峰北侧石缝被发现，现藏河南博物院。它没有来自封闭墓葬，而是出现在与投简行为相合的山岳位置。发现地点与铭文所说的中岳嵩高彼此呼应，使一段被写下并实际执行的仪式重新获得空间坐标。" },
+            { "id": "why-now", "title": "为什么薄薄金片能接近一个历史人物", "narrativeMode": "bounded-context", "sourceIds": ["source-henan-gold-slip"], "body": "这件器物罕见之处，在于铭文直接写出武曌的身份、信仰愿望、日期和使臣。它让宏大的帝王叙事落到一项具体行动上。不过，不能仅凭一通祈愿文概括武则天全部晚年心理；我们能够确认的是，她以金为载体，把请求刻成文字，并让人将其送入嵩山。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-gold-slip-form", "x": 0.5, "y": 0.22, "radius": 0.11, "label": "竖长金片", "note": "长宽比例接近四点五比一，平直薄片区别于印玺、盒与成套册页。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-gold-slip-inscription", "x": 0.5, "y": 0.5, "radius": 0.12, "label": "铭文所在金面", "note": "原器正面有三行六十三字；创意图主动留白，不生成、不临摹也不伪造原铭文。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-gold-slip-edge", "x": 0.5, "y": 0.79, "radius": 0.1, "label": "无纹金面", "note": "整体不施装饰，文字与金质本身承担仪式文书的视觉重量。", "clueCategory": "material", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-gold-slip-shape", "category": "shape", "label": "看形", "text": "竖长方形薄片，整体无纹饰，正面文字排成三行。", "npcHint": "它没有钮也没有印面，先排除印玺。", "starCost": 1 },
+            { "id": "clue-gold-slip-material", "category": "material", "label": "辨材", "text": "金质表面以双钩楷书錾刻六十三字，文字就是主要装饰。", "npcHint": "别把金色只当财富，它让这份奏文得以耐久保存。", "starCost": 1 },
+            { "id": "clue-gold-slip-provenance", "category": "provenance", "label": "问来历", "text": "公元 700 年投于中岳，1982 年在嵩山峻极峰北侧石缝发现。", "npcHint": "铭文地点与发现地点能够互相印证。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "金简为何会出现在嵩山石缝？", "options": [{ "id": "memory-gold-slip-a", "label": "它是向山岳神灵递送的道教投简奏文" }, { "id": "memory-gold-slip-b", "label": "它是遗失在山路上的皇帝通行令牌" }, { "id": "memory-gold-slip-c", "label": "它是封住石门机关的黄金门闩" }], "answerId": "memory-gold-slip-a", "explanation": "铭文写明向中岳投金简并请求除罪消灾，发现地点又与嵩山山岳语境相合，因此不是普通遗失物。", "sourceIds": ["source-henan-gold-slip"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-goujian-sword", "reason": "两者都以器物表面的文字锁定历史身份，可比较鸟篆铭文与楷书奏文。" }, { "artifactId": "artifact-houmuwu-ding", "reason": "两者文字都让器物与特定身份发生联系，但载体、位置和用途不同。" }],
+          "guideLines": {
+            "beforeObservation": ["别找皇冠和龙纹，先确认它是不是一份金属文书。", "从长方形轮廓看到三行文字，器物身份会逐步缩小。", "这一关不要求读出铭文，只要看懂文字如何组织在金片上。"],
+            "clueOpened": ["无钮、无盒、无成册连接，它更接近单独一通简。", "錾刻三行已经确认，下一步去问它为何进入山中。", "发现地点不是传奇点缀，它和铭文中的中岳可以互证。"],
+            "correct": ["金片、三行铭文与嵩山石缝都对上了，金简归档。", "你没有被黄金带偏，而是读出了它作为奏文的用途。", "器形很朴素，身份、日期和行动却都被文字固定下来。"],
+            "incorrect": ["印玺需要印面与钮，这件器物只有一片錾字金面。", "金册通常强调成组关系，眼前是一通独立投简。", "回到发现地点与铭文目的，两条证据必须能够相接。"],
+            "archived": ["盛唐万象第一格收下了一封写给山岳的金色奏文。", "它没有华丽纹饰，却留下了极清楚的身份、日期和愿望。", "下一件来自何家村，银壶上的马正屈膝衔杯。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "3.0.0-twenty-complete"
+        }
       },
       {
-        "id": "artifact-dancing-horse-flask", "name": "鎏金舞马衔杯纹皮囊式银壶", "setId": "tang-world", "timelineOrder": 18, "aliases": ["舞马衔杯纹银壶"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-gold-silver"], "material": "金银器", "use": "皮囊式银壶", "dimensions": "通高约 14.8 厘米", "excavation": "何家村窖藏体系", "museum": "陕西历史博物馆",
+        "id": "artifact-dancing-horse-flask", "name": "鎏金舞马衔杯纹皮囊式银壶", "setId": "tang-world", "timelineOrder": 18, "aliases": ["舞马衔杯纹银壶"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-gold-silver"], "material": "银质，局部鎏金", "use": "仿皮囊形盛酒器", "dimensions": "通高 14.8 厘米、重 549 克", "excavation": "1970 年陕西西安何家村窖藏出土", "museum": "陕西历史博物馆",
         "summary": "一件模仿便携皮囊外形、腹部装饰衔杯舞马的银壶。", "highlight": "壶腹两面各有一匹口衔杯作舞的马。", "culturalNote": "便携皮囊器形与宫廷舞马纹样形成鲜明组合。",
         "clues": [{ "id": "clue-dancing-horse-flask-1", "level": 1, "text": "我的外形模仿一种便携皮囊。" }, { "id": "clue-dancing-horse-flask-2", "level": 2, "text": "腹部两面都有一匹口衔杯的舞马。" }, { "id": "clue-dancing-horse-flask-3", "level": 3, "text": "我通高约 14.8 厘米，出自何家村窖藏体系。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "皮囊形银壶上的衔杯舞马已收入物华录。", "wrongAnswerExplanation": "唐代金银器纹饰丰富；皮囊形壶身与衔杯舞马必须同时符合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依陕西历史博物馆独立馆藏页转写。", "sourceIds": ["source-shaanxi-horse-flask"], "assetRefs": { "fullAssetId": "asset-full-dancing-horse-flask", "detailAssetIds": ["asset-detail-dancing-horse-flask-1"], "fallbackAssetId": "asset-silhouette-dancing-horse-flask", "thumbnailAssetId": "asset-thumb-dancing-horse-flask" }, "contentVersion": "1.0.0"
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "皮囊形银壶上的衔杯舞马已收入物华录。", "wrongAnswerExplanation": "唐代金银器纹饰丰富；皮囊形壶身与衔杯舞马必须同时符合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依陕西历史博物馆馆藏页与文物主管部门数据转写。", "sourceIds": ["source-shaanxi-horse-flask", "source-baoji-horse-flask"], "assetRefs": { "fullAssetId": "asset-full-dancing-horse-flask", "detailAssetIds": ["asset-detail-dancing-horse-flask-1", "asset-detail-dancing-horse-flask-2"], "fallbackAssetId": "asset-silhouette-dancing-horse-flask", "thumbnailAssetId": "asset-thumb-dancing-horse-flask" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一只银壶借来皮囊的身体，又把宫廷舞马压进金色浮雕。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：银器为什么像一只柔软皮囊", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-horse-flask", "source-baoji-horse-flask"], "body": "壶身扁圆，上方一侧伸出短小壶口，肩部焊接弓状提梁，覆莲瓣式壶盖又以十四厘米银链与提梁相连。整体模仿北方游牧民族使用的皮囊壶，却以坚硬银板做成。通高只有十四点八厘米，腹部长径十一点一厘米、短径九厘米，握持尺度十分紧凑。" },
+            { "id": "making", "title": "一整块银板怎样鼓成壶身", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-horse-flask"], "body": "工匠先捶揲银板，做出壶身大致形状，再以模压方法在壶腹两面压出相互对应的舞马，最后黏压焊接两端并反复打磨，让焊缝几乎难以看见。马鬃、尾与飘带等细节再经加工，马纹、壶盖和提梁局部鎏金，于银白底色上形成醒目的金色图像。" },
+            { "id": "lived-world", "title": "马为什么屈膝衔着酒杯", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-horse-flask"], "body": "壶腹两面的马都奋首鼓尾、屈膝匐拜，口中衔杯。馆方将图像与唐代宫廷舞马祝寿联系：千秋节宴会上，经过训练的舞马会随乐起舞，并在高潮处衔杯祝寿。器物把一段会移动、会响起音乐的表演压缩成浮雕，酒器用途也与衔杯题材发生呼应。" },
+            { "id": "journey", "title": "从何家村窖藏重返盛唐宴席", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-horse-flask", "source-baoji-horse-flask"], "body": "这件银壶一九七〇年出土于西安南郊何家村唐代窖藏，现藏陕西历史博物馆。器物重五百四十九克、壁厚约零点一二厘米。它与同窖大量金银器共同进入收藏，却凭仿皮囊器形与舞马衔杯纹成为独特个体，让考古发现和文献所记宫廷娱乐彼此照见。" },
+            { "id": "why-now", "title": "为什么它能讲文化相遇，而不只是奢华", "narrativeMode": "bounded-context", "sourceIds": ["source-shaanxi-horse-flask"], "body": "壶的外形借鉴便携皮囊，材料和工艺来自成熟金银器制作，腹部题材又进入唐代宫廷祝寿场景。多种来源并未被简单拼贴，而是被工匠组织成一件能够盛酒、提携和观看的器物。具体传播路线仍需更多材料讨论，但器形、工艺和图像的并置已经清楚呈现交流结果。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-horse-flask-neck", "x": 0.55, "y": 0.24, "radius": 0.1, "label": "链盖与提梁", "note": "覆莲瓣壶盖以银链连向弓状提梁，避免开盖后与壶身分离。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-horse-flask-horse", "x": 0.51, "y": 0.52, "radius": 0.13, "label": "衔杯舞马", "note": "鎏金马奋首鼓尾、屈膝衔杯，是宫廷舞马祝寿图像的核心。", "clueCategory": "trace", "assetRole": "observation" },
+            { "id": "spot-horse-flask-body", "x": 0.5, "y": 0.75, "radius": 0.12, "label": "扁圆皮囊形", "note": "银板被捶揲成仿皮囊的扁圆轮廓，边缘焊缝经打磨后不易看见。", "clueCategory": "shape", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-horse-flask-shape", "category": "shape", "label": "看形", "text": "扁圆壶身模仿便携皮囊，一侧短口配链盖与弓状提梁。", "npcHint": "先认皮囊轮廓，再确认它被做成了能提携的壶。", "starCost": 1 },
+            { "id": "clue-horse-flask-material", "category": "material", "label": "辨材", "text": "银板经捶揲、模压、焊接与打磨成形，舞马等部位鎏金。", "npcHint": "金色并非整壶材质，它专门强调图像和部件。", "starCost": 1 },
+            { "id": "clue-horse-flask-provenance", "category": "provenance", "label": "问来历", "text": "唐代，1970 年西安何家村窖藏出土，现藏陕西历史博物馆。", "npcHint": "何家村把它放回一组璀璨却真实可用的金银器中。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "壶腹鎏金马正在完成什么动作？", "options": [{ "id": "memory-horse-flask-a", "label": "屈膝匐拜并口衔酒杯祝寿" }, { "id": "memory-horse-flask-b", "label": "背负骑手向前冲锋作战" }, { "id": "memory-horse-flask-c", "label": "低头饮水并拉动银链壶盖" }], "answerId": "memory-horse-flask-a", "explanation": "舞马奋首鼓尾、屈膝衔杯，与唐代宫廷舞马随乐祝寿的记载相互呼应；它不是骑战或饮水场景。", "sourceIds": ["source-shaanxi-horse-flask"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-grape-bird-sachet", "reason": "两者同出何家村窖藏，可比较唐代银器的成形、装饰与活动结构。" }, { "artifactId": "artifact-tricolor-music-camel", "reason": "两者都保存盛唐乐舞图像，可比较宫廷祝寿与驼背乐团。" }],
+          "guideLines": {
+            "beforeObservation": ["先看整只壶像什么，再找腹部那匹动作奇怪的马。", "银白、鎏金与皮囊轮廓是三层不同证据。", "链盖不是装饰尾巴，沿着它能找到壶口与提梁。"],
+            "clueOpened": ["皮囊形已经锁定，再确认腹部是不是衔杯而非奔跑的马。", "局部鎏金把舞马从银面托出，别误判为整壶纯金。", "何家村是发现背景，器形与纹样仍要在眼前互证。"],
+            "correct": ["皮囊轮廓、链盖提梁与衔杯舞马都对上了，银壶归档。", "你从一匹跪下的马读出了唐代宴会中的祝寿时刻。", "材料很华丽，但真正答案来自工艺、用途和图像的组合。"],
+            "incorrect": ["普通银壶也会有提梁，再检查壶腹是否出现鎏金衔杯马。", "别把马看成征战图，它的前后肢正在屈曲匐拜。", "回到整体轮廓：这不是圆罐，而是被银板模仿的皮囊。"],
+            "archived": ["一场宫廷舞马被压进十四点八厘米高的银壶。", "何家村又归一格，下一件银球会把重力藏进内部。", "记住金银交界：银壶承形，鎏金让舞马从表面起身。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "3.0.0-twenty-complete"
+        }
       },
       {
-        "id": "artifact-grape-bird-sachet", "name": "葡萄花鸟纹银香囊", "setId": "tang-world", "timelineOrder": 19, "aliases": ["唐代银香囊"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-gold-silver", "category-incense"], "material": "银", "use": "盛香香囊", "dimensions": null, "excavation": null, "museum": "陕西历史博物馆",
-        "summary": "外表为镂空银球，内部具有多层同心活动结构的香囊。", "highlight": "外壳转动时，内部盛香结构仍能维持相对水平。", "culturalNote": "它不是丝织荷包；精确机械结构仍需馆方研究来源复核。",
+        "id": "artifact-grape-bird-sachet", "name": "葡萄花鸟纹银香囊", "setId": "tang-world", "timelineOrder": 19, "aliases": ["唐代银香囊"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-gold-silver", "category-incense"], "material": "银质外壳、同心机环与金质香盂", "use": "悬挂或佩戴的盛香器", "dimensions": "直径约 4.5 厘米、链长 7.5 厘米", "excavation": "1970 年陕西西安何家村窖藏出土", "museum": "陕西历史博物馆",
+        "summary": "外表为镂空银球，内部以同心机环悬置金香盂的香囊。", "highlight": "外壳摆动时，重力与活动机环让内部金香盂开口保持向上。", "culturalNote": "它不是丝织荷包，而是一件将纹饰、香气与活动结构结合的金银器。",
         "clues": [{ "id": "clue-grape-bird-sachet-1", "level": 1, "text": "我外表是镂空圆球，不是丝织荷包。" }, { "id": "clue-grape-bird-sachet-2", "level": 2, "text": "内部有多层同心活动结构，帮助盛香容器保持方向。" }, { "id": "clue-grape-bird-sachet-3", "level": 3, "text": "外壳装饰葡萄与花鸟纹。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "material"], "unlockCopy": "转动仍持平的银球香囊已收入物华录。", "wrongAnswerExplanation": "与球形熏香器易混淆；镂空银球、同心活动结构和葡萄花鸟纹是组合锚点。", "factCheckStatus": "pending-review", "sourceNote": "规划提供教育专题，精确机械结构要求补馆方研究来源。", "sourceIds": ["source-shaanxi-sachet"], "assetRefs": { "fullAssetId": "asset-full-grape-bird-sachet", "detailAssetIds": ["asset-detail-grape-bird-sachet-1"], "fallbackAssetId": "asset-silhouette-grape-bird-sachet", "thumbnailAssetId": "asset-thumb-grape-bird-sachet" }, "contentVersion": "1.0.0"
+        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "material"], "unlockCopy": "转动仍持平的银球香囊已收入物华录。", "wrongAnswerExplanation": "与球形熏香器易混淆；镂空银球、同心活动结构和葡萄花鸟纹是组合锚点。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "尺寸依陕西历史博物馆馆藏页；结构与工作原理依新华社对该馆典藏部主任的采访转写。", "sourceIds": ["source-shaanxi-sachet-collection", "source-xinhua-sachet-mechanics"], "assetRefs": { "fullAssetId": "asset-full-grape-bird-sachet", "detailAssetIds": ["asset-detail-grape-bird-sachet-1", "asset-diagram-grape-bird-gimbal"], "fallbackAssetId": "asset-silhouette-grape-bird-sachet", "thumbnailAssetId": "asset-thumb-grape-bird-sachet" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一枚掌心大的镂空银球，会随人摆动，里面的香盂却不肯倾覆。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：香囊为什么不是布袋", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-sachet-collection", "source-xinhua-sachet-mechanics"], "body": "它是直径约四点五厘米的银质圆球，外壳以水平中线分成上下半球，顶部接着七点五厘米长的环链和挂钩。球面通体镂空葡萄与花鸟纹，孔隙既让藤蔓、果实和飞鸟形成轻盈层次，也为焚香时的气息留出通道。" },
+            { "id": "making", "title": "两层机环怎样托住一只金盂", "narrativeMode": "verified-fact", "sourceIds": ["source-xinhua-sachet-mechanics"], "body": "打开银球，下半部连接两层同心圆机环，机环再连接半球形金香盂与外壁。工匠不仅要制作镂空银壳，还要把三者组成能够活动的结构；香囊摆动时，机环与金香盂才有调整方向的余地。" },
+            { "id": "lived-world", "title": "人走动时，香灰为什么不容易洒", "narrativeMode": "verified-fact", "sourceIds": ["source-xinhua-sachet-mechanics"], "body": "香料放在内层金香盂里。佩戴者行走或悬挂物摆动时，外层银球可以转向，两层机环也随之调整；在重力作用下，较重的香盂始终让开口趋向上方，从而降低火星和香灰洒出的风险。它用活动结构与重力共同解决了日常使用中的倾覆难题。" },
+            { "id": "journey", "title": "从何家村窖藏到展柜入口", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-sachet-collection", "source-xinhua-sachet-mechanics"], "body": "这件唐代香囊一九七〇年出土于西安何家村窖藏，现藏陕西历史博物馆。与同窖银壶、金银器一同出现，使它不再只是诗文里模糊的“香囊”。球壳、链钩、机环和香盂保存了具体尺度与连接方式，让佩香、悬香的生活细节能够被实际观察。" },
+            { "id": "why-now", "title": "为什么内部结构比“黑科技”更值得看", "narrativeMode": "bounded-context", "sourceIds": ["source-xinhua-sachet-mechanics"], "body": "把它称作古代“黑科技”很吸引人，却容易遮住真正精彩的地方：每一层结构都服务于使用。镂空让香气散出，上下半球便于开合，链钩负责悬挂，同心机环与金盂共同维持方向。理解这些部件如何协作，比把它简单说成超前现代技术更接近工匠的设计智慧。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-sachet-chain", "x": 0.5, "y": 0.24, "radius": 0.1, "label": "环链与挂钩", "note": "顶部链钩让银球能够随身佩戴或悬于帷幔，摆动是结构必须面对的使用条件。", "clueCategory": "trace", "assetRole": "observation" },
+            { "id": "spot-sachet-pattern", "x": 0.49, "y": 0.52, "radius": 0.13, "label": "葡萄花鸟镂空", "note": "银壳通体镂刻藤蔓、果实与飞鸟，装饰孔隙同时让香气散出。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-sachet-seam", "x": 0.5, "y": 0.66, "radius": 0.11, "label": "半球开合线", "note": "水平接缝把银质外壳分成上下两个半球，打开后才能看到内部的同心机环与金香盂。", "clueCategory": "shape", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-sachet-shape", "category": "shape", "label": "看形", "text": "镂空圆球沿中线分成两个半球，顶部带环链与挂钩。", "npcHint": "它虽叫香囊，却没有布料和抽绳，先认金属球壳。", "starCost": 1 },
+            { "id": "clue-sachet-material", "category": "material", "label": "辨材", "text": "银质球壳内有两层同心机环，中央连接半球形金香盂。", "npcHint": "外银内金不是只为好看，两者还是一套活动结构。", "starCost": 1 },
+            { "id": "clue-sachet-provenance", "category": "provenance", "label": "问来历", "text": "唐代，1970 年西安何家村窖藏出土，现藏陕西历史博物馆。", "npcHint": "它和舞马银壶来自同一批何家村遗宝。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "银球摆动时，金香盂为何仍能保持开口向上？", "options": [{ "id": "memory-sachet-a", "label": "双层同心机环可活动，香盂受重力保持方向" }, { "id": "memory-sachet-b", "label": "香盂被胶固定在银球顶部，无法转动" }, { "id": "memory-sachet-c", "label": "球内装满水，以浮力托住燃烧香料" }], "answerId": "memory-sachet-a", "explanation": "外壳摆动时，两层同心机环与金香盂可以随之活动；重力使香盂开口趋向上方，从而降低香灰洒出的风险。", "sourceIds": ["source-xinhua-sachet-mechanics"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-dancing-horse-flask", "reason": "两者同出何家村窖藏，可比较银器外形、局部金色与具体用途。" }, { "artifactId": "artifact-boshan-incense-burner", "reason": "两者都用于香事，可比较固定熏炉的烟路与可佩香囊的持平结构。" }],
+          "guideLines": {
+            "beforeObservation": ["先别想象布香包，这一件从头到尾是一枚金属球。", "从链钩看到镂空，再沿中线寻找可以打开的位置。", "内部机关稍后再拆解，先把外壳的三个入口认清。"],
+            "clueOpened": ["链钩说明它会摆动，内部设计必须处理这个问题。", "镂空不只画花纹，也让香气有路可走。", "找到半球接缝后，就能理解机环如何被装进内部。"],
+            "correct": ["链钩、镂空和开合线都对上了，银香囊归档。", "你从一个小银球读出了佩戴、散香与持平三件事。", "机关不靠神秘命名，活动机环与重力已经把原理说清楚。"],
+            "incorrect": ["普通球形熏炉未必能佩戴，先找顶部环链。", "别只认葡萄纹，水平接缝后面还藏着活动机环。", "回到使用场景：人会走动，盛香的小盂却不能翻倒。"],
+            "archived": ["掌心大小的银球，收进了一套会自调方向的结构。", "盛唐万象第三格已亮，香气由纹孔走出，香灰留在盂中。", "下一件驮来整支乐团，先准备数清驼背上的八个人。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "3.0.0-twenty-complete"
+        }
       },
       {
-        "id": "artifact-tricolor-music-camel", "name": "三彩载乐骆驼俑", "setId": "tang-world", "timelineOrder": 20, "aliases": [], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-sculpture"], "material": "三彩釉陶", "use": "载乐人物与骆驼组合陶俑", "dimensions": null, "excavation": null, "museum": "陕西历史博物馆",
-        "summary": "骆驼背上承载多人围坐演奏与中间起舞的乐舞组合。", "highlight": "一峰骆驼背上形成了一支微型乐团。", "culturalNote": "三彩釉色与丝路乐舞题材共同构成识别点。",
+        "id": "artifact-tricolor-music-camel", "name": "唐三彩载乐骆驼俑", "setId": "tang-world", "timelineOrder": 20, "aliases": ["三彩载乐骆驼俑"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-sculpture"], "material": "三彩釉陶", "use": "骆驼与八人乐团组合明器", "dimensions": "通高 58 厘米、驼高 48.5 厘米", "excavation": "1959 年陕西西安中堡村唐墓出土", "museum": "陕西历史博物馆",
+        "summary": "骆驼背上七名男乐手围坐演奏，中央一名女歌者站立歌唱。", "highlight": "一峰引颈长嘶的骆驼托起平台、彩毯与完整八人乐团。", "culturalNote": "中原衣着与不同来源的乐器同台出现，留下唐代乐舞交流的鲜活图像。",
         "clues": [{ "id": "clue-tricolor-music-camel-1", "level": 1, "text": "我不是单独的骆驼，背上承载多人乐舞组合。" }, { "id": "clue-tricolor-music-camel-2", "level": 2, "text": "人物围坐演奏，中间有人起舞。" }, { "id": "clue-tricolor-music-camel-3", "level": 3, "text": "三彩釉色与丝路题材共同构成鲜明识别。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "period"], "unlockCopy": "骆驼背上的微型乐团已收入物华录。", "wrongAnswerExplanation": "与普通骆驼俑和胡俑易混淆；多人围坐演奏、中央起舞才是核心。", "factCheckStatus": "pending-review", "sourceNote": "规划仅提供陕西历史博物馆馆藏入口，独立藏品页待定位。", "sourceIds": ["source-shaanxi-catalog"], "assetRefs": { "fullAssetId": "asset-full-tricolor-music-camel", "detailAssetIds": ["asset-detail-tricolor-music-camel-1"], "fallbackAssetId": "asset-silhouette-tricolor-music-camel", "thumbnailAssetId": "asset-thumb-tricolor-music-camel" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "period"], "unlockCopy": "骆驼背上的八人乐团已收入物华录。", "wrongAnswerExplanation": "与普通骆驼俑和骑驼俑易混淆；七名围坐男乐手与中央站立女歌者才是核心。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依陕西历史博物馆独立馆藏页与陕西省文物局资料转写。", "sourceIds": ["source-shaanxi-camel", "source-shaanxi-camel-specs"], "assetRefs": { "fullAssetId": "asset-full-tricolor-music-camel", "detailAssetIds": ["asset-detail-tricolor-music-camel-1", "asset-detail-tricolor-music-camel-2"], "fallbackAssetId": "asset-silhouette-tricolor-music-camel", "thumbnailAssetId": "asset-thumb-tricolor-music-camel" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "骆驼尚在引颈长嘶，背上的七件乐器与一位歌者已经开场。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：驼背上到底有几个人", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-camel", "source-shaanxi-camel-specs"], "body": "骆驼四足站在长方形底座上，引颈张口；双峰之上架起平台并铺彩毯。平台边缘共有七名男乐手，身着汉服、面朝外盘腿而坐，中央另有一名穿高束腰长裙的女子站立歌唱。它不是一个骑手与一峰驼，而是由骆驼、平台和八个人俑组成的完整群像。" },
+            { "id": "making", "title": "陶工怎样让九个形象共享一个重心", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-camel", "source-shaanxi-camel-specs"], "body": "整件作品通高五十八厘米，骆驼本身高四十八点五厘米。陶工以四足和底座承担下部重量，再把双峰、毯与平台组织成承托层，七个坐俑沿边缘分布，中央立俑向上伸展。黄、绿等三彩釉色跨过驼身、彩毯和服饰，使复杂组合在视觉上仍然连成一体。" },
+            { "id": "lived-world", "title": "七位乐手与一位歌者在演什么", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-camel"], "body": "七名男乐手手持不同乐器围坐演奏，中央女子扬首、举臂歌唱。馆方把它形容为以驼代步、歌唱而来的流动演出团。人物穿着与乐器来源呈现交融：表演者身着当时中原服饰，所持乐器却包含不同文化路径汇入长安的声音，驼背平台因此像一座缩小舞台。" },
+            { "id": "journey", "title": "一九五九年，中堡村唐墓中的乐团重见天日", "narrativeMode": "verified-fact", "sourceIds": ["source-shaanxi-camel", "source-shaanxi-camel-specs"], "body": "这件唐三彩载乐骆驼俑一九五九年出土于西安西郊中堡村唐墓，现藏陕西历史博物馆，为一级文物。它原是墓葬中的陶质明器，并非真的移动舞台；但清楚的人数、座次、乐器和歌唱姿态，为观察唐代雕塑、服饰与乐舞想象提供了具体材料。" },
+            { "id": "why-now", "title": "为什么“丝路乐团”需要谨慎理解", "narrativeMode": "bounded-context", "sourceIds": ["source-shaanxi-camel", "source-shaanxi-camel-specs"], "body": "骆驼、三彩与多源乐器很容易被概括成一个浪漫的丝路故事。器物确实体现唐代长安对不同音乐与文化因素的吸收，但它首先是墓葬中的艺术表达，未必等同于现实中真有乐队在行走骆驼背上演出。保留这一边界，反而更能看见陶工大胆而可信的舞台想象。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-camel-singer", "x": 0.52, "y": 0.27, "radius": 0.1, "label": "中央女歌者", "note": "唯一站立的女子位于乐团中央，扬首举臂，形成整组最高的人物重心。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-camel-musicians", "x": 0.49, "y": 0.43, "radius": 0.15, "label": "七名围坐乐手", "note": "七名男乐手面朝外盘腿分布在平台边缘，手持不同乐器合奏。", "clueCategory": "trace", "assetRole": "observation" },
+            { "id": "spot-camel-body", "x": 0.5, "y": 0.7, "radius": 0.14, "label": "引颈长嘶骆驼", "note": "骆驼四足立于底座，颈部向上伸展，双峰支撑毯与乐台。", "clueCategory": "material", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-camel-shape", "category": "shape", "label": "看形", "text": "四足骆驼背负平台，七人围坐，一名女子站在中央。", "npcHint": "这一关最可靠的方法是数人：七坐一立，共八人。", "starCost": 1 },
+            { "id": "clue-camel-material", "category": "material", "label": "辨材", "text": "陶塑组合施以黄、绿等三彩釉色，驼、毯与人物形成整体。", "npcHint": "三彩不是三种固定颜色，先看釉色怎样跨过复杂陶塑。", "starCost": 1 },
+            { "id": "clue-camel-provenance", "category": "provenance", "label": "问来历", "text": "唐代，1959 年西安中堡村唐墓出土，现藏陕西历史博物馆。", "npcHint": "它是墓葬明器，不要把浪漫造型直接当成现场纪实。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "驼背上的八个人如何分工？", "options": [{ "id": "memory-camel-a", "label": "七名男乐手围坐演奏，中央一名女子站立歌唱" }, { "id": "memory-camel-b", "label": "四名骑手牵缰，四名商人搬运货箱" }, { "id": "memory-camel-c", "label": "八名武士全部站立，面向中央守卫旗帜" }], "answerId": "memory-camel-a", "explanation": "馆方明确记录七名男乐手面朝外围坐演奏，中央一名女子站立歌唱；这套座次是区别普通骆驼俑的核心。", "sourceIds": ["source-shaanxi-camel"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-storyteller-drummer", "reason": "两者都把表演凝固成陶塑，可比较单人说唱与八人乐团。" }, { "artifactId": "artifact-dancing-horse-flask", "reason": "两者都涉及唐代乐舞，可比较立体群像与银壶浮雕中的表演。" }],
+          "guideLines": {
+            "beforeObservation": ["先数人，不要被三彩颜色和骆驼体量带走。", "七个坐着、一个站着，这个座次就是最强线索。", "从中央歌者往外看乐手，再向下确认整峰骆驼。"],
+            "clueOpened": ["中央站立者已经找到，沿平台边缘继续数到七。", "不同乐器比单纯多人更关键，它明确指向乐团。", "中堡村唐墓补足来历，也提醒你这是一件明器。"],
+            "correct": ["七坐一立、平台与骆驼全对上了，载乐骆驼俑归档。", "你没有只认一峰三彩骆驼，而是认出了完整乐团。", "人数、座次和乐器彼此证明，盛唐万象最后一格点亮。"],
+            "incorrect": ["普通骆驼俑也有三彩釉，回到背上数清八个人。", "骑驼人物通常围绕乘骑，眼前七人都在面朝外演奏。", "别把中央女子看成第八位坐奏者，她正站立歌唱。"],
+            "archived": ["驼背上的八人乐团已经进入物华录，二十件全部归位。", "五组档案封签完成，声音、香气、文字与金银重新相遇。", "回到图鉴慢慢翻看吧，每件文物都还有五页故事等你重读。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "3.0.0-twenty-complete"
+        }
       },
       {
         "id": "artifact-bronze-rhino-zun", "name": "错金银云纹铜犀尊", "setId": "chu-sound", "timelineOrder": 12, "aliases": ["铜犀尊"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-bronze-ritual"], "material": "错金银青铜", "use": "盛酒器尊", "dimensions": "高 34.1 厘米、长 58.1 厘米", "excavation": "1963 年陕西兴平出土", "museum": "中国国家博物馆",

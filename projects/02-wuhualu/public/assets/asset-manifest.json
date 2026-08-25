@@ -1,7 +1,7 @@
 {
   "project": "wuhualu",
-  "version": 8,
-  "status": "fifteen-artifacts-all-static-roles-integration-ready",
+  "version": 9,
+  "status": "twenty-artifacts-all-static-roles-integration-ready",
   "policy": {
     "referenceRequired": true,
     "museumPhotoBundlingDefault": false,
@@ -25,20 +25,18 @@
       "artifact-bronze-rhino-zun",
       "artifact-changxin-lamp",
       "artifact-liusheng-jade-suit",
-      "artifact-boshan-incense-burner"
-    ],
-    "textFallbackOnlyArtifactIds": [],
-    "referenceRequiredArtifactIds": [
+      "artifact-boshan-incense-burner",
       "artifact-storyteller-drummer",
       "artifact-wuzetian-gold-slip",
       "artifact-dancing-horse-flask",
       "artifact-grape-bird-sachet",
       "artifact-tricolor-music-camel"
     ],
+    "textFallbackOnlyArtifactIds": [],
+    "referenceRequiredArtifactIds": [],
     "unknownArtifactPolicy": "exclude-from-image-round",
     "insufficientPoolPolicy": "recoverable-error-do-not-expand",
     "remainingBeforeRelease": [
-      "real-app-integration",
       "dynamic-five-round-qa",
       "asset-failure-qa",
       "runtime-performance-qa"
@@ -688,23 +686,55 @@
     },
     {
       "id": "artifact-storyteller-drummer",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-reference-anchored-all-static-roles-integration-ready",
+      "referenceDossier": "../../research/artifact-storyteller-drummer-reference-dossier.md",
+      "reveal": "artifacts/artifact-storyteller-drummer/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-storyteller-drummer/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-storyteller-drummer/thumb.webp",
+      "clueCrops": ["artifacts/artifact-storyteller-drummer/clue-crop-face-drum.webp", "artifacts/artifact-storyteller-drummer/clue-crop-body-pose.webp"],
+      "dimensions": { "width": 900, "height": 1125 }
     },
     {
       "id": "artifact-wuzetian-gold-slip",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-layout-only-all-static-roles-integration-ready",
+      "referenceDossier": "../../research/artifact-wuzetian-gold-slip-reference-dossier.md",
+      "reveal": "artifacts/artifact-wuzetian-gold-slip/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-wuzetian-gold-slip/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-wuzetian-gold-slip/thumb.webp",
+      "clueCrops": ["artifacts/artifact-wuzetian-gold-slip/clue-crop-inscription.webp", "artifacts/artifact-wuzetian-gold-slip/clue-crop-thin-edge.webp"],
+      "dimensions": { "width": 900, "height": 1125 },
+      "limitations": ["blank-inscription-area", "does-not-reproduce-original-inscription"],
+      "rejectedVersions": ["v0-and-v0b-generated-pseudo-script"]
     },
     {
       "id": "artifact-dancing-horse-flask",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-reference-anchored-all-static-roles-integration-ready",
+      "referenceDossier": "../../research/artifact-dancing-horse-flask-reference-dossier.md",
+      "reveal": "artifacts/artifact-dancing-horse-flask/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-dancing-horse-flask/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-dancing-horse-flask/thumb.webp",
+      "clueCrops": ["artifacts/artifact-dancing-horse-flask/clue-crop-chain-handle.webp", "artifacts/artifact-dancing-horse-flask/clue-crop-dancing-horse.webp"],
+      "dimensions": { "width": 900, "height": 1125 }
     },
     {
       "id": "artifact-grape-bird-sachet",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-plus-verified-diagram-all-static-roles-integration-ready",
+      "referenceDossier": "../../research/artifact-grape-bird-sachet-reference-dossier.md",
+      "reveal": "artifacts/artifact-grape-bird-sachet/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-grape-bird-sachet/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-grape-bird-sachet/thumb.webp",
+      "clueCrops": ["artifacts/artifact-grape-bird-sachet/clue-crop-openwork.webp", "artifacts/artifact-grape-bird-sachet/diagram-gimbal.svg"],
+      "dimensions": { "width": 900, "height": 1125 }
     },
     {
       "id": "artifact-tricolor-music-camel",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-seven-plus-one-count-verified-all-static-roles-integration-ready",
+      "referenceDossier": "../../research/artifact-tricolor-music-camel-reference-dossier.md",
+      "reveal": "artifacts/artifact-tricolor-music-camel/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-tricolor-music-camel/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-tricolor-music-camel/thumb.webp",
+      "clueCrops": ["artifacts/artifact-tricolor-music-camel/clue-crop-eight-performers.webp", "artifacts/artifact-tricolor-music-camel/clue-crop-camel-platform.webp"],
+      "dimensions": { "width": 900, "height": 1125 }
     },
     {
       "id": "artifact-bronze-rhino-zun",

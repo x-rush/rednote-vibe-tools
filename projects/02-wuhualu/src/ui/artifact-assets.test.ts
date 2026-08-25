@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import rawContent from '../content/content.json'
 import assetManifest from '../../public/assets/asset-manifest.json'
@@ -10,11 +10,12 @@ import { filterPlayableArtifacts, findIncompletePlayableArtifactIds, getRuntimeA
 describe('release artifact assets', () => {
   const artifacts = parseContent(rawContent).content.artifacts
 
-  it('exposes exactly fifteen playable artifacts that exist in content', () => {
-    expect(playableArtifactIds).toHaveLength(15)
-    expect(new Set(playableArtifactIds).size).toBe(15)
+  it('exposes exactly twenty playable artifacts that exist in content', () => {
+    expect(playableArtifactIds).toHaveLength(20)
+    expect(new Set(playableArtifactIds).size).toBe(20)
     expect(filterPlayableArtifacts(artifacts).map(({ id }) => id).sort()).toEqual([...playableArtifactIds].sort())
     expect([...assetManifest.releaseGate.playableStaticArtifactIds].sort()).toEqual([...playableArtifactIds].sort())
+    expect(assetManifest.releaseGate.referenceRequiredArtifactIds).toEqual([])
     expect(assetManifest.releaseGate.referenceRequiredArtifactIds).not.toContain('artifact-zenghouyi-bells')
     expect(getRuntimeArtifactAssets('artifact-zenghouyi-bells')?.observation).toContain('reveal-wide-creative-reconstruction-v1.webp')
     for (const id of [
@@ -23,6 +24,11 @@ describe('release artifact assets', () => {
       'artifact-changxin-lamp',
       'artifact-liusheng-jade-suit',
       'artifact-boshan-incense-burner',
+      'artifact-storyteller-drummer',
+      'artifact-wuzetian-gold-slip',
+      'artifact-dancing-horse-flask',
+      'artifact-grape-bird-sachet',
+      'artifact-tricolor-music-camel',
     ]) expect(playableArtifactIds).toContain(id)
   })
 
@@ -69,5 +75,10 @@ describe('release artifact assets', () => {
     const id = 'artifact-eagle-tripod'
     expect(selectClueAsset(id, 0)).toBe(selectClueAsset(id, 1))
     expect(selectClueAsset(id, 99)).toBe(getRuntimeArtifactAssets(id)?.clues.at(-1))
+  })
+
+  it('keeps the silver sachet mechanics SVG free of business copy', () => {
+    const diagram = fileURLToPath(new URL('../../public/assets/artifacts/artifact-grape-bird-sachet/diagram-gimbal.svg', import.meta.url))
+    expect(readFileSync(diagram, 'utf8')).not.toMatch(/<(?:text|title|desc)\b/)
   })
 })

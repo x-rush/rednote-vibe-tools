@@ -19,6 +19,11 @@ const completeArtifactIds = [
   'artifact-changxin-lamp',
   'artifact-liusheng-jade-suit',
   'artifact-boshan-incense-burner',
+  'artifact-storyteller-drummer',
+  'artifact-wuzetian-gold-slip',
+  'artifact-dancing-horse-flask',
+  'artifact-grape-bird-sachet',
+  'artifact-tricolor-music-camel',
 ] as const
 
 describe('production content package', () => {
@@ -52,15 +57,15 @@ describe('production content package', () => {
     expect(new Set(parsed.content.artifacts.map(({ timelineOrder }) => timelineOrder)).size).toBe(20)
   })
 
-  it('provides a complete experience for all fifteen locally illustrated artifacts', () => {
+  it('provides a complete experience for all twenty locally illustrated artifacts', () => {
     const parsed = parseContent(content)
     const enhanced = parsed.content.artifacts.filter(isCompleteArtifact)
 
     expect(enhanced.map(({ id }) => id).sort()).toEqual([...completeArtifactIds].sort())
-    expect(enhanced.flatMap(item => item.experienceV2.observationSpots)).toHaveLength(45)
-    expect(enhanced.flatMap(item => item.experienceV2.story)).toHaveLength(75)
-    expect(enhanced.flatMap(item => item.experienceV2.clueCards)).toHaveLength(45)
-    expect(enhanced.map(item => item.experienceV2.memoryChallenge)).toHaveLength(15)
+    expect(enhanced.flatMap(item => item.experienceV2.observationSpots)).toHaveLength(60)
+    expect(enhanced.flatMap(item => item.experienceV2.story)).toHaveLength(100)
+    expect(enhanced.flatMap(item => item.experienceV2.clueCards)).toHaveLength(60)
+    expect(enhanced.map(item => item.experienceV2.memoryChallenge)).toHaveLength(20)
   })
 
   it('gives every complete artifact the same evidence and story structure', () => {
@@ -91,7 +96,20 @@ describe('production content package', () => {
     expect(rhino?.experienceV2?.story.find(({ id }) => id === 'journey')?.sourceIds).toContain('source-chnmuseum-rhino-study')
   })
 
-  it('pins manually calibrated touch spots for all five approved portrait masters', () => {
+  it('backs the silver sachet mechanics with direct museum and attributed institutional sources', () => {
+    const sachet = parseContent(content).content.artifacts.find(({ id }) => id === 'artifact-grape-bird-sachet')
+
+    expect(sachet?.sourceIds).toEqual(expect.arrayContaining([
+      'source-shaanxi-sachet-collection',
+      'source-xinhua-sachet-mechanics',
+    ]))
+    expect(sachet?.dimensions).toBe('直径约 4.5 厘米、链长 7.5 厘米')
+    for (const section of sachet?.experienceV2?.story.filter(({ id }) => ['making', 'lived-world'].includes(id)) ?? []) {
+      expect(section.sourceIds).toContain('source-xinhua-sachet-mechanics')
+    }
+  })
+
+  it('pins manually calibrated touch spots for all ten approved portrait masters', () => {
     const artifacts = parseContent(content).content.artifacts
     const spots = (artifactId: string) => artifacts.find(({ id }) => id === artifactId)?.experienceV2?.observationSpots ?? []
 
@@ -100,6 +118,11 @@ describe('production content package', () => {
     expect(spots('artifact-changxin-lamp').map(({ x, y }) => [x, y])).toEqual([[0.34, 0.34], [0.29, 0.57], [0.61, 0.78]])
     expect(spots('artifact-liusheng-jade-suit').map(({ x, y }) => [x, y])).toEqual([[0.5, 0.1], [0.47, 0.46], [0.78, 0.4]])
     expect(spots('artifact-boshan-incense-burner').map(({ x, y }) => [x, y])).toEqual([[0.51, 0.26], [0.6, 0.37], [0.5, 0.75]])
+    expect(spots('artifact-storyteller-drummer').map(({ x, y }) => [x, y])).toEqual([[0.53, 0.27], [0.76, 0.4], [0.24, 0.32]])
+    expect(spots('artifact-wuzetian-gold-slip').map(({ x, y }) => [x, y])).toEqual([[0.5, 0.22], [0.5, 0.5], [0.5, 0.79]])
+    expect(spots('artifact-dancing-horse-flask').map(({ x, y }) => [x, y])).toEqual([[0.55, 0.24], [0.51, 0.52], [0.5, 0.75]])
+    expect(spots('artifact-grape-bird-sachet').map(({ x, y }) => [x, y])).toEqual([[0.5, 0.24], [0.49, 0.52], [0.5, 0.66]])
+    expect(spots('artifact-tricolor-music-camel').map(({ x, y }) => [x, y])).toEqual([[0.52, 0.27], [0.49, 0.43], [0.5, 0.7]])
   })
 
   it('rejects a partial V2 experience block', () => {

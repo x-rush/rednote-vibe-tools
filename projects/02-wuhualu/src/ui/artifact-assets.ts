@@ -33,6 +33,11 @@ const runtimeAssets: Readonly<Record<string, RuntimeArtifactAssets>> = {
   'artifact-changxin-lamp': entry('artifact-changxin-lamp', 'reveal-creative-reconstruction.webp', ['clue-crop-sleeve-lamp.webp', 'clue-crop-kneeling-body.webp']),
   'artifact-liusheng-jade-suit': entry('artifact-liusheng-jade-suit', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-head-torso.webp', 'clue-crop-wire-gloves.webp'], '创意重构（非数字复原）'),
   'artifact-boshan-incense-burner': entry('artifact-boshan-incense-burner', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-mountain-vents.webp', 'clue-crop-dragon-base.webp'], '创意重构（限定视角）'),
+  'artifact-storyteller-drummer': entry('artifact-storyteller-drummer', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-face-drum.webp', 'clue-crop-body-pose.webp'], '创意重构（限定视角）'),
+  'artifact-wuzetian-gold-slip': entry('artifact-wuzetian-gold-slip', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-inscription.webp', 'clue-crop-thin-edge.webp'], '创意重构（非数字复原）'),
+  'artifact-dancing-horse-flask': entry('artifact-dancing-horse-flask', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-chain-handle.webp', 'clue-crop-dancing-horse.webp'], '创意重构（限定视角）'),
+  'artifact-grape-bird-sachet': entry('artifact-grape-bird-sachet', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-openwork.webp', 'diagram-gimbal.svg'], '创意重构（非数字复原）'),
+  'artifact-tricolor-music-camel': entry('artifact-tricolor-music-camel', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-eight-performers.webp', 'clue-crop-camel-platform.webp'], '创意重构（非数字复原）'),
 }
 
 function entry(

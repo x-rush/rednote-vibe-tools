@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">刘胜金缕玉衣核验剪影</title>
+  <desc id="desc">平展的分件人形葬服，包含头罩、上衣、手套、裤筒和鞋。</desc>
+  <g fill="#171a19">
+    <path d="M135 20h50l12 38-13 19h-48l-13-19ZM111 82h98l22 76-33 18h-76l-33-18Z"/>
+    <path d="m104 88-23 7-30 92 25 10 36-76ZM216 88l23 7 30 92-25 10-36-76Z"/>
+    <path d="M50 184h31l9 25-20 12-25-16ZM239 184h31l5 21-25 16-20-12Z"/>
+    <path d="M122 168h38v109h-48zM160 168h38l10 109h-48zM106 270h56v31h-66zM158 270h56l10 31h-66z"/>
+  </g>
+</svg>

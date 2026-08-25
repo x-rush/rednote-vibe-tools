@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">越王勾践剑核验剪影</title>
+  <desc id="desc">柳叶形长剑身、短剑格、圆盘剑首的完整轮廓，不表达铭文。</desc>
+  <g fill="#171a19" transform="rotate(42 160 160)">
+    <path d="M151 18 137 58v166l14 8h18l14-8V58L169 18l-9-11Z"/>
+    <path d="M125 218h70v15h-70zM151 233h18v52h-18z"/>
+    <ellipse cx="160" cy="291" rx="22" ry="9"/>
+  </g>
+</svg>

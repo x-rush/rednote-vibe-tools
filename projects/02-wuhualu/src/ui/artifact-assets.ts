@@ -28,6 +28,11 @@ const runtimeAssets: Readonly<Record<string, RuntimeArtifactAssets>> = {
   'artifact-cloud-bronze-jin': entry('artifact-cloud-bronze-jin', 'reveal-creative-reconstruction-v3.webp', ['clue-crop-attached-beasts.webp', 'clue-crop-openwork-supports.webp']),
   'artifact-zenghouyi-bells': entry('artifact-zenghouyi-bells', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-l-frame-three-tiers.webp', 'clue-crop-small-to-large-bells.webp'], '创意重构（非数字复原）', { file: 'reveal-wide-creative-reconstruction-v1.webp', width: 1200, height: 800 }),
   'artifact-zenghouyi-zunpan': entry('artifact-zenghouyi-zunpan', 'reveal-creative-reconstruction-v2.webp', ['clue-crop-openwork-climbing-beasts.webp', 'clue-crop-zun-in-wide-pan.webp'], '创意重构（非数字复原）'),
+  'artifact-goujian-sword': entry('artifact-goujian-sword', 'reveal-creative-reconstruction.webp', ['clue-crop-diamond-pattern.webp', 'clue-crop-guard-pommel.webp'], '创意重构（限定视角）', { file: 'reveal-creative-reconstruction.webp', width: 1080, height: 1350 }),
+  'artifact-bronze-rhino-zun': entry('artifact-bronze-rhino-zun', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-horns-spout.webp', 'clue-crop-lid-inlay.webp']),
+  'artifact-changxin-lamp': entry('artifact-changxin-lamp', 'reveal-creative-reconstruction.webp', ['clue-crop-sleeve-lamp.webp', 'clue-crop-kneeling-body.webp']),
+  'artifact-liusheng-jade-suit': entry('artifact-liusheng-jade-suit', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-head-torso.webp', 'clue-crop-wire-gloves.webp'], '创意重构（非数字复原）'),
+  'artifact-boshan-incense-burner': entry('artifact-boshan-incense-burner', 'reveal-creative-reconstruction-v1.webp', ['clue-crop-mountain-vents.webp', 'clue-crop-dragon-base.webp'], '创意重构（限定视角）'),
 }
 
 function entry(

@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import rawContent from '../content/content.json'
 import assetManifest from '../../public/assets/asset-manifest.json'
 import { isCompleteArtifact } from '../content/types.ts'
@@ -8,13 +10,20 @@ import { filterPlayableArtifacts, findIncompletePlayableArtifactIds, getRuntimeA
 describe('release artifact assets', () => {
   const artifacts = parseContent(rawContent).content.artifacts
 
-  it('exposes exactly ten playable artifacts that exist in content', () => {
-    expect(playableArtifactIds).toHaveLength(10)
-    expect(new Set(playableArtifactIds).size).toBe(10)
+  it('exposes exactly fifteen playable artifacts that exist in content', () => {
+    expect(playableArtifactIds).toHaveLength(15)
+    expect(new Set(playableArtifactIds).size).toBe(15)
     expect(filterPlayableArtifacts(artifacts).map(({ id }) => id).sort()).toEqual([...playableArtifactIds].sort())
     expect([...assetManifest.releaseGate.playableStaticArtifactIds].sort()).toEqual([...playableArtifactIds].sort())
     expect(assetManifest.releaseGate.referenceRequiredArtifactIds).not.toContain('artifact-zenghouyi-bells')
     expect(getRuntimeArtifactAssets('artifact-zenghouyi-bells')?.observation).toContain('reveal-wide-creative-reconstruction-v1.webp')
+    for (const id of [
+      'artifact-goujian-sword',
+      'artifact-bronze-rhino-zun',
+      'artifact-changxin-lamp',
+      'artifact-liusheng-jade-suit',
+      'artifact-boshan-incense-burner',
+    ]) expect(playableArtifactIds).toContain(id)
   })
 
   it('keeps all locally illustrated artifacts complete and playable', () => {
@@ -23,11 +32,14 @@ describe('release artifact assets', () => {
   })
 
   it('uses the full portrait reveal as the observation canvas except for the wide bells composition', () => {
-    for (const id of playableArtifactIds.filter(id => id !== 'artifact-zenghouyi-bells')) {
+    for (const id of playableArtifactIds.filter(id => !['artifact-zenghouyi-bells', 'artifact-goujian-sword'].includes(id))) {
       const assets = getRuntimeArtifactAssets(id)
       expect(assets?.observation, id).toBe(assets?.reveal)
       expect([assets?.observationWidth, assets?.observationHeight], id).toEqual([900, 1125])
     }
+    const sword = getRuntimeArtifactAssets('artifact-goujian-sword')
+    expect(sword?.observation).toBe(sword?.reveal)
+    expect([sword?.observationWidth, sword?.observationHeight]).toEqual([1080, 1350])
   })
 
   it('reports a locally illustrated artifact whose complete experience is missing', () => {
@@ -47,6 +59,9 @@ describe('release artifact assets', () => {
     expect(assets?.clues.length).toBeGreaterThan(0)
     for (const path of [assets?.observation, assets?.reveal, assets?.silhouette, assets?.thumbnail, ...(assets?.clues ?? [])]) {
       expect(path).not.toMatch(/^https?:/)
+      const relativePath = path?.replace(/^.*\/assets\//, '')
+      expect(relativePath, `${id} exposes an unresolved asset URL`).toBeTruthy()
+      expect(existsSync(fileURLToPath(new URL(`../../public/assets/${relativePath}`, import.meta.url))), `${id}: ${relativePath}`).toBe(true)
     }
   })
 

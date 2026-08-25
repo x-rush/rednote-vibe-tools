@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">长信宫灯核验剪影</title>
+  <desc id="desc">跪坐宫女左手托灯盘、右臂高举并以宽袖连接灯罩的整体轮廓。</desc>
+  <g fill="#171a19">
+    <circle cx="188" cy="83" r="25"/>
+    <path d="M161 106c-21 18-31 45-28 75l-36 42c-14 17-7 43 14 50h111c22-7 29-34 13-50l-24-24 4-70c1-18-9-28-27-28Z"/>
+    <path d="M72 60h76v91H72zM61 48h98v18H61zM89 142h63v22H89z"/>
+    <path d="M142 117 91 135l8 22 63-17ZM202 111l-4 77 25 3 13-84Z"/>
+  </g>
+</svg>

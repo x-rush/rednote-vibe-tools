@@ -14,6 +14,11 @@ const completeArtifactIds = [
   'artifact-cloud-bronze-jin',
   'artifact-zenghouyi-bells',
   'artifact-zenghouyi-zunpan',
+  'artifact-goujian-sword',
+  'artifact-bronze-rhino-zun',
+  'artifact-changxin-lamp',
+  'artifact-liusheng-jade-suit',
+  'artifact-boshan-incense-burner',
 ] as const
 
 describe('production content package', () => {
@@ -47,15 +52,15 @@ describe('production content package', () => {
     expect(new Set(parsed.content.artifacts.map(({ timelineOrder }) => timelineOrder)).size).toBe(20)
   })
 
-  it('provides a complete experience for all ten locally illustrated artifacts', () => {
+  it('provides a complete experience for all fifteen locally illustrated artifacts', () => {
     const parsed = parseContent(content)
     const enhanced = parsed.content.artifacts.filter(isCompleteArtifact)
 
     expect(enhanced.map(({ id }) => id).sort()).toEqual([...completeArtifactIds].sort())
-    expect(enhanced.flatMap(item => item.experienceV2.observationSpots)).toHaveLength(30)
-    expect(enhanced.flatMap(item => item.experienceV2.story)).toHaveLength(50)
-    expect(enhanced.flatMap(item => item.experienceV2.clueCards)).toHaveLength(30)
-    expect(enhanced.map(item => item.experienceV2.memoryChallenge)).toHaveLength(10)
+    expect(enhanced.flatMap(item => item.experienceV2.observationSpots)).toHaveLength(45)
+    expect(enhanced.flatMap(item => item.experienceV2.story)).toHaveLength(75)
+    expect(enhanced.flatMap(item => item.experienceV2.clueCards)).toHaveLength(45)
+    expect(enhanced.map(item => item.experienceV2.memoryChallenge)).toHaveLength(15)
   })
 
   it('gives every complete artifact the same evidence and story structure', () => {
@@ -72,6 +77,29 @@ describe('production content package', () => {
       expect(experience.relatedArtifacts.length).toBeGreaterThanOrEqual(2)
       for (const lines of Object.values(experience.guideLines)) expect(lines.length).toBeGreaterThanOrEqual(3)
     }
+  })
+
+  it('keeps first-batch museum metadata in the correct archive fields', () => {
+    const artifacts = parseContent(content).content.artifacts
+    const jadeSuit = artifacts.find(({ id }) => id === 'artifact-liusheng-jade-suit')
+    const rhino = artifacts.find(({ id }) => id === 'artifact-bronze-rhino-zun')
+
+    expect(jadeSuit?.dimensions).toBe('通长 188 厘米')
+    expect(jadeSuit?.excavation).toBe('1968 年河北满城刘胜墓出土')
+    expect(jadeSuit?.highlight).toContain('2498 片玉片')
+    expect(rhino?.sourceIds).toContain('source-chnmuseum-rhino-study')
+    expect(rhino?.experienceV2?.story.find(({ id }) => id === 'journey')?.sourceIds).toContain('source-chnmuseum-rhino-study')
+  })
+
+  it('pins manually calibrated touch spots for all five approved portrait masters', () => {
+    const artifacts = parseContent(content).content.artifacts
+    const spots = (artifactId: string) => artifacts.find(({ id }) => id === artifactId)?.experienceV2?.observationSpots ?? []
+
+    expect(spots('artifact-goujian-sword').map(({ x, y }) => [x, y])).toEqual([[0.5, 0.39], [0.5, 0.76], [0.5, 0.91]])
+    expect(spots('artifact-bronze-rhino-zun').map(({ x, y }) => [x, y])).toEqual([[0.17, 0.49], [0.58, 0.34], [0.57, 0.56]])
+    expect(spots('artifact-changxin-lamp').map(({ x, y }) => [x, y])).toEqual([[0.34, 0.34], [0.29, 0.57], [0.61, 0.78]])
+    expect(spots('artifact-liusheng-jade-suit').map(({ x, y }) => [x, y])).toEqual([[0.5, 0.1], [0.47, 0.46], [0.78, 0.4]])
+    expect(spots('artifact-boshan-incense-burner').map(({ x, y }) => [x, y])).toEqual([[0.51, 0.26], [0.6, 0.37], [0.5, 0.75]])
   })
 
   it('rejects a partial V2 experience block', () => {

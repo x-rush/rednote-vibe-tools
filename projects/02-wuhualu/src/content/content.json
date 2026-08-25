@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "2.0.0-golden-slice",
+  "contentVersion": "2.1.0-fifteen-artifacts",
   "projectId": "wuhualu",
   "meta": {
     "title": "物华录：文物寻踪",
     "locale": "zh-CN",
-    "updatedAt": "2026-08-23"
+    "updatedAt": "2026-08-26"
   },
   "sources": [
     { "id": "source-chnmuseum-eagle-tripod", "title": "中国国家博物馆：鹰形陶鼎馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247248.shtml", "level": "A", "note": "规划提供的独立馆藏页。" },
@@ -24,14 +24,18 @@
     { "id": "source-hubei-zunpan-digital", "title": "湖北省文化和旅游厅：曾侯乙尊盘三维数字化复原成果", "url": "https://wlt.hubei.gov.cn/bmdt/xydt/202406/t20240609_5232253.shtml", "level": "A", "note": "用于核对工业 CT 揭示内部结构与复合工艺的研究成果。" },
     { "id": "source-hubei-goujian", "title": "湖北省博物馆：越王勾践剑馆藏页", "url": "https://hbww.org.cn/zgzb/p/4694.html", "level": "A", "note": "不使用神秘配方的单因果解释。" },
     { "id": "source-palace-changxin", "title": "故宫博物院何以中国展：长信宫灯", "url": "https://ggzl.dpm.org.cn/pages/exhibit_works/details?id=10933", "level": "A", "note": "页面记录河北博物院藏品。" },
+    { "id": "source-hebei-changxin", "title": "河北博物院：长信宫灯", "url": "https://www.hebeimuseum.org.cn/shida/gongdeng.html", "level": "A", "note": "记录出土、尺寸、分件结构、灯罩调节、导烟路径与铭文边界。" },
+    { "id": "source-hebei-jade-suit", "title": "河北博物院：刘胜金缕玉衣", "url": "https://www.hebeimuseum.org.cn/shida/yuyi.html", "level": "A", "note": "记录出土、尺寸、五部分结构、玉片和金丝数量。" },
+    { "id": "source-chnmuseum-jade-suit", "title": "中国国家博物馆满城汉墓特展：金缕玉衣", "url": "https://www.chnmuseum.cn/Portals/0/web/exhibition/exhibitions/201812han/43.html", "level": "A", "note": "记录十二个可装殓部件、玉片形状、穿孔与编缀工序。" },
     { "id": "source-hebeitour-jade-suit", "title": "河北旅游：刘胜金缕玉衣", "url": "https://m.hebeitour.com.cn/c/2022-03-09/512247.html", "level": "B", "note": "标注来源河北博物院，正式包仍需补独立馆藏页。" },
-    { "id": "source-hebei-boshan", "title": "河北省文物局：河北博物院常设陈列介绍", "url": "https://wenwu.hebei.gov.cn/system/2026/07/20/030390015.shtml", "level": "A", "note": "博山炉细节仍需馆方专题或考古报告复核。" },
+    { "id": "source-hebei-boshan", "title": "河北博物院：错金铜博山炉", "url": "https://www.hebeimuseum.org.cn/show-33-2-1.html", "level": "A", "note": "记录出土、尺寸、错金、山形炉盖、镂孔与三龙承托结构。" },
     { "id": "source-chnmuseum-storyteller", "title": "中国国家博物馆：击鼓说唱俑馆藏页", "url": "https://www.chnmuseum.cn/zp/zpml/kgfjp/202008/t20200824_247253.shtml", "level": "A", "note": "规划提供的独立馆藏页。" },
     { "id": "source-henan-gold-slip", "title": "河南博物院：武则天金简馆藏页", "url": "https://www.chnmus.net/ch/collection/treasure/details.html?id=508161850642982087", "level": "A", "note": "规划提供的独立馆藏页。" },
     { "id": "source-shaanxi-horse-flask", "title": "陕西历史博物馆：舞马衔杯纹银壶馆藏页", "url": "https://www.sxhm.com/collections/detail/10117.html", "level": "A", "note": "规划提供的独立馆藏页。" },
     { "id": "source-shaanxi-sachet", "title": "陕西历史博物馆：葡萄花鸟纹银香囊教育专题", "url": "https://www.sxhm.com/education/detail/228.html", "level": "A", "note": "精确机械结构仍需馆方研究来源复核。" },
     { "id": "source-shaanxi-catalog", "title": "陕西历史博物馆馆藏入口", "url": "https://www.sxhm.com/Site/Index/index.html", "level": "A", "note": "三彩载乐骆驼俑独立藏品页待定位。" },
     { "id": "source-chnmuseum-rhino", "title": "中国国家博物馆馆长之选：错金银云纹铜犀尊", "url": "https://www.chnmuseum.cn/portals/0/web/zt/202009gmdc/ins-dc.html", "level": "A", "note": "规划提供的馆方专题页。" },
+    { "id": "source-chnmuseum-rhino-study", "title": "中国国家博物馆研究文章：犀牛的绝唱", "url": "https://www.chnmuseum.cn/yj/xscg/xslw/201812/t20181224_33112.shtml", "level": "A", "note": "记录尺寸、1963 年陕西兴平出土、盛酒结构、错金银工艺与古代犀牛背景。" },
     { "id": "source-unesco-bells-2025", "title": "UNESCO Memory of the World：The Suizhou Bianzhong of Marquis Yi of Zeng", "url": "https://www.unesco.org/en/memory-world/suizhou-bianzhong-marquis-yi-zeng", "level": "A", "note": "用于核对编钟铭文、音乐知识与 2025 年列入《世界记忆名录》的事实。" }
   ],
   "content": {
@@ -503,28 +507,148 @@
         }
       },
       {
-        "id": "artifact-goujian-sword", "name": "越王勾践剑", "setId": "chu-sound", "timelineOrder": 11, "aliases": [], "period": "春秋晚期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-weapon"], "material": "青铜", "use": "剑", "dimensions": null, "excavation": null, "museum": "湖北省博物馆",
+        "id": "artifact-goujian-sword", "name": "越王勾践剑", "setId": "chu-sound", "timelineOrder": 11, "aliases": [], "period": "春秋晚期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-weapon"], "material": "青铜", "use": "剑", "dimensions": "长 55.6 厘米、宽 5 厘米", "excavation": "1965 年湖北江陵望山一号墓出土", "museum": "湖北省博物馆",
         "summary": "剑身有规整深色菱形纹，近剑格处留有鸟篆铭文。", "highlight": "菱形暗格纹与越王鸠浅自作用剑的八字鸟篆共同确认身份。", "culturalNote": "保存状况不能简化成某种神秘配方的单一因果。",
         "clues": [{ "id": "clue-goujian-sword-1", "level": 1, "text": "剑身布满规整深色菱形纹。" }, { "id": "clue-goujian-sword-2", "level": 2, "text": "剑首有多道同心圆，剑格嵌饰不同材料。" }, { "id": "clue-goujian-sword-3", "level": 3, "text": "近剑格处的鸟篆铭文包含越王、鸠浅与自作用剑等信息。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "菱纹剑身与鸟篆铭文已收入物华录。", "wrongAnswerExplanation": "同代青铜兵器容易混淆；深色菱纹与八字鸟篆必须同时出现。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-goujian"], "assetRefs": { "fullAssetId": "asset-full-goujian-sword", "detailAssetIds": ["asset-detail-goujian-sword-1"], "fallbackAssetId": "asset-silhouette-goujian-sword", "thumbnailAssetId": "asset-thumb-goujian-sword" }, "contentVersion": "1.0.0"
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "菱纹剑身与鸟篆铭文已收入物华录。", "wrongAnswerExplanation": "同代青铜兵器容易混淆；深色菱纹与八字鸟篆必须同时出现。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-goujian"], "assetRefs": { "fullAssetId": "asset-full-goujian-sword", "detailAssetIds": ["asset-detail-goujian-sword-1"], "fallbackAssetId": "asset-silhouette-goujian-sword", "thumbnailAssetId": "asset-thumb-goujian-sword" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一柄埋藏两千余年的青铜剑，让纹饰、铭文与墓葬线索共同说出名字。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：剑身为何像覆着暗色鳞光", "narrativeMode": "verified-fact", "sourceIds": ["source-hubei-goujian"], "body": "先看它细长的柳叶形剑身：中央起脊，两刃向外展开，表面布满连续而规整的黑色菱形纹。靠近剑格处有两行鸟篆铭文，剑格嵌饰蓝色琉璃与绿松石，圆盘状剑首内还有多道同心圆。名称并非来自传奇猜测，而是由器形、纹饰与铭文共同确认。" },
+            { "id": "making", "title": "青铜表面怎样分出明暗与层次", "narrativeMode": "verified-fact", "sourceIds": ["source-hubei-goujian"], "body": "这柄剑以青铜铸成，却没有只靠整体轮廓表现锋利。剑身的菱形暗纹、剑格的异质材料镶嵌与剑首同心圆，让不同区域各自承担识别任务。今天可以描述这些可见结构，却不应把它保存较好的原因压缩成某一种神秘配方；合金、表面处理、埋藏环境与保护经历都需要分别研究。" },
+            { "id": "lived-world", "title": "一行鸟篆怎样把剑交还给主人", "narrativeMode": "verified-fact", "sourceIds": ["source-hubei-goujian"], "body": "近剑格处的八字鸟篆铭文包含“越王”“鸠浅”和“自作用剑”等信息。“鸠浅”通常被释为勾践，因此这件兵器获得今天的名称。铭文能支持器主身份，却不能自动补齐它参与过哪场战事、由哪位工匠亲手铸造。游戏图也不伪造可读古字，只把铭文作为经馆方释读的文字证据呈现。" },
+            { "id": "journey", "title": "越国之剑为何在楚地墓葬中出现", "narrativeMode": "open-question", "sourceIds": ["source-hubei-goujian"], "body": "它于一九六五年在湖北江陵望山一号墓出土，地点处于楚文化腹地，而铭文指向越王。它如何从越地进入楚墓，可能涉及战争、馈赠、婚盟或器物转手，但现有材料不足以锁定唯一线路。正因为去向尚有讨论，这柄剑不只是名王遗物，也留下了春秋晚期诸侯之间往来的开放问题。" },
+            { "id": "why-now", "title": "为什么不能只记住“千年不锈”", "narrativeMode": "bounded-context", "sourceIds": ["source-hubei-goujian"], "body": "流行叙述常把它简化成一柄“千年不锈”的神剑，却容易遮住真正可读的证据：标准明确的器形、连续菱纹、镶嵌剑格、圆盘剑首和鸟篆铭文。把保存状况当作单一奇迹，会让复杂的制造与埋藏过程消失。细看每一处结构，反而能理解一件兵器如何同时成为文字与交流史料。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-goujian-diamond", "x": 0.5, "y": 0.39, "radius": 0.1, "label": "连续菱形暗纹", "note": "剑身不是素面，成排深色菱纹沿中脊两侧连续展开。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-goujian-guard", "x": 0.5, "y": 0.76, "radius": 0.1, "label": "镶嵌剑格", "note": "剑格以蓝色琉璃和绿松石形成层次，和青铜剑身明确分区。", "clueCategory": "material", "assetRole": "observation" },
+            { "id": "spot-goujian-pommel", "x": 0.5, "y": 0.91, "radius": 0.1, "label": "圆盘剑首", "note": "剑首向外翻卷成圆盘，内部的同心圆是另一处精细结构证据。", "clueCategory": "shape", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-goujian-shape", "category": "shape", "label": "看形", "text": "细长柳叶形剑身配圆盘剑首，剑格与剑身的分界清楚。", "npcHint": "沿剑尖看到剑首，长器的三个结构不要只记一处。", "starCost": 1 },
+            { "id": "clue-goujian-material", "category": "material", "label": "辨材", "text": "青铜剑身有黑色菱纹，剑格另嵌蓝色琉璃与绿松石。", "npcHint": "颜色不是装饰气氛，它们对应不同材料与工艺区域。", "starCost": 1 },
+            { "id": "clue-goujian-provenance", "category": "provenance", "label": "问来历", "text": "鸟篆铭文指向越王勾践，器物却出土于湖北江陵的楚墓。", "npcHint": "名字能确认器主，出土地点则留下流转问题。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "哪组证据最能确认这柄剑的身份？", "options": [{ "id": "memory-goujian-a", "label": "菱形暗纹、镶嵌剑格与越王鸟篆铭文" }, { "id": "memory-goujian-b", "label": "金色剑鞘、龙首剑柄与楚王印章" }, { "id": "memory-goujian-c", "label": "剑身锈蚀、铁制护手与墓主姓名" }], "answerId": "memory-goujian-a", "explanation": "深色菱纹和镶嵌剑格帮助辨认器物，鸟篆铭文则把剑与越王勾践联系起来；其余选项加入了文物并不存在的结构。", "sourceIds": ["source-hubei-goujian"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-zenghouyi-bells", "reason": "两者都带有可释读文字，可比较铭文怎样把器物放回人物与时代。" }, { "artifactId": "artifact-bronze-rhino-zun", "reason": "两者都以青铜表面工艺形成强烈识别特征，却承担完全不同的用途。" }],
+          "guideLines": {
+            "beforeObservation": ["这是一件长器，先沿着剑尖、剑身、剑格一路看到剑首。", "别让“神剑”传说抢先回答，暗纹和镶嵌才是眼前证据。", "三枚观察签分布得很开，逐段看完才能拼出完整身份。"],
+            "clueOpened": ["菱纹帮你辨认剑身，铭文才负责把它交还给具体器主。", "注意剑格的异质材料，它不是普通青铜剑的单色表面。", "出土地与铭文指向不同区域，这不是矛盾，而是流转线索。"],
+            "correct": ["纹饰、剑格和铭文对上了，越王之剑可以归档。", "你没有只靠“不锈”传说作答，这份判断更稳。", "器物身份已经确认，楚墓中的越剑仍给历史留下问题。"],
+            "incorrect": ["相似青铜剑很多，再检查连续菱纹和圆盘剑首。", "别只看锋刃，剑格材料与近格铭文更有辨识度。", "回到三个观察签，让结构证据替传说筛掉错误答案。"],
+            "archived": ["越王之剑已经入柜，铭文与出土地被分别记录。", "这份档案保留了确定身份，也保留了流转路径的未知。", "楚风新声又添一格，下一件会把动物身体变成酒器。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-fifteen-complete"
+        }
       },
       {
-        "id": "artifact-changxin-lamp", "name": "长信宫灯", "setId": "han-light", "timelineOrder": 13, "aliases": [], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-lamp"], "material": "鎏金铜", "use": "灯具", "dimensions": null, "excavation": "与西汉中山靖王刘胜之妻窦绾墓的出土背景有关", "museum": "河北博物院",
+        "id": "artifact-changxin-lamp", "name": "长信宫灯", "setId": "han-light", "timelineOrder": 13, "aliases": [], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-lamp"], "material": "鎏金铜", "use": "灯具", "dimensions": "高 48 厘米", "excavation": "1968 年河北满城窦绾墓出土", "museum": "河北博物院",
         "summary": "一位跪坐宫女执灯的造型，同时也是完整灯具结构。", "highlight": "右臂与袖口形成导烟通路，灯罩可以调节光线。", "culturalNote": "结果页只说明可核验结构，不使用世界最早环保灯等绝对化说法。",
         "clues": [{ "id": "clue-changxin-lamp-1", "level": 1, "text": "我像一位跪坐执灯的宫女。" }, { "id": "clue-changxin-lamp-2", "level": 2, "text": "灯罩可调节光线，右臂与袖口形成导烟通路。" }, { "id": "clue-changxin-lamp-3", "level": 3, "text": "身上多处铭文记录重量、容量和所属。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "执灯宫女与她的导烟袖管已收入物华录。", "wrongAnswerExplanation": "同为铜灯时应看人物跪坐造型，以及手臂、袖管与灯体形成的通路。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "按故宫展品详情记录的河北博物院藏品转写。", "sourceIds": ["source-palace-changxin"], "assetRefs": { "fullAssetId": "asset-full-changxin-lamp", "detailAssetIds": ["asset-detail-changxin-lamp-1"], "fallbackAssetId": "asset-silhouette-changxin-lamp", "thumbnailAssetId": "asset-thumb-changxin-lamp" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "执灯宫女与她的导烟袖管已收入物华录。", "wrongAnswerExplanation": "同为铜灯时应看人物跪坐造型，以及手臂、袖管与灯体形成的通路。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院与故宫博物院展品资料转写。", "sourceIds": ["source-hebei-changxin", "source-palace-changxin"], "assetRefs": { "fullAssetId": "asset-full-changxin-lamp", "detailAssetIds": ["asset-detail-changxin-lamp-1"], "fallbackAssetId": "asset-silhouette-changxin-lamp", "thumbnailAssetId": "asset-thumb-changxin-lamp" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "宫女安静跪坐，双臂却把托灯、调光和导烟三件事组织成一套结构。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：人物与灯为何不能分开", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-changxin", "source-palace-changxin"], "body": "一位年轻宫女双膝跪坐，左手托住灯盘，右臂高举，宽大袖口向下连接灯罩。人物并不是站在灯旁的装饰，她的身体就是灯体的一部分：手臂支撑光源，衣袖参与导烟，中空躯干承接烟灰。恬静姿态与器用结构被铸进同一个完整造型。" },
+            { "id": "making", "title": "六个部分如何拆合成一盏灯", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-changxin"], "body": "河北博物院资料记录，宫灯由头部、身躯、右臂、灯座、灯盘和灯罩等部分分铸后组合，可以拆卸。灯盘能够转动，两块弧形屏板可以开合，从而改变光线方向和亮度。通体鎏金让铜器表面明亮，却没有掩盖衣褶、手势与部件接缝；美观、使用和清理都被同时考虑。" },
+            { "id": "lived-world", "title": "烟灰究竟去了哪里", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-changxin"], "body": "灯火燃烧产生的烟气可顺着上方罩体进入宫女宽袖，再经过中空右臂抵达身体内部，烟灰沉积后可在拆卸清理时处理。这个路径说明它确实考虑了烟尘收纳，但不能把古代结构直接等同于现代空气净化设备。更准确的说法是：工匠用人物姿态巧妙组织了灯光与烟气。" },
+            { "id": "journey", "title": "铭文记录了一盏灯的多次归属", "narrativeMode": "bounded-context", "sourceIds": ["source-hebei-changxin", "source-palace-changxin"], "body": "宫灯一九六八年出土于河北满城窦绾墓，灯体有九处共六十五字铭文，涉及重量、容量和所属。“长信”因此成为今天的名称，其他铭文还提示它可能经历过不同使用者。具体流转环节仍有学术讨论，不能把一条推测写成唯一宫廷传奇；可以确定的是，文字留下了物的履历。" },
+            { "id": "why-now", "title": "为什么精巧不等于“穿越科技”", "narrativeMode": "bounded-context", "sourceIds": ["source-hebei-changxin", "source-palace-changxin"], "body": "长信宫灯常被称作古代“黑科技”，但这种标签会把真正的设计拆散。值得细看的是，跪姿提供稳定重心，双手把灯盘与罩体固定在合适高度，弧形屏板调节出光，宽袖与中空身体形成烟路，分件铸造又方便拆洗。把这些结构逐一看清，比用现代名词赞叹更接近工匠留下的智慧。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-changxin-sleeve", "x": 0.34, "y": 0.34, "radius": 0.1, "label": "高举宽袖", "note": "右臂与下垂袖管连接罩体，形成烟气进入中空身体的通路。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-changxin-tray", "x": 0.29, "y": 0.57, "radius": 0.1, "label": "可调灯盘", "note": "左手托持灯盘，弧形屏板能够开合并改变出光方向。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-changxin-kneel", "x": 0.61, "y": 0.78, "radius": 0.1, "label": "稳定跪姿", "note": "双膝跪坐形成低而稳的基座，人物躯干同时承担容纳烟灰的空间。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-changxin-shape", "category": "shape", "label": "看形", "text": "跪坐宫女左手托灯盘，右臂高举并以宽袖连接灯罩。", "npcHint": "两只手职责不同，把它们和跪姿一起看。", "starCost": 1 },
+            { "id": "clue-changxin-material", "category": "material", "label": "辨材", "text": "铜质灯体通体鎏金，人物、手臂与灯具分件铸造后组合。", "npcHint": "金色来自鎏金表层，主体仍是一件铜器。", "starCost": 1 },
+            { "id": "clue-changxin-provenance", "category": "provenance", "label": "问来历", "text": "西汉器物，1968 年从满城窦绾墓出土，现藏河北博物院。", "npcHint": "墓主人和灯上铭文共同留下了它的履历。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "长信宫灯怎样把人物造型变成工作结构？", "options": [{ "id": "memory-changxin-a", "label": "双手托罩，袖臂导烟，中空身体承接烟灰" }, { "id": "memory-changxin-b", "label": "宫女手持独立油灯，身体只负责装饰" }, { "id": "memory-changxin-c", "label": "人物头部发光，双袖只用来遮挡视线" }], "answerId": "memory-changxin-a", "explanation": "灯盘、罩体、右臂宽袖和中空躯干构成连续系统，宫女不是附加雕像；人物姿态本身就是灯具功能的一部分。", "sourceIds": ["source-hebei-changxin", "source-palace-changxin"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-bronze-rhino-zun", "reason": "两者都把具象身体变成内部可用空间，可比较导烟与盛酒结构。" }, { "artifactId": "artifact-boshan-incense-burner", "reason": "两者都处理室内燃烧产生的光、烟与气味，却采用不同器形。" }],
+          "guideLines": {
+            "beforeObservation": ["先别只看宫女的脸，沿两只手寻找灯具结构。", "右臂不是普通姿势，袖口后面藏着一条烟路。", "从上方灯罩看到下方跪姿，整件器物才完整。"],
+            "clueOpened": ["形制印告诉你人物怎么拿灯，工艺印会补上内部通路。", "鎏金很醒目，但分件与开合才决定它怎样使用。", "铭文能记录所属，却不能替争议写成完整宫廷传记。"],
+            "correct": ["双臂、灯盘和烟路已经对上，长信宫灯归档。", "你看见的不只是宫女造型，也是一套可拆合灯具。", "调光与导烟各有结构证据，这枚档案印很清楚。"],
+            "incorrect": ["相似人形灯不少，再看右臂宽袖是否连向灯罩。", "别把人物当装饰，追一遍烟气从罩体到躯干的路线。", "回到左手灯盘和下方跪姿，三处结构缺一不可。"],
+            "archived": ["一盏汉灯已经点进档案，结构比传奇更明亮。", "它的铭文履历与烟路设计已经分别收好。", "汉室长明第一格归位，下一件会用数千玉片组织身体。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-fifteen-complete"
+        }
       },
       {
-        "id": "artifact-liusheng-jade-suit", "name": "刘胜金缕玉衣", "setId": "han-light", "timelineOrder": 14, "aliases": [], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-burial", "category-jade"], "material": "玉片与金丝", "use": "葬服", "dimensions": "2498 片玉片，约 1100 克金丝", "excavation": "刘胜墓", "museum": "河北博物院",
+        "id": "artifact-liusheng-jade-suit", "name": "刘胜金缕玉衣", "setId": "han-light", "timelineOrder": 14, "aliases": [], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-burial", "category-jade"], "material": "玉片与金丝", "use": "葬服", "dimensions": "通长 188 厘米", "excavation": "1968 年河北满城刘胜墓出土", "museum": "河北博物院",
         "summary": "由不同形状的玉片以金丝连缀成人体外形的葬服。", "highlight": "头罩、上衣、手套、裤筒和鞋由 2498 片玉片组成。", "culturalNote": "它不是由一整块玉雕成，而是像甲片一样逐片连接。",
         "clues": [{ "id": "clue-liusheng-jade-suit-1", "level": 1, "text": "我不是一整块玉雕成。" }, { "id": "clue-liusheng-jade-suit-2", "level": 2, "text": "不同形状玉片覆盖头罩、上衣、手套、裤筒和鞋。" }, { "id": "clue-liusheng-jade-suit-3", "level": 3, "text": "这件葬服使用 2498 片玉片和约 1100 克金丝。" }],
-        "difficulty": "easy", "distractorTags": ["use", "material", "shape", "category"], "unlockCopy": "金丝连缀的玉片葬服已收入物华录。", "wrongAnswerExplanation": "与玉覆面等葬玉易混淆；覆盖完整人体且用金丝连接是关键。", "factCheckStatus": "pending-review", "sourceNote": "规划来源为河北旅游官方页面并标注河北博物院，独立馆藏页待补。", "sourceIds": ["source-hebeitour-jade-suit"], "assetRefs": { "fullAssetId": "asset-full-liusheng-jade-suit", "detailAssetIds": ["asset-detail-liusheng-jade-suit-1"], "fallbackAssetId": "asset-silhouette-liusheng-jade-suit", "thumbnailAssetId": "asset-thumb-liusheng-jade-suit" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["use", "material", "shape", "category"], "unlockCopy": "金丝连缀的玉片葬服已收入物华录。", "wrongAnswerExplanation": "与玉覆面等葬玉易混淆；覆盖完整人体且用金丝连接是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院独立专题与中国国家博物馆满城汉墓特展资料转写。", "sourceIds": ["source-hebei-jade-suit", "source-chnmuseum-jade-suit"], "assetRefs": { "fullAssetId": "asset-full-liusheng-jade-suit", "detailAssetIds": ["asset-detail-liusheng-jade-suit-1"], "fallbackAssetId": "asset-silhouette-liusheng-jade-suit", "thumbnailAssetId": "asset-thumb-liusheng-jade-suit" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "两千四百九十八片玉没有雕成一尊人，而是被金丝逐片连成一套葬服。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：为什么它像衣服又像甲片", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-jade-suit", "source-chnmuseum-jade-suit"], "body": "整件玉衣平展后呈完整人体轮廓，但并非由大块玉石雕成。头罩、上衣、左右手套、左右裤筒和鞋彼此分区，表面铺满大小不一的长方形、正方形与三角形玉片。片与片之间留有细密接缝，金丝从穿孔中把它们连起，让坚硬材料获得服装般的组合关系。" },
+            { "id": "making", "title": "一片玉怎样成为可连接的部件", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-jade-suit"], "body": "制作先要按人体尺度规划各部位，再选料、锯片、打磨和钻孔。玉片四角通常穿三至五孔，以金丝依照部位次序编缀，并处理边缘。刘胜玉衣全长一百八十八厘米，共用二千四百九十八片玉和约一千一百克金丝。数字令人惊叹，但真正的难点是让众多异形小片共同服从一套人体结构。" },
+            { "id": "lived-world", "title": "它为什么不是生前穿着的铠甲", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-jade-suit", "source-chnmuseum-jade-suit"], "body": "玉衣又称玉匣，是汉代高级贵族使用的葬服，不是行军铠甲，也不是日常礼服。各部分保留装殓时的开口，覆盖身体后再连接。与它同出的还有玉枕、九窍塞、玉握和玉璧等葬玉。把玉衣放回这一组合，才能理解它服务于丧葬制度，而非保护活人行动的装备。" },
+            { "id": "journey", "title": "满城汉墓怎样让典籍记载成为实物", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-jade-suit", "source-chnmuseum-jade-suit"], "body": "一九六八年，刘胜与窦绾两座满城汉墓经考古发掘，两套保存较完整的金缕玉衣由此进入公众视野。刘胜是西汉中山靖王，他的玉衣现藏河北博物院。出土时玉片关系需要被记录、提取与整理，今天展柜里平展的身体轮廓既来自汉代制作，也离不开现代考古与保护工作。" },
+            { "id": "why-now", "title": "为什么要从宏大数字回到一根金丝", "narrativeMode": "bounded-context", "sourceIds": ["source-hebei-jade-suit", "source-chnmuseum-jade-suit"], "body": "“二千四百九十八片”很容易成为唯一记忆点，却不能代替观察。每片玉的形状取决于肩、肘、手指、膝与足等位置，穿孔和金丝则把局部缝成整体。玉衣保存了等级制度、丧葬观念与玉石加工的交汇，也提醒我们不要把古人的信念简单判断为有效或无效；先理解它为何这样被制造。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-jade-suit-head", "x": 0.5, "y": 0.1, "radius": 0.1, "label": "分件头罩", "note": "脸盖与头罩由不同形状玉片组织，和上衣之间保留明确分界。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-jade-suit-seams", "x": 0.47, "y": 0.46, "radius": 0.1, "label": "金丝连缀", "note": "玉片角部穿孔，细金丝沿接缝把许多小片编缀成连续表面。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-jade-suit-hands", "x": 0.78, "y": 0.4, "radius": 0.1, "label": "独立手套", "note": "手部不是上衣的简单延长，而是整套玉衣可分辨的组成部分。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-jade-suit-shape", "category": "shape", "label": "看形", "text": "头罩、上衣、手套、裤筒和鞋共同拼成完整人体轮廓。", "npcHint": "先数身体分区，别把它看成一整块人形玉雕。", "starCost": 1 },
+            { "id": "clue-jade-suit-material", "category": "material", "label": "辨材", "text": "不同形状玉片在角部钻孔，再以金丝逐片编缀。", "npcHint": "观察片间接缝，那是材料能够成衣的关键。", "starCost": 1 },
+            { "id": "clue-jade-suit-provenance", "category": "provenance", "label": "问来历", "text": "西汉中山靖王刘胜的葬服，1968 年从满城刘胜墓出土。", "npcHint": "墓主与用途一起确认它不是普通玉甲。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "刘胜金缕玉衣如何形成完整人体外形？", "options": [{ "id": "memory-jade-suit-a", "label": "异形玉片钻孔后，以金丝分部件编缀" }, { "id": "memory-jade-suit-b", "label": "整块巨玉直接雕成人形并挖空内部" }, { "id": "memory-jade-suit-c", "label": "玉粉涂在铁甲表面形成绿色外壳" }], "answerId": "memory-jade-suit-a", "explanation": "玉衣由大量不同形状的玉片和金丝组成，并按头罩、上衣、手套、裤筒与鞋等部位装配，不是一体雕刻或金属铠甲。", "sourceIds": ["source-hebei-jade-suit", "source-chnmuseum-jade-suit"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-jade-dragon", "reason": "两者都使用玉材，却分别依靠整体琢磨与数千小片编缀成形。" }, { "artifactId": "artifact-changxin-lamp", "reason": "两者同出满城汉墓体系，可比较葬服与生活器具提供的不同信息。" }],
+          "guideLines": {
+            "beforeObservation": ["先看完整人形，再把它拆回头罩、衣、手套、裤筒和鞋。", "不要被“玉衣”两个字骗成整块玉雕，接缝才是关键。", "从肩部到手套追一段金丝，你会看到坚硬材料如何成衣。"],
+            "clueOpened": ["形制印负责分区，材料印会说明这些分区怎样连起来。", "数字很大，但先记住玉片、穿孔和金丝这条工艺链。", "墓葬来源确认了用途，它不是供活人行动的铠甲。"],
+            "correct": ["分件结构与金丝接缝都对上了，玉衣可以归档。", "你没有把它认成玉雕或铠甲，这份判断抓住了制作核心。", "二千多片玉终于不是一个数字，而是一套身体结构。"],
+            "incorrect": ["回到片间接缝，看看它是雕出来还是连出来的。", "别只盯人形轮廓，手套与鞋的独立分区很重要。", "如果它是葬服，材料、装配和使用方式都应与铠甲不同。"],
+            "archived": ["金丝与玉片已经入格，一具身体由细小部件重新显现。", "这份档案记录了制作，也记录了汉代丧葬制度。", "汉室长明再亮一格，下一件把一座山缩进熏炉。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-fifteen-complete"
+        }
       },
       {
-        "id": "artifact-boshan-incense-burner", "name": "错金铜博山炉", "setId": "han-light", "timelineOrder": 15, "aliases": ["博山炉"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-incense"], "material": "错金铜", "use": "熏炉", "dimensions": null, "excavation": null, "museum": "河北博物院",
+        "id": "artifact-boshan-incense-burner", "name": "错金铜博山炉", "setId": "han-light", "timelineOrder": 15, "aliases": ["博山炉"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-incense"], "material": "错金铜", "use": "熏炉", "dimensions": "通高 26 厘米", "excavation": "1968 年河北满城刘胜墓出土", "museum": "河北博物院",
         "summary": "炉盖层叠如山峦，山间布置神兽、人物与树木。", "highlight": "香烟可从重叠山形间升起，炉座由透雕龙形承托。", "culturalNote": "山形构造形成仙山意象，具体细节仍待馆方专题或考古报告复核。",
         "clues": [{ "id": "clue-boshan-incense-burner-1", "level": 1, "text": "我的盖不是平盖，而像重叠山峦。" }, { "id": "clue-boshan-incense-burner-2", "level": 2, "text": "山间可见神兽、虎豹、人物与树木。" }, { "id": "clue-boshan-incense-burner-3", "level": 3, "text": "炉座有透雕龙形承托，整体以错金装饰。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "category"], "unlockCopy": "山形炉盖间的香烟意象已收入物华录。", "wrongAnswerExplanation": "与其他熏炉易混淆；重叠山峦式炉盖和透雕龙座是关键。", "factCheckStatus": "pending-review", "sourceNote": "规划要求正式入库前补馆方专题或考古报告。", "sourceIds": ["source-hebei-boshan"], "assetRefs": { "fullAssetId": "asset-full-boshan-incense-burner", "detailAssetIds": ["asset-detail-boshan-incense-burner-1"], "fallbackAssetId": "asset-silhouette-boshan-incense-burner", "thumbnailAssetId": "asset-thumb-boshan-incense-burner" }, "contentVersion": "1.0.0"
+        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "category"], "unlockCopy": "山形炉盖间的香烟意象已收入物华录。", "wrongAnswerExplanation": "与其他熏炉易混淆；重叠山峦式炉盖和透雕龙座是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院独立藏品页与满城汉墓常设展资料转写。", "sourceIds": ["source-hebei-boshan"], "assetRefs": { "fullAssetId": "asset-full-boshan-incense-burner", "detailAssetIds": ["asset-detail-boshan-incense-burner-1"], "fallbackAssetId": "asset-silhouette-boshan-incense-burner", "thumbnailAssetId": "asset-thumb-boshan-incense-burner" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "工匠把层峦、走兽、猎人与三条蛟龙压缩进二十六厘米高的一座熏炉。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：一件器物为什么像山", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-boshan"], "body": "炉盖与炉盘上部不是平滑圆顶，而是铸成高低错落、彼此重叠的山峦。山间出现神兽、奔走的虎豹、蹲在峰顶或骑在兽背上的猴子，也有人持弓弩巡猎。视线向下，透雕成三龙出水状的炉柄抬起炉盘，让上方山景仿佛悬在水与云气之上。" },
+            { "id": "making", "title": "错金与镂空怎样共同塑造云山", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-boshan"], "body": "炉体以青铜铸造，表面再用金丝和金片错出舒展云气纹。炉盖顺着山势开出镂孔，山、兽与人物因此既是装饰，也是烟气通过的结构。炉盘和炉盖能够开合，便于放取香料；下方三条透雕蛟龙共同承托。实体、孔隙与金线被安排成一套由下而上的视觉节奏。" },
+            { "id": "lived-world", "title": "熏香时山景会发生什么", "narrativeMode": "bounded-context", "sourceIds": ["source-hebei-boshan"], "body": "作为熏香用具，炉内燃起香料后，烟气会从山形盖的孔隙间升起，真实烟流便与铜铸云纹、层叠山峰共同构成观看效果。我们可以依据结构说明这条路径，却不会在文物图里添加夸张烟龙或仙境特效。使用过哪一种香料、每次为何点燃，仅凭器物本身不能逐次还原。" },
+            { "id": "journey", "title": "它与刘胜墓里的另外两件国宝", "narrativeMode": "verified-fact", "sourceIds": ["source-hebei-boshan", "source-hebei-jade-suit", "source-hebei-changxin"], "body": "错金铜博山炉一九六八年出土于河北满城中山靖王刘胜墓，现藏河北博物院。同一墓葬还出土刘胜金缕玉衣；相邻的窦绾墓则出土长信宫灯。把三件器物放回满城汉墓，能同时看见葬制、室内用器、熏香习惯与金属工艺，而不是三个彼此孤立的“镇馆之宝”。" },
+            { "id": "why-now", "title": "为什么微型仙山仍需要结构证据", "narrativeMode": "bounded-context", "sourceIds": ["source-hebei-boshan"], "body": "博山炉常被浪漫化为一座神仙世界，馆方资料也说明山形承载海上仙山意象。但在想象之前，器物已经给出清晰结构：盖上镂孔负责出烟，炉盘容纳香料，三龙承托重量，错金云纹连接各层。神话意象并非凭空附会，它通过可用、可开合、可观赏的青铜装置进入汉代生活。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-boshan-peaks", "x": 0.51, "y": 0.26, "radius": 0.1, "label": "层叠山形炉盖", "note": "高低山峦彼此覆盖，人物与走兽分布在峰谷之间。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-boshan-vents", "x": 0.6, "y": 0.37, "radius": 0.1, "label": "顺山镂孔", "note": "孔隙沿山势隐藏，使香烟能够穿过炉盖进入山景。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-boshan-dragons", "x": 0.5, "y": 0.75, "radius": 0.1, "label": "三龙承盘", "note": "下方透雕蛟龙仰首托起炉盘，承担结构与图像双重作用。", "clueCategory": "trace", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-boshan-shape", "category": "shape", "label": "看形", "text": "炉盖铸成重叠山峦，山间散布走兽、猴子与持弩猎人。", "npcHint": "先把它当器物看：山景集中在可以开合的炉盖。", "starCost": 1 },
+            { "id": "clue-boshan-material", "category": "material", "label": "辨材", "text": "青铜炉体以金丝和金片错出云气纹，下方三龙透雕承托。", "npcHint": "金线、镂孔和透雕分别承担不同效果。", "starCost": 1 },
+            { "id": "clue-boshan-provenance", "category": "provenance", "label": "问来历", "text": "西汉熏炉，1968 年从满城刘胜墓出土，现藏河北博物院。", "npcHint": "它与金缕玉衣来自同一座墓，功能却完全不同。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "山形炉盖怎样同时承担装饰与使用功能？", "options": [{ "id": "memory-boshan-a", "label": "山势间设镂孔，让香烟穿过微型山景" }, { "id": "memory-boshan-b", "label": "山峰能逐一拆下，改装成小型酒杯" }, { "id": "memory-boshan-c", "label": "山顶镶有灯芯，点燃后从外部照明" }], "answerId": "memory-boshan-a", "explanation": "炉盖顺着层叠山势开孔，烟气从孔隙升起，与山景和错金云纹共同构成效果；它不是酒具或多灯头灯具。", "sourceIds": ["source-hebei-boshan"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-changxin-lamp", "reason": "两者都组织燃烧与烟气，可比较中空袖管和山形镂孔两种路径。" }, { "artifactId": "artifact-liusheng-jade-suit", "reason": "两者同出刘胜墓，却分别保存熏香生活与王侯葬制的信息。" }],
+          "guideLines": {
+            "beforeObservation": ["先从山顶看到炉座，别让仙山故事遮住器物分层。", "找出烟从哪里出来，再看三条龙怎样托住上方炉盘。", "人物和走兽很小，今天先抓山形、镂孔与承托三个大结构。"],
+            "clueOpened": ["山景不是贴上去的纹样，它本身就是可以出烟的炉盖。", "错金负责表面流光，透雕和镂孔负责空间。", "同出刘胜墓不代表同一用途，仍要回到熏炉结构判断。"],
+            "correct": ["山盖、烟孔和三龙承托都对上了，博山炉归档。", "你没有被仙境特效带走，真正的结构已经足够精彩。", "错金云纹与可用熏炉互相证明，这枚档案印很稳。"],
+            "incorrect": ["相似香炉不少，再确认顶部是不是层叠山峦。", "回到炉盖孔隙，能否让烟穿过是重要区别。", "别只看金色纹饰，下方三龙承托才补全器形。"],
+            "archived": ["一座二十六厘米高的云山已经收进档案。", "烟气虽未点燃，镂孔与承托仍把使用方式讲清楚了。", "汉室长明又归一格，下一件档案会传来击鼓与笑声。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-fifteen-complete"
+        }
       },
       {
         "id": "artifact-storyteller-drummer", "name": "击鼓说唱俑", "setId": "han-light", "timelineOrder": 16, "aliases": [], "period": "东汉", "periodGroup": "han", "categoryIds": ["category-sculpture"], "material": "陶", "use": "表现俳优说唱状态的陶俑", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
@@ -557,10 +681,40 @@
         "difficulty": "easy", "distractorTags": ["shape", "use", "material", "period"], "unlockCopy": "骆驼背上的微型乐团已收入物华录。", "wrongAnswerExplanation": "与普通骆驼俑和胡俑易混淆；多人围坐演奏、中央起舞才是核心。", "factCheckStatus": "pending-review", "sourceNote": "规划仅提供陕西历史博物馆馆藏入口，独立藏品页待定位。", "sourceIds": ["source-shaanxi-catalog"], "assetRefs": { "fullAssetId": "asset-full-tricolor-music-camel", "detailAssetIds": ["asset-detail-tricolor-music-camel-1"], "fallbackAssetId": "asset-silhouette-tricolor-music-camel", "thumbnailAssetId": "asset-thumb-tricolor-music-camel" }, "contentVersion": "1.0.0"
       },
       {
-        "id": "artifact-bronze-rhino-zun", "name": "错金银云纹铜犀尊", "setId": "chu-sound", "timelineOrder": 12, "aliases": ["铜犀尊"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-bronze-ritual"], "material": "错金银青铜", "use": "盛酒器尊", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
+        "id": "artifact-bronze-rhino-zun", "name": "错金银云纹铜犀尊", "setId": "chu-sound", "timelineOrder": 12, "aliases": ["铜犀尊"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-bronze-ritual"], "material": "错金银青铜", "use": "盛酒器尊", "dimensions": "高 34.1 厘米、长 58.1 厘米", "excavation": "1963 年陕西兴平出土", "museum": "中国国家博物馆",
         "summary": "以一只写实犀牛的完整身体作为器形的盛酒器。", "highlight": "背部设盖，犀牛身体装饰流动的错金银云纹。", "culturalNote": "动物雕塑与盛酒器尊的功能叠合在同一器形上。",
         "clues": [{ "id": "clue-bronze-rhino-zun-1", "level": 1, "text": "我以一只犀牛的完整身体作为器形。" }, { "id": "clue-bronze-rhino-zun-2", "level": 2, "text": "背部有盖，身体装饰错金银云纹。" }, { "id": "clue-bronze-rhino-zun-3", "level": 3, "text": "我既是动物雕塑，也是盛酒器中的尊。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "披着流云纹的写实铜犀已收入物华录。", "wrongAnswerExplanation": "动物形青铜器彼此相似；犀牛写实轮廓、背盖和错金银云纹是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆馆方专题页转写。", "sourceIds": ["source-chnmuseum-rhino"], "assetRefs": { "fullAssetId": "asset-full-bronze-rhino-zun", "detailAssetIds": ["asset-detail-bronze-rhino-zun-1"], "fallbackAssetId": "asset-silhouette-bronze-rhino-zun", "thumbnailAssetId": "asset-thumb-bronze-rhino-zun" }, "contentVersion": "1.0.0"
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "披着流云纹的写实铜犀已收入物华录。", "wrongAnswerExplanation": "动物形青铜器彼此相似；犀牛写实轮廓、背盖和错金银云纹是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆馆方专题与研究文章转写。", "sourceIds": ["source-chnmuseum-rhino", "source-chnmuseum-rhino-study"], "assetRefs": { "fullAssetId": "asset-full-bronze-rhino-zun", "detailAssetIds": ["asset-detail-bronze-rhino-zun-1"], "fallbackAssetId": "asset-silhouette-bronze-rhino-zun", "thumbnailAssetId": "asset-thumb-bronze-rhino-zun" }, "contentVersion": "2.0.0",
+        "experienceV2": {
+          "storyHook": "一只低头站立的青铜犀牛，背上藏着入口，嘴边还藏着倒酒的出口。",
+          "story": [
+            { "id": "first-look", "title": "第一眼：为什么它像一只真正的犀牛", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-rhino", "source-chnmuseum-rhino-study"], "body": "它没有被概括成神兽：昂起的头、肥硕腹部、短粗四腿、厚皮褶皱与一大一小两角，都接近对真实犀牛的细致观察。双眼嵌黑色料珠，身体重心稳定而有力量。可是背部并非完整封闭，那里开有椭圆形口和盖，提示这具动物身体同时拥有容器的内部空间。" },
+            { "id": "making", "title": "金丝银片怎样在铜身上流动", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-rhino", "source-chnmuseum-rhino-study"], "body": "器物先以青铜塑出犀牛体量，再用金、银细丝或薄片嵌入表面，组成遍布全身的卷云纹。金银线在深色铜地上明暗交替，没有破坏犀牛厚重的躯体，反而像流动光泽贴着皮肤起伏。造型写实与错金银装饰在同一件器物上并存，说明工匠同时经营铸造、镶嵌和表面节奏。" },
+            { "id": "lived-world", "title": "犀牛的身体怎样成为一件酒尊", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-rhino", "source-chnmuseum-rhino-study"], "body": "“尊”在这里不是单纯的雕塑名称，而是盛酒器。腹腔中空，酒液可由背部有盖的椭圆口注入；犀牛口部右侧有一根看似獠牙的圆管，实际承担流的作用。使用时握住尾部并抬起器身，液体便能从管口倒出。动物的背、腹、口与尾都被纳入同一套器用逻辑。" },
+            { "id": "journey", "title": "从陕西兴平进入国家收藏", "narrativeMode": "verified-fact", "sourceIds": ["source-chnmuseum-rhino-study"], "body": "这件西汉铜犀尊一九六三年出土于陕西兴平，高三十四点一厘米、长五十八点一厘米，现藏中国国家博物馆。它的出土地与写实犀牛形象共同留下环境史线索：犀牛曾在古代中国更广区域出现。器物不能独自重建完整生态，却能与动物遗存和文字资料互相参照。" },
+            { "id": "why-now", "title": "为什么一件酒器也能谈人与自然", "narrativeMode": "bounded-context", "sourceIds": ["source-chnmuseum-rhino", "source-chnmuseum-rhino-study"], "body": "今天看这件尊，既能读工艺，也能读古人对动物的观察。犀牛并未被画成奇异怪兽，皮褶、短腿和双角都被认真塑造；但它又被转化成盛酒、注酒的器物。馆方由此提示人们思考犀牛在中国的历史分布与后来消失。文物不能替生态史给出全部答案，却保存了一次清晰相遇。" }
+          ],
+          "observationSpots": [
+            { "id": "spot-rhino-horns", "x": 0.17, "y": 0.49, "radius": 0.1, "label": "一大一小双角", "note": "头部两角与厚皮褶皱构成写实犀牛的主要轮廓。", "clueCategory": "shape", "assetRole": "observation" },
+            { "id": "spot-rhino-lid", "x": 0.58, "y": 0.34, "radius": 0.1, "label": "背部椭圆盖", "note": "背部开口连向中空腹腔，使动物身体真正能够容纳酒液。", "clueCategory": "craft", "assetRole": "observation" },
+            { "id": "spot-rhino-inlay", "x": 0.57, "y": 0.56, "radius": 0.1, "label": "错金银云纹", "note": "金银细线随身体起伏铺展，在深色青铜表面形成流动云气。", "clueCategory": "material", "assetRole": "observation" }
+          ],
+          "clueCards": [
+            { "id": "clue-rhino-shape", "category": "shape", "label": "看形", "text": "肥硕身躯、短粗四腿、皮褶与双角共同构成写实犀牛。", "npcHint": "别把所有动物形尊都当神兽，先认真实身体特征。", "starCost": 1 },
+            { "id": "clue-rhino-material", "category": "material", "label": "辨材", "text": "青铜器身上嵌入金银细丝或薄片，云纹随躯体铺展。", "npcHint": "金银不是涂色，它们被嵌进了青铜表面。", "starCost": 1 },
+            { "id": "clue-rhino-provenance", "category": "provenance", "label": "问来历", "text": "西汉器物，1963 年陕西兴平出土，现藏中国国家博物馆。", "npcHint": "时代与出土地能帮助你排除后世仿生酒器。", "starCost": 1 }
+          ],
+          "memoryChallenge": { "prompt": "铜犀的身体如何承担盛酒器功能？", "options": [{ "id": "memory-rhino-a", "label": "背口注入、腹腔盛酒、口侧圆管流出" }, { "id": "memory-rhino-b", "label": "双角取下后分别作为酒杯使用" }, { "id": "memory-rhino-c", "label": "四足中空并分别储存四种酒液" }], "answerId": "memory-rhino-a", "explanation": "有盖背口、中空腹腔与口侧管状流组成完整通路；尾部便于抬起器身，但双角和四足并不是独立容器。", "sourceIds": ["source-chnmuseum-rhino", "source-chnmuseum-rhino-study"] },
+          "relatedArtifacts": [{ "artifactId": "artifact-eagle-tripod", "reason": "两者都让动物身体直接承担器物结构，可比较陶鼎与青铜酒尊。" }, { "artifactId": "artifact-goujian-sword", "reason": "两者都以精细表面工艺增强青铜器辨识度，可比较菱纹与错金银。" }],
+          "guideLines": {
+            "beforeObservation": ["先认犀牛，再找它哪里不像单纯雕塑。", "背部、腹腔和嘴边圆管连起来，器物用途就会出现。", "云纹很华丽，但第一步仍是看清双角和四条短腿。"],
+            "clueOpened": ["这枚形制印先锁定犀牛，下一枚会告诉你它为何是尊。", "错金银沿身体流动，别把它误认成普通彩绘。", "出土地补足时间坐标，却不能单独解释犀牛为何消失。"],
+            "correct": ["犀牛轮廓、背盖和管状流都对上了，酒尊归档。", "你认出了动物，也认出了身体里的器用结构。", "写实造型与错金银工艺互相证明，这枚档案印很稳。"],
+            "incorrect": ["动物形尊不少，回头确认双角、背盖和口侧圆管。", "别只被云纹吸引，能不能盛酒和倒酒才是器类关键。", "从背部开口一路看到嘴边，答案藏在液体路径里。"],
+            "archived": ["披着金银流云的铜犀已经进入楚风新声。", "它既保存工匠的动物观察，也保存一套完整酒器结构。", "收柜前再记一次：背口、腹腔、管流，三处必须连起来。"]
+          },
+          "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "2.0.0-fifteen-complete"
+        }
       }
     ],
     "distractorCandidates": [

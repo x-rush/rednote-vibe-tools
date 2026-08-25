@@ -67,9 +67,9 @@ describe('artifact detail view model', () => {
     expect(model.editorial?.sources.map(({ id }) => id)).toEqual(['source-chnmuseum-eagle-tripod'])
   })
 
-  it('builds complete and uniquely sourced editorial details for all ten playable artifacts', () => {
+  it('builds complete and uniquely sourced editorial details for all fifteen playable artifacts', () => {
     const playable = content.content.artifacts.filter(isCompleteArtifact)
-    expect(playable).toHaveLength(10)
+    expect(playable).toHaveLength(15)
 
     for (const artifact of playable) {
       const model = buildArtifactDetailViewModel(

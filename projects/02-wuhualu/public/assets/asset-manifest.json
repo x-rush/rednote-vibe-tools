@@ -1,7 +1,7 @@
 {
   "project": "wuhualu",
-  "version": 7,
-  "status": "ten-artifacts-all-static-roles-three-width-approved",
+  "version": 8,
+  "status": "fifteen-artifacts-all-static-roles-integration-ready",
   "policy": {
     "referenceRequired": true,
     "museumPhotoBundlingDefault": false,
@@ -20,21 +20,20 @@
       "artifact-lotus-crane-hu",
       "artifact-cloud-bronze-jin",
       "artifact-zenghouyi-zunpan",
-      "artifact-zenghouyi-bells"
-    ],
-    "textFallbackOnlyArtifactIds": [
+      "artifact-zenghouyi-bells",
       "artifact-goujian-sword",
-      "artifact-changxin-lamp"
-    ],
-    "referenceRequiredArtifactIds": [
+      "artifact-bronze-rhino-zun",
+      "artifact-changxin-lamp",
       "artifact-liusheng-jade-suit",
-      "artifact-boshan-incense-burner",
+      "artifact-boshan-incense-burner"
+    ],
+    "textFallbackOnlyArtifactIds": [],
+    "referenceRequiredArtifactIds": [
       "artifact-storyteller-drummer",
       "artifact-wuzetian-gold-slip",
       "artifact-dancing-horse-flask",
       "artifact-grape-bird-sachet",
-      "artifact-tricolor-music-camel",
-      "artifact-bronze-rhino-zun"
+      "artifact-tricolor-music-camel"
     ],
     "unknownArtifactPolicy": "exclude-from-image-round",
     "insufficientPoolPolicy": "recoverable-error-do-not-expand",
@@ -621,8 +620,11 @@
     },
     {
       "id": "artifact-goujian-sword",
-      "status": "creative-reconstruction-v2-conditional",
+      "status": "creative-reconstruction-v2-all-static-roles-integration-ready",
       "reveal": "artifacts/artifact-goujian-sword/reveal-creative-reconstruction.webp",
+      "silhouette": "artifacts/artifact-goujian-sword/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-goujian-sword/thumb.webp",
+      "clueCrops": ["artifacts/artifact-goujian-sword/clue-crop-diamond-pattern.webp", "artifacts/artifact-goujian-sword/clue-crop-guard-pommel.webp"],
       "referenceDossier": "../../research/artifact-goujian-sword-reference-dossier.md",
       "integratedScreens": [
         "correct-reveal",
@@ -630,16 +632,15 @@
         "artifact-detail",
         "catalog"
       ],
-      "remaining": [
-        "verified-silhouette-svg",
-        "tested-clue-crops",
-        "real-app-dynamic-qa"
-      ]
+      "remaining": ["real-app-dynamic-qa"]
     },
     {
       "id": "artifact-changxin-lamp",
-      "status": "creative-reconstruction-v1-conditional",
+      "status": "creative-reconstruction-v1-all-static-roles-integration-ready",
       "reveal": "artifacts/artifact-changxin-lamp/reveal-creative-reconstruction.webp",
+      "silhouette": "artifacts/artifact-changxin-lamp/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-changxin-lamp/thumb.webp",
+      "clueCrops": ["artifacts/artifact-changxin-lamp/clue-crop-sleeve-lamp.webp", "artifacts/artifact-changxin-lamp/clue-crop-kneeling-body.webp"],
       "referenceDossier": "../../research/artifact-changxin-lamp-reference-dossier.md",
       "dimensions": {
         "width": 900,
@@ -663,20 +664,27 @@
         "permanentAiNatureLabel": true,
         "scrollReachability": "passed"
       },
-      "remaining": [
-        "verified-silhouette-svg",
-        "tested-clue-crops",
-        "smoke-path-explanatory-svg",
-        "real-app-dynamic-qa"
-      ]
+      "remaining": ["smoke-path-explanatory-svg", "real-app-dynamic-qa"]
     },
     {
       "id": "artifact-liusheng-jade-suit",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-all-static-roles-integration-ready",
+      "referenceDossier": "../../research/artifact-liusheng-jade-suit-reference-dossier.md",
+      "reveal": "artifacts/artifact-liusheng-jade-suit/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-liusheng-jade-suit/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-liusheng-jade-suit/thumb.webp",
+      "clueCrops": ["artifacts/artifact-liusheng-jade-suit/clue-crop-head-torso.webp", "artifacts/artifact-liusheng-jade-suit/clue-crop-wire-gloves.webp"],
+      "dimensions": { "width": 900, "height": 1125 }
     },
     {
       "id": "artifact-boshan-incense-burner",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-reference-anchored-all-static-roles-integration-ready",
+      "referenceDossier": "../../research/artifact-boshan-incense-burner-reference-dossier.md",
+      "reveal": "artifacts/artifact-boshan-incense-burner/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-boshan-incense-burner/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-boshan-incense-burner/thumb.webp",
+      "clueCrops": ["artifacts/artifact-boshan-incense-burner/clue-crop-mountain-vents.webp", "artifacts/artifact-boshan-incense-burner/clue-crop-dragon-base.webp"],
+      "dimensions": { "width": 900, "height": 1125 }
     },
     {
       "id": "artifact-storyteller-drummer",
@@ -700,7 +708,14 @@
     },
     {
       "id": "artifact-bronze-rhino-zun",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-corrected-all-static-roles-integration-ready",
+      "referenceDossier": "../../research/artifact-bronze-rhino-zun-reference-dossier.md",
+      "reveal": "artifacts/artifact-bronze-rhino-zun/reveal-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-bronze-rhino-zun/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-bronze-rhino-zun/thumb.webp",
+      "clueCrops": ["artifacts/artifact-bronze-rhino-zun/clue-crop-horns-spout.webp", "artifacts/artifact-bronze-rhino-zun/clue-crop-lid-inlay.webp"],
+      "dimensions": { "width": 900, "height": 1125 },
+      "rejectedVersions": ["v0-four-horns-factual-failure"]
     }
   ],
   "perArtifactRequired": [

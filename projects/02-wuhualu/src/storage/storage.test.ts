@@ -92,6 +92,21 @@ describe('versioned local storage', () => {
     expect(loaded.payload.setSealIds).toEqual([])
   })
 
+  it('drops a malformed current session before it can crash resume', () => {
+    const storage = new MemoryStorage()
+    const payload = createDefaultStoragePayload('2.0.0', '2026-08-25T00:00:00.000Z')
+    Object.assign(payload, {
+      currentSession: {
+        seed: 'broken', artifactIds: ['artifact-a'], index: 9,
+        answers: [null], revealedClueIds: [], score: 0, streak: 0,
+      },
+    })
+    storage.setItem(STORAGE_KEY, JSON.stringify(payload))
+    const loaded = loadStorage(storage, validIds, '2.0.0', payload.updatedAt)
+    expect(loaded.payload.currentSession).toBeNull()
+    expect(loaded.recovery).toBe('sanitized-references')
+  })
+
   it('round-trips and sanitizes V2 learning progress without storing media', () => {
     const storage = new MemoryStorage()
     const payload = createDefaultStoragePayload('2.0.0', '2026-08-25T00:00:00.000Z')

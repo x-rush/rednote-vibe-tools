@@ -51,6 +51,14 @@ describe('production content package', () => {
     expect(validateContent(broken).issues.some(({ path }) => path.includes('experienceV2'))).toBe(true)
   })
 
+  it('rejects duplicate V2 clue-card IDs', () => {
+    const broken = structuredClone(content)
+    const enhanced = broken.content.artifacts.find(artifact => artifact.experienceV2)
+    if (!enhanced?.experienceV2) throw new Error('missing golden experience')
+    enhanced.experienceV2.clueCards[1].id = enhanced.experienceV2.clueCards[0].id
+    expect(validateContent(broken).issues.some(({ message }) => message === '线索印 ID 重复')).toBe(true)
+  })
+
   it('reports invalid references and unsafe asset IDs with JSON paths', () => {
     const invalid = structuredClone(content)
     invalid.content.artifacts[0].sourceIds = ['source-missing']
@@ -72,6 +80,17 @@ describe('production content package', () => {
       'lockedText', 'scoreLabel', 'bestScoreLabel', 'progressLabel', 'sourceStatusTitle',
       'storageCorruptMessage', 'storageVersionMessage', 'storageInvalidMessage', 'contentMissingMessage',
       'verifiedLabel', 'pendingLabel', 'collectorPerfect', 'collectorHigh', 'collectorMid', 'collectorLow',
+      'guideHomeLine', 'guideTaskLine', 'guideLegacyLine', 'guideIntroLine', 'guideHelpBody',
+      'guideName', 'guideRole', 'guideAskAction', 'guideReturnAction', 'taskBoardLabel',
+      'observationEyebrow', 'observationTitle', 'wrongReviewEyebrow', 'wrongReviewTitle',
+      'wrongReviewAction', 'revealStoryAction', 'legacyStoryPending', 'readingGate',
+      'legacyArchiveAction', 'setCompleteEyebrow', 'setCompleteAction', 'lockedDetailEyebrow',
+      'lockedDetailBody', 'memoryEyebrow', 'memoryTitle', 'memorySubmitAction', 'memoryCorrect',
+      'memoryIncorrect', 'memoryArchiveAction', 'archiveNextAction', 'archiveRelatedTitle',
+      'observationInstruction', 'legacyObservationInstruction', 'clueBoxLabel', 'clueBoxTitle',
+      'clueFirstFree', 'clueOpenPrefix', 'clueStarBand', 'archivePrompt', 'guideEliminated',
+      'archiveStampAction', 'archiveSealCharacter', 'storyEyebrow', 'storyNavLabel',
+      'storySectionPrefix', 'storySourcesLabel', 'storySourceLevelSuffix', 'storyReadAction', 'storyReadDone',
     ] as const
     for (const key of required) expect(content.content.copy[key].trim().length, key).toBeGreaterThan(0)
   })

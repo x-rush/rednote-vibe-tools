@@ -97,6 +97,34 @@ describe('application V2 state machine', () => {
     expect(state.payload.collection).toHaveLength(1)
   })
 
+  it('keeps observation controls live after selection and persists one Xu Zhao elimination', () => {
+    const experience = goldenExperience()
+    let state = startedGoldenState()
+    if (state.screen !== 'observation') throw new Error('expected observation')
+    const question = state.questions[state.session.index]
+    state = appReducer(state, { type: 'selectOption', optionId: question.correctOptionId })
+    expect(state.screen).toBe('answering')
+    state = appReducer(state, { type: 'discoverSpot', spotId: experience.observationSpots[0].id })
+    state = appReducer(state, { type: 'openClue', clueId: experience.clueCards[2].id })
+    state = appReducer(state, { type: 'askGuide' })
+    if (state.screen !== 'answering') throw new Error('expected answering')
+    expect(state.selectedOptionId).toBe(question.correctOptionId)
+    expect(state.session.caseProgress).toMatchObject({
+      observedSpotIds: [experience.observationSpots[0].id],
+      openedClueIds: [experience.clueCards[2].id],
+    })
+    const eliminated = state.session.caseProgress?.eliminatedOptionId
+    expect(eliminated).toBeTruthy()
+    expect(eliminated).not.toBe(question.correctOptionId)
+    expect(appReducer(state, { type: 'askGuide' })).toBe(state)
+
+    state = createInitialState(state.payload)
+    state = appReducer(state, { type: 'resumeRound', artifacts: content.content.artifacts, candidates: content.content.distractorCandidates })
+    expect(state.screen).toBe('answering')
+    if (state.screen !== 'answering') throw new Error('expected restored answer')
+    expect(state.session.caseProgress?.eliminatedOptionId).toBe(eliminated)
+  })
+
   it('restores the exact story phase from a persisted current session', () => {
     const experience = goldenExperience()
     let state = answerCurrent(startedGoldenState(), true)
@@ -109,6 +137,28 @@ describe('application V2 state machine', () => {
     expect(state.screen).toBe('story')
     if (state.screen !== 'story') throw new Error('expected story')
     expect(state.session.caseProgress?.storyReadSections).toEqual([experience.story[0].id])
+  })
+
+  it('falls back from an impossible persisted memory phase to the story', () => {
+    const experience = goldenExperience()
+    let state = answerCurrent(startedGoldenState(), true)
+    state = appReducer(state, { type: 'openStory' })
+    if (state.screen !== 'story' || !state.payload.currentSession?.caseProgress) throw new Error('expected stored story')
+    const payload: StoragePayload = {
+      ...state.payload,
+      currentSession: {
+        ...state.payload.currentSession,
+        caseProgress: {
+          ...state.payload.currentSession.caseProgress,
+          phase: 'memory',
+          storyReadSections: experience.story.map(({ id }) => id),
+          memoryAnswerId: null,
+        },
+      },
+    }
+    state = createInitialState(payload)
+    state = appReducer(state, { type: 'resumeRound', artifacts: content.content.artifacts, candidates: content.content.distractorCandidates })
+    expect(state.screen).toBe('story')
   })
 
   it('awards a set seal once when archiving the fourth collected artifact', () => {

@@ -195,6 +195,55 @@ export type ContentCopy = {
   collectorHigh: string
   collectorMid: string
   collectorLow: string
+  guideHomeLine: string
+  guideTaskLine: string
+  guideLegacyLine: string
+  guideIntroLine: string
+  guideHelpBody: string
+  guideName: string
+  guideRole: string
+  guideAskAction: string
+  guideReturnAction: string
+  taskBoardLabel: string
+  observationEyebrow: string
+  observationTitle: string
+  wrongReviewEyebrow: string
+  wrongReviewTitle: string
+  wrongReviewAction: string
+  revealStoryAction: string
+  legacyStoryPending: string
+  readingGate: string
+  legacyArchiveAction: string
+  setCompleteEyebrow: string
+  setCompleteAction: string
+  lockedDetailEyebrow: string
+  lockedDetailBody: string
+  memoryEyebrow: string
+  memoryTitle: string
+  memorySubmitAction: string
+  memoryCorrect: string
+  memoryIncorrect: string
+  memoryArchiveAction: string
+  archiveNextAction: string
+  archiveRelatedTitle: string
+  observationInstruction: string
+  legacyObservationInstruction: string
+  clueBoxLabel: string
+  clueBoxTitle: string
+  clueFirstFree: string
+  clueOpenPrefix: string
+  clueStarBand: string
+  archivePrompt: string
+  guideEliminated: string
+  archiveStampAction: string
+  archiveSealCharacter: string
+  storyEyebrow: string
+  storyNavLabel: string
+  storySectionPrefix: string
+  storySourcesLabel: string
+  storySourceLevelSuffix: string
+  storyReadAction: string
+  storyReadDone: string
 }
 
 export type WuhualuContentPackage = {
@@ -262,6 +311,7 @@ export type CaseProgress = {
   observedSpotIds: string[]
   storyReadSections: StorySectionId[]
   selectedOptionId: string | null
+  eliminatedOptionId: string | null
   memoryAnswerId: string | null
   completedSetId: ArtifactSetId | null
 }

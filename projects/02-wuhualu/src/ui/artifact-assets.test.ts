@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import rawContent from '../content/content.json'
+import assetManifest from '../../public/assets/asset-manifest.json'
 import { parseContent } from '../content/validate.ts'
 import { filterPlayableArtifacts, getRuntimeArtifactAssets, playableArtifactIds, selectClueAsset } from './artifact-assets.ts'
 
@@ -10,6 +11,8 @@ describe('release artifact assets', () => {
     expect(playableArtifactIds).toHaveLength(10)
     expect(new Set(playableArtifactIds).size).toBe(10)
     expect(filterPlayableArtifacts(artifacts).map(({ id }) => id).sort()).toEqual([...playableArtifactIds].sort())
+    expect([...assetManifest.releaseGate.playableStaticArtifactIds].sort()).toEqual([...playableArtifactIds].sort())
+    expect(assetManifest.releaseGate.referenceRequiredArtifactIds).not.toContain('artifact-zenghouyi-bells')
   })
 
   it.each(playableArtifactIds)('%s has every static role and local URLs', id => {

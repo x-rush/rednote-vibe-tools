@@ -1,7 +1,7 @@
 {
   "project": "wuhualu",
-  "version": 6,
-  "status": "nine-artifacts-all-static-roles-three-width-approved",
+  "version": 7,
+  "status": "ten-artifacts-all-static-roles-three-width-approved",
   "policy": {
     "referenceRequired": true,
     "museumPhotoBundlingDefault": false,
@@ -19,14 +19,14 @@
       "artifact-four-ram-zun",
       "artifact-lotus-crane-hu",
       "artifact-cloud-bronze-jin",
-      "artifact-zenghouyi-zunpan"
+      "artifact-zenghouyi-zunpan",
+      "artifact-zenghouyi-bells"
     ],
     "textFallbackOnlyArtifactIds": [
       "artifact-goujian-sword",
       "artifact-changxin-lamp"
     ],
     "referenceRequiredArtifactIds": [
-      "artifact-zenghouyi-bells",
       "artifact-liusheng-jade-suit",
       "artifact-boshan-incense-burner",
       "artifact-storyteller-drummer",
@@ -563,7 +563,27 @@
     },
     {
       "id": "artifact-zenghouyi-bells",
-      "status": "reference-required"
+      "status": "creative-reconstruction-v1-golden-slice-dynamic-three-width-approved",
+      "referenceDossier": "../../research/artifact-zenghouyi-bells-reference-dossier.md",
+      "reveal": "artifacts/artifact-zenghouyi-bells/reveal-creative-reconstruction-v1.webp",
+      "revealWide": "artifacts/artifact-zenghouyi-bells/reveal-wide-creative-reconstruction-v1.webp",
+      "silhouette": "artifacts/artifact-zenghouyi-bells/silhouette-verified.svg",
+      "thumb": "artifacts/artifact-zenghouyi-bells/thumb.webp",
+      "clueCrops": [
+        "artifacts/artifact-zenghouyi-bells/clue-crop-l-frame-three-tiers.webp",
+        "artifacts/artifact-zenghouyi-bells/clue-crop-small-to-large-bells.webp"
+      ],
+      "dimensions": { "portrait": [900, 1125], "wide": [1200, 800] },
+      "qa": {
+        "singleAsset": "conditional-pass-non-digital-reconstruction",
+        "responsiveWidths": [375, 390, 430],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "textGate": "passed",
+        "assetFailureFallback": "passed",
+        "goldenFiveRoundFlow": "passed"
+      },
+      "remaining": ["runtime-performance-qa"]
     },
     {
       "id": "artifact-zenghouyi-zunpan",

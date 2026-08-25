@@ -186,17 +186,22 @@ export function validateContent(input: unknown): ContentValidationResult {
       }
 
       if (!Array.isArray(experience.clueCards) || experience.clueCards.length !== 3) issue(`${experiencePath}.clueCards`, '必须包含三枚线索印')
-      else experience.clueCards.forEach((card, child) => {
-        const cardPath = `${experiencePath}.clueCards[${child}]`
-        if (!isRecord(card)) return issue(cardPath, '线索印必须是对象')
-        if (!nonEmpty(card.id) || !ID_PATTERN.test(card.id)) issue(`${cardPath}.id`, '线索印 ID 非法')
-        if (card.category !== CLUE_CATEGORIES[child]) issue(`${cardPath}.category`, `线索类别必须为 ${CLUE_CATEGORIES[child]}`)
-        if (card.label !== CLUE_LABELS[child]) issue(`${cardPath}.label`, `线索标签必须为 ${CLUE_LABELS[child]}`)
-        if (!nonEmpty(card.text) || textLength(card.text) < 18 || textLength(card.text) > 52) issue(`${cardPath}.text`, '线索文字必须为 18–52 字')
-        if (!nonEmpty(card.npcHint) || textLength(card.npcHint) < 12 || textLength(card.npcHint) > 52) issue(`${cardPath}.npcHint`, '许照提示必须为 12–52 字')
-        if (card.starCost !== 0 && card.starCost !== 1) issue(`${cardPath}.starCost`, '线索代价必须为 0 或 1')
-        if (nonEmpty(card.text) && nonEmpty(artifact.name) && card.text.includes(artifact.name)) issue(`${cardPath}.text`, '线索不得直接泄露完整名称')
-      })
+      else {
+        const clueCardIds = new Set<string>()
+        experience.clueCards.forEach((card, child) => {
+          const cardPath = `${experiencePath}.clueCards[${child}]`
+          if (!isRecord(card)) return issue(cardPath, '线索印必须是对象')
+          if (!nonEmpty(card.id) || !ID_PATTERN.test(card.id)) issue(`${cardPath}.id`, '线索印 ID 非法')
+          else if (clueCardIds.has(card.id)) issue(`${cardPath}.id`, '线索印 ID 重复')
+          else clueCardIds.add(card.id)
+          if (card.category !== CLUE_CATEGORIES[child]) issue(`${cardPath}.category`, `线索类别必须为 ${CLUE_CATEGORIES[child]}`)
+          if (card.label !== CLUE_LABELS[child]) issue(`${cardPath}.label`, `线索标签必须为 ${CLUE_LABELS[child]}`)
+          if (!nonEmpty(card.text) || textLength(card.text) < 18 || textLength(card.text) > 52) issue(`${cardPath}.text`, '线索文字必须为 18–52 字')
+          if (!nonEmpty(card.npcHint) || textLength(card.npcHint) < 12 || textLength(card.npcHint) > 52) issue(`${cardPath}.npcHint`, '许照提示必须为 12–52 字')
+          if (card.starCost !== 0 && card.starCost !== 1) issue(`${cardPath}.starCost`, '线索代价必须为 0 或 1')
+          if (nonEmpty(card.text) && nonEmpty(artifact.name) && card.text.includes(artifact.name)) issue(`${cardPath}.text`, '线索不得直接泄露完整名称')
+        })
+      }
 
       const memory = experience.memoryChallenge
       if (!isRecord(memory)) issue(`${experiencePath}.memoryChallenge`, '离柜一问必须是完整对象')
@@ -276,6 +281,17 @@ export function validateContent(input: unknown): ContentValidationResult {
     'bestScoreLabel', 'progressLabel', 'sourceStatusTitle',
     'storageCorruptMessage', 'storageVersionMessage', 'storageInvalidMessage', 'contentMissingMessage',
     'verifiedLabel', 'pendingLabel', 'collectorPerfect', 'collectorHigh', 'collectorMid', 'collectorLow',
+    'guideHomeLine', 'guideTaskLine', 'guideLegacyLine', 'guideIntroLine', 'guideHelpBody',
+    'guideName', 'guideRole', 'guideAskAction', 'guideReturnAction', 'taskBoardLabel',
+    'observationEyebrow', 'observationTitle', 'wrongReviewEyebrow', 'wrongReviewTitle',
+    'wrongReviewAction', 'revealStoryAction', 'legacyStoryPending', 'readingGate',
+    'legacyArchiveAction', 'setCompleteEyebrow', 'setCompleteAction', 'lockedDetailEyebrow',
+    'lockedDetailBody', 'memoryEyebrow', 'memoryTitle', 'memorySubmitAction', 'memoryCorrect',
+    'memoryIncorrect', 'memoryArchiveAction', 'archiveNextAction', 'archiveRelatedTitle',
+    'observationInstruction', 'legacyObservationInstruction', 'clueBoxLabel', 'clueBoxTitle',
+    'clueFirstFree', 'clueOpenPrefix', 'clueStarBand', 'archivePrompt', 'guideEliminated',
+    'archiveStampAction', 'archiveSealCharacter', 'storyEyebrow', 'storyNavLabel',
+    'storySectionPrefix', 'storySourcesLabel', 'storySourceLevelSuffix', 'storyReadAction', 'storyReadDone',
   ]
   if (!isRecord(copy)) issue('$.content.copy', '界面文案必须是对象')
   else requiredCopy.forEach(key => {

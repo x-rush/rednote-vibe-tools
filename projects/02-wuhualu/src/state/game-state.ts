@@ -1,6 +1,7 @@
 import type {
   Artifact,
   ArtifactLearningProgress,
+  ArtifactSetId,
   CasePhase,
   CaseProgress,
   DistractorCandidate,
@@ -43,6 +44,7 @@ export type AppAction =
   | { type: 'resumeRound'; artifacts: readonly Artifact[]; candidates: readonly DistractorCandidate[] }
   | { type: 'discoverSpot'; spotId: string }
   | { type: 'openClue'; clueId: string }
+  | { type: 'askGuide' }
   | { type: 'selectOption'; optionId: string }
   | { type: 'submitAnswer'; answeredAt: string }
   | { type: 'continueToReveal' }
@@ -64,6 +66,7 @@ export type AppAction =
 const CASE_PHASES = new Set<CasePhase>([
   'observation', 'clueSelect', 'answering', 'wrongReview', 'reveal', 'story', 'memory', 'archive', 'setComplete',
 ])
+const ARTIFACT_SET_IDS = new Set<ArtifactSetId>(['first-fire', 'ritual-bronze', 'chu-sound', 'han-light', 'tang-world'])
 
 export function createInitialState(payload: StoragePayload): AppState {
   return { screen: 'landing', payload }
@@ -76,6 +79,7 @@ function createCaseProgress(): CaseProgress {
     observedSpotIds: [],
     storyReadSections: [],
     selectedOptionId: null,
+    eliminatedOptionId: null,
     memoryAnswerId: null,
     completedSetId: null,
   }
@@ -97,8 +101,9 @@ function normalizeCaseProgress(session: QuizSession): CaseProgress {
     observedSpotIds: [...new Set(observedSpotIds)],
     storyReadSections: [...new Set(storyReadSections)],
     selectedOptionId: typeof progress.selectedOptionId === 'string' ? progress.selectedOptionId : null,
+    eliminatedOptionId: typeof progress.eliminatedOptionId === 'string' ? progress.eliminatedOptionId : null,
     memoryAnswerId: typeof progress.memoryAnswerId === 'string' ? progress.memoryAnswerId : null,
-    completedSetId: progress.completedSetId ?? null,
+    completedSetId: ARTIFACT_SET_IDS.has(progress.completedSetId as ArtifactSetId) ? progress.completedSetId as ArtifactSetId : null,
   }
 }
 
@@ -179,7 +184,33 @@ function restorePlayState(
   questions: QuizQuestion[],
   storedSession: QuizSession,
 ): AppState {
-  const progress = normalizeCaseProgress(storedSession)
+  let progress = normalizeCaseProgress(storedSession)
+  const question = questions[storedSession.index]
+  const artifact = artifacts.find(item => item.id === question?.artifactId)
+  if (!question || !artifact) return { screen: 'error', payload: { ...payload, currentSession: null }, message: '旧题局的当前卷宗已经失效。' }
+  const validClueIds = new Set(hasArtifactExperienceV2(artifact)
+    ? artifact.experienceV2.clueCards.map(({ id }) => id)
+    : question.clues.map(({ id }) => id))
+  const validSpotIds = new Set(hasArtifactExperienceV2(artifact) ? artifact.experienceV2.observationSpots.map(({ id }) => id) : [])
+  const validStoryIds = new Set(hasArtifactExperienceV2(artifact) ? artifact.experienceV2.story.map(({ id }) => id) : [])
+  const selectedOptionId = question.options.some(({ id }) => id === progress.selectedOptionId) ? progress.selectedOptionId : null
+  const eliminatedOptionId = question.options.some(({ id, isCorrect }) => id === progress.eliminatedOptionId && !isCorrect) ? progress.eliminatedOptionId : null
+  const memoryAnswerId = hasArtifactExperienceV2(artifact) && artifact.experienceV2.memoryChallenge.options.some(({ id }) => id === progress.memoryAnswerId)
+    ? progress.memoryAnswerId
+    : null
+  progress = {
+    ...progress,
+    openedClueIds: progress.openedClueIds.filter(id => validClueIds.has(id)),
+    observedSpotIds: progress.observedSpotIds.filter(id => validSpotIds.has(id)),
+    storyReadSections: progress.storyReadSections.filter(id => validStoryIds.has(id)),
+    selectedOptionId,
+    eliminatedOptionId,
+    memoryAnswerId,
+  }
+  const fullStoryRead = hasArtifactExperienceV2(artifact) && progress.storyReadSections.length === artifact.experienceV2.story.length
+  if (progress.phase === 'memory' && (!fullStoryRead || !progress.memoryAnswerId)) progress = { ...progress, phase: 'story' }
+  if ((progress.phase === 'archive' || progress.phase === 'setComplete') && hasArtifactExperienceV2(artifact) && (!fullStoryRead || !progress.memoryAnswerId)) progress = { ...progress, phase: 'story', completedSetId: null }
+  if (progress.phase === 'setComplete' && (!progress.completedSetId || !payload.setSealIds.includes(progress.completedSetId))) progress = { ...progress, phase: 'archive', completedSetId: null }
   const session = withProgress(storedSession, progress)
   const base: QuestionCore = { payload: withCurrentSession(payload, session), artifacts, questions, session }
   if (progress.phase === 'observation' || progress.phase === 'clueSelect') return { ...base, screen: progress.phase }
@@ -266,7 +297,7 @@ function mergeLearningProgress(
   return [...entries.filter(entry => entry.artifactId !== artifactId), next]
 }
 
-function advanceQuestion(state: ResultCore & { screen: 'archive' | 'setComplete' }): AppState {
+function advanceQuestion(state: ResultCore): AppState {
   const nextIndex = state.session.index + 1
   if (nextIndex >= state.questions.length) {
     const payload = {
@@ -308,7 +339,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         : restorePlayState(state.payload, selected, questions, state.payload.currentSession)
     }
     case 'discoverSpot': {
-      if (state.screen !== 'observation' && state.screen !== 'clueSelect') return state
+      if (state.screen !== 'observation' && state.screen !== 'clueSelect' && state.screen !== 'answering') return state
       const artifact = currentArtifact(state)
       if (!artifact || !hasArtifactExperienceV2(artifact) || !artifact.experienceV2.observationSpots.some(({ id }) => id === action.spotId)) return state
       const progress = normalizeCaseProgress(state.session)
@@ -317,7 +348,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, session, payload: withCurrentSession(state.payload, session) }
     }
     case 'openClue': {
-      if (state.screen !== 'observation' && state.screen !== 'clueSelect') return state
+      if (state.screen !== 'observation' && state.screen !== 'clueSelect' && state.screen !== 'answering') return state
       const artifact = currentArtifact(state)
       if (!artifact) return state
       const validIds = hasArtifactExperienceV2(artifact)
@@ -326,8 +357,20 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       if (!validIds.includes(action.clueId)) return state
       const progress = normalizeCaseProgress(state.session)
       const opened = openClueCard(progress.openedClueIds, action.clueId)
-      const session = withProgress(state.session, { ...progress, phase: 'clueSelect', openedClueIds: opened.openedIds })
-      return { ...state, screen: 'clueSelect', session, payload: withCurrentSession(state.payload, session) }
+      const phase = state.screen === 'answering' ? 'answering' as const : 'clueSelect' as const
+      const session = withProgress(state.session, { ...progress, phase, openedClueIds: opened.openedIds })
+      return state.screen === 'answering'
+        ? { ...state, session, payload: withCurrentSession(state.payload, session) }
+        : { ...state, screen: 'clueSelect', session, payload: withCurrentSession(state.payload, session) }
+    }
+    case 'askGuide': {
+      if (state.screen !== 'observation' && state.screen !== 'clueSelect' && state.screen !== 'answering') return state
+      const progress = normalizeCaseProgress(state.session)
+      if (progress.eliminatedOptionId) return state
+      const eliminatedOptionId = currentQuestion(state).options.find(option => !option.isCorrect && option.id !== progress.selectedOptionId)?.id
+      if (!eliminatedOptionId) return state
+      const session = withProgress(state.session, { ...progress, eliminatedOptionId })
+      return { ...state, session, payload: withCurrentSession(state.payload, session) }
     }
     case 'selectOption': {
       if (state.screen !== 'observation' && state.screen !== 'clueSelect' && state.screen !== 'answering') return state

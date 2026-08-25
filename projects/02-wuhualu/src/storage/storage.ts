@@ -71,14 +71,18 @@ function isRecentAttempt(value: unknown, validIds: ReadonlySet<string>): value i
 
 function isSession(value: unknown, validIds: ReadonlySet<string>): value is QuizSession {
   if (!isRecord(value)) return false
-  return typeof value.seed === 'string'
-    && Array.isArray(value.artifactIds)
-    && value.artifactIds.every(id => typeof id === 'string' && validIds.has(id))
-    && typeof value.index === 'number'
-    && Array.isArray(value.answers)
-    && Array.isArray(value.revealedClueIds)
-    && typeof value.score === 'number'
-    && typeof value.streak === 'number'
+  if (typeof value.seed !== 'string' || !Array.isArray(value.artifactIds) || value.artifactIds.length === 0) return false
+  if (!value.artifactIds.every(id => typeof id === 'string' && validIds.has(id)) || new Set(value.artifactIds).size !== value.artifactIds.length) return false
+  if (!Number.isInteger(value.index) || (value.index as number) < 0 || (value.index as number) >= value.artifactIds.length) return false
+  if (!Array.isArray(value.revealedClueIds) || !value.revealedClueIds.every(id => typeof id === 'string')) return false
+  if (!Number.isFinite(value.score) || (value.score as number) < 0 || !Number.isInteger(value.streak) || (value.streak as number) < 0) return false
+  return Array.isArray(value.answers) && value.answers.every(answer => isRecord(answer)
+    && typeof answer.artifactId === 'string' && validIds.has(answer.artifactId)
+    && typeof answer.optionId === 'string'
+    && typeof answer.correct === 'boolean'
+    && Number.isInteger(answer.additionalCluesUsed) && (answer.additionalCluesUsed as number) >= 0
+    && (answer.stars === 1 || answer.stars === 2 || answer.stars === 3)
+    && Number.isFinite(answer.points) && (answer.points as number) >= 0)
 }
 
 function uniqueStableIds(value: unknown): string[] {

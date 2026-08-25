@@ -18,3 +18,20 @@ projects/01-sbti/public/assets/*
 .DS_Store
 Thumbs.db
 .playwright-cli
+
+# Local research evidence and generation working files. These may contain
+# third-party reference media, large source masters, or rejected drafts and
+# must not be published with the open-source application.
+reference-evidence/
+staging-release/
+projects/*/research/references/
+projects/*/research/rejected/
+projects/*/research/source-masters/
+projects/*/research/generated/
+projects/*/research/alternatives/
+
+# Internal/legacy SBTI production files superseded by the reviewed manifest
+# and versioned release assets.
+projects/01-sbti/public/assets/sbti/PROMPTS.md
+projects/01-sbti/public/assets/sbti/beasts/luwu/placeholder.webp
+projects/01-sbti/public/assets/sbti/beasts/luwu/profile.webp

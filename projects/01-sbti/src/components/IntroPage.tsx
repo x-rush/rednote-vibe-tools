@@ -5,8 +5,8 @@ const MARKERS = ['壹', '贰', '叁']
 export function IntroPage({ copy, onBack, onStart }: { copy: ExperienceCopy; onBack: () => void; onStart: () => void }) {
   return (
     <main className="page page--intro">
-      <div className="paper-stack" aria-hidden="true"><span /><span /></div>
       <header className="intro-header">
+        <div className="paper-stack" aria-hidden="true"><span /><span /></div>
         <p className="eyebrow">{copy.surfaces.introEyebrow}</p>
         <h1>{copy.surfaces.introTitle}</h1>
         <p>{copy.surfaces.introLead}</p>
@@ -23,6 +23,10 @@ export function IntroPage({ copy, onBack, onStart }: { copy: ExperienceCopy; onB
 
       <details className="disclosure">
         <summary>完整娱乐性说明</summary>
+        <p><strong>{copy.identity.formalName}</strong></p>
+        <p>{copy.identity.englishExpansion}</p>
+        <p>{copy.identity.chineseMeaning}</p>
+        <p>{copy.identity.boundary}</p>
         <p>{copy.disclaimer}</p>
       </details>
 

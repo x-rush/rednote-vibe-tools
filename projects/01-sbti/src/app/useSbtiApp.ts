@@ -16,8 +16,8 @@ import type { AppScreen } from './state'
 
 const DEFAULT_SETTINGS = { muted: false, reducedMotion: false }
 
-export function shouldPersistScreen(screen: AppScreen) {
-  return screen !== 'error'
+export function shouldPersistScreen(screen: AppScreen, persistenceEnabled = true) {
+  return persistenceEnabled && screen !== 'error'
 }
 
 function initialStateFromStorage(content: SbtiContentPackage, loaded: ReturnType<typeof loadStorage>): AppState {
@@ -25,7 +25,8 @@ function initialStateFromStorage(content: SbtiContentPackage, loaded: ReturnType
     const recent = loaded.payload.data.recentResult ? hydrateStoredResult(loaded.payload.data.recentResult, content) : undefined
     return createInitialState(recent, loaded.payload.data.activeProgress)
   }
-  if (loaded.status === 'recovered') return { screen: 'error', message: `${loaded.reason}。旧数据已安全清除，你可以重新开始。` }
+  if (loaded.status === 'recovered') return { screen: 'error', errorReason: 'storage', recoveryKind: 'cleared', message: `${loaded.reason}。旧数据已安全清除。` }
+  if (loaded.status === 'unavailable') return { screen: 'error', errorReason: 'storage', recoveryKind: 'unavailable', message: `${loaded.reason}。` }
   return createInitialState()
 }
 
@@ -33,7 +34,7 @@ export function useSbtiApp(content: SbtiContentPackage) {
   const loaded = useMemo(() => loadStorage(window.localStorage, content), [content])
   const [state, dispatch] = useReducer(appReducer, initialStateFromStorage(content, loaded))
   const [settings, setSettings] = useState(loaded.status === 'ready' ? loaded.payload.data.settings : DEFAULT_SETTINGS)
-  const calculationSeed = useRef<string | undefined>(undefined)
+  const persistenceEnabled = useRef(loaded.status !== 'unavailable')
 
   useEffect(() => {
     document.documentElement.dataset.reducedMotion = String(settings.reducedMotion)
@@ -41,14 +42,7 @@ export function useSbtiApp(content: SbtiContentPackage) {
   }, [settings.reducedMotion])
 
   useEffect(() => {
-    if (state.screen !== 'calculating' || !state.progress || calculationSeed.current === state.progress.seed) return
-    calculationSeed.current = state.progress.seed
-    const result = generateQuizResult(state.progress.questionIds, state.progress.answers, content, new Date().toISOString())
-    dispatch({ type: 'CALCULATED', result })
-  }, [content, state.progress, state.screen])
-
-  useEffect(() => {
-    if (!shouldPersistScreen(state.screen)) return
+    if (!shouldPersistScreen(state.screen, persistenceEnabled.current)) return
     const updatedAt = new Date().toISOString()
     const payload: StoragePayload = {
       schemaVersion: 1,
@@ -63,7 +57,8 @@ export function useSbtiApp(content: SbtiContentPackage) {
     try {
       saveStorage(window.localStorage, payload, content)
     } catch {
-      dispatch({ type: 'FAIL', message: '本机进度保存失败。你仍可继续本次测评，或清空本工具数据后重试。' })
+      persistenceEnabled.current = false
+      dispatch({ type: 'FAIL', reason: 'storage', recoveryKind: 'write-failed', message: '本机进度保存失败。' })
     }
   }, [content, loaded.status, settings, state.progress, state.recentResult, state.screen])
 
@@ -80,6 +75,12 @@ export function useSbtiApp(content: SbtiContentPackage) {
     const answers = recordAnswer(state.progress.answers, currentQuestion.id, optionId, content)
     const answer = answers.find((item) => item.questionId === currentQuestion.id)!
     dispatch({ type: 'ANSWER', answer })
+  }
+
+  function completeReveal() {
+    if (state.screen !== 'calculating' || !state.progress) return
+    const result = generateQuizResult(state.progress.questionIds, state.progress.answers, content, new Date().toISOString())
+    dispatch({ type: 'CALCULATED', result })
   }
 
   function clearAll() {
@@ -104,6 +105,7 @@ export function useSbtiApp(content: SbtiContentPackage) {
     dispatch,
     start,
     choose,
+    completeReveal,
     clearAll,
     restart,
     setMuted: (muted: boolean) => setSettings((value) => ({ ...value, muted })),

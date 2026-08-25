@@ -28,6 +28,16 @@ describe('SBTI local storage adapter', () => {
     expect(loadStorage(new MemoryStorage(), content)).toEqual({ status: 'empty' })
   })
 
+  it('reports unavailable storage without attempting destructive recovery', () => {
+    const unavailable = {
+      getItem() { throw new Error('blocked') },
+      setItem() { throw new Error('blocked') },
+      removeItem() { throw new Error('blocked') },
+    }
+
+    expect(loadStorage(unavailable, content)).toEqual({ status: 'unavailable', reason: '本机存储不可用' })
+  })
+
   it('round-trips a valid versioned payload', () => {
     const storage = new MemoryStorage()
     saveStorage(storage, payload, content)

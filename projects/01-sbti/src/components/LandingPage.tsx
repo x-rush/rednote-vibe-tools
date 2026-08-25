@@ -1,11 +1,15 @@
 import { useRef, useState, type MouseEvent } from 'react'
-import type { ExperienceCopy } from '../content/types'
+import type { ChapterCode, ExperienceCopy } from '../content/types'
+import { deriveGuideMoment } from '../guide/guideMoment'
+import { nextPortraitStage, type PortraitStage } from '../guide/mediaFallback'
 import { isGuideUnseen, markGuideDismissed } from '../guide/guideState'
-import { GuideAvatarButton } from './guide/GuideAvatarButton'
-import { GuideIntro } from './guide/GuideIntro'
+import { GuidePresence } from './guide/GuidePresence'
+import { GuideSheet } from './guide/GuideSheet'
 
 export type ContinuationInfo = {
   chapterLabel: string
+  chapterId: ChapterCode
+  chapterName: string
   current: number
   total: number
   updatedAt?: string
@@ -35,9 +39,31 @@ function formatSavedAt(value?: string) {
 
 export function LandingPage(props: Props) {
   const [guideOpen, setGuideOpen] = useState(false)
+  const [guideStep, setGuideStep] = useState(0)
   const [guideUnseen, setGuideUnseen] = useState(() => isGuideUnseen(window.localStorage))
+  const [portraitStage, setPortraitStage] = useState<PortraitStage>('master')
   const guideReturnRef = useRef<HTMLButtonElement | null>(null)
   const hasProgress = Boolean(props.continuation)
+  const guideMoment = deriveGuideMoment({
+    screen: 'landing',
+    guideUnseen,
+    introStep: guideStep,
+    hasProgress,
+    hasRecentResult: props.hasRecent,
+    chapter: props.continuation?.chapterId,
+    current: props.continuation?.current,
+  })
+  const guideLine = (() => {
+    if (guideMoment?.kind === 'intro') return props.copy.guide.intro[guideMoment.step] ?? props.copy.guide.intro[0]
+    if (guideMoment?.kind === 'landing-resume' && props.continuation) {
+      return props.copy.guide.landing.resume
+        .replace('{chapter}', `${props.continuation.chapterName}卷`)
+        .replace('{current}', String(guideMoment.current))
+    }
+    if (guideMoment?.kind === 'landing-recent') return props.copy.guide.landing.recent
+    return props.copy.guide.landing.fresh
+  })()
+  const [brandCode, brandName] = props.copy.identity.formalName.split('｜')
 
   function dismissGuide() {
     try { markGuideDismissed(window.localStorage) } catch { /* The guide remains optional when storage is blocked. */ }
@@ -49,6 +75,7 @@ export function LandingPage(props: Props) {
   function begin(event: MouseEvent<HTMLButtonElement>) {
     if (guideUnseen) {
       guideReturnRef.current = event.currentTarget
+      setGuideStep(0)
       setGuideOpen(true)
     }
     else props.onIntro()
@@ -56,10 +83,15 @@ export function LandingPage(props: Props) {
 
   function openGuide(trigger: HTMLButtonElement) {
     guideReturnRef.current = trigger
+    setGuideStep(0)
     setGuideOpen(true)
   }
 
   function completeGuide() {
+    if (guideStep < props.copy.guide.intro.length - 1) {
+      setGuideStep((value) => value + 1)
+      return
+    }
     try { markGuideDismissed(window.localStorage) } catch { /* Continue without persistence. */ }
     setGuideUnseen(false)
     setGuideOpen(false)
@@ -73,17 +105,27 @@ export function LandingPage(props: Props) {
           <span className="brand-seal" aria-hidden="true">{props.copy.surfaces.brandSeal}</span>
           <p className="eyebrow eyebrow--night">{props.copy.surfaces.landingEyebrow}</p>
         </div>
-        <h1><span>{props.copy.surfaces.brandCode}</span>{props.copy.surfaces.brandName}</h1>
+        <h1 aria-label={props.copy.identity.formalName}><span>{brandCode}</span><i aria-hidden="true">｜</i>{brandName}</h1>
+        <p className="brand-definition">{props.copy.identity.chineseMeaning}</p>
         <p className="lead">{props.copy.subtitle}</p>
       </div>
 
-      <div className="cover-visual" aria-hidden="true">
-        <span className="cover-visual__moon" />
-        <span className="cover-visual__ridge cover-visual__ridge--far" />
-        <span className="cover-visual__gate"><i /></span>
-        <span className="cover-visual__ridge cover-visual__ridge--near" />
-        <span className="cover-visual__mist" />
-      </div>
+      <section className="landing-scene" aria-label={`${props.copy.guide.role}${props.copy.guide.name}`}>
+        <div className="cover-visual" aria-hidden="true">
+          <span className="cover-visual__moon" />
+          <span className="cover-visual__stars" />
+          <span className="cover-visual__ridge cover-visual__ridge--far" />
+          <span className="cover-visual__ridge cover-visual__ridge--near" />
+          <span className="cover-visual__mist" />
+        </div>
+        <div className={`landing-guide${portraitStage === 'css' ? ' landing-guide--fallback' : ''}`}>
+          <div className="landing-guide__portrait" aria-hidden="true">
+            {portraitStage !== 'css' && <img src={portraitStage === 'master' ? '/assets/sbti/guide/guide-master-v1.webp' : '/assets/sbti/guide/guide-placeholder-v1.webp'} alt="" width="900" height="1200" decoding="async" onError={() => setPortraitStage((stage) => nextPortraitStage(stage))} />}
+            {portraitStage === 'css' && <span className="guide-ink-figure" />}
+          </div>
+          <GuidePresence name={props.copy.guide.name} role={props.copy.guide.role} line={guideLine} showAvatar={false} onOpen={openGuide} />
+        </div>
+      </section>
 
       <section className={`entry-panel${hasProgress ? ' entry-panel--continue' : ''}`} aria-labelledby="entry-title">
         {props.continuation ? (
@@ -114,8 +156,6 @@ export function LandingPage(props: Props) {
         )}
       </section>
 
-      <GuideAvatarButton copy={props.copy.guide} onOpen={openGuide} />
-
       <details className="settings-sheet">
         <summary><span>卷尾设置</span><small>声音、动态与本机数据</small></summary>
         <div className="settings-sheet__body">
@@ -137,7 +177,22 @@ export function LandingPage(props: Props) {
 
       <p className="landing-footnote">{props.copy.surfaces.landingFootnote}</p>
 
-      {guideOpen && <GuideIntro copy={props.copy.guide} onDismiss={dismissGuide} onComplete={completeGuide} />}
+      {guideOpen && (
+        <GuideSheet
+          title={props.copy.guide.name}
+          name={props.copy.guide.name}
+          role={props.copy.guide.role}
+          lines={props.copy.guide.intro}
+          portrait
+          step={guideStep}
+          primaryLabel={guideStep === props.copy.guide.intro.length - 1 ? '收下试卷' : '下一句'}
+          secondaryLabel="跳过引导"
+          returnFocusRef={guideReturnRef}
+          onPrimary={completeGuide}
+          onSecondary={dismissGuide}
+          onClose={dismissGuide}
+        />
+      )}
     </main>
   )
 }

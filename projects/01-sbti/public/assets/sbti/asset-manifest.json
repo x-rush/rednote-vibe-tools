@@ -1114,6 +1114,56 @@
       "fallbackBytes": 684
     },
     {
+      "id": "sbti.guide.wenshan.pass-scroll",
+      "character": "闻山",
+      "role": "山海司守卷人",
+      "kind": "illustration",
+      "width": 900,
+      "height": 1200,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/guide/guide-wenshan-pass-scroll-v1.webp",
+      "bytes": 29446,
+      "maxBytes": 180000,
+      "fallback": "/assets/sbti/guide/guide-placeholder-v1.webp",
+      "license": "AI-generated for this project using the approved Wenshan master only as identity and style reference",
+      "promptTemplateId": "guide-wenshan-pass-scroll-v1",
+      "status": "single-asset-and-three-width-runtime-qa-approved",
+      "pageIntegrationQa": {
+        "widths": [375, 390, 430],
+        "screens": ["chapter-start", "chapter-end"],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "fallback": "guide-placeholder-v1 then CSS ink figure"
+      },
+      "shippingBlocked": false
+    },
+    {
+      "id": "sbti.guide.wenshan.read-seals",
+      "character": "闻山",
+      "role": "山海司守卷人",
+      "kind": "illustration",
+      "width": 900,
+      "height": 1200,
+      "transparent": false,
+      "format": "webp",
+      "src": "/assets/sbti/guide/guide-wenshan-read-seals-v1.webp",
+      "bytes": 26280,
+      "maxBytes": 180000,
+      "fallback": "/assets/sbti/guide/guide-placeholder-v1.webp",
+      "license": "AI-generated for this project using the approved Wenshan master only as identity and style reference",
+      "promptTemplateId": "guide-wenshan-read-seals-v1",
+      "status": "single-asset-and-three-width-runtime-qa-approved",
+      "pageIntegrationQa": {
+        "widths": [375, 390, 430],
+        "screens": ["quiz-help", "result-help"],
+        "brokenImages": 0,
+        "horizontalOverflow": 0,
+        "fallback": "guide-placeholder-v1 then CSS ink figure"
+      },
+      "shippingBlocked": false
+    },
+    {
       "id": "sbti.guide.wenshan.avatar",
       "character": "闻山",
       "kind": "illustration",

@@ -33,13 +33,18 @@ export type StorageLoadResult =
   | { status: 'empty' }
   | { status: 'ready'; payload: StoragePayload }
   | { status: 'recovered'; reason: string }
+  | { status: 'unavailable'; reason: string }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
 function recover(storage: StorageLike, reason: string): StorageLoadResult {
-  storage.removeItem(STORAGE_KEY)
+  try {
+    storage.removeItem(STORAGE_KEY)
+  } catch {
+    return { status: 'unavailable', reason: '本机存储不可用' }
+  }
   return { status: 'recovered', reason }
 }
 
@@ -66,7 +71,12 @@ function validatePayload(value: unknown, content: SbtiContentPackage): StoragePa
 }
 
 export function loadStorage(storage: StorageLike, content: SbtiContentPackage): StorageLoadResult {
-  const stored = storage.getItem(STORAGE_KEY)
+  let stored: string | null
+  try {
+    stored = storage.getItem(STORAGE_KEY)
+  } catch {
+    return { status: 'unavailable', reason: '本机存储不可用' }
+  }
   if (stored === null) return { status: 'empty' }
   let parsed: unknown
   try {
@@ -106,4 +116,3 @@ export function hydrateStoredResult(result: StoredQuizResult, content: SbtiConte
     summary: generateResultSummary(result.code, result.dimensions, content),
   }
 }
-

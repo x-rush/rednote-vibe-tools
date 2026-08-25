@@ -19,26 +19,27 @@ function answersForCode(questionIds: string[], code: string) {
   const wanted = new Set<PoleCode>(code.split('') as PoleCode[])
   return questionIds.map((questionId) => {
     const question = content.content.questions.find((item) => item.id === questionId)!
-    return { questionId, optionId: question.options.find((option) => wanted.has(option.score.pole))!.id }
+    return { questionId, optionId: question.options.find((option) => wanted.has(option.score.pole) && option.score.weight === 2)!.id }
   })
 }
 
 function balancedAnswers(questionIds: string[]) {
+  const polesByDimension = {
+    RH: ['R', 'H'],
+    TV: ['T', 'V'],
+    LE: ['L', 'E'],
+    SM: ['S', 'M'],
+  } as const
+
   return ['RH', 'TV', 'LE', 'SM'].flatMap((dimension) => {
     const questions = questionIds
       .map((id) => content.content.questions.find((item) => item.id === id)!)
       .filter((item) => item.primaryDimension === dimension)
-
-    for (let mask = 0; mask < 2 ** questions.length; mask += 1) {
-      const picked = questions.map((question, index) => question.options[(mask >> index) & 1]!)
-      const totals = new Map<PoleCode, number>()
-      for (const option of picked) totals.set(option.score.pole, (totals.get(option.score.pole) ?? 0) + option.score.weight)
-      const values = [...totals.values()]
-      if (values.length === 2 && values[0] === values[1]) {
-        return questions.map((question, index) => ({ questionId: question.id, optionId: picked[index]!.id }))
-      }
-    }
-    throw new Error(`No balanced answer path for ${dimension}`)
+    const [leftPole, rightPole] = polesByDimension[dimension as keyof typeof polesByDimension]
+    return questions.map((question, index) => ({
+      questionId: question.id,
+      optionId: question.options.find((option) => option.score.pole === (index < 3 ? leftPole : rightPole) && option.score.weight === 2)!.id,
+    }))
   })
 }
 
@@ -91,10 +92,13 @@ describe('quiz scoring', () => {
       dimensionQuestions.filter((id) => id !== tieId).slice(0, 3).forEach((id) => {
         const question = content.content.questions.find((item) => item.id === id)!
         const current = answers.find((item) => item.questionId === id)!
-        current.optionId = question.options.find((option) => option.id !== current.optionId)!.id
+        const currentOption = question.options.find((option) => option.id === current.optionId)!
+        current.optionId = question.options.find((option) => option.score.pole !== currentOption.score.pole && option.score.weight === 2)!.id
       })
     }
 
+    const result = generateQuizResult(questionIds, answers, content)
+    expect(result.summary.dimensions.every((item) => item.isBalanced)).toBe(true)
     expect(determineTypeCode(questionIds, answers, content)).toBe('RTLS')
     expect(determineTypeCode(questionIds, structuredClone(answers), content)).toBe('RTLS')
   })

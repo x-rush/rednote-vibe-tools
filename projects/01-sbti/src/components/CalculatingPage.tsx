@@ -1,3 +1,6 @@
-export function CalculatingPage({ message }: { message: string }) {
-  return <main className="page page--center page--night" aria-live="polite"><p className="eyebrow eyebrow--night">异兽显形</p><h1>正在计算兽格</h1><p>{message}</p></main>
+import type { DimensionDefinition, GuideCopy } from '../content/types'
+import { RevealSequence } from './RevealSequence'
+
+export function CalculatingPage({ guide, dimensions, reducedMotion, onComplete }: { guide: GuideCopy; dimensions: DimensionDefinition[]; reducedMotion: boolean; onComplete: () => void }) {
+  return <RevealSequence guide={guide} dimensions={dimensions} reducedMotion={reducedMotion} onComplete={onComplete} />
 }

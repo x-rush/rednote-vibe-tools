@@ -61,10 +61,20 @@ describe('application state reducer', () => {
   })
 
   it('provides an error fallback and recovery path', () => {
-    let state = appReducer(createInitialState(), { type: 'FAIL', message: '内容损坏' })
+    let state = appReducer(createInitialState(), { type: 'FAIL', reason: 'content', message: '内容损坏' })
     expect(state.screen).toBe('error')
     state = appReducer(state, { type: 'RECOVER' })
     expect(state.screen).toBe('landing')
+  })
+
+  it('preserves valid in-memory progress when recovering from a storage failure', () => {
+    const progress = { seed: 'saved', questionIds, currentIndex: 4, answers: [] }
+    let state = createInitialState(undefined, progress)
+    state = appReducer(state, { type: 'FAIL', reason: 'storage', message: '保存失败' })
+    state = appReducer(state, { type: 'RECOVER' })
+
+    expect(state.screen).toBe('landing')
+    expect(state.progress).toEqual(progress)
   })
 
   it('clears both progress and recent result from in-memory state', () => {
@@ -75,5 +85,6 @@ describe('application state reducer', () => {
   it('never retries persistence while showing a storage error', () => {
     expect(shouldPersistScreen('error')).toBe(false)
     expect(shouldPersistScreen('quiz')).toBe(true)
+    expect(shouldPersistScreen('quiz', false)).toBe(false)
   })
 })

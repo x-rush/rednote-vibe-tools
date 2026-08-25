@@ -2,6 +2,7 @@ import type { SbtiContentPackage } from '../content/types'
 import type { QuizAnswer, QuizProgress, QuizResult } from '../quiz/types'
 
 export type AppScreen = 'landing' | 'intro' | 'quiz' | 'calculating' | 'result' | 'history' | 'error'
+export type StorageRecoveryKind = 'cleared' | 'unavailable' | 'write-failed'
 
 export type AppState = {
   screen: AppScreen
@@ -9,6 +10,8 @@ export type AppState = {
   result?: QuizResult
   recentResult?: QuizResult
   message?: string
+  errorReason?: 'content' | 'storage'
+  recoveryKind?: StorageRecoveryKind
 }
 
 export type AppAction =
@@ -23,7 +26,7 @@ export type AppAction =
   | { type: 'SUBMIT' }
   | { type: 'CALCULATED'; result: QuizResult }
   | { type: 'HOME' }
-  | { type: 'FAIL'; message: string }
+  | { type: 'FAIL'; reason: 'content' | 'storage'; message: string; recoveryKind?: StorageRecoveryKind }
   | { type: 'RECOVER' }
   | { type: 'CLEAR_ALL' }
 
@@ -67,9 +70,11 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'HOME':
       return { ...state, screen: 'landing', result: undefined, message: undefined }
     case 'FAIL':
-      return { ...state, screen: 'error', message: action.message }
+      return { ...state, screen: 'error', message: action.message, errorReason: action.reason, recoveryKind: action.recoveryKind }
     case 'RECOVER':
-      return { screen: 'landing', recentResult: state.recentResult }
+      return state.errorReason === 'storage'
+        ? { ...state, screen: 'landing', result: undefined, message: undefined, errorReason: undefined, recoveryKind: undefined }
+        : { screen: 'landing', recentResult: state.recentResult }
     case 'CLEAR_ALL':
       return { screen: 'landing' }
   }

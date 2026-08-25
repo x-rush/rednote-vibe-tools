@@ -16,7 +16,7 @@
 |---|---|---|---|
 | 首页 | 夜读 | 品牌、剪影、承诺、2 分钟/24 题、CTA | 长说明、多个同级按钮 |
 | 说明 | 暖纸叠页 | 娱乐性、隐私、偏好非优劣 | 法务文字墙 |
-| 答题 | 夜读 | 章节、进度、题干、甲乙选项、返回 | 显示计分、装饰抢题 |
+| 答题 | 夜读 | 章节、进度、题干、四项行动选项、返回 | 显示计分、装饰抢题 |
 | 计算 | 夜读 | 四枚维度印、显形提示、跳过动效 | 假百分比加载 |
 | 结果 | 暖纸 | 类型、异兽、一句话、维度、解释边界 | 混写原典与创作 |
 | 分享卡 | 暖纸或青墨 | 4:5、主图、代码、称号、一句话、维度印 | 塞完整报告 |
@@ -32,7 +32,7 @@ type QuizScreenViewModel = {
   total: number;
   progress: number;
   question: string;
-  options: Array<{ id: string; marker: "甲" | "乙"; text: string }>;
+  options: Array<{ id: string; marker: "甲" | "乙" | "丙" | "丁"; text: string }>;
   canGoBack: boolean;
 };
 
@@ -67,14 +67,14 @@ type ResultScreenViewModel = {
 ## Acceptance
 
 - 390×844 首屏 CTA 无滚动可见。
-- 375px 下题目与两个选项可自然滚动，无横向溢出。
+- 375px 下题目与四个选项可自然滚动，无横向溢出。
 - 430px 下内容不被过度拉宽。
 - 动画关闭后所有状态仍可理解。
 - 图片未加载时仍能完成答题并阅读结果。
 - 原典与产品创作具有可见标签。
 - 分享卡在 4:5 画布内不截断名称与一句话。
 
-新增 `GuideIntro`、`GuideAvatarButton`、`GuideHelpSheet`、`GuideRecovery`。所有台词为 DOM 文本；跳过/下一句 ≥44px；`guideVersion` 独立存储；图片失败使用 silhouette。详见 `NPC-SPEC.md`。
+运行时统一使用 `GuidePresence` 与 `GuideSheet` 承载闻山的当前台词、首次引导、召回帮助和异常恢复；章节交接使用 `ChapterInterlude`。所有台词为 DOM 文本；跳过/下一句 ≥44px；`guideVersion` 独立存储；主图依次降级到 placeholder 与 CSS 墨影。
 ## NPC 四态实现冻结
 
 | 状态 | 预览 ID | 触发 | 主动作 | 关闭／恢复后保留 |
@@ -106,7 +106,7 @@ type ResultScreenViewModel = {
 |---|---|---|---|---|
 | `LandingPage.tsx` | 新测评、继续、历史、设置、清空 | S01/S02 夜读封面、品牌印、闻山首引、主视觉、单主 CTA、次级历史入口、设置底屉 | `guideOpen`、`guideStep`、`settingsOpen`、图片失败 | 多个同权重 CTA；把长免责声明压在首屏视觉中心 |
 | `IntroPage.tsx` | 三条说明、返回、开局 | S03 暖纸叠页、闻山短提示、娱乐性／隐私／偏好非优劣三块可扫读信息 | 说明展开、引导跳过 | 法务文字墙；新增自由输入 |
-| `QuizPage.tsx` | 章节、进度、二选一、前后题、提交 | S04 章节过场；S05 未选；S06 已选未确认；S07 返回修改；甲／乙签、卷页层级、明确选中反馈 | `chapterIntroSeen`、选项入场／确认反馈 | 选中后自动跳题；显示分数或人格暗示；装饰抢夺题干 |
+| `QuizPage.tsx` | 章节、进度、四选一、前后题、提交 | S04 章节过场；S05 未选；S06 已选未确认；S07 返回修改；四项行动、卷页层级、明确选中反馈 | `chapterIntroSeen`、选项入场／确认反馈 | 选中后自动跳题；显示分数或人格暗示；装饰抢夺题干 |
 | `CalculatingPage.tsx` | 计算中语义状态 | S08 四枚维度印依次显形、可跳过、`aria-live` 最终结果提示 | `revealStep`、`skipAnimation` | 假百分比；依赖动画才能继续；超过 1.8 秒不可跳过 |
 | `ResultPage.tsx` | 主结果、四维、优势、压力、关系、自护、原典边界、分享预览 | S09–S13 主兽格揭晓、真实兽像、近邻比较、四维弱偏好提示、原典／创作分层抽屉、4:5 分享卡 | `sourceOpen`、`neighborOpen`、`imageFailed`、`sharePreviewOpen` | 一次铺满所有长文；把原典与创作混成同一段；图片失败白屏 |
 | `HistoryPage.tsx` | 最近一个结果、空状态 | S14/S15 闻山召回、最近结果卷签、兽像缩略图、空记录行动 | `imageFailed` | 伪造多条历史；空状态只有一句“暂无数据” |
@@ -117,15 +117,13 @@ type ResultScreenViewModel = {
 建议只新增下列薄组件，业务数据仍由父页面传入：
 
 ```text
-src/components/guide/GuideIntro.tsx
-src/components/guide/GuideAvatarButton.tsx
-src/components/guide/GuideHelpSheet.tsx
-src/components/guide/GuideRecovery.tsx
+src/components/guide/GuidePresence.tsx
+src/components/guide/GuideSheet.tsx
 src/components/BeastPortrait.tsx
-src/components/DimensionSeal.tsx
-src/components/SourceDrawer.tsx
-src/components/ShareCard.tsx
+src/components/VolumeProgress.tsx
+src/components/ChoiceSlip.tsx
 src/components/ChapterInterlude.tsx
+src/components/RevealSequence.tsx
 ```
 
 `BeastPortrait` 统一处理正式图、低清占位和失败剪影；页面组件不得各自实现另一套 `onError`。`SourceDrawer` 中“典籍记录”“形象参考”“SBTI 创意解读”必须是三个可见层级，不以颜色作为唯一差异。
@@ -184,3 +182,16 @@ src/components/ChapterInterlude.tsx
 7. 最终门禁：原测试 + 新 UI 测试 + build + 375／390／430 核心流截图 + 图片断链 + 控制台 + 包体检查。
 
 每个提交完成后必须保持核心测评可运行；不得把“先删掉可用页面，最后一次性接回”作为实现策略。
+
+## 2026-08-25 夜读卷组件交付
+
+当前运行时以以下组件为准，取代上文尚未实现的候选命名：
+
+- `GuidePresence`：头像、身份、当前台词和 44px 以上召回入口；图片失败为 CSS 墨影。
+- `GuideSheet`：首次引导、章节交接、答题帮助和结果帮助共用卷页；打开聚焦标题，Escape 关闭，关闭后归还焦点。
+- `VolumeProgress`：四枚卷印和 `第 N 章 · current / 24` 文本；完成、当前和未开始均有非颜色提示。
+- `ChoiceSlip`：保留原生 radio 语义，整签可点，最小高度 72px；朱印只表示本题已选。
+- `QuizExperience`：只管理递卷／收卷和帮助的瞬时 UI；正式答案、题号与存储仍由 `useSbtiApp` 管理。
+- `RevealSequence`：`collecting → reading → complete`，可跳过，减少动态直接到 complete 语义终态。
+
+稳定 CSS 入口为 `.landing-guide`、`.guide-presence`、`.guide-sheet`、`.volume-progress`、`.choice-slip`、`.chapter-interlude`、`.reveal-sequence`。任何后续调整不得把头像改为遮挡底部操作的 fixed 悬浮层，也不得把四个行动签压成双列或横滑。

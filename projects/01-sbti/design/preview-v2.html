@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <title>SBTI｜山海兽格测试 · UI v2 状态预览</title>
+  <style>
+    :root { color-scheme: dark; --night:#121c1b; --raised:#1a2926; --paper:#f1e7cf; --paper2:#ded0b2; --ink:#182321; --muted:#8f978d; --jade:#79a493; --red:#a63d2f; --gold:#b79a62; font-family:"Noto Sans SC","Microsoft YaHei",sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:#eee2c7; background:#09100f; }
+    .board-head { max-width:1180px; margin:auto; padding:42px 24px 20px; }
+    .board-head h1 { margin:.15em 0; font-family:KaiTi,serif; font-size:clamp(2rem,6vw,4rem); }
+    .board-head p { max-width:760px; color:#aeb8b1; line-height:1.7; }
+    .board { display:grid; max-width:1500px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px; margin:auto; padding:20px 24px 80px; align-items:start; }
+    .case { margin:0; }
+    .case figcaption { min-height:44px; margin-bottom:8px; color:#d1b981; font-size:.82rem; letter-spacing:.08em; }
+    .phone { position:relative; width:min(100%,390px); min-height:700px; overflow:hidden; border:1px solid #40514c; border-radius:24px; padding:26px 18px 24px; color:#eee2c7; background:var(--night); box-shadow:0 22px 60px #0008; }
+    .phone.paper { color:var(--ink); background:var(--paper); }
+    .phone::before { position:absolute; top:9px; left:50%; width:54px; height:4px; border-radius:9px; background:#ffffff24; content:""; transform:translateX(-50%); }
+    .eyebrow { margin:12px 0 8px; color:var(--jade); font-size:.68rem; font-weight:800; letter-spacing:.16em; }
+    .paper .eyebrow { color:#3f7464; }
+    h2,h3,p { margin-top:0; }
+    h2 { font:700 1.7rem/1.24 KaiTi,serif; }
+    h3 { font:700 1.05rem/1.4 KaiTi,serif; }
+    p,li { font-size:.86rem; line-height:1.65; }
+    .muted { color:#a1aca5; }
+    .paper .muted { color:#66716c; }
+    .formal { display:flex; align-items:center; gap:10px; margin:20px 0 6px; }
+    .formal b { font-size:2.2rem; letter-spacing:.08em; }
+    .formal i { width:1px; height:34px; background:var(--red); }
+    .formal strong { font:700 1.5rem/1.1 KaiTi,serif; }
+    .night-art { position:relative; height:180px; margin:18px 0; overflow:hidden; border-block:1px solid #b79a6244; background:radial-gradient(circle at 72% 45%,#b79a6233,transparent 20%),linear-gradient(155deg,#243c37,#0d1615); }
+    .night-art::before { position:absolute; right:36px; bottom:15px; width:104px; height:126px; border-radius:50% 50% 38% 42%; background:#050a09cc; content:""; transform:rotate(-5deg); }
+    .night-art::after { position:absolute; right:55px; bottom:119px; width:66px; height:46px; border-radius:50%; background:#030706; content:""; }
+    .btn { display:block; width:100%; min-height:48px; margin-top:12px; border:1px solid #cab682; border-radius:5px; padding:12px; color:#fff2d4; background:#8d352b; font-weight:800; text-align:center; }
+    .btn.quiet { color:inherit; background:transparent; }
+    .paper .btn.quiet { border-color:#40514c66; }
+    .npc { display:grid; grid-template-columns:42px 1fr; gap:10px; align-items:center; margin:14px 0; border:1px solid #79a49355; padding:9px; background:#1a2926cc; }
+    .paper .npc { background:#3f74640e; }
+    .avatar { position:relative; width:40px; height:40px; overflow:hidden; border:1px solid var(--gold); border-radius:50%; background:#243a35; }
+    .avatar::before { position:absolute; inset:13px 9px 0; border-radius:50% 50% 30% 30%; background:#080d0c; content:""; }
+    .npc b,.npc small { display:block; }
+    .npc b { font-size:.76rem; }
+    .npc small { margin-top:3px; color:#acb7b0; font-size:.68rem; line-height:1.45; }
+    .paper .npc small { color:#65706b; }
+    .volumes { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin:14px 0 18px; }
+    .seal { position:relative; display:grid; min-height:48px; place-items:center; border:1px solid #ffffff22; color:#8e9992; font:700 .7rem/1.2 KaiTi,serif; text-align:center; }
+    .seal.current { border-color:var(--jade); color:#fff3d9; background:#3f746433; box-shadow:inset 0 -2px var(--jade); }
+    .seal.done { border-color:#a63d2faa; color:#d7cdb9; }
+    .seal.done::after { position:absolute; top:2px; right:4px; color:#d95a48; content:"印"; transform:rotate(-8deg); }
+    .question { border-top:1px solid #b79a6255; padding-top:18px; }
+    .choice { display:grid; min-height:62px; grid-template-columns:28px 1fr; align-items:center; gap:10px; margin:8px 0; border:1px solid #eee2c733; padding:10px; background:#1a2926cc; font-size:.78rem; line-height:1.5; }
+    .choice span:first-child { display:grid; width:26px; height:26px; place-items:center; border:1px solid #eee2c744; font-family:KaiTi,serif; }
+    .choice.selected { border-color:var(--red); background:linear-gradient(90deg,#a63d2f33,#1a2926cc 38%); box-shadow:inset 3px 0 var(--red); transform:translateY(-2px); }
+    .choice.selected span:first-child { color:#fff; background:var(--red); transform:rotate(-3deg); }
+    .sheet { margin-top:42px; border:1px solid #94794d; border-top:4px double #94794d; padding:22px 16px; color:var(--ink); background:linear-gradient(90deg,#fff4da,#e6d7b7); box-shadow:0 12px 50px #0008; }
+    .topics { display:grid; gap:7px; margin:12px 0; }
+    .topic { border:1px solid #46534e55; padding:10px; color:var(--ink); background:transparent; font-size:.78rem; text-align:left; }
+    .topic.active { border-color:#a63d2f; box-shadow:inset 3px 0 #a63d2f; background:#a63d2f0f; }
+    .answer { min-height:90px; border-top:1px solid #46534e33; padding-top:12px; }
+    .interlude { display:grid; min-height:620px; align-content:center; }
+    .scroll-mark { display:grid; width:116px; height:116px; margin:0 auto 22px; place-items:center; border:2px double var(--gold); border-radius:50%; color:#e8d49f; background:radial-gradient(circle,#3f746466,transparent 68%); font:700 2rem KaiTi,serif; }
+    .reveal { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:24px 0; }
+    .dimseal { display:grid; min-height:122px; place-items:center; border:1px solid var(--red); padding:8px; background:#a63d2f20; text-align:center; }
+    .dimseal b { font:700 1rem KaiTi,serif; }
+    .dimseal small { color:#c7bda8; font-size:.66rem; }
+    .dimseal.wait { border-color:#ffffff22; color:#ffffff55; background:transparent; }
+    .beast { display:grid; height:230px; margin:12px 0 18px; place-items:center; background:linear-gradient(145deg,#d9c9a8,#f7edd6); }
+    .beast::before { width:108px; height:150px; border-radius:48% 42% 36% 44%; background:#26332fbb; content:""; transform:rotate(-8deg); }
+    .result-title { font:700 2rem/1.25 KaiTi,serif; }
+    .dimension { margin:15px 0; }
+    .dimension header { display:flex; justify-content:space-between; font-size:.75rem; }
+    .track { position:relative; height:7px; margin-top:6px; border-radius:8px; background:#18232122; }
+    .track::after { position:absolute; top:0; right:50%; width:34%; height:100%; border-radius:8px; background:var(--red); content:""; }
+    .fallback { display:grid; min-height:300px; place-items:center; border:1px dashed #72644a; background:repeating-linear-gradient(135deg,#e2d4b7 0 10px,#eadfc7 10px 20px); text-align:center; }
+    .fallback .ink { width:90px; height:120px; border-radius:50% 50% 35% 40%; background:#26332fb5; }
+    .error { margin-top:100px; border-top:3px double #a63d2f; padding-top:22px; }
+    .reduced * { animation:none!important; transition:none!important; }
+    .badge { display:inline-block; border:1px solid currentColor; padding:3px 7px; color:#8d352b; font-size:.65rem; }
+    @media (max-width:420px) { .board { padding-inline:10px; } .board-head { padding-inline:18px; } }
+  </style>
+</head>
+<body>
+  <header class="board-head">
+    <p class="eyebrow">移动端关键状态总览 · 375 / 390 / 430 CSS px</p>
+    <h1>SBTI｜山海兽格测试</h1>
+    <p>静态设计预览，不引用运行时图片或第三方资源。所有人物与异兽均以 CSS 墨影表达；正式实现继续使用既有资源与完整降级链。</p>
+  </header>
+  <main class="board">
+    <figure class="case"><figcaption>01 · 首次首页 / 闻山守案</figcaption><article class="phone">
+      <div class="formal"><b>SBTI</b><i></i><strong>山海兽格测试</strong></div><p class="muted">山海异兽性格倾向指标</p><div class="night-art"></div><div class="npc"><span class="avatar"></span><span><b>山海司守卷人 · 闻山</b><small>卷已备好。沿四段山路作答，看看哪种异兽气质与你相近。</small></span></div><button class="btn">开始入山</button><button class="btn quiet">先看测试说明</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>02 · 续卷首页 / 动态 NPC</figcaption><article class="phone">
+      <p class="eyebrow">旧卷仍在</p><h2>继续寻迹</h2><div class="night-art"></div><div class="npc"><span class="avatar"></span><span><b>山海司守卷人 · 闻山</b><small>你停在第二卷第九页。旧印都还在，可从这里继续。</small></span></div><button class="btn">继续第 9 / 24 问</button><button class="btn quiet">重新起卷</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>03 · 测前说明 / 正式名称与边界</figcaption><article class="phone paper">
+      <p class="eyebrow">入山前须知</p><h2>SBTI｜山海兽格测试</h2><p><strong>山海异兽性格倾向指标</strong></p><p class="muted">Shanhai Beast Temperament Indicator</p><div class="sheet" style="margin-top:18px"><h3>它会做什么</h3><p>用 24 个山海情境观察四组连续倾向，并给出一份创意兽格解读。</p><h3>它不是什么</h3><p>娱乐性自我探索工具，不是专业心理测评。</p></div><button class="btn">我知道了，展开第一卷</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>04 · 未选题 / 四个情境行动</figcaption><article class="phone">
+      <div class="volumes"><div class="seal current">卷一<br>入境</div><div class="seal">卷二<br>寻迹</div><div class="seal">卷三<br>异变</div><div class="seal">卷四<br>归来</div></div><div class="npc"><span class="avatar"></span><span><b>闻山 · 守卷席</b><small>不必寻找标准答案，选你当下更自然会做的行动。</small></span></div><section class="question"><p class="eyebrow">第 1 / 24 问</p><h3>暮色压进山口，同行者在两条旧路前停住。你会——</h3><div class="choice"><span>·</span><span>先向附近行旅问清路况</span></div><div class="choice"><span>·</span><span>独自沿石壁查看新旧痕迹</span></div><div class="choice"><span>·</span><span>站高些辨认整片山势</span></div><div class="choice"><span>·</span><span>让众人先歇息，再听各自判断</span></div></section><button class="btn quiet">请先选择一种行动</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>05 · 已选题 / 墨线与朱印终态</figcaption><article class="phone">
+      <div class="volumes"><div class="seal current">卷一<br>入境</div><div class="seal">卷二<br>寻迹</div><div class="seal">卷三<br>异变</div><div class="seal">卷四<br>归来</div></div><div class="npc"><span class="avatar"></span><span><b>闻山 · 守卷席</b><small>朱印已落。若另一种行动更像你，仍可换签。</small></span></div><section class="question"><p class="eyebrow">第 3 / 24 问</p><h3>雾中传来几种方向不同的鸣声。你会——</h3><div class="choice"><span>·</span><span>先记下每次鸣声的间隔</span></div><div class="choice selected"><span>选</span><span>观察雾势与山谷回声的整体变化</span></div><div class="choice"><span>·</span><span>请同行者各守一个方向</span></div><div class="choice"><span>·</span><span>暂时留在原地等待雾散</span></div></section><button class="btn">落印，下一问</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>06 · 返回旧题 / 可改印</figcaption><article class="phone">
+      <div class="volumes"><div class="seal done">卷一<br>入境</div><div class="seal current">卷二<br>寻迹</div><div class="seal">卷三<br>异变</div><div class="seal">卷四<br>归来</div></div><div class="npc"><span class="avatar"></span><span><b>闻山 · 守卷席</b><small>你翻回了旧页。旧印仍可更换，收卷时只认最后确认的行动。</small></span></div><p class="eyebrow">返回第 8 / 24 问</p><h3>石阶上有一串忽明忽暗的足迹。你会——</h3><div class="choice selected"><span>选</span><span>逐一核对足迹的深浅和方向</span></div><div class="choice"><span>·</span><span>联想它与周围地势的关系</span></div><button class="btn">确认此印</button><button class="btn quiet">返回上一问</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>07 · 问闻山 / 三个固定主题</figcaption><article class="phone">
+      <div class="sheet"><p class="eyebrow">问闻山</p><h2>这一页如何落笔</h2><div class="topics"><button class="topic active">这一题应该怎么选？</button><button class="topic">落印以后还能修改吗？</button><button class="topic">答案会保存到哪里？</button></div><div class="answer"><h3>闻山说</h3><p>把自己放进眼前情境，选更像你会立刻采取的行动。四种选择没有高下，也不必猜它对应哪类兽格。</p></div><button class="btn">收起卷页</button></div>
+    </article></figure>
+
+    <figure class="case"><figcaption>08 · 递卷过场</figcaption><article class="phone"><div class="interlude">
+      <div class="scroll-mark">递卷</div><p class="eyebrow">卷二 · 寻迹</p><h2>看见线索，也看见线索之间的山势。</h2><div class="npc"><span class="avatar"></span><span><b>闻山</b><small>下一卷要穿过旧迹。照你自然的观察方式前行即可。</small></span></div><button class="btn">展开此卷</button><button class="btn quiet">跳过过场</button>
+    </div></article></figure>
+
+    <figure class="case"><figcaption>09 · 收卷过场</figcaption><article class="phone"><div class="interlude">
+      <div class="scroll-mark">收卷</div><p class="eyebrow">卷二已毕</p><h2>墨迹已稳，闻山将这一程收入卷轴。</h2><div class="npc"><span class="avatar"></span><span><b>闻山</b><small>这一卷的印都收好了。下一程会遇见变化。</small></span></div><button class="btn">收好此卷</button><button class="btn quiet">跳过过场</button>
+    </div></article></figure>
+
+    <figure class="case"><figcaption>10 · 四维显形中 / 全中文</figcaption><article class="phone">
+      <p class="eyebrow">收卷 · 四维显形</p><h2>正在辨认卷中墨迹</h2><div class="npc"><span class="avatar"></span><span><b>闻山</b><small>四卷已经合拢，先让四种足迹依次显出。</small></span></div><div class="reveal"><div class="dimseal"><b>与世界相遇</b><small>应世 · 隐世</small></div><div class="dimseal wait"><b>理解线索</b><small>察微 · 观象</small></div><div class="dimseal wait"><b>衡量选择</b><small>衡理 · 感应</small></div><div class="dimseal wait"><b>面对变化</b><small>守形 · 化生</small></div></div><button class="btn quiet">跳过显形</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>11 · 四维显形完成</figcaption><article class="phone">
+      <p class="eyebrow">收卷 · 四维显形</p><h2>兽志将启</h2><div class="npc"><span class="avatar"></span><span><b>闻山</b><small>四种足迹已经显全。最终偏向，要到兽志里一并读。</small></span></div><div class="reveal"><div class="dimseal"><b>与世界相遇</b><small>应世 · 隐世</small></div><div class="dimseal"><b>理解线索</b><small>察微 · 观象</small></div><div class="dimseal"><b>衡量选择</b><small>衡理 · 感应</small></div><div class="dimseal"><b>面对变化</b><small>守形 · 化生</small></div></div><button class="btn">展开兽志</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>12 · 结果首屏 / 异兽为主角</figcaption><article class="phone paper">
+      <p class="eyebrow">你的山海兽格</p><h2 class="result-title">陆吾 · 山司型</h2><p class="muted">你倾向先建立可靠的秩序，再为同行者留出可行的道路。</p><div class="beast"></div><div class="npc"><span class="avatar"></span><span><b>闻山 · 三问入口</b><small>兽志已展开。若想知道四维与相邻兽格如何读，可以问我。</small></span></div><h3>四维足迹</h3><div class="dimension"><header><b>与世界相遇</b><span>应世 · 清晰倾向</span></header><div class="track"></div></div><div class="dimension"><header><b>理解线索</b><span>察微 · 轻微倾向</span></header><div class="track"></div></div>
+    </article></figure>
+
+    <figure class="case"><figcaption>13 · 结果页三问闻山</figcaption><article class="phone paper">
+      <div class="sheet"><p class="eyebrow">三问闻山</p><h2>如何阅读兽志</h2><div class="topics"><button class="topic active">四种倾向应该怎么读？</button><button class="topic">为什么会有相邻兽格？</button><button class="topic">古籍记录和产品创作如何区分？</button></div><div class="answer"><h3>闻山说</h3><p>每一维都是两种行动倾向之间的连续位置，不是能力分数。越靠近中线，越说明你可能随情境切换。</p></div><button class="btn">读完收卷</button></div>
+    </article></figure>
+
+    <figure class="case"><figcaption>14 · 图片失败 / CSS 墨影降级</figcaption><article class="phone paper">
+      <p class="eyebrow">你的山海兽格</p><h2>陆吾 · 山司型</h2><div class="fallback" role="img" aria-label="陆吾兽格画像暂未载入"><div><div class="ink"></div><p>画像暂未载入<br>兽格文字仍可阅读</p></div></div><div class="npc"><span class="avatar"></span><span><b>闻山</b><small>图像未能显出，不影响本次兽志与四维足迹。</small></span></div><button class="btn quiet">继续阅读结果</button>
+    </article></figure>
+
+    <figure class="case"><figcaption>15 · 坏存档 / 准确恢复说明</figcaption><article class="phone paper">
+      <div class="error"><p class="eyebrow">旧卷无法辨认</p><h2>这份未完成进度已清除</h2><p>本机保存的旧卷格式不完整，不能安全继续。最近一次完整结果若仍有效，会继续保留。</p><div class="npc"><span class="avatar"></span><span><b>闻山</b><small>损坏的进度已经移开。你可以重新起卷，不会上传任何答案。</small></span></div><button class="btn">重新开始</button><button class="btn quiet">返回首页</button></div>
+    </article></figure>
+
+    <figure class="case"><figcaption>16 · 减少动态 / 直接语义终态</figcaption><article class="phone reduced">
+      <span class="badge">已减少动态效果</span><p class="eyebrow">收卷 · 四维显形</p><h2>兽志将启</h2><p class="muted">无位移、缩放、雾气或错峰显影；信息与操作保持完整。</p><div class="reveal"><div class="dimseal"><b>与世界相遇</b><small>应世 · 隐世</small></div><div class="dimseal"><b>理解线索</b><small>察微 · 观象</small></div><div class="dimseal"><b>衡量选择</b><small>衡理 · 感应</small></div><div class="dimseal"><b>面对变化</b><small>守形 · 化生</small></div></div><button class="btn">展开兽志</button>
+    </article></figure>
+  </main>
+</body>
+</html>

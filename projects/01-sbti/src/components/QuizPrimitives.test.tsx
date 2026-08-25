@@ -65,6 +65,7 @@ describe('quiz journey primitives', () => {
     )
 
     expect(html).toContain('volume-progress')
+    expect(html).toContain('question-fieldset__prompt')
     expect((html.match(/choice-slip(?:\s|")/g) ?? [])).toHaveLength(4)
     expect(html).toContain('落印，下一问')
     expect(html).toContain('guide-presence--compact')

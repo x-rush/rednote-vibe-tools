@@ -374,7 +374,7 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
 .page--quiz form::before, .page--quiz form::after { position: absolute; top: -5px; width: 10px; height: 10px; border: 1px solid var(--gold-muted); border-radius: 50%; background: var(--night); content: ""; }
 .page--quiz form::before { left: -5px; }
 .page--quiz form::after { right: -5px; }
-.question-fieldset legend { width: 100%; margin-bottom: var(--space-5); padding-left: var(--space-3); border-left: 3px double var(--gold-muted); }
+.question-fieldset__prompt { width: 100%; min-block-size: 4.65em; margin-bottom: var(--space-5); padding-left: var(--space-3); border-left: 3px double var(--gold-muted); }
 
 .choice-slip {
   position: relative;

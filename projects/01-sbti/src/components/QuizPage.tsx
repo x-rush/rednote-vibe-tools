@@ -42,7 +42,7 @@ export function QuizPage(props: QuizPageProps) {
         else props.onNext()
       }}>
         <fieldset className="question-fieldset">
-          <legend>{props.question.prompt}</legend>
+          <legend className="question-fieldset__prompt">{props.question.prompt}</legend>
           <div className="option-list">
             {props.question.options.map((option) => (
               <ChoiceSlip

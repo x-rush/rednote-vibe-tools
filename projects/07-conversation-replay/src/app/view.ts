@@ -30,7 +30,7 @@ export function buildSavedReplayViewModels(
 }
 
 const wizardCopy: Record<WizardStep, { eyebrow: string; title: string; lead: string; kind?: string }> = {
-  relationship: { eyebrow: '第 1 步 · 关系', title: '当时，你们是什么关系？', lead: '只用于筛选合适的虚构情境。', kind: 'relationship' },
+  relationship: { eyebrow: '第 1 步 · 关系', title: '当时，你们是什么关系？', lead: '只用于筛选合适的参考情境。', kind: 'relationship' },
   goal: { eyebrow: '第 2 步 · 目标', title: '你最想让这次表达做到什么？', lead: '不是寻找完美答案，只选此刻最重要的一项。', kind: 'goal' },
   conflict: { eyebrow: '第 3 步 · 程度', title: '这件事目前影响到什么程度？', lead: '涉及安全或强迫时，会先进入安全提示。', kind: 'conflict' },
   emotion: { eyebrow: '第 4 步 · 感受', title: '当时最接近哪一种感受？', lead: '感受没有好坏，也不会被用于诊断。' },
@@ -74,7 +74,7 @@ export function buildScreenViewModel(
   if (state.page === 'scenarioSelect') return base({
     eyebrow: '选择入口',
     title: '哪一种情境更接近当时？',
-    lead: '可以直接选虚构情境，也可以选“不确定”，再通过关系、目标和表达方式匹配。',
+    lead: '可以直接选参考情境，也可以选“不确定”，再通过关系、目标和表达方式匹配。',
     options: [
       ...content.content.scenarios.map(({ scenarioId, title, description }) => ({ id: scenarioId, label: title, description })),
       { id: 'scenario-unsure', label: '不确定，按选项帮我匹配', description: '无需输入聊天原文。' },

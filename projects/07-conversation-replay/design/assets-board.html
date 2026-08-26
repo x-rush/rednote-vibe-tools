@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" />
+    <title>对话复盘 · 美术资源尺寸板</title>
+    <style>
+      :root { color: #303735; background: #e8e3d9; font-family: system-ui, "PingFang SC", sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      main { width: min(100% - 24px, 1080px); margin: 0 auto; padding: 32px 0 64px; }
+      h1 { margin: 0; font-family: "Songti SC", serif; font-size: clamp(28px, 5vw, 48px); }
+      h2 { margin: 42px 0 8px; font-family: "Songti SC", serif; font-size: clamp(22px, 4vw, 34px); }
+      .lead { color: #626b67; line-height: 1.7; }
+      .companion-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 22px; }
+      .companion-card { min-width: 0; padding: 14px; overflow: hidden; border: 1px solid #d8d2c7; background: #f5f2eb; }
+      .companion-card header { margin-bottom: 12px; }
+      .companion-card strong, .companion-card small { display: block; overflow-wrap: anywhere; }
+      .companion-card small { margin-top: 3px; color: #626b67; }
+      .pose-row { display: grid; grid-template-columns: 80px 180px; align-items: end; justify-content: center; gap: 12px; min-height: 254px; background: #fffdf8; border: 1px solid #e2ddd2; }
+      .pose-row img { display: block; width: 100%; height: auto; max-height: 240px; object-fit: cover; object-position: center 12%; }
+      .pose-small { height: 132px !important; align-self: end; object-fit: cover !important; object-position: center 10% !important; }
+      .board { display: grid; gap: 12px; margin-top: 28px; }
+      .asset { display: grid; grid-template-columns: minmax(150px, 1fr) repeat(3, 88px); min-width: 0; overflow: hidden; border: 1px solid #d8d2c7; background: #f5f2eb; }
+      .name, .sample { min-width: 0; min-height: 72px; display: grid; place-items: center; padding: 12px; border-right: 1px solid #d8d2c7; }
+      .name { place-items: center start; overflow-wrap: anywhere; font-size: 13px; }
+      .sample:last-child { border-right: 0; }
+      .sample:nth-child(3) { color: #f5f2eb; background: #6e8490; }
+      .sample:nth-child(4) { color: #f5f2eb; background: #303735; }
+      .sample img { display: block; width: var(--icon-size); height: var(--icon-size); }
+      @media (max-width: 560px) {
+        .companion-board { grid-template-columns: 1fr; }
+        .pose-row { grid-template-columns: 72px minmax(0, 160px); }
+        .asset { grid-template-columns: minmax(0, 1fr) repeat(3, 58px); }
+        .name, .sample { min-height: 62px; padding: 8px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>迟言陪伴资源 · 完整复检</h1>
+      <p class="lead">先检查欢迎与六种陪伴姿态的 80／180px 装回裁切，再检查 17 个 SVG 的 16／24／32px。</p>
+      <section class="companion-board" id="companions" aria-label="迟言立绘尺寸板"></section>
+      <h2>17 个交互资源 · 三尺寸复检</h2>
+      <section class="board" id="board" aria-label="SVG 尺寸板"></section>
+    </main>
+    <script>
+      const names = [
+        'step-fact', 'step-feeling', 'step-inference', 'step-need', 'step-request',
+        'privacy-ephemeral', 'privacy-local', 'tone-gentle', 'tone-direct', 'tone-firm',
+        'edit-note', 'edit-hide', 'edit-delete', 'edit-reorder', 'edit-undo',
+        'safety-priority', 'guide-help',
+      ]
+      const sizes = [16, 24, 32]
+      const companions = [
+        ['guide-master', '欢迎 · 降低开始门槛'],
+        ['attend', '倾听 · 承接与定位'],
+        ['observe', '观察 · 只看可核对事实'],
+        ['sort', '分类 · 从判断移到推测'],
+        ['pause', '停笔 · 允许暂停与安全退位'],
+        ['compose', '组织 · 请求、草稿与演练'],
+        ['complete', '收束 · 归还使用决定权'],
+      ]
+      document.querySelector('#companions').replaceChildren(...companions.map(([name, description]) => {
+        const card = document.createElement('article')
+        card.className = 'companion-card'
+        const path = name === 'guide-master' ? '/assets/guide/chiyan-guide-master.webp' : `/assets/guide/chiyan-${name}.webp`
+        card.innerHTML = `<header><strong>chiyan-${name}.webp</strong><small>${description}</small></header><div class="pose-row"><img class="pose-small" src="${path}" alt="${description}，80 像素裁切"><img src="${path}" alt="${description}，180 像素裁切"></div>`
+        return card
+      }))
+      document.querySelector('#board').replaceChildren(...names.map((name) => {
+        const row = document.createElement('article')
+        row.className = 'asset'
+        const label = document.createElement('strong')
+        label.className = 'name'
+        label.textContent = `${name}.svg`
+        row.append(label, ...sizes.map((size) => {
+          const sample = document.createElement('span')
+          sample.className = 'sample'
+          const image = document.createElement('img')
+          image.src = `/assets/icons/${name}.svg`
+          image.alt = `${name}，${size} 像素`
+          image.style.setProperty('--icon-size', `${size}px`)
+          sample.append(image)
+          return sample
+        }))
+        return row
+      }))
+    </script>
+  </body>
+</html>

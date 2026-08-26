@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img">
+  <title>本机保存</title>
+  <rect x="4" y="2.5" width="16" height="19" rx="3"/>
+  <path d="M9 6.5h6v7H9zM9 17.5h6M11 10h2"/>
+</svg>

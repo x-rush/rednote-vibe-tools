@@ -6,6 +6,8 @@ import type {
   ConversationContentPackage,
   ConversationScenario,
   EmotionOption,
+  NpcMomentKey,
+  NpcPose,
   RelationshipType,
   ResponseOption,
   SafetyRule,
@@ -24,6 +26,19 @@ const feelingCategories = new Set(['supported', 'sad', 'uncertain', 'blocked'])
 const needCategories = new Set(['safety', 'connection', 'autonomy', 'coordination', 'growth'])
 const safetyLevels = new Set(['standard', 'elevated', 'safety'])
 const forbiddenContent = /(自恋型人格|人格障碍|让.{0,8}付出代价|故意操控|威胁.{0,8}服从|情感勒索)/
+const selfCondemningCopy = /(刚才我攻击了你|我刚才(?:也)?攻击了|我刚才用反话伤人|我刚才评价了你|刚才那句话带了攻击)/
+const npcMomentKeys: NpcMomentKey[] = [
+  'landing', 'privacy', 'guide', 'relationship', 'goal', 'scenario', 'fact', 'feeling',
+  'inference', 'need', 'request', 'draft', 'practice', 'comparison', 'result', 'saved',
+  'exit', 'safety', 'recovery',
+]
+const npcPoses = new Set<NpcPose>(['welcome', 'attend', 'observe', 'sort', 'pause', 'compose', 'complete', 'safety'])
+const npcCopyRisks = [
+  { pattern: /只有(我|迟言).{0,8}(懂|理解|需要|陪)/, message: '包含排他依赖暗示' },
+  { pattern: /(我会|迟言会).{0,6}(永远|一直).{0,8}(陪|守着|在)/, message: '包含永久承诺' },
+  { pattern: /(?<!不)(一定会|保证).{0,12}(理解|答应|原谅|改变)/, message: '包含结果保证' },
+  { pattern: /(必须|现在).{0,10}(当面)?对质/, message: '包含强迫对质建议' },
+] as const
 
 function objectAt(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -59,10 +74,110 @@ export function validateContent(input: unknown, mode: 'envelope' | 'production' 
   })
   if (!objectAt(input.content)) return { ok: false, errors: [...errors, { path: 'content', message: 'content 必须是对象' }] }
 
-  const rootKeys = ['feelings', 'needs', 'scenarios', 'choices', 'rewrites', 'safetyRules']
-  for (const key of rootKeys) if (!arrayAt(input.content[key])) add(`content.${key}`, '必须是数组')
+  const arrayRootKeys = ['feelings', 'needs', 'scenarios', 'choices', 'rewrites', 'safetyRules']
+  const rootKeys = ['intro', 'npc', ...arrayRootKeys]
+  if (!objectAt(input.content.intro)) add('content.intro', '入口文案必须是对象')
+  if (!objectAt(input.content.npc)) add('content.npc', 'NPC 内容必须是对象')
+  for (const key of arrayRootKeys) if (!arrayAt(input.content[key])) add(`content.${key}`, '必须是数组')
   for (const key of Object.keys(input.content)) if (!rootKeys.includes(key)) add(`content.${key}`, '未知业务根字段')
   if (errors.length > 0 || mode === 'envelope') return { ok: errors.length === 0, errors }
+
+  const npc = input.content.npc as Record<string, unknown>
+  const intro = input.content.intro as Record<string, unknown>
+  const requireIntroCopy = (value: unknown, path: string) => {
+    if (!nonEmpty(value)) {
+      add(path, '入口文案不能为空')
+      return
+    }
+    if (forbiddenContent.test(value)) add(path, '包含诊断式或操控性文案')
+    for (const risk of npcCopyRisks) if (risk.pattern.test(value)) add(path, risk.message)
+  }
+  const introFields = {
+    landing: ['eyebrow', 'lead', 'primaryLabel', 'secondaryLabel', 'beforeText', 'afterText', 'privacyNoteTitle', 'privacyNoteBody'],
+    privacy: ['eyebrow', 'title', 'lead', 'primaryLabel', 'secondaryLabel', 'ephemeralDescription', 'localDescription'],
+    replayCard: [
+      'saveLabel', 'savingLabel', 'savedMessage', 'unavailableMessage', 'generationFailedMessage',
+      'writeFailedMessage', 'permissionFailedMessage', 'brandLabel', 'attributionLabel', 'factLabel',
+      'feelingLabel', 'inferenceLabel', 'inferenceHint', 'needLabel', 'requestLabel', 'statementLabel',
+      'responsibilityNotice', 'footerNote', 'emptyFact', 'emptyFeeling', 'emptyInference', 'emptyNeed', 'emptyRequest',
+    ],
+    result: [
+      'gentleLabel', 'directLabel', 'firmLabel', 'incompleteMessage', 'cardIncompleteMessage', 'editorLabel',
+      'toneNoteTitle', 'toneNoteBody', 'practiceActionLabel', 'compareActionLabel', 'practicePromptLabel',
+      'practiceReplyLabel', 'practiceNote', 'beforeLabel', 'beforeFallback', 'beforeExplanation', 'afterLabel',
+      'viewCardLabel', 'cardEyebrow',
+    ],
+    system: [
+      'localSaveSuccess', 'localSaveFailure', 'unnamedScenario', 'requestNoteTitle', 'requestNoteBody',
+      'recoveryMemoryTitle', 'recoveryMemoryBody',
+    ],
+  } as const
+  for (const [page, fields] of Object.entries(introFields)) {
+    const screen = intro[page]
+    if (!objectAt(screen)) {
+      add(`content.intro.${page}`, '入口页面文案必须是对象')
+      continue
+    }
+    for (const field of fields) requireIntroCopy(screen[field], `content.intro.${page}.${field}`)
+  }
+  const privacy = intro.privacy
+  if (objectAt(privacy)) {
+    if (!arrayAt(privacy.sections) || privacy.sections.length !== 3) add('content.intro.privacy.sections', '隐私保证必须恰好三项')
+    else {
+      const expectedIds = new Set(['no-upload', 'no-judgment', 'local-only'])
+      privacy.sections.forEach((section, index) => {
+        const path = `content.intro.privacy.sections[${index}]`
+        if (!objectAt(section)) {
+          add(path, '隐私保证必须是对象')
+          return
+        }
+        if (!nonEmpty(section.id) || !expectedIds.delete(section.id)) add(`${path}.id`, '隐私保证 ID 缺失或重复')
+        requireIntroCopy(section.title, `${path}.title`)
+        requireIntroCopy(section.body, `${path}.body`)
+      })
+      if (expectedIds.size > 0) add('content.intro.privacy.sections', '缺少必需的隐私保证')
+    }
+  }
+  const system = intro.system
+  if (objectAt(system)) {
+    if (!arrayAt(system.exitItems) || system.exitItems.length !== 3) add('content.intro.system.exitItems', '退出提示必须恰好三项')
+    else system.exitItems.forEach((item, index) => requireIntroCopy(item, `content.intro.system.exitItems[${index}]`))
+  }
+  const requireNpcCopy = (value: unknown, path: string) => {
+    if (!nonEmpty(value)) {
+      add(path, '陪伴文案不能为空')
+      return
+    }
+    for (const risk of npcCopyRisks) if (risk.pattern.test(value)) add(path, risk.message)
+  }
+  if (npc.id !== 'chiyan') add('content.npc.id', 'NPC ID 必须为 chiyan')
+  for (const key of ['name', 'role']) requireNpcCopy(npc[key], `content.npc.${key}`)
+  if (!arrayAt(npc.boundaries) || npc.boundaries.length === 0) add('content.npc.boundaries', '陪伴边界不能为空')
+  else npc.boundaries.forEach((boundary, index) => requireNpcCopy(boundary, `content.npc.boundaries[${index}]`))
+  if (!objectAt(npc.moments)) add('content.npc.moments', '陪伴时刻必须是对象')
+  else {
+    for (const key of npcMomentKeys) {
+      const path = `content.npc.moments.${key}`
+      const moment = npc.moments[key]
+      if (!objectAt(moment)) {
+        add(path, '缺少陪伴时刻')
+        continue
+      }
+      if (!npcPoses.has(moment.pose as NpcPose)) add(`${path}.pose`, '立绘姿态不合法')
+      requireNpcCopy(moment.invitation, `${path}.invitation`)
+      requireNpcCopy(moment.autonomy, `${path}.autonomy`)
+      if (moment.reassurance !== undefined) requireNpcCopy(moment.reassurance, `${path}.reassurance`)
+    }
+    for (const key of Object.keys(npc.moments)) if (!npcMomentKeys.includes(key as NpcMomentKey)) add(`content.npc.moments.${key}`, '未知陪伴时刻')
+
+    const safety = npc.moments.safety
+    if (objectAt(safety)) {
+      if (safety.pose !== 'safety') add('content.npc.moments.safety.pose', '安全时刻必须使用 safety 姿态')
+      if (!nonEmpty(safety.reassurance) || !safety.reassurance.includes('现实')) add('content.npc.moments.safety.reassurance', '安全提示必须明确现实支持优先')
+      const safetyCopy = [safety.invitation, safety.reassurance, safety.autonomy].filter(nonEmpty).join(' ')
+      if (/(演练|对质)/.test(safetyCopy)) add('content.npc.moments.safety.reassurance', '安全时刻不能引导继续演练或对质')
+    }
+  }
 
   const records = (items: unknown[], path: string) => items.map((item, index) => {
     if (objectAt(item)) return item
@@ -108,6 +223,10 @@ export function validateContent(input: unknown, mode: 'envelope' | 'production' 
   const requireText = (owner: Record<string, unknown>, key: string, path: string) => {
     if (!nonEmpty(owner[key])) add(`${path}.${key}`, '文案不能为空')
     else if (forbiddenContent.test(owner[key] as string)) add(`${path}.${key}`, '包含诊断式或操控性文案')
+  }
+  const requireRecommendedText = (owner: Record<string, unknown>, key: string, path: string) => {
+    requireText(owner, key, path)
+    if (nonEmpty(owner[key]) && selfCondemningCopy.test(owner[key])) add(`${path}.${key}`, '包含可能加重自责的定性表达')
   }
   feelings.forEach((item, index) => {
     const path = `content.feelings[${index}]`
@@ -168,6 +287,68 @@ export function validateContent(input: unknown, mode: 'envelope' | 'production' 
         else if (forbiddenContent.test(text)) add(`${path}.${key}[${textIndex}]`, '包含诊断式或操控性文案')
       })
     }
+    if (!objectAt(item.replay)) add(`${path}.replay`, '五层复盘内容必须是对象')
+    else {
+      const replay = item.replay
+      if (!arrayAt(replay.factOptions) || replay.factOptions.length === 0) add(`${path}.replay.factOptions`, '至少需要一个可观察事实')
+      else replay.factOptions.forEach((option, optionIndex) => {
+        const optionPath = `${path}.replay.factOptions[${optionIndex}]`
+        if (!objectAt(option)) add(optionPath, '事实选项必须是对象')
+        else {
+          registerId(option.id, `${optionPath}.id`)
+          requireText(option, 'label', optionPath)
+          requireText(option, 'explanation', optionPath)
+        }
+      })
+      if (!arrayAt(replay.inferenceExpressionIds) || replay.inferenceExpressionIds.length === 0) add(`${path}.replay.inferenceExpressionIds`, '至少需要一个推测对照')
+      else replay.inferenceExpressionIds.forEach((id, refIndex) => {
+        if (!nonEmpty(id) || !originalIds.has(id)) add(`${path}.replay.inferenceExpressionIds[${refIndex}]`, '悬空原表达引用')
+      })
+      if (!arrayAt(replay.requestOptions) || replay.requestOptions.length === 0) add(`${path}.replay.requestOptions`, '至少需要一个具体请求')
+      else replay.requestOptions.forEach((option, optionIndex) => {
+        const optionPath = `${path}.replay.requestOptions[${optionIndex}]`
+        if (!objectAt(option)) add(optionPath, '请求选项必须是对象')
+        else {
+          registerId(option.id, `${optionPath}.id`)
+          requireText(option, 'label', optionPath)
+          if (!objectAt(option.structure)) add(`${optionPath}.structure`, '请求必须包含时间、行为和边界')
+          else for (const key of ['when', 'behavior', 'boundary']) requireText(option.structure, key, `${optionPath}.structure`)
+        }
+      })
+      if (!arrayAt(replay.practiceOptions) || replay.practiceOptions.length === 0) add(`${path}.replay.practiceOptions`, '至少需要一个可观察回应')
+      else replay.practiceOptions.forEach((option, optionIndex) => {
+        const optionPath = `${path}.replay.practiceOptions[${optionIndex}]`
+        if (!objectAt(option)) add(optionPath, '演练选项必须是对象')
+        else {
+          registerId(option.id, `${optionPath}.id`)
+          requireText(option, 'label', optionPath)
+          if (!nonEmpty(option.responseId) || !responseIds.has(option.responseId)) add(`${optionPath}.responseId`, '悬空回应引用')
+          if (!arrayAt(option.replyOptions) || option.replyOptions.length < 2) add(`${optionPath}.replyOptions`, '每个演练至少需要两个下一句')
+          else option.replyOptions.forEach((reply, replyIndex) => {
+            const replyPath = `${optionPath}.replyOptions[${replyIndex}]`
+            if (!objectAt(reply)) add(replyPath, '演练下一句必须是对象')
+            else {
+              registerId(reply.id, `${replyPath}.id`)
+              requireRecommendedText(reply, 'label', replyPath)
+              const validActions = ['clarify', 'repair', 'coordinate', 'pause', 'document', 'seek-support']
+              if (!validActions.includes(String(reply.action))) add(`${replyPath}.action`, '演练动作不合法')
+              if (item.safetyLevel === 'safety' && !['pause', 'document', 'seek-support'].includes(String(reply.action))) add(`${replyPath}.action`, '安全情境不能建议普通对质')
+            }
+          })
+        }
+      })
+    }
+    const alignedRewrite = rewrites.find(({ id }) => id === item.rewriteId)
+    const direct = objectAt(alignedRewrite?.tones) && nonEmpty(alignedRewrite.tones.direct) ? alignedRewrite.tones.direct : undefined
+    if (item.safetyLevel !== 'safety' && direct && objectAt(item.replay)) {
+      const requestOptions = arrayAt(item.replay.requestOptions) ? item.replay.requestOptions : []
+      if (!requestOptions.some((option) => objectAt(option) && option.label === direct)) add(`${path}.replay.requestOptions`, '请求答案必须包含可直接说出的直接版表达')
+      const practiceOptions = arrayAt(item.replay.practiceOptions) ? item.replay.practiceOptions : []
+      practiceOptions.forEach((practice, practiceIndex) => {
+        const replies = objectAt(practice) && arrayAt(practice.replyOptions) ? practice.replyOptions : []
+        if (!replies.some((reply) => objectAt(reply) && reply.label === direct)) add(`${path}.replay.practiceOptions[${practiceIndex}].replyOptions`, '演练必须包含与直接版表达一致的下一句')
+      })
+    }
     if (item.safetyLevel === 'safety' && (!nonEmpty(item.safetyRuleId) || !ruleIds.has(item.safetyRuleId))) add(`${path}.safetyRuleId`, '安全情境必须引用安全提示')
   })
 
@@ -179,8 +360,10 @@ export function validateContent(input: unknown, mode: 'envelope' | 'production' 
     if (!arrayAt(item.structure) || item.structure.length === 0) add(`${path}.structure`, '表达结构不能为空')
     else item.structure.forEach((text, textIndex) => { if (!nonEmpty(text)) add(`${path}.structure[${textIndex}]`, '文案不能为空') })
     if (!objectAt(item.tones)) add(`${path}.tones`, '三语气版本缺失')
-    else for (const tone of ['gentle', 'direct', 'firm']) requireText(item.tones, tone, `${path}.tones`)
-    for (const key of ['misunderstanding', 'repairLine', 'nextTimeLine', 'summary', 'shareSummary']) requireText(item, key, path)
+    else for (const tone of ['gentle', 'direct', 'firm']) requireRecommendedText(item.tones, tone, `${path}.tones`)
+    requireText(item, 'misunderstanding', path)
+    for (const key of ['repairLine', 'nextTimeLine', 'summary', 'shareSummary']) requireRecommendedText(item, key, path)
+    if (owner?.safetyLevel !== 'safety' && objectAt(item.tones) && nonEmpty(item.tones.direct) && item.nextTimeLine !== item.tones.direct) add(`${path}.nextTimeLine`, '下次表达必须与直接版表达保持一致')
     if (!arrayAt(item.discouragedExpressions) || item.discouragedExpressions.length === 0) add(`${path}.discouragedExpressions`, '不建议表达不能为空')
     else item.discouragedExpressions.forEach((text, textIndex) => { if (!nonEmpty(text)) add(`${path}.discouragedExpressions[${textIndex}]`, '文案不能为空') })
     if (!arrayAt(item.nextSteps) || item.nextSteps.length === 0) add(`${path}.nextSteps`, '至少需要一个可执行下一步')

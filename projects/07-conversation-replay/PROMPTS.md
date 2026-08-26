@@ -40,3 +40,34 @@
 - 导出：主图 900×1200、71,394 bytes；头像 160×160、3,686 bytes；占位图 72×96、1,352 bytes。
 - 装回二检：四块纸条、分栏和两枚箭头在 430px 实际截图仍可辨；角色只用于首次引导，不遮挡后续原句／改写句对照。
 - 三宽：375／390／430px 无横向溢出和破图；引导纸在手机框内；按钮均 48px；无痕与“不上传聊天记录”是 DOM 文本。
+
+## 2026-08-26 V2 最终资源批次
+
+- imagegen 最终原图：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-3d175d44-8bd2-49b8-bb64-68ff4a0001b2.png`。
+- 最终主图 900×1200／148,862 bytes，头像 320×320／27,430 bytes，占位图 72×96／2,132 bytes；本批数据取代上方 V1 文件大小。
+- 完成五步、隐私、三语气、五个编辑动作、安全与帮助共 17 个 SVG；统一 24×24、2px、`currentColor` 与 `<title>`。
+- `design/assets-board.html` 在 390px／1080px 验证 51／51 引用正常；资源完成验收后才进入 V2 应用代码开发。
+
+## 2026-08-26 V3 迟言陪伴立绘批次
+
+使用内置 imagegen，以 `public/assets/guide/chiyan-guide-master.webp` 作为身份、服装、媒介和道具参考，分别生成六个语义姿态。最终交付提示词遵循 `IMPLEMENTATION_PLAN_V3.md` Task 1 的 identity-preserve 版本；每张均禁止文字、聊天气泡、评分、额外人物和现实品牌。
+
+首轮动作原图：
+
+- attend：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-8ceb7534-4646-4701-ba5c-fd2009740de7.png`
+- observe：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-29eb790f-3265-40a8-bc3d-d00961a17a6b.png`
+- sort：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-529235d7-3db6-4636-8962-2ecf514408a4.png`
+- pause：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-a122fe6a-c4a4-45a3-94c5-07d01aa26159.png`
+- compose：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-7514decd-140a-4793-88f7-ef17b140e508.png`
+- complete：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-b1bbfeb3-891f-4d48-afad-1f06c7305b42.png`
+
+文件检查发现上述六张均为 RGB 棋盘格背景，未达到“透明或纯暖白”要求。使用 precise background edit，只把背景替换为统一暖白纸面并锁定人物、姿态、手部、纸本和裁切不变。最终原图：
+
+- attend：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-9b729408-729b-4dea-b1a8-bc29c7709772.png`
+- observe：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-9a094686-fe26-4ee7-8148-d791580b675a.png`
+- sort：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-73dc94db-16e2-4178-89a6-bda45be7799f.png`
+- pause：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-d7af69d4-50a4-4ab2-a887-70ffcf8f1344.png`
+- compose：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-1621f9c7-f5f8-4427-b938-0731e07cc56a.png`
+- complete：`/home/xrush/.codex/generated_images/01a03cce-457d-7821-8d37-8f74fd164616/exec-d632a155-c8f8-407d-a213-c9581f20a0f8.png`
+
+最终六张均导出为 900×1200 WebP；资源板 390px／1080px 65／65 引用正常、0 横向溢出、0 warning。

@@ -1,5 +1,7 @@
-:root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #24211e; background: #f3eee6; font-synthesis: none; text-rendering: optimizeLegibility; }
+:root { font-family: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; color: #303735; background: #e6e2da; font-synthesis: none; text-rendering: optimizeLegibility; }
 * { box-sizing: border-box; }
-html { min-width: 320px; overflow-x: hidden; background: #f3eee6; }
-body { min-width: 320px; min-height: 100vh; margin: 0; overflow-x: hidden; }
+html { min-width: 320px; overflow-x: clip; background: #e6e2da; }
+body { min-width: 320px; min-height: 100vh; margin: 0; overflow-x: clip; background-image: radial-gradient(circle at 12% 0, rgb(110 132 144 / 16%), transparent 28%), radial-gradient(circle at 88% 100%, rgb(130 145 127 / 12%), transparent 32%); }
 button, input, textarea, select { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+::selection { color: #fff; background: #6e8490; }

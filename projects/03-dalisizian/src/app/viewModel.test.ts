@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { contentIndex } from '../content'
 import type { CaseNode, CaseRuntimeState, ScreenState } from '../content/types'
 import { createDefaultSave } from '../storage/storage'
-import { getCaseListItems, getDeductionReviewModel, getInvestigationRouteItems, getNodeDisplayText, getNodeScreen, getReturnTarget, getVerdictLabel, isClueBookOverlay } from './viewModel'
+import { getCaseListItems, getDeductionEvidenceItems, getDeductionReviewModel, getInvestigationRouteItems, getNewEvidenceItems, getNodeDisplayText, getNodeScreen, getReturnTarget, getVerdictLabel, isClueBookOverlay } from './viewModel'
 
 const baseState: CaseRuntimeState = {
   caseId: 'case-home-roof-pig', screen: 'investigation', currentNodeId: 'node-home-00', flags: {}, clueIds: [], evidenceIds: [],
@@ -97,5 +97,29 @@ describe('semantic page view model', () => {
 
     expect(getNodeDisplayText(node, deduction)).toBe(deduction.prompt)
     expect(getNodeDisplayText(node)).toBe(node.text)
+  })
+
+  it('finds newly acquired evidence from the state transition in authored order', () => {
+    const next = {
+      ...baseState,
+      evidenceIds: ['evidence-home-shuowen', 'evidence-home-early-form'],
+    }
+
+    expect(getNewEvidenceItems(baseState, next, contentIndex).map((item) => item.id)).toEqual([
+      'evidence-home-shuowen',
+      'evidence-home-early-form',
+    ])
+  })
+
+  it('preserves deduction evidence order without granting missing evidence', () => {
+    const caseData = contentIndex.cases.get(baseState.caseId)
+    const deduction = caseData?.deductions.find((item) => item.id === 'deduction-home-method')
+    if (!deduction) throw new Error('home deduction fixture missing')
+    const state = { ...baseState, evidenceIds: [deduction.focusEvidenceIds?.[0] ?? ''] }
+
+    expect(getDeductionEvidenceItems(deduction, state, contentIndex).map((item) => ({
+      id: item.evidence.id,
+      acquired: item.acquired,
+    }))).toEqual((deduction.focusEvidenceIds ?? []).map((id, index) => ({ id, acquired: index === 0 })))
   })
 })

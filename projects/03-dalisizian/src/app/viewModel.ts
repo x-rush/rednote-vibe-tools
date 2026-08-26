@@ -1,4 +1,4 @@
-import type { CaseNode, CaseRuntimeState, CaseVerdict, ContentIndex, DeductionQuestion, HanziCase, ScreenState } from '../content/types'
+import type { CaseNode, CaseRuntimeState, CaseVerdict, ContentIndex, DeductionQuestion, Evidence, HanziCase, ScreenState } from '../content/types'
 import type { EvaluationRating, ProjectSaveData } from '../storage/types'
 
 export type CaseListItem = {
@@ -102,6 +102,29 @@ export function getDeductionReviewModel(
       .map((id) => index.evidence.get(id)?.title)
       .filter((title): title is string => Boolean(title)),
   }
+}
+
+export function getNewEvidenceItems(
+  previous: CaseRuntimeState,
+  next: CaseRuntimeState,
+  index: ContentIndex,
+): Evidence[] {
+  const previousIds = new Set(previous.evidenceIds)
+  return next.evidenceIds
+    .filter((id) => !previousIds.has(id))
+    .map((id) => index.evidence.get(id))
+    .filter((item): item is Evidence => item !== undefined && item.caseId === next.caseId)
+}
+
+export function getDeductionEvidenceItems(
+  deduction: DeductionQuestion,
+  state: CaseRuntimeState,
+  index: ContentIndex,
+): Array<{ evidence: Evidence; acquired: boolean }> {
+  return (deduction.focusEvidenceIds ?? [])
+    .map((id) => index.evidence.get(id))
+    .filter((item): item is Evidence => item !== undefined && item.caseId === state.caseId)
+    .map((evidence) => ({ evidence, acquired: state.evidenceIds.includes(evidence.id) }))
 }
 
 export function getReturnTarget(context: ReturnContext | undefined, state: CaseRuntimeState): ReturnContext {

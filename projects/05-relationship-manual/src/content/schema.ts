@@ -7,16 +7,42 @@ export type RelationshipCategory =
   | 'boundary'
   | 'repair'
 
-export type CardSectionId =
-  | 'companion'
-  | 'sadness'
-  | 'disagreement'
-  | 'avoid'
-  | 'care'
-  | 'commitment'
+export type CardSectionId = RelationshipCategory
 
 export type SentenceKind = 'preference' | 'boundary' | 'commitment'
-export type RelationshipContext = 'close-relationship' | 'friendship'
+export type RelationshipContext = 'close-relationship' | 'friendship' | 'family'
+export type SentenceRole = 'need' | 'trigger' | 'action' | 'repair'
+export type ResultVoice = 'request' | 'boundary' | 'self-commitment'
+export type NpcPose = 'daily' | 'listening' | 'reminder'
+
+export type RelationshipChapter = {
+  chapterId: string
+  category: RelationshipCategory
+  title: string
+  shortTitle: string
+  folderLabel: string
+}
+
+export type RelationshipContextCopy = {
+  label: string
+  subjectLabel: string
+  chapterLeads: Record<RelationshipCategory, string>
+}
+
+export type NpcCue = {
+  cueId: string
+  trigger: 'landing' | 'chapter-intro' | 'conflict' | 'binding' | 'storage-error'
+  category?: RelationshipCategory
+  relationshipContext?: RelationshipContext
+  conflictRuleId?: string
+  pose: NpcPose
+  speaker: '小满'
+  roleLabel: '关系卡片整理员'
+  text: string
+  primaryAction: string
+  secondaryAction?: string
+  skippable: boolean
+}
 
 export type PreferenceDimension = {
   dimensionId: string
@@ -24,6 +50,7 @@ export type PreferenceDimension = {
   description: string
   important: boolean
   fallbackTextKey: string
+  fallbackTextKeys?: Record<RelationshipContext, string>
 }
 
 export type PreferenceScore = {
@@ -51,6 +78,7 @@ export type DimensionEffect = {
 export type RelationshipOption = {
   optionId: string
   text: string
+  subtitle: string
   dimensionEffects: DimensionEffect[]
   intensity: 1 | 2 | 3
   tags: string[]
@@ -66,7 +94,10 @@ export type RelationshipOption = {
 export type RelationshipQuestion = {
   questionId: string
   category: RelationshipCategory
+  sceneLead: string
+  sceneLeadByContext?: Partial<Record<RelationshipContext, string>>
   prompt: string
+  resultVoices?: ResultVoice[]
   multiple: boolean
   selectionLimit: { min: number; max: number }
   options: RelationshipOption[]
@@ -86,6 +117,9 @@ export type ManualSentence = {
   sourceSectionId: string
   cardSectionId: CardSectionId
   kind: SentenceKind
+  role: SentenceRole
+  voice?: ResultVoice
+  intensity?: 1 | 2 | 3
   text: string
   sensitive: boolean
   compactDefault: boolean
@@ -119,6 +153,7 @@ export type CardSection = {
   sectionId: CardSectionId
   title: string
   paragraphs: string[]
+  paragraphRoles: SentenceRole[]
   paragraphIds: string[]
   paragraphSourceTextKeys: Array<string | null>
   paragraphProvenanceIds: string[][]
@@ -139,6 +174,7 @@ export type RelationshipCardViewModel = {
 export type EditableCardItem = {
   itemId: string
   sectionId: CardSectionId
+  role: SentenceRole
   sourceTextKey?: string
   provenanceIds: string[]
   suggestedText: string
@@ -150,12 +186,13 @@ export type EditableCardItem = {
 }
 
 export type DraftPayload = {
-  schemaVersion: 1
+  schemaVersion: 2
   contentVersion: string
   updatedAt: string
-  page: 'questionnaire' | 'review' | 'result' | 'editCard' | 'savedResult'
+  page: 'chapterIntro' | 'questionnaire' | 'review' | 'result' | 'editCard' | 'savedResult'
   relationshipContext: RelationshipContext
   currentQuestionIndex: number
+  seenChapterIds: RelationshipCategory[]
   answers: QuestionnaireAnswer[]
   cardItems: EditableCardItem[]
   lastResult: RelationshipCardViewModel | null
@@ -179,7 +216,8 @@ export type CardRules = {
     sectionId: CardSectionId
     title: string
     maxItems: number
-    fallbackText: string
+    fallbackNeedText: string
+    fallbackActionText: string
   }>
   conflictMergeRules: ConflictMergeRule[]
   boundaryCommitmentRules: Array<{
@@ -189,11 +227,40 @@ export type CardRules = {
   defaultCommitmentTextKeys: string[]
 }
 
+export type RelationshipBank = {
+  questions: RelationshipQuestion[]
+  boundaryPreferences: BoundaryPreference[]
+  sentenceFragments: ManualSentence[]
+  conflictMergeRules: ConflictMergeRule[]
+  boundaryCommitmentRules: Array<{
+    boundaryId: string
+    textKeys: string[]
+  }>
+  defaultCommitmentTextKeys: string[]
+  sectionFallbacks: Record<CardSectionId, {
+    needText: string
+    actionText: string
+  }>
+}
+
+export type AnswerMigration = {
+  fromContentVersion: string
+  byContext: Record<RelationshipContext, Record<string, {
+    questionId: string
+    optionIds: Record<string, string>
+  }>>
+}
+
 export type RelationshipContent = {
+  chapters: RelationshipChapter[]
+  contextCopy: Record<RelationshipContext, RelationshipContextCopy>
+  npcCues: NpcCue[]
   dimensions: PreferenceDimension[]
   questions: RelationshipQuestion[]
   boundaryPreferences: BoundaryPreference[]
   sentenceFragments: ManualSentence[]
+  relationshipBanks?: Record<RelationshipContext, RelationshipBank>
+  answerMigrations?: AnswerMigration[]
   cardRules: CardRules
   safetyRules: Array<{
     ruleId: string
@@ -210,6 +277,9 @@ export type RelationshipContent = {
     introBody: string
     contextHint: string
     principlesTitle: string
+    guideName: string
+    guideRole: string
+    guideMessage: string
     reviewEyebrow: string
     reviewTitle: string
     reviewBody: string
@@ -218,6 +288,11 @@ export type RelationshipContent = {
     resultTitle: string
     resultSavedTitle: string
     resultBody: string
+    shareExportLabel: string
+    shareExportingLabel: string
+    shareExportDescription: string
+    shareExportSuccess: string
+    shareExportFailure: string
     editorEyebrow: string
     editorTitle: string
     editorBody: string
@@ -228,7 +303,7 @@ export type RelationshipContent = {
 }
 
 export type RelationshipContentPackage = {
-  schemaVersion: 1
+  schemaVersion: 3
   contentVersion: string
   projectId: 'relationship-manual'
   meta: {

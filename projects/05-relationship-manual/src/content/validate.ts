@@ -1,8 +1,13 @@
 import rawContent from './content.json'
+import { RELATIONSHIP_CONTEXTS } from './bank'
 import type {
   ContentValidationResult,
+  ManualSentence,
+  RelationshipCategory,
   RelationshipContentPackage,
+  RelationshipContext,
   RelationshipQuestion,
+  ResultVoice,
 } from './schema'
 
 export const FORBIDDEN_LANGUAGE_PATTERNS = [
@@ -17,10 +22,23 @@ export const FORBIDDEN_LANGUAGE_PATTERNS = [
 ] as const
 
 const ID_PATTERN = /^[a-z][a-z0-9-]*$/u
+const CHAPTER_CATEGORIES: RelationshipCategory[] = [
+  'contact', 'listening', 'conflict', 'space', 'care', 'boundary', 'repair',
+]
+const CONTEXT_PREFIXES: Record<RelationshipContext, string> = {
+  'close-relationship': 'close-',
+  friendship: 'friend-',
+  family: 'family-',
+}
+const RESULT_VOICES: ResultVoice[] = ['request', 'boundary', 'self-commitment']
+const SENTENCE_ROLES = ['need', 'trigger', 'action', 'repair']
+const NPC_POSES = ['daily', 'listening', 'reminder']
 const UI_COPY_KEYS = [
   'landingEyebrow', 'landingLead', 'privacyTitle', 'privacyBody', 'introEyebrow', 'introTitle',
-  'introBody', 'contextHint', 'principlesTitle', 'reviewEyebrow', 'reviewTitle', 'reviewBody',
+  'introBody', 'contextHint', 'principlesTitle', 'guideName', 'guideRole', 'guideMessage',
+  'reviewEyebrow', 'reviewTitle', 'reviewBody',
   'resultReadyEyebrow', 'resultSavedEyebrow', 'resultTitle', 'resultSavedTitle', 'resultBody',
+  'shareExportLabel', 'shareExportingLabel', 'shareExportDescription', 'shareExportSuccess', 'shareExportFailure',
   'editorEyebrow', 'editorTitle', 'editorBody', 'editorReviewNote', 'emptyTitle', 'emptyBody',
 ] as const
 
@@ -32,25 +50,58 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === 'string')
 }
 
-function duplicateIds(ids: string[]): string[] {
+function duplicates(values: string[]): string[] {
   const seen = new Set<string>()
-  return ids.filter((id) => {
-    if (seen.has(id)) return true
-    seen.add(id)
+  return values.filter((value) => {
+    if (seen.has(value)) return true
+    seen.add(value)
     return false
   })
 }
 
+function hasQuestionShape(value: unknown): value is RelationshipQuestion {
+  if (!isRecord(value)
+    || typeof value.questionId !== 'string'
+    || !CHAPTER_CATEGORIES.includes(String(value.category) as RelationshipCategory)
+    || typeof value.sceneLead !== 'string'
+    || typeof value.prompt !== 'string'
+    || !Array.isArray(value.resultVoices)
+    || !value.resultVoices.every((voice) => RESULT_VOICES.includes(String(voice) as ResultVoice))
+    || typeof value.multiple !== 'boolean'
+    || !isRecord(value.selectionLimit)
+    || !Number.isInteger(value.selectionLimit.min)
+    || !Number.isInteger(value.selectionLimit.max)
+    || !isRecord(value.skipRule)
+    || typeof value.skipRule.allowed !== 'boolean'
+    || typeof value.skipRule.reason !== 'string'
+    || !Array.isArray(value.options)) return false
+
+  return value.options.every((option) => isRecord(option)
+    && typeof option.optionId === 'string'
+    && typeof option.text === 'string'
+    && typeof option.subtitle === 'string'
+    && Array.isArray(option.dimensionEffects)
+    && option.dimensionEffects.every((effect) => isRecord(effect)
+      && typeof effect.dimensionId === 'string'
+      && typeof effect.score === 'number')
+    && [1, 2, 3].includes(Number(option.intensity))
+    && isStringArray(option.tags)
+    && isStringArray(option.scenarios)
+    && typeof option.hasConflict === 'boolean'
+    && isStringArray(option.conflictsWith)
+    && isStringArray(option.boundaryIds)
+    && isStringArray(option.resultTextKeys))
+}
+
 function validateQuestion(
   question: RelationshipQuestion,
-  questionIndex: number,
+  base: string,
   dimensionIds: Set<string>,
   optionIds: Set<string>,
   boundaryIds: Set<string>,
-  textKeys: Set<string>,
+  sentenceByKey: Map<string, ManualSentence>,
   errors: string[],
 ) {
-  const base = `$.content.questions[${questionIndex}]`
   if (!question.multiple && question.selectionLimit.max !== 1) {
     errors.push(`${base}.selectionLimit.max: single choice question must have max 1`)
   }
@@ -60,215 +111,234 @@ function validateQuestion(
   if (question.selectionLimit.max > question.options.length) {
     errors.push(`${base}.selectionLimit.max: exceeds option count`)
   }
+  if (Array.from(question.sceneLead).length < 28) errors.push(`${base}.sceneLead: expected at least 28 characters`)
+
   question.options.forEach((option, optionIndex) => {
     const optionBase = `${base}.options[${optionIndex}]`
+    if (Array.from(option.text).length > 60) errors.push(`${optionBase}.text: exceeds 60 characters`)
+    if (Array.from(option.subtitle).length < 16) errors.push(`${optionBase}.subtitle: expected at least 16 characters`)
     option.dimensionEffects.forEach((effect, effectIndex) => {
       if (!dimensionIds.has(effect.dimensionId)) {
         errors.push(`${optionBase}.dimensionEffects[${effectIndex}].dimensionId: unknown dimension "${effect.dimensionId}"`)
       }
-      if (effect.score < 0 || effect.score > 3) {
-        errors.push(`${optionBase}.dimensionEffects[${effectIndex}].score: expected 0..3`)
-      }
+      if (effect.score < 0 || effect.score > 3) errors.push(`${optionBase}.dimensionEffects[${effectIndex}].score: expected 0..3`)
     })
     option.conflictsWith.forEach((id, index) => {
-      if (!optionIds.has(id)) errors.push(`${optionBase}.conflictsWith[${index}]: unknown option "${id}"`)
+      if (!optionIds.has(id)) errors.push(`${optionBase}.conflictsWith[${index}]: cross-bank option "${id}"`)
     })
     option.boundaryIds.forEach((id, index) => {
-      if (!boundaryIds.has(id)) errors.push(`${optionBase}.boundaryIds[${index}]: unknown boundary "${id}"`)
-    })
-    option.resultTextKeys.forEach((id, index) => {
-      if (!textKeys.has(id)) errors.push(`${optionBase}.resultTextKeys[${index}]: unknown text key "${id}"`)
+      if (!boundaryIds.has(id)) errors.push(`${optionBase}.boundaryIds[${index}]: cross-bank boundary "${id}"`)
     })
     if (option.hasConflict !== (option.conflictsWith.length > 0)) {
       errors.push(`${optionBase}.hasConflict: does not match conflictsWith`)
     }
+    if ((option.neutral || option.tags.includes('not-applicable'))
+      && (option.resultTextKeys.length > 0 || option.boundaryIds.length > 0)) {
+      errors.push(`${optionBase}: neutral option must not generate results`)
+    }
+    option.resultTextKeys.forEach((textKey, textIndex) => {
+      const sentence = sentenceByKey.get(textKey)
+      if (!sentence) {
+        errors.push(`${optionBase}.resultTextKeys[${textIndex}]: cross-bank result key "${textKey}"`)
+        return
+      }
+      if (!question.resultVoices?.includes(sentence.voice as ResultVoice)) {
+        errors.push(`${optionBase}.resultTextKeys[${textIndex}]: result voice mismatch`)
+      }
+      if (!sentence.sensitive && Math.abs(option.intensity - Number(sentence.intensity)) > 1) {
+        errors.push(`${optionBase}.resultTextKeys[${textIndex}]: result intensity mismatch`)
+      }
+    })
   })
 }
 
 function validateContentUnsafe(input: unknown): ContentValidationResult {
   const errors: string[] = []
-  if (typeof input !== 'object' || input === null) {
-    return { valid: false, errors: ['$: expected object'] }
-  }
-
-  const value = input as RelationshipContentPackage
+  if (!isRecord(input)) return { valid: false, errors: ['$: expected object'] }
+  const value = input as unknown as RelationshipContentPackage
   if (value.projectId !== 'relationship-manual') errors.push('$.projectId: expected "relationship-manual"')
-  if (value.schemaVersion !== 1) errors.push('$.schemaVersion: expected 1')
+  if (value.schemaVersion !== 3) errors.push('$.schemaVersion: expected 3')
   if (!value.meta?.title?.trim()) errors.push('$.meta.title: expected non-empty text')
   if (value.meta?.locale !== 'zh-CN') errors.push('$.meta.locale: expected "zh-CN"')
-  if (!value.content) return { valid: false, errors: [...errors, '$.content: expected object'] }
+  if (!isRecord(value.content)) return { valid: false, errors: [...errors, '$.content: expected object'] }
 
-  const { dimensions, questions, boundaryPreferences, sentenceFragments, cardRules, safetyRules, uiCopy } = value.content
-  if (!Array.isArray(dimensions) || !Array.isArray(questions) || !Array.isArray(boundaryPreferences) || !Array.isArray(sentenceFragments)) {
+  const { chapters, contextCopy, npcCues, dimensions, relationshipBanks, cardRules, safetyRules, uiCopy } = value.content
+  if (!Array.isArray(chapters) || !Array.isArray(npcCues) || !Array.isArray(dimensions)) {
     return { valid: false, errors: [...errors, '$.content: required arrays are missing'] }
   }
-  if (dimensions.some((item) => !isRecord(item)
-    || typeof item.dimensionId !== 'string'
-    || typeof item.label !== 'string'
-    || typeof item.description !== 'string'
-    || typeof item.important !== 'boolean'
-    || typeof item.fallbackTextKey !== 'string')) {
-    return { valid: false, errors: [...errors, '$.content.dimensions: invalid item structure'] }
+  if (!isRecord(relationshipBanks)) {
+    return { valid: false, errors: [...errors, '$.content.relationshipBanks: expected three banks'] }
   }
-  if (questions.some((question) => !isRecord(question)
-    || typeof question.questionId !== 'string'
-    || typeof question.prompt !== 'string'
-    || typeof question.multiple !== 'boolean'
-    || !isRecord(question.selectionLimit)
-    || !Number.isInteger(question.selectionLimit.min)
-    || !Number.isInteger(question.selectionLimit.max)
-    || !isRecord(question.skipRule)
-    || typeof question.skipRule.allowed !== 'boolean'
-    || typeof question.skipRule.reason !== 'string'
-    || !Array.isArray(question.options)
-    || question.options.some((option) => !isRecord(option)
-      || typeof option.optionId !== 'string'
-      || typeof option.text !== 'string'
-      || !Array.isArray(option.dimensionEffects)
-      || option.dimensionEffects.some((effect) => !isRecord(effect)
-        || typeof effect.dimensionId !== 'string'
-        || typeof effect.score !== 'number')
-      || !isStringArray(option.tags)
-      || !isStringArray(option.scenarios)
-      || typeof option.hasConflict !== 'boolean'
-      || !isStringArray(option.conflictsWith)
-      || !isStringArray(option.boundaryIds)
-      || !isStringArray(option.resultTextKeys)))) {
-    return { valid: false, errors: [...errors, '$.content.questions: invalid nested item structure'] }
+  if (chapters.some((chapter) => !isRecord(chapter)
+    || typeof chapter.chapterId !== 'string'
+    || !CHAPTER_CATEGORIES.includes(String(chapter.category) as RelationshipCategory)
+    || typeof chapter.title !== 'string'
+    || typeof chapter.shortTitle !== 'string'
+    || typeof chapter.folderLabel !== 'string')) {
+    errors.push('$.content.chapters: invalid item structure')
   }
-  if (boundaryPreferences.some((item) => !isRecord(item)
-    || typeof item.boundaryId !== 'string'
-    || typeof item.label !== 'string'
-    || typeof item.textKey !== 'string'
-    || !isStringArray(item.scenarioTags))) {
-    return { valid: false, errors: [...errors, '$.content.boundaryPreferences: invalid item structure'] }
+  if (JSON.stringify(chapters.map((chapter) => chapter.category)) !== JSON.stringify(CHAPTER_CATEGORIES)) {
+    errors.push('$.content.chapters: expected frozen seven-chapter order')
   }
-  if (sentenceFragments.some((item) => !isRecord(item)
-    || typeof item.textKey !== 'string'
-    || typeof item.cardSectionId !== 'string'
-    || typeof item.text !== 'string'
-    || typeof item.sensitive !== 'boolean')) {
-    return { valid: false, errors: [...errors, '$.content.sentenceFragments: invalid item structure'] }
+  if (!isRecord(contextCopy) || RELATIONSHIP_CONTEXTS.some((context) => {
+    const copy = contextCopy[context]
+    return !isRecord(copy)
+      || typeof copy.label !== 'string'
+      || typeof copy.subjectLabel !== 'string'
+      || !isRecord(copy.chapterLeads)
+      || CHAPTER_CATEGORIES.some((category) => typeof copy.chapterLeads[category] !== 'string')
+  })) errors.push('$.content.contextCopy: invalid structure')
+
+  if (npcCues.some((cue) => !isRecord(cue)
+    || typeof cue.cueId !== 'string'
+    || !NPC_POSES.includes(String(cue.pose))
+    || cue.speaker !== '小满'
+    || cue.roleLabel !== '关系卡片整理员'
+    || typeof cue.text !== 'string'
+    || typeof cue.primaryAction !== 'string'
+    || typeof cue.skippable !== 'boolean')) {
+    errors.push('$.content.npcCues: invalid item structure')
   }
+
+  const dimensionIds = new Set<string>()
+  if (dimensions.some((dimension) => {
+    if (!isRecord(dimension)
+      || typeof dimension.dimensionId !== 'string'
+      || typeof dimension.label !== 'string'
+      || typeof dimension.description !== 'string'
+      || typeof dimension.important !== 'boolean'
+      || !isRecord(dimension.fallbackTextKeys)
+      || RELATIONSHIP_CONTEXTS.some((context) => typeof dimension.fallbackTextKeys?.[context] !== 'string')) return true
+    dimensionIds.add(dimension.dimensionId)
+    return false
+  })) errors.push('$.content.dimensions: invalid item structure')
+
+  const globalIds: string[] = [
+    ...chapters.flatMap((chapter) => isRecord(chapter) && typeof chapter.chapterId === 'string' ? [chapter.chapterId] : []),
+    ...npcCues.flatMap((cue) => isRecord(cue) && typeof cue.cueId === 'string' ? [cue.cueId] : []),
+    ...dimensionIds,
+  ]
+
+  for (const context of RELATIONSHIP_CONTEXTS) {
+    const base = `$.content.relationshipBanks.${context}`
+    const bank = relationshipBanks[context]
+    if (!isRecord(bank)
+      || !Array.isArray(bank.questions)
+      || !Array.isArray(bank.boundaryPreferences)
+      || !Array.isArray(bank.sentenceFragments)
+      || !Array.isArray(bank.conflictMergeRules)
+      || !Array.isArray(bank.boundaryCommitmentRules)
+      || !isStringArray(bank.defaultCommitmentTextKeys)
+      || !isRecord(bank.sectionFallbacks)) {
+      errors.push(`${base}: invalid structure`)
+      continue
+    }
+    if (bank.questions.some((question) => !hasQuestionShape(question))) {
+      errors.push(`${base}.questions: invalid nested item structure`)
+      continue
+    }
+    if (bank.sentenceFragments.some((sentence) => !isRecord(sentence)
+      || typeof sentence.textKey !== 'string'
+      || !CHAPTER_CATEGORIES.includes(String(sentence.cardSectionId) as RelationshipCategory)
+      || !SENTENCE_ROLES.includes(String(sentence.role))
+      || !RESULT_VOICES.includes(String(sentence.voice) as ResultVoice)
+      || ![1, 2, 3].includes(Number(sentence.intensity))
+      || typeof sentence.text !== 'string'
+      || typeof sentence.sensitive !== 'boolean')) {
+      errors.push(`${base}.sentenceFragments: invalid item structure`)
+      continue
+    }
+    if (CHAPTER_CATEGORIES.some((category) => {
+      const fallback = bank.sectionFallbacks[category]
+      return !isRecord(fallback) || typeof fallback.needText !== 'string' || typeof fallback.actionText !== 'string'
+    })) errors.push(`${base}.sectionFallbacks: invalid structure`)
+
+    const questions = bank.questions as RelationshipQuestion[]
+    const optionIds = new Set(questions.flatMap((question) => question.options.map((option) => option.optionId)))
+    const boundaryIds = new Set(bank.boundaryPreferences.flatMap((boundary) => (
+      isRecord(boundary) && typeof boundary.boundaryId === 'string' ? [boundary.boundaryId] : []
+    )))
+    const sentences = bank.sentenceFragments as Array<{
+      textKey: string
+      voice: ResultVoice
+      intensity: 1 | 2 | 3
+      sensitive: boolean
+      text: string
+    }>
+    const sentenceByKey = new Map(sentences.map((sentence) => [sentence.textKey, sentence]))
+    const prefix = CONTEXT_PREFIXES[context]
+    const localIds = [
+      ...questions.map((question) => question.questionId),
+      ...optionIds,
+      ...boundaryIds,
+      ...sentences.map((sentence) => sentence.textKey),
+    ]
+    globalIds.push(...localIds)
+    for (const id of localIds) {
+      if (!id.startsWith(prefix)) errors.push(`${base}: id "${id}" must start with "${prefix}"`)
+    }
+    if (questions.length !== 21) errors.push(`${base}.questions: expected 21 questions`)
+    for (const category of CHAPTER_CATEGORIES) {
+      if (questions.filter((question) => question.category === category).length !== 3) {
+        errors.push(`${base}.questions: expected 3 questions for ${category}`)
+      }
+    }
+    questions.forEach((question, index) => validateQuestion(
+      question,
+      `${base}.questions[${index}]`,
+      dimensionIds,
+      optionIds,
+      boundaryIds,
+      sentenceByKey as Map<string, ManualSentence>,
+      errors,
+    ))
+    for (const dimension of dimensions) {
+      if (!isRecord(dimension) || !dimension.important || !isRecord(dimension.fallbackTextKeys)) continue
+      const textKey = dimension.fallbackTextKeys[context]
+      if (typeof textKey !== 'string' || !sentenceByKey.has(textKey)) {
+        errors.push(`${base}: missing contextual fallback for ${String(dimension.dimensionId)}`)
+      }
+    }
+    for (const sentence of sentences) {
+      if (!sentence.text.trim()) errors.push(`${base}.sentenceFragments: expected non-empty text`)
+      if (Array.from(sentence.text).length > Number(cardRules?.maxParagraphChars ?? 120)) {
+        errors.push(`${base}.sentenceFragments: exceeds paragraph limit`)
+      }
+    }
+  }
+
+  for (const id of globalIds) if (!ID_PATTERN.test(id)) errors.push(`$: illegal id "${id}"`)
+  for (const id of duplicates(globalIds)) errors.push(`$: duplicate id "${id}"`)
+
   if (!isRecord(cardRules)
     || !Array.isArray(cardRules.sections)
+    || cardRules.sections.length !== 7
     || !isStringArray(cardRules.requiredFields)
-    || !Array.isArray(cardRules.conflictMergeRules)
-    || !Array.isArray(cardRules.boundaryCommitmentRules)
-    || !isStringArray(cardRules.defaultCommitmentTextKeys)
     || typeof cardRules.maxParagraphChars !== 'number'
     || typeof cardRules.maxSummaryChars !== 'number'
     || typeof cardRules.title !== 'string'
     || typeof cardRules.disclaimer !== 'string'
-    || typeof cardRules.safetyFallback !== 'string'
     || typeof cardRules.neutralSummary !== 'string'
     || typeof cardRules.summaryPrefix !== 'string'
     || !isRecord(cardRules.relationshipLabels)
-    || typeof cardRules.relationshipLabels['close-relationship'] !== 'string'
-    || typeof cardRules.relationshipLabels.friendship !== 'string'
-    || cardRules.sections.some((section) => !isRecord(section)
-      || typeof section.sectionId !== 'string'
-      || typeof section.title !== 'string'
-      || typeof section.maxItems !== 'number'
-      || typeof section.fallbackText !== 'string')
-    || cardRules.conflictMergeRules.some((rule) => !isRecord(rule)
-      || typeof rule.ruleId !== 'string'
-      || !isStringArray(rule.optionIds)
-      || rule.optionIds.length !== 2
-      || typeof rule.cardSectionId !== 'string'
-      || typeof rule.text !== 'string'
-      || !isStringArray(rule.replacesTextKeys))
-    || cardRules.boundaryCommitmentRules.some((rule) => !isRecord(rule)
-      || typeof rule.boundaryId !== 'string'
-      || !isStringArray(rule.textKeys))) {
-    return { valid: false, errors: [...errors, '$.content.cardRules: invalid structure'] }
+    || RELATIONSHIP_CONTEXTS.some((context) => typeof cardRules.relationshipLabels?.[context] !== 'string')) {
+    errors.push('$.content.cardRules: invalid structure')
   }
   if (!Array.isArray(safetyRules) || safetyRules.some((rule) => !isRecord(rule)
     || typeof rule.ruleId !== 'string'
     || typeof rule.label !== 'string'
     || !['reject', 'fallback'].includes(String(rule.action)))) {
-    return { valid: false, errors: [...errors, '$.content.safetyRules: invalid item structure'] }
+    errors.push('$.content.safetyRules: invalid item structure')
   }
   if (!isRecord(uiCopy)
-    || UI_COPY_KEYS.some((key) => typeof uiCopy[key] !== 'string' || !uiCopy[key].trim())
-    || Object.values(uiCopy).some((copy) => typeof copy !== 'string' || !copy.trim())) {
-    return { valid: false, errors: [...errors, '$.content.uiCopy: expected non-empty text values'] }
+    || UI_COPY_KEYS.some((key) => typeof uiCopy[key] !== 'string' || !uiCopy[key].trim())) {
+    errors.push('$.content.uiCopy: expected non-empty text values')
   }
 
-  const dimensionIds = new Set(dimensions.map((item) => item.dimensionId))
-  const optionIds = new Set(questions.flatMap((question) => question.options.map((option) => option.optionId)))
-  const boundaryIds = new Set(boundaryPreferences.map((item) => item.boundaryId))
-  const textKeys = new Set(sentenceFragments.map((item) => item.textKey))
-  const allIds = [
-    ...dimensionIds,
-    ...questions.map((item) => item.questionId),
-    ...optionIds,
-    ...boundaryIds,
-    ...textKeys,
-  ]
-  for (const id of allIds) if (!ID_PATTERN.test(id)) errors.push(`$: illegal id "${id}"`)
-  for (const id of duplicateIds(allIds)) errors.push(`$: duplicate id "${id}"`)
-
-  questions.forEach((question, index) => validateQuestion(
-    question,
-    index,
-    dimensionIds,
-    optionIds,
-    boundaryIds,
-    textKeys,
-    errors,
-  ))
-
-  dimensions.forEach((dimension, index) => {
-    if (dimension.important && !textKeys.has(dimension.fallbackTextKey)) {
-      errors.push(`$.content.dimensions[${index}].fallbackTextKey: unknown text key "${dimension.fallbackTextKey}"`)
-    }
-  })
-  boundaryPreferences.forEach((boundary, index) => {
-    if (!textKeys.has(boundary.textKey)) {
-      errors.push(`$.content.boundaryPreferences[${index}].textKey: unknown text key "${boundary.textKey}"`)
-    }
-  })
-  cardRules?.conflictMergeRules?.forEach((rule, index) => {
-    rule.optionIds.forEach((id, optionIndex) => {
-      if (!optionIds.has(id)) errors.push(`$.content.cardRules.conflictMergeRules[${index}].optionIds[${optionIndex}]: unknown option "${id}"`)
-    })
-    rule.replacesTextKeys.forEach((id, textIndex) => {
-      if (!textKeys.has(id)) errors.push(`$.content.cardRules.conflictMergeRules[${index}].replacesTextKeys[${textIndex}]: unknown text key "${id}"`)
-    })
-  })
-  cardRules.boundaryCommitmentRules.forEach((rule, index) => {
-    if (!boundaryIds.has(rule.boundaryId)) {
-      errors.push(`$.content.cardRules.boundaryCommitmentRules[${index}].boundaryId: unknown boundary "${rule.boundaryId}"`)
-    }
-    rule.textKeys.forEach((id, textIndex) => {
-      if (!textKeys.has(id)) errors.push(`$.content.cardRules.boundaryCommitmentRules[${index}].textKeys[${textIndex}]: unknown text key "${id}"`)
-    })
-  })
-  cardRules.defaultCommitmentTextKeys.forEach((id, index) => {
-    if (!textKeys.has(id)) errors.push(`$.content.cardRules.defaultCommitmentTextKeys[${index}]: unknown text key "${id}"`)
-  })
-
-  const visibleText = JSON.stringify({ dimensions, questions, boundaryPreferences, sentenceFragments, cardRules, uiCopy })
-  FORBIDDEN_LANGUAGE_PATTERNS.forEach((pattern) => {
+  const visibleText = JSON.stringify({ chapters, contextCopy, npcCues, dimensions, relationshipBanks, cardRules, safetyRules, uiCopy })
+  for (const pattern of FORBIDDEN_LANGUAGE_PATTERNS) {
     if (pattern.test(visibleText)) errors.push(`$.content: forbidden language matched ${String(pattern)}`)
-  })
-
-  const requiredCardFields = ['title', 'relationshipLabel', 'sections', 'shareSummary', 'disclaimer', 'contentVersion']
-  if (!cardRules || cardRules.sections.length !== 6) errors.push('$.content.cardRules.sections: expected 6 sections')
-  if (!cardRules || requiredCardFields.some((field) => !cardRules.requiredFields.includes(field as never))) {
-    errors.push('$.content.cardRules.requiredFields: missing required share card field')
   }
-  if (questions.length !== 16) errors.push('$.content.questions: expected 16 questions')
-  if (sentenceFragments.length !== 42) errors.push('$.content.sentenceFragments: expected 42 fragments')
-  questions.forEach((question, questionIndex) => question.options.forEach((option, optionIndex) => {
-    if (Array.from(option.text).length > 60) errors.push(`$.content.questions[${questionIndex}].options[${optionIndex}].text: exceeds 60 characters`)
-  }))
-  sentenceFragments.forEach((sentence, index) => {
-    if (!sentence.text.trim()) errors.push(`$.content.sentenceFragments[${index}].text: expected non-empty text`)
-    if (Array.from(sentence.text).length > cardRules.maxParagraphChars) errors.push(`$.content.sentenceFragments[${index}].text: exceeds paragraph limit`)
-  })
-
   return { valid: errors.length === 0, errors }
 }
 

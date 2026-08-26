@@ -150,6 +150,32 @@ async function inspectEvidence(evidenceId) {
   return report
 }
 
+async function inspectFallbackEvidence(evidenceId) {
+  await evaluate(`document.querySelector('[data-evidence-trigger=${JSON.stringify(evidenceId)}]').click()`)
+  await waitFor(`document.querySelector('[data-evidence-id=${JSON.stringify(evidenceId)}]') !== null`)
+  await waitFor(`(() => {
+    const image = document.querySelector('[data-evidence-id=${JSON.stringify(evidenceId)}] .evidence-plate > img')
+    return image?.complete && image.currentSrc.includes('-v1.svg')
+  })()`)
+  const report = await evaluate(`(() => {
+    const artifact = document.querySelector('[data-evidence-id=${JSON.stringify(evidenceId)}]')
+    const image = artifact.querySelector('.evidence-plate > img')
+    return {
+      id: artifact.dataset.evidenceId,
+      template: artifact.dataset.template,
+      fallbackSrc: image.currentSrc,
+      fallbackSize: [image.naturalWidth, image.naturalHeight],
+      brokenImages: [...document.images].filter((item) => item.getClientRects().length && item.naturalWidth === 0).length,
+      observationCount: artifact.querySelectorAll('.evidence-hotspots button').length,
+    }
+  })()`)
+  const fallbackRatio = report.fallbackSize[0] / report.fallbackSize[1]
+  if (!report.fallbackSrc.includes('-v1.svg') || report.fallbackSize[0] <= 0 || Math.abs(fallbackRatio - 1.5) > 0.01 || report.brokenImages || report.observationCount < 2) {
+    throw new Error(`Evidence fallback regression: ${JSON.stringify(report)}`)
+  }
+  return report
+}
+
 await command('Page.enable')
 await command('Runtime.enable')
 await command('Log.enable')
@@ -209,6 +235,24 @@ for (const caseData of cases) {
   }
 }
 if (allEvidenceReports.length !== 32) throw new Error(`Expected 32 evidence reports, got ${allEvidenceReports.length}`)
+
+await command('Network.enable')
+await command('Network.setCacheDisabled', { cacheDisabled: true })
+await command('Network.setBlockedURLs', { urls: ['*-v3.webp'] })
+const fallbackReports = []
+const homeCaseEvidence = evidence.filter((item) => item.caseId === homeCase.caseId)
+await seedCase(homeCase, homeCaseEvidence.map((item) => item.id))
+await openSeededLedger()
+for (const item of homeCaseEvidence) {
+  fallbackReports.push(await inspectFallbackEvidence(item.id))
+  await evaluate(`document.querySelector('.evidence-screen .page-header button').click()`)
+  await waitFor(`document.querySelector('.ledger-screen') !== null`)
+}
+if (fallbackReports.length !== 4 || new Set(fallbackReports.map((item) => item.template)).size !== 4) {
+  throw new Error(`Expected four evidence-template fallbacks: ${JSON.stringify(fallbackReports)}`)
+}
+await command('Network.setBlockedURLs', { urls: [] })
+await command('Network.setCacheDisabled', { cacheDisabled: false })
 
 await seedCase(homeCase, [])
 await command('Page.navigate', { url: baseUrl })
@@ -288,6 +332,7 @@ if (browserErrors.length) throw new Error(`Browser console errors: ${browserErro
 console.log(JSON.stringify({
   viewportReports,
   allEvidenceCount: allEvidenceReports.length,
+  fallbackReports,
   acquisitionSteps,
   acquisitionEvidenceId,
   acquisitionMinTarget,

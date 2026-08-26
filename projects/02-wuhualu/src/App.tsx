@@ -161,7 +161,7 @@ function Screen({ state, dispatch, resetAfterError }: ScreenProps) {
   if (state.screen === 'narrativeInterlude') {
     const chapter = narrative.chapters.find(item => item.id === state.chapterId)
     if (!chapter) return <ErrorPanel message={copy.contentMissingMessage} onReset={resetAfterError} />
-    return <NarrativeInterlude chapter={chapter} fictionLabel={narrative.fictionLabel} recentResponse={recentNarrativeResponse(state)} replay={state.replay} continueLabel={narrative.continueActionLabel} deferLabel={narrative.deferActionLabel} onComplete={() => dispatch({ type: 'completeNarrative' })} onDefer={() => dispatch({ type: 'deferNarrative' })} />
+    return <NarrativeInterlude key={chapter.id} chapter={chapter} fictionLabel={narrative.fictionLabel} recentResponse={recentNarrativeResponse(state)} replay={state.replay} continueLabel={narrative.continueActionLabel} deferLabel={narrative.deferActionLabel} onComplete={() => dispatch({ type: 'completeNarrative' })} onDefer={() => dispatch({ type: 'deferNarrative' })} />
   }
 
   if (['observation', 'clueSelect', 'answering', 'wrongReview', 'reveal', 'story', 'memory', 'archive', 'setComplete'].includes(state.screen)) return <PlayExperience key={'questions' in state ? state.questions[state.session.index]?.artifactId : state.screen} state={state as PlayState} dispatch={dispatch} />

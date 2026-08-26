@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { NarrativeBeat, NarrativeChapter } from '../content/types.ts'
 import { resolveGuideAsset } from './guide-assets.ts'
 
@@ -24,10 +24,13 @@ export function NarrativeInterlude({
   onDefer,
 }: NarrativeInterludeProps) {
   const [beatIndex, setBeatIndex] = useState(0)
-  useEffect(() => setBeatIndex(0), [chapter.id])
   const beats = useMemo(() => {
     if (!recentResponse || chapter.id !== 'act-3') return chapter.beats
-    const responseBeat: NarrativeBeat = { id: 'act-3-recent-response', speaker: '许照', body: recentResponse }
+    const responseBeat: NarrativeBeat = {
+      id: 'act-3-recent-response',
+      speaker: chapter.beats[1]?.speaker ?? chapter.beats[0]?.speaker ?? '',
+      body: recentResponse,
+    }
     return [...chapter.beats.slice(0, 2), responseBeat, ...chapter.beats.slice(2)]
   }, [chapter, recentResponse])
   const beat = beats[Math.min(beatIndex, beats.length - 1)]

@@ -6,6 +6,20 @@ import assetManifest from '../../public/assets/asset-manifest.json'
 import { isCompleteArtifact } from '../content/types.ts'
 import { parseContent } from '../content/validate.ts'
 import { filterPlayableArtifacts, findIncompletePlayableArtifactIds, getRuntimeArtifactAssets, playableArtifactIds, selectClueAsset } from './artifact-assets.ts'
+import { resolveGuideAsset } from './guide-assets.ts'
+
+function readWebpDimensions(bytes: Buffer): [number, number] {
+  expect(bytes.toString('ascii', 0, 4)).toBe('RIFF')
+  expect(bytes.toString('ascii', 8, 12)).toBe('WEBP')
+  const chunk = bytes.toString('ascii', 12, 16)
+  if (chunk === 'VP8X') return [bytes.readUIntLE(24, 3) + 1, bytes.readUIntLE(27, 3) + 1]
+  if (chunk === 'VP8 ') return [bytes.readUInt16LE(26) & 0x3fff, bytes.readUInt16LE(28) & 0x3fff]
+  if (chunk === 'VP8L') {
+    const bits = bytes.readUInt32LE(21)
+    return [(bits & 0x3fff) + 1, ((bits >>> 14) & 0x3fff) + 1]
+  }
+  throw new Error(`unsupported WebP chunk ${chunk}`)
+}
 
 describe('release artifact assets', () => {
   const artifacts = parseContent(rawContent).content.artifacts
@@ -80,5 +94,20 @@ describe('release artifact assets', () => {
   it('keeps the silver sachet mechanics SVG free of business copy', () => {
     const diagram = fileURLToPath(new URL('../../public/assets/artifacts/artifact-grape-bird-sachet/diagram-gimbal.svg', import.meta.url))
     expect(readFileSync(diagram, 'utf8')).not.toMatch(/<(?:text|title|desc)\b/)
+  })
+
+  it('ships both local 900 by 1200 Xu Zhao narrative portraits', () => {
+    const expected = [
+      ['asset-guide-xuzhao-journal', 'guide-xuzhao-journal'],
+      ['asset-guide-xuzhao-finale', 'guide-xuzhao-finale'],
+    ] as const
+
+    for (const [assetId, manifestId] of expected) {
+      const relativePath = resolveGuideAsset(assetId).replace(/^.*\/assets\//, '')
+      const path = fileURLToPath(new URL(`../../public/assets/${relativePath}`, import.meta.url))
+      expect(existsSync(path), assetId).toBe(true)
+      expect(readWebpDimensions(readFileSync(path)), assetId).toEqual([900, 1200])
+      expect(assetManifest.guide.find(({ id }) => id === manifestId), manifestId).toMatchObject({ width: 900, height: 1200 })
+    }
   })
 })

@@ -1,7 +1,7 @@
 {
   "project": "wuhualu",
-  "version": 9,
-  "status": "twenty-artifacts-all-static-roles-integration-ready",
+  "version": 10,
+  "status": "twenty-artifacts-and-xuzhao-narrative-integration-ready",
   "policy": {
     "referenceRequired": true,
     "museumPhotoBundlingDefault": false,
@@ -99,6 +99,36 @@
       "bytes": 3186,
       "maxBytes": 12000,
       "status": "first-intro-three-width-qa-approved"
+    },
+    {
+      "id": "guide-xuzhao-journal",
+      "assetId": "asset-guide-xuzhao-journal",
+      "character": "许照",
+      "type": "webp",
+      "src": "wuhualu/guide/guide-journal-v1.webp",
+      "width": 900,
+      "height": 1200,
+      "bytes": 65156,
+      "maxBytes": 180000,
+      "status": "identity-preserving-edit-approved",
+      "identitySource": "wuhualu/guide/guide-master-v1.webp",
+      "integratedStates": ["narrative-act-3", "narrative-act-4", "narrative-act-5"],
+      "mobileSafeZone": "head-and-both-hands-inside-frame"
+    },
+    {
+      "id": "guide-xuzhao-finale",
+      "assetId": "asset-guide-xuzhao-finale",
+      "character": "许照",
+      "type": "webp",
+      "src": "wuhualu/guide/guide-finale-v1.webp",
+      "width": 900,
+      "height": 1200,
+      "bytes": 72444,
+      "maxBytes": 180000,
+      "status": "identity-preserving-edit-approved",
+      "identitySource": "wuhualu/guide/guide-master-v1.webp",
+      "integratedStates": ["narrative-finale"],
+      "mobileSafeZone": "head-and-both-hands-inside-frame"
     },
     {
       "id": "guide-xuzhao-placeholder",

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+  <title>观察附近</title>
+  <path d="M7 24c5-8 11-12 17-12s12 4 17 12c-5 8-11 12-17 12S12 32 7 24Z"/>
+  <circle cx="24" cy="24" r="5"/>
+  <path d="M24 5v3M40 10l-2 3M8 10l2 3"/>
+</svg>

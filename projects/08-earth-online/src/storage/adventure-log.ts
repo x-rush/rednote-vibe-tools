@@ -1,10 +1,12 @@
-import type { QuestHistoryEntry } from '../content/schema'
+import type { QuestCategory, QuestHistoryEntry, UnsuitableReason } from '../content/schema'
 
-export type QuestFeedback = { questId: string; unsuitableCount: number; lastUnsuitableAt: string }
+export type QuestFeedback = { questId: string; category: QuestCategory; reason: UnsuitableReason; active: boolean; updatedAt: string }
+export type QuestFeedbackInput = Omit<QuestFeedback, 'active'>
 export interface AdventureLogRepository {
   list(limit?: number): Promise<QuestHistoryEntry[]>
   append(entry: QuestHistoryEntry): Promise<void>
-  recordFeedback(questId: string, status: 'swapped' | 'abandoned', at: string): Promise<void>
+  recordFeedback(input: QuestFeedbackInput): Promise<void>
+  undoFeedback(questId: string, updatedAt: string): Promise<void>
   listFeedback(): Promise<QuestFeedback[]>
   clear(): Promise<void>
 }
@@ -20,38 +22,50 @@ export function createMemoryAdventureLog(): AdventureLogRepository {
   return {
     async list(limit = 100) { return entries.slice(-limit) },
     async append(entry) { entries = [...entries, entry].slice(-100) },
-    async recordFeedback(questId, _status, at) { const current = feedback.get(questId); feedback.set(questId, { questId, unsuitableCount: (current?.unsuitableCount ?? 0) + 1, lastUnsuitableAt: at }) },
+    async recordFeedback(input) { feedback.set(input.questId, { ...input, active: true }) },
+    async undoFeedback(questId, updatedAt) { const current = feedback.get(questId); if (current) feedback.set(questId, { ...current, active: false, updatedAt }) },
     async listFeedback() { return [...feedback.values()] },
     async clear() { entries = []; feedback.clear() },
   }
 }
 
 export function createIndexedDbAdventureLog(indexedDb: IDBFactory): AdventureLogRepository {
-  const database = openDatabase(indexedDb)
+  let database: Promise<IDBDatabase> | undefined
+  const getDatabase = () => {
+    if (!database) database = openDatabase(indexedDb).catch((error: unknown) => { database = undefined; throw error })
+    return database
+  }
   return {
     async list(limit = 100) {
-      const db = await database
+      const db = await getDatabase()
       const values = await requestResult<QuestHistoryEntry[]>(db.transaction('adventureLogs').objectStore('adventureLogs').getAll())
       return values.sort((left, right) => left.occurredAt.localeCompare(right.occurredAt)).slice(-limit)
     },
     async append(entry) {
-      const db = await database
+      const db = await getDatabase()
       await transactionDone(db, 'adventureLogs', (store) => store.put(entry))
     },
-    async recordFeedback(questId, _status, at) {
-      const db = await database
+    async recordFeedback(input) {
+      const db = await getDatabase()
+      const transaction = db.transaction('questFeedback', 'readwrite')
+      const store = transaction.objectStore('questFeedback')
+      store.put({ ...input, active: true })
+      await waitForTransaction(transaction)
+    },
+    async undoFeedback(questId, updatedAt) {
+      const db = await getDatabase()
       const transaction = db.transaction('questFeedback', 'readwrite')
       const store = transaction.objectStore('questFeedback')
       const current = await requestResult<QuestFeedback | undefined>(store.get(questId))
-      store.put({ questId, unsuitableCount: (current?.unsuitableCount ?? 0) + 1, lastUnsuitableAt: at })
+      if (current) store.put({ ...current, active: false, updatedAt })
       await waitForTransaction(transaction)
     },
     async listFeedback() {
-      const db = await database
+      const db = await getDatabase()
       return requestResult<QuestFeedback[]>(db.transaction('questFeedback').objectStore('questFeedback').getAll())
     },
     async clear() {
-      const db = await database
+      const db = await getDatabase()
       await Promise.all([transactionDone(db, 'adventureLogs', (store) => store.clear()), transactionDone(db, 'questFeedback', (store) => store.clear())])
     },
   }

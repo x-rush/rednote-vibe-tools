@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:minitool": "tsc -b && vite build --config vite.minitool.config.ts",
     "lint": "oxlint",
     "test": "vitest run",
+    "validate:minitool": "node scripts/validate-minitool.mjs dist-minitool",
+    "package:minitool": "pnpm build:minitool && pnpm validate:minitool && node scripts/package-minitool.mjs",
     "check": "pnpm lint && pnpm test && pnpm build",
     "preview": "vite preview"
   },

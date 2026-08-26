@@ -1,0 +1,36 @@
+:root {
+  --guild-night: #182824;
+  --guild-night-2: #21342f;
+  --guild-green: #29433a;
+  --guild-green-soft: #38564a;
+  --parchment: #f2e6c8;
+  --parchment-light: #fff9e9;
+  --parchment-deep: #dac49b;
+  --brass: #b8874e;
+  --brass-light: #ddb878;
+  --wine: #8f3f38;
+  --wine-dark: #6f2d2a;
+  --mist-blue: #58758a;
+  --ink: #22302c;
+  --ink-soft: #54625c;
+  --line-dark: rgb(242 230 200 / 22%);
+  --line-paper: rgb(84 61 35 / 24%);
+  --shadow-deep: 0 24px 70px rgb(4 12 10 / 35%);
+  --shadow-paper: 0 16px 32px rgb(4 12 10 / 22%), 0 2px 0 rgb(255 255 255 / 38%) inset;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --space-page: clamp(16px, 4vw, 28px);
+  --header-height: 118px;
+  --rune-cyan: #8fe2d0;
+  --arcane-violet: #9d83d7;
+  --quest-gold: #f0ca78;
+  --motion-instant: 100ms;
+  --motion-fast: 160ms;
+  --motion-base: 240ms;
+  --motion-slow: 420ms;
+  --motion-ritual: 760ms;
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --ease-paper: cubic-bezier(.22, .72, .18, 1);
+  --ease-stamp: cubic-bezier(.3, 1.45, .55, 1);
+}

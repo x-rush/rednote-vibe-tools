@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import rawContent from '../content/content.json'
 import type { EarthOnlineContent, QuestMatch } from '../content/schema'
-import { acceptQuest, abandonQuest, completeQuest, createGuildState, offerQuest, summarizeHistory, swapQuest } from './quests'
+import { acceptQuest, abandonQuest, completeQuest, createGuildState, offerQuest, setGuideSeen, setSoftAvoidCategory, summarizeHistory, swapQuest, undoSoftAvoidCategory } from './quests'
 
 const content = rawContent as unknown as EarthOnlineContent
 const quest = content.content.tasks[0]
@@ -10,6 +10,19 @@ const preference = { minutes: 10 as const, energy: 1 as const, environment: 'ind
 const match = (selected = quest): QuestMatch => ({ kind: 'match', quest: selected, score: 100, stage: 'exact', reasons: ['正合适'], relaxed: [], nextSeed: 42 })
 
 describe('quest lifecycle', () => {
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('starts a fresh guild with browser-provided entropy', () => {
+    vi.stubGlobal('crypto', {
+      getRandomValues(values: Uint32Array) {
+        values[0] = 0xa1b2c3d4
+        return values
+      },
+    })
+
+    expect(createGuildState(preference).rngState).toBe(0xa1b2c3d4)
+  })
+
   it('offers and accepts a quest without awarding XP', () => {
     const offered = offerQuest(createGuildState(preference, 1), match(), '2026-08-24T08:00:00.000Z')
     expect(offered.xp).toBe(0)
@@ -45,8 +58,18 @@ describe('quest lifecycle', () => {
     const summary = summarizeHistory([
       { acceptanceId: 'one', questId: quest.questId, status: 'completed', occurredAt: '2026-08-24T08:00:00.000Z', completionDate: '2026-08-24', xpAwarded: 20 },
       { acceptanceId: 'two', questId: 'quest-retired', status: 'abandoned', occurredAt: '2026-08-23T08:00:00.000Z', xpAwarded: 0 },
-    ], new Map([[quest.questId, quest]]))
+    ], new Map([[quest.questId, quest]]), content.content.ui.archive.removedQuest)
     expect(summary).toMatchObject({ total: 2, completed: 1, abandoned: 1, earnedXp: 20 })
     expect(summary.entries[1].title).toBe('已下线任务')
+  })
+
+  it('stores guide completion and reversible category avoidance as structured settings', () => {
+    const initial = createGuildState(preference, 1)
+    const guided = setGuideSeen(initial)
+    expect(guided.settings.hasSeenGuide).toBe(true)
+    const avoided = setSoftAvoidCategory(guided, 'move')
+    expect(avoided.settings.softAvoidCategoryIds).toEqual(['move'])
+    expect(setSoftAvoidCategory(avoided, 'move')).toEqual(avoided)
+    expect(undoSoftAvoidCategory(avoided, 'move').settings.softAvoidCategoryIds).toEqual([])
   })
 })

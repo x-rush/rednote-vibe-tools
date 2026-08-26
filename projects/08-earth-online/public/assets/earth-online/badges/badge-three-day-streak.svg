@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+  <title>三日同行</title>
+  <circle cx="10" cy="33" r="4"/>
+  <circle cx="24" cy="23" r="4"/>
+  <circle cx="38" cy="13" r="4"/>
+  <path d="m13 31 8-6M27 21l8-6M8 40h32"/>
+  <path d="M10 7v6M7 10h6"/>
+</svg>

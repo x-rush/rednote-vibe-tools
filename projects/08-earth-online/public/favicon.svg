@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="favicon-title">
+  <title id="favicon-title">地球 Online</title>
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="#182824"/>
+  <circle cx="32" cy="28" r="18" fill="none" stroke="#f2e6c8" stroke-width="7"/>
+  <path d="M21 58c15-6 24-14 17-21-6-6-13-4-13-10 0-4 6-7 15-7" fill="none" stroke="#182824" stroke-width="9" stroke-linecap="round"/>
+  <path d="M21 58c15-6 24-14 17-21-6-6-13-4-13-10 0-4 6-7 15-7" fill="none" stroke="#a94d3f" stroke-width="5" stroke-linecap="round"/>
+  <path d="M42 13c1 4 4 7 8 8-4 1-7 4-8 8-1-4-4-7-8-8 4-1 7-4 8-8Z" fill="#ddb878" stroke="#182824" stroke-width="2" stroke-linejoin="round"/>
+</svg>

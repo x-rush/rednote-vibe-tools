@@ -1,12 +1,22 @@
-import { useEffect, useMemo, useReducer, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import rawContent from './content/content.json'
-import type { CompletedQuest, EarthOnlineContent, EnergyLevel, QuestPreference, StoragePayload, TimeCost } from './content/schema'
+import type { CompletedQuest, EarthOnlineContent, QuestPreference, UnsuitableReason } from './content/schema'
 import { validateContent } from './content/validate'
 import { createPageViewModel } from './app/view-model'
 import { appReducer, createInitialAppState, shouldPersistAppState, type AppState } from './app/state'
+import { createStorageEnvelope, persistBeforeTransition } from './app/controller'
 import { matchQuest } from './domain/matcher'
-import { acceptQuest, abandonQuest, completeQuest, createGuildState, offerQuest, swapQuest, type GuildDomainState } from './domain/quests'
-import { loadState, saveState, type StorageEnvelope } from './storage/storage'
+import { acceptQuest, abandonQuest, completeQuest, createGuildState, offerQuest, setGuideSeen, setSoftAvoidCategory, swapQuest, undoSoftAvoidCategory, type GuildDomainState } from './domain/quests'
+import { createIndexedDbAdventureLog, createMemoryAdventureLog, type AdventureLogRepository } from './storage/adventure-log'
+import { clearState, loadState, saveState } from './storage/storage'
+import { CheckIn } from './ui/CheckIn'
+import { GuildFrame, GuildHall } from './ui/GuildFrame'
+import { MiraGuide } from './ui/MiraGuide'
+import { ActiveQuestView, MatchingRitual, QuestOffer } from './ui/QuestFlow'
+import { AdventureLog, AdventurerProfile, BadgeShelf, CategoryCodex, RecoveryPanel, XpReceipt } from './ui/ArchiveViews'
+import { AbandonSheet, CompletionConfirm, MiraHelpSheet, UnsuitableSheet } from './ui/FeedbackSheets'
+import { assets } from './ui/asset-paths'
+import { createInitialUiState, uiReducer } from './ui/state'
 import './App.css'
 
 const content = rawContent as unknown as EarthOnlineContent
@@ -15,89 +25,248 @@ const defaultPreference: QuestPreference = { minutes: 15, energy: 1, environment
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, undefined, initializeState)
+  const [uiState, uiDispatch] = useReducer(uiReducer, undefined, () => createInitialUiState(prefersReducedMotion(), state.guild.settings.hasSeenGuide || state.page === 'error'))
   const [preference, setPreference] = useState(state.guild.preference)
+  const [questActionBusy, setQuestActionBusy] = useState(false)
+  const [archiveDegraded, setArchiveDegraded] = useState(false)
+  const pendingMatch = useRef<null | (() => void)>(null)
+  const temporaryTransition = useRef<null | (() => void)>(null)
+  const matchingTimer = useRef<number | undefined>(undefined)
+  const helpButton = useRef<HTMLButtonElement>(null)
+  const adventureLog = useRef<AdventureLogRepository | null>(null)
+  if (adventureLog.current === null) adventureLog.current = typeof indexedDB === 'undefined' ? createMemoryAdventureLog() : createIndexedDbAdventureLog(indexedDB)
   const model = useMemo(() => createPageViewModel(state, content), [state])
+  const activeQuest = state.guild.activeQuest ? questById.get(state.guild.activeQuest.questId) : undefined
+  const offeredQuest = state.guild.offeredQuestId ? questById.get(state.guild.offeredQuestId) : undefined
+  const settledQuest = state.page === 'questComplete' || state.page === 'questAbandoned' ? questById.get(state.guild.history.at(-1)?.questId ?? '') : undefined
+  const matchingConditions = useMemo(() => preferenceSummary(preference), [preference])
 
   useEffect(() => {
-    if (!shouldPersistAppState(state)) return
-    const envelope: StorageEnvelope = { schemaVersion: 1, contentVersion: content.contentVersion, updatedAt: new Date().toISOString(), data: toStoragePayload(state.guild) }
-    saveState(window.localStorage, envelope)
-  }, [state])
+    if (!shouldPersistAppState(state) || uiState.temporaryMode) return
+    saveState(window.localStorage, createStorageEnvelope(state.guild, content.contentVersion, new Date().toISOString()))
+  }, [state, uiState.temporaryMode])
 
-  const issueQuest = (nextPreference: QuestPreference, swapping = false) => {
-    const baseState = { ...state.guild, preference: nextPreference }
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const update = () => uiDispatch({ type: 'SET_REDUCED_MOTION', value: query.matches })
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: uiState.reducedMotion ? 'auto' : 'smooth' })
+  }, [state.page, uiState.reducedMotion])
+
+  useEffect(() => () => {
+    if (matchingTimer.current !== undefined) window.clearTimeout(matchingTimer.current)
+  }, [])
+
+  const issueQuest = (nextPreference: QuestPreference, swapping = false, guildOverride?: GuildDomainState) => {
+    uiDispatch({ type: 'START_MATCHING' })
+    const baseState = { ...(guildOverride ?? state.guild), preference: nextPreference }
     const completed: CompletedQuest[] = baseState.history.filter((entry) => entry.status === 'completed' && entry.completionDate).map((entry) => ({ acceptanceId: entry.acceptanceId, questId: entry.questId, acceptedAt: entry.occurredAt, completedAt: entry.occurredAt, completionDate: entry.completionDate!, xpAwarded: entry.xpAwarded }))
-    const result = matchQuest(content.content.tasks, nextPreference, { seed: baseState.rngState, nowDate: localDateKey(), recentQuestIds: baseState.recentQuestIds, completed, abandoned: baseState.history.filter(({ status }) => status === 'abandoned'), previousCategoryIds: baseState.history.flatMap(({ category }) => category ? [category] : []).slice(-2) })
-    if (result.kind === 'no-match') { dispatch({ type: 'NO_MATCH', reasons: result.reasons }); return }
+    const result = matchQuest(content.content.tasks, nextPreference, { seed: baseState.rngState, nowDate: localDateKey(), recentQuestIds: baseState.recentQuestIds, completed, abandoned: baseState.history.filter(({ status }) => status === 'abandoned'), previousCategoryIds: baseState.history.flatMap(({ category }) => category ? [category] : []).slice(-2), softAvoidCategoryIds: baseState.settings.softAvoidCategoryIds, copy: content.content.ui.matching })
+    const finish = () => {
+      uiDispatch({ type: 'END_MATCHING' })
+      if (result.kind === 'no-match') { dispatch({ type: 'NO_MATCH', message: content.content.ui.recovery.noMatchTitle, reasons: result.reasons }); return }
+      const now = new Date().toISOString()
+      const nextGuild = swapping ? swapQuest(baseState, result, now) : offerQuest(baseState, result, now)
+      if (uiState.temporaryMode) {
+        dispatch(swapping
+          ? { type: 'QUEST_SWAPPED', state: nextGuild, explanation: result }
+          : { type: 'OFFER_CREATED', state: nextGuild, explanation: result })
+        return
+      }
+      const persisted = persistBeforeTransition(window.localStorage, createStorageEnvelope(nextGuild, content.contentVersion, now))
+      if (persisted.kind !== 'persisted') {
+        temporaryTransition.current = () => dispatch(swapping
+          ? { type: 'QUEST_SWAPPED', state: nextGuild, explanation: result }
+          : { type: 'OFFER_CREATED', state: nextGuild, explanation: result })
+        uiDispatch({ type: 'ENTER_TEMPORARY_MODE' })
+        dispatch({ type: 'FAIL', code: 'storage-write', message: content.content.ui.notices.temporary, recoverable: true })
+        return
+      }
+      dispatch(swapping
+        ? { type: 'QUEST_SWAPPED', state: nextGuild, explanation: result }
+        : { type: 'OFFER_CREATED', state: nextGuild, explanation: result })
+    }
+    pendingMatch.current = finish
+    if (uiState.reducedMotion) { finishPendingMatch(); return }
+    matchingTimer.current = window.setTimeout(finishPendingMatch, 720)
+  }
+
+  const finishPendingMatch = () => {
+    if (matchingTimer.current !== undefined) window.clearTimeout(matchingTimer.current)
+    matchingTimer.current = undefined
+    const finish = pendingMatch.current
+    pendingMatch.current = null
+    finish?.()
+  }
+
+  const acceptOfferedQuest = () => {
+    setQuestActionBusy(true)
     const now = new Date().toISOString()
-    dispatch(swapping ? { type: 'QUEST_SWAPPED', state: swapQuest(baseState, result, now) } : { type: 'OFFER_CREATED', state: offerQuest(baseState, result, now) })
+    const nextGuild = acceptQuest(state.guild, now)
+    if (uiState.temporaryMode) {
+      dispatch({ type: 'QUEST_ACCEPTED', state: nextGuild })
+      setQuestActionBusy(false)
+      return
+    }
+    const persisted = persistBeforeTransition(window.localStorage, createStorageEnvelope(nextGuild, content.contentVersion, now))
+    if (persisted.kind === 'persisted') dispatch({ type: 'QUEST_ACCEPTED', state: nextGuild })
+    else {
+      temporaryTransition.current = () => dispatch({ type: 'QUEST_ACCEPTED', state: nextGuild })
+      uiDispatch({ type: 'ENTER_TEMPORARY_MODE' })
+      dispatch({ type: 'FAIL', code: 'storage-write', message: content.content.ui.notices.temporary, recoverable: true })
+    }
+    setQuestActionBusy(false)
   }
 
-  const submitPreferences = (event: FormEvent) => { event.preventDefault(); issueQuest(preference) }
-  const activeQuest = state.guild.activeQuest ? questById.get(state.guild.activeQuest.questId) : undefined
-  const completeActive = () => {
+  const confirmCompletion = () => {
     if (!activeQuest) return
-    dispatch({ type: 'QUEST_COMPLETED', result: completeQuest(state.guild, activeQuest, content.content.badges, new Date().toISOString(), localDateKey()) })
+    const now = new Date().toISOString()
+    const completeTemporarily = () => {
+      const temporaryResult = completeQuest(state.guild, activeQuest, [], now, localDateKey())
+      dispatch({ type: 'QUEST_COMPLETED', result: { ...temporaryResult, state: { ...temporaryResult.state, xp: state.guild.xp, streak: state.guild.streak, unlockedBadgeIds: state.guild.unlockedBadgeIds, completedQuestIds: state.guild.completedQuestIds, categoryCompletionCounts: state.guild.categoryCompletionCounts }, awardedXp: 0, newlyUnlockedBadgeIds: [] } })
+      uiDispatch({ type: 'CLOSE_SHEET' })
+    }
+    if (uiState.temporaryMode) {
+      completeTemporarily()
+      return
+    }
+    const result = completeQuest(state.guild, activeQuest, content.content.badges, now, localDateKey())
+    const persisted = persistBeforeTransition(window.localStorage, createStorageEnvelope(result.state, content.contentVersion, now))
+    if (persisted.kind !== 'persisted') { temporaryTransition.current = completeTemporarily; uiDispatch({ type: 'ENTER_TEMPORARY_MODE' }); uiDispatch({ type: 'CLOSE_SHEET' }); dispatch({ type: 'FAIL', code: 'storage-write', message: content.content.ui.notices.temporary, recoverable: true }); return }
+    dispatch({ type: 'QUEST_COMPLETED', result })
+    uiDispatch({ type: 'CLOSE_SHEET' })
+    const entry = result.state.history.at(-1)
+    if (entry) void adventureLog.current?.append(entry).catch(() => setArchiveDegraded(true))
   }
 
+  const confirmAbandon = (reason?: UnsuitableReason) => {
+    if (!activeQuest) return
+    const now = new Date().toISOString()
+    const nextGuild = abandonQuest(state.guild, now)
+    if (!uiState.temporaryMode) {
+      const persisted = persistBeforeTransition(window.localStorage, createStorageEnvelope(nextGuild, content.contentVersion, now))
+      if (persisted.kind !== 'persisted') { temporaryTransition.current = () => dispatch({ type: 'QUEST_ABANDONED', state: nextGuild }); uiDispatch({ type: 'ENTER_TEMPORARY_MODE' }); uiDispatch({ type: 'CLOSE_SHEET' }); dispatch({ type: 'FAIL', code: 'storage-write', message: content.content.ui.notices.temporary, recoverable: true }); return }
+    }
+    dispatch({ type: 'QUEST_ABANDONED', state: nextGuild })
+    uiDispatch({ type: 'CLOSE_SHEET' })
+    if (!uiState.temporaryMode) {
+      const entry = nextGuild.history.at(-1)
+      if (entry) void adventureLog.current?.append(entry).catch(() => setArchiveDegraded(true))
+      if (reason) void adventureLog.current?.recordFeedback({ questId: activeQuest.questId, category: activeQuest.category, reason, updatedAt: now }).catch(() => setArchiveDegraded(true))
+    }
+  }
+
+  const currentFeedbackQuest = activeQuest ?? offeredQuest
+  const confirmUnsuitable = (reason: UnsuitableReason) => {
+    if (!currentFeedbackQuest) return
+    const now = new Date().toISOString()
+    const nextGuild = setSoftAvoidCategory(state.guild, currentFeedbackQuest.category)
+    if (!uiState.temporaryMode) {
+      const persisted = persistBeforeTransition(window.localStorage, createStorageEnvelope(nextGuild, content.contentVersion, now))
+      if (persisted.kind !== 'persisted') { temporaryTransition.current = () => dispatch({ type: 'GUILD_UPDATED', state: nextGuild }); uiDispatch({ type: 'ENTER_TEMPORARY_MODE' }); uiDispatch({ type: 'CLOSE_SHEET' }); dispatch({ type: 'FAIL', code: 'storage-write', message: content.content.ui.notices.temporary, recoverable: true }); return }
+      void adventureLog.current?.recordFeedback({ questId: currentFeedbackQuest.questId, category: currentFeedbackQuest.category, reason, updatedAt: now }).catch(() => setArchiveDegraded(true))
+    }
+    dispatch({ type: 'GUILD_UPDATED', state: nextGuild })
+    uiDispatch({ type: 'CLOSE_SHEET' })
+    if (state.page === 'questOffer') issueQuest(nextGuild.preference, true, nextGuild)
+  }
+
+  const undoUnsuitable = () => {
+    if (!currentFeedbackQuest) return
+    const now = new Date().toISOString()
+    const nextGuild = undoSoftAvoidCategory(state.guild, currentFeedbackQuest.category)
+    if (!uiState.temporaryMode) {
+      const persisted = persistBeforeTransition(window.localStorage, createStorageEnvelope(nextGuild, content.contentVersion, now))
+      if (persisted.kind !== 'persisted') { temporaryTransition.current = () => dispatch({ type: 'GUILD_UPDATED', state: nextGuild }); uiDispatch({ type: 'ENTER_TEMPORARY_MODE' }); uiDispatch({ type: 'CLOSE_SHEET' }); dispatch({ type: 'FAIL', code: 'storage-write', message: content.content.ui.notices.temporary, recoverable: true }); return }
+      void adventureLog.current?.undoFeedback(currentFeedbackQuest.questId, now).catch(() => setArchiveDegraded(true))
+    }
+    dispatch({ type: 'GUILD_UPDATED', state: nextGuild })
+    uiDispatch({ type: 'CLOSE_SHEET' })
+  }
+
+  const enterTemporary = () => {
+    const transition = temporaryTransition.current
+    temporaryTransition.current = null
+    transition?.()
+  }
+
+  const resetLocalState = () => {
+    clearState(window.localStorage)
+    void adventureLog.current?.clear().catch(() => setArchiveDegraded(true))
+    dispatch({ type: 'RESET', state: createGuildState(defaultPreference) })
+  }
+
+  const finishGuide = () => {
+    uiDispatch({ type: 'INTRO_SKIP' })
+    dispatch({ type: 'GUILD_UPDATED', state: setGuideSeen(state.guild) })
+    dispatch({ type: 'OPEN_PREFERENCES' })
+  }
+  const advanceGuide = () => uiState.introStep === 2 ? finishGuide() : uiDispatch({ type: 'INTRO_NEXT' })
   return (
-    <div className="app-shell">
-      <header className="site-header"><div><p className="eyebrow">地球 Online · 本地冒险者公会</p><p className="brand">主线不用着急，先来领一个小任务。</p></div><button className="level-chip" onClick={() => dispatch({ type: 'NAVIGATE', page: 'adventurerProfile' })} aria-label="查看冒险者等级">Lv.{model.profile?.level} · {state.guild.xp} XP</button></header>
-      <nav className="guild-nav" aria-label="公会导航"><button onClick={() => dispatch({ type: 'NAVIGATE', page: 'guildHall' })}>大厅</button><button onClick={() => dispatch({ type: 'NAVIGATE', page: 'questHistory' })}>日志</button><button onClick={() => dispatch({ type: 'NAVIGATE', page: 'badgeList' })}>徽章</button><button onClick={() => dispatch({ type: 'NAVIGATE', page: 'adventurerProfile' })}>档案</button></nav>
-      <main><section className="page-card" aria-labelledby="page-title"><p className="section-kicker">{pageLabel(state.page)}</p><h1 id="page-title">{model.title}</h1><p className="lede">{model.description}</p>
-        {state.page === 'guildHall' && <GuildHall state={state} onStart={() => dispatch({ type: 'OPEN_PREFERENCES' })} />}
-        {state.page === 'preferenceSelect' && <PreferenceForm preference={preference} onChange={setPreference} onSubmit={submitPreferences} />}
-        {state.page === 'questOffer' && model.quest && <QuestCard quest={model.quest} reasons={['匹配当前登记状态', '安全硬条件全部通过']} actions={<><button className="primary" onClick={() => dispatch({ type: 'QUEST_ACCEPTED', state: acceptQuest(state.guild, new Date().toISOString()) })}>接受任务</button><button onClick={() => issueQuest(state.guild.preference, true)}>换一个</button></>} />}
-        {state.page === 'questAccepted' && model.quest && <QuestCard quest={model.quest} actions={<><button className="primary" onClick={completeActive}>标记完成</button><button onClick={() => dispatch({ type: 'QUEST_ABANDONED', state: abandonQuest(state.guild, new Date().toISOString()) })}>放弃任务</button></>} />}
-        {state.page === 'questComplete' && <CompletionPanel state={state} onAgain={() => dispatch({ type: 'OPEN_PREFERENCES' })} />}
-        {state.page === 'questAbandoned' && <div className="action-panel"><p>任务已经安全放回告示板，没有扣分。</p><button className="primary" onClick={() => dispatch({ type: 'OPEN_PREFERENCES' })}>重新登记状态</button></div>}
-        {state.page === 'adventurerProfile' && model.profile && <ProfilePanel profile={model.profile} />}
-        {state.page === 'questHistory' && model.history && <HistoryPanel history={model.history} />}
-        {state.page === 'badgeList' && <BadgePanel state={state} />}
-        {state.page === 'error' && <ErrorPanel state={state} onRecover={() => dispatch({ type: 'OPEN_PREFERENCES' })} />}
-      </section></main>
-      <footer>任务在本机匹配 · 不调用定位 · 不上传完成证明 · 数据可在浏览器中清除</footer>
-    </div>
+    <>
+      <GuildFrame
+        ui={content.content.ui}
+        page={state.page}
+        level={model.profile?.level ?? 1}
+        xp={state.guild.xp}
+        hideNavigation={['preferenceSelect', 'questOffer', 'questAccepted', 'questComplete', 'questAbandoned', 'error'].includes(state.page)}
+        onNavigate={(page) => dispatch({ type: 'NAVIGATE', page })}
+        onHelp={() => uiDispatch({ type: 'OPEN_SHEET', sheet: 'help' })}
+        helpButtonRef={helpButton}
+      >
+        {uiState.temporaryMode && <p className="temporary-banner" role="status"><img src={assets.status('temporary')} alt="" />{content.content.ui.notices.temporary}</p>}
+        {uiState.matching.active
+          ? <MatchingRitual ui={content.content.ui} conditions={matchingConditions} onSkip={finishPendingMatch} />
+          : <>
+            {state.page === 'guildHall' && <GuildHall ui={content.content.ui} guild={state.guild} activeQuest={activeQuest} onStart={() => dispatch({ type: 'OPEN_PREFERENCES' })} onContinue={() => dispatch({ type: 'RESUME_ACTIVE' })} />}
+            {state.page !== 'guildHall' && <PageHeading model={model} />}
+            {state.page === 'preferenceSelect' && <CheckIn content={content} preference={preference} onChange={setPreference} onSubmit={() => issueQuest(preference)} />}
+            {state.page === 'questOffer' && offeredQuest && <QuestOffer quest={offeredQuest} categoryName={categoryName(offeredQuest.category)} explanation={model.offerExplanation ?? emptyExplanation} ui={content.content.ui} busy={questActionBusy} onAccept={acceptOfferedQuest} onSwap={() => issueQuest(state.guild.preference, true)} onUnsuitable={() => uiDispatch({ type: 'OPEN_SHEET', sheet: 'unsuitable' })} />}
+            {state.page === 'questAccepted' && activeQuest && <ActiveQuestView quest={activeQuest} categoryName={categoryName(activeQuest.category)} ui={content.content.ui} onComplete={() => uiDispatch({ type: 'OPEN_SHEET', sheet: 'complete' })} onAbandon={() => uiDispatch({ type: 'OPEN_SHEET', sheet: 'abandon' })} onUnsuitable={() => uiDispatch({ type: 'OPEN_SHEET', sheet: 'unsuitable' })} />}
+            {state.page === 'questComplete' && model.profile && settledQuest && <XpReceipt awardedXp={state.lastAwardedXp} completionText={settledQuest.completionText} profile={model.profile} newBadges={content.content.badges.filter(({ id }) => state.newlyUnlockedBadgeIds.includes(id))} ui={content.content.ui} temporary={uiState.temporaryMode} onLog={() => dispatch({ type: 'NAVIGATE', page: uiState.temporaryMode ? 'guildHall' : 'questHistory' })} onAgain={() => dispatch({ type: 'OPEN_PREFERENCES' })} />}
+            {state.page === 'questAbandoned' && <section className="paper-panel return-result"><img src={assets.status('abandoned')} alt="" /><p>{settledQuest?.abandonText ?? content.content.ui.pages.questAbandoned.description}</p><small>{content.content.ui.notices.noPressure}</small><div className="quest-actions"><button className="button button--primary" type="button" onClick={() => dispatch({ type: 'OPEN_PREFERENCES' })}>{content.content.ui.actions.openCheckIn}</button><button className="button button--ghost" type="button" onClick={() => dispatch({ type: 'NAVIGATE', page: 'guildHall' })}>{content.content.ui.actions.backHall}</button></div></section>}
+            {state.page === 'adventurerProfile' && model.profile && <AdventurerProfile profile={model.profile} ui={content.content.ui} />}
+            {state.page === 'questHistory' && <AdventureLog history={state.guild.history} quests={content.content.tasks} categories={content.content.categories} filter={uiState.logFilter} ui={content.content.ui} degraded={archiveDegraded} onFilter={(filter) => uiDispatch({ type: 'SET_LOG_FILTER', filter })} />}
+            {state.page === 'badgeList' && <div className="collection-stack"><CategoryCodex categories={content.content.categories} goals={content.content.goals} counts={state.guild.categoryCompletionCounts} ui={content.content.ui} /><BadgeShelf badges={content.content.badges} unlockedIds={state.guild.unlockedBadgeIds} categories={content.content.categories} ui={content.content.ui} /></div>}
+            {state.page === 'error' && <RecoveryPanel kind={state.error?.code === 'no-match' ? 'no-match' : state.error?.code === 'storage-recovery' ? 'storage' : state.error?.code === 'content' ? 'content' : 'temporary'} ui={content.content.ui} details={state.error?.reasons ?? []} onPrimary={state.error?.code === 'storage-recovery' ? resetLocalState : state.error?.code === 'storage-write' ? enterTemporary : state.error?.code === 'content' ? () => window.location.reload() : () => dispatch({ type: 'OPEN_PREFERENCES' })} />}
+          </>}
+      </GuildFrame>
+      {uiState.introStep !== null && <MiraGuide copy={content.content.ui.intro} step={uiState.introStep} onNext={advanceGuide} onSkip={finishGuide} />}
+      {uiState.sheet === 'complete' && activeQuest && <CompletionConfirm questTitle={activeQuest.title} ui={content.content.ui} onConfirm={confirmCompletion} onClose={() => uiDispatch({ type: 'CLOSE_SHEET' })} />}
+      {uiState.sheet === 'abandon' && activeQuest && <AbandonSheet questTitle={activeQuest.title} ui={content.content.ui} onConfirm={confirmAbandon} onClose={() => uiDispatch({ type: 'CLOSE_SHEET' })} />}
+      {uiState.sheet === 'unsuitable' && currentFeedbackQuest && <UnsuitableSheet questTitle={currentFeedbackQuest.title} ui={content.content.ui} isAvoided={state.guild.settings.softAvoidCategoryIds.includes(currentFeedbackQuest.category)} onConfirm={confirmUnsuitable} onUndo={undoUnsuitable} onClose={() => uiDispatch({ type: 'CLOSE_SHEET' })} />}
+      {uiState.sheet === 'help' && <MiraHelpSheet ui={content.content.ui} onClose={() => { uiDispatch({ type: 'CLOSE_SHEET' }); window.setTimeout(() => helpButton.current?.focus(), 0) }} />}
+    </>
   )
 }
 
-function GuildHall({ state, onStart }: { state: AppState; onStart: () => void }) { return <div className="hall-grid"><article className="status-card"><h2>今日冒险者状态</h2><dl><div><dt>时间</dt><dd>{state.guild.preference.minutes} 分钟</dd></div><div><dt>精力</dt><dd>{state.guild.preference.energy} 级</dd></div><div><dt>金币</dt><dd>0 元任务可用</dd></div><div><dt>连续</dt><dd>{state.guild.streak.current} 天</dd></div></dl></article><div className="notice-board"><p>任务均来自 100 条人工审核的本地任务库。</p><button className="primary large" onClick={onStart}>领取一个小任务</button></div></div> }
-
-function PreferenceForm({ preference, onChange, onSubmit }: { preference: QuestPreference; onChange: (value: QuestPreference) => void; onSubmit: (event: FormEvent) => void }) {
-  const update = <K extends keyof QuestPreference>(key: K, value: QuestPreference[K]) => onChange({ ...preference, [key]: value, ...(key === 'environment' ? { location: value === 'indoor' ? 'familiar-indoor' : 'familiar-public-area' } : {}) })
-  return <form className="preference-form" onSubmit={onSubmit}>
-    <fieldset><legend>可用时间</legend><div className="choice-row">{[5, 10, 15, 20].map((value) => <button type="button" className={preference.minutes === value ? 'selected' : ''} key={value} onClick={() => update('minutes', value as TimeCost)}>{value} 分钟</button>)}</div></fieldset>
-    <fieldset><legend>当前精力</legend><div className="choice-row">{[1, 2, 3].map((value) => <button type="button" className={preference.energy === value ? 'selected' : ''} key={value} onClick={() => update('energy', value as EnergyLevel)}>{['低', '中', '高'][value - 1]}</button>)}</div></fieldset>
-    <fieldset><legend>当前环境</legend><div className="choice-row"><button type="button" className={preference.environment === 'indoor' ? 'selected' : ''} onClick={() => update('environment', 'indoor')}>室内</button><button type="button" className={preference.environment === 'outdoor' ? 'selected' : ''} onClick={() => update('environment', 'outdoor')}>户外</button></div></fieldset>
-    <fieldset><legend>社交意愿</legend><div className="choice-row"><button type="button" className={preference.social === 'none' ? 'selected' : ''} onClick={() => update('social', 'none')}>想独处</button><button type="button" className={preference.social === 'optional' ? 'selected' : ''} onClick={() => update('social', 'optional')}>熟人互动也可以</button></div></fieldset>
-    <fieldset><legend>花钱意愿</legend><div className="choice-row"><button type="button" className={preference.spend === 'none' ? 'selected' : ''} onClick={() => update('spend', 'none')}>不花钱</button><button type="button" className={preference.spend === 'allowed' ? 'selected' : ''} onClick={() => update('spend', 'allowed')}>可以，但优先免费</button></div></fieldset>
-    <fieldset><legend>现在更想</legend><div className="choice-row">{content.content.goals.filter(({ id }) => ['relax', 'explore', 'organize', 'move', 'connect'].includes(id)).map((goal) => <button type="button" className={preference.goalId === goal.id ? 'selected' : ''} key={goal.id} onClick={() => update('goalId', goal.id)}>{goal.name}</button>)}</div></fieldset>
-    <fieldset><legend>其他硬条件</legend><label className="select-label">时间段<select value={preference.timeOfDay} onChange={(event) => update('timeOfDay', event.target.value as QuestPreference['timeOfDay'])}><option value="day">白天</option><option value="night">夜间</option></select></label><p className="privacy-note">首发 100 项全部 0 元；安全、地点、不花钱和“不社交”选择永不放宽。</p></fieldset>
-    <button className="primary large" type="submit">从任务板匹配</button>
-  </form>
+function PageHeading({ model }: { model: ReturnType<typeof createPageViewModel> }) {
+  return <header className="page-heading"><p className="eyebrow">{model.eyebrow}</p><h1>{model.title}</h1><p>{model.description}</p></header>
 }
-
-function QuestCard({ quest, reasons = [], actions }: { quest: EarthOnlineContent['content']['tasks'][number]; reasons?: string[]; actions: ReactNode }) { return <article className="quest-card"><div className="quest-meta"><span>{quest.difficulty === 'tiny' ? 'E 级' : 'D 级'}</span><span>{quest.timeCost} 分钟</span><span>0 元</span><span>{quest.energyLevel} 级精力</span></div><h2>{quest.title}</h2><p>{quest.description}</p>{reasons.length > 0 && <aside><h3>为什么推荐</h3><ul>{reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul></aside>}<h3>完成步骤</h3><ol>{quest.steps.map((step) => <li key={step}>{step}</li>)}</ol><p className="safety-note">{quest.abandonRule}</p><div className="actions">{actions}</div></article> }
-function CompletionPanel({ state, onAgain }: { state: AppState; onAgain: () => void }) { return <div className="action-panel"><p className="xp-award">+{state.lastAwardedXp} XP</p><p>{state.newlyUnlockedBadgeIds.length > 0 ? `新解锁 ${state.newlyUnlockedBadgeIds.length} 枚文字徽章。` : '经验已经计入冒险者档案。'}</p><button className="primary" onClick={onAgain}>再领一项任务</button></div> }
-function ProfilePanel({ profile }: { profile: NonNullable<ReturnType<typeof createPageViewModel>['profile']> }) { return <div className="profile-grid"><article><span>等级</span><strong>{profile.level}</strong></article><article><span>总经验</span><strong>{profile.xp}</strong></article><article><span>连续完成</span><strong>{profile.streak.current} 天</strong></article><article><span>累计完成</span><strong>{profile.completedCount}</strong></article><p className="progress-copy">距离下一级还需 {profile.xpToNextLevel} XP</p></div> }
-function HistoryPanel({ history }: { history: NonNullable<ReturnType<typeof createPageViewModel>['history']> }) { return <div><dl className="history-summary"><div><dt>记录</dt><dd>{history.total}</dd></div><div><dt>完成</dt><dd>{history.completed}</dd></div><div><dt>放弃</dt><dd>{history.abandoned}</dd></div><div><dt>经验</dt><dd>{history.earnedXp}</dd></div></dl>{history.entries.length === 0 ? <p className="empty-state">还没有冒险日志。完成或放弃任务后会出现在这里。</p> : <ol className="history-list">{[...history.entries].reverse().map((entry) => <li key={`${entry.questId}-${entry.occurredAt}`}><strong>{entry.title}</strong><span>{statusLabel(entry.status)} · {entry.occurredAt.slice(0, 10)}</span></li>)}</ol>}</div> }
-function BadgePanel({ state }: { state: AppState }) { return <ul className="badge-list">{content.content.badges.map((badge) => <li className={state.guild.unlockedBadgeIds.includes(badge.id) ? 'unlocked' : ''} key={badge.id}><span className="badge-placeholder" aria-hidden="true">印记</span><div><strong>{badge.title}</strong><p>{badge.description}</p><small>{state.guild.unlockedBadgeIds.includes(badge.id) ? '已解锁' : '尚未解锁'}</small></div></li>)}</ul> }
-function ErrorPanel({ state, onRecover }: { state: AppState; onRecover: () => void }) { return <div className="error-panel" role="alert"><p>{state.error?.message ?? '发生了可恢复错误。'}</p>{state.error?.reasons && <ul>{state.error.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul>}<button className="primary" onClick={onRecover}>返回修改状态</button></div> }
 
 function initializeState(): AppState {
   const validation = validateContent(content, 'production')
-  const base = createGuildState(defaultPreference, 0x12345678)
-  if (!validation.ok) return { ...createInitialAppState(base), page: 'error', error: { code: 'content', message: '内容包未能通过安全校验。', recoverable: false } }
+  const base = createGuildState(defaultPreference)
+  if (!validation.ok) return { ...createInitialAppState(base), page: 'error', error: { code: 'content', message: content.content.ui.recovery.contentTitle, recoverable: false } }
   const loaded = loadState(window.localStorage, new Set(questById.keys()))
   if (loaded.status === 'ok') return { ...createInitialAppState(base), guild: { ...base, ...loaded.envelope.data, categoryCompletionCounts: deriveCategoryCounts(loaded.envelope.data) }, page: loaded.envelope.data.activeQuest ? 'questAccepted' : loaded.envelope.data.offeredQuestId ? 'questOffer' : 'guildHall' }
-  if (loaded.status === 'corrupt' || loaded.status === 'future-version') return { ...createInitialAppState(base), page: 'error', error: { code: 'storage-recovery', message: loaded.status === 'corrupt' ? '本机记录已损坏，可以返回并从安全默认状态继续。' : '发现未知版本的本机记录，请使用当前安全默认状态。', recoverable: true } }
+  if (loaded.status === 'corrupt' || loaded.status === 'future-version') return { ...createInitialAppState(base), page: 'error', error: { code: 'storage-recovery', message: content.content.ui.recovery.storageTitle, recoverable: true } }
   return createInitialAppState(base)
 }
 
-function toStoragePayload(guild: GuildDomainState): StoragePayload { return { preference: guild.preference, offeredQuestId: guild.offeredQuestId, activeQuest: guild.activeQuest, recentQuestIds: guild.recentQuestIds, completedQuestIds: guild.completedQuestIds, history: guild.history, xp: guild.xp, streak: guild.streak, unlockedBadgeIds: guild.unlockedBadgeIds, rngState: guild.rngState } }
-function deriveCategoryCounts(payload: StoragePayload): GuildDomainState['categoryCompletionCounts'] { const result: GuildDomainState['categoryCompletionCounts'] = {}; for (const entry of payload.history) if (entry.status === 'completed' && entry.category) result[entry.category] = (result[entry.category] ?? 0) + 1; return result }
+function deriveCategoryCounts(payload: ReturnType<typeof createStorageEnvelope>['data']): GuildDomainState['categoryCompletionCounts'] { const result: GuildDomainState['categoryCompletionCounts'] = {}; for (const entry of payload.history) if (entry.status === 'completed' && entry.category) result[entry.category] = (result[entry.category] ?? 0) + 1; return result }
+const emptyExplanation: import('./ui/state').OfferExplanation = { score: 0, stage: 'exact', reasons: [], relaxed: [] }
+function categoryName(categoryId: EarthOnlineContent['content']['categories'][number]['id']): string { return content.content.categories.find(({ id }) => id === categoryId)?.name ?? categoryId }
+function preferenceSummary(value: QuestPreference): string[] {
+  const copy = content.content.ui.checkIn
+  const goal = content.content.goals.find(({ id }) => id === value.goalId)?.name
+  return [copy.timeLabels[value.minutes], copy.energyLabels[value.energy - 1], copy.environmentLabels[value.environment], copy.socialLabels[value.social], goal, copy.dayPartLabels[value.timeOfDay]].filter((item): item is string => Boolean(item))
+}
 function localDateKey(date = new Date()): string { const year = date.getFullYear(); const month = String(date.getMonth() + 1).padStart(2, '0'); const day = String(date.getDate()).padStart(2, '0'); return `${year}-${month}-${day}` }
-function pageLabel(page: AppState['page']): string { return ({ guildHall: '公会入口', preferenceSelect: '冒险者状态', questOffer: '待接取', questAccepted: '执行中', questComplete: '结算完成', questAbandoned: '安全退出', adventurerProfile: '经验与等级', questHistory: '本机记录', badgeList: '成就接口', error: '安全回退' })[page] }
-function statusLabel(status: 'completed' | 'abandoned' | 'swapped'): string { return ({ completed: '已完成', abandoned: '已放弃', swapped: '已更换' })[status] }
+function prefersReducedMotion(): boolean { return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches }
 
 export default App

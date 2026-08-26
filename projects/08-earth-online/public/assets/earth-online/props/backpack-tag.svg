@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+  <title>背包标签</title>
+  <path d="M12 8h20l7 7v25H12V8Z"/>
+  <circle cx="31" cy="16" r="3"/>
+  <path d="M18 25h15M18 31h10M34 13l7-5"/>
+</svg>

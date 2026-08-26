@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+  <title>四向路径公会胸针</title>
+  <circle cx="24" cy="24" r="16"/>
+  <path d="m24 9 4 11 11 4-11 4-4 11-4-11-11-4 11-4 4-11Z"/>
+  <circle cx="24" cy="24" r="3"/>
+</svg>

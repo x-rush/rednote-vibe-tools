@@ -1,0 +1,84 @@
+.notice-board__art { animation: notice-board-arrive 780ms var(--ease-stamp) both; }
+.notice-board__magic { animation: board-magic-pulse 2.6s ease-in-out 650ms infinite alternate; }
+.notice-board__magic::before { animation: seal-turn 12s linear infinite; }
+.notice-board__magic::after { animation: seal-turn 7s linear infinite reverse; }
+.guild-mark img { animation: guild-mark-summon 720ms var(--ease-stamp) both; }
+.mira-guide-chip__talk { animation: guide-talk-pulse 1.8s ease-in-out 720ms infinite alternate; }
+.mira-guide-chip { transition: filter var(--motion-fast), transform var(--motion-fast) var(--ease-out); }
+.mira-guide-chip:hover { filter: brightness(1.06) drop-shadow(0 0 10px rgb(221 184 120 / 22%)); transform: translateY(-1px); }
+.mira-guide__portrait { animation: mira-arrive var(--motion-slow) var(--ease-out) both; }
+.mira-dialogue { animation: dialogue-arrive var(--motion-base) var(--ease-out) 80ms both; }
+.button, .choice, .guild-navigation button { transition: transform var(--motion-fast) var(--ease-out), color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast), opacity var(--motion-fast); }
+.button:active, .choice:active { transform: scale(.985); }
+.button--primary:hover { filter: brightness(1.08) drop-shadow(0 0 12px rgb(240 202 120 / 24%)); transform: translateY(-1px); }
+.guild-navigation button[aria-current="page"] span { animation: hud-rune 1.8s ease-in-out infinite alternate; }
+.rune-field { animation: rune-field-breathe 1.15s ease-in-out infinite alternate; }
+.rune-field::before { animation: seal-turn 7s linear infinite; }
+.rune-field::after { animation: seal-turn 4.8s linear infinite reverse; }
+.rune-field b:first-of-type { animation: seal-turn 11s linear infinite reverse; }
+.rune-field i { animation: rune-flare 900ms ease-in-out infinite alternate; }
+.matching-seal { animation: seal-breathe 1.4s ease-in-out infinite alternate; }
+.matching-seal::before { animation: seal-turn 5s linear infinite; }
+.matching-seal::after { animation: seal-turn 8s linear infinite reverse; }
+.condition-tags span { animation: condition-arrive var(--motion-base) var(--ease-out) both; }
+.condition-tags span:nth-child(2) { animation-delay: 55ms; }
+.condition-tags span:nth-child(3) { animation-delay: 110ms; }
+.condition-tags span:nth-child(4) { animation-delay: 165ms; }
+.condition-tags span:nth-child(5) { animation-delay: 220ms; }
+.condition-tags span:nth-child(6) { animation-delay: 275ms; }
+.quest-sheet { animation: quest-reveal 680ms var(--ease-paper) both; transform-origin: 50% 0; }
+.quest-sheet__heading { animation: quest-heading-drop 520ms var(--ease-stamp) 180ms both; }
+.guild-brief { animation: ink-number 440ms var(--ease-out) 260ms both; }
+.rpg-spark-field i { animation: spark-pop 820ms var(--ease-stamp) both; }
+.rpg-spark-field i:nth-child(2), .rpg-spark-field i:nth-child(5) { animation-delay: 90ms; }
+.rpg-spark-field i:nth-child(3), .rpg-spark-field i:nth-child(6) { animation-delay: 170ms; }
+.match-explanation { animation: dialogue-arrive var(--motion-base) var(--ease-out) both; }
+.sheet-backdrop { animation: veil-in var(--motion-fast) ease-out both; }
+.bottom-sheet { animation: sheet-rise var(--motion-base) var(--ease-out) both; }
+.mira-audience { animation: veil-in var(--motion-fast) ease-out both; }
+.mira-audience__stage > img { animation: mira-audience-summon 720ms var(--ease-stamp) both; }
+.mira-audience__sigil { animation: audience-sigil-breathe 2.2s ease-in-out 420ms infinite alternate; }
+.mira-audience__sigil::before { animation: seal-turn 12s linear infinite; }
+.mira-audience__sigil::after { animation: seal-turn 7s linear infinite reverse; }
+.mira-audience__dialogue { animation: audience-dialogue-rise 520ms var(--ease-out) 110ms both; }
+.mira-audience__response { animation: audience-answer-ink 360ms var(--ease-out) both; }
+.completion-seal { animation: seal-stamp var(--motion-slow) var(--ease-stamp) both; }
+.xp-burst i { animation: xp-ray 760ms var(--ease-out) 90ms both; }
+.xp-burst b { animation: xp-shockwave 920ms var(--ease-out) 80ms both; }
+.xp-award { animation: ink-number var(--motion-slow) var(--ease-out) 130ms both; }
+.new-badges li { animation: badge-glow var(--motion-slow) var(--ease-out) 180ms both; }
+.adventure-log li { animation: log-intake var(--motion-base) var(--ease-paper) both; }
+.return-result > img { animation: paper-return var(--motion-slow) var(--ease-paper) both; }
+
+@keyframes notice-board-arrive { from { opacity: 0; filter: blur(5px) drop-shadow(0 0 0 transparent); transform: translateY(-22px) rotate(-2.5deg) scale(.9); } 72% { filter: blur(0) drop-shadow(0 24px 30px rgb(3 11 9 / 44%)); transform: translateY(4px) rotate(.7deg) scale(1.025); } }
+@keyframes board-magic-pulse { from { filter: blur(.2px); opacity: .22; transform: scale(.88) rotate(-4deg); } to { filter: drop-shadow(0 0 16px rgb(157 131 215 / 30%)); opacity: .78; transform: scale(1.08) rotate(4deg); } }
+@keyframes guild-mark-summon { from { opacity: 0; filter: blur(5px) brightness(1.6); transform: translateY(-8px) rotate(-18deg) scale(.45); } 68% { opacity: 1; filter: blur(0) brightness(1.18); transform: translateY(1px) rotate(4deg) scale(1.12); } }
+@keyframes guide-talk-pulse { to { color: var(--wine-dark); filter: drop-shadow(0 0 5px rgb(143 63 56 / 42%)); transform: translateY(-1px); } }
+@keyframes mira-arrive { from { opacity: 0; transform: translateY(12px); } }
+@keyframes dialogue-arrive { from { opacity: 0; transform: translateY(8px); } }
+@keyframes condition-arrive { from { opacity: 0; transform: translateY(5px) scale(.96); } }
+@keyframes seal-breathe { to { filter: drop-shadow(0 0 18px rgb(213 177 111 / 30%)); transform: scale(1.035); } }
+@keyframes seal-turn { to { transform: rotate(360deg); } }
+@keyframes rune-field-breathe { from { filter: drop-shadow(0 0 0 rgb(143 226 208 / 0%)); opacity: .45; } to { filter: drop-shadow(0 0 32px rgb(143 226 208 / 24%)); opacity: .9; } }
+@keyframes rune-flare { from { opacity: .25; } to { opacity: .95; filter: brightness(1.4); } }
+@keyframes hud-rune { to { color: var(--wine); filter: drop-shadow(0 0 7px rgb(240 202 120 / 50%)); transform: translateY(-2px) scale(1.12); } }
+@keyframes quest-reveal { from { opacity: 0; filter: blur(5px); transform: translateY(28px) rotateX(-8deg) scaleY(.88); } 72% { filter: blur(0); transform: translateY(-3px) rotateX(1deg) scaleY(1.015); } }
+@keyframes quest-heading-drop { from { opacity: 0; transform: translateY(-16px) scale(1.06); } }
+@keyframes spark-pop { from { opacity: 0; transform: scale(0) rotate(-90deg); } 65% { opacity: .9; transform: scale(2.4) rotate(18deg); } }
+@keyframes veil-in { from { opacity: 0; } }
+@keyframes sheet-rise { from { opacity: 0; transform: translateY(24px); } }
+@keyframes mira-audience-summon { from { opacity: 0; filter: blur(7px) brightness(1.7); transform: translateY(30px) scale(.88); } 70% { filter: blur(0) brightness(1.08); transform: translateY(-4px) scale(1.025); } }
+@keyframes audience-sigil-breathe { from { opacity: .3; filter: blur(.3px); transform: translate(-50%, -50%) scale(.9); } to { opacity: .92; filter: drop-shadow(0 0 22px rgb(143 226 208 / 24%)); transform: translate(-50%, -50%) scale(1.06); } }
+@keyframes audience-dialogue-rise { from { opacity: 0; transform: translateY(34px) scale(.96); } }
+@keyframes audience-answer-ink { from { opacity: 0; filter: blur(4px); transform: translateY(5px); } }
+@keyframes seal-stamp { from { opacity: 0; transform: scale(1.35) rotate(-8deg); } 70% { opacity: 1; transform: scale(.94) rotate(1deg); } }
+@keyframes xp-ray { from { opacity: 0; filter: blur(4px); transform: rotate(var(--ray-angle)) translateY(-28px) scaleY(.1); } 55% { opacity: .8; } to { opacity: 0; transform: rotate(var(--ray-angle)) translateY(-116px) scaleY(1); } }
+@keyframes xp-shockwave { from { opacity: .8; transform: translate(-50%, -50%) scale(.15); } to { opacity: 0; transform: translate(-50%, -50%) scale(1.2); } }
+@keyframes ink-number { from { opacity: 0; filter: blur(5px); transform: translateY(7px); } }
+@keyframes badge-glow { from { opacity: 0; box-shadow: 0 0 0 rgb(221 184 120 / 0%); transform: translateY(7px); } to { box-shadow: 0 0 22px rgb(221 184 120 / 24%); } }
+@keyframes log-intake { from { opacity: 0; transform: translateX(-8px) rotate(-.6deg); } }
+@keyframes paper-return { from { opacity: 0; transform: translateY(-9px) rotate(5deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: var(--motion-instant) !important; animation-duration: var(--motion-instant) !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; }
+}

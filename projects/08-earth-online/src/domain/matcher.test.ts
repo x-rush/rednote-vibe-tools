@@ -4,8 +4,9 @@ import type { EarthOnlineContent, Quest, QuestPreference } from '../content/sche
 import { matchQuest } from './matcher'
 
 const quests = (rawContent as unknown as EarthOnlineContent).content.tasks
+const matchingCopy = (rawContent as unknown as EarthOnlineContent).content.ui.matching
 const basePreference: QuestPreference = { minutes: 10, energy: 1, environment: 'indoor', social: 'none', spend: 'none', timeOfDay: 'day', location: 'familiar-indoor', goalId: 'relax', excludedConditions: [] }
-const emptyContext = { seed: 'golden-seed', nowDate: '2026-08-24', recentQuestIds: [], completed: [], abandoned: [], previousCategoryIds: [] }
+const emptyContext = { seed: 'golden-seed', nowDate: '2026-08-24', recentQuestIds: [], completed: [], abandoned: [], previousCategoryIds: [], softAvoidCategoryIds: [], copy: matchingCopy }
 
 describe('quest matcher', () => {
   it('is reproducible for the same seed and inputs', () => {
@@ -13,6 +14,14 @@ describe('quest matcher', () => {
     const second = matchQuest([...quests].reverse(), basePreference, emptyContext)
     expect(first.kind).toBe('match')
     expect(second).toEqual(first)
+  })
+
+  it('can select a nearby-score candidate instead of locking to exact top-score ties', () => {
+    const exactTop = withQuest(quests[0], { questId: 'quest-a-exact-top', timeCost: 10, energyLevel: 1, goalIds: ['relax'] })
+    const nearby = withQuest(quests[1], { questId: 'quest-z-nearby', timeCost: 5, energyLevel: 1, goalIds: ['relax'] })
+    const result = matchQuest([exactTop, nearby], basePreference, { ...emptyContext, seed: 0x12345678 })
+
+    expect(result.kind === 'match' && result.quest.questId).toBe('quest-z-nearby')
   })
 
   it('never breaks time, energy, environment, social, cost, time-of-day, or safety conditions', () => {
@@ -65,6 +74,15 @@ describe('quest matcher', () => {
     const result = matchQuest([only], basePreference, { ...emptyContext, completed: [{ acceptanceId: 'accept-1', questId: only.questId, acceptedAt: '2026-08-23T00:00:00.000Z', completedAt: '2026-08-23T00:05:00.000Z', completionDate: '2026-08-23', xpAwarded: 20 }] })
     expect(result.kind === 'match' && result.stage).toBe('safe-fallback')
     expect(result.kind === 'match' && result.relaxed).toContain('完成冷却')
+  })
+
+  it('lowers a reversible category preference without removing its only safe quest', () => {
+    const avoided = withQuest(quests[0], { questId: 'quest-a-avoided', category: 'rest', goalIds: ['relax'] })
+    const preferred = withQuest(quests[10], { questId: 'quest-z-preferred', category: 'tidy', goalIds: ['relax'], timeCost: avoided.timeCost, energyLevel: avoided.energyLevel })
+    const withChoice = matchQuest([avoided, preferred], basePreference, { ...emptyContext, seed: 'soft-test', softAvoidCategoryIds: ['rest'] })
+    expect(withChoice.kind === 'match' && withChoice.quest.questId).toBe('quest-z-preferred')
+    const onlyAvoided = matchQuest([avoided], basePreference, { ...emptyContext, softAvoidCategoryIds: ['rest'] })
+    expect(onlyAvoided.kind === 'match' && onlyAvoided.quest.questId).toBe('quest-a-avoided')
   })
 })
 

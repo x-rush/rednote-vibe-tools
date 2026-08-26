@@ -1,5 +1,19 @@
-:root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #2d241c; background: #e8dcc3; font-synthesis: none; text-rendering: optimizeLegibility; --ink: #2d241c; --muted: #6f6254; --rust: #a74729; --sand: #ead8b3; --line: #cdbb99; }
+:root {
+  font-family: Inter, ui-sans-serif, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #f2e6c8;
+  background: #182824;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
 * { box-sizing: border-box; }
-html { min-width: 320px; background: radial-gradient(circle at top, #f7edd6 0, #e8dcc3 52%, #d8c6a5 100%); }
-body { min-width: 320px; min-height: 100vh; margin: 0; }
+html { min-width: 320px; min-height: 100%; background: #182824; scroll-behavior: smooth; touch-action: manipulation; }
+body { min-width: 320px; min-height: 100vh; margin: 0; overflow-x: hidden; -webkit-touch-callout: none; }
 button, input, textarea, select { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+img { max-width: 100%; }
+::selection { color: #182824; background: #ddb878; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

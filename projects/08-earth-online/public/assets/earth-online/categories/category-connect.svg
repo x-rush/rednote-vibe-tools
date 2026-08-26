@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+  <title>联系熟悉的人</title>
+  <circle cx="14" cy="24" r="7"/>
+  <circle cx="34" cy="24" r="7"/>
+  <path d="M21 21h6M21 27h6M11 24h6M31 24h6"/>
+  <path d="M14 17v-5M34 31v5"/>
+</svg>

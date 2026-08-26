@@ -26,4 +26,14 @@ describe('page view models', () => {
     expect(model.quest?.title).toBe(quest.title)
     expect(model.quest?.description).toBe(quest.description)
   })
+
+  it('reads page copy and real offer explanations from typed content and state', () => {
+    const quest = content.content.tasks[0]
+    const guild = { ...createGuildState(preference, 1), offeredQuestId: quest.questId }
+    const offerExplanation = { stage: 'goal-relaxed' as const, score: 80, reasons: ['目标类型已放宽'], relaxed: ['目标类型'] }
+    const model = createPageViewModel({ page: 'questOffer', guild, offerExplanation, lastAwardedXp: 0, newlyUnlockedBadgeIds: [] }, content)
+    expect(model.title).toBe(content.content.ui.pages.questOffer.title)
+    expect(model.eyebrow).toBe(content.content.ui.pages.questOffer.eyebrow)
+    expect(model.offerExplanation).toEqual(offerExplanation)
+  })
 })

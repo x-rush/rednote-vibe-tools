@@ -1,3 +1,9 @@
+export function createRandomSeed(): number {
+  const entropy = new Uint32Array(1)
+  globalThis.crypto.getRandomValues(entropy)
+  return entropy[0]!
+}
+
 export function hashSeed(seed: string | number): number {
   const text = String(seed)
   let hash = 0x811c9dc5

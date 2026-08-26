@@ -69,7 +69,7 @@
       },
       {
         "id": "connect",
-        "name": "联系熟悉的人",
+        "name": "连接人类",
         "goalIds": [
           "connect"
         ],
@@ -196,8 +196,10 @@
     "tasks": [
       {
         "questId": "quest-rest-window-color",
-        "title": "看窗外五分钟，记住今天天空或光线的一种颜色",
-        "description": "今天只完成这一件小事：看窗外五分钟，记住今天天空或光线的一种颜色。不需要留下照片或其他完成证明。",
+      "title": "把休息两分钟命名为「王国停战协议」",
+      "description": "恢复站来了一份不太正经的休整令：“把休息两分钟命名为「王国停战协议」”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：把休息两分钟命名为「王国停战协议」。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -217,12 +219,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "看窗外五分钟，记住今天天空或光线的一种颜色",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“看窗外五分钟，记住今天天空或光线的一种颜色”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把休息两分钟命名为「王国停战协议」",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把休息两分钟命名为「王国停战协议」”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -232,10 +234,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：看窗外五分钟，记住今天天空或光线的一种颜色",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“把休息两分钟命名为「王国停战协议」”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：把休息两分钟命名为「王国停战协议」",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -245,8 +247,10 @@
       },
       {
         "questId": "quest-rest-water-pause",
-        "title": "喝一杯水，把屏幕放下三分钟",
-        "description": "今天只完成这一件小事：喝一杯水，把屏幕放下三分钟。不需要留下照片或其他完成证明。",
+      "title": "对一杯水郑重说声辛苦了，再把它喝完",
+      "description": "恢复站来了一份不太正经的休整令：“对一杯水郑重说声辛苦了，再把它喝完”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：对一杯水郑重说声辛苦了，再把它喝完。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -266,12 +270,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "喝一杯水，把屏幕放下三分钟",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“喝一杯水，把屏幕放下三分钟”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "对一杯水郑重说声辛苦了，再把它喝完",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“对一杯水郑重说声辛苦了，再把它喝完”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -281,10 +285,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：喝一杯水，把屏幕放下三分钟",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“对一杯水郑重说声辛苦了，再把它喝完”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：对一杯水郑重说声辛苦了，再把它喝完",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -294,8 +298,10 @@
       },
       {
         "questId": "quest-rest-chair-reset",
-        "title": "调整座椅和桌面，让身体舒服一点",
-        "description": "今天只完成这一件小事：调整座椅和桌面，让身体舒服一点。不需要留下照片或其他完成证明。",
+      "title": "把椅子调成今日临时王座",
+      "description": "恢复站来了一份不太正经的休整令：“把椅子调成今日临时王座”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：把椅子调成今日临时王座。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -315,12 +321,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "调整座椅和桌面，让身体舒服一点",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“调整座椅和桌面，让身体舒服一点”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把椅子调成今日临时王座",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把椅子调成今日临时王座”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -330,10 +336,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：调整座椅和桌面，让身体舒服一点",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“把椅子调成今日临时王座”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：把椅子调成今日临时王座",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -343,8 +349,10 @@
       },
       {
         "questId": "quest-rest-slow-song",
-        "title": "选一首舒缓的歌，只听完这一首",
-        "description": "今天只完成这一件小事：选一首舒缓的歌，只听完这一首。不需要留下照片或其他完成证明。",
+      "title": "选一首歌，假装它是你的片尾曲",
+      "description": "恢复站来了一份不太正经的休整令：“选一首歌，假装它是你的片尾曲”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：选一首歌，假装它是你的片尾曲。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -364,12 +372,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "选一首舒缓的歌，只听完这一首",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“选一首舒缓的歌，只听完这一首”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "选一首歌，假装它是你的片尾曲",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“选一首歌，假装它是你的片尾曲”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -379,10 +387,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：选一首舒缓的歌，只听完这一首",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“选一首歌，假装它是你的片尾曲”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：选一首歌，假装它是你的片尾曲",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -392,8 +400,10 @@
       },
       {
         "questId": "quest-rest-close-eyes",
-        "title": "在安全坐姿下闭眼休息两分钟，再慢慢睁开",
-        "description": "今天只完成这一件小事：在安全坐姿下闭眼休息两分钟，再慢慢睁开。不需要留下照片或其他完成证明。",
+      "title": "闭眼两分钟，临时退出人类服务器",
+      "description": "恢复站来了一份不太正经的休整令：“闭眼两分钟，临时退出人类服务器”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：闭眼两分钟，临时退出人类服务器。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -413,12 +423,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "在安全坐姿下闭眼休息两分钟，再慢慢睁开",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在安全坐姿下闭眼休息两分钟，再慢慢睁开”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "闭眼两分钟，临时退出人类服务器",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“闭眼两分钟，临时退出人类服务器”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -428,10 +438,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在安全坐姿下闭眼休息两分钟，再慢慢睁开",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“闭眼两分钟，临时退出人类服务器”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：闭眼两分钟，临时退出人类服务器",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -441,8 +451,10 @@
       },
       {
         "questId": "quest-rest-warm-light",
-        "title": "关掉一处刺眼光源，重新安排更舒服的照明",
-        "description": "今天只完成这一件小事：关掉一处刺眼光源，重新安排更舒服的照明。不需要留下照片或其他完成证明。",
+      "title": "关掉一盏刺眼灯，宣布光线暴君退位",
+      "description": "恢复站来了一份不太正经的休整令：“关掉一盏刺眼灯，宣布光线暴君退位”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：关掉一盏刺眼灯，宣布光线暴君退位。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -461,12 +473,12 @@
         "times": [
           "night"
         ],
-        "steps": [
-          "关掉一处刺眼光源，重新安排更舒服的照明",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“关掉一处刺眼光源，重新安排更舒服的照明”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "关掉一盏刺眼灯，宣布光线暴君退位",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“关掉一盏刺眼灯，宣布光线暴君退位”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -476,10 +488,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：关掉一处刺眼光源，重新安排更舒服的照明",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“关掉一盏刺眼灯，宣布光线暴君退位”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：关掉一盏刺眼灯，宣布光线暴君退位",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -489,8 +501,10 @@
       },
       {
         "questId": "quest-rest-breath-space",
-        "title": "不改变呼吸，只观察十次自然呼吸的开始与结束",
-        "description": "今天只完成这一件小事：不改变呼吸，只观察十次自然呼吸的开始与结束。不需要留下照片或其他完成证明。",
+      "title": "数十次呼吸，给每次呼气盖一枚放行章",
+      "description": "恢复站来了一份不太正经的休整令：“数十次呼吸，给每次呼气盖一枚放行章”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：数十次呼吸，给每次呼气盖一枚放行章。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -510,12 +524,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "不改变呼吸，只观察十次自然呼吸的开始与结束",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“不改变呼吸，只观察十次自然呼吸的开始与结束”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "数十次呼吸，给每次呼气盖一枚放行章",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“数十次呼吸，给每次呼气盖一枚放行章”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -525,10 +539,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：不改变呼吸，只观察十次自然呼吸的开始与结束",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“数十次呼吸，给每次呼气盖一枚放行章”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：数十次呼吸，给每次呼气盖一枚放行章",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -538,8 +552,10 @@
       },
       {
         "questId": "quest-rest-hands",
-        "title": "洗手或用温水让双手休息片刻",
-        "description": "今天只完成这一件小事：洗手或用温水让双手休息片刻。不需要留下照片或其他完成证明。",
+      "title": "用温水洗手，举行一次微型复活仪式",
+      "description": "恢复站来了一份不太正经的休整令：“用温水洗手，举行一次微型复活仪式”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：用温水洗手，举行一次微型复活仪式。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -559,12 +575,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "洗手或用温水让双手休息片刻",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“洗手或用温水让双手休息片刻”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "用温水洗手，举行一次微型复活仪式",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“用温水洗手，举行一次微型复活仪式”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -574,10 +590,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：洗手或用温水让双手休息片刻",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“用温水洗手，举行一次微型复活仪式”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：用温水洗手，举行一次微型复活仪式",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -587,8 +603,10 @@
       },
       {
         "questId": "quest-rest-silent-minute",
-        "title": "给自己一分钟不输入、不阅读、不处理任何消息",
-        "description": "今天只完成这一件小事：给自己一分钟不输入、不阅读、不处理任何消息。不需要留下照片或其他完成证明。",
+      "title": "一分钟不回任何消息，体验合法失踪",
+      "description": "恢复站来了一份不太正经的休整令：“一分钟不回任何消息，体验合法失踪”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：一分钟不回任何消息，体验合法失踪。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -609,12 +627,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "给自己一分钟不输入、不阅读、不处理任何消息",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给自己一分钟不输入、不阅读、不处理任何消息”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "一分钟不回任何消息，体验合法失踪",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“一分钟不回任何消息，体验合法失踪”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -630,10 +648,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给自己一分钟不输入、不阅读、不处理任何消息",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“一分钟不回任何消息，体验合法失踪”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：一分钟不回任何消息，体验合法失踪",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -643,8 +661,10 @@
       },
       {
         "questId": "quest-rest-name-enough",
-        "title": "写下今天已经完成的一件小事，并允许它算数",
-        "description": "今天只完成这一件小事：写下今天已经完成的一件小事，并允许它算数。不需要留下照片或其他完成证明。",
+      "title": "写下一件今日小胜利，并当场给它封爵",
+      "description": "恢复站来了一份不太正经的休整令：“写下一件今日小胜利，并当场给它封爵”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：写下一件今日小胜利，并当场给它封爵。",
         "category": "rest",
         "timeCost": 5,
         "energyLevel": 1,
@@ -664,12 +684,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "写下今天已经完成的一件小事，并允许它算数",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“写下今天已经完成的一件小事，并允许它算数”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "写下一件今日小胜利，并当场给它封爵",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“写下一件今日小胜利，并当场给它封爵”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-rest",
         "safetyTags": [
@@ -679,10 +699,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：写下今天已经完成的一件小事，并允许它算数",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“写下一件今日小胜利，并当场给它封爵”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：写下一件今日小胜利，并当场给它封爵",
         "iconAssetId": "quest-icon-rest",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -692,8 +712,10 @@
       },
       {
         "questId": "quest-tidy-palm-surface",
-        "title": "清理一个手掌大小的平面",
-        "description": "今天只完成这一件小事：清理一个手掌大小的平面。不需要留下照片或其他完成证明。",
+      "title": "把手掌大的桌面划为今日收复领土",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“把手掌大的桌面划为今日收复领土”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：把手掌大的桌面划为今日收复领土。",
         "category": "tidy",
         "timeCost": 10,
         "energyLevel": 1,
@@ -713,12 +735,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "清理一个手掌大小的平面",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“清理一个手掌大小的平面”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把手掌大的桌面划为今日收复领土",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把手掌大的桌面划为今日收复领土”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -728,10 +750,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：清理一个手掌大小的平面",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“把手掌大的桌面划为今日收复领土”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：把手掌大的桌面划为今日收复领土",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -741,8 +763,10 @@
       },
       {
         "questId": "quest-tidy-five-items",
-        "title": "把眼前五件东西放回更合适的位置",
-        "description": "今天只完成这一件小事：把眼前五件东西放回更合适的位置。不需要留下照片或其他完成证明。",
+      "title": "审判眼前五件流浪物品并送它们回家",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“审判眼前五件流浪物品并送它们回家”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：审判眼前五件流浪物品并送它们回家。",
         "category": "tidy",
         "timeCost": 10,
         "energyLevel": 1,
@@ -762,12 +786,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "把眼前五件东西放回更合适的位置",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“把眼前五件东西放回更合适的位置”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "审判眼前五件流浪物品并送它们回家",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“审判眼前五件流浪物品并送它们回家”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -777,10 +801,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：把眼前五件东西放回更合适的位置",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“审判眼前五件流浪物品并送它们回家”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：审判眼前五件流浪物品并送它们回家",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -790,8 +814,10 @@
       },
       {
         "questId": "quest-tidy-one-drawer",
-        "title": "只整理一个小抽屉，不扩大范围",
-        "description": "今天只完成这一件小事：只整理一个小抽屉，不扩大范围。不需要留下照片或其他完成证明。",
+      "title": "只挑战一个抽屉，禁止召唤它的亲戚",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“只挑战一个抽屉，禁止召唤它的亲戚”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：只挑战一个抽屉，禁止召唤它的亲戚。",
         "category": "tidy",
         "timeCost": 15,
         "energyLevel": 2,
@@ -811,12 +837,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "只整理一个小抽屉，不扩大范围",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“只整理一个小抽屉，不扩大范围”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "只挑战一个抽屉，禁止召唤它的亲戚",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“只挑战一个抽屉，禁止召唤它的亲戚”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -826,10 +852,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：只整理一个小抽屉，不扩大范围",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“只挑战一个抽屉，禁止召唤它的亲戚”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：只挑战一个抽屉，禁止召唤它的亲戚",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -839,8 +865,10 @@
       },
       {
         "questId": "quest-tidy-downloads",
-        "title": "删除或归档下载目录中五个明确无用的文件",
-        "description": "今天只完成这一件小事：删除或归档下载目录中五个明确无用的文件。不需要留下照片或其他完成证明。",
+      "title": "删除五个无用文件，为数字亡灵超度",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“删除五个无用文件，为数字亡灵超度”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：删除五个无用文件，为数字亡灵超度。",
         "category": "tidy",
         "timeCost": 10,
         "energyLevel": 1,
@@ -860,12 +888,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "删除或归档下载目录中五个明确无用的文件",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“删除或归档下载目录中五个明确无用的文件”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "删除五个无用文件，为数字亡灵超度",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“删除五个无用文件，为数字亡灵超度”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -875,10 +903,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：删除或归档下载目录中五个明确无用的文件",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“删除五个无用文件，为数字亡灵超度”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：删除五个无用文件，为数字亡灵超度",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -888,8 +916,10 @@
       },
       {
         "questId": "quest-tidy-desktop",
-        "title": "让电脑或手机首页只保留今天常用的入口",
-        "description": "今天只完成这一件小事：让电脑或手机首页只保留今天常用的入口。不需要留下照片或其他完成证明。",
+      "title": "把手机首页改造成只留补给点的地图",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“把手机首页改造成只留补给点的地图”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：把手机首页改造成只留补给点的地图。",
         "category": "tidy",
         "timeCost": 10,
         "energyLevel": 1,
@@ -909,12 +939,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "让电脑或手机首页只保留今天常用的入口",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“让电脑或手机首页只保留今天常用的入口”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把手机首页改造成只留补给点的地图",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把手机首页改造成只留补给点的地图”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -924,10 +954,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：让电脑或手机首页只保留今天常用的入口",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“把手机首页改造成只留补给点的地图”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：把手机首页改造成只留补给点的地图",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -937,8 +967,10 @@
       },
       {
         "questId": "quest-tidy-bag",
-        "title": "从常用包里拿出三件已经不需要的东西",
-        "description": "今天只完成这一件小事：从常用包里拿出三件已经不需要的东西。不需要留下照片或其他完成证明。",
+      "title": "从包里驱逐三件长期蹭住的东西",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“从包里驱逐三件长期蹭住的东西”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：从包里驱逐三件长期蹭住的东西。",
         "category": "tidy",
         "timeCost": 10,
         "energyLevel": 1,
@@ -958,12 +990,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "从常用包里拿出三件已经不需要的东西",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“从常用包里拿出三件已经不需要的东西”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "从包里驱逐三件长期蹭住的东西",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“从包里驱逐三件长期蹭住的东西”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -973,10 +1005,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：从常用包里拿出三件已经不需要的东西",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“从包里驱逐三件长期蹭住的东西”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：从包里驱逐三件长期蹭住的东西",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -986,8 +1018,10 @@
       },
       {
         "questId": "quest-tidy-cables",
-        "title": "理顺一处线缆，确认没有明显破损",
-        "description": "今天只完成这一件小事：理顺一处线缆，确认没有明显破损。不需要留下照片或其他完成证明。",
+      "title": "解开一团线缆，营救被困的充电器",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“解开一团线缆，营救被困的充电器”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：解开一团线缆，营救被困的充电器。",
         "category": "tidy",
         "timeCost": 10,
         "energyLevel": 2,
@@ -1007,12 +1041,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "理顺一处线缆，确认没有明显破损",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“理顺一处线缆，确认没有明显破损”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "解开一团线缆，营救被困的充电器",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“解开一团线缆，营救被困的充电器”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -1022,10 +1056,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：理顺一处线缆，确认没有明显破损",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“解开一团线缆，营救被困的充电器”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：解开一团线缆，营救被困的充电器",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1035,8 +1069,10 @@
       },
       {
         "questId": "quest-tidy-expired-note",
-        "title": "清掉一条已经失效的提醒或便签",
-        "description": "今天只完成这一件小事：清掉一条已经失效的提醒或便签。不需要留下照片或其他完成证明。",
+      "title": "正式宣告一条过期提醒失去法律效力",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“正式宣告一条过期提醒失去法律效力”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：正式宣告一条过期提醒失去法律效力。",
         "category": "tidy",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1056,12 +1092,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "清掉一条已经失效的提醒或便签",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“清掉一条已经失效的提醒或便签”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "正式宣告一条过期提醒失去法律效力",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“正式宣告一条过期提醒失去法律效力”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -1071,10 +1107,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：清掉一条已经失效的提醒或便签",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“正式宣告一条过期提醒失去法律效力”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：正式宣告一条过期提醒失去法律效力",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1084,8 +1120,10 @@
       },
       {
         "questId": "quest-tidy-fridge-zone",
-        "title": "只检查冰箱一个区域，把需要尽快使用的放到前面",
-        "description": "今天只完成这一件小事：只检查冰箱一个区域，把需要尽快使用的放到前面。不需要留下照片或其他完成证明。",
+      "title": "让冰箱里最该先吃的食物站到 C 位",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“让冰箱里最该先吃的食物站到 C 位”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：让冰箱里最该先吃的食物站到 C 位。",
         "category": "tidy",
         "timeCost": 10,
         "energyLevel": 2,
@@ -1105,12 +1143,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "只检查冰箱一个区域，把需要尽快使用的放到前面",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“只检查冰箱一个区域，把需要尽快使用的放到前面”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "让冰箱里最该先吃的食物站到 C 位",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“让冰箱里最该先吃的食物站到 C 位”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -1120,10 +1158,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：只检查冰箱一个区域，把需要尽快使用的放到前面",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“让冰箱里最该先吃的食物站到 C 位”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：让冰箱里最该先吃的食物站到 C 位",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1133,8 +1171,10 @@
       },
       {
         "questId": "quest-tidy-tomorrow-item",
-        "title": "把明天最重要的一件物品放到容易看见的位置",
-        "description": "今天只完成这一件小事：把明天最重要的一件物品放到容易看见的位置。不需要留下照片或其他完成证明。",
+      "title": "给明天的关键物品安排一个 VIP 座位",
+      "description": "公会仓库拒绝继续容忍这处小混乱：“给明天的关键物品安排一个 VIP 座位”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：给明天的关键物品安排一个 VIP 座位。",
         "category": "tidy",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1153,12 +1193,12 @@
         "times": [
           "night"
         ],
-        "steps": [
-          "把明天最重要的一件物品放到容易看见的位置",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“把明天最重要的一件物品放到容易看见的位置”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "给明天的关键物品安排一个 VIP 座位",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“给明天的关键物品安排一个 VIP 座位”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-tidy",
         "safetyTags": [
@@ -1168,10 +1208,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：把明天最重要的一件物品放到容易看见的位置",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“给明天的关键物品安排一个 VIP 座位”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：给明天的关键物品安排一个 VIP 座位",
         "iconAssetId": "quest-icon-tidy",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1181,8 +1221,10 @@
       },
       {
         "questId": "quest-observe-three-colors",
-        "title": "找到身边三种以前没注意的颜色组合",
-        "description": "今天只完成这一件小事：找到身边三种以前没注意的颜色组合。不需要留下照片或其他完成证明。",
+      "title": "找三种不该搭却意外好看的颜色",
+      "description": "侦察员报告现实地图藏着一个细节：“找三种不该搭却意外好看的颜色”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：找三种不该搭却意外好看的颜色。",
         "category": "observe",
         "timeCost": 10,
         "energyLevel": 1,
@@ -1204,12 +1246,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "找到身边三种以前没注意的颜色组合",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“找到身边三种以前没注意的颜色组合”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "找三种不该搭却意外好看的颜色",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“找三种不该搭却意外好看的颜色”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1225,10 +1267,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：找到身边三种以前没注意的颜色组合",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“找三种不该搭却意外好看的颜色”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：找三种不该搭却意外好看的颜色",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1238,8 +1280,10 @@
       },
       {
         "questId": "quest-observe-shadow",
-        "title": "观察一个影子五分钟里怎样改变",
-        "description": "今天只完成这一件小事：观察一个影子五分钟里怎样改变。不需要留下照片或其他完成证明。",
+      "title": "盯住一块影子，看它偷偷搬家",
+      "description": "侦察员报告现实地图藏着一个细节：“盯住一块影子，看它偷偷搬家”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：盯住一块影子，看它偷偷搬家。",
         "category": "observe",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1260,12 +1304,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "观察一个影子五分钟里怎样改变",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“观察一个影子五分钟里怎样改变”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "盯住一块影子，看它偷偷搬家",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“盯住一块影子，看它偷偷搬家”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1281,10 +1325,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：观察一个影子五分钟里怎样改变",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“盯住一块影子，看它偷偷搬家”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：盯住一块影子，看它偷偷搬家",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1294,8 +1338,10 @@
       },
       {
         "questId": "quest-observe-building-detail",
-        "title": "在熟悉的建筑里找一个一直没注意的细节",
-        "description": "今天只完成这一件小事：在熟悉的建筑里找一个一直没注意的细节。不需要留下照片或其他完成证明。",
+      "title": "在熟悉建筑里发现一个隐藏贴图",
+      "description": "侦察员报告现实地图藏着一个细节：“在熟悉建筑里发现一个隐藏贴图”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：在熟悉建筑里发现一个隐藏贴图。",
         "category": "observe",
         "timeCost": 10,
         "energyLevel": 1,
@@ -1316,12 +1362,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "在熟悉的建筑里找一个一直没注意的细节",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在熟悉的建筑里找一个一直没注意的细节”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在熟悉建筑里发现一个隐藏贴图",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在熟悉建筑里发现一个隐藏贴图”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1337,10 +1383,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在熟悉的建筑里找一个一直没注意的细节",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“在熟悉建筑里发现一个隐藏贴图”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：在熟悉建筑里发现一个隐藏贴图",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1350,8 +1396,10 @@
       },
       {
         "questId": "quest-observe-sound-layers",
-        "title": "安静听一分钟，分辨近处、中间和远处的声音",
-        "description": "今天只完成这一件小事：安静听一分钟，分辨近处、中间和远处的声音。不需要留下照片或其他完成证明。",
+      "title": "闭眼听一分钟，给声音排出远近阵型",
+      "description": "侦察员报告现实地图藏着一个细节：“闭眼听一分钟，给声音排出远近阵型”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：闭眼听一分钟，给声音排出远近阵型。",
         "category": "observe",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1373,12 +1421,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "安静听一分钟，分辨近处、中间和远处的声音",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“安静听一分钟，分辨近处、中间和远处的声音”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "闭眼听一分钟，给声音排出远近阵型",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“闭眼听一分钟，给声音排出远近阵型”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1394,10 +1442,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：安静听一分钟，分辨近处、中间和远处的声音",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“闭眼听一分钟，给声音排出远近阵型”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：闭眼听一分钟，给声音排出远近阵型",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1407,8 +1455,10 @@
       },
       {
         "questId": "quest-observe-letter-shape",
-        "title": "找三个设计不同的汉字或字母招牌，只看形状",
-        "description": "今天只完成这一件小事：找三个设计不同的汉字或字母招牌，只看形状。不需要留下照片或其他完成证明。",
+      "title": "找三块招牌，只评字体的脾气",
+      "description": "侦察员报告现实地图藏着一个细节：“找三块招牌，只评字体的脾气”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：找三块招牌，只评字体的脾气。",
         "category": "observe",
         "timeCost": 10,
         "energyLevel": 1,
@@ -1429,12 +1479,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "找三个设计不同的汉字或字母招牌，只看形状",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“找三个设计不同的汉字或字母招牌，只看形状”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "找三块招牌，只评字体的脾气",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“找三块招牌，只评字体的脾气”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1450,10 +1500,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：找三个设计不同的汉字或字母招牌，只看形状",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“找三块招牌，只评字体的脾气”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：找三块招牌，只评字体的脾气",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1463,8 +1513,10 @@
       },
       {
         "questId": "quest-observe-green",
-        "title": "找到附近三种不同形状的叶子或植物轮廓，不采摘",
-        "description": "今天只完成这一件小事：找到附近三种不同形状的叶子或植物轮廓，不采摘。不需要留下照片或其他完成证明。",
+      "title": "找三片不同轮廓的叶子，禁止采集战利品",
+      "description": "侦察员报告现实地图藏着一个细节：“找三片不同轮廓的叶子，禁止采集战利品”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：找三片不同轮廓的叶子，禁止采集战利品。",
         "category": "observe",
         "timeCost": 10,
         "energyLevel": 1,
@@ -1485,12 +1537,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "找到附近三种不同形状的叶子或植物轮廓，不采摘",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“找到附近三种不同形状的叶子或植物轮廓，不采摘”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "找三片不同轮廓的叶子，禁止采集战利品",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“找三片不同轮廓的叶子，禁止采集战利品”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1506,10 +1558,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：找到附近三种不同形状的叶子或植物轮廓，不采摘",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“找三片不同轮廓的叶子，禁止采集战利品”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：找三片不同轮廓的叶子，禁止采集战利品",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1519,8 +1571,10 @@
       },
       {
         "questId": "quest-observe-reflection",
-        "title": "找一处安全的反光表面，观察它改变了什么",
-        "description": "今天只完成这一件小事：找一处安全的反光表面，观察它改变了什么。不需要留下照片或其他完成证明。",
+      "title": "让反光表面告诉你世界哪里被改写",
+      "description": "侦察员报告现实地图藏着一个细节：“让反光表面告诉你世界哪里被改写”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：让反光表面告诉你世界哪里被改写。",
         "category": "observe",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1542,12 +1596,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "找一处安全的反光表面，观察它改变了什么",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“找一处安全的反光表面，观察它改变了什么”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "让反光表面告诉你世界哪里被改写",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“让反光表面告诉你世界哪里被改写”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1563,10 +1617,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：找一处安全的反光表面，观察它改变了什么",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“让反光表面告诉你世界哪里被改写”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：让反光表面告诉你世界哪里被改写",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1576,8 +1630,10 @@
       },
       {
         "questId": "quest-observe-weather-without-app",
-        "title": "不看天气应用，先观察云、光和风，再核对自己的感受",
-        "description": "今天只完成这一件小事：不看天气应用，先观察云、光和风，再核对自己的感受。不需要留下照片或其他完成证明。",
+      "title": "先用脸判断天气，再允许应用公布答案",
+      "description": "侦察员报告现实地图藏着一个细节：“先用脸判断天气，再允许应用公布答案”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：先用脸判断天气，再允许应用公布答案。",
         "category": "observe",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1598,12 +1654,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "不看天气应用，先观察云、光和风，再核对自己的感受",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“不看天气应用，先观察云、光和风，再核对自己的感受”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "先用脸判断天气，再允许应用公布答案",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“先用脸判断天气，再允许应用公布答案”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1619,10 +1675,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：不看天气应用，先观察云、光和风，再核对自己的感受",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“先用脸判断天气，再允许应用公布答案”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：先用脸判断天气，再允许应用公布答案",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1632,8 +1688,10 @@
       },
       {
         "questId": "quest-observe-worn-object",
-        "title": "找一件有使用痕迹的物品，猜它最常被怎样使用",
-        "description": "今天只完成这一件小事：找一件有使用痕迹的物品，猜它最常被怎样使用。不需要留下照片或其他完成证明。",
+      "title": "为一件磨损物品编一段前职业生涯",
+      "description": "侦察员报告现实地图藏着一个细节：“为一件磨损物品编一段前职业生涯”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：为一件磨损物品编一段前职业生涯。",
         "category": "observe",
         "timeCost": 10,
         "energyLevel": 1,
@@ -1654,12 +1712,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "找一件有使用痕迹的物品，猜它最常被怎样使用",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“找一件有使用痕迹的物品，猜它最常被怎样使用”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "为一件磨损物品编一段前职业生涯",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“为一件磨损物品编一段前职业生涯”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1669,10 +1727,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：找一件有使用痕迹的物品，猜它最常被怎样使用",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“为一件磨损物品编一段前职业生涯”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：为一件磨损物品编一段前职业生涯",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1682,8 +1740,10 @@
       },
       {
         "questId": "quest-observe-room-route",
-        "title": "用目光走一遍从座位到门口的路线，发现一个障碍物",
-        "description": "今天只完成这一件小事：用目光走一遍从座位到门口的路线，发现一个障碍物。不需要留下照片或其他完成证明。",
+      "title": "用视线侦察从座位到门口的安全路线",
+      "description": "侦察员报告现实地图藏着一个细节：“用视线侦察从座位到门口的安全路线”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：用视线侦察从座位到门口的安全路线。",
         "category": "observe",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1704,12 +1764,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "用目光走一遍从座位到门口的路线，发现一个障碍物",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“用目光走一遍从座位到门口的路线，发现一个障碍物”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "用视线侦察从座位到门口的安全路线",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“用视线侦察从座位到门口的安全路线”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-observe",
         "safetyTags": [
@@ -1719,10 +1779,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：用目光走一遍从座位到门口的路线，发现一个障碍物",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“用视线侦察从座位到门口的安全路线”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：用视线侦察从座位到门口的安全路线",
         "iconAssetId": "quest-icon-observe",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1732,8 +1792,10 @@
       },
       {
         "questId": "quest-move-short-walk",
-        "title": "在安全熟悉的路线舒适地走十分钟",
-        "description": "今天只完成这一件小事：在安全熟悉的路线舒适地走十分钟。不需要留下照片或其他完成证明。",
+      "title": "像低调巡逻的 NPC 一样走十分钟",
+      "description": "训练场批准了一次低强度身体支线：“像低调巡逻的 NPC 一样走十分钟”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：像低调巡逻的 NPC 一样走十分钟。",
         "category": "move",
         "timeCost": 10,
         "energyLevel": 2,
@@ -1752,12 +1814,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "在安全熟悉的路线舒适地走十分钟",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在安全熟悉的路线舒适地走十分钟”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "像低调巡逻的 NPC 一样走十分钟",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“像低调巡逻的 NPC 一样走十分钟”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -1775,10 +1837,10 @@
           "unfamiliar-area",
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在安全熟悉的路线舒适地走十分钟",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“像低调巡逻的 NPC 一样走十分钟”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：像低调巡逻的 NPC 一样走十分钟",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1788,8 +1850,10 @@
       },
       {
         "questId": "quest-move-three-stretches",
-        "title": "选三个自己熟悉且舒服的轻柔动作活动身体",
-        "description": "今天只完成这一件小事：选三个自己熟悉且舒服的轻柔动作活动身体。不需要留下照片或其他完成证明。",
+      "title": "选三个舒服动作，组成你的秘传体术",
+      "description": "训练场批准了一次低强度身体支线：“选三个舒服动作，组成你的秘传体术”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：选三个舒服动作，组成你的秘传体术。",
         "category": "move",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1809,12 +1873,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "选三个自己熟悉且舒服的轻柔动作活动身体",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“选三个自己熟悉且舒服的轻柔动作活动身体”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "选三个舒服动作，组成你的秘传体术",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“选三个舒服动作，组成你的秘传体术”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -1828,10 +1892,10 @@
         "inapplicableConditions": [
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：选三个自己熟悉且舒服的轻柔动作活动身体",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“选三个舒服动作，组成你的秘传体术”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：选三个舒服动作，组成你的秘传体术",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1841,8 +1905,10 @@
       },
       {
         "questId": "quest-move-room-lap",
-        "title": "在室内安全区域慢慢走几圈，中途随时可停",
-        "description": "今天只完成这一件小事：在室内安全区域慢慢走几圈，中途随时可停。不需要留下照片或其他完成证明。",
+      "title": "在室内慢走几圈，假装地图正在加载",
+      "description": "训练场批准了一次低强度身体支线：“在室内慢走几圈，假装地图正在加载”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：在室内慢走几圈，假装地图正在加载。",
         "category": "move",
         "timeCost": 5,
         "energyLevel": 1,
@@ -1862,12 +1928,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "在室内安全区域慢慢走几圈，中途随时可停",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在室内安全区域慢慢走几圈，中途随时可停”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在室内慢走几圈，假装地图正在加载",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在室内慢走几圈，假装地图正在加载”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -1881,10 +1947,10 @@
         "inapplicableConditions": [
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在室内安全区域慢慢走几圈，中途随时可停",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“在室内慢走几圈，假装地图正在加载”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：在室内慢走几圈，假装地图正在加载",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1894,8 +1960,10 @@
       },
       {
         "questId": "quest-move-one-song",
-        "title": "放一首歌，在舒适范围内跟着节奏动一动",
-        "description": "今天只完成这一件小事：放一首歌，在舒适范围内跟着节奏动一动。不需要留下照片或其他完成证明。",
+      "title": "放一首歌，在无人评审处跳得稍微丢脸",
+      "description": "训练场批准了一次低强度身体支线：“放一首歌，在无人评审处跳得稍微丢脸”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：放一首歌，在无人评审处跳得稍微丢脸。",
         "category": "move",
         "timeCost": 5,
         "energyLevel": 2,
@@ -1915,12 +1983,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "放一首歌，在舒适范围内跟着节奏动一动",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“放一首歌，在舒适范围内跟着节奏动一动”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "放一首歌，在无人评审处跳得稍微丢脸",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“放一首歌，在无人评审处跳得稍微丢脸”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -1934,10 +2002,10 @@
         "inapplicableConditions": [
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：放一首歌，在舒适范围内跟着节奏动一动",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“放一首歌，在无人评审处跳得稍微丢脸”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：放一首歌，在无人评审处跳得稍微丢脸",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1947,8 +2015,10 @@
       },
       {
         "questId": "quest-move-stairs-optional",
-        "title": "如果身体与环境适合，少乘一小段电梯并走一层楼梯",
-        "description": "今天只完成这一件小事：如果身体与环境适合，少乘一小段电梯并走一层楼梯。不需要留下照片或其他完成证明。",
+      "title": "身体允许时走一层楼梯，并称它为副本",
+      "description": "训练场批准了一次低强度身体支线：“身体允许时走一层楼梯，并称它为副本”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：身体允许时走一层楼梯，并称它为副本。",
         "category": "move",
         "timeCost": 5,
         "energyLevel": 2,
@@ -1967,12 +2037,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "如果身体与环境适合，少乘一小段电梯并走一层楼梯",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“如果身体与环境适合，少乘一小段电梯并走一层楼梯”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "身体允许时走一层楼梯，并称它为副本",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“身体允许时走一层楼梯，并称它为副本”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -1986,10 +2056,10 @@
         "inapplicableConditions": [
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：如果身体与环境适合，少乘一小段电梯并走一层楼梯",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“身体允许时走一层楼梯，并称它为副本”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：身体允许时走一层楼梯，并称它为副本",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -1999,8 +2069,10 @@
       },
       {
         "questId": "quest-move-posture-change",
-        "title": "离开同一姿势，换一个地方站立或坐五分钟",
-        "description": "今天只完成这一件小事：离开同一姿势，换一个地方站立或坐五分钟。不需要留下照片或其他完成证明。",
+      "title": "换个地方站或坐五分钟，解除定身状态",
+      "description": "训练场批准了一次低强度身体支线：“换个地方站或坐五分钟，解除定身状态”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：换个地方站或坐五分钟，解除定身状态。",
         "category": "move",
         "timeCost": 5,
         "energyLevel": 1,
@@ -2020,12 +2092,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "离开同一姿势，换一个地方站立或坐五分钟",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“离开同一姿势，换一个地方站立或坐五分钟”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "换个地方站或坐五分钟，解除定身状态",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“换个地方站或坐五分钟，解除定身状态”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -2039,10 +2111,10 @@
         "inapplicableConditions": [
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：离开同一姿势，换一个地方站立或坐五分钟",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“换个地方站或坐五分钟，解除定身状态”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：换个地方站或坐五分钟，解除定身状态",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2052,8 +2124,10 @@
       },
       {
         "questId": "quest-move-carry-light",
-        "title": "把一件轻物品从一个房间送回它的位置",
-        "description": "今天只完成这一件小事：把一件轻物品从一个房间送回它的位置。不需要留下照片或其他完成证明。",
+      "title": "把一件轻物品护送回它的出生点",
+      "description": "训练场批准了一次低强度身体支线：“把一件轻物品护送回它的出生点”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：把一件轻物品护送回它的出生点。",
         "category": "move",
         "timeCost": 5,
         "energyLevel": 1,
@@ -2073,12 +2147,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "把一件轻物品从一个房间送回它的位置",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“把一件轻物品从一个房间送回它的位置”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把一件轻物品护送回它的出生点",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把一件轻物品护送回它的出生点”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -2092,10 +2166,10 @@
         "inapplicableConditions": [
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：把一件轻物品从一个房间送回它的位置",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“把一件轻物品护送回它的出生点”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：把一件轻物品护送回它的出生点",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2105,8 +2179,10 @@
       },
       {
         "questId": "quest-move-balance-support",
-        "title": "扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过",
-        "description": "今天只完成这一件小事：扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过。不需要留下照片或其他完成证明。",
+      "title": "扶稳后轮流抬脚，模拟一只谨慎的鹤",
+      "description": "训练场批准了一次低强度身体支线：“扶稳后轮流抬脚，模拟一只谨慎的鹤”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：扶稳后轮流抬脚，模拟一只谨慎的鹤。",
         "category": "move",
         "timeCost": 5,
         "energyLevel": 2,
@@ -2126,12 +2202,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "扶稳后轮流抬脚，模拟一只谨慎的鹤",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“扶稳后轮流抬脚，模拟一只谨慎的鹤”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -2145,10 +2221,10 @@
         "inapplicableConditions": [
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：扶稳固物体，在舒适范围轮流抬脚几秒；不适合就跳过",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“扶稳后轮流抬脚，模拟一只谨慎的鹤”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：扶稳后轮流抬脚，模拟一只谨慎的鹤",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2158,8 +2234,10 @@
       },
       {
         "questId": "quest-move-walk-listen",
-        "title": "在熟悉路线散步，只留意脚步和环境声音",
-        "description": "今天只完成这一件小事：在熟悉路线散步，只留意脚步和环境声音。不需要留下照片或其他完成证明。",
+      "title": "散步时只听脚步，给自己配潜行音效",
+      "description": "训练场批准了一次低强度身体支线：“散步时只听脚步，给自己配潜行音效”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：散步时只听脚步，给自己配潜行音效。",
         "category": "move",
         "timeCost": 10,
         "energyLevel": 2,
@@ -2178,12 +2256,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "在熟悉路线散步，只留意脚步和环境声音",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在熟悉路线散步，只留意脚步和环境声音”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "散步时只听脚步，给自己配潜行音效",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“散步时只听脚步，给自己配潜行音效”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -2201,10 +2279,10 @@
           "unfamiliar-area",
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在熟悉路线散步，只留意脚步和环境声音",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“散步时只听脚步，给自己配潜行音效”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：散步时只听脚步，给自己配潜行音效",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2214,8 +2292,10 @@
       },
       {
         "questId": "quest-move-reset-break",
-        "title": "为久坐设置一次十分钟后的起身提醒，并按时起来",
-        "description": "今天只完成这一件小事：为久坐设置一次十分钟后的起身提醒，并按时起来。不需要留下照片或其他完成证明。",
+      "title": "设置十分钟后起身提醒，并服从未来的你",
+      "description": "训练场批准了一次低强度身体支线：“设置十分钟后起身提醒，并服从未来的你”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：设置十分钟后起身提醒，并服从未来的你。",
         "category": "move",
         "timeCost": 15,
         "energyLevel": 1,
@@ -2235,12 +2315,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "为久坐设置一次十分钟后的起身提醒，并按时起来",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“为久坐设置一次十分钟后的起身提醒，并按时起来”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "设置十分钟后起身提醒，并服从未来的你",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“设置十分钟后起身提醒，并服从未来的你”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-move",
         "safetyTags": [
@@ -2254,10 +2334,10 @@
         "inapplicableConditions": [
           "physical-discomfort"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：为久坐设置一次十分钟后的起身提醒，并按时起来",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“设置十分钟后起身提醒，并服从未来的你”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：设置十分钟后起身提醒，并服从未来的你",
         "iconAssetId": "quest-icon-move",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2267,8 +2347,10 @@
       },
       {
         "questId": "quest-create-paper-creature",
-        "title": "用废纸画或折一只不存在的小生物",
-        "description": "今天只完成这一件小事：用废纸画或折一只不存在的小生物。不需要留下照片或其他完成证明。",
+      "title": "用废纸画一只欠你三块钱的怪物",
+      "description": "创作工坊发来一张允许胡闹的委托：“用废纸画一只欠你三块钱的怪物”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：用废纸画一只欠你三块钱的怪物。",
         "category": "create",
         "timeCost": 15,
         "energyLevel": 2,
@@ -2289,12 +2371,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "用废纸画或折一只不存在的小生物",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“用废纸画或折一只不存在的小生物”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "用废纸画一只欠你三块钱的怪物",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“用废纸画一只欠你三块钱的怪物”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2306,10 +2388,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：用废纸画或折一只不存在的小生物",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“用废纸画一只欠你三块钱的怪物”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：用废纸画一只欠你三块钱的怪物",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2319,8 +2401,10 @@
       },
       {
         "questId": "quest-create-four-line-story",
-        "title": "写一个只有四行、必须出现“门”和“风”的故事",
-        "description": "今天只完成这一件小事：写一个只有四行、必须出现“门”和“风”的故事。不需要留下照片或其他完成证明。",
+      "title": "写四行故事，让门和风当场吵起来",
+      "description": "创作工坊发来一张允许胡闹的委托：“写四行故事，让门和风当场吵起来”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：写四行故事，让门和风当场吵起来。",
         "category": "create",
         "timeCost": 10,
         "energyLevel": 2,
@@ -2341,12 +2425,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "写一个只有四行、必须出现“门”和“风”的故事",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“写一个只有四行、必须出现“门”和“风”的故事”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "写四行故事，让门和风当场吵起来",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“写四行故事，让门和风当场吵起来”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2358,10 +2442,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：写一个只有四行、必须出现“门”和“风”的故事",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“写四行故事，让门和风当场吵起来”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：写四行故事，让门和风当场吵起来",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2371,8 +2455,10 @@
       },
       {
         "questId": "quest-create-color-name",
-        "title": "给今天看到的一种颜色起一个自己的名字",
-        "description": "今天只完成这一件小事：给今天看到的一种颜色起一个自己的名字。不需要留下照片或其他完成证明。",
+      "title": "给今天最奇怪的一种颜色起贵族全名",
+      "description": "创作工坊发来一张允许胡闹的委托：“给今天最奇怪的一种颜色起贵族全名”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：给今天最奇怪的一种颜色起贵族全名。",
         "category": "create",
         "timeCost": 5,
         "energyLevel": 1,
@@ -2394,12 +2480,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "给今天看到的一种颜色起一个自己的名字",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给今天看到的一种颜色起一个自己的名字”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "给今天最奇怪的一种颜色起贵族全名",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“给今天最奇怪的一种颜色起贵族全名”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2416,10 +2502,10 @@
           "unfamiliar-area",
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给今天看到的一种颜色起一个自己的名字",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“给今天最奇怪的一种颜色起贵族全名”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：给今天最奇怪的一种颜色起贵族全名",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2429,8 +2515,10 @@
       },
       {
         "questId": "quest-create-object-title",
-        "title": "给身边一件普通物品取一个博物馆展品名",
-        "description": "今天只完成这一件小事：给身边一件普通物品取一个博物馆展品名。不需要留下照片或其他完成证明。",
+      "title": "把普通物品命名成禁止触摸的博物馆藏品",
+      "description": "创作工坊发来一张允许胡闹的委托：“把普通物品命名成禁止触摸的博物馆藏品”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：把普通物品命名成禁止触摸的博物馆藏品。",
         "category": "create",
         "timeCost": 5,
         "energyLevel": 1,
@@ -2451,12 +2539,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "给身边一件普通物品取一个博物馆展品名",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给身边一件普通物品取一个博物馆展品名”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把普通物品命名成禁止触摸的博物馆藏品",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把普通物品命名成禁止触摸的博物馆藏品”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2468,10 +2556,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给身边一件普通物品取一个博物馆展品名",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“把普通物品命名成禁止触摸的博物馆藏品”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：把普通物品命名成禁止触摸的博物馆藏品",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2481,8 +2569,10 @@
       },
       {
         "questId": "quest-create-menu",
-        "title": "用现有饮品或食物写一张三项幻想菜单，不必制作",
-        "description": "今天只完成这一件小事：用现有饮品或食物写一张三项幻想菜单，不必制作。不需要留下照片或其他完成证明。",
+      "title": "给现有食物写一张不可能实现的王室菜单",
+      "description": "创作工坊发来一张允许胡闹的委托：“给现有食物写一张不可能实现的王室菜单”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：给现有食物写一张不可能实现的王室菜单。",
         "category": "create",
         "timeCost": 10,
         "energyLevel": 1,
@@ -2503,12 +2593,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "用现有饮品或食物写一张三项幻想菜单，不必制作",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“用现有饮品或食物写一张三项幻想菜单，不必制作”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "给现有食物写一张不可能实现的王室菜单",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“给现有食物写一张不可能实现的王室菜单”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2520,10 +2610,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：用现有饮品或食物写一张三项幻想菜单，不必制作",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“给现有食物写一张不可能实现的王室菜单”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：给现有食物写一张不可能实现的王室菜单",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2533,8 +2623,10 @@
       },
       {
         "questId": "quest-create-sound-map",
-        "title": "用点和线画出刚才听见的三层声音",
-        "description": "今天只完成这一件小事：用点和线画出刚才听见的三层声音。不需要留下照片或其他完成证明。",
+      "title": "用点和线画出刚才三层声音的作战地图",
+      "description": "创作工坊发来一张允许胡闹的委托：“用点和线画出刚才三层声音的作战地图”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：用点和线画出刚才三层声音的作战地图。",
         "category": "create",
         "timeCost": 10,
         "energyLevel": 2,
@@ -2555,12 +2647,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "用点和线画出刚才听见的三层声音",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“用点和线画出刚才听见的三层声音”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "用点和线画出刚才三层声音的作战地图",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“用点和线画出刚才三层声音的作战地图”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2572,10 +2664,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：用点和线画出刚才听见的三层声音",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“用点和线画出刚才三层声音的作战地图”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：用点和线画出刚才三层声音的作战地图",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2585,8 +2677,10 @@
       },
       {
         "questId": "quest-create-tiny-poem",
-        "title": "用眼前第一件物品写三句不押韵的小诗",
-        "description": "今天只完成这一件小事：用眼前第一件物品写三句不押韵的小诗。不需要留下照片或其他完成证明。",
+      "title": "让眼前第一件物品发表三句获奖感言",
+      "description": "创作工坊发来一张允许胡闹的委托：“让眼前第一件物品发表三句获奖感言”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：让眼前第一件物品发表三句获奖感言。",
         "category": "create",
         "timeCost": 10,
         "energyLevel": 2,
@@ -2607,12 +2701,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "用眼前第一件物品写三句不押韵的小诗",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“用眼前第一件物品写三句不押韵的小诗”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "让眼前第一件物品发表三句获奖感言",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“让眼前第一件物品发表三句获奖感言”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2624,10 +2718,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：用眼前第一件物品写三句不押韵的小诗",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“让眼前第一件物品发表三句获奖感言”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：让眼前第一件物品发表三句获奖感言",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2637,8 +2731,10 @@
       },
       {
         "questId": "quest-create-new-rule",
-        "title": "给一个熟悉小游戏发明一条不伤害任何人的新规则",
-        "description": "今天只完成这一件小事：给一个熟悉小游戏发明一条不伤害任何人的新规则。不需要留下照片或其他完成证明。",
+      "title": "给熟悉小游戏发明一条荒唐但无害的新规则",
+      "description": "创作工坊发来一张允许胡闹的委托：“给熟悉小游戏发明一条荒唐但无害的新规则”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：给熟悉小游戏发明一条荒唐但无害的新规则。",
         "category": "create",
         "timeCost": 10,
         "energyLevel": 2,
@@ -2659,12 +2755,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "给一个熟悉小游戏发明一条不伤害任何人的新规则",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给一个熟悉小游戏发明一条不伤害任何人的新规则”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "给熟悉小游戏发明一条荒唐但无害的新规则",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“给熟悉小游戏发明一条荒唐但无害的新规则”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2676,10 +2772,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给一个熟悉小游戏发明一条不伤害任何人的新规则",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“给熟悉小游戏发明一条荒唐但无害的新规则”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：给熟悉小游戏发明一条荒唐但无害的新规则",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2689,8 +2785,10 @@
       },
       {
         "questId": "quest-create-paper-window",
-        "title": "在纸上画一扇窗，再画窗外不可能出现的景色",
-        "description": "今天只完成这一件小事：在纸上画一扇窗，再画窗外不可能出现的景色。不需要留下照片或其他完成证明。",
+      "title": "画一扇窗，并把窗外改造成异世界事故现场",
+      "description": "创作工坊发来一张允许胡闹的委托：“画一扇窗，并把窗外改造成异世界事故现场”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：画一扇窗，并把窗外改造成异世界事故现场。",
         "category": "create",
         "timeCost": 15,
         "energyLevel": 2,
@@ -2711,12 +2809,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "在纸上画一扇窗，再画窗外不可能出现的景色",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在纸上画一扇窗，再画窗外不可能出现的景色”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "画一扇窗，并把窗外改造成异世界事故现场",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“画一扇窗，并把窗外改造成异世界事故现场”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2728,10 +2826,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在纸上画一扇窗，再画窗外不可能出现的景色",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“画一扇窗，并把窗外改造成异世界事故现场”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：画一扇窗，并把窗外改造成异世界事故现场",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2741,8 +2839,10 @@
       },
       {
         "questId": "quest-create-title-today",
-        "title": "不写日记，只给今天取一个标题",
-        "description": "今天只完成这一件小事：不写日记，只给今天取一个标题。不需要留下照片或其他完成证明。",
+      "title": "不给今天写日记，只给它取一个离谱标题",
+      "description": "创作工坊发来一张允许胡闹的委托：“不给今天写日记，只给它取一个离谱标题”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：不给今天写日记，只给它取一个离谱标题。",
         "category": "create",
         "timeCost": 5,
         "energyLevel": 1,
@@ -2762,12 +2862,12 @@
         "times": [
           "night"
         ],
-        "steps": [
-          "不写日记，只给今天取一个标题",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“不写日记，只给今天取一个标题”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "不给今天写日记，只给它取一个离谱标题",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“不给今天写日记，只给它取一个离谱标题”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-create",
         "safetyTags": [
@@ -2779,10 +2879,10 @@
         "inapplicableConditions": [
           "materials-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：不写日记，只给今天取一个标题",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“不给今天写日记，只给它取一个离谱标题”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：不给今天写日记，只给它取一个离谱标题",
         "iconAssetId": "quest-icon-create",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2792,8 +2892,10 @@
       },
       {
         "questId": "quest-learn-one-page",
-        "title": "读手边材料的一页，记下一个新词",
-        "description": "今天只完成这一件小事：读手边材料的一页，记下一个新词。不需要留下照片或其他完成证明。",
+      "title": "读一页材料，抓捕一个刚认识的新词",
+      "description": "知识柜台发现一个值得拆开的小谜题：“读一页材料，抓捕一个刚认识的新词”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：读一页材料，抓捕一个刚认识的新词。",
         "category": "learn",
         "timeCost": 10,
         "energyLevel": 1,
@@ -2814,12 +2916,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "读手边材料的一页，记下一个新词",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“读手边材料的一页，记下一个新词”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "读一页材料，抓捕一个刚认识的新词",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“读一页材料，抓捕一个刚认识的新词”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -2829,10 +2931,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：读手边材料的一页，记下一个新词",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“读一页材料，抓捕一个刚认识的新词”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：读一页材料，抓捕一个刚认识的新词",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2842,8 +2944,10 @@
       },
       {
         "questId": "quest-learn-object-origin",
-        "title": "查清身边一种普通物品名称的由来，只看一个可靠来源",
-        "description": "今天只完成这一件小事：查清身边一种普通物品名称的由来，只看一个可靠来源。不需要留下照片或其他完成证明。",
+      "title": "查清普通物品名字的来历，给它补一段野史",
+      "description": "知识柜台发现一个值得拆开的小谜题：“查清普通物品名字的来历，给它补一段野史”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：查清普通物品名字的来历，给它补一段野史。",
         "category": "learn",
         "timeCost": 15,
         "energyLevel": 2,
@@ -2864,12 +2968,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "查清身边一种普通物品名称的由来，只看一个可靠来源",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“查清身边一种普通物品名称的由来，只看一个可靠来源”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "查清普通物品名字的来历，给它补一段野史",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“查清普通物品名字的来历，给它补一段野史”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -2879,10 +2983,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：查清身边一种普通物品名称的由来，只看一个可靠来源",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“查清普通物品名字的来历，给它补一段野史”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：查清普通物品名字的来历，给它补一段野史",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2892,8 +2996,10 @@
       },
       {
         "questId": "quest-learn-map-memory",
-        "title": "不打开地图，先画出家到熟悉地点的路线，再核对",
-        "description": "今天只完成这一件小事：不打开地图，先画出家到熟悉地点的路线，再核对。不需要留下照片或其他完成证明。",
+      "title": "先凭记忆画熟悉路线，再和地图公开对质",
+      "description": "知识柜台发现一个值得拆开的小谜题：“先凭记忆画熟悉路线，再和地图公开对质”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：先凭记忆画熟悉路线，再和地图公开对质。",
         "category": "learn",
         "timeCost": 15,
         "energyLevel": 2,
@@ -2914,12 +3020,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "不打开地图，先画出家到熟悉地点的路线，再核对",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“不打开地图，先画出家到熟悉地点的路线，再核对”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "先凭记忆画熟悉路线，再和地图公开对质",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“先凭记忆画熟悉路线，再和地图公开对质”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -2929,10 +3035,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：不打开地图，先画出家到熟悉地点的路线，再核对",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“先凭记忆画熟悉路线，再和地图公开对质”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：先凭记忆画熟悉路线，再和地图公开对质",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2942,8 +3048,10 @@
       },
       {
         "questId": "quest-learn-three-words",
-        "title": "学会一种语言里三个日常词，并读出声",
-        "description": "今天只完成这一件小事：学会一种语言里三个日常词，并读出声。不需要留下照片或其他完成证明。",
+      "title": "学三个外语日常词，用反派语气各读一次",
+      "description": "知识柜台发现一个值得拆开的小谜题：“学三个外语日常词，用反派语气各读一次”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：学三个外语日常词，用反派语气各读一次。",
         "category": "learn",
         "timeCost": 10,
         "energyLevel": 2,
@@ -2964,12 +3072,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "学会一种语言里三个日常词，并读出声",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“学会一种语言里三个日常词，并读出声”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "学三个外语日常词，用反派语气各读一次",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“学三个外语日常词，用反派语气各读一次”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -2979,10 +3087,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：学会一种语言里三个日常词，并读出声",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“学三个外语日常词，用反派语气各读一次”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：学三个外语日常词，用反派语气各读一次",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -2992,8 +3100,10 @@
       },
       {
         "questId": "quest-learn-label",
-        "title": "读懂一个产品标签上的三个字段代表什么",
-        "description": "今天只完成这一件小事：读懂一个产品标签上的三个字段代表什么。不需要留下照片或其他完成证明。",
+      "title": "读懂产品标签三个字段，解除包装纸封印",
+      "description": "知识柜台发现一个值得拆开的小谜题：“读懂产品标签三个字段，解除包装纸封印”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：读懂产品标签三个字段，解除包装纸封印。",
         "category": "learn",
         "timeCost": 10,
         "energyLevel": 1,
@@ -3014,12 +3124,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "读懂一个产品标签上的三个字段代表什么",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“读懂一个产品标签上的三个字段代表什么”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "读懂产品标签三个字段，解除包装纸封印",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“读懂产品标签三个字段，解除包装纸封印”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -3029,10 +3139,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：读懂一个产品标签上的三个字段代表什么",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“读懂产品标签三个字段，解除包装纸封印”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：读懂产品标签三个字段，解除包装纸封印",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3042,8 +3152,10 @@
       },
       {
         "questId": "quest-learn-museum-object",
-        "title": "从可靠博物馆页面认识一件文物，只记一个特征",
-        "description": "今天只完成这一件小事：从可靠博物馆页面认识一件文物，只记一个特征。不需要留下照片或其他完成证明。",
+      "title": "从博物馆页面挑一件文物，记住它一个怪细节",
+      "description": "知识柜台发现一个值得拆开的小谜题：“从博物馆页面挑一件文物，记住它一个怪细节”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：从博物馆页面挑一件文物，记住它一个怪细节。",
         "category": "learn",
         "timeCost": 15,
         "energyLevel": 2,
@@ -3064,12 +3176,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "从可靠博物馆页面认识一件文物，只记一个特征",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“从可靠博物馆页面认识一件文物，只记一个特征”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "从博物馆页面挑一件文物，记住它一个怪细节",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“从博物馆页面挑一件文物，记住它一个怪细节”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -3079,10 +3191,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：从可靠博物馆页面认识一件文物，只记一个特征",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“从博物馆页面挑一件文物，记住它一个怪细节”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：从博物馆页面挑一件文物，记住它一个怪细节",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3092,8 +3204,10 @@
       },
       {
         "questId": "quest-learn-constellation-shape",
-        "title": "在资料中认识一个星座的形状，不要求夜间外出观察",
-        "description": "今天只完成这一件小事：在资料中认识一个星座的形状，不要求夜间外出观察。不需要留下照片或其他完成证明。",
+      "title": "认识一个星座形状，并给它改一个民间昵称",
+      "description": "知识柜台发现一个值得拆开的小谜题：“认识一个星座形状，并给它改一个民间昵称”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：认识一个星座形状，并给它改一个民间昵称。",
         "category": "learn",
         "timeCost": 10,
         "energyLevel": 1,
@@ -3114,12 +3228,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "在资料中认识一个星座的形状，不要求夜间外出观察",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在资料中认识一个星座的形状，不要求夜间外出观察”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "认识一个星座形状，并给它改一个民间昵称",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“认识一个星座形状，并给它改一个民间昵称”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -3129,10 +3243,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在资料中认识一个星座的形状，不要求夜间外出观察",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“认识一个星座形状，并给它改一个民间昵称”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：认识一个星座形状，并给它改一个民间昵称",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3142,8 +3256,10 @@
       },
       {
         "questId": "quest-learn-keyboard-shortcut",
-        "title": "学一个自己真正会用到的键盘快捷键并试一次",
-        "description": "今天只完成这一件小事：学一个自己真正会用到的键盘快捷键并试一次。不需要留下照片或其他完成证明。",
+      "title": "学会一个真能用的快捷键，现场施放一次",
+      "description": "知识柜台发现一个值得拆开的小谜题：“学会一个真能用的快捷键，现场施放一次”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：学会一个真能用的快捷键，现场施放一次。",
         "category": "learn",
         "timeCost": 5,
         "energyLevel": 1,
@@ -3164,12 +3280,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "学一个自己真正会用到的键盘快捷键并试一次",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“学一个自己真正会用到的键盘快捷键并试一次”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "学会一个真能用的快捷键，现场施放一次",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“学会一个真能用的快捷键，现场施放一次”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -3179,10 +3295,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：学一个自己真正会用到的键盘快捷键并试一次",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“学会一个真能用的快捷键，现场施放一次”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：学会一个真能用的快捷键，现场施放一次",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3192,8 +3308,10 @@
       },
       {
         "questId": "quest-learn-houseplant",
-        "title": "查清身边一种植物的名称；不确定时只记录候选",
-        "description": "今天只完成这一件小事：查清身边一种植物的名称；不确定时只记录候选。不需要留下照片或其他完成证明。",
+      "title": "查清一种植物的名字，不确定就保留嫌疑名单",
+      "description": "知识柜台发现一个值得拆开的小谜题：“查清一种植物的名字，不确定就保留嫌疑名单”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：查清一种植物的名字，不确定就保留嫌疑名单。",
         "category": "learn",
         "timeCost": 15,
         "energyLevel": 2,
@@ -3214,12 +3332,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "查清身边一种植物的名称；不确定时只记录候选",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“查清身边一种植物的名称；不确定时只记录候选”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "查清一种植物的名字，不确定就保留嫌疑名单",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“查清一种植物的名字，不确定就保留嫌疑名单”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -3235,10 +3353,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：查清身边一种植物的名称；不确定时只记录候选",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“查清一种植物的名字，不确定就保留嫌疑名单”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：查清一种植物的名字，不确定就保留嫌疑名单",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3248,8 +3366,10 @@
       },
       {
         "questId": "quest-learn-question",
-        "title": "写下一个最近真的好奇的问题，再把它缩小一半",
-        "description": "今天只完成这一件小事：写下一个最近真的好奇的问题，再把它缩小一半。不需要留下照片或其他完成证明。",
+      "title": "写下一个真好奇的问题，再把它砍小一半",
+      "description": "知识柜台发现一个值得拆开的小谜题：“写下一个真好奇的问题，再把它砍小一半”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：写下一个真好奇的问题，再把它砍小一半。",
         "category": "learn",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3270,12 +3390,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "写下一个最近真的好奇的问题，再把它缩小一半",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“写下一个最近真的好奇的问题，再把它缩小一半”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "写下一个真好奇的问题，再把它砍小一半",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“写下一个真好奇的问题，再把它砍小一半”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-learn",
         "safetyTags": [
@@ -3285,10 +3405,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：写下一个最近真的好奇的问题，再把它缩小一半",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“写下一个真好奇的问题，再把它砍小一半”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：写下一个真好奇的问题，再把它砍小一半",
         "iconAssetId": "quest-icon-learn",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3298,8 +3418,10 @@
       },
       {
         "questId": "quest-connect-thanks",
-        "title": "给熟悉的人发一句具体感谢，不要求回复",
-        "description": "今天只完成这一件小事：给熟悉的人发一句具体感谢，不要求回复。不需要留下照片或其他完成证明。",
+      "title": "在适合打招呼的场合，对一位陌生人自然说声你好",
+      "description": "联络处批准了一次低压力社交尝试：“在适合打招呼的场合，对一位陌生人自然说声你好”。只说一句或只做一次；对方不回应就自然结束，各走各的。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：在适合打招呼的场合，对一位陌生人自然说声你好。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3319,26 +3441,27 @@
           "day",
           "night"
         ],
-        "steps": [
-          "给熟悉的人发一句具体感谢，不要求回复",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给熟悉的人发一句具体感谢，不要求回复”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在适合打招呼的场合，对一位陌生人自然说声你好",
+        "只进行一次；对方不回应、不方便或现场气氛不合适，就微笑结束并离开。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在适合打招呼的场合，对一位陌生人自然说声你好”不需要照片、定位或他人证明。",
+      "abandonRule": "只尝试一次；对方不回应、表示不方便或你想离开，就立即结束，不扣 XP。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
-        "safetyTags": [
-          "no-purchase",
-          "no-photo-required",
-          "no-personal-data",
-          "safe-indoor",
-          "optional-social"
-        ],
+      "safetyTags": [
+        "no-purchase",
+        "no-photo-required",
+        "no-personal-data",
+        "safe-indoor",
+        "optional-social",
+        "stranger-interaction"
+      ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给熟悉的人发一句具体感谢，不要求回复",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“在适合打招呼的场合，对一位陌生人自然说声你好”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：在适合打招呼的场合，对一位陌生人自然说声你好",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3348,8 +3471,10 @@
       },
       {
         "questId": "quest-connect-memory",
-        "title": "问熟悉的人是否记得一件共同小事；不方便就只写下来",
-        "description": "今天只完成这一件小事：问熟悉的人是否记得一件共同小事；不方便就只写下来。不需要留下照片或其他完成证明。",
+      "title": "排队或等电梯时说一句无害天气感想",
+      "description": "联络处批准了一次低压力社交尝试：“排队或等电梯时说一句无害天气感想”。只说一句或只做一次；对方不回应就自然结束，各走各的。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：排队或等电梯时说一句无害天气感想。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3369,26 +3494,27 @@
           "day",
           "night"
         ],
-        "steps": [
-          "问熟悉的人是否记得一件共同小事；不方便就只写下来",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“问熟悉的人是否记得一件共同小事；不方便就只写下来”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "排队或等电梯时说一句无害天气感想",
+        "只进行一次；对方不回应、不方便或现场气氛不合适，就微笑结束并离开。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“排队或等电梯时说一句无害天气感想”不需要照片、定位或他人证明。",
+      "abandonRule": "只尝试一次；对方不回应、表示不方便或你想离开，就立即结束，不扣 XP。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
-        "safetyTags": [
-          "no-purchase",
-          "no-photo-required",
-          "no-personal-data",
-          "safe-indoor",
-          "optional-social"
-        ],
+      "safetyTags": [
+        "no-purchase",
+        "no-photo-required",
+        "no-personal-data",
+        "safe-indoor",
+        "optional-social",
+        "stranger-interaction"
+      ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：问熟悉的人是否记得一件共同小事；不方便就只写下来",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“排队或等电梯时说一句无害天气感想”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：排队或等电梯时说一句无害天气感想",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3398,8 +3524,10 @@
       },
       {
         "questId": "quest-connect-recommend",
-        "title": "把最近喜欢的一首歌、文章或食物推荐给熟悉的人",
-        "description": "今天只完成这一件小事：把最近喜欢的一首歌、文章或食物推荐给熟悉的人。不需要留下照片或其他完成证明。",
+      "title": "在自然服务互动中，多说一句具体的谢谢",
+      "description": "联络处批准了一次低压力社交尝试：“在自然服务互动中，多说一句具体的谢谢”。只说一句或只做一次；对方不回应就自然结束，各走各的。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：在自然服务互动中，多说一句具体的谢谢。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3419,26 +3547,27 @@
           "day",
           "night"
         ],
-        "steps": [
-          "把最近喜欢的一首歌、文章或食物推荐给熟悉的人",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“把最近喜欢的一首歌、文章或食物推荐给熟悉的人”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在自然服务互动中，多说一句具体的谢谢",
+        "只进行一次；对方不回应、不方便或现场气氛不合适，就微笑结束并离开。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在自然服务互动中，多说一句具体的谢谢”不需要照片、定位或他人证明。",
+      "abandonRule": "只尝试一次；对方不回应、表示不方便或你想离开，就立即结束，不扣 XP。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
-        "safetyTags": [
-          "no-purchase",
-          "no-photo-required",
-          "no-personal-data",
-          "safe-indoor",
-          "optional-social"
-        ],
+      "safetyTags": [
+        "no-purchase",
+        "no-photo-required",
+        "no-personal-data",
+        "safe-indoor",
+        "optional-social",
+        "stranger-interaction"
+      ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：把最近喜欢的一首歌、文章或食物推荐给熟悉的人",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“在自然服务互动中，多说一句具体的谢谢”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：在自然服务互动中，多说一句具体的谢谢",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3448,8 +3577,10 @@
       },
       {
         "questId": "quest-connect-check-in",
-        "title": "给久未联系但关系安全的人发一句不施加回复压力的问候",
-        "description": "今天只完成这一件小事：给久未联系但关系安全的人发一句不施加回复压力的问候。不需要留下照片或其他完成证明。",
+      "title": "真诚夸一次陌生人的包、徽章或鞋子，不评价身体",
+      "description": "联络处批准了一次低压力社交尝试：“真诚夸一次陌生人的包、徽章或鞋子，不评价身体”。只说一句或只做一次；对方不回应就自然结束，各走各的。",
+      "tone": "growth",
+      "guildBrief": "成长委托：真诚夸一次陌生人的包、徽章或鞋子，不评价身体。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3468,26 +3599,27 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "给久未联系但关系安全的人发一句不施加回复压力的问候",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给久未联系但关系安全的人发一句不施加回复压力的问候”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "真诚夸一次陌生人的包、徽章或鞋子，不评价身体",
+        "只进行一次；对方不回应、不方便或现场气氛不合适，就微笑结束并离开。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“真诚夸一次陌生人的包、徽章或鞋子，不评价身体”不需要照片、定位或他人证明。",
+      "abandonRule": "只尝试一次；对方不回应、表示不方便或你想离开，就立即结束，不扣 XP。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
-        "safetyTags": [
-          "no-purchase",
-          "no-photo-required",
-          "no-personal-data",
-          "safe-indoor",
-          "optional-social"
-        ],
+      "safetyTags": [
+        "no-purchase",
+        "no-photo-required",
+        "no-personal-data",
+        "safe-indoor",
+        "optional-social",
+        "stranger-interaction"
+      ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给久未联系但关系安全的人发一句不施加回复压力的问候",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“真诚夸一次陌生人的包、徽章或鞋子，不评价身体”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：真诚夸一次陌生人的包、徽章或鞋子，不评价身体",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3497,8 +3629,10 @@
       },
       {
         "questId": "quest-connect-voice-note",
-        "title": "给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃",
-        "description": "今天只完成这一件小事：给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃。不需要留下照片或其他完成证明。",
+      "title": "在公共兴趣场景，对同好说一句关于共同兴趣的话",
+      "description": "联络处批准了一次低压力社交尝试：“在公共兴趣场景，对同好说一句关于共同兴趣的话”。只说一句或只做一次；对方不回应就自然结束，各走各的。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：在公共兴趣场景，对同好说一句关于共同兴趣的话。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3518,26 +3652,27 @@
           "day",
           "night"
         ],
-        "steps": [
-          "给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在公共兴趣场景，对同好说一句关于共同兴趣的话",
+        "只进行一次；对方不回应、不方便或现场气氛不合适，就微笑结束并离开。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在公共兴趣场景，对同好说一句关于共同兴趣的话”不需要照片、定位或他人证明。",
+      "abandonRule": "只尝试一次；对方不回应、表示不方便或你想离开，就立即结束，不扣 XP。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
-        "safetyTags": [
-          "no-purchase",
-          "no-photo-required",
-          "no-personal-data",
-          "safe-indoor",
-          "optional-social"
-        ],
+      "safetyTags": [
+        "no-purchase",
+        "no-photo-required",
+        "no-personal-data",
+        "safe-indoor",
+        "optional-social",
+        "stranger-interaction"
+      ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给愿意收语音的熟人录一段一分钟近况；发送前可重听或放弃",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“在公共兴趣场景，对同好说一句关于共同兴趣的话”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：在公共兴趣场景，对同好说一句关于共同兴趣的话",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3547,8 +3682,10 @@
       },
       {
         "questId": "quest-connect-question",
-        "title": "向熟悉的人问一个你确实想听答案的小问题",
-        "description": "今天只完成这一件小事：向熟悉的人问一个你确实想听答案的小问题。不需要留下照片或其他完成证明。",
+      "title": "像友善老邻居一样点头说早，但不假装认识",
+      "description": "联络处批准了一次低压力社交尝试：“像友善老邻居一样点头说早，但不假装认识”。只说一句或只做一次；对方不回应就自然结束，各走各的。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：像友善老邻居一样点头说早，但不假装认识。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3568,26 +3705,27 @@
           "day",
           "night"
         ],
-        "steps": [
-          "向熟悉的人问一个你确实想听答案的小问题",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“向熟悉的人问一个你确实想听答案的小问题”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "像友善老邻居一样点头说早，但不假装认识",
+        "只进行一次；对方不回应、不方便或现场气氛不合适，就微笑结束并离开。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“像友善老邻居一样点头说早，但不假装认识”不需要照片、定位或他人证明。",
+      "abandonRule": "只尝试一次；对方不回应、表示不方便或你想离开，就立即结束，不扣 XP。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
-        "safetyTags": [
-          "no-purchase",
-          "no-photo-required",
-          "no-personal-data",
-          "safe-indoor",
-          "optional-social"
-        ],
+      "safetyTags": [
+        "no-purchase",
+        "no-photo-required",
+        "no-personal-data",
+        "safe-indoor",
+        "optional-social",
+        "stranger-interaction"
+      ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：向熟悉的人问一个你确实想听答案的小问题",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“像友善老邻居一样点头说早，但不假装认识”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：像友善老邻居一样点头说早，但不假装认识",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3597,8 +3735,10 @@
       },
       {
         "questId": "quest-connect-photo-memory-no-upload",
-        "title": "看一张自己的旧照片，想起同行的人；不要求上传或发送",
-        "description": "今天只完成这一件小事：看一张自己的旧照片，想起同行的人；不要求上传或发送。不需要留下照片或其他完成证明。",
+      "title": "给熟悉的人发一句没有寒暄的具体感谢",
+      "description": "联络处批准了一次低压力社交尝试：“给熟悉的人发一句没有寒暄的具体感谢”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：给熟悉的人发一句没有寒暄的具体感谢。",
         "category": "connect",
         "timeCost": 5,
         "energyLevel": 1,
@@ -3618,12 +3758,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "看一张自己的旧照片，想起同行的人；不要求上传或发送",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“看一张自己的旧照片，想起同行的人；不要求上传或发送”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "给熟悉的人发一句没有寒暄的具体感谢",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“给熟悉的人发一句没有寒暄的具体感谢”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
         "safetyTags": [
@@ -3633,10 +3773,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：看一张自己的旧照片，想起同行的人；不要求上传或发送",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“给熟悉的人发一句没有寒暄的具体感谢”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：给熟悉的人发一句没有寒暄的具体感谢",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3646,8 +3786,10 @@
       },
       {
         "questId": "quest-connect-plan-small",
-        "title": "邀请熟悉的人约一个低压力的小活动，也允许对方拒绝",
-        "description": "今天只完成这一件小事：邀请熟悉的人约一个低压力的小活动，也允许对方拒绝。不需要留下照片或其他完成证明。",
+      "title": "问可信任的熟人：你觉得我哪里比去年进步了",
+      "description": "联络处批准了一次低压力社交尝试：“问可信任的熟人：你觉得我哪里比去年进步了”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：问可信任的熟人：你觉得我哪里比去年进步了。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3666,12 +3808,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "邀请熟悉的人约一个低压力的小活动，也允许对方拒绝",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“邀请熟悉的人约一个低压力的小活动，也允许对方拒绝”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "问可信任的熟人：你觉得我哪里比去年进步了",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“问可信任的熟人：你觉得我哪里比去年进步了”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
         "safetyTags": [
@@ -3682,10 +3824,10 @@
           "optional-social"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：邀请熟悉的人约一个低压力的小活动，也允许对方拒绝",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“问可信任的熟人：你觉得我哪里比去年进步了”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：问可信任的熟人：你觉得我哪里比去年进步了",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3695,8 +3837,10 @@
       },
       {
         "questId": "quest-connect-acknowledge",
-        "title": "对最近得到的一次帮助补一句具体确认",
-        "description": "今天只完成这一件小事：对最近得到的一次帮助补一句具体确认。不需要留下照片或其他完成证明。",
+      "title": "结账或离开时，对工作人员说一句祝你今天顺利",
+      "description": "联络处批准了一次低压力社交尝试：“结账或离开时，对工作人员说一句祝你今天顺利”。只说一句或只做一次；对方不回应就自然结束，各走各的。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：结账或离开时，对工作人员说一句祝你今天顺利。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 2,
@@ -3716,26 +3860,27 @@
           "day",
           "night"
         ],
-        "steps": [
-          "对最近得到的一次帮助补一句具体确认",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“对最近得到的一次帮助补一句具体确认”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "结账或离开时，对工作人员说一句祝你今天顺利",
+        "只进行一次；对方不回应、不方便或现场气氛不合适，就微笑结束并离开。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“结账或离开时，对工作人员说一句祝你今天顺利”不需要照片、定位或他人证明。",
+      "abandonRule": "只尝试一次；对方不回应、表示不方便或你想离开，就立即结束，不扣 XP。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
-        "safetyTags": [
-          "no-purchase",
-          "no-photo-required",
-          "no-personal-data",
-          "safe-indoor",
-          "optional-social"
-        ],
+      "safetyTags": [
+        "no-purchase",
+        "no-photo-required",
+        "no-personal-data",
+        "safe-indoor",
+        "optional-social",
+        "stranger-interaction"
+      ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：对最近得到的一次帮助补一句具体确认",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“结账或离开时，对工作人员说一句祝你今天顺利”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：结账或离开时，对工作人员说一句祝你今天顺利",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3745,8 +3890,10 @@
       },
       {
         "questId": "quest-connect-unsent-letter",
-        "title": "写三句想对熟悉的人说的话，可以不发送",
-        "description": "今天只完成这一件小事：写三句想对熟悉的人说的话，可以不发送。不需要留下照片或其他完成证明。",
+      "title": "写三句一直想说的话，决定发送或郑重不发送",
+      "description": "联络处批准了一次低压力社交尝试：“写三句一直想说的话，决定发送或郑重不发送”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：写三句一直想说的话，决定发送或郑重不发送。",
         "category": "connect",
         "timeCost": 10,
         "energyLevel": 1,
@@ -3766,12 +3913,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "写三句想对熟悉的人说的话，可以不发送",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“写三句想对熟悉的人说的话，可以不发送”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "写三句一直想说的话，决定发送或郑重不发送",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“写三句一直想说的话，决定发送或郑重不发送”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-connect",
         "safetyTags": [
@@ -3781,10 +3928,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：写三句想对熟悉的人说的话，可以不发送",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“写三句一直想说的话，决定发送或郑重不发送”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：写三句一直想说的话，决定发送或郑重不发送",
         "iconAssetId": "quest-icon-connect",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3794,8 +3941,10 @@
       },
       {
         "questId": "quest-kind-reset",
-        "title": "把共用空间里一件东西放回合适位置",
-        "description": "今天只完成这一件小事：把共用空间里一件东西放回合适位置。不需要留下照片或其他完成证明。",
+      "title": "把共用空间的一件迷路物品送回岗位",
+      "description": "善意处登记了一件不会惊动世界的小事：“把共用空间的一件迷路物品送回岗位”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：把共用空间的一件迷路物品送回岗位。",
         "category": "kind",
         "timeCost": 5,
         "energyLevel": 1,
@@ -3816,12 +3965,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "把共用空间里一件东西放回合适位置",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“把共用空间里一件东西放回合适位置”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把共用空间的一件迷路物品送回岗位",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把共用空间的一件迷路物品送回岗位”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -3833,10 +3982,10 @@
         "inapplicableConditions": [
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：把共用空间里一件东西放回合适位置",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“把共用空间的一件迷路物品送回岗位”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：把共用空间的一件迷路物品送回岗位",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3846,8 +3995,10 @@
       },
       {
         "questId": "quest-kind-refill",
-        "title": "在自己有责任的范围内补充一项共用消耗品",
-        "description": "今天只完成这一件小事：在自己有责任的范围内补充一项共用消耗品。不需要留下照片或其他完成证明。",
+      "title": "在责任范围内补上一项快用完的共用物品",
+      "description": "善意处登记了一件不会惊动世界的小事：“在责任范围内补上一项快用完的共用物品”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：在责任范围内补上一项快用完的共用物品。",
         "category": "kind",
         "timeCost": 10,
         "energyLevel": 1,
@@ -3868,12 +4019,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "在自己有责任的范围内补充一项共用消耗品",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在自己有责任的范围内补充一项共用消耗品”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在责任范围内补上一项快用完的共用物品",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在责任范围内补上一项快用完的共用物品”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -3885,10 +4036,10 @@
         "inapplicableConditions": [
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在自己有责任的范围内补充一项共用消耗品",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“在责任范围内补上一项快用完的共用物品”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：在责任范围内补上一项快用完的共用物品",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3898,8 +4049,10 @@
       },
       {
         "questId": "quest-kind-clear-path",
-        "title": "移开自己放在通道上的一个障碍物",
-        "description": "今天只完成这一件小事：移开自己放在通道上的一个障碍物。不需要留下照片或其他完成证明。",
+      "title": "移开自己留在通道上的一个小障碍",
+      "description": "善意处登记了一件不会惊动世界的小事：“移开自己留在通道上的一个小障碍”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：移开自己留在通道上的一个小障碍。",
         "category": "kind",
         "timeCost": 5,
         "energyLevel": 1,
@@ -3920,12 +4073,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "移开自己放在通道上的一个障碍物",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“移开自己放在通道上的一个障碍物”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "移开自己留在通道上的一个小障碍",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“移开自己留在通道上的一个小障碍”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -3937,10 +4090,10 @@
         "inapplicableConditions": [
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：移开自己放在通道上的一个障碍物",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“移开自己留在通道上的一个小障碍”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：移开自己留在通道上的一个小障碍",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -3950,8 +4103,10 @@
       },
       {
         "questId": "quest-kind-clean-small",
-        "title": "清洁一处自己使用后留下的小区域",
-        "description": "今天只完成这一件小事：清洁一处自己使用后留下的小区域。不需要留下照片或其他完成证明。",
+      "title": "把自己使用过的小区域恢复成无事发生",
+      "description": "善意处登记了一件不会惊动世界的小事：“把自己使用过的小区域恢复成无事发生”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：把自己使用过的小区域恢复成无事发生。",
         "category": "kind",
         "timeCost": 5,
         "energyLevel": 1,
@@ -3972,12 +4127,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "清洁一处自己使用后留下的小区域",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“清洁一处自己使用后留下的小区域”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把自己使用过的小区域恢复成无事发生",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把自己使用过的小区域恢复成无事发生”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -3989,10 +4144,10 @@
         "inapplicableConditions": [
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：清洁一处自己使用后留下的小区域",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“把自己使用过的小区域恢复成无事发生”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：把自己使用过的小区域恢复成无事发生",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4002,8 +4157,10 @@
       },
       {
         "questId": "quest-kind-label",
-        "title": "给容易拿错的一件共用物品加清楚文字标签",
-        "description": "今天只完成这一件小事：给容易拿错的一件共用物品加清楚文字标签。不需要留下照片或其他完成证明。",
+      "title": "给容易拿错的共用物品写一张笨但清楚的标签",
+      "description": "善意处登记了一件不会惊动世界的小事：“给容易拿错的共用物品写一张笨但清楚的标签”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：给容易拿错的共用物品写一张笨但清楚的标签。",
         "category": "kind",
         "timeCost": 10,
         "energyLevel": 1,
@@ -4024,12 +4181,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "给容易拿错的一件共用物品加清楚文字标签",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给容易拿错的一件共用物品加清楚文字标签”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "给容易拿错的共用物品写一张笨但清楚的标签",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“给容易拿错的共用物品写一张笨但清楚的标签”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -4041,10 +4198,10 @@
         "inapplicableConditions": [
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给容易拿错的一件共用物品加清楚文字标签",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“给容易拿错的共用物品写一张笨但清楚的标签”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：给容易拿错的共用物品写一张笨但清楚的标签",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4054,8 +4211,10 @@
       },
       {
         "questId": "quest-kind-return-cart",
-        "title": "如果刚好使用购物车或共享物品，把它归还指定位置",
-        "description": "今天只完成这一件小事：如果刚好使用购物车或共享物品，把它归还指定位置。不需要留下照片或其他完成证明。",
+      "title": "归还一次共享物品，并把它摆得特别端正",
+      "description": "善意处登记了一件不会惊动世界的小事：“归还一次共享物品，并把它摆得特别端正”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：归还一次共享物品，并把它摆得特别端正。",
         "category": "kind",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4076,12 +4235,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "如果刚好使用购物车或共享物品，把它归还指定位置",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“如果刚好使用购物车或共享物品，把它归还指定位置”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "归还一次共享物品，并把它摆得特别端正",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“归还一次共享物品，并把它摆得特别端正”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -4098,10 +4257,10 @@
           "unfamiliar-area",
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：如果刚好使用购物车或共享物品，把它归还指定位置",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“归还一次共享物品，并把它摆得特别端正”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：归还一次共享物品，并把它摆得特别端正",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4111,8 +4270,10 @@
       },
       {
         "questId": "quest-kind-quiet-setting",
-        "title": "在共用空间检查一次自己的声音或提示音是否过大",
-        "description": "今天只完成这一件小事：在共用空间检查一次自己的声音或提示音是否过大。不需要留下照片或其他完成证明。",
+      "title": "在共用空间主动把提示音调低一级",
+      "description": "善意处登记了一件不会惊动世界的小事：“在共用空间主动把提示音调低一级”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：在共用空间主动把提示音调低一级。",
         "category": "kind",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4134,12 +4295,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "在共用空间检查一次自己的声音或提示音是否过大",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在共用空间检查一次自己的声音或提示音是否过大”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在共用空间主动把提示音调低一级",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在共用空间主动把提示音调低一级”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -4156,10 +4317,10 @@
           "unfamiliar-area",
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在共用空间检查一次自己的声音或提示音是否过大",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“在共用空间主动把提示音调低一级”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：在共用空间主动把提示音调低一级",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4169,8 +4330,10 @@
       },
       {
         "questId": "quest-kind-information",
-        "title": "把一条对团队有用且确认无误的信息放到约定位置",
-        "description": "今天只完成这一件小事：把一条对团队有用且确认无误的信息放到约定位置。不需要留下照片或其他完成证明。",
+      "title": "把一条确认无误的有用信息送到约定位置",
+      "description": "善意处登记了一件不会惊动世界的小事：“把一条确认无误的有用信息送到约定位置”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：把一条确认无误的有用信息送到约定位置。",
         "category": "kind",
         "timeCost": 10,
         "energyLevel": 2,
@@ -4191,12 +4354,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "把一条对团队有用且确认无误的信息放到约定位置",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“把一条对团队有用且确认无误的信息放到约定位置”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把一条确认无误的有用信息送到约定位置",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把一条确认无误的有用信息送到约定位置”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -4209,10 +4372,10 @@
         "inapplicableConditions": [
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：把一条对团队有用且确认无误的信息放到约定位置",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“把一条确认无误的有用信息送到约定位置”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：把一条确认无误的有用信息送到约定位置",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4222,8 +4385,10 @@
       },
       {
         "questId": "quest-kind-thank-worker",
-        "title": "在自然发生服务互动时真诚说一句谢谢，不额外打扰",
-        "description": "今天只完成这一件小事：在自然发生服务互动时真诚说一句谢谢，不额外打扰。不需要留下照片或其他完成证明。",
+      "title": "自然互动时认真看着对方，说一次具体谢谢",
+      "description": "善意处登记了一件不会惊动世界的小事：“自然互动时认真看着对方，说一次具体谢谢”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：自然互动时认真看着对方，说一次具体谢谢。",
         "category": "kind",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4244,12 +4409,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "在自然发生服务互动时真诚说一句谢谢，不额外打扰",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在自然发生服务互动时真诚说一句谢谢，不额外打扰”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "自然互动时认真看着对方，说一次具体谢谢",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“自然互动时认真看着对方，说一次具体谢谢”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -4267,10 +4432,10 @@
           "unfamiliar-area",
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在自然发生服务互动时真诚说一句谢谢，不额外打扰",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“自然互动时认真看着对方，说一次具体谢谢”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：自然互动时认真看着对方，说一次具体谢谢",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4280,8 +4445,10 @@
       },
       {
         "questId": "quest-kind-leave-better",
-        "title": "离开一个自己使用的地方前，让它比来时整齐一点",
-        "description": "今天只完成这一件小事：离开一个自己使用的地方前，让它比来时整齐一点。不需要留下照片或其他完成证明。",
+      "title": "离开前让这个地方比来时好一点点",
+      "description": "善意处登记了一件不会惊动世界的小事：“离开前让这个地方比来时好一点点”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：离开前让这个地方比来时好一点点。",
         "category": "kind",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4303,12 +4470,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "离开一个自己使用的地方前，让它比来时整齐一点",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“离开一个自己使用的地方前，让它比来时整齐一点”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "离开前让这个地方比来时好一点点",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“离开前让这个地方比来时好一点点”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-kind",
         "safetyTags": [
@@ -4325,10 +4492,10 @@
           "unfamiliar-area",
           "shared-space-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：离开一个自己使用的地方前，让它比来时整齐一点",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“离开前让这个地方比来时好一点点”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：离开前让这个地方比来时好一点点",
         "iconAssetId": "quest-icon-kind",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4338,8 +4505,10 @@
       },
       {
         "questId": "quest-digital-one-notification",
-        "title": "关闭一个长期没有价值的非必要通知",
-        "description": "今天只完成这一件小事：关闭一个长期没有价值的非必要通知。不需要留下照片或其他完成证明。",
+      "title": "关闭一条长期骚扰你的非必要通知",
+      "description": "数字驿站发来一份轻量维护请求：“关闭一条长期骚扰你的非必要通知”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：关闭一条长期骚扰你的非必要通知。",
         "category": "digital",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4359,12 +4528,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "关闭一个长期没有价值的非必要通知",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“关闭一个长期没有价值的非必要通知”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "关闭一条长期骚扰你的非必要通知",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“关闭一条长期骚扰你的非必要通知”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4376,10 +4545,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：关闭一个长期没有价值的非必要通知",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“关闭一条长期骚扰你的非必要通知”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：关闭一条长期骚扰你的非必要通知",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4389,8 +4558,10 @@
       },
       {
         "questId": "quest-digital-home-screen",
-        "title": "把一个最常用工具放到更容易找到的位置",
-        "description": "今天只完成这一件小事：把一个最常用工具放到更容易找到的位置。不需要留下照片或其他完成证明。",
+      "title": "把最常用工具册封为手机首页首席大臣",
+      "description": "数字驿站发来一份轻量维护请求：“把最常用工具册封为手机首页首席大臣”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：把最常用工具册封为手机首页首席大臣。",
         "category": "digital",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4410,12 +4581,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "把一个最常用工具放到更容易找到的位置",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“把一个最常用工具放到更容易找到的位置”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把最常用工具册封为手机首页首席大臣",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把最常用工具册封为手机首页首席大臣”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4427,10 +4598,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：把一个最常用工具放到更容易找到的位置",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“把最常用工具册封为手机首页首席大臣”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：把最常用工具册封为手机首页首席大臣",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4440,8 +4611,10 @@
       },
       {
         "questId": "quest-digital-delete-five",
-        "title": "删除五张明确无用的截图或重复文件；不批量误删",
-        "description": "今天只完成这一件小事：删除五张明确无用的截图或重复文件；不批量误删。不需要留下照片或其他完成证明。",
+      "title": "删除五张无用截图，举办数字大扫除",
+      "description": "数字驿站发来一份轻量维护请求：“删除五张无用截图，举办数字大扫除”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：删除五张无用截图，举办数字大扫除。",
         "category": "digital",
         "timeCost": 10,
         "energyLevel": 1,
@@ -4461,12 +4634,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "删除五张明确无用的截图或重复文件；不批量误删",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“删除五张明确无用的截图或重复文件；不批量误删”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "删除五张无用截图，举办数字大扫除",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“删除五张无用截图，举办数字大扫除”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4478,10 +4651,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：删除五张明确无用的截图或重复文件；不批量误删",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“删除五张无用截图，举办数字大扫除”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：删除五张无用截图，举办数字大扫除",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4491,8 +4664,10 @@
       },
       {
         "questId": "quest-digital-name-file",
-        "title": "给一个重要但命名混乱的文件改成可搜索的名称",
-        "description": "今天只完成这一件小事：给一个重要但命名混乱的文件改成可搜索的名称。不需要留下照片或其他完成证明。",
+      "title": "给一个命名混乱的重要文件重新上户口",
+      "description": "数字驿站发来一份轻量维护请求：“给一个命名混乱的重要文件重新上户口”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：给一个命名混乱的重要文件重新上户口。",
         "category": "digital",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4512,12 +4687,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "给一个重要但命名混乱的文件改成可搜索的名称",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“给一个重要但命名混乱的文件改成可搜索的名称”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "给一个命名混乱的重要文件重新上户口",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“给一个命名混乱的重要文件重新上户口”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4529,10 +4704,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：给一个重要但命名混乱的文件改成可搜索的名称",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“给一个命名混乱的重要文件重新上户口”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：给一个命名混乱的重要文件重新上户口",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4542,8 +4717,10 @@
       },
       {
         "questId": "quest-digital-backup-check",
-        "title": "只检查一项重要资料是否已有可用备份，不上传新隐私",
-        "description": "今天只完成这一件小事：只检查一项重要资料是否已有可用备份，不上传新隐私。不需要留下照片或其他完成证明。",
+      "title": "检查一项重要资料的备份是否真的能找到",
+      "description": "数字驿站发来一份轻量维护请求：“检查一项重要资料的备份是否真的能找到”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：检查一项重要资料的备份是否真的能找到。",
         "category": "digital",
         "timeCost": 10,
         "energyLevel": 2,
@@ -4563,12 +4740,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "只检查一项重要资料是否已有可用备份，不上传新隐私",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“只检查一项重要资料是否已有可用备份，不上传新隐私”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "检查一项重要资料的备份是否真的能找到",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“检查一项重要资料的备份是否真的能找到”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4580,10 +4757,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：只检查一项重要资料是否已有可用备份，不上传新隐私",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“检查一项重要资料的备份是否真的能找到”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：检查一项重要资料的备份是否真的能找到",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4593,8 +4770,10 @@
       },
       {
         "questId": "quest-digital-unsubscribe",
-        "title": "取消一个确定不再需要的正规订阅邮件或消息",
-        "description": "今天只完成这一件小事：取消一个确定不再需要的正规订阅邮件或消息。不需要留下照片或其他完成证明。",
+      "title": "取消一封再也不想见到的正规订阅",
+      "description": "数字驿站发来一份轻量维护请求：“取消一封再也不想见到的正规订阅”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：取消一封再也不想见到的正规订阅。",
         "category": "digital",
         "timeCost": 10,
         "energyLevel": 1,
@@ -4614,12 +4793,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "取消一个确定不再需要的正规订阅邮件或消息",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“取消一个确定不再需要的正规订阅邮件或消息”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "取消一封再也不想见到的正规订阅",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“取消一封再也不想见到的正规订阅”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4631,10 +4810,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：取消一个确定不再需要的正规订阅邮件或消息",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“取消一封再也不想见到的正规订阅”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：取消一封再也不想见到的正规订阅",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4644,8 +4823,10 @@
       },
       {
         "questId": "quest-digital-tab-five",
-        "title": "关闭或收藏五个已经不需要同时打开的标签页",
-        "description": "今天只完成这一件小事：关闭或收藏五个已经不需要同时打开的标签页。不需要留下照片或其他完成证明。",
+      "title": "关闭五个标签页，释放被囚禁的浏览器内存",
+      "description": "数字驿站发来一份轻量维护请求：“关闭五个标签页，释放被囚禁的浏览器内存”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：关闭五个标签页，释放被囚禁的浏览器内存。",
         "category": "digital",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4665,12 +4846,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "关闭或收藏五个已经不需要同时打开的标签页",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“关闭或收藏五个已经不需要同时打开的标签页”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "关闭五个标签页，释放被囚禁的浏览器内存",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“关闭五个标签页，释放被囚禁的浏览器内存”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4682,10 +4863,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：关闭或收藏五个已经不需要同时打开的标签页",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“关闭五个标签页，释放被囚禁的浏览器内存”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：关闭五个标签页，释放被囚禁的浏览器内存",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4695,8 +4876,10 @@
       },
       {
         "questId": "quest-digital-password-plan",
-        "title": "列出一个需要更新安全设置的账号；不在任务日志写密码",
-        "description": "今天只完成这一件小事：列出一个需要更新安全设置的账号；不在任务日志写密码。不需要留下照片或其他完成证明。",
+      "title": "列出一个该更新安全设置的账号，不写任何密码",
+      "description": "数字驿站发来一份轻量维护请求：“列出一个该更新安全设置的账号，不写任何密码”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：列出一个该更新安全设置的账号，不写任何密码。",
         "category": "digital",
         "timeCost": 5,
         "energyLevel": 1,
@@ -4716,12 +4899,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "列出一个需要更新安全设置的账号；不在任务日志写密码",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“列出一个需要更新安全设置的账号；不在任务日志写密码”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "列出一个该更新安全设置的账号，不写任何密码",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“列出一个该更新安全设置的账号，不写任何密码”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4733,10 +4916,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：列出一个需要更新安全设置的账号；不在任务日志写密码",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“列出一个该更新安全设置的账号，不写任何密码”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：列出一个该更新安全设置的账号，不写任何密码",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4746,8 +4929,10 @@
       },
       {
         "questId": "quest-digital-focus-slot",
-        "title": "设一个十分钟勿扰时段，结束后自动恢复",
-        "description": "今天只完成这一件小事：设一个十分钟勿扰时段，结束后自动恢复。不需要留下照片或其他完成证明。",
+      "title": "开启十分钟勿扰结界，时间到自动解除",
+      "description": "数字驿站发来一份轻量维护请求：“开启十分钟勿扰结界，时间到自动解除”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：开启十分钟勿扰结界，时间到自动解除。",
         "category": "digital",
         "timeCost": 10,
         "energyLevel": 1,
@@ -4767,12 +4952,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "设一个十分钟勿扰时段，结束后自动恢复",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“设一个十分钟勿扰时段，结束后自动恢复”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "开启十分钟勿扰结界，时间到自动解除",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“开启十分钟勿扰结界，时间到自动解除”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4784,10 +4969,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：设一个十分钟勿扰时段，结束后自动恢复",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“开启十分钟勿扰结界，时间到自动解除”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：开启十分钟勿扰结界，时间到自动解除",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4797,8 +4982,10 @@
       },
       {
         "questId": "quest-digital-download-folder",
-        "title": "把下载目录中三个文件归到正确位置",
-        "description": "今天只完成这一件小事：把下载目录中三个文件归到正确位置。不需要留下照片或其他完成证明。",
+      "title": "把下载目录三个文件遣返回正确领地",
+      "description": "数字驿站发来一份轻量维护请求：“把下载目录三个文件遣返回正确领地”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：把下载目录三个文件遣返回正确领地。",
         "category": "digital",
         "timeCost": 10,
         "energyLevel": 1,
@@ -4818,12 +5005,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "把下载目录中三个文件归到正确位置",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“把下载目录中三个文件归到正确位置”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "把下载目录三个文件遣返回正确领地",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“把下载目录三个文件遣返回正确领地”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-digital",
         "safetyTags": [
@@ -4835,10 +5022,10 @@
         "inapplicableConditions": [
           "screen-unavailable"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：把下载目录中三个文件归到正确位置",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“把下载目录三个文件遣返回正确领地”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：把下载目录三个文件遣返回正确领地",
         "iconAssetId": "quest-icon-digital",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4848,8 +5035,10 @@
       },
       {
         "questId": "quest-adventure-new-turn",
-        "title": "白天在熟悉安全区域选择一个以前没走的小转角",
-        "description": "今天只完成这一件小事：白天在熟悉安全区域选择一个以前没走的小转角。不需要留下照片或其他完成证明。",
+      "title": "白天在熟悉区域拐进一个从没走过的安全转角",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“白天在熟悉区域拐进一个从没走过的安全转角”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：白天在熟悉区域拐进一个从没走过的安全转角。",
         "category": "adventure",
         "timeCost": 15,
         "energyLevel": 2,
@@ -4868,12 +5057,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "白天在熟悉安全区域选择一个以前没走的小转角",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“白天在熟悉安全区域选择一个以前没走的小转角”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "白天在熟悉区域拐进一个从没走过的安全转角",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“白天在熟悉区域拐进一个从没走过的安全转角”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -4888,10 +5077,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：白天在熟悉安全区域选择一个以前没走的小转角",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“白天在熟悉区域拐进一个从没走过的安全转角”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：白天在熟悉区域拐进一个从没走过的安全转角",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4901,8 +5090,10 @@
       },
       {
         "questId": "quest-adventure-floor",
-        "title": "在允许进入的熟悉建筑里去一个平常很少经过的公共楼层",
-        "description": "今天只完成这一件小事：在允许进入的熟悉建筑里去一个平常很少经过的公共楼层。不需要留下照片或其他完成证明。",
+      "title": "去熟悉建筑里一个平常少经过的公共楼层",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“去熟悉建筑里一个平常少经过的公共楼层”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：去熟悉建筑里一个平常少经过的公共楼层。",
         "category": "adventure",
         "timeCost": 10,
         "energyLevel": 2,
@@ -4921,12 +5112,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "在允许进入的熟悉建筑里去一个平常很少经过的公共楼层",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在允许进入的熟悉建筑里去一个平常很少经过的公共楼层”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "去熟悉建筑里一个平常少经过的公共楼层",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“去熟悉建筑里一个平常少经过的公共楼层”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -4936,10 +5127,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在允许进入的熟悉建筑里去一个平常很少经过的公共楼层",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“去熟悉建筑里一个平常少经过的公共楼层”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：去熟悉建筑里一个平常少经过的公共楼层",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4949,8 +5140,10 @@
       },
       {
         "questId": "quest-adventure-reverse-route",
-        "title": "用相反顺序走一遍熟悉且安全的室内路线",
-        "description": "今天只完成这一件小事：用相反顺序走一遍熟悉且安全的室内路线。不需要留下照片或其他完成证明。",
+      "title": "用相反顺序走一遍熟悉室内路线",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“用相反顺序走一遍熟悉室内路线”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：用相反顺序走一遍熟悉室内路线。",
         "category": "adventure",
         "timeCost": 10,
         "energyLevel": 1,
@@ -4970,12 +5163,12 @@
           "day",
           "night"
         ],
-        "steps": [
-          "用相反顺序走一遍熟悉且安全的室内路线",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“用相反顺序走一遍熟悉且安全的室内路线”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "用相反顺序走一遍熟悉室内路线",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“用相反顺序走一遍熟悉室内路线”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -4985,10 +5178,10 @@
           "safe-indoor"
         ],
         "inapplicableConditions": [],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：用相反顺序走一遍熟悉且安全的室内路线",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“用相反顺序走一遍熟悉室内路线”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：用相反顺序走一遍熟悉室内路线",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -4998,8 +5191,10 @@
       },
       {
         "questId": "quest-adventure-color-hunt",
-        "title": "出门或在室内寻找五个同色但不同用途的物品",
-        "description": "今天只完成这一件小事：出门或在室内寻找五个同色但不同用途的物品。不需要留下照片或其他完成证明。",
+      "title": "寻找五个同色不同用途的现实道具",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“寻找五个同色不同用途的现实道具”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：寻找五个同色不同用途的现实道具。",
         "category": "adventure",
         "timeCost": 15,
         "energyLevel": 2,
@@ -5019,12 +5214,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "出门或在室内寻找五个同色但不同用途的物品",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“出门或在室内寻找五个同色但不同用途的物品”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "寻找五个同色不同用途的现实道具",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“寻找五个同色不同用途的现实道具”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -5040,10 +5235,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：出门或在室内寻找五个同色但不同用途的物品",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“寻找五个同色不同用途的现实道具”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：寻找五个同色不同用途的现实道具",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -5053,8 +5248,10 @@
       },
       {
         "questId": "quest-adventure-sign-story",
-        "title": "选一个熟悉区域的旧招牌，想象它见过的一天",
-        "description": "今天只完成这一件小事：选一个熟悉区域的旧招牌，想象它见过的一天。不需要留下照片或其他完成证明。",
+      "title": "选一块旧招牌，想象它昨晚秘密开过会",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“选一块旧招牌，想象它昨晚秘密开过会”。不求感谢、不留证明，让善意自然发生后就离场。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：选一块旧招牌，想象它昨晚秘密开过会。",
         "category": "adventure",
         "timeCost": 10,
         "energyLevel": 1,
@@ -5074,12 +5271,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "选一个熟悉区域的旧招牌，想象它见过的一天",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“选一个熟悉区域的旧招牌，想象它见过的一天”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "选一块旧招牌，想象它昨晚秘密开过会",
+        "把善意控制在不打扰的范围，做完便离开，不索取回应。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“选一块旧招牌，想象它昨晚秘密开过会”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -5095,10 +5292,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：选一个熟悉区域的旧招牌，想象它见过的一天",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“选一块旧招牌，想象它昨晚秘密开过会”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：选一块旧招牌，想象它昨晚秘密开过会",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -5108,8 +5305,10 @@
       },
       {
         "questId": "quest-adventure-door-count",
-        "title": "在安全公共路线数一数十扇不同的门，不进入私人区域",
-        "description": "今天只完成这一件小事：在安全公共路线数一数十扇不同的门，不进入私人区域。不需要留下照片或其他完成证明。",
+      "title": "在安全公共路线数十扇门，但不闯任何副本",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“在安全公共路线数十扇门，但不闯任何副本”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：在安全公共路线数十扇门，但不闯任何副本。",
         "category": "adventure",
         "timeCost": 10,
         "energyLevel": 1,
@@ -5129,12 +5328,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "在安全公共路线数一数十扇不同的门，不进入私人区域",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在安全公共路线数一数十扇不同的门，不进入私人区域”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在安全公共路线数十扇门，但不闯任何副本",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在安全公共路线数十扇门，但不闯任何副本”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -5150,10 +5349,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在安全公共路线数一数十扇不同的门，不进入私人区域",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“在安全公共路线数十扇门，但不闯任何副本”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：在安全公共路线数十扇门，但不闯任何副本",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -5163,8 +5362,10 @@
       },
       {
         "questId": "quest-adventure-bench-pause",
-        "title": "白天在熟悉公开地点找安全座位停留五分钟",
-        "description": "今天只完成这一件小事：白天在熟悉公开地点找安全座位停留五分钟。不需要留下照片或其他完成证明。",
+      "title": "在熟悉公开地点坐五分钟，假装自己是隐藏 NPC",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“在熟悉公开地点坐五分钟，假装自己是隐藏 NPC”。认真演完这段荒唐，普通日常就会短暂获得剧情。",
+      "tone": "absurd",
+      "guildBrief": "异常委托：在熟悉公开地点坐五分钟，假装自己是隐藏 NPC。",
         "category": "adventure",
         "timeCost": 10,
         "energyLevel": 1,
@@ -5183,12 +5384,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "白天在熟悉公开地点找安全座位停留五分钟",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“白天在熟悉公开地点找安全座位停留五分钟”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在熟悉公开地点坐五分钟，假装自己是隐藏 NPC",
+        "完成后给这段行动起一个荒唐但正式的任务名，然后立刻收工。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在熟悉公开地点坐五分钟，假装自己是隐藏 NPC”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -5203,10 +5404,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：白天在熟悉公开地点找安全座位停留五分钟",
+      "acceptText": "荒唐度合格，我愿意认真演这一小段。",
+      "completionText": "“在熟悉公开地点坐五分钟，假装自己是隐藏 NPC”已登记，今日地图多了一处亮点。",
+      "abandonText": "今日荒唐额度暂时不足，委托原样退回。",
+      "shareText": "地球 Online 异常支线完成：在熟悉公开地点坐五分钟，假装自己是隐藏 NPC",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -5216,8 +5417,10 @@
       },
       {
         "questId": "quest-adventure-no-headphones",
-        "title": "在熟悉安全的短路线暂时不戴耳机，留意环境声音",
-        "description": "今天只完成这一件小事：在熟悉安全的短路线暂时不戴耳机，留意环境声音。不需要留下照片或其他完成证明。",
+      "title": "在安全短路线上摘下耳机，接收现实世界音轨",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“在安全短路线上摘下耳机，接收现实世界音轨”。只挑战一次已经算赢，任何不舒服都可以立刻撤退。",
+      "tone": "courage",
+      "guildBrief": "勇气委托：在安全短路线上摘下耳机，接收现实世界音轨。",
         "category": "adventure",
         "timeCost": 10,
         "energyLevel": 2,
@@ -5236,12 +5439,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "在熟悉安全的短路线暂时不戴耳机，留意环境声音",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“在熟悉安全的短路线暂时不戴耳机，留意环境声音”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "在安全短路线上摘下耳机，接收现实世界音轨",
+        "只尝试一次；环境不舒服、对方不回应或你改变主意，就直接结束。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“在安全短路线上摘下耳机，接收现实世界音轨”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -5256,10 +5459,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：在熟悉安全的短路线暂时不戴耳机，留意环境声音",
+      "acceptText": "只挑战一次，我保留随时撤退的权利。",
+      "completionText": "“在安全短路线上摘下耳机，接收现实世界音轨”已登记，今日地图多了一处亮点。",
+      "abandonText": "勇气不必硬撑，这次撤退依然是有效判断。",
+      "shareText": "地球 Online 勇气支线完成：在安全短路线上摘下耳机，接收现实世界音轨",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -5269,8 +5472,10 @@
       },
       {
         "questId": "quest-adventure-three-landmarks",
-        "title": "找出熟悉路线上的三个方向标记，想象如何说给朋友听",
-        "description": "今天只完成这一件小事：找出熟悉路线上的三个方向标记，想象如何说给朋友听。不需要留下照片或其他完成证明。",
+      "title": "向合适场景里的一位陌生人问一句真实的方向问题",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“向合适场景里的一位陌生人问一句真实的方向问题”。只说一句或只做一次；对方不回应就自然结束，各走各的。",
+      "tone": "kindness",
+      "guildBrief": "善意委托：向合适场景里的一位陌生人问一句真实的方向问题。",
         "category": "adventure",
         "timeCost": 10,
         "energyLevel": 1,
@@ -5278,7 +5483,7 @@
         "environments": [
           "outdoor"
         ],
-        "socialLevel": "solo",
+      "socialLevel": "optional",
         "costRequired": false,
         "maxCost": 0,
         "difficulty": "tiny",
@@ -5289,30 +5494,31 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "找出熟悉路线上的三个方向标记，想象如何说给朋友听",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“找出熟悉路线上的三个方向标记，想象如何说给朋友听”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "向合适场景里的一位陌生人问一句真实的方向问题",
+        "只进行一次；对方不回应、不方便或现场气氛不合适，就微笑结束并离开。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“向合适场景里的一位陌生人问一句真实的方向问题”不需要照片、定位或他人证明。",
+      "abandonRule": "只尝试一次；对方不回应、表示不方便或你想离开，就立即结束，不扣 XP。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
-        "safetyTags": [
-          "no-purchase",
-          "no-photo-required",
-          "no-personal-data",
-          "daylight-only",
-          "familiar-area-only",
-          "public-area-only"
-        ],
+      "safetyTags": [
+        "no-purchase",
+        "no-photo-required",
+        "no-personal-data",
+        "daylight-only",
+        "familiar-area-only",
+        "public-area-only",
+        "stranger-interaction"
+      ],
         "inapplicableConditions": [
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：找出熟悉路线上的三个方向标记，想象如何说给朋友听",
+      "acceptText": "不打扰、不求回报，我接下这份善意。",
+      "completionText": "“向合适场景里的一位陌生人问一句真实的方向问题”已登记，今日地图多了一处亮点。",
+      "abandonText": "不合适的善意不会勉强发生，任务平安退回。",
+      "shareText": "地球 Online 善意支线完成：向合适场景里的一位陌生人问一句真实的方向问题",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -5322,8 +5528,10 @@
       },
       {
         "questId": "quest-adventure-tiny-souvenir",
-        "title": "从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品",
-        "description": "今天只完成这一件小事：从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品。不需要留下照片或其他完成证明。",
+      "title": "带回一句文字记忆，不捡走任何现实战利品",
+      "description": "地图边缘出现了一个安全可撤退的小问号：“带回一句文字记忆，不捡走任何现实战利品”。把范围锁小，完成后允许这点进步正式算数。",
+      "tone": "growth",
+      "guildBrief": "成长委托：带回一句文字记忆，不捡走任何现实战利品。",
         "category": "adventure",
         "timeCost": 10,
         "energyLevel": 1,
@@ -5343,12 +5551,12 @@
         "times": [
           "day"
         ],
-        "steps": [
-          "从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品",
-          "做到标题所述的这一小步就停下，不额外扩大任务范围。"
-        ],
-        "completionMethod": "完成“从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品”所描述的动作即可，无需提交证明。",
-        "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
+      "steps": [
+        "带回一句文字记忆，不捡走任何现实战利品",
+        "用一句话确认刚才发生了什么，不追加更大的目标。"
+      ],
+      "completionMethod": "完成纸上的两步即可；“带回一句文字记忆，不捡走任何现实战利品”不需要照片、定位或他人证明。",
+      "abandonRule": "随时可以放弃或更换，不扣 XP，也不影响连续完成记录。",
         "cooldownDays": 7,
         "recentRepeatTag": "category-adventure",
         "safetyTags": [
@@ -5364,10 +5572,10 @@
           "unsafe-weather",
           "unfamiliar-area"
         ],
-        "acceptText": "这件事现在做得到，我接下了。",
-        "completionText": "这一小步已经完成，任务结算。",
-        "abandonText": "今天不适合这件事，平安放回任务板。",
-        "shareText": "地球 Online 支线完成：从旅程带回一个不占空间的文字记忆，不捡走自然或公共物品",
+      "acceptText": "把进度缩小到能完成，我现在开始。",
+      "completionText": "“带回一句文字记忆，不捡走任何现实战利品”已登记，今日地图多了一处亮点。",
+      "abandonText": "今天先停在这里，已经拥有的进度不会被扣除。",
+      "shareText": "地球 Online 成长支线完成：带回一句文字记忆，不捡走任何现实战利品",
         "iconAssetId": "quest-icon-adventure",
         "relatedBadgeIds": [
           "badge-first-quest"
@@ -5448,6 +5656,210 @@
         "description": "首发任务不得要求消费。",
         "neverRelax": true
       }
-    ]
+    ],
+    "ui": {
+      "brand": {
+        "eyebrow": "地球 Online · 现实支线公会",
+        "shortTitle": "地球 Online",
+        "navigationLabel": "公会导航",
+        "title": "主线不用着急，先来领一个小任务。",
+        "description": "根据你此刻的时间、精力和环境，从 100 项本地安全任务里匹配一件今天做得到的小事。"
+      },
+      "navigation": [
+        { "id": "guildHall", "label": "大厅" },
+        { "id": "questHistory", "label": "日志" },
+        { "id": "badgeList", "label": "图鉴" },
+        { "id": "adventurerProfile", "label": "档案" }
+      ],
+      "intro": {
+        "name": "弥拉",
+        "role": "冒险者公会委托官",
+        "helpLabel": "询问弥拉",
+        "lines": [
+          "主线不用着急，先来领一个小任务。",
+          "每张委托都会写明耗时、地点和安全边界，只发放你现在做得到的任务。",
+          "不合适就换一张或随时放回；没有扣分，也不需要上传任何完成证明。"
+        ],
+        "skipLabel": "跳过引导",
+        "nextLabel": "下一句",
+        "finishLabel": "去登记状态"
+      },
+      "hud": {
+        "adventurerLabel": "冒险者",
+        "guideLabel": "公会向导",
+        "talkLabel": "交谈"
+      },
+      "pages": {
+        "guildHall": { "eyebrow": "现实支线公会", "title": "冒险者公会大厅", "description": "现实世界很大，今天完成一件小事就够了。" },
+        "preferenceSelect": { "eyebrow": "今日登记", "title": "今天适合怎样的小冒险？", "description": "告诉任务板你现在有多少时间和精力；选择只保存在本机。" },
+        "matching": { "eyebrow": "正在翻找任务纸", "title": "正在核对这些条件", "description": "这里只核对真实条件，不显示虚假的匹配百分比。" },
+        "questOffer": { "eyebrow": "今日支线", "title": "找到一张适合现在的任务纸", "description": "可以接取、换一张，或告诉公会这类任务今天不适合。" },
+        "questAccepted": { "eyebrow": "当前支线", "title": "任务纸已经交到你手上", "description": "不用定位、计时或提交证明；做到纸上写的那一步就算完成。" },
+        "questComplete": { "eyebrow": "任务结算", "title": "这一小步已经算数", "description": "经验和新徽记只结算一次；等级只记录探索投入。" },
+        "questAbandoned": { "eyebrow": "安全放回", "title": "今天不做这件事，也完全可以", "description": "放回不扣分，也不会抹去已经完成的任务。" },
+        "adventurerProfile": { "eyebrow": "本机档案", "title": "冒险者档案", "description": "等级记录已经完成的小任务，不评价能力、人格或价值。" },
+        "questHistory": { "eyebrow": "本机记录", "title": "在地球上，做过的一些小事", "description": "完成、放回和更换可以并存；这里不是连续打卡表。" },
+        "badgeList": { "eyebrow": "走过的方向", "title": "类别图鉴与公会徽记", "description": "它们不是战斗力，只是你曾经走过的方向。" },
+        "error": { "eyebrow": "安全回退", "title": "公会暂时无法发放这张任务纸", "description": "安全条件不会为了凑出结果而放宽；可以返回修改今天的状态。" }
+      },
+      "actions": {
+        "start": "登记今日状态",
+        "continueQuest": "继续当前任务",
+        "openCheckIn": "重新登记今日状态",
+        "useLastState": "沿用上次状态",
+        "match": "去任务板",
+        "skipMatching": "跳过动画",
+        "accept": "接取这项支线",
+        "swap": "换一张任务纸",
+        "unsuitable": "这类任务今天不适合",
+        "complete": "我完成了",
+        "confirmComplete": "确认完成并结算",
+        "abandon": "放回任务板",
+        "confirmAbandon": "确认放回 · 不扣 XP",
+        "logQuest": "收入冒险日志",
+        "again": "再领一项任务",
+        "backHall": "回到公会大厅",
+        "retry": "重新尝试",
+        "temporary": "进入当前会话临时任务",
+        "reset": "确认重置本机记录",
+        "nextGuide": "下一句",
+        "skipGuide": "跳过引导",
+        "close": "关闭",
+        "undo": "撤销这项偏好",
+        "saveFeedback": "保存偏好并换一张"
+      },
+      "helpDialogue": {
+        "prompt": "冒险者，任务板还有哪里让你困惑？挑一个话题，我尽量说得像地球人一点。",
+        "answerEyebrow": "弥拉的说明",
+        "closeLabel": "结束交谈"
+      },
+      "help": [
+        { "id": "conditions", "title": "任务条件怎样决定？", "body": "公会按你登记的时间、精力、环境、社交意愿和目标筛选，不读取定位。" },
+        { "id": "safety", "title": "任务不安全怎么办？", "body": "立即停止或放回任务；安全、地点、预算和明确社交边界永远不会为匹配而放宽。" },
+        { "id": "rank", "title": "E / D / C 代表什么？", "body": "它们只表示时间和行动投入量，不是能力、人格、稀有度或战斗力。" },
+        { "id": "storage", "title": "公会保存了什么？", "body": "只保存任务 ID、状态、数值和时间，不保存图片、定位、个人资料或完成证明。" },
+        { "id": "withdraw", "title": "放回任务有什么影响？", "body": "不会扣 XP，也不打断已有记录；可选原因只帮助下一次推荐。" }
+      ],
+      "reasons": {
+        "too-tiring": "实际比预想更累",
+        "environment": "当前环境不合适",
+        "no-time": "临时没有时间",
+        "changed-mind": "只是改变主意",
+        "unsafe-now": "当前环境让我觉得不安全"
+      },
+      "notices": {
+        "privacy": "所有匹配都在本机完成；不调用定位，不上传个人资料。",
+        "noProof": "不启动定位、不强制计时，也不上传照片或完成凭证。",
+        "noPressure": "没有连续签到、断签或放弃惩罚；今天停下也算照顾自己。",
+        "temporary": "这张任务纸还没写进本机记录。临时模式关闭页面后会消失，也不会结算永久 XP 或徽记。",
+        "indexedDb": "长期冒险日志当前不可用；本轮仍可使用本机有限记录，稍后可以重试。"
+      },
+      "checkIn": {
+        "legends": {
+          "time": "可用时间",
+          "energy": "当前精力",
+          "environment": "当前环境",
+          "social": "社交意愿",
+          "goal": "现在更想",
+          "dayPart": "当前时间段"
+        },
+        "timeLabels": { "5": "5 分钟", "10": "10 分钟", "15": "15 分钟", "20": "20 分钟" },
+        "energyLabels": ["很低", "一般", "不错"],
+        "environmentLabels": { "indoor": "仅室内", "outdoor": "白天可在熟悉公开区域外出" },
+        "socialLabels": { "none": "想独处", "optional": "一次轻互动也可以" },
+        "dayPartLabels": { "day": "白天", "night": "夜间" }
+      },
+      "quest": {
+        "labels": {
+          "rank": "投入等级",
+          "time": "时间",
+          "energy": "精力",
+          "environment": "环境",
+          "social": "社交",
+          "budget": "预算",
+          "why": "为什么推荐",
+          "relaxed": "这次轻微放宽",
+          "kept": "始终保留",
+          "steps": "完成步骤",
+          "exit": "退出条件"
+        },
+        "tones": {
+          "absurd": "异常委托",
+          "courage": "勇气挑战",
+          "kindness": "善意支线",
+          "growth": "成长试炼"
+        },
+        "values": {
+          "ranks": { "tiny": "E 级", "light": "D 级", "standard": "C 级", "brave": "未来等级" },
+          "energy": { "1": "低精力", "2": "一般精力", "3": "较高精力" },
+          "environment": { "indoor": "室内", "outdoor": "熟悉公开区域" },
+          "social": { "solo": "无需互动", "optional": "一次可退出互动", "required": "需要互动" },
+          "free": "0 元"
+        },
+        "neverRelaxed": ["现实安全", "时间上限", "熟悉地点", "0 元预算", "明确社交边界"]
+      },
+      "matching": {
+        "stages": {
+          "exact": { "reason": "时间、精力、地点和目标都正合适。", "relaxed": [] },
+          "goal-relaxed": { "reason": "暂时放宽目标类型，其他硬条件保持不变。", "relaxed": ["目标类型"] },
+          "energy-relaxed": { "reason": "选择了不超过当前精力的更轻任务。", "relaxed": ["精力贴合度"] },
+          "recent-relaxed": { "reason": "安全候选较少，按最旧优先放宽近期去重。", "relaxed": ["近期展示与放弃记录"] },
+          "safe-fallback": { "reason": "进入低压力安全回退池，全部硬条件仍然有效。", "relaxed": ["目标类型", "精力贴合度", "近期展示与放弃记录", "完成冷却"] }
+        },
+        "positive": {
+          "goal": "符合你现在想做的事",
+          "time": "可在 {minutes} 分钟内完成",
+          "solo": "无需他人配合",
+          "optional": "允许一次低压力、可退出互动"
+        },
+        "noMatch": {
+          "reason": "没有任务能同时满足当前全部硬条件。",
+          "neverRelaxed": ["安全", "时间", "地点", "预算", "社交意愿"]
+        }
+      },
+      "sheets": {
+        "completeTitle": "确认完成这项支线？",
+        "completeBody": "只需按自己的判断确认；公会不要求定位、计时、照片或其他完成证明。",
+        "abandonTitle": "把这张任务纸安全放回",
+        "abandonBody": "放回不扣 XP，也不会抹去已经完成的记录。原因可以不选。",
+        "unsuitableTitle": "帮助公会少发这类任务",
+        "unsuitableBody": "这只是可撤销的本机偏好，不会永久删除整个类别，也不会覆盖安全规则。",
+        "unsafeAdvice": "如果此刻感到不安全，请立即停止任务并离开当前情境；不需要完成任何步骤。",
+        "reasonLegend": "今天不适合的原因",
+        "optionalReason": "暂不选择原因"
+      },
+      "archive": {
+        "filters": { "all": "全部", "completed": "完成", "abandoned": "放回", "swapped": "更换" },
+        "statuses": { "completed": "已完成", "abandoned": "已放回", "swapped": "已更换" },
+        "empty": "日志还是空白的。第一件小事完成后，会在这里留下纸页。",
+        "removedQuest": "已下线任务",
+        "xp": "经验",
+        "completedCount": "累计完成",
+        "categoryCount": "完成次数",
+        "categoryEmpty": "尚未走过这个方向",
+        "unlocked": "已获得",
+        "locked": "尚未获得",
+        "badgeCondition": "解锁条件"
+      },
+      "profile": {
+        "level": "当前等级",
+        "totalXp": "总经验",
+        "levelProgress": "本级进度",
+        "nextLevel": "距离下一级",
+        "completed": "累计完成",
+        "currentRecord": "当前连续记录",
+        "bestRecord": "最佳连续记录",
+        "days": "天",
+        "explanation": "等级与记录只描述已投入的探索；间隔或放回任务不会扣除已有成果。"
+      },
+      "recovery": {
+        "noMatchTitle": "这次没有同时满足条件的任务",
+        "temporaryTitle": "需要改用当前会话临时任务",
+        "storageTitle": "本机记录需要你确认后再处理",
+        "contentTitle": "内容包没有通过安全校验",
+        "indexedDbTitle": "长期日志暂时不可用",
+        "resetWarning": "重置会清除地球 Online 的本机任务进度与结构化反馈；确认前不会覆盖原始记录。"
+      }
+    }
   }
 }

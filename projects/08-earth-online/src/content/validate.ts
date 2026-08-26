@@ -1,5 +1,5 @@
-import { DIFFICULTIES, ENERGY_LEVELS, ENVIRONMENTS, LOCATIONS, QUEST_CATEGORIES, SOCIAL_LEVELS, TIME_COSTS, TIMES_OF_DAY } from './schema'
-import type { EarthOnlineContent, Quest, ValidationIssue, ValidationResult } from './schema'
+import { ACTION_COPY_IDS, DIFFICULTIES, ENERGY_LEVELS, ENVIRONMENTS, LOCATIONS, PAGE_COPY_IDS, QUEST_CATEGORIES, QUEST_TONES, SOCIAL_LEVELS, TIME_COSTS, TIMES_OF_DAY, UNSUITABLE_REASONS } from './schema'
+import type { EarthOnlineContent, Quest, UiContent, ValidationIssue, ValidationResult } from './schema'
 
 const idPattern = /^[a-z][a-z0-9-]*$/
 const taskAssetPattern = /^quest-icon-[a-z][a-z0-9-]*$/
@@ -20,6 +20,8 @@ export function validateContent(input: unknown, mode: 'envelope' | 'production' 
   const content = input as unknown as EarthOnlineContent
   const requiredRoots = ['categories', 'goals', 'badges', 'tasks', 'filters', 'safetyRules'] as const
   for (const key of requiredRoots) if (!Array.isArray(content.content[key])) issues.push({ path: `$.content.${key}`, message: '必须为数组' })
+  if (!isRecord(content.content.ui)) issues.push({ path: '$.content.ui', message: '缺少完整 UI 文案' })
+  else validateUi(content.content.ui, issues)
   if (!Array.isArray(content.content.tasks)) return result(issues)
   if (content.content.tasks.length !== 100) issues.push({ path: '$.content.tasks', message: '首发任务必须恰好 100 条' })
 
@@ -30,6 +32,31 @@ export function validateContent(input: unknown, mode: 'envelope' | 'production' 
   return result(issues)
 }
 
+function validateUi(ui: UiContent, issues: ValidationIssue[]): void {
+  if (!isRecord(ui.brand) || Object.values(ui.brand).some((value) => !nonEmpty(value))) issues.push({ path: '$.content.ui.brand', message: '品牌文案不完整' })
+  const navigationIds = Array.isArray(ui.navigation) ? ui.navigation.map(({ id }) => id) : []
+  if (navigationIds.join(',') !== 'guildHall,questHistory,badgeList,adventurerProfile' || ui.navigation.some(({ label }) => !nonEmpty(label))) issues.push({ path: '$.content.ui.navigation', message: '导航文案不完整或顺序错误' })
+  if (!isRecord(ui.intro) || !Array.isArray(ui.intro.lines) || ui.intro.lines.length !== 3 || ui.intro.lines.some((line) => !nonEmpty(line)) || !nonEmpty(ui.intro.name) || !nonEmpty(ui.intro.role) || !nonEmpty(ui.intro.helpLabel) || !nonEmpty(ui.intro.skipLabel) || !nonEmpty(ui.intro.nextLabel) || !nonEmpty(ui.intro.finishLabel)) issues.push({ path: '$.content.ui.intro', message: '首次引导必须包含身份、操作与三句文案' })
+  if (!isRecord(ui.hud) || !allRecordStrings(ui.hud)) issues.push({ path: '$.content.ui.hud', message: '顶栏身份文案不完整' })
+  validateCopyRecord(ui.pages, PAGE_COPY_IDS, '$.content.ui.pages', issues, (value) => isRecord(value) && nonEmpty(value.eyebrow) && nonEmpty(value.title) && nonEmpty(value.description))
+  validateCopyRecord(ui.actions, ACTION_COPY_IDS, '$.content.ui.actions', issues, nonEmpty)
+  validateCopyRecord(ui.reasons, UNSUITABLE_REASONS, '$.content.ui.reasons', issues, nonEmpty)
+  if (!isRecord(ui.helpDialogue) || !allRecordStrings(ui.helpDialogue)) issues.push({ path: '$.content.ui.helpDialogue', message: '弥拉会面对话文案不完整' })
+  if (!Array.isArray(ui.help) || ui.help.length !== 5 || ui.help.some((item) => !isRecord(item) || !nonEmpty(item.id) || !nonEmpty(item.title) || !nonEmpty(item.body))) issues.push({ path: '$.content.ui.help', message: '帮助内容必须恰好五项' })
+  if (!isRecord(ui.notices) || ['privacy', 'noProof', 'noPressure', 'temporary', 'indexedDb'].some((key) => !nonEmpty(ui.notices[key as keyof UiContent['notices']]))) issues.push({ path: '$.content.ui.notices', message: '隐私与恢复提示不完整' })
+  if (!isRecord(ui.checkIn) || !isRecord(ui.checkIn.legends) || Object.values(ui.checkIn.legends).some((value) => !nonEmpty(value)) || !Array.isArray(ui.checkIn.energyLabels) || ui.checkIn.energyLabels.length !== 3) issues.push({ path: '$.content.ui.checkIn', message: '状态登记文案不完整' })
+  if (!isRecord(ui.quest) || !isRecord(ui.quest.labels) || Object.values(ui.quest.labels).some((value) => !nonEmpty(value)) || !isRecord(ui.quest.tones) || QUEST_TONES.some((tone) => !nonEmpty(ui.quest.tones[tone])) || !isRecord(ui.quest.values) || !Array.isArray(ui.quest.neverRelaxed) || ui.quest.neverRelaxed.length !== 5 || ui.quest.neverRelaxed.some((value) => !nonEmpty(value))) issues.push({ path: '$.content.ui.quest', message: '任务纸文案不完整' })
+  if (!isRecord(ui.matching) || !isRecord(ui.matching.stages) || Object.values(ui.matching.stages).some((stage) => !isRecord(stage) || !nonEmpty(stage.reason) || !Array.isArray(stage.relaxed)) || !allRecordStrings(ui.matching.positive) || !isRecord(ui.matching.noMatch) || !nonEmpty(ui.matching.noMatch.reason) || !Array.isArray(ui.matching.noMatch.neverRelaxed) || ui.matching.noMatch.neverRelaxed.length !== 5) issues.push({ path: '$.content.ui.matching', message: '匹配解释文案不完整' })
+  if (!allRecordStrings(ui.sheets)) issues.push({ path: '$.content.ui.sheets', message: '确认弹层文案不完整' })
+  if (!isRecord(ui.archive) || !allRecordStrings(ui.archive.filters) || !allRecordStrings(ui.archive.statuses) || Object.entries(ui.archive).some(([key, value]) => !['filters', 'statuses'].includes(key) && !nonEmpty(value))) issues.push({ path: '$.content.ui.archive', message: '日志与图鉴文案不完整' })
+  if (!allRecordStrings(ui.profile)) issues.push({ path: '$.content.ui.profile', message: '档案文案不完整' })
+  if (!allRecordStrings(ui.recovery)) issues.push({ path: '$.content.ui.recovery', message: '恢复文案不完整' })
+}
+
+function validateCopyRecord<T extends string>(value: unknown, keys: readonly T[], path: string, issues: ValidationIssue[], valid: (entry: unknown) => boolean): void {
+  if (!isRecord(value) || keys.some((key) => !valid(value[key])) || Object.keys(value).some((key) => !keys.includes(key as T))) issues.push({ path, message: '文案键不完整或包含未知项' })
+}
+
 function validateQuest(quest: Quest, index: number, issues: ValidationIssue[], questIds: Set<string>, badgeIds: Set<string>, goalIds: Set<string>): void {
   const base = `$.content.tasks[${index}]`
   if (!idPattern.test(quest.questId ?? '')) issues.push({ path: `${base}.questId`, message: '任务 ID 必须为 kebab-case' })
@@ -37,6 +64,8 @@ function validateQuest(quest: Quest, index: number, issues: ValidationIssue[], q
   questIds.add(quest.questId)
   if (!nonEmpty(quest.title)) issues.push({ path: `${base}.title`, message: '标题不能为空' })
   if (!nonEmpty(quest.description)) issues.push({ path: `${base}.description`, message: '描述不能为空' })
+  enumValue(quest.tone, QUEST_TONES, `${base}.tone`, issues)
+  if (!nonEmpty(quest.guildBrief) || quest.guildBrief.trim().length < 8 || quest.guildBrief.trim().length > 64) issues.push({ path: `${base}.guildBrief`, message: '公会简报必须为 8–64 字' })
   enumValue(quest.category, QUEST_CATEGORIES, `${base}.category`, issues)
   enumValue(quest.timeCost, TIME_COSTS, `${base}.timeCost`, issues)
   enumValue(quest.energyLevel, ENERGY_LEVELS, `${base}.energyLevel`, issues)
@@ -70,5 +99,6 @@ function arrayEnums<T>(value: unknown, allowed: readonly T[], path: string, issu
   if (!Array.isArray(value) || value.length === 0 || value.some((item) => !allowed.includes(item as T))) issues.push({ path, message: '枚举数组非法或为空' })
 }
 function nonEmpty(value: unknown): value is string { return typeof value === 'string' && value.trim().length > 0 }
+function allRecordStrings(value: unknown): boolean { return isRecord(value) && Object.keys(value).length > 0 && Object.values(value).every(nonEmpty) }
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === 'object' && value !== null && !Array.isArray(value) }
 function result(issues: ValidationIssue[]): ValidationResult { return { ok: issues.length === 0, issues } }

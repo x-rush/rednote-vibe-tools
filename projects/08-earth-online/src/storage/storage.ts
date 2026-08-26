@@ -1,4 +1,5 @@
-import type { QuestHistoryEntry, StoragePayload } from '../content/schema'
+import { QUEST_CATEGORIES } from '../content/schema'
+import type { GuildSettings, QuestHistoryEntry, StoragePayload } from '../content/schema'
 
 export const STORAGE_KEY = 'xhs-tool:earth-online:state:v1'
 export const STORAGE_SCHEMA_VERSION = 1 as const
@@ -52,6 +53,17 @@ function sanitizePayload(data: Record<string, unknown>, validQuestIds: ReadonlyS
     streak: { current: nonNegative(data.streak.current), best: nonNegative(data.streak.best), lastCompletionDate: typeof data.streak.lastCompletionDate === 'string' ? data.streak.lastCompletionDate : undefined },
     unlockedBadgeIds: data.unlockedBadgeIds.filter((id): id is string => typeof id === 'string').slice(0, 100),
     rngState: Math.max(0, Math.floor(data.rngState)) >>> 0,
+    settings: sanitizeSettings(data.settings),
+  }
+}
+
+function sanitizeSettings(value: unknown): GuildSettings {
+  if (!isRecord(value)) return { hasSeenGuide: false, softAvoidCategoryIds: [] }
+  return {
+    hasSeenGuide: value.hasSeenGuide === true,
+    softAvoidCategoryIds: Array.isArray(value.softAvoidCategoryIds)
+      ? [...new Set(value.softAvoidCategoryIds.filter((id): id is GuildSettings['softAvoidCategoryIds'][number] => QUEST_CATEGORIES.includes(id as GuildSettings['softAvoidCategoryIds'][number])))].slice(0, QUEST_CATEGORIES.length)
+      : [],
   }
 }
 

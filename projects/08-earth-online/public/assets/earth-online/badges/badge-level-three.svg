@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+  <title>熟练冒险者</title>
+  <path d="m24 5 13 6v10c0 8-5 13-13 17-8-4-13-9-13-17V11l13-6Z"/>
+  <path d="m24 11 9 4v7c0 5-3 9-9 12-6-3-9-7-9-12v-7l9-4Z"/>
+  <path d="M20 18c1-2 7-2 8 0 0 2-2 3-4 3 3 0 5 2 5 4 0 3-2 5-5 5-2 0-4-1-5-3"/>
+</svg>

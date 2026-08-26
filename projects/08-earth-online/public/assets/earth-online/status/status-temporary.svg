@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+  <title>临时任务</title>
+  <path d="M9 9h24v30H9z" stroke-dasharray="4 4"/>
+  <circle cx="34" cy="31" r="9"/>
+  <path d="M34 26v6l4 2M13 16h14M13 22h10"/>
+</svg>

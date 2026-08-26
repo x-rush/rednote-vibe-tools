@@ -27,10 +27,19 @@ describe('versioned local storage', () => {
     const quotaStorage = { getItem: () => null, removeItem: () => undefined, setItem: () => { throw new Error('quota') } }
     expect(saveState(quotaStorage, { schemaVersion: 1, contentVersion: '1.0.0', updatedAt: '2026-08-24T09:00:00.000Z', data: payload() })).toEqual({ ok: false, reason: 'quota-or-unavailable' })
   })
+
+  it('loads legacy schema-v1 state with safe default guild settings', () => {
+    const legacy = payload() as Partial<StoragePayload>
+    delete legacy.settings
+    const storage = memoryStorage(JSON.stringify({ schemaVersion: 1, contentVersion: '1.0.0', updatedAt: '2026-08-24T09:00:00.000Z', data: legacy }))
+    const loaded = loadState(storage, new Set(['quest-rest-window-color']))
+    expect(loaded.status).toBe('ok')
+    if (loaded.status === 'ok') expect(loaded.envelope.data.settings).toEqual({ hasSeenGuide: false, softAvoidCategoryIds: [] })
+  })
 })
 
 function payload(): StoragePayload {
-  return { preference: { minutes: 10, energy: 1, environment: 'indoor', social: 'none', spend: 'none', timeOfDay: 'day', location: 'familiar-indoor', goalId: 'relax', excludedConditions: [] }, recentQuestIds: [], completedQuestIds: [], history: [], xp: 0, streak: { current: 0, best: 0 }, unlockedBadgeIds: [], rngState: 1 }
+  return { preference: { minutes: 10, energy: 1, environment: 'indoor', social: 'none', spend: 'none', timeOfDay: 'day', location: 'familiar-indoor', goalId: 'relax', excludedConditions: [] }, recentQuestIds: [], completedQuestIds: [], history: [], xp: 0, streak: { current: 0, best: 0 }, unlockedBadgeIds: [], rngState: 1, settings: { hasSeenGuide: false, softAvoidCategoryIds: [] } }
 }
 
 function memoryStorage(initial?: string): Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> {

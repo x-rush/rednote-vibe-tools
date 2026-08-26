@@ -1,4 +1,4 @@
-import type { CompletedQuest, MatchStage, NoMatch, Quest, QuestHistoryEntry, QuestMatch, QuestPreference } from '../content/schema'
+import type { CompletedQuest, MatchStage, NoMatch, Quest, QuestHistoryEntry, QuestMatch, QuestPreference, UiContent } from '../content/schema'
 import { hashSeed, nextRandom } from './random'
 
 export type MatchContext = {
@@ -8,13 +8,16 @@ export type MatchContext = {
   completed: CompletedQuest[]
   abandoned: QuestHistoryEntry[]
   previousCategoryIds: Quest['category'][]
+  softAvoidCategoryIds: Quest['category'][]
+  copy: UiContent['matching']
 }
 
 const requiredSafety = ['no-purchase', 'no-photo-required', 'no-personal-data']
+const qualityBand = 15
 
 export function matchQuest(quests: Quest[], preference: QuestPreference, context: MatchContext): QuestMatch | NoMatch {
   const hardPool = quests.filter((quest) => passesHardConditions(quest, preference))
-  if (hardPool.length === 0) return noMatch()
+  if (hardPool.length === 0) return noMatch(context.copy)
 
   const recent = new Set(context.recentQuestIds.slice(-3))
   const abandoned = new Set(context.abandoned.filter((entry) => daysBetween(entry.occurredAt.slice(0, 10), context.nowDate) <= 7).map((entry) => entry.questId))
@@ -25,22 +28,34 @@ export function matchQuest(quests: Quest[], preference: QuestPreference, context
   const clean = (quest: Quest) => !recent.has(quest.questId) && !abandoned.has(quest.questId) && !cooling.has(quest.questId)
 
   const stages: { stage: MatchStage; candidates: Quest[]; relaxed: string[]; reasons: string[] }[] = [
-    { stage: 'exact', candidates: hardPool.filter((quest) => clean(quest) && quest.energyLevel === preference.energy && quest.goalIds.includes(preference.goalId)), relaxed: [], reasons: ['时间、精力、地点和目标都正合适。'] },
-    { stage: 'goal-relaxed', candidates: hardPool.filter((quest) => clean(quest) && quest.energyLevel === preference.energy), relaxed: ['目标类型'], reasons: ['暂时放宽目标类型，其他硬条件保持不变。'] },
-    { stage: 'energy-relaxed', candidates: hardPool.filter(clean), relaxed: ['精力贴合度'], reasons: ['选择了不超过当前精力的更轻任务。'] },
-    { stage: 'recent-relaxed', candidates: hardPool.filter((quest) => !cooling.has(quest.questId)), relaxed: ['近期展示与放弃记录'], reasons: ['安全候选较少，按最旧优先放宽近期去重。'] },
-    { stage: 'safe-fallback', candidates: hardPool, relaxed: ['目标类型', '精力贴合度', '近期展示与放弃记录', '完成冷却'], reasons: ['进入低压力安全回退池，全部硬条件仍然有效。'] },
+    stage('exact', hardPool.filter((quest) => clean(quest) && quest.energyLevel === preference.energy && quest.goalIds.includes(preference.goalId)), context.copy),
+    stage('goal-relaxed', hardPool.filter((quest) => clean(quest) && quest.energyLevel === preference.energy), context.copy),
+    stage('energy-relaxed', hardPool.filter(clean), context.copy),
+    stage('recent-relaxed', hardPool.filter((quest) => !cooling.has(quest.questId)), context.copy),
+    stage('safe-fallback', hardPool, context.copy),
   ]
   const selectedStage = stages.find(({ candidates }) => candidates.length > 0)
-  if (!selectedStage) return noMatch()
+  if (!selectedStage) return noMatch(context.copy)
 
   const ranked = selectedStage.candidates.map((quest) => ({ quest, score: scoreQuest(quest, preference, context, recent, abandoned, cooling) }))
   const bestScore = Math.max(...ranked.map(({ score }) => score))
-  const best = ranked.filter(({ score }) => score === bestScore).sort((left, right) => left.quest.questId.localeCompare(right.quest.questId))
+  const qualityPool = ranked.filter(({ score }) => score >= bestScore - qualityBand).sort((left, right) => left.quest.questId.localeCompare(right.quest.questId))
   const random = nextRandom(hashSeed(context.seed))
-  const chosen = best[Math.floor(random.value * best.length)]
-  return { kind: 'match', quest: chosen.quest, score: chosen.score, stage: selectedStage.stage, reasons: [...selectedStage.reasons, ...positiveReasons(chosen.quest, preference)], relaxed: selectedStage.relaxed, nextSeed: random.state }
+  const chosen = chooseWeighted(qualityPool, bestScore, random.value)
+  return { kind: 'match', quest: chosen.quest, score: chosen.score, stage: selectedStage.stage, reasons: [...selectedStage.reasons, ...positiveReasons(chosen.quest, preference, context.copy)], relaxed: selectedStage.relaxed, nextSeed: random.state }
 }
+
+function chooseWeighted<T extends { score: number }>(candidates: T[], bestScore: number, randomValue: number): T {
+  const weighted = candidates.map((candidate) => ({ candidate, weight: qualityBand + 1 - (bestScore - candidate.score) }))
+  let cursor = randomValue * weighted.reduce((sum, { weight }) => sum + weight, 0)
+  for (const { candidate, weight } of weighted) {
+    cursor -= weight
+    if (cursor < 0) return candidate
+  }
+  return weighted.at(-1)!.candidate
+}
+
+function stage(stageId: MatchStage, candidates: Quest[], copy: UiContent['matching']) { return { stage: stageId, candidates, relaxed: copy.stages[stageId].relaxed, reasons: [copy.stages[stageId].reason] } }
 
 function passesHardConditions(quest: Quest, preference: QuestPreference): boolean {
   if (!quest.approved || requiredSafety.some((tag) => !quest.safetyTags.includes(tag))) return false
@@ -63,12 +78,13 @@ function scoreQuest(quest: Quest, preference: QuestPreference, context: MatchCon
   if (abandoned.has(quest.questId)) score -= 25
   if (cooling.has(quest.questId)) score -= 35
   if (context.previousCategoryIds.at(-1) === quest.category) score -= 10
+  if (context.softAvoidCategoryIds.includes(quest.category)) score -= 15
   return score
 }
 
-function positiveReasons(quest: Quest, preference: QuestPreference): string[] {
-  const reasons = [`可在${quest.timeCost}分钟内完成`, quest.socialLevel === 'solo' ? '无需他人配合' : '只与熟悉的人自愿互动']
-  if (quest.goalIds.includes(preference.goalId)) reasons.unshift('符合你现在想做的事')
+function positiveReasons(quest: Quest, preference: QuestPreference, copy: UiContent['matching']): string[] {
+  const reasons = [copy.positive.time.replace('{minutes}', String(quest.timeCost)), quest.socialLevel === 'solo' ? copy.positive.solo : copy.positive.optional]
+  if (quest.goalIds.includes(preference.goalId)) reasons.unshift(copy.positive.goal)
   return reasons
 }
 
@@ -76,6 +92,6 @@ function daysBetween(from: string, to: string): number {
   return Math.floor((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000)
 }
 
-function noMatch(): NoMatch {
-  return { kind: 'no-match', reasons: ['没有任务能同时满足当前全部硬条件。'], neverRelaxed: ['安全', '时间', '地点', '预算', '社交意愿'] }
+function noMatch(copy: UiContent['matching']): NoMatch {
+  return { kind: 'no-match', reasons: [copy.noMatch.reason], neverRelaxed: copy.noMatch.neverRelaxed }
 }

@@ -1,5 +1,6 @@
-import type { ActiveQuest, BadgeDefinition, Quest, QuestCategory, QuestHistoryEntry, QuestMatch, QuestPreference, StreakState } from '../content/schema'
+import type { ActiveQuest, BadgeDefinition, GuildSettings, Quest, QuestCategory, QuestHistoryEntry, QuestMatch, QuestPreference, StreakState } from '../content/schema'
 import { levelFromXp, unlockedBadges, updateStreak } from './progression'
+import { createRandomSeed } from './random'
 
 export type GuildDomainState = {
   preference: QuestPreference
@@ -14,12 +15,27 @@ export type GuildDomainState = {
   unlockedBadgeIds: string[]
   rngState: number
   categoryCompletionCounts: Partial<Record<QuestCategory, number>>
+  settings: GuildSettings
 }
 export type CompletionResult = { state: GuildDomainState; awardedXp: number; newlyUnlockedBadgeIds: string[]; alreadyCompleted: boolean }
 export type QuestHistorySummary = { total: number; completed: number; abandoned: number; swapped: number; earnedXp: number; entries: { questId: string; title: string; status: QuestHistoryEntry['status']; occurredAt: string }[] }
 
-export function createGuildState(preference: QuestPreference, rngState: number): GuildDomainState {
-  return { preference, recentQuestIds: [], completedQuestIds: [], history: [], xp: 0, streak: { current: 0, best: 0 }, unlockedBadgeIds: [], rngState, categoryCompletionCounts: {} }
+export function createGuildState(preference: QuestPreference, rngState: number = createRandomSeed()): GuildDomainState {
+  return { preference, recentQuestIds: [], completedQuestIds: [], history: [], xp: 0, streak: { current: 0, best: 0 }, unlockedBadgeIds: [], rngState, categoryCompletionCounts: {}, settings: { hasSeenGuide: false, softAvoidCategoryIds: [] } }
+}
+
+export function setGuideSeen(state: GuildDomainState): GuildDomainState {
+  return state.settings.hasSeenGuide ? state : { ...state, settings: { ...state.settings, hasSeenGuide: true } }
+}
+
+export function setSoftAvoidCategory(state: GuildDomainState, category: QuestCategory): GuildDomainState {
+  if (state.settings.softAvoidCategoryIds.includes(category)) return state
+  return { ...state, settings: { ...state.settings, softAvoidCategoryIds: [...state.settings.softAvoidCategoryIds, category] } }
+}
+
+export function undoSoftAvoidCategory(state: GuildDomainState, category: QuestCategory): GuildDomainState {
+  if (!state.settings.softAvoidCategoryIds.includes(category)) return state
+  return { ...state, settings: { ...state.settings, softAvoidCategoryIds: state.settings.softAvoidCategoryIds.filter((id) => id !== category) } }
 }
 
 export function offerQuest(state: GuildDomainState, match: QuestMatch, offeredAt: string): GuildDomainState {
@@ -59,14 +75,14 @@ export function completeQuest(state: GuildDomainState, quest: Quest, badges: Bad
   return { state: { ...state, activeQuest: undefined, history, xp, streak, unlockedBadgeIds: nextBadgeIds, completedQuestIds, categoryCompletionCounts }, awardedXp: quest.xp, newlyUnlockedBadgeIds, alreadyCompleted: false }
 }
 
-export function summarizeHistory(history: QuestHistoryEntry[], questsById: ReadonlyMap<string, Quest>): QuestHistorySummary {
+export function summarizeHistory(history: QuestHistoryEntry[], questsById: ReadonlyMap<string, Quest>, removedQuestTitle: string): QuestHistorySummary {
   return {
     total: history.length,
     completed: history.filter(({ status }) => status === 'completed').length,
     abandoned: history.filter(({ status }) => status === 'abandoned').length,
     swapped: history.filter(({ status }) => status === 'swapped').length,
     earnedXp: history.reduce((sum, { xpAwarded }) => sum + xpAwarded, 0),
-    entries: history.map((entry) => ({ questId: entry.questId, title: questsById.get(entry.questId)?.title ?? '已下线任务', status: entry.status, occurredAt: entry.occurredAt })),
+    entries: history.map((entry) => ({ questId: entry.questId, title: questsById.get(entry.questId)?.title ?? removedQuestTitle, status: entry.status, occurredAt: entry.occurredAt })),
   }
 }
 

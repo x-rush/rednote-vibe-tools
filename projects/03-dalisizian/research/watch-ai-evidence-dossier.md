@@ -34,4 +34,11 @@
 
 ## 生成记录
 
-正式生成后逐图记录输出路径、最终提示词、WebP 哈希、大小与皿部轮廓结论。
+| 资源 | image_gen 原图 | WebP SHA-256 | 字节 | 核验结论 |
+|---|---|---|---:|---|
+| `form` | `exec-d7dfcb8d-fd59-482e-9a67-be8d6b285d49.png` | `981c9bd8a9c99035d414cdce12fd65b1630d3329002c43ced6e8d52ec0d6f3d2` | 111100 | 三期監形分片保留人目／皿关系；水面无倒影。 |
+| `gloss` | `exec-2e252754-0169-4015-bde7-2e471a3cd81b.png` | `de97869d253acb944401a6209f795622208dbf65f791f2c4e3e529d37fb8ee90` | 75682 | 帛卷向低位铜盆展开，卷面无可读文字。 |
+| `mirror-relation` | `exec-733a05ef-677f-4ab1-a2bf-26567fef863c.png` | `7e908efd35306dc50bd9813ac7400a438e28e3b169dc18149cbaa1a19e6299d5` | 74406 | 铜鉴背面、水盆、空签物理关联，镜水均无人像。 |
+| `modern-story` | `exec-d3ec6243-029c-477d-aaf0-9c037d72303c.png` | `aee6616a700fae5b5bf19026922a26e2ef52b4aacdf4ed10f78c2fa84036a34d` | 86532 | 传闻札被铜鉴和观察卷压住，断绳阻断单线故事。 |
+
+四图均由内置 `image_gen` 独立生成，离线转为 1080×720 WebP（quality 78）。

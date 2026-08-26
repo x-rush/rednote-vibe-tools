@@ -10,6 +10,8 @@ export function evaluateCondition(
   if ('not' in condition) return !evaluateCondition(condition.not, state, completedCaseIds)
   if (condition.field === 'flags') return (state.flags[condition.key] ?? false) === condition.value
   if (condition.field === 'deductionAnswers') return state.deductionAnswers[condition.key] === condition.value
+  if (condition.field === 'firstDeductionAnswers') return state.firstDeductionAnswers[condition.key] === condition.value
+  if (condition.field === 'deductionAttempts') return (state.deductionAttempts[condition.key] ?? 0) <= condition.value
 
   const values = condition.field === 'completedCaseIds' ? completedCaseIds : state[condition.field]
   const includes = values.includes(condition.value)

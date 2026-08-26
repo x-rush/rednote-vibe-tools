@@ -13,6 +13,9 @@ const state: CaseRuntimeState = {
   unlockedSceneIds: ['scene-home-court'],
   visitedNodeIds: ['node-home-00'],
   deductionAnswers: { 'deduction-home-method': 'option-home-method-b' },
+  deductionAttempts: {},
+  firstDeductionAnswers: {},
+  reviewedRouteIds: [],
   styleTags: [],
   completed: false,
 }
@@ -55,5 +58,20 @@ describe('finite condition expressions', () => {
     }
 
     expect(getAvailableOptions(node, state, contentIndex).map((option) => option.id)).toEqual(['choice-open'])
+  })
+
+  it('evaluates first answers, attempt counts, reviewed routes, and style tags', () => {
+    const stateV2 = {
+      ...state,
+      deductionAttempts: { 'deduction-home-method': 2 },
+      firstDeductionAnswers: { 'deduction-home-method': 'option-home-method-a' },
+      reviewedRouteIds: ['route-home-form'],
+      styleTags: ['形证派', '审慎派'],
+    }
+
+    expect(evaluateCondition({ field: 'firstDeductionAnswers', operator: 'answer-is', key: 'deduction-home-method', value: 'option-home-method-a' }, stateV2)).toBe(true)
+    expect(evaluateCondition({ field: 'deductionAttempts', operator: 'at-most', key: 'deduction-home-method', value: 2 }, stateV2)).toBe(true)
+    expect(evaluateCondition({ field: 'reviewedRouteIds', operator: 'includes', value: 'route-home-form' }, stateV2)).toBe(true)
+    expect(evaluateCondition({ field: 'styleTags', operator: 'includes', value: '审慎派' }, stateV2)).toBe(true)
   })
 })

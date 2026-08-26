@@ -1,5 +1,52 @@
 # 大理寺字案录 · 第二轮视觉与交互审查
 
+状态：`PRODUCTION QA PASSED`
+最新生产复检：`2026-08-26`
+
+## 汉字故事卷与案件证据海报复检 / 2026-08-26
+
+- 图鉴已从“点击即弹战绩卡”改为“点击阅读汉字故事卷”；首案实测完整展示坊间传言、3 段案件专属调查发现、最终判词、争议留白、初终判记录与重审入口。
+- 未结案槽位只显示封条状态；模型测试确认不产生 `story` 数据，不泄露故事、线索或判词。
+- 战绩卡升级为案件证据海报：加入本案真相短句、3 枚线索签、朱线、初终判轨迹和断案钤记，同时保持 3:4 截图比例。
+- 375／390／430 CSS px 故事卷均满足 `scrollWidth === innerWidth`，内容最右边界分别小于 364／379／415px；3 个故事章节齐全，可见按钮最小高度 48px。
+- 分享卡三宽实测比例均约为 `0.75`，左右边界均在视口内；390px 纯净模式隐藏工具栏和操作按钮。
+- `prefers-reduced-motion: reduce` 下故事封面与分享层动画均关闭；浏览器控制台 0 error／0 warning。
+- 截图：`output/playwright/dalisizian-story-375.png`、`dalisizian-story-390.png`、`dalisizian-story-430.png`、`dalisizian-share-card-story-390.png`、`dalisizian-share-card-story-clean-390.png`。
+
+## 追线索剧情逻辑 V2 复检 / 2026-08-26
+
+- 真实 React 应用以非默认顺序完成首案三路调查；进入材料页不会自动取得证据，点击归档动作后证据簿才递增。
+- 故意在第一道推理选择错误关系后，页面显示案件专属的断链原因和“回查「验字形」”；走完复核路线后自动返回原题，已有 3 条线索与 4 份证物均未丢失。
+- 回查后完成正确边界判断与终判，结案页显示 `90 / 100`，其中首次方法题的 10 分未补回、有效回查获得 10 分；评分明细与首次答案记录一致。
+- 落印后自动进入 8 格断案图鉴并打开 3:4 战绩卡；卡片显示“明镜高悬 · 90/100、3 条线索、4 份证物”，刷新后首页仍显示图鉴 `1/8`。
+- 375／390／430 CSS px 调查板截图均无横向溢出；390px 结案页 `scrollWidth=clientWidth=390`，最小可见按钮 48px。375px 与 430px 复测同样满足 `scrollWidth=clientWidth`。
+- `prefers-reduced-motion: reduce` 实测生效，交互过渡计算值约为 `0.00001s`；浏览器网络记录仅包含当前本地源的脚本、内容 JSON 与打包资源，无 CDN 或必需外部 API 请求。
+- 全流程控制台 0 error／0 warning；新版推理题正文已确认优先于旧节点桥接文案显示。
+- 截图：`output/playwright/dalisizian-investigation-v2-375.png`、`dalisizian-investigation-v2-390.png`、`dalisizian-investigation-v2-430.png`、`dalisizian-review-v2-390.png`、`dalisizian-ending-v2-390.png`、`dalisizian-share-card-v2-390.png`。
+
+## 生产 UI 最终复检 / 2026-08-26
+
+- 真实 React 应用已接入三幅 1600×1000 场景、三类人物母版／头像／占位和统一资源回退；首案从案库到 100 分结案完整跑通。
+- 375px：`documentWidth=375`、内容最右边界 `363.8125`、主操作最小高度 48px、0 可见破图、3 张生产资源加载。
+- 390px：`documentWidth=390`、内容最右边界 `378.8125`、主操作最小高度 48px、0 可见破图、3 张生产资源加载。
+- 430px：`documentWidth=430`、内容最右边界 `418.8125`、主操作最小高度 48px、0 可见破图、3 张生产资源加载。
+- 帮助纸层通过首焦点、Tab／Shift+Tab 环绕、Escape 关闭和焦点归还；通知层不拦截底层导航。
+- 对话快速双击只推进一个节点；错误推理留在原问题并保留 3 份证据；落印中按钮锁定，720ms 后归档并解锁下一案。
+- 全场景／人物请求阻断时，场景牌、人物姓名和选项仍完整可玩，页面无浏览器破图；减少动态模式约 30ms 完成等价推进。
+- `design/preview-v2.html` 的 19 状态、问案堂／坊间背景和关键点击演示均通过三宽回归。
+
+## 断案图鉴与分享卡复检 / 2026-08-26
+
+- 八格图鉴在 375／390／430 px 均为 1 个已收录、7 个封存槽位；未结案不泄露分数或判词。
+- 三宽 `documentWidth === innerWidth`，图鉴内容最右边界分别为 363／374／414px，最小可见按钮高度 48px，0 可见破图。
+- 分享卡实测宽高比均为 0.75；初判、终判、96 分、3 条线索与 4 份证物均来自结构化结案记录。
+- 纯净模式隐藏工具栏与操作区，卡片左右边界保持在视口内；刷新后 IndexedDB 明细可恢复。
+- 真实浏览器重审首案 18 步后，落印自动返回图鉴并弹出 100 分战绩卡；无控制台 error／warning。
+- 修复 UTC 跨日问题：`2026-08-25T18:30Z` 按产品时区显示为 `2026.08.26`。
+- 截图：`output/playwright/dalisizian-collection-390.png`、`dalisizian-share-card-390.png`、`dalisizian-share-card-clean-390.png`、`dalisizian-share-card-after-archive-390.png`。
+
+下文保留 2026-08-24 的阶段性记录，涉及“待黄金案／待时代参考”的描述只代表当时快照，已由本节与 `ART-REQUEST.md` 的最终资源台账取代。
+
 ## 沈砚引导 NPC 增量复检 / 2026-08-24
 
 - 复用既有唐代基准角色并冻结为沈砚，避免同一案房出现两个近似官吏；视觉来源和历史声明继续由 `tang-visual-anchor-dossier.md` 控制，身份增量见 `shenyan-reference-dossier.md`。

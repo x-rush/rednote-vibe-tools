@@ -21,6 +21,8 @@ export type CollectionConditionField =
   | 'evidenceIds'
   | 'unlockedSceneIds'
   | 'visitedNodeIds'
+  | 'reviewedRouteIds'
+  | 'styleTags'
   | 'completedCaseIds'
 
 export type ConditionExpression =
@@ -30,6 +32,8 @@ export type ConditionExpression =
   | { field: CollectionConditionField; operator: 'includes' | 'not-includes'; value: string }
   | { field: 'flags'; operator: 'equals'; key: string; value: boolean }
   | { field: 'deductionAnswers'; operator: 'answer-is'; key: string; value: string }
+  | { field: 'firstDeductionAnswers'; operator: 'answer-is'; key: string; value: string }
+  | { field: 'deductionAttempts'; operator: 'at-most'; key: string; value: number }
 
 export type NodeEffect =
   | { type: 'set-flag'; flag: string; value: boolean }
@@ -58,6 +62,7 @@ export type NodeKind =
   | 'narration'
   | 'dialogue'
   | 'choice'
+  | 'investigation-hub'
   | 'clue'
   | 'condition'
   | 'scene'
@@ -72,6 +77,7 @@ export type CaseNode = {
   critical: boolean
   speakerId?: string
   sceneId?: string
+  routeId?: string
   choices?: NodeChoice[]
   acquireClueIds?: string[]
   acquireEvidenceIds?: string[]
@@ -131,6 +137,7 @@ export type DeductionOption = {
   correct: boolean
   feedback: string
   nextNodeId: string
+  reviewNodeId?: string
   verdict?: CaseVerdict
 }
 
@@ -138,7 +145,17 @@ export type DeductionQuestion = {
   id: string
   prompt: string
   requiredClueIds: string[]
+  focusEvidenceIds?: string[]
   options: DeductionOption[]
+}
+
+export type InvestigationRoute = {
+  id: string
+  title: string
+  summary: string
+  entryNodeId: string
+  requiredClueIds: string[]
+  accent: 'cinnabar' | 'ink' | 'bronze'
 }
 
 export type ScoringRule = {
@@ -171,6 +188,7 @@ export type HanziCase = {
   evidenceIds: string[]
   startNodeId: string
   requiredClueIds: string[]
+  investigationRoutes: InvestigationRoute[]
   deductions: DeductionQuestion[]
   correctConclusion: CaseVerdict
   wrongConclusionFeedback: Record<CaseVerdict, string>
@@ -244,6 +262,9 @@ export type CaseRuntimeState = {
   unlockedSceneIds: string[]
   visitedNodeIds: string[]
   deductionAnswers: Record<string, string>
+  deductionAttempts: Record<string, number>
+  firstDeductionAnswers: Record<string, string>
+  reviewedRouteIds: string[]
   deductionFeedback?: string
   initialVerdict?: CaseVerdict
   finalVerdict?: CaseVerdict

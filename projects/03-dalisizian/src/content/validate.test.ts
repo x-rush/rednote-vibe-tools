@@ -68,4 +68,29 @@ describe('content validation', () => {
     Object.assign(broken.content.cases[0].scoringRules[0].condition, { operator: 'executes' })
     expect(errorCodes(broken)).toContain('unknown-condition-operator')
   })
+
+  it('rejects incomplete investigation routes and invalid review references', () => {
+    const broken = cloneContent()
+    const firstCase = broken.content.cases[0]
+    const routes = firstCase.investigationRoutes
+    if (!routes) throw new Error('route fixture missing')
+    routes.pop()
+    routes[0].entryNodeId = 'node-does-not-exist'
+    routes[1].requiredClueIds = ['clue-does-not-exist']
+    delete firstCase.deductions[0].options.find((option) => !option.correct)?.reviewNodeId
+
+    expect(errorCodes(broken)).toEqual(expect.arrayContaining([
+      'invalid-route-count',
+      'missing-route-entry',
+      'missing-route-clue',
+      'missing-review-node',
+    ]))
+  })
+
+  it('rejects fictional framing sources on factual evidence records', () => {
+    const broken = cloneContent()
+    broken.content.evidence[0].sourceIds.push('source-fiction')
+
+    expect(errorCodes(broken)).toContain('fiction-source-on-evidence')
+  })
 })

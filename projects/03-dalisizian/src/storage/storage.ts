@@ -17,6 +17,7 @@ import type {
 export const STORAGE_KEY = 'xhs-tool:dalisizian:state:v1'
 const FALLBACK_RECORD_KEY = 'xhs-tool:dalisizian:records:v1'
 const SCHEMA_VERSION = 1
+const validRatings = new Set<EvaluationRating>(['明镜高悬', '慎思明辨', '案牍清通', '重审有得'])
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
@@ -93,7 +94,7 @@ export function loadSave(storage: StorageLike, index: ContentIndex, contentVersi
   if (isRecord(source.bestRatings)) {
     Object.entries(source.bestRatings).forEach(([caseId, value]) => {
       if (!validCaseIds.has(caseId) || !isRecord(value)) return
-      if (typeof value.score !== 'number' || typeof value.rating !== 'string' || typeof value.completedAt !== 'string') return
+      if (typeof value.score !== 'number' || typeof value.rating !== 'string' || !validRatings.has(value.rating as EvaluationRating) || typeof value.completedAt !== 'string') return
       bestRatings[caseId] = { score: Math.max(0, Math.min(100, value.score)), rating: value.rating as EvaluationRating, completedAt: value.completedAt }
     })
   }
@@ -112,6 +113,7 @@ export function loadSave(storage: StorageLike, index: ContentIndex, contentVersi
     || currentCaseId !== source.currentCaseId
     || data.unlockedCaseIds.length !== (Array.isArray(source.unlockedCaseIds) ? source.unlockedCaseIds.length : 0)
     || data.completedCaseIds.length !== (Array.isArray(source.completedCaseIds) ? source.completedCaseIds.length : 0)
+    || Object.keys(data.bestRatings).length !== (isRecord(source.bestRatings) ? Object.keys(source.bestRatings).length : 0)
   return { data, recovered, ...(recovered ? { issue: '存档已按当前内容版本移除失效或重复引用。' } : {}) }
 }
 
@@ -154,12 +156,21 @@ export function restoreCaseProgress(
   const evidenceIds = new Set(caseData.evidenceIds)
   const sceneIds = new Set(caseData.scenes.map((item) => item.id))
   const nodeIds = new Set(caseData.nodeIds)
+  const routeIds = new Set((caseData.investigationRoutes ?? []).map((item) => item.id))
   const deductions = new Map(caseData.deductions.map((item) => [item.id, new Set(item.options.map((option) => option.id))]))
   const flags: Record<string, boolean> = {}
   if (isRecord(value.flags)) Object.entries(value.flags).slice(0, 64).forEach(([key, item]) => { if (typeof item === 'boolean') flags[key] = item })
   const deductionAnswers: Record<string, string> = {}
   if (isRecord(value.deductionAnswers)) Object.entries(value.deductionAnswers).forEach(([key, item]) => {
     if (typeof item === 'string' && deductions.get(key)?.has(item)) deductionAnswers[key] = item
+  })
+  const firstDeductionAnswers: Record<string, string> = {}
+  if (isRecord(value.firstDeductionAnswers)) Object.entries(value.firstDeductionAnswers).forEach(([key, item]) => {
+    if (typeof item === 'string' && deductions.get(key)?.has(item)) firstDeductionAnswers[key] = item
+  })
+  const deductionAttempts: Record<string, number> = {}
+  if (isRecord(value.deductionAttempts)) Object.entries(value.deductionAttempts).forEach(([key, item]) => {
+    if (deductions.has(key) && typeof item === 'number' && Number.isInteger(item) && item > 0) deductionAttempts[key] = Math.min(item, 99)
   })
   const validScreens = new Set<ScreenState>(['landing', 'caseList', 'briefing', 'investigation', 'scene', 'dialogue', 'clueBook', 'evidenceDetail', 'deduction', 'verdict', 'ending', 'error'])
   const screen = typeof value.screen === 'string' && validScreens.has(value.screen as ScreenState) ? value.screen as ScreenState : 'investigation'
@@ -174,6 +185,9 @@ export function restoreCaseProgress(
     unlockedSceneIds: uniqueValid(value.unlockedSceneIds, sceneIds, sceneIds.size),
     visitedNodeIds: uniqueValid(value.visitedNodeIds, nodeIds, nodeIds.size),
     deductionAnswers,
+    deductionAttempts,
+    firstDeductionAnswers,
+    reviewedRouteIds: uniqueValid(value.reviewedRouteIds, routeIds, routeIds.size),
     ...(typeof value.deductionFeedback === 'string' ? { deductionFeedback: value.deductionFeedback.slice(0, 320) } : {}),
     ...(value.initialVerdict === 'credible' || value.initialVerdict === 'partial' || value.initialVerdict === 'uncertain' || value.initialVerdict === 'myth' ? { initialVerdict: value.initialVerdict } : {}),
     ...(value.finalVerdict === 'credible' || value.finalVerdict === 'partial' || value.finalVerdict === 'uncertain' || value.finalVerdict === 'myth' ? { finalVerdict: value.finalVerdict } : {}),

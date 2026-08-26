@@ -74,6 +74,22 @@ describe('versioned project storage', () => {
     expect(loaded.data.completedCaseIds).toEqual([firstCaseId])
   })
 
+  it('drops an unknown saved rating before the collection can render it', () => {
+    const storage = new MemoryStorage()
+    const data = {
+      ...createDefaultSave(firstCaseId),
+      completedCaseIds: [firstCaseId],
+      bestRatings: {
+        [firstCaseId]: { rating: '伪造评级', score: 99, completedAt: '2026-08-26T00:00:00.000Z' },
+      },
+    }
+    storage.setItem(STORAGE_KEY, JSON.stringify({ schemaVersion: 1, contentVersion: contentPackage.contentVersion, updatedAt: '2026-08-26T00:00:00.000Z', data }))
+
+    const loaded = loadSave(storage, contentIndex, contentPackage.contentVersion)
+    expect(loaded.recovered).toBe(true)
+    expect(loaded.data.bestRatings[firstCaseId]).toBeUndefined()
+  })
+
   it('keeps the best evaluation and unlocks a valid next case', () => {
     const initial = createDefaultSave(firstCaseId)
     const first = recordCaseCompletion(initial, firstCaseId, '案牍清通', 68, 'case-rest-under-tree', '2026-08-24T00:00:00.000Z', contentIndex)
@@ -140,5 +156,20 @@ describe('versioned project storage', () => {
     expect(broken.recovered).toBe(true)
     expect(broken.data.currentNodeId).toBe(caseData.startNodeId)
     expect(broken.data.clueIds).toEqual([])
+  })
+
+  it('adds safe V2 reasoning defaults when restoring an older case save', () => {
+    const caseData = contentIndex.cases.get(firstCaseId)
+    if (!caseData) throw new Error('case fixture missing')
+    const legacy = createInitialCaseState(caseData) as Partial<ReturnType<typeof createInitialCaseState>>
+    delete legacy.deductionAttempts
+    delete legacy.firstDeductionAnswers
+    delete legacy.reviewedRouteIds
+
+    const restored = restoreCaseProgress(legacy, caseData, contentIndex)
+
+    expect(restored.data.deductionAttempts).toEqual({})
+    expect(restored.data.firstDeductionAnswers).toEqual({})
+    expect(restored.data.reviewedRouteIds).toEqual([])
   })
 })

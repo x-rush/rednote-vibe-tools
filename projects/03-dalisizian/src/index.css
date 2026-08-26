@@ -1,3 +1,32 @@
-:root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #251d18; background: #f3eee4; font-synthesis: none; text-rendering: optimizeLegibility; --ink: #251d18; --muted: #6f6259; --accent: #8a2f25; --accent-soft: #f5e7df; --paper: #fffaf1; --disabled: #e8e1d7; --line: #d9cdbf; --line-strong: #b7a99a; --notice: #f8edcf; --notice-line: #d8ba6c; }
-* { box-sizing: border-box; } html { min-width: 320px; overflow-x: hidden; background: #f3eee4; } body { min-width: 320px; min-height: 100vh; margin: 0; overflow-x: hidden; } button, input, textarea, select { font: inherit; } button, p, h1, h2, dd, summary { overflow-wrap: anywhere; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+:root {
+  color: #182521;
+  background: #d9d0bd;
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --sans: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --serif: "Songti SC", SimSun, "Noto Serif CJK SC", serif;
+  --mono: "SFMono-Regular", Consolas, monospace;
+  --night-ink: #101916;
+  --official-green: #23463f;
+  --paper: #f3e7cb;
+  --paper-light: #fff8e8;
+  --paper-deep: #d8c39c;
+  --cinnabar: #b54132;
+  --mineral-blue: #477873;
+  --amber: #b98543;
+  --ink: #182521;
+  --muted: #68736d;
+  --ease-paper: cubic-bezier(.22, .72, .18, 1);
+  --ease-settle: cubic-bezier(.2, .8, .2, 1);
+  --mini-tool-nav-height: 52px;
+  --top-content-gap: 12px;
+  --app-top-inset: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) + var(--mini-tool-nav-height) + var(--top-content-gap));
+}
+* { box-sizing: border-box; }
+html { min-width: 320px; overflow-x: hidden; background: #d9d0bd; touch-action: manipulation; }
+body { min-width: 320px; min-height: 100vh; margin: 0; overflow-x: hidden; -webkit-touch-callout: none; }
+button, input, textarea, select { font: inherit; }
+button, p, h1, h2, dd, summary { overflow-wrap: anywhere; }
+::selection { color: #fff8e8; background: #b54132; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }

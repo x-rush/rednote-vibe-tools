@@ -8,6 +8,7 @@ import {
   chooseOption,
   createInitialCaseState,
   enterNode,
+  markRouteReviewed,
   restartCase,
   setFlag,
   submitDeductionAnswer,
@@ -64,7 +65,7 @@ describe('case engine', () => {
 
   it('routes condition nodes according to collected clues', () => {
     const emptyResult = enterNode(createInitialCaseState(homeCase), 'node-home-15', contentIndex)
-    expect(expectSuccess(emptyResult).currentNodeId).toBe('node-home-05')
+    expect(expectSuccess(emptyResult).currentNodeId).toBe('node-home-03')
 
     const ready = homeCase.requiredClueIds.reduce(acquireClue, createInitialCaseState(homeCase))
     const readyResult = enterNode(ready, 'node-home-15', contentIndex)
@@ -78,12 +79,32 @@ describe('case engine', () => {
     const wrong = submitDeductionAnswer(state, 'option-home-method-a', contentIndex)
     state = expectSuccess(wrong)
     expect(state.currentNodeId).toBe('node-home-16')
-    expect(state.deductionFeedback).toContain('现代字形')
+    expect(state.deductionFeedback).toContain('证据链没有闭合')
+    expect(state.deductionFeedback).toContain('验字形')
 
     const correct = submitDeductionAnswer(state, 'option-home-method-b', contentIndex)
     state = expectSuccess(correct)
     expect(state.currentNodeId).toBe('node-home-17')
     expect(state.deductionAnswers['deduction-home-method']).toBe('option-home-method-b')
+  })
+
+  it('keeps the first deduction answer while counting every retry', () => {
+    const ready = homeCase.requiredClueIds.reduce(acquireClue, createInitialCaseState(homeCase))
+    let state = expectSuccess(enterNode(ready, 'node-home-16', contentIndex))
+
+    state = expectSuccess(submitDeductionAnswer(state, 'option-home-method-a', contentIndex))
+    state = expectSuccess(submitDeductionAnswer(state, 'option-home-method-b', contentIndex))
+
+    expect(state.firstDeductionAnswers['deduction-home-method']).toBe('option-home-method-a')
+    expect(state.deductionAttempts['deduction-home-method']).toBe(2)
+    expect(state.deductionAnswers['deduction-home-method']).toBe('option-home-method-b')
+  })
+
+  it('marks a reviewed route idempotently', () => {
+    const initial = createInitialCaseState(homeCase)
+    const reviewed = markRouteReviewed(markRouteReviewed(initial, 'route-home-form'), 'route-home-form')
+
+    expect(reviewed.reviewedRouteIds).toEqual(['route-home-form'])
   })
 
   it('blocks a deduction when its required clues are missing', () => {
@@ -105,9 +126,21 @@ describe('case engine', () => {
       finalVerdict: 'partial',
       deductionAnswers: {
         'deduction-home-method': 'option-home-method-b',
-        'deduction-home-knowledge': 'option-home-knowledge-b',
+        'deduction-home-knowledge': 'option-home-knowledge-a',
         'deduction-home-verdict': 'option-home-verdict-partial',
       },
+      firstDeductionAnswers: {
+        'deduction-home-method': 'option-home-method-b',
+        'deduction-home-knowledge': 'option-home-knowledge-a',
+        'deduction-home-verdict': 'option-home-verdict-partial',
+      },
+      deductionAttempts: {
+        'deduction-home-method': 1,
+        'deduction-home-knowledge': 1,
+        'deduction-home-verdict': 1,
+      },
+      flags: { 'flag-home-method-careful': true, 'flag-home-boundary-careful': true },
+      styleTags: ['审慎派'],
     }
 
     const verdict = calculateVerdict(state, contentIndex, [])

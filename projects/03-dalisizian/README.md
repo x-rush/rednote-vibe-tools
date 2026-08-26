@@ -1,32 +1,45 @@
-# React + TypeScript + Vite
+# 大理寺字案录
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+一款纯前端、移动优先的汉字证据推理游戏。玩家以录事身份接卷，在预设选项中调查字形、字书与后世解释，组成证据链并落印归档。产品不是自由文本问答，也不把民间故事直接当作字源结论。
 
-Currently, two official plugins are available:
+当前 V2 包含 8 宗完整案卷、每案 3 条可自由选择的调查路线、160 个内容节点、32 份证物、IndexedDB 存档、定向证据回查、可变评分、八格断案图鉴、3:4 结案分享卡、图片语义回退，以及 375／390／430 CSS px 响应式界面。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+每条调查路线都遵循“看材料—作判断—主动归档”的取证节奏；只有执行明确的核验动作后才会获得线索。三路线完成后进入三层证据推理，首次误判会指出断链位置并允许一键回到相关路线，回查完成后自动返回原题。结案页按证据完整度、首次推理、有效回查、调查方法与边界意识逐项计分，不再把所有通关固定为 100 分。
 
-## React Compiler
+断案图鉴同时承担结案后的阅读收藏：点击已收录汉字会打开“汉字故事卷”，依次回顾坊间传言、三路调查发现、最终判词与仍需保留的学术边界。故事卷再生成 3:4 战绩卡；卡片以本案真相短句、三枚线索签、初判修正和断案钤记形成可分享的案件证据海报。未结案卷继续封存，不展示故事或判词。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 运行
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+pnpm dev
+pnpm lint
+pnpm test
+pnpm build
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+项目无后端、运行时 CDN 或必需外部 API。业务内容只位于 `src/content/content.json`；本地存档只保存结构化 ID、状态、分数与时间，不保存用户图片、Base64、音视频或 Blob。
+
+## 设计与资源
+
+- `UI-REDESIGN-V2.md`：生产 UI／UX 规范和实现记录。
+- `INTERACTION-MOTION-SPEC.md`：交互、动效、键盘与减少动态规范。
+- `STORY-LOGIC-V2-SPEC.md`：三路调查、主动取证、推理回查和评分规则。
+- `STORY-LOGIC-V2-IMPLEMENTATION-PLAN.md`：V2 测试驱动实施与验收记录。
+- `ART-REQUEST.md`：全部场景／角色资源清单、提示词索引和审核记录。
+- `ART-GENERATION-PLAN.md`：资源生产与 React 接入任务记录。
+- `research/`：人物、官署、家具和里坊街道参考档案。
+- `design/preview-v2.html`：19 个关键状态的可交互美术预览。
+- `output/playwright/`：移动端调查板、断链回查、结案评分、图鉴与分享卡浏览器 QA 截图。
+- `qa/collection-browser.mjs`：无第三方依赖的真实 Chrome 图鉴／故事卷／分享卡回归脚本。
+
+位图不承载可读汉字、匾额、印章文字或事实性古文字。古文字只接受权威来源、人工描摹和第二人审校；未完成门禁时展示带资源性质说明的占位，不伪造结论。
+
+## 代码边界
+
+- `src/game/`：选项驱动的确定性案件引擎。
+- `src/content/`：内容类型、索引、校验和八案图谱。
+- `src/storage/`：IndexedDB 存档与临时模式。
+- `src/app/`：展示 view model、资源映射、焦点工具。
+- `src/App.tsx`：案库、查案、证据、推理和归档界面。
+
+发布前必须在本目录执行 `pnpm lint && pnpm test && pnpm build`，并保留三档移动宽度、坏图回退和 `prefers-reduced-motion` 的真实浏览器回归。

@@ -1,4 +1,4 @@
-import type { CaseRuntimeState } from '../content/types'
+import type { CaseRuntimeState, CaseVerdict } from '../content/types'
 
 export type EvaluationRating = '明镜高悬' | '慎思明辨' | '案牍清通' | '重审有得'
 
@@ -47,12 +47,14 @@ export type CaseRecordName = 'caseProgress' | 'caseVerdicts'
 
 export type CaseVerdictRecord = {
   caseId: string
-  initialVerdict?: string
-  finalVerdict?: string
-  officialVerdict: string
+  initialVerdict?: CaseVerdict
+  finalVerdict?: CaseVerdict
+  officialVerdict: CaseVerdict
   score: number
   rating: EvaluationRating
   completedAt: string
+  clueCount?: number
+  evidenceCount?: number
 }
 
 export type CaseRecordStore = {

@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>大理寺字案录 · 活案牍 UI V2</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      --night: #101916;
+      --night-2: #17231f;
+      --official: #23463f;
+      --official-2: #326159;
+      --paper: #f3e7cb;
+      --paper-light: #fff8e8;
+      --paper-deep: #d8c39c;
+      --cinnabar: #b54132;
+      --cinnabar-soft: #eed4c6;
+      --mineral: #477873;
+      --amber: #b98543;
+      --ink: #182521;
+      --muted: #68736d;
+      --line: #bfae89;
+      --white: #fffdf5;
+      --shadow: rgba(2, 11, 8, .34);
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--night);
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { min-width: 320px; overflow-x: hidden; }
+    body { margin: 0; min-width: 320px; background: var(--night); }
+    button { font: inherit; }
+    button, .tap { min-height: 48px; }
+    .serif { font-family: "Songti SC", "Noto Serif SC", serif; }
+    .mono { font-family: "SFMono-Regular", Consolas, monospace; }
+
+    .page {
+      width: min(1540px, 100%);
+      margin: 0 auto;
+      padding: 52px 24px 96px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 52px;
+      color: var(--paper);
+    }
+
+    .hero .kicker { color: #9eb7ae; font-size: 11px; letter-spacing: .24em; }
+    .hero h1 { margin: 10px 0 14px; font-size: clamp(44px, 6vw, 84px); line-height: 1.03; font-weight: 500; }
+    .hero p { max-width: 760px; margin: 0; color: #bbc8c2; line-height: 1.8; }
+    .swatches { display: flex; width: 320px; box-shadow: 0 16px 40px #0004; }
+    .swatches i { display: block; flex: 1; height: 80px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(300px, 1fr));
+      gap: 38px 28px;
+    }
+
+    .sample { min-width: 0; }
+    .motion-ready .sample {
+      opacity: 0;
+      animation: sample-arrive 420ms var(--ease-paper, cubic-bezier(.22,.72,.18,1)) forwards;
+      animation-delay: min(calc(var(--sample-index, 0) * 36ms), 360ms);
+    }
+    @keyframes sample-arrive {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .sample > h2 {
+      margin: 0 0 10px;
+      color: #9eb0a9;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .12em;
+    }
+
+    .phone {
+      width: 390px;
+      max-width: 100%;
+      height: 844px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 7px solid #33423d;
+      border-radius: 34px;
+      background: var(--paper);
+      box-shadow: 0 26px 66px #0008, inset 0 0 0 1px #75827c;
+    }
+
+    .screen {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,.42), transparent 20%),
+        linear-gradient(120deg, rgba(99,72,35,.035), transparent 33%),
+        var(--paper);
+    }
+
+    .screen.dark { color: var(--paper); background: var(--night-2); }
+    .screen.pad { padding: 26px 18px 20px; }
+    .screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .23;
+      background-image: repeating-linear-gradient(97deg, transparent 0 22px, rgba(75,51,24,.025) 23px 24px);
+    }
+    .layer { position: relative; z-index: 2; height: 100%; }
+    .scroll { overflow-y: auto; scrollbar-width: none; padding-bottom: 92px; }
+    .scroll::-webkit-scrollbar { display: none; }
+
+    .topbar {
+      display: flex;
+      min-height: 34px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 11px;
+      letter-spacing: .09em;
+    }
+
+    .brand { color: var(--official); font-weight: 800; }
+    .dark .brand { color: #d8e2dc; }
+    .tiny { color: var(--muted); font-size: 10px; }
+    .dark .tiny { color: #aabbb4; }
+    .seal-mini {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border: 1px solid var(--cinnabar);
+      color: var(--cinnabar);
+      font-family: serif;
+      transform: rotate(-3deg);
+    }
+
+    h3 { margin: 0; font-family: "Songti SC", "Noto Serif SC", serif; font-weight: 650; }
+    p { line-height: 1.65; }
+    .display { margin: 28px 0 8px; font-size: 34px; line-height: 1.2; }
+    .subcopy { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+    .button {
+      width: 100%;
+      border: 1px solid var(--cinnabar);
+      border-radius: 2px;
+      padding: 12px 16px;
+      color: var(--white);
+      background: var(--cinnabar);
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-align: center;
+    }
+
+    .button.secondary { border-color: var(--official); color: var(--official); background: transparent; }
+    .button.official { border-color: var(--official); background: var(--official); }
+    .button.ghost { border-color: var(--line); color: var(--ink); background: var(--paper-light); }
+    .button.disabled { border-color: #b9ae94; color: #817b6d; background: #d9ceb5; }
+    .bottom-actions { position: absolute; z-index: 5; right: 0; bottom: 0; left: 0; padding: 18px; background: linear-gradient(transparent, var(--paper) 22%); }
+    .dark .bottom-actions { background: linear-gradient(transparent, var(--night-2) 22%); }
+    .actions-2 { display: grid; grid-template-columns: .9fr 1.3fr; gap: 8px; }
+
+    .paper-card {
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: var(--paper-light);
+      box-shadow: 0 6px 0 rgba(96, 70, 34, .08);
+    }
+
+    .tag {
+      display: inline-flex;
+      min-height: 24px;
+      align-items: center;
+      padding: 4px 7px;
+      border: 1px solid var(--mineral);
+      color: var(--mineral);
+      background: rgba(255,255,255,.38);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+    .tag.red { border-color: var(--cinnabar); color: var(--cinnabar); }
+    .tag.amber { border-style: dashed; border-color: var(--amber); color: #80561f; }
+    .tag.dark-tag { border-color: #b7cbc3; color: #d7e3de; background: rgba(13,28,23,.35); }
+
+    /* 01 shelf */
+    .ongoing {
+      position: relative;
+      margin-top: 22px;
+      padding: 18px;
+      overflow: hidden;
+      color: var(--paper-light);
+      background: var(--official);
+      box-shadow: 7px 7px 0 #bfaa80;
+    }
+    .ongoing::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background: var(--cinnabar); }
+    .ongoing small { color: #bdd0c8; }
+    .ongoing b { display: block; margin: 7px 0; font: 22px serif; }
+    .progress { height: 4px; margin-top: 12px; background: #67867c; }
+    .progress i { display: block; width: 42%; height: 100%; background: #f1d8a8; }
+    .files { display: grid; gap: 7px; margin-top: 18px; }
+    .file {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) auto;
+      min-height: 66px;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      background: rgba(255,248,232,.78);
+    }
+    .file .num { color: var(--cinnabar); font: 21px serif; }
+    .file strong { display: block; font-size: 14px; }
+    .file small { color: var(--muted); font-size: 10px; }
+    .file .mark { color: var(--cinnabar); font: 13px serif; }
+
+    /* cover */
+    .cover-scene {
+      position: relative;
+      height: 270px;
+      margin: 14px -18px 0;
+      overflow: hidden;
+      color: var(--paper-light);
+      background:
+        linear-gradient(180deg, rgba(12,28,23,.12), rgba(12,28,23,.86)),
+        url("/assets/scenes/official-records-room/records-room-v2.webp") center 44% / cover no-repeat,
+        linear-gradient(90deg, #182c27, #947449 52%, #203b34);
+    }
+    .cover-scene::before {
+      content: "";
+      position: absolute;
+      inset: 38px 34px 0;
+      border: solid rgba(245,227,191,.27);
+      border-width: 3px 12px 0;
+      clip-path: polygon(16% 0,84% 0,100% 100%,0 100%);
+    }
+    .cover-char { position: absolute; right: 24px; bottom: -34px; color: #f5e5bd; font: 190px/1 serif; opacity: .88; }
+    .cover-file { position: absolute; bottom: 18px; left: 18px; width: 188px; }
+    .cover-file small { color: #d7e4dd; }
+    .rumor { margin-top: 14px; padding: 13px 14px; border-left: 3px solid var(--cinnabar); background: #e7d8b8; font: 15px/1.65 serif; }
+    .method-row { display: flex; justify-content: space-between; margin-top: 14px; color: var(--muted); font-size: 10px; }
+
+    /* dialogue */
+    .stage {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(12,28,23,.08), rgba(12,28,23,.58)),
+        url("/assets/scenes/official-records-room/records-room-v2.webp") center / cover no-repeat,
+        linear-gradient(#20372f 0 58%, #17231f 58%);
+    }
+    .room-lines { position: absolute; inset: 76px 18px 260px; border: 1px solid #5f776d; border-bottom: 0; opacity: .65; }
+    .room-lines::before, .room-lines::after { content: ""; position: absolute; top: 0; bottom: 0; width: 1px; background: #617b71; }
+    .room-lines::before { left: 28%; } .room-lines::after { right: 28%; }
+    .art-slot {
+      position: absolute;
+      top: 72px;
+      right: 16px;
+      width: 230px;
+      height: 388px;
+      border: 1px dashed rgba(228,236,231,.45);
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      color: #b7c8c1;
+      background: linear-gradient(135deg, rgba(61,100,87,.58), rgba(13,26,22,.4));
+      text-align: center;
+      font-size: 11px;
+    }
+    .art-slot::before { content: ""; width: 86px; height: 230px; border-radius: 50% 50% 20% 20%; background: #0c1814; opacity: .55; }
+    .art-slot span { position: absolute; bottom: 24px; left: 24px; right: 24px; }
+    .character-art {
+      position: absolute;
+      z-index: 2;
+      top: 62px;
+      right: -4px;
+      width: 270px;
+      height: auto;
+      filter: drop-shadow(0 16px 24px rgba(4,14,11,.38));
+      pointer-events: none;
+    }
+    .character-fallback { z-index: 2; }
+    .dialogue {
+      position: absolute;
+      z-index: 3;
+      right: 14px;
+      bottom: 14px;
+      left: 14px;
+      min-height: 350px;
+      padding: 18px 14px 14px;
+      color: var(--ink);
+      background: var(--paper-light);
+      box-shadow: 0 20px 46px #0008;
+    }
+    .nameplate { display: inline-flex; margin-top: -34px; padding: 7px 11px; color: var(--paper-light); background: var(--official); font-size: 11px; }
+    .dialogue p { margin: 12px 0; font: 16px/1.72 serif; }
+    .choices { display: grid; gap: 6px; }
+    .choice { position: relative; min-height: 50px; padding: 10px 12px 10px 32px; border: 1px solid var(--line); background: #fffaf0; font-size: 12px; line-height: 1.5; }
+    button.choice { width: 100%; color: var(--ink); font-family: inherit; text-align: left; cursor: pointer; }
+    .choice::before { content: ""; position: absolute; top: 15px; left: 11px; width: 11px; height: 11px; border: 1px solid var(--cinnabar); transform: rotate(45deg); }
+    .choice.selected { border-color: var(--cinnabar); background: #f5e2d3; }
+    .choices.has-choice .choice:not(.selected) { opacity: .48; }
+    .choice.is-committed { padding-left: 42px; }
+    .choice.is-committed::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 11px;
+      width: 24px;
+      height: 2px;
+      background: var(--cinnabar);
+      transform-origin: left;
+      animation: redline 160ms var(--ease-paper, ease-out) both;
+    }
+    @keyframes redline { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    .record { margin-top: 8px; color: var(--muted); font-size: 9px; }
+
+    /* verdict options */
+    .verdict-options { display: grid; gap: 8px; margin-top: 22px; }
+    .screen.verdict-court {
+      background:
+        linear-gradient(rgba(243,231,203,.92), rgba(243,231,203,.97)),
+        url("/assets/scenes/home-court/home-court-v1.webp") center / cover no-repeat,
+        linear-gradient(135deg, #d9c9a8, #f3e7cb);
+    }
+    .motion-ready .screen.verdict-court { animation: court-light 360ms var(--ease-paper, ease-out) both; }
+    @keyframes court-light { from { background-position: center, center 46%, center; } to { background-position: center, center 50%, center; } }
+    .verdict-option { position: relative; padding: 13px 13px 13px 48px; border: 1px solid var(--line); background: rgba(255,248,232,.75); }
+    .verdict-option .letter { position: absolute; top: 12px; left: 12px; color: var(--cinnabar); font: 22px serif; }
+    .verdict-option b { display: block; margin-bottom: 4px; font-size: 13px; }
+    .verdict-option small { color: var(--muted); line-height: 1.5; }
+    .verdict-option.selected { border: 2px solid var(--cinnabar); background: var(--cinnabar-soft); }
+    .notice-box { margin-top: 14px; padding: 12px; border-left: 3px solid var(--amber); background: #e8d8b4; font-size: 11px; line-height: 1.6; }
+
+    /* investigation */
+    .countbar { display: flex; gap: 6px; margin-top: 14px; }
+    .countbar i { flex: 1; height: 4px; background: #cbbd9d; }
+    .countbar i.on { background: var(--official); }
+    .desk {
+      position: relative;
+      height: 600px;
+      margin: 16px -18px -20px;
+      padding: 20px 18px;
+      background:
+        linear-gradient(rgba(238,221,184,.88), rgba(218,194,148,.96)),
+        url("/assets/scenes/official-records-room/records-room-v2.webp") center / cover no-repeat,
+        linear-gradient(125deg, #526d62, #b58b51 52%, #324b43);
+    }
+    .desk::before { content: "调查顺序自由 · 连线只在确认关系后出现"; display: block; color: #74684f; font-size: 10px; text-align: center; }
+    .path-card { position: absolute; width: 150px; min-height: 126px; padding: 14px; border: 1px solid #aa9875; background: var(--paper-light); box-shadow: 5px 7px 0 rgba(95,69,35,.13); }
+    .path-card { cursor: pointer; transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
+    .path-card:active { box-shadow: 2px 3px 0 rgba(95,69,35,.13); }
+    .path-card.is-active { border-color: var(--cinnabar); box-shadow: 0 0 0 2px var(--cinnabar-soft), 5px 7px 0 rgba(95,69,35,.13); }
+    .path-card.is-complete::after { content: "已归档"; position: absolute; right: 8px; bottom: 8px; color: var(--cinnabar); font: 10px serif; transform: rotate(-4deg); }
+    .path-card h4 { margin: 8px 0 6px; font: 18px serif; }
+    .path-card p { margin: 0; color: var(--muted); font-size: 10px; }
+    .path-card.one { top: 68px; left: 18px; transform: rotate(-1deg); }
+    .path-card.two { top: 205px; right: 18px; transform: rotate(1.2deg); }
+    .path-card.three { top: 356px; left: 38px; transform: rotate(-.7deg); }
+    .goal { position: absolute; right: 18px; bottom: 70px; width: 168px; padding: 12px; border: 1px dashed var(--official); color: var(--official); background: rgba(255,248,232,.66); font-size: 11px; line-height: 1.6; }
+
+    /* witness */
+    .screen.witness-street {
+      background:
+        linear-gradient(rgba(243,231,203,.91), rgba(243,231,203,.98)),
+        url("/assets/scenes/home-street/home-street-v1.webp") center / cover no-repeat,
+        linear-gradient(135deg, #c9b17e, #f3e7cb);
+    }
+    .testimony { margin-top: 18px; padding: 15px; border: 1px solid var(--line); background: var(--paper-light); }
+    .witness-profile {
+      position: relative;
+      display: grid;
+      grid-template-columns: 62px minmax(0, 1fr);
+      gap: 11px;
+      align-items: center;
+      margin-bottom: 11px;
+      padding-bottom: 11px;
+      border-bottom: 1px solid #d9c9a7;
+    }
+    .motion-ready .witness-profile { animation: witness-enter 360ms var(--ease-paper, ease-out) both; }
+    @keyframes witness-enter { from { opacity: 0; transform: translateX(-12px) rotate(-.4deg); } to { opacity: 1; transform: none; } }
+    .witness-portrait {
+      display: grid;
+      width: 62px;
+      height: 72px;
+      place-items: center;
+      border: 1px solid #9e7147;
+      color: #6e4328;
+      background: #d6ad76;
+      object-fit: cover;
+      font: 9px/1.35 sans-serif;
+      text-align: center;
+      transform-origin: center bottom;
+      animation: witness-breathe 3.4s ease-in-out infinite;
+    }
+    @keyframes witness-breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+    .witness-profile b { display: block; margin-top: 6px; font: 16px serif; }
+    .witness-profile small { color: var(--muted); font-size: 9px; }
+    .witness-profile.is-answering { animation: witness-answer 260ms var(--ease-paper, ease-out) both; }
+    .witness-profile.is-answering::after {
+      content: "追问已记";
+      position: absolute;
+      right: 0;
+      bottom: 8px;
+      padding: 3px 6px;
+      color: var(--cinnabar);
+      background: #fff8e8;
+      font: 9px serif;
+      animation: witness-note 800ms ease both;
+    }
+    @keyframes witness-answer { 50% { transform: translateX(3px) rotate(.25deg); } }
+    @keyframes witness-note { 0% { opacity: 0; transform: translateY(4px); } 24%, 75% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+    .testimony .quote { margin: 12px 0; font: 17px/1.72 serif; }
+    .margin-note { margin-left: 26px; padding: 8px 11px; border-left: 2px solid var(--cinnabar); color: #6f3a31; background: #f1ddd0; font-size: 10px; }
+
+    /* evidence */
+    .scene-context-strip {
+      height: 70px;
+      margin: 14px 0 0;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(35,70,63,.7), rgba(35,70,63,.18), rgba(35,70,63,.72)),
+        url("/assets/scenes/official-records-room/records-room-v2.webp") center 47% / cover no-repeat,
+        var(--official);
+    }
+    .clerk-profile {
+      position: relative;
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      margin-top: 9px;
+      padding: 9px 10px;
+      border-left: 3px solid var(--mineral);
+      background: #e7dcc3;
+    }
+    .motion-ready .clerk-profile { animation: clerk-present 300ms var(--ease-paper, ease-out) both; }
+    @keyframes clerk-present { from { opacity: 0; transform: translateY(9px) rotate(.25deg); } to { opacity: 1; transform: none; } }
+    .clerk-avatar {
+      display: grid;
+      width: 52px;
+      height: 58px;
+      place-items: center;
+      border: 1px solid #66798a;
+      color: #344958;
+      background: #aab7bd;
+      object-fit: cover;
+      font: 9px/1.35 sans-serif;
+      text-align: center;
+    }
+    .clerk-profile b { display: block; margin: 4px 0 2px; font: 14px serif; }
+    .clerk-profile small { display: block; padding-right: 50px; color: var(--muted); font-size: 9px; }
+    .clerk-profile.is-presenting { animation: clerk-file 260ms var(--ease-paper, ease-out) both; }
+    .clerk-profile.is-presenting::after {
+      content: "已呈卷";
+      position: absolute;
+      right: 9px;
+      bottom: 9px;
+      padding: 3px 6px;
+      border: 1px solid var(--mineral);
+      color: var(--mineral);
+      background: #fff8e8;
+      font: 9px serif;
+      animation: clerk-note 760ms ease both;
+    }
+    @keyframes clerk-file { 50% { transform: translateY(-3px) rotate(-.2deg); } }
+    @keyframes clerk-note { 0% { opacity: 0; transform: scale(.86); } 22%, 76% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+    .evidence-hero {
+      display: grid;
+      height: 260px;
+      margin-top: 16px;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, #dac7a1, #f8eed5 48%, #cbb68d);
+      transition: background-color 160ms ease;
+    }
+    .evidence-hero.is-flipped .document-prop { animation: paper-flip 280ms var(--ease-paper, ease-out) both; }
+    .evidence-hero.is-flipped .document-prop::before { content: "证物背签 / 核验说明"; }
+    .evidence-hero.is-flipped .document-prop::after { content: "可证明：样本结构\A不可证明：普遍社会生活"; }
+    @keyframes paper-flip {
+      0% { opacity: 1; transform: translateX(0) rotate(-2deg); }
+      45% { opacity: 0; transform: translateX(-12px) rotate(-2deg); }
+      46% { opacity: 0; transform: translateX(12px) rotate(1deg); }
+      100% { opacity: 1; transform: translateX(0) rotate(1deg); }
+    }
+    .document-prop { position: relative; width: 210px; height: 150px; border: 1px solid #998564; background: #fff8e7; box-shadow: 8px 10px 0 #8d775326; transform: rotate(-2deg); }
+    .document-prop::before { content: "甲207 / 合20268"; position: absolute; top: 16px; left: 16px; color: var(--muted); font: 10px monospace; }
+    .document-prop::after { content: "权威字形 SVG 槽位\A禁止 AI 生成"; white-space: pre; position: absolute; inset: 48px 18px 18px; display: grid; place-items: center; border: 1px dashed var(--mineral); color: var(--mineral); text-align: center; font-size: 11px; line-height: 1.6; }
+    .evidence-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .meta-card { padding: 10px; border: 1px solid var(--line); background: #f7edda; }
+    .meta-card small { color: var(--muted); font-size: 9px; }
+    .meta-card b { display: block; margin-top: 4px; font-size: 11px; }
+
+    .hotspot-view { position: relative; height: 292px; margin: 16px -2px 0; border: 1px solid var(--line); background: #eadabb; }
+    .hotspot-view .document-prop { position: absolute; top: 42px; left: 58px; transform: scale(1.18) rotate(-1deg); }
+    .hotspot { position: absolute; top: 94px; right: 44px; display: grid; width: 44px; height: 44px; place-items: center; padding: 0; border: 2px solid var(--cinnabar); border-radius: 50%; color: var(--cinnabar); background: #fff8eccc; font-weight: 800; cursor: pointer; }
+    .hotspot-view .document-prop { transition: transform 200ms var(--ease-paper, ease-out), filter 200ms ease; }
+    .hotspot-view.is-focused .document-prop { transform: scale(1.34) rotate(-1deg); filter: contrast(1.04); }
+    .detail-note { position: absolute; right: 14px; bottom: 14px; left: 14px; padding: 11px; color: var(--paper-light); background: var(--official); font-size: 10px; line-height: 1.6; opacity: 0; transform: translateY(10px); transition: opacity 200ms ease, transform 200ms var(--ease-paper, ease-out); }
+    .hotspot-view.is-focused .detail-note { opacity: 1; transform: translateY(0); }
+
+    /* glyph timeline */
+    .glyph-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 18px; }
+    .glyph-card { min-width: 0; padding: 8px; border: 1px solid var(--line); background: var(--paper-light); }
+    .glyph-slot { display: grid; height: 112px; place-items: center; border: 1px dashed var(--mineral); color: var(--mineral); background: #f1e3c5; font-size: 9px; line-height: 1.5; text-align: center; }
+    .glyph-slot.pending { border-color: var(--amber); color: #7d591f; }
+    .glyph-card b { display: block; margin-top: 8px; font-size: 10px; }
+    .glyph-card small { color: var(--muted); font-size: 8px; line-height: 1.4; }
+    .boundary { margin-top: 12px; padding: 12px; border: 1px dashed var(--amber); background: #eddfc1; font-size: 10px; line-height: 1.65; }
+
+    /* compare */
+    .compare-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
+    .compare-card { min-height: 210px; padding: 12px; border: 1px solid var(--line); background: var(--paper-light); }
+    .compare-card.selected { border: 2px solid var(--cinnabar); }
+    .compare-card h4 { margin: 9px 0; font: 16px serif; }
+    .compare-card p { font-size: 11px; line-height: 1.7; }
+    .relation-words { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+    .relation-word { display: grid; min-height: 46px; place-items: center; border: 1px solid var(--line); background: #f7edda; font-size: 10px; }
+    .relation-word.on { border-color: var(--amber); color: #744917; background: #eddfbd; font-weight: 700; }
+
+    /* relation board */
+    .relation-board { position: relative; height: 560px; margin: 15px -8px 0; border: 1px solid #ad9b75; background: #dfcea9; overflow: hidden; }
+    .relation-board .board-card { position: absolute; width: 132px; min-height: 70px; padding: 11px; border: 1px solid #9e8c67; border-radius: 0; color: var(--ink); background: var(--paper-light); box-shadow: 4px 5px 0 #755b3420; font: 10px/1.5 inherit; text-align: left; cursor: pointer; }
+    .relation-board .board-card.is-selected { border: 2px solid var(--cinnabar); box-shadow: 0 0 0 3px var(--cinnabar-soft), 4px 5px 0 #755b3420; transform: translateY(-2px); }
+    .board-card.a { top: 54px; left: 16px; }
+    .board-card.b { top: 205px; right: 16px; }
+    .board-card.c { top: 380px; left: 34px; }
+    .pin { display: inline-grid; width: 14px; height: 14px; margin-right: 5px; place-items: center; border-radius: 50%; background: var(--cinnabar); color: white; font-size: 8px; }
+    .board-help { position: absolute; right: 16px; bottom: 22px; width: 160px; padding: 11px; border: 1px dashed var(--official); color: var(--official); background: #f4e9cfbb; font-size: 10px; line-height: 1.6; }
+    .wire { position: absolute; height: 2px; transform-origin: left; background: var(--official); }
+    .wire.w1 { top: 125px; left: 132px; width: 190px; transform: rotate(37deg); }
+    .wire.w2 { top: 275px; left: 140px; width: 195px; transform: rotate(115deg); background: repeating-linear-gradient(90deg, var(--amber) 0 8px, transparent 8px 13px); }
+    .wire-label { position: absolute; padding: 4px 7px; color: var(--paper-light); background: var(--official); font-size: 9px; }
+    .wire-label.l1 { top: 160px; left: 165px; transform: rotate(37deg); }
+    .wire-label.l2 { top: 312px; left: 161px; color: #5a3d17; background: #ead4a5; transform: rotate(-4deg); }
+    .demo-wire, .demo-wire-label { opacity: 0; transition: opacity 160ms ease; }
+    .relation-board.is-connected .demo-wire, .relation-board.is-connected .demo-wire-label { opacity: 1; }
+    .relation-board.is-connected .demo-wire { animation: wire-grow 240ms var(--ease-paper, ease-out) both; }
+    @keyframes wire-grow { from { transform: rotate(37deg) scaleX(0); } to { transform: rotate(37deg) scaleX(1); } }
+
+    /* chain */
+    .chain-steps { display: grid; gap: 9px; margin-top: 18px; }
+    .chain-slot { display: grid; grid-template-columns: 62px 1fr; min-height: 96px; border: 1px dashed #9a8863; background: #e5d5b3; }
+    .chain-slot .slot-label { display: grid; place-items: center; color: var(--paper-light); background: var(--official); font: 15px serif; writing-mode: vertical-rl; letter-spacing: .12em; }
+    .chain-slot .slot-card { margin: 8px; padding: 10px; border: 1px solid var(--line); background: var(--paper-light); }
+    .chain-slot .slot-card b { display: block; font-size: 12px; }
+    .chain-slot .slot-card small { color: var(--muted); font-size: 9px; line-height: 1.5; }
+    .chain-slot { transition: border-color 160ms ease, background 160ms ease, transform 160ms ease; }
+    .chain-steps.is-linked .chain-slot { animation: chain-light 240ms var(--ease-paper, ease-out) both; }
+    .chain-steps.is-linked .chain-slot:nth-of-type(1) { animation-delay: 0ms; }
+    .chain-steps.is-linked .chain-slot:nth-of-type(3) { animation-delay: 90ms; }
+    .chain-steps.is-linked .chain-slot:nth-of-type(5) { animation-delay: 180ms; }
+    @keyframes chain-light { from { border-color: #9a8863; } to { border-color: var(--official); background: #d9d3b4; transform: translateY(-2px); } }
+    .chain-arrow { margin: -4px 0 -4px 28px; color: var(--cinnabar); font-size: 18px; }
+    .evidence-pool { display: flex; gap: 6px; margin-top: 12px; overflow: hidden; }
+    .pool-chip { min-width: 108px; padding: 8px; border: 1px solid var(--line); background: #f7edda; font-size: 9px; }
+
+    /* final confirm */
+    .summary-sheet { margin-top: 17px; padding: 15px; border: 1px solid var(--line); background: var(--paper-light); box-shadow: 6px 7px 0 #9a7b4521; }
+    .summary-sheet dl { margin: 12px 0 0; }
+    .summary-sheet dl div { display: grid; grid-template-columns: 66px 1fr; gap: 8px; padding: 8px 0; border-top: 1px solid #d4c5a5; font-size: 10px; line-height: 1.6; }
+    .summary-sheet dt { color: var(--muted); }
+    .summary-sheet dd { margin: 0; }
+    .confirm-check { display: flex; width: 100%; min-height: 48px; align-items: center; gap: 9px; margin-top: 12px; padding: 8px 0; border: 0; color: var(--ink); background: transparent; font-size: 10px; text-align: left; cursor: pointer; }
+    .confirm-check i { display: grid; width: 22px; height: 22px; place-items: center; border: 1px solid var(--cinnabar); color: var(--cinnabar); font-style: normal; }
+    .confirm-check:not(.is-confirmed) i { color: transparent; }
+
+    /* seal */
+    .seal-stage { display: grid; height: calc(100% - 34px); place-items: center; text-align: center; }
+    .seal-stage::before { content: ""; position: absolute; inset: 80px 28px 60px; border: 1px solid #cdbb94; background: var(--paper-light); box-shadow: 8px 10px 0 #896d3a1f; transform: rotate(-.8deg); }
+    .seal-block { position: relative; z-index: 2; }
+    .big-seal { display: grid; width: 150px; height: 150px; margin: 0 auto 28px; place-items: center; border: 5px double var(--cinnabar); color: var(--cinnabar); background: transparent; font: 31px/1.25 serif; transform: rotate(-4deg); box-shadow: inset 0 0 0 6px #fff5df; cursor: pointer; }
+    .big-seal.is-stamping { animation: stamp 720ms var(--ease-paper, ease-out) both; }
+    @keyframes stamp {
+      0% { opacity: .35; transform: translateY(-28px) rotate(-4deg); box-shadow: 0 20px 24px #0002, inset 0 0 0 6px #fff5df; }
+      58% { opacity: 1; transform: translateY(0) rotate(-4deg); box-shadow: 0 2px 3px #0002, inset 0 0 0 6px #fff5df; }
+      76% { transform: translateY(0) rotate(-4deg) scale(1.01); }
+      100% { transform: translateY(-10px) rotate(-4deg); }
+    }
+    .seal-block h3 { font-size: 27px; }
+    .seal-block p { max-width: 250px; color: var(--muted); font-size: 11px; }
+
+    /* rewind */
+    .broken-link { margin-top: 20px; padding: 16px; border: 1px dashed var(--amber); background: #eddfbd; }
+    .screen.is-rewinding .broken-link { animation: rewind-sheet 360ms var(--ease-paper, ease-out) both; }
+    @keyframes rewind-sheet { from { opacity: .45; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .broken-link .link-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; margin: 12px 0; }
+    .broken-link .mini-card { padding: 8px; border: 1px solid var(--line); background: var(--paper-light); font-size: 9px; }
+    .broken-link .dash { color: #85581e; font-weight: 800; }
+    .npc-note { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-top: 14px; padding: 12px; border-left: 3px solid var(--official); background: #efe1c4; }
+    .npc-avatar { display: grid; width: 48px; height: 48px; place-items: center; border: 1px solid var(--official); color: var(--official); background: #d7c6a4; object-fit: cover; font: 9px/1.3 sans-serif; text-align: center; }
+    .npc-note p { margin: 2px 0 0; font-size: 10px; line-height: 1.6; }
+
+    /* archive */
+    .archive-title { margin-top: 20px; text-align: center; }
+    .archive-title .case-char { color: var(--official); font: 78px/1 serif; }
+    .archive-title h3 { margin-top: 5px; font-size: 25px; }
+    .verdict-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+    .verdict-card { min-height: 150px; padding: 11px; border: 1px solid var(--line); background: var(--paper-light); }
+    .verdict-card.final { border: 2px solid var(--cinnabar); }
+    .verdict-card .result { display: block; margin: 11px 0; font: 17px serif; }
+    .verdict-card small { color: var(--muted); font-size: 9px; line-height: 1.5; }
+    .used-evidence { margin-top: 12px; padding: 12px; border: 1px solid var(--line); background: #eadbbd; }
+    .used-evidence li { margin: 6px 0; font-size: 10px; line-height: 1.5; }
+
+    /* source drawer */
+    .drawer-under { position: absolute; inset: 0; padding: 26px 18px; filter: brightness(.5); background: var(--paper); }
+    .drawer { position: absolute; z-index: 4; right: 0; bottom: 0; left: 0; height: 78%; padding: 18px; border-radius: 18px 18px 0 0; background: var(--paper-light); box-shadow: 0 -18px 48px #0006; }
+    .drawer, .drawer-under { transition: transform 240ms var(--ease-paper, ease-out), filter 240ms ease; }
+    .screen.drawer-closed .drawer { transform: translateY(calc(100% - 58px)); }
+    .screen.drawer-closed .drawer-under { filter: none; }
+    .drawer-control { min-height: 48px; padding: 4px 7px; border: 0; color: inherit; background: transparent; cursor: pointer; }
+    .handle { width: 42px; height: 4px; margin: -6px auto 14px; border-radius: 4px; background: #c6b99e; }
+    .source-item { padding: 12px 0; border-top: 1px solid #d5c8aa; }
+    .source-item b { display: block; font-size: 12px; }
+    .source-item p { margin: 5px 0; color: var(--muted); font-size: 10px; }
+    .source-item code { color: var(--mineral); font-size: 9px; overflow-wrap: anywhere; }
+
+    /* failure */
+    .failure-card { margin-top: 18px; padding: 14px; border: 1px solid var(--line); background: var(--paper-light); }
+    .button.is-archived { border-color: var(--official); background: var(--official); }
+    .failed-image { display: grid; height: 160px; place-items: center; margin-bottom: 12px; border: 1px dashed var(--amber); color: #76511f; background: #eaddc2; text-align: center; font-size: 10px; line-height: 1.6; }
+    .save-banner { display: flex; align-items: flex-start; gap: 10px; margin-top: 12px; padding: 12px; border-left: 3px solid var(--amber); background: #e9d7ae; }
+    .save-banner .status-icon { display: grid; flex: 0 0 30px; height: 30px; place-items: center; border: 1px solid var(--amber); color: #76511f; font: 14px serif; }
+    .save-banner b { font-size: 11px; }
+    .save-banner p { margin: 4px 0 0; font-size: 9px; line-height: 1.6; }
+
+    @media (max-width: 1060px) {
+      .grid { grid-template-columns: repeat(2, minmax(290px, 1fr)); }
+      .hero { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .page { padding: 30px 12px 72px; }
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      .hero { gap: 22px; margin-bottom: 36px; }
+      .swatches { width: 100%; }
+      .phone { height: 812px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
+      .witness-portrait { animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div>
+        <div class="kicker mono">UI REDESIGN V2 · LIVING CASE DESK</div>
+        <h1 class="serif">卷可翻，证可连，<br>一字由你定案。</h1>
+        <p>把 Galgame 对话变成查案入口，把证物、字形、矛盾与来源变成可操作的案牍。所有古文字位均是来源门禁线框，不使用 AI 伪造。</p>
+      </div>
+      <div class="swatches" aria-label="色板">
+        <i style="background:#f3e7cb"></i><i style="background:#23463f"></i><i style="background:#b54132"></i><i style="background:#477873"></i><i style="background:#101916"></i>
+      </div>
+    </header>
+
+    <section class="grid" aria-label="19 个移动端关键状态">
+      <article class="sample"><h2>01 / 卷宗架 · 继续查案</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="brand">大理寺 · 字案房</span><span class="seal-mini">案</span></div>
+        <h3 class="display">八宗字案</h3><p class="subcopy">从字形、古义和语境里，重审那些流传已久的说法。</p>
+        <div class="ongoing"><small>当前案卷 · 已自动入库</small><b>壹 · 家字失踪案</b><small>调查台 · 关键证据 2 / 4</small><div class="progress"><i></i></div></div>
+        <div class="files"><div class="file"><span class="num">壹</span><span><strong>家字失踪案</strong><small>调查中 · 上次停在字形旧档</small></span><span class="mark">续</span></div><div class="file"><span class="num">贰</span><span><strong>休字树下案</strong><small>待查 · 约 4 分钟</small></span><span>›</span></div><div class="file"><span class="num">叁</span><span><strong>取字失耳案</strong><small>已结 · 可重审</small></span><span class="mark">结</span></div></div>
+        <div class="bottom-actions"><button class="button">继续查案</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>02 / 案件封面 · 活卷展开</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="mono">CASE 01 / 08</span><span class="tiny">返回卷宗架</span></div>
+        <div class="cover-scene"><span class="cover-char">家</span><div class="cover-file"><small>第一宗 · 入门</small><h3 style="font-size:28px;margin:7px 0">家字失踪案</h3><span class="tag dark-tag">虚构字案机构</span></div></div>
+        <div class="rumor">“屋子里养猪，古人才算有家。”<br>这句话抓住了字形，还是越过了证据？</div>
+        <div class="method-row"><span>3 条调查路径</span><span>约 4 分钟</span><span>无血腥内容</span></div>
+        <div class="bottom-actions"><button class="button">升堂问案</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>03 / 沈砚开场 · 对话是查案入口</h2><div class="phone"><div class="screen dark"><div class="layer stage">
+        <div class="topbar" style="position:absolute;z-index:4;top:26px;left:18px;right:18px"><span class="brand">家字失踪案</span><span class="tiny">记录 02</span></div><div class="room-lines"></div>
+        <img class="character-art" data-asset-fallback src="/assets/characters/shenyan/shenyan-master-v3.webp" alt="沈砚，虚构大理寺录事，手持无字案牍">
+        <div class="art-slot character-fallback" hidden><span>沈砚 · 虚构大理寺录事<br>角色图暂不可用</span></div>
+        <div class="dialogue"><span class="nameplate">沈砚 · 虚构大理寺录事</span><p>先记下传言，再分别核对字形、字书和它流传的时间。顺口的故事，也要经得住三处案卷。</p><div class="choices"><button type="button" class="choice selected">先看最早能核验的字形。</button><button type="button" class="choice">先问这套说法从哪里流传。</button><button type="button" class="choice">先把我的直觉封存下来。</button></div><div class="record">选择只改变调查顺序 · 关键事实不会永久错过</div></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>04 / 初判 · 封存直觉</h2><div class="phone"><div class="screen pad verdict-court"><div class="layer">
+        <div class="topbar"><span class="brand">初判</span><span class="mono">CASE 01</span></div><h3 class="display">在看证据之前，<br>你更相信哪一种？</h3><p class="subcopy">初判不影响证据取得，只在结案时与你的终判并列。</p>
+        <div class="verdict-options"><div class="verdict-option"><span class="letter">甲</span><b>流传说法基本可信</b><small>字形本身足以支持今天的故事。</small></div><div class="verdict-option selected"><span class="letter">乙</span><b>抓住一点，但说得太绝对</b><small>可能有构件线索，也可能越过证据。</small></div><div class="verdict-option"><span class="letter">丙</span><b>现在还无法判断</b><small>先区分字形材料与意义演变。</small></div></div>
+        <div class="notice-box"><b>确认封存？</b><br>提交后不可修改，但不会锁死任何调查路径。</div><div class="bottom-actions"><button class="button">封存初判 · 开始调查</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>05 / 调查案牍台 · 默认不画装饰线</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="brand">调查案牍</span><span class="tiny">关键证据 1 / 4</span></div><div class="countbar"><i class="on"></i><i></i><i></i><i></i></div>
+        <div class="desk"><div class="path-card one" role="button" tabindex="0"><span class="tag red">未查</span><h4>坊间证词</h4><p>追问“屋里养猪”的故事从何而来。</p></div><div class="path-card two" role="button" tabindex="0"><span class="tag">推荐</span><h4>字形旧档</h4><p>先看可追溯材料，再谈构件功能。</p></div><div class="path-card three is-complete" role="button" tabindex="0"><span class="tag">已查</span><h4>语境案卷</h4><p>《说文》条目与传统解释边界。</p></div><div class="goal"><b>终判门槛</b><br>还缺 2 条关键证据。已查节点仍可回看。</div></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>06 / 说书人追问 · 选择影响可见证词</h2><div class="phone"><div class="screen pad witness-street" data-witness-scene><div class="layer">
+        <div class="topbar"><span class="brand">坊间证词</span><span class="seal-mini">问</span></div><h3 class="display">他说得很笃定，<br>先追问哪一处？</h3>
+        <div class="testimony"><div class="witness-profile" data-witness-profile><img class="witness-portrait" data-asset-fallback loading="lazy" decoding="async" src="/assets/characters/home-witness/home-witness-avatar-v1.webp" alt="坊间说书人头像"><span class="witness-portrait" hidden>坊间<br>说书人</span><div><span class="tag red">坊间说书人</span><b>“这故事，人人都听过。”</b><small>传言陈述者 · 唐代视觉锚点下的虚构角色</small></div></div><p class="quote">“宀下有豕，不就是古人把猪养在屋里，所以才有了家么？”</p><div class="margin-note">当前只记录传言，不把它当作事实证据。</div></div>
+        <div class="choices" style="margin-top:12px"><button type="button" class="choice">你见过哪一件最早的字形材料？</button><button type="button" class="choice selected">“人人如此”有哪一条社会史证据？</button><button type="button" class="choice">这句话是什么时候开始流行的？</button></div>
+        <div class="npc-note"><img class="npc-avatar" data-asset-fallback loading="lazy" decoding="async" src="/assets/characters/shenyan/shenyan-avatar-v3.webp" alt="沈砚头像"><span class="npc-avatar" hidden>沈砚</span><div><b>方法提示</b><p>追问能展开不同补充证词，但关键材料仍可从其他节点取得。</p></div></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>07 / 证物正面 · 先看材料</h2><div class="phone"><div class="screen pad" data-record-clerk-scene><div class="layer scroll">
+        <div class="topbar"><span class="brand">字形旧档</span><span class="seal-mini">证二</span></div><div class="scene-context-strip" role="img" aria-label="虚构字案房场景裁片"></div><div class="clerk-profile" data-record-clerk-profile><img class="clerk-avatar" data-asset-fallback loading="lazy" decoding="async" src="/assets/characters/record-clerk/record-clerk-avatar-v1.webp" alt="书吏头像"><span class="clerk-avatar" hidden>书吏<br>校勘</span><div><span class="tag">书吏呈卷</span><b>先核纸页与著录，再谈解释。</b><small>档案校勘者 · 唐代视觉锚点下的虚构角色</small></div></div><h3 class="display">先看原始资料</h3><p class="subcopy">图形只承载核验材料，不先给结论。</p>
+        <div class="evidence-hero"><div class="document-prop"></div></div><div class="evidence-meta"><div class="meta-card"><small>资源性质</small><b>产品人工描摹候选</b></div><div class="meta-card"><small>审核状态</small><b>第二人审校待完成</b></div><div class="meta-card"><small>著录</small><b>甲207／合20268</b></div><div class="meta-card"><small>不是</small><b>甲骨原片照片</b></div></div>
+        <div class="notice-box"><b>这份材料能证明什么？</b><br>只陈述可观察构件与来源性质；不能自动推出社会生活结论。</div>
+        <div class="bottom-actions"><div class="actions-2"><button class="button secondary" data-action="flip-evidence">查看背签</button><button class="button" data-action="archive-evidence">收入证据簿</button></div></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>08 / 证物翻面 · 已定义热点聚焦</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="brand">证物背签</span><span class="tag">细节 1 / 2</span></div><h3 class="display">放大已定义细节</h3><p class="subcopy">热点来自内容数据，不进行自由图像识别。</p>
+        <div class="hotspot-view"><div class="document-prop"></div><button type="button" class="hotspot" data-action="focus-hotspot" aria-expanded="false">＋</button><div class="detail-note"><b>构件观察</b><br>这里只记录来源图中可见结构。构件承担何种功能，需要和字书及分期研究交叉判断。</div></div>
+        <div class="evidence-meta"><div class="meta-card"><small>可证明</small><b>某阶段的可见结构</b></div><div class="meta-card"><small>不可证明</small><b>人人家中养猪</b></div></div>
+        <div class="bottom-actions"><button class="button secondary">返回证物正面</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>09 / 字形时间线 · 权威 SVG 门禁</h2><div class="phone"><div class="screen pad"><div class="layer scroll">
+        <div class="topbar"><span class="brand">字形对照</span><span class="tiny">来源性质常驻</span></div><h3 class="display">能确认的变化</h3><p class="subcopy">不使用现代字体或 AI 图像冒充甲骨文、小篆。</p>
+        <div class="glyph-list"><div class="glyph-card"><div class="glyph-slot">人工 SVG 槽<br>不展示伪字</div><b>甲207／合20268</b><small>人工描摹候选</small></div><div class="glyph-card"><div class="glyph-slot pending">权威来源待转绘</div><b>甲2307／合21028</b><small>数据库研究预览</small></div><div class="glyph-card"><div class="glyph-slot pending">来源待锁</div><b>说文小篆</b><small>不参与强结论</small></div></div>
+        <div class="boundary"><b>证据边界</b><br>当前只有甲207完成一次人工描摹初检；其余样本在同等级来源与复核完成前保持线框。</div><div class="summary-sheet"><span class="tag">可证说明</span><p style="font-size:11px;margin-bottom:0">材料可以帮助观察同一字头在不同样本中的结构差异，但不能仅凭一张图排他解释造字动机。</p></div>
+        <div class="bottom-actions"><button class="button">记入证据 · 返回调查台</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>10 / 矛盾对照 · 选择不合之处</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="brand">证词核对</span><span class="seal-mini">疑</span></div><h3 class="display">哪一处越过了材料？</h3><p class="subcopy">矛盾表示“需要再核”，不等于人物有罪。</p>
+        <div class="compare-cards"><div class="compare-card selected"><span class="tag red">证词</span><h4>人人屋里养猪</h4><p>说书人把构件直接扩写成所有古代家庭的生活事实。</p></div><div class="compare-card selected"><span class="tag">材料</span><h4>字形与字书</h4><p>可观察相关构件；《说文》还记录“豭省声”的传统解释。</p></div></div>
+        <div class="relation-words"><div class="relation-word">时间不合</div><div class="relation-word on">推断越界</div><div class="relation-word">语义倒灌</div></div>
+        <div class="npc-note"><img class="npc-avatar" data-asset-fallback loading="lazy" decoding="async" src="/assets/characters/shenyan/shenyan-avatar-v3.webp" alt="沈砚头像"><span class="npc-avatar" hidden>沈砚</span><div><b>录事提示</b><p>构件存在，不等于一整段社会故事已经被证明。</p></div></div>
+        <div class="bottom-actions"><button class="button">标记矛盾 · 进入关系板</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>11 / 关系板 · 待连线</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="brand">证据关系板</span><span class="tiny">0 条已验证</span></div><h3 class="display" style="font-size:29px">先选证据，再选关系词</h3>
+        <div class="relation-board" data-relation-demo><div class="wire w1 demo-wire"></div><span class="wire-label l1 demo-wire-label">补充</span><button type="button" class="board-card a" data-node="form"><span class="pin">1</span><b>早期字形材料</b><br>可观察构件与样本差异</button><button type="button" class="board-card b" data-node="gloss"><span class="pin">2</span><b>《说文》字条</b><br>从宀，豭省声</button><button type="button" class="board-card c" data-node="rumor"><span class="pin">3</span><b>坊间传言</b><br>人人家中养猪</button><div class="board-help"><b>点选路径</b><br>证据 A → 关系词 → 证据 B<br><br>拖线只是增强操作。</div></div>
+        <div class="bottom-actions"><button class="button disabled" data-action="connect-relation" disabled>先选择两张证据</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>12 / 关系板 · 吸附成功</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="brand">证据关系板</span><span class="tiny">2 条已验证</span></div><h3 class="display" style="font-size:29px">每条线都有可读含义</h3>
+        <div class="relation-board"><div class="wire w1"></div><span class="wire-label l1">补充</span><div class="wire w2"></div><span class="wire-label l2">越界</span><button type="button" class="board-card a"><span class="pin">1</span><b>早期字形材料</b><br>可观察构件与样本差异</button><button type="button" class="board-card b"><span class="pin">2</span><b>《说文》字条</b><br>从宀，豭省声</button><button type="button" class="board-card c"><span class="pin">3</span><b>坊间传言</b><br>人人家中养猪</button><div class="board-help"><b>关系已吸附</b><br>材料彼此补充；传言中的社会史结论超出它们能证明的范围。</div></div>
+        <div class="bottom-actions"><button class="button">用这组关系开始推理</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>13 / 证据链 · 材料—解释—边界</h2><div class="phone"><div class="screen pad"><div class="layer scroll">
+        <div class="topbar"><span class="brand">组合证据链</span><span class="tiny">3 / 3 槽完整</span></div><h3 class="display" style="font-size:29px">把结论的路写清楚</h3>
+        <div class="chain-steps"><div class="chain-slot"><span class="slot-label">材料</span><div class="slot-card"><b>甲207 字形材料</b><small>只证明该样本中可观察的结构。</small></div></div><div class="chain-arrow">↓</div><div class="chain-slot"><span class="slot-label">解释</span><div class="slot-card"><b>《说文》“豭省声”</b><small>提示不能只讲成现代图画会意。</small></div></div><div class="chain-arrow">↓</div><div class="chain-slot"><span class="slot-label">边界</span><div class="slot-card"><b>社会史推断越界</b><small>构件不能自动证明人人屋中养猪。</small></div></div></div>
+        <div class="evidence-pool"><div class="pool-chip">已用 · 早期字形卷</div><div class="pool-chip">已用 · 《说文》字条</div><div class="pool-chip">候选 · 传播时间</div></div>
+        <div class="bottom-actions"><button class="button" data-action="link-chain">点亮证据链 · 进入终判</button></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>14 / 终判确认 · 三步都可回退</h2><div class="phone"><div class="screen pad"><div class="layer scroll">
+        <div class="topbar"><span class="brand">定案前复核</span><span class="mono">CASE 01</span></div><h3 class="display">准备落下判词</h3><p class="subcopy">确认判词、矛盾解释与引用证据链。</p>
+        <div class="summary-sheet"><span class="tag red">终判 · 部分可信</span><dl><div><dt>判词</dt><dd>抓住了部分构件信息，但把复杂历史说得过于确定。</dd></div><div><dt>矛盾</dt><dd>由构件存在直接推出普遍社会生活。</dd></div><div><dt>证据链</dt><dd>甲207材料 → 《说文》传统解释 → 社会史边界。</dd></div></dl></div>
+        <button type="button" class="confirm-check" data-action="confirm-verdict" aria-pressed="false"><i>✓</i><span>我确认本次定案引用以上三层证据。</span></button><div class="notice-box">提交后先检查证据链是否成立，再展示大理寺参考判词。</div>
+        <div class="bottom-actions"><div class="actions-2"><button class="button secondary">返回调整</button><button class="button disabled" data-action="submit-verdict" disabled>确认后提笔定案</button></div></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>15 / 落印 · 720ms 内完成</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="brand">结案文书</span><span class="tiny">点击印章可重播</span></div><div class="seal-stage"><div class="seal-block"><button type="button" class="big-seal is-stamping" data-action="replay-seal">审字<br>有据</button><h3>证据链成立</h3><p>材料、解释与证据边界彼此衔接。正在写入本地案卷。</p><span class="tag red">已入库</span></div></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>16 / 错判回卷 · 不死亡，不清档</h2><div class="phone"><div class="screen pad"><div class="layer">
+        <div class="topbar"><span class="brand">判前复核</span><span class="tag amber">一环不成立</span></div><h3 class="display">这条材料还不能<br>推出该结论</h3><p class="subcopy">已取得证据、初判和调查位置全部保留。</p>
+        <div class="broken-link"><b>需要重看的关系</b><div class="link-row"><div class="mini-card">构件中可见相关部分</div><span class="dash">⋯越界⋯</span><div class="mini-card">人人家中养猪</div></div><p style="font-size:10px;margin-bottom:0">前者是字形观察，后者是普遍社会史判断，中间缺少能支持“人人如此”的材料。</p></div>
+        <div class="npc-note"><img class="npc-avatar" data-asset-fallback loading="lazy" decoding="async" src="/assets/characters/shenyan/shenyan-avatar-v3.webp" alt="沈砚头像"><span class="npc-avatar" hidden>沈砚</span><div><b>沈砚 · 回卷提示</b><p>不是整案推倒重来。回关系板换一条解释，或先补查传播时间。</p></div></div>
+        <div class="bottom-actions"><div class="actions-2"><button class="button secondary">补查证据</button><button class="button" data-action="rewind">回卷调整关系</button></div></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>17 / 结案档案 · 初终判同权</h2><div class="phone"><div class="screen pad"><div class="layer scroll">
+        <div class="topbar"><span class="brand">已结字案</span><span class="seal-mini">结</span></div><div class="archive-title"><div class="case-char">家</div><h3>家字失踪案</h3><span class="tag red">参考判词 · 部分可信</span></div>
+        <div class="verdict-compare"><div class="verdict-card"><span class="tiny">初判</span><span class="result">可能部分可信</span><small>依据：对传言保持保留。</small></div><div class="verdict-card final"><span class="tiny">终判</span><span class="result">部分可信</span><small>依据：字形、字书与社会史边界。</small></div></div>
+        <div class="used-evidence"><b>本次实际使用的证据</b><ol><li>甲207／合20268 的可观察结构。</li><li>《说文》“从宀，豭省声”的传统解释。</li><li>构件不能直接推出普遍社会生活。</li></ol></div>
+        <p class="subcopy" style="margin-top:12px">改变判断不加分，坚持初判也不是失败；评价依据是最终证据链质量。</p>
+        <div class="bottom-actions"><div class="actions-2"><button class="button secondary">查看来源</button><button class="button">收卷归档</button></div></div>
+      </div></div></div></article>
+
+      <article class="sample"><h2>18 / 来源抽屉 · 性质与边界常驻</h2><div class="phone"><div class="screen" data-drawer-screen><div class="drawer-under"><div class="topbar"><span class="brand">结案档案</span><button type="button" class="drawer-control" data-action="open-drawer">查看来源</button></div><h3 class="display">家字失踪案</h3></div><section class="drawer"><div class="handle"></div><div class="topbar"><span class="brand">来源与资源性质</span><button type="button" class="drawer-control tiny" data-action="close-drawer">收卷 ×</button></div><p class="subcopy">事实来源、产品解释与虚构叙事分层显示。</p>
+        <div class="source-item"><span class="tag">字形数据库</span><b>小学堂甲骨文数据库</b><p>甲207／合20268。页面所用资源为产品人工描摹候选，不是甲骨原片。</p><code>source-home-glyph-xiaoxue</code></div>
+        <div class="source-item"><span class="tag">历史字书</span><b>《说文解字·宀部》家字条</b><p>“家，居也。从宀，豭省声。”作为传统解释材料展示。</p><code>source-home-shuowen</code></div>
+        <div class="source-item"><span class="tag amber">证据边界</span><b>第二人审校与小篆来源待完成</b><p>未通过同等级复核的字形不参与排他结论。</p></div>
+        <button class="button secondary" style="margin-top:10px">返回结案档案</button>
+      </section></div></div></article>
+
+      <article class="sample"><h2>19 / 图片失败＋存档恢复 · 流程仍可完成</h2><div class="phone"><div class="screen pad"><div class="layer scroll">
+        <div class="topbar"><span class="brand">安全审案</span><span class="tag amber">待保存</span></div><h3 class="display">图像未能载入，<br>文字证据仍然有效</h3>
+        <div class="failure-card"><div class="failed-image">证物图暂不可用<br>已切换为核验文字描述</div><span class="tag">文字 fallback</span><p style="font-size:11px">甲207／合20268：依据数据库渲染的人工描摹候选。当前节点仍可完成，来源与证据边界保持可读。</p><div class="actions-2"><button class="button secondary">重试图片</button><button class="button official">依据文字继续</button></div></div>
+        <div class="save-banner"><span class="status-icon">暂</span><div><b>案卷暂时无法写入 IndexedDB</b><p>已保留到当前页面：初判、三条证据和调查位置。可重试，或进入关闭后不保留完整历史的临时模式。</p></div></div>
+        <div class="notice-box"><b>恢复安全节点</b><br>若当前内容缺页，将返回调查台；缺页节点不会标为完成。</div>
+        <div class="bottom-actions"><div class="actions-2"><button class="button secondary">重试保存</button><button class="button">进入临时审案</button></div></div>
+      </div></div></div></article>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const all = (selector, root = document) => [...root.querySelectorAll(selector)]
+
+      function restartAnimation(element, className) {
+        element.classList.remove(className)
+        void element.offsetWidth
+        element.classList.add(className)
+      }
+
+      function chooseOption(button) {
+        const group = button.closest('.choices')
+        if (!group) return
+        all('.choice', group).forEach((choice) => {
+          choice.classList.toggle('selected', choice === button)
+          choice.classList.toggle('is-committed', choice === button)
+        })
+        group.classList.add('has-choice')
+        const witnessProfile = button.closest('[data-witness-scene]')?.querySelector('[data-witness-profile]')
+        if (witnessProfile) restartAnimation(witnessProfile, 'is-answering')
+      }
+
+      all('.choice').forEach((choice) => choice.addEventListener('click', () => chooseOption(choice)))
+
+      all('.path-card').forEach((card) => {
+        const activate = () => {
+          all('.path-card', card.parentElement).forEach((item) => item.classList.remove('is-active'))
+          card.classList.add('is-active')
+        }
+        card.addEventListener('click', activate)
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            activate()
+          }
+        })
+      })
+
+      const flipButton = document.querySelector('[data-action="flip-evidence"]')
+      flipButton?.addEventListener('click', () => {
+        const hero = flipButton.closest('.screen')?.querySelector('.evidence-hero')
+        if (!hero) return
+        const flipped = hero.classList.toggle('is-flipped')
+        flipButton.textContent = flipped ? '返回正面' : '查看背签'
+        flipButton.setAttribute('aria-pressed', String(flipped))
+      })
+
+      const archiveButton = document.querySelector('[data-action="archive-evidence"]')
+      archiveButton?.addEventListener('click', () => {
+        archiveButton.textContent = '已归档 · 证据 2 / 4'
+        archiveButton.classList.add('is-archived')
+        archiveButton.setAttribute('aria-pressed', 'true')
+        const clerkProfile = archiveButton.closest('[data-record-clerk-scene]')?.querySelector('[data-record-clerk-profile]')
+        if (clerkProfile) restartAnimation(clerkProfile, 'is-presenting')
+      })
+
+      const hotspotButton = document.querySelector('[data-action="focus-hotspot"]')
+      hotspotButton?.addEventListener('click', () => {
+        const view = hotspotButton.closest('.hotspot-view')
+        if (!view) return
+        const focused = view.classList.toggle('is-focused')
+        hotspotButton.textContent = focused ? '×' : '＋'
+        hotspotButton.setAttribute('aria-expanded', String(focused))
+      })
+
+      const relationBoard = document.querySelector('[data-relation-demo]')
+      const relationButton = document.querySelector('[data-action="connect-relation"]')
+      function updateRelationButton() {
+        if (!relationBoard || !relationButton) return
+        const selected = all('.board-card.is-selected', relationBoard)
+        relationButton.disabled = selected.length !== 2
+        relationButton.classList.toggle('disabled', selected.length !== 2)
+        relationButton.textContent = selected.length === 2 ? '选择关系：补充' : `已选 ${selected.length} / 2 张证据`
+      }
+      all('.board-card[data-node]', relationBoard || document).forEach((card) => card.addEventListener('click', () => {
+        if (relationBoard?.classList.contains('is-connected')) return
+        const selected = all('.board-card.is-selected', relationBoard)
+        if (!card.classList.contains('is-selected') && selected.length >= 2) selected[0].classList.remove('is-selected')
+        card.classList.toggle('is-selected')
+        updateRelationButton()
+      }))
+      relationButton?.addEventListener('click', () => {
+        if (!relationBoard || relationButton.disabled) return
+        relationBoard.classList.add('is-connected')
+        relationButton.textContent = '关系已吸附 · 进入推理'
+        relationButton.classList.remove('disabled')
+      })
+
+      const chainButton = document.querySelector('[data-action="link-chain"]')
+      chainButton?.addEventListener('click', () => {
+        const chain = chainButton.closest('.screen')?.querySelector('.chain-steps')
+        if (!chain) return
+        restartAnimation(chain, 'is-linked')
+        chainButton.textContent = '证据链已点亮 · 进入终判'
+      })
+
+      const confirmButton = document.querySelector('[data-action="confirm-verdict"]')
+      const submitButton = document.querySelector('[data-action="submit-verdict"]')
+      confirmButton?.addEventListener('click', () => {
+        const confirmed = confirmButton.classList.toggle('is-confirmed')
+        confirmButton.setAttribute('aria-pressed', String(confirmed))
+        if (!submitButton) return
+        submitButton.disabled = !confirmed
+        submitButton.classList.toggle('disabled', !confirmed)
+        submitButton.textContent = confirmed ? '提笔定案' : '确认后提笔定案'
+      })
+      submitButton?.addEventListener('click', () => {
+        if (submitButton.disabled) return
+        submitButton.textContent = '判词已送往落印'
+        submitButton.classList.add('official')
+      })
+
+      const sealButton = document.querySelector('[data-action="replay-seal"]')
+      sealButton?.addEventListener('click', () => restartAnimation(sealButton, 'is-stamping'))
+
+      const rewindButton = document.querySelector('[data-action="rewind"]')
+      rewindButton?.addEventListener('click', () => {
+        const screen = rewindButton.closest('.screen')
+        if (!screen) return
+        restartAnimation(screen, 'is-rewinding')
+        rewindButton.textContent = '已回到判前安全卷页'
+      })
+
+      const drawerScreen = document.querySelector('[data-drawer-screen]')
+      document.querySelector('[data-action="close-drawer"]')?.addEventListener('click', () => drawerScreen?.classList.add('drawer-closed'))
+      document.querySelector('[data-action="open-drawer"]')?.addEventListener('click', () => drawerScreen?.classList.remove('drawer-closed'))
+
+      all('.sample').forEach((sample, index) => sample.style.setProperty('--sample-index', index))
+      all('img[data-asset-fallback]').forEach((asset) => {
+        asset.addEventListener('error', () => {
+          asset.hidden = true
+          const fallback = asset.nextElementSibling
+          if (fallback) fallback.hidden = false
+        })
+      })
+      requestAnimationFrame(() => document.documentElement.classList.add('motion-ready'))
+
+      window.__dalisizianPreview = {
+        chooseFirstOption() { const choice = document.querySelector('.choice'); choice?.click() },
+        questionWitness() { document.querySelector('[data-witness-scene] .choice')?.click() },
+        presentRecord() { archiveButton?.click() },
+        flipEvidence() { flipButton?.click() },
+        focusHotspot() { hotspotButton?.click() },
+        connectRelation() {
+          if (!relationBoard || !relationButton) return
+          all('.board-card[data-node]', relationBoard).slice(0, 2).forEach((card) => {
+            if (!card.classList.contains('is-selected')) card.click()
+          })
+          relationButton.click()
+        },
+        linkChain() { chainButton?.click() },
+        confirmVerdict() { confirmButton?.click() },
+        closeDrawer() { document.querySelector('[data-action="close-drawer"]')?.click() },
+        openDrawer() { document.querySelector('[data-action="open-drawer"]')?.click() },
+      }
+    })()
+  </script>
+</body>
+</html>

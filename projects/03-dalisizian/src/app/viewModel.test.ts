@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { contentIndex } from '../content'
 import type { CaseNode, CaseRuntimeState, ScreenState } from '../content/types'
 import { createDefaultSave } from '../storage/storage'
-import { getCaseListItems, getNodeScreen, getReturnTarget, isClueBookOverlay } from './viewModel'
+import { getCaseListItems, getDeductionReviewModel, getInvestigationRouteItems, getNodeDisplayText, getNodeScreen, getReturnTarget, getVerdictLabel, isClueBookOverlay } from './viewModel'
 
 const baseState: CaseRuntimeState = {
   caseId: 'case-home-roof-pig', screen: 'investigation', currentNodeId: 'node-home-00', flags: {}, clueIds: [], evidenceIds: [],
-  unlockedSceneIds: [], visitedNodeIds: [], deductionAnswers: {}, styleTags: [], completed: false,
+  unlockedSceneIds: [], visitedNodeIds: [], deductionAnswers: {}, deductionAttempts: {}, firstDeductionAnswers: {}, reviewedRouteIds: [], styleTags: [], completed: false,
 }
 
 describe('semantic page view model', () => {
@@ -14,6 +14,7 @@ describe('semantic page view model', () => {
     ['narration', 'briefing'],
     ['dialogue', 'dialogue'],
     ['choice', 'verdict'],
+    ['investigation-hub', 'investigation'],
     ['clue', 'clueBook'],
     ['condition', 'investigation'],
     ['scene', 'scene'],
@@ -45,5 +46,55 @@ describe('semantic page view model', () => {
     expect(isClueBookOverlay('clueBook', { screen: 'dialogue', nodeId: 'node-home-08' })).toBe(true)
     expect(isClueBookOverlay('clueBook', undefined)).toBe(false)
     expect(isClueBookOverlay('dialogue', { screen: 'dialogue', nodeId: 'node-home-08' })).toBe(false)
+  })
+
+  it('presents internal verdict values as player-facing Chinese labels', () => {
+    expect(getVerdictLabel('credible')).toBe('基本可信')
+    expect(getVerdictLabel('partial')).toBe('部分可信')
+    expect(getVerdictLabel('uncertain')).toBe('证据不足')
+    expect(getVerdictLabel('myth')).toBe('常见误解')
+    expect(getVerdictLabel(undefined)).toBe('未记')
+  })
+
+  it('builds completed and pending investigation route cards from content', () => {
+    const caseData = contentIndex.cases.get(baseState.caseId)
+    if (!caseData) throw new Error('home case fixture missing')
+
+    const items = getInvestigationRouteItems(caseData, { ...baseState, clueIds: ['clue-home-form'] }, contentIndex)
+
+    expect(items.map((item) => [item.id, item.completed])).toEqual([
+      ['route-home-form', true],
+      ['route-home-gloss', false],
+      ['route-home-context', false],
+    ])
+    expect(items[0].clueTitles).toContain('家字形证')
+  })
+
+  it('builds a route-aware review link after a failed deduction', () => {
+    const caseData = contentIndex.cases.get(baseState.caseId)
+    const deduction = caseData?.deductions.find((item) => item.id === 'deduction-home-method')
+    if (!deduction) throw new Error('home deduction fixture missing')
+    const failedState: CaseRuntimeState = {
+      ...baseState,
+      currentNodeId: 'node-home-16',
+      deductionAnswers: { [deduction.id]: 'option-home-method-a' },
+      deductionFeedback: '需要回查字形材料。',
+    }
+
+    expect(getDeductionReviewModel(deduction, failedState, contentIndex)).toMatchObject({
+      reviewNodeId: 'node-home-04',
+      routeId: 'route-home-form',
+      routeTitle: '验字形',
+    })
+  })
+
+  it('shows the authored deduction prompt instead of stale node bridge copy', () => {
+    const caseData = contentIndex.cases.get(baseState.caseId)
+    const deduction = caseData?.deductions.find((item) => item.id === 'deduction-home-method')
+    const node = contentIndex.nodes.get('node-home-16')
+    if (!deduction || !node) throw new Error('home deduction fixture missing')
+
+    expect(getNodeDisplayText(node, deduction)).toBe(deduction.prompt)
+    expect(getNodeDisplayText(node)).toBe(node.text)
   })
 })

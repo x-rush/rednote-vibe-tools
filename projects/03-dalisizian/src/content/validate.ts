@@ -15,7 +15,10 @@ export type ValidationReport = {
 }
 
 const idPattern = /^[a-z][a-z0-9-]*$/
-const conditionFields = new Set(['clueIds', 'evidenceIds', 'unlockedSceneIds', 'visitedNodeIds', 'completedCaseIds', 'flags', 'deductionAnswers'])
+const conditionFields = new Set([
+  'clueIds', 'evidenceIds', 'unlockedSceneIds', 'visitedNodeIds', 'reviewedRouteIds', 'styleTags', 'completedCaseIds',
+  'flags', 'deductionAnswers', 'firstDeductionAnswers', 'deductionAttempts',
+])
 
 export function validateContentPackage(value: unknown): ValidationReport {
   const issues: ValidationIssue[] = []
@@ -68,30 +71,46 @@ export function validateContentPackage(value: unknown): ValidationReport {
 
   const index = buildContentIndex(content)
   const sourceIds = new Set(content.sources.map((item) => item.id))
+  const sourceTypes = new Map(content.sources.map((item) => [item.id, item.type]))
 
   function validateCondition(condition: ConditionExpression, path: string): void {
     if ('all' in condition) return condition.all.forEach((child, indexValue) => validateCondition(child, `${path}.all[${indexValue}]`))
     if ('any' in condition) return condition.any.forEach((child, indexValue) => validateCondition(child, `${path}.any[${indexValue}]`))
     if ('not' in condition) return validateCondition(condition.not, `${path}.not`)
-    const leaf = condition as unknown as { field: string; operator?: string; value?: string; key?: string }
+    const leaf = condition as unknown as { field: string; operator?: string; value?: string | number; key?: string }
     if (!conditionFields.has(leaf.field)) {
       add('unknown-condition-field', `${path}.field`, `未知状态字段 ${leaf.field}。`)
       return
     }
     const operator = 'operator' in leaf ? leaf.operator : undefined
     const validOperator = leaf.field === 'flags' ? operator === 'equals'
-      : leaf.field === 'deductionAnswers' ? operator === 'answer-is'
+      : leaf.field === 'deductionAnswers' || leaf.field === 'firstDeductionAnswers' ? operator === 'answer-is'
+        : leaf.field === 'deductionAttempts' ? operator === 'at-most'
         : operator === 'includes' || operator === 'not-includes'
     if (!validOperator) add('unknown-condition-operator', `${path}.operator`, `状态字段 ${leaf.field} 使用了非法操作符。`)
-    if (leaf.field === 'clueIds' && leaf.value && !index.clues.has(leaf.value)) add('missing-clue-reference', `${path}.value`, `线索 ${leaf.value} 不存在。`)
-    if (leaf.field === 'evidenceIds' && leaf.value && !index.evidence.has(leaf.value)) add('missing-evidence-reference', `${path}.value`, `证物 ${leaf.value} 不存在。`)
-    if (leaf.field === 'unlockedSceneIds' && leaf.value && !index.scenes.has(leaf.value)) add('missing-scene-reference', `${path}.value`, `场景 ${leaf.value} 不存在。`)
-    if (leaf.field === 'visitedNodeIds' && leaf.value && !index.nodes.has(leaf.value)) add('missing-node-reference', `${path}.value`, `节点 ${leaf.value} 不存在。`)
-    if (leaf.field === 'completedCaseIds' && leaf.value && !index.cases.has(leaf.value)) add('missing-case-reference', `${path}.value`, `案件 ${leaf.value} 不存在。`)
+    if (leaf.field === 'clueIds' && typeof leaf.value === 'string' && !index.clues.has(leaf.value)) add('missing-clue-reference', `${path}.value`, `线索 ${leaf.value} 不存在。`)
+    if (leaf.field === 'evidenceIds' && typeof leaf.value === 'string' && !index.evidence.has(leaf.value)) add('missing-evidence-reference', `${path}.value`, `证物 ${leaf.value} 不存在。`)
+    if (leaf.field === 'unlockedSceneIds' && typeof leaf.value === 'string' && !index.scenes.has(leaf.value)) add('missing-scene-reference', `${path}.value`, `场景 ${leaf.value} 不存在。`)
+    if (leaf.field === 'visitedNodeIds' && typeof leaf.value === 'string' && !index.nodes.has(leaf.value)) add('missing-node-reference', `${path}.value`, `节点 ${leaf.value} 不存在。`)
+    if (leaf.field === 'completedCaseIds' && typeof leaf.value === 'string' && !index.cases.has(leaf.value)) add('missing-case-reference', `${path}.value`, `案件 ${leaf.value} 不存在。`)
   }
 
   content.content.cases.forEach((caseData, casePosition) => {
     const casePath = `$.content.cases[${casePosition}]`
+    if (!Array.isArray(caseData.investigationRoutes) || caseData.investigationRoutes.length !== 3) {
+      add('invalid-route-count', `${casePath}.investigationRoutes`, '每案必须恰好包含三条调查路线。')
+    }
+    const routeIds = new Set<string>()
+    for (const [routePosition, route] of (caseData.investigationRoutes ?? []).entries()) {
+      const routePath = `${casePath}.investigationRoutes[${routePosition}]`
+      if (routeIds.has(route.id)) add('duplicate-route-id', `${routePath}.id`, `路线 ${route.id} 在本案重复。`)
+      routeIds.add(route.id)
+      const entryNode = index.nodes.get(route.entryNodeId)
+      if (!entryNode || entryNode.caseId !== caseData.caseId) add('missing-route-entry', `${routePath}.entryNodeId`, `路线入口 ${route.entryNodeId} 不属于本案。`)
+      route.requiredClueIds.forEach((id, position) => {
+        if (!caseData.clues.some((clue) => clue.id === id)) add('missing-route-clue', `${routePath}.requiredClueIds[${position}]`, `路线线索 ${id} 不属于本案。`)
+      })
+    }
     caseData.characterIds.forEach((id, position) => {
       if (!index.characters.has(id)) add('missing-character-reference', `${casePath}.characterIds[${position}]`, `人物 ${id} 不存在。`)
     })
@@ -105,11 +124,13 @@ export function validateContentPackage(value: unknown): ValidationReport {
       })
       clue.sourceIds.forEach((id, position) => {
         if (!sourceIds.has(id)) add('missing-source-reference', `${casePath}.clues[${cluePosition}].sourceIds[${position}]`, `来源 ${id} 不存在。`)
+        if (sourceTypes.get(id) === 'F') add('fiction-source-on-evidence', `${casePath}.clues[${cluePosition}].sourceIds[${position}]`, '虚构叙事来源不能支撑事实线索。')
       })
     })
     caseData.nodeIds.forEach((id, position) => {
       const node = index.nodes.get(id)
       if (!node || node.caseId !== caseData.caseId) add('missing-node-reference', `${casePath}.nodeIds[${position}]`, `本案节点 ${id} 不存在。`)
+      if (node?.routeId && !routeIds.has(node.routeId)) add('missing-route-reference', `${casePath}.nodeIds[${position}]`, `节点引用了未知路线 ${node.routeId}。`)
     })
     caseData.evidenceIds.forEach((id, position) => {
       const item = index.evidence.get(id)
@@ -133,10 +154,34 @@ export function validateContentPackage(value: unknown): ValidationReport {
       deduction.requiredClueIds.forEach((id, position) => {
         if (!caseData.clues.some((clue) => clue.id === id)) add('missing-clue-reference', `${deductionPath}.requiredClueIds[${position}]`, `线索 ${id} 不存在。`)
       })
+      deduction.focusEvidenceIds?.forEach((id, position) => {
+        const evidence = index.evidence.get(id)
+        if (!evidence || evidence.caseId !== caseData.caseId) add('missing-focus-evidence', `${deductionPath}.focusEvidenceIds[${position}]`, `关联证物 ${id} 不属于本案。`)
+      })
       deduction.options.forEach((option, optionPosition) => {
         if (!option.correct && !option.feedback.trim()) add('missing-failure-feedback', `${deductionPath}.options[${optionPosition}].feedback`, '错误答案必须提供反馈。')
         if (!index.nodes.has(option.nextNodeId)) add('dangling-transition', `${deductionPath}.options[${optionPosition}].nextNodeId`, `节点 ${option.nextNodeId} 不存在。`)
+        if (!option.correct) {
+          const reviewNode = option.reviewNodeId ? index.nodes.get(option.reviewNodeId) : undefined
+          if (!reviewNode || reviewNode.caseId !== caseData.caseId) add('missing-review-node', `${deductionPath}.options[${optionPosition}].reviewNodeId`, '错误答案必须指向本案可复核节点。')
+        }
       })
+    })
+  })
+
+  content.content.evidence.forEach((evidence, evidencePosition) => {
+    evidence.sourceIds.forEach((id, sourcePosition) => {
+      const sourcePath = `$.content.evidence[${evidencePosition}].sourceIds[${sourcePosition}]`
+      if (!sourceIds.has(id)) add('missing-source-reference', sourcePath, `来源 ${id} 不存在。`)
+      if (sourceTypes.get(id) === 'F') add('fiction-source-on-evidence', sourcePath, '虚构叙事来源不能支撑事实证物。')
+    })
+  })
+
+  content.content.endings.forEach((ending, endingPosition) => {
+    ending.sourceIds.forEach((id, sourcePosition) => {
+      const sourcePath = `$.content.endings[${endingPosition}].sourceIds[${sourcePosition}]`
+      if (!sourceIds.has(id)) add('missing-source-reference', sourcePath, `来源 ${id} 不存在。`)
+      if (sourceTypes.get(id) === 'F') add('fiction-source-on-evidence', sourcePath, '虚构叙事来源不能支撑事实判词。')
     })
   })
 

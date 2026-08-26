@@ -40,6 +40,10 @@ export function unlockScene(state: CaseRuntimeState, sceneId: string): CaseRunti
   return { ...state, unlockedSceneIds: uniqueAdd(state.unlockedSceneIds, sceneId) }
 }
 
+export function markRouteReviewed(state: CaseRuntimeState, routeId: string): CaseRuntimeState {
+  return { ...state, reviewedRouteIds: uniqueAdd(state.reviewedRouteIds, routeId) }
+}
+
 function addStyleTag(state: CaseRuntimeState, tag: string): CaseRuntimeState {
   return { ...state, styleTags: uniqueAdd(state.styleTags, tag) }
 }
@@ -78,6 +82,9 @@ export function createInitialCaseState(caseData: HanziCase): CaseRuntimeState {
     unlockedSceneIds: [],
     visitedNodeIds: [],
     deductionAnswers: {},
+    deductionAttempts: {},
+    firstDeductionAnswers: {},
+    reviewedRouteIds: [],
     styleTags: [],
     completed: false,
   }
@@ -151,9 +158,15 @@ export function submitDeductionAnswer(
   const option = deduction.options.find((item) => item.id === optionId)
   if (!option) return { ok: false, code: 'unknown-deduction-option', message: '推理选项不存在。', state }
 
+  const attempts = (state.deductionAttempts[deduction.id] ?? 0) + 1
+  const firstAnswers = state.firstDeductionAnswers[deduction.id]
+    ? state.firstDeductionAnswers
+    : { ...state.firstDeductionAnswers, [deduction.id]: option.id }
   let answeredState: CaseRuntimeState = {
     ...state,
     deductionAnswers: { ...state.deductionAnswers, [deduction.id]: option.id },
+    deductionAttempts: { ...state.deductionAttempts, [deduction.id]: attempts },
+    firstDeductionAnswers: firstAnswers,
     deductionFeedback: option.feedback,
   }
   if (!option.correct) return { ok: true, state: answeredState }

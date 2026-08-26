@@ -155,4 +155,19 @@ describe('relationship content package V3', () => {
       errors: ['$: invalid nested structure'],
     })
   })
+
+  it.each(RELATIONSHIP_CONTEXTS)('%s provides broad, valid V2 answer migration coverage', (context) => {
+    const migration = content.content.answerMigrations?.find((item) => item.fromContentVersion === '2.0.0')
+    const mappings = migration?.byContext[context] ?? {}
+    const bank = getRelationshipBank(content, context)
+    const questionById = new Map(bank.questions.map((question) => [question.questionId, question]))
+
+    expect(Object.keys(mappings).length).toBeGreaterThanOrEqual(16)
+    for (const mapping of Object.values(mappings)) {
+      const question = questionById.get(mapping.questionId)
+      expect(question).toBeDefined()
+      const optionIds = new Set(question?.options.map((option) => option.optionId))
+      expect(Object.values(mapping.optionIds).every((optionId) => optionIds.has(optionId))).toBe(true)
+    }
+  })
 })

@@ -6581,6 +6581,30 @@
                 "resultTextKeys": [
                   "friend-contact-delay-remind-result"
                 ]
+              },
+              {
+                "optionId": "friend-contact-delay-estimate",
+                "text": "告诉我大概什么时候方便回复",
+                "subtitle": "不需要精确承诺，一个大致时间就能让我减少等待中的猜测。",
+                "dimensionEffects": [
+                  {
+                    "dimensionId": "contact-clarity",
+                    "score": 3
+                  }
+                ],
+                "intensity": 3,
+                "tags": [
+                  "estimate"
+                ],
+                "scenarios": [
+                  "friend-contact-delay"
+                ],
+                "hasConflict": false,
+                "conflictsWith": [],
+                "boundaryIds": [],
+                "resultTextKeys": [
+                  "friend-contact-delay-estimate-result"
+                ]
               }
             ],
             "skipRule": {
@@ -8490,6 +8514,18 @@
             "voice": "request",
             "intensity": 2,
             "text": "重要消息没有回应时，希望我可以在之后轻轻提醒一次，不把提醒理解为责备。",
+            "sensitive": false,
+            "compactDefault": true
+          },
+          {
+            "textKey": "friend-contact-delay-estimate-result",
+            "sourceSectionId": "contact",
+            "cardSectionId": "contact",
+            "kind": "preference",
+            "role": "need",
+            "voice": "request",
+            "intensity": 3,
+            "text": "朋友暂时无法回复时，希望能告诉我大概什么时候方便回来，不需要给出精确承诺。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -12312,6 +12348,407 @@
         }
       }
     },
-    "answerMigrations": []
+    "answerMigrations": [
+      {
+        "fromContentVersion": "2.0.0",
+        "byContext": {
+          "close-relationship": {
+            "question-busy-contact": {
+              "questionId": "close-contact-busy",
+              "optionIds": {
+                "option-busy-brief": "close-contact-busy-brief",
+                "option-busy-later": "close-contact-busy-later",
+                "option-busy-flexible": "close-contact-busy-important"
+              }
+            },
+            "question-message-delay": {
+              "questionId": "close-contact-delay",
+              "optionIds": {
+                "option-delay-estimate": "close-contact-delay-estimate",
+                "option-delay-no-explanation": "close-contact-delay-flexible-delay",
+                "option-delay-clear-channel": "close-contact-delay-urgent-channel"
+              }
+            },
+            "question-plan-change": {
+              "questionId": "close-contact-plan-change",
+              "optionIds": {
+                "option-plan-early": "close-contact-plan-change-early",
+                "option-plan-reschedule": "close-contact-plan-change-reschedule",
+                "option-plan-urgent": "close-contact-plan-change-urgent"
+              }
+            },
+            "question-when-venting": {
+              "questionId": "close-listening-first-response",
+              "optionIds": {
+                "option-vent-ask": "close-listening-first-response-ask-mode"
+              }
+            },
+            "question-hard-feeling": {
+              "questionId": "close-listening-first-response",
+              "optionIds": {
+                "option-feeling-confirm": "close-listening-first-response-validate",
+                "option-feeling-quiet": "close-listening-first-response-quiet"
+              }
+            },
+            "question-disagree-story": {
+              "questionId": "close-conflict-memory",
+              "optionIds": {
+                "option-story-separate": "close-conflict-memory-facts",
+                "option-story-respect": "close-conflict-memory-experience"
+              }
+            },
+            "question-conflict-timing": {
+              "questionId": "close-conflict-pause",
+              "optionIds": {
+                "option-conflict-now": "close-conflict-pause-slow-down",
+                "option-conflict-later": "close-conflict-pause-return-time"
+              }
+            },
+            "question-pause-signal": {
+              "questionId": "close-space-announce",
+              "optionIds": {
+                "option-pause-reason": "close-space-announce-clear",
+                "option-pause-time": "close-space-announce-return",
+                "option-pause-no-disappear": "close-space-announce-brief"
+              }
+            },
+            "question-alone-space": {
+              "questionId": "close-space-checkin",
+              "optionIds": {
+                "option-space-full": "close-space-checkin-none",
+                "option-space-checkin": "close-space-checkin-gentle"
+              }
+            },
+            "question-space-not-rejection": {
+              "questionId": "close-space-announce",
+              "optionIds": {
+                "option-space-explain": "close-space-announce-clear",
+                "option-space-time": "close-space-announce-return"
+              }
+            },
+            "question-care-language": {
+              "questionId": "close-care-language",
+              "optionIds": {
+                "option-care-action": "close-care-language-action",
+                "option-care-words": "close-care-language-words",
+                "option-care-details": "close-care-language-details"
+              }
+            },
+            "question-help-without-asking": {
+              "questionId": "close-care-actions",
+              "optionIds": {
+                "option-help-ask": "close-care-actions-task",
+                "option-help-small": "close-care-actions-task"
+              }
+            },
+            "question-care-details": {
+              "questionId": "close-care-language",
+              "optionIds": {
+                "option-details-schedule": "close-care-language-details",
+                "option-details-state": "close-care-language-details"
+              }
+            },
+            "question-private-sharing": {
+              "questionId": "close-boundary-public-sharing",
+              "optionIds": {
+                "option-private-ask": "close-boundary-public-sharing-ask-each",
+                "option-private-scope": "close-boundary-public-sharing-audience",
+                "option-private-identifiable": "close-boundary-public-sharing-anonymous"
+              }
+            },
+            "question-public-conflict": {
+              "questionId": "close-boundary-public-sharing",
+              "optionIds": {
+                "option-public-private": "close-boundary-public-sharing-ask-each",
+                "option-public-identifiable": "close-boundary-public-sharing-anonymous"
+              }
+            },
+            "question-repair": {
+              "questionId": "close-repair-change",
+              "optionIds": {
+                "option-repair-next": "close-repair-change-plan"
+              }
+            },
+            "question-apology": {
+              "questionId": "close-repair-apology",
+              "optionIds": {
+                "option-apology-behavior": "close-repair-apology-action",
+                "option-apology-impact": "close-repair-apology-impact",
+                "option-apology-no-defense": "close-repair-apology-listen"
+              }
+            },
+            "question-repair-follow-through": {
+              "questionId": "close-repair-follow-up",
+              "optionIds": {
+                "option-follow-checkin": "close-repair-follow-up-checkin",
+                "option-follow-adjust": "close-repair-follow-up-adjust",
+                "option-follow-honest": "close-repair-follow-up-honest"
+              }
+            }
+          },
+          "friendship": {
+            "question-busy-contact": {
+              "questionId": "friend-contact-frequency",
+              "optionIds": {
+                "option-busy-brief": "friend-contact-frequency-regular",
+                "option-busy-later": "friend-contact-frequency-deep",
+                "option-busy-flexible": "friend-contact-frequency-event"
+              }
+            },
+            "question-message-delay": {
+              "questionId": "friend-contact-delay",
+              "optionIds": {
+                "option-delay-estimate": "friend-contact-delay-estimate",
+                "option-delay-no-explanation": "friend-contact-delay-later"
+              }
+            },
+            "question-plan-change": {
+              "questionId": "friend-contact-plan-change",
+              "optionIds": {
+                "option-plan-early": "friend-contact-plan-change-early",
+                "option-plan-reschedule": "friend-contact-plan-change-reschedule"
+              }
+            },
+            "question-when-venting": {
+              "questionId": "friend-listening-response",
+              "optionIds": {
+                "option-vent-listen": "friend-listening-response-listen",
+                "option-vent-ask": "friend-listening-response-ask"
+              }
+            },
+            "question-hard-feeling": {
+              "questionId": "friend-listening-response",
+              "optionIds": {
+                "option-feeling-confirm": "friend-listening-response-validate"
+              }
+            },
+            "question-advice-permission": {
+              "questionId": "friend-listening-support-mode",
+              "optionIds": {
+                "option-advice-choices": "friend-listening-support-mode-advice",
+                "option-advice-none": "friend-listening-support-mode-quiet"
+              }
+            },
+            "question-disagree-story": {
+              "questionId": "friend-conflict-values",
+              "optionIds": {
+                "option-story-respect": "friend-conflict-values-understand"
+              }
+            },
+            "question-pause-signal": {
+              "questionId": "friend-space-social-pause",
+              "optionIds": {
+                "option-pause-reason": "friend-space-social-pause-status",
+                "option-pause-no-disappear": "friend-space-social-pause-return"
+              }
+            },
+            "question-alone-space": {
+              "questionId": "friend-space-social-pause",
+              "optionIds": {
+                "option-space-return": "friend-space-social-pause-return"
+              }
+            },
+            "question-space-not-rejection": {
+              "questionId": "friend-space-social-pause",
+              "optionIds": {
+                "option-space-explain": "friend-space-social-pause-status",
+                "option-space-reconnect": "friend-space-social-pause-return"
+              }
+            },
+            "question-care-language": {
+              "questionId": "friend-care-checkin",
+              "optionIds": {
+                "option-care-action": "friend-care-checkin-company",
+                "option-care-words": "friend-care-checkin-no-reply",
+                "option-care-details": "friend-care-checkin-specific"
+              }
+            },
+            "question-help-without-asking": {
+              "questionId": "friend-care-ask-first",
+              "optionIds": {
+                "option-help-ask": "friend-care-ask-first-need",
+                "option-help-options": "friend-care-ask-first-kind"
+              }
+            },
+            "question-care-details": {
+              "questionId": "friend-care-checkin",
+              "optionIds": {
+                "option-details-schedule": "friend-care-checkin-specific",
+                "option-details-state": "friend-care-checkin-specific"
+              }
+            },
+            "question-private-sharing": {
+              "questionId": "friend-boundary-sharing",
+              "optionIds": {
+                "option-private-ask": "friend-boundary-sharing-ask"
+              }
+            },
+            "question-saying-no": {
+              "questionId": "friend-boundary-refusal",
+              "optionIds": {
+                "option-no-accept": "friend-boundary-refusal-no-push"
+              }
+            },
+            "question-public-conflict": {
+              "questionId": "friend-conflict-private-talk",
+              "optionIds": {
+                "option-public-private": "friend-conflict-private-talk-private",
+                "option-public-sides": "friend-conflict-private-talk-private"
+              }
+            },
+            "question-repair": {
+              "questionId": "friend-repair-accountability",
+              "optionIds": {
+                "option-repair-impact": "friend-repair-accountability-impact"
+              }
+            },
+            "question-apology": {
+              "questionId": "friend-repair-accountability",
+              "optionIds": {
+                "option-apology-behavior": "friend-repair-accountability-specific",
+                "option-apology-impact": "friend-repair-accountability-impact"
+              }
+            },
+            "question-repair-follow-through": {
+              "questionId": "friend-repair-trust",
+              "optionIds": {
+                "option-follow-action": "friend-repair-trust-small",
+                "option-follow-checkin": "friend-repair-trust-checkin",
+                "option-follow-adjust": "friend-repair-trust-adjust"
+              }
+            }
+          },
+          "family": {
+            "question-busy-contact": {
+              "questionId": "family-contact-checkin",
+              "optionIds": {
+                "option-busy-brief": "family-contact-checkin-daily",
+                "option-busy-later": "family-contact-checkin-flexible",
+                "option-busy-flexible": "family-contact-checkin-event"
+              }
+            },
+            "question-message-delay": {
+              "questionId": "family-contact-delay",
+              "optionIds": {
+                "option-delay-clear-channel": "family-contact-delay-channel"
+              }
+            },
+            "question-plan-change": {
+              "questionId": "family-contact-plan-change",
+              "optionIds": {
+                "option-plan-early": "family-contact-plan-change-early",
+                "option-plan-reschedule": "family-contact-plan-change-choice"
+              }
+            },
+            "question-when-venting": {
+              "questionId": "family-listening-first-response",
+              "optionIds": {
+                "option-vent-listen": "family-listening-first-response-listen",
+                "option-vent-ask": "family-listening-first-response-ask"
+              }
+            },
+            "question-hard-feeling": {
+              "questionId": "family-listening-first-response",
+              "optionIds": {
+                "option-feeling-confirm": "family-listening-first-response-validate"
+              }
+            },
+            "question-advice-permission": {
+              "questionId": "family-listening-advice",
+              "optionIds": {
+                "option-advice-ask": "family-listening-advice-permission",
+                "option-advice-after": "family-listening-advice-experience",
+                "option-advice-choices": "family-listening-advice-options"
+              }
+            },
+            "question-disagree-story": {
+              "questionId": "family-conflict-current-event",
+              "optionIds": {
+                "option-story-separate": "family-conflict-current-event-one-event"
+              }
+            },
+            "question-conflict-timing": {
+              "questionId": "family-conflict-pause",
+              "optionIds": {
+                "option-conflict-later": "family-conflict-pause-return"
+              }
+            },
+            "question-pause-signal": {
+              "questionId": "family-conflict-pause",
+              "optionIds": {
+                "option-pause-reason": "family-conflict-pause-say",
+                "option-pause-time": "family-conflict-pause-return"
+              }
+            },
+            "question-alone-space": {
+              "questionId": "family-space-room",
+              "optionIds": {
+                "option-space-full": "family-space-room-quiet"
+              }
+            },
+            "question-space-not-rejection": {
+              "questionId": "family-space-distance",
+              "optionIds": {
+                "option-space-explain": "family-space-distance-reason"
+              }
+            },
+            "question-care-language": {
+              "questionId": "family-care-preference",
+              "optionIds": {
+                "option-care-action": "family-care-preference-meal"
+              }
+            },
+            "question-help-without-asking": {
+              "questionId": "family-care-illness",
+              "optionIds": {
+                "option-help-ask": "family-care-illness-ask",
+                "option-help-options": "family-care-illness-options"
+              }
+            },
+            "question-private-sharing": {
+              "questionId": "family-boundary-relatives",
+              "optionIds": {
+                "option-private-ask": "family-boundary-relatives-ask",
+                "option-private-scope": "family-boundary-relatives-scope"
+              }
+            },
+            "question-saying-no": {
+              "questionId": "family-boundary-private-topics",
+              "optionIds": {
+                "option-no-accept": "family-boundary-private-topics-decline"
+              }
+            },
+            "question-public-conflict": {
+              "questionId": "family-boundary-private-topics",
+              "optionIds": {
+                "option-public-private": "family-boundary-private-topics-private"
+              }
+            },
+            "question-repair": {
+              "questionId": "family-repair-impact",
+              "optionIds": {
+                "option-repair-impact": "family-repair-impact-impact",
+                "option-repair-next": "family-repair-impact-ask"
+              }
+            },
+            "question-apology": {
+              "questionId": "family-repair-no-bypass",
+              "optionIds": {
+                "option-apology-behavior": "family-repair-no-bypass-specific",
+                "option-apology-no-defense": "family-repair-no-bypass-not-bypass"
+              }
+            },
+            "question-repair-follow-through": {
+              "questionId": "family-repair-change",
+              "optionIds": {
+                "option-follow-action": "family-repair-change-rule",
+                "option-follow-checkin": "family-repair-change-review",
+                "option-follow-adjust": "family-repair-change-rule"
+              }
+            }
+          }
+        }
+      }
+    ]
   }
 }

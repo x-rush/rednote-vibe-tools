@@ -54,14 +54,19 @@ describe('page view model helpers', () => {
     expect(missing).toContain(required.questionId)
   })
 
-  it('keeps full preview content but excludes sensitive items from compact preview by default', () => {
+  it('keeps full preview content and merges each compact need with its action', () => {
     const full = buildDisplayCard(baseCard, items, false, false)
     const compact = buildDisplayCard(baseCard, items, true, false)
     const compactWithSensitive = buildDisplayCard(baseCard, items, true, true)
 
     expect(full.sections.flatMap((section) => section.paragraphs)).toEqual(['建议一', '建议二', '敏感边界'])
-    expect(compact.sections.flatMap((section) => section.paragraphs)).toEqual(['建议二'])
-    expect(compactWithSensitive.sections.flatMap((section) => section.paragraphs)).toEqual(['建议二', '敏感边界'])
+    expect(compact.sections.flatMap((section) => section.paragraphs)).toEqual(['建议一；建议二'])
+    expect(compactWithSensitive.sections.flatMap((section) => section.paragraphs)).toEqual(['建议一；建议二', '敏感边界'])
+    expect(compact.sections[0]).toMatchObject({
+      paragraphRoles: ['need'],
+      paragraphIds: ['compact:care'],
+      paragraphProvenanceIds: [['q1:o1', 'q2:o2']],
+    })
   })
 
   it('preserves edited text and marks it for review when regeneration changes the suggestion', () => {

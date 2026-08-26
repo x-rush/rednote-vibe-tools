@@ -124,6 +124,8 @@ function isDraftPayloadV2(value: unknown): value is DraftPayload {
     && isRecord(value.settings)
     && typeof value.settings.compactMode === 'boolean'
     && typeof value.settings.showSensitiveInCompact === 'boolean'
+    && (value.conflictRuleDecisions === undefined || (isRecord(value.conflictRuleDecisions)
+      && Object.values(value.conflictRuleDecisions).every((decision) => ['adopted', 'preserved', 'dismissed'].includes(String(decision)))))
     && ['chapterIntro', 'questionnaire', 'review', 'result', 'editCard', 'savedResult'].includes(String(value.page))
     && CONTEXTS.includes(String(value.relationshipContext))
     && isStringArray(value.seenChapterIds)
@@ -177,11 +179,14 @@ function hasForbiddenMedia(value: unknown): boolean {
 
 function isBounded(payload: DraftPayload): boolean {
   const resultParagraphCount = payload.lastResult?.sections.reduce((count, section) => count + section.paragraphs.length, 0) ?? 0
+  const conflictDecisions = Object.entries(payload.conflictRuleDecisions ?? {})
   return payload.answers.length <= 21
     && payload.cardItems.length <= 84
     && payload.currentQuestionIndex >= 0
     && payload.currentQuestionIndex <= 20
     && payload.seenChapterIds.length <= 7
+    && conflictDecisions.length <= 12
+    && conflictDecisions.every(([ruleId]) => ruleId.length <= 100)
     && payload.answers.every((answer) => answer.optionIds.length <= 3
       && answer.questionId.length <= 80
       && answer.optionIds.every((id) => id.length <= 80))
@@ -244,7 +249,10 @@ export function migrateAnswers(
 ): { answers: DraftPayload['answers']; preservedAnswerCount: number } {
   const migration = content.content.answerMigrations.find((item) => item.fromContentVersion === fromContentVersion)
   const mappings = migration?.byContext[context]
-  if (!mappings) return { answers: [], preservedAnswerCount: 0 }
+  if (!mappings) {
+    const preserved = cleanAnswers(answers, buildStorageReferences(content), context)
+    return { answers: preserved, preservedAnswerCount: preserved.length }
+  }
   const migrated = answers.flatMap((answer) => {
     const mapping = mappings[answer.questionId]
     if (!mapping) return []
@@ -286,9 +294,20 @@ function migrateLegacyCardItem(item: Record<string, unknown>, references?: Stora
   }
 }
 
-function migrateV1Draft(legacy: LegacyDraft, currentContentVersion: string, references?: StorageReferences): DraftPayload {
-  const answers = cleanAnswers(legacy.answers, references)
-  return {
+function migrateV1Draft(
+  legacy: LegacyDraft,
+  currentContentVersion: string,
+  references?: StorageReferences,
+  content?: RelationshipContentPackage,
+): { payload: DraftPayload; migration?: DraftMigrationReport } {
+  // Schema-v1 and content-v2 used the same legacy question IDs. Reuse the
+  // explicit v2 mapping so an actual v1-key draft reaches the active bank.
+  const migrationSourceVersion = legacy.contentVersion === '1.0.0' ? '2.0.0' : legacy.contentVersion
+  const answerMigration = content
+    ? migrateAnswers(legacy.answers, migrationSourceVersion, legacy.relationshipContext, content)
+    : null
+  const answers = cleanAnswers(answerMigration?.answers ?? legacy.answers, references, legacy.relationshipContext)
+  const payload: DraftPayload = {
     schemaVersion: 2,
     contentVersion: currentContentVersion,
     updatedAt: legacy.updatedAt,
@@ -302,7 +321,19 @@ function migrateV1Draft(legacy: LegacyDraft, currentContentVersion: string, refe
       return migrated ? [migrated] : []
     }),
     lastResult: null,
+    conflictRuleDecisions: {},
     settings: legacy.settings,
+  }
+  if (!content || !answerMigration) return { payload }
+  const answeredIds = new Set(answers.map((answer) => answer.questionId))
+  return {
+    payload,
+    migration: {
+      preservedAnswerCount: answerMigration.preservedAnswerCount,
+      needsAnswerQuestionIds: getRelationshipBank(content, legacy.relationshipContext).questions
+        .map((question) => question.questionId)
+        .filter((questionId) => !answeredIds.has(questionId)),
+    },
   }
 }
 
@@ -366,9 +397,10 @@ export function loadDraft(
   }
   if (rawV2 === null) {
     if (!isLegacyDraft(parsed) || hasForbiddenMedia(parsed)) return { status: 'corrupt', reason: 'invalid-payload' }
-    const payload = migrateV1Draft(parsed, currentContentVersion, references)
+    const migrated = migrateV1Draft(parsed, currentContentVersion, references, content)
+    const { payload } = migrated
     if (!isBounded(payload)) return { status: 'corrupt', reason: 'invalid-payload' }
-    return { status: 'ok', payload, contentChanged: true }
+    return { status: 'ok', payload, contentChanged: true, ...(migrated.migration ? { migration: migrated.migration } : {}) }
   }
   if (!isDraftPayloadV2(parsed) || hasForbiddenMedia(parsed) || !isBounded(parsed)) {
     return { status: 'corrupt', reason: 'invalid-payload' }

@@ -5,6 +5,7 @@ import type {
   RelationshipQuestion,
 } from '../content/schema'
 import { validateSelection } from '../domain/answers'
+import { limitText } from '../domain/card'
 
 export function findMissingRequiredQuestions(
   questions: RelationshipQuestion[],
@@ -55,14 +56,37 @@ export function buildDisplayCard(
     .sort((a, b) => a.order - b.order)
   const sections = baseCard.sections.flatMap((section) => {
     const matching = visibleItems.filter((item) => item.sectionId === section.sectionId)
-    const paragraphs = (compactMode ? matching.slice(0, 1) : matching).map((item) => item.editedText)
+    const compactItems: EditableCardItem[] = compactMode && matching.length > 0
+      ? (() => {
+          const need = matching.find((item) => item.role === 'need' && !item.sensitive)
+            ?? matching.find((item) => item.role === 'need')
+          const action = matching.find((item) => item.role === 'action' && !item.sensitive)
+            ?? matching.find((item) => item.role === 'action')
+          const sensitive = showSensitiveInCompact ? matching.find((item) => item.sensitive) : undefined
+          const parts = [need, action, sensitive, matching[0]]
+            .filter((item): item is EditableCardItem => item !== undefined)
+            .filter((item, index, all) => all.findIndex((candidate) => candidate.itemId === item.itemId) === index)
+          return [{
+            ...parts[0]!,
+            itemId: `compact:${section.sectionId}`,
+            role: 'need',
+            sourceTextKey: undefined,
+            provenanceIds: [...new Set(parts.flatMap((item) => item.provenanceIds))],
+            editedText: limitText(parts.map((item) => item.editedText).join('；'), 120),
+            sensitive: parts.some((item) => item.sensitive),
+            order: Math.min(...parts.map((item) => item.order)),
+          }]
+        })()
+      : compactMode ? [] : matching
+    const paragraphs = compactItems.map((item) => item.editedText)
     if (paragraphs.length === 0) return []
     return [{
       ...section,
       paragraphs,
-      paragraphIds: (compactMode ? matching.slice(0, 1) : matching).map((item) => item.itemId),
-      paragraphSourceTextKeys: (compactMode ? matching.slice(0, 1) : matching).map((item) => item.sourceTextKey ?? null),
-      paragraphProvenanceIds: (compactMode ? matching.slice(0, 1) : matching).map((item) => item.provenanceIds),
+      paragraphRoles: compactItems.map((item) => item.role),
+      paragraphIds: compactItems.map((item) => item.itemId),
+      paragraphSourceTextKeys: compactItems.map((item) => item.sourceTextKey ?? null),
+      paragraphProvenanceIds: compactItems.map((item) => item.provenanceIds),
       visible: true,
       sensitive: matching.some((item) => item.sensitive),
       order: Math.min(...matching.map((item) => item.order)),

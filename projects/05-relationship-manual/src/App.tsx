@@ -2,6 +2,7 @@ import { useEffect, useReducer, useState } from 'react'
 import { selectNpcCue } from './app/npc'
 import { scheduleNoticeDismiss } from './app/notice'
 import { buildTopicProgress, getCardSectionArtwork, getTopicArtwork, resetViewport } from './app/presentation'
+import { buildSessionBackupText } from './app/session-backup'
 import { buildDisplayCard, findMissingRequiredQuestions, reconcileCardItems } from './app/view-model'
 import editConflictIcon from './assets/art/edit-conflict.svg'
 import localOnlyIcon from './assets/art/local-only.svg'
@@ -10,14 +11,13 @@ import { RelationshipCard } from './components/RelationshipCard'
 import { ChapterIntro } from './components/ChapterIntro'
 import { ConflictNote } from './components/ConflictNote'
 import { ContextSelectionScene } from './components/ContextSelectionScene'
-import { DialoguePanel } from './components/DialoguePanel'
 import { LandingScene } from './components/LandingScene'
 import { QuestionSheet } from './components/QuestionSheet'
 import { QuestionnaireActions } from './components/QuestionnaireActions'
 import { ResultHeading } from './components/ResultHeading'
 import { ShareCardExportButton } from './components/ShareCardExportButton'
+import { StorageWarning } from './components/StorageWarning'
 import { TopicProgress } from './components/TopicProgress'
-import { XiaomanStage } from './components/XiaomanStage'
 import rawContent from './content/content.json'
 import { getRelationshipBank } from './content/bank'
 import { validateContent } from './content/validate'
@@ -84,6 +84,8 @@ function RelationshipManualApp({ content }: { content: RelationshipContentPackag
     return createInitialState(loadedDraft.status === 'ok')
   })
   const questions = getRelationshipBank(content, state.relationshipContext).questions
+  const relationshipLabel = content.content.cardRules.relationshipLabels[state.relationshipContext]
+  const sessionBackupText = buildSessionBackupText(relationshipLabel, questions, state.answers, state.lastResult, state.cardItems)
   const [notice, setNotice] = useState<string | null>(null)
   const [storageWarning, setStorageWarning] = useState(loadedDraft.status === 'unavailable')
   const [interactionError, setInteractionError] = useState<string | null>(null)
@@ -165,7 +167,8 @@ function RelationshipManualApp({ content }: { content: RelationshipContentPackag
     }
     const generatedAt = now()
     const profile = buildRelationshipProfile(content, state.relationshipContext, state.answers, generatedAt)
-    const card = buildCardViewModel(content, profile, state.relationshipContext)
+    const adoptedConflictRuleIds = profile.conflictRuleIds.filter((ruleId) => state.conflictRuleDecisions[ruleId] === 'adopted')
+    const card = buildCardViewModel(content, profile, state.relationshipContext, adoptedConflictRuleIds)
     const generatedItems = cardToEditableItems(card)
     const cardItems = state.cardItems.length > 0 ? reconcileCardItems(state.cardItems, generatedItems) : generatedItems
     dispatch({ type: 'GENERATE', card, cardItems, generatedAt })
@@ -193,7 +196,8 @@ function RelationshipManualApp({ content }: { content: RelationshipContentPackag
     const chapterCue = selectNpcCue(content, { trigger: 'chapter-intro', category: question.category })
     const conflictProfile = buildRelationshipProfile(content, state.relationshipContext, state.answers, content.meta.updatedAt)
     const conflictCue = conflictProfile.conflictRuleIds
-      .map((conflictRuleId) => selectNpcCue(content, { trigger: 'conflict', conflictRuleId }))
+      .filter((conflictRuleId) => state.conflictRuleDecisions[conflictRuleId] === undefined)
+      .map((conflictRuleId) => selectNpcCue(content, { trigger: 'conflict', relationshipContext: state.relationshipContext, conflictRuleId }))
       .find((cue) => cue !== null && cue.cueId !== dismissedConflictCueId) ?? null
 
     const setSelection = (optionId: string) => {
@@ -250,7 +254,17 @@ function RelationshipManualApp({ content }: { content: RelationshipContentPackag
           showNpcMessage={state.currentQuestionIndex === 0 || questions[state.currentQuestionIndex - 1]?.category !== question.category}
           onSelect={setSelection}
         />
-        {conflictCue && <ConflictNote cue={conflictCue} onClose={() => setDismissedConflictCueId(conflictCue.cueId)} />}
+        {conflictCue && conflictCue.conflictRuleId && (
+          <ConflictNote
+            cue={conflictCue}
+            onAdopt={() => dispatch({ type: 'SET_CONFLICT_DECISION', ruleId: conflictCue.conflictRuleId!, decision: 'adopted' })}
+            onPreserve={() => dispatch({ type: 'SET_CONFLICT_DECISION', ruleId: conflictCue.conflictRuleId!, decision: 'preserved' })}
+            onClose={() => {
+              dispatch({ type: 'SET_CONFLICT_DECISION', ruleId: conflictCue.conflictRuleId!, decision: 'dismissed' })
+              setDismissedConflictCueId(conflictCue.cueId)
+            }}
+          />
+        )}
         {interactionError && <p className="inline-error" role="alert">{interactionError}</p>}
         {state.error && <p className="inline-error" role="alert">{state.error}</p>}
         <QuestionnaireActions
@@ -344,9 +358,10 @@ function RelationshipManualApp({ content }: { content: RelationshipContentPackag
               <button className="button button--primary" type="button" onClick={() => dispatch({ type: 'EDIT_CARD' })}>继续编辑</button>
               <ShareCardExportButton
                 exporting={exportingShareCard}
+                disabled={shareCard.sections.length === 0}
                 label={ui.shareExportLabel}
                 exportingLabel={ui.shareExportingLabel}
-                description={ui.shareExportDescription}
+                description={shareCard.sections.length === 0 ? '当前没有可导出的段落，请进入编辑页重新显示内容' : ui.shareExportDescription}
                 onExport={() => {
                 dispatch({ type: 'SET_COMPACT', compactMode: true })
                 void exportShareCard(shareCard)
@@ -482,14 +497,12 @@ function RelationshipManualApp({ content }: { content: RelationshipContentPackag
       {state.page !== 'landing' && state.page !== 'error' && <div className="workspace-bar"><span className="workspace-bar__brand">我希望被这样对待</span><span className="local-badge"><img src={localOnlyIcon} alt="" />仅保存在本设备</span></div>}
       {pageContent}
       {storageWarning && storageErrorCue && (
-        <aside className="storage-warning" role="status">
-          <XiaomanStage pose={storageErrorCue.pose} mode="avatar" name={storageErrorCue.speaker} roleLabel={storageErrorCue.roleLabel} />
-          <DialoguePanel cue={storageErrorCue} compact />
-          <div className="storage-warning__actions">
-            <button className="button button--secondary" type="button" onClick={persistNow}>{storageErrorCue.primaryAction}</button>
-            {storageErrorCue.secondaryAction && <button className="button button--text" type="button" onClick={() => setStorageWarning(false)}>{storageErrorCue.secondaryAction}</button>}
-          </div>
-        </aside>
+        <StorageWarning
+          cue={storageErrorCue}
+          backupText={sessionBackupText}
+          onRetry={persistNow}
+          onContinue={() => setStorageWarning(false)}
+        />
       )}
       {notice && <p className="save-status" role="status"><img src={localOnlyIcon} alt="" />{notice}</p>}
       {state.page !== 'landing' && state.page !== 'error' && <footer className="app-footer"><span><img src={localOnlyIcon} alt="" />内容仅保存在本设备</span><button type="button" onClick={clearAll}>清除本工具数据</button></footer>}

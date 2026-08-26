@@ -1,27 +1,34 @@
 :root {
-  font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #302b27;
-  background: #f4f0e8;
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  color: #303735;
+  background: #29332f;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --text: #302b27;
-  --text-soft: #716861;
-  --surface: #fffdf8;
-  --surface-muted: #ebe6dc;
-  --paper: #fffcf4;
-  --line: #d8d0c4;
-  --accent: #9b6c55;
-  --accent-strong: #754835;
-  --accent-soft: #f1e3d8;
-  --danger: #9f3c32;
-  --danger-soft: #f8e4e0;
-  --focus: #c48b61;
+  --paper: #f7f1e7;
+  --paper-light: #fffaf1;
+  --paper-deep: #eadfce;
+  --ink: #303735;
+  --muted: #747872;
+  --sage: #788d7d;
+  --sage-dark: #5f7565;
+  --sage-soft: #e4e7df;
+  --brick: #a86155;
+  --brick-dark: #854b42;
+  --brick-soft: #f0dfd8;
+  --blue-pencil: #657c8a;
+  --highlight: #d5b879;
+  --line: #cfc3b2;
+  --line-dark: #a99d8d;
+  --shadow: rgb(55 45 33 / 13%);
+  --focus: #55798d;
   color-scheme: light;
 }
+
 * { box-sizing: border-box; }
-html { min-width: 320px; min-height: 100%; background: #f4f0e8; }
-body { min-width: 320px; min-height: 100vh; margin: 0; }
+html { min-width: 320px; min-height: 100%; background: #29332f; touch-action: manipulation; }
+body { min-width: 320px; min-height: 100vh; margin: 0; -webkit-touch-callout: none; }
 button, input, textarea, select { font: inherit; }
 button { -webkit-tap-highlight-color: transparent; }
 textarea:disabled { cursor: not-allowed; }
-::selection { color: #fff; background: #754835; }
+img { display: block; max-width: 100%; }
+::selection { color: #fffaf1; background: var(--brick); }

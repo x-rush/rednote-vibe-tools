@@ -19,7 +19,7 @@ describe('relationship content package V3', () => {
     expect(result.errors).toEqual([])
     expect(content.projectId).toBe('relationship-manual')
     expect(content.schemaVersion).toBe(3)
-    expect(content.contentVersion).toBe('3.0.0')
+    expect(content.contentVersion).toBe('3.1.0')
     expect(content.content.cardRules.sections).toHaveLength(7)
   })
 
@@ -58,6 +58,19 @@ describe('relationship content package V3', () => {
     }
   })
 
+  it('keeps every safety rule ID unique', () => {
+    const ids = content.content.safetyRules.map((rule) => rule.ruleId)
+
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('rejects duplicate safety rule IDs', () => {
+    const broken = structuredClone(content)
+    broken.content.safetyRules.push({ ...broken.content.safetyRules[0]! })
+
+    expect(validateContent(broken).errors).toContain(`$: duplicate id "${broken.content.safetyRules[0]!.ruleId}"`)
+  })
+
   it.each(RELATIONSHIP_CONTEXTS)('%s resolves references only inside its own bank', (context) => {
     const bank = getRelationshipBank(content, context)
     const dimensionIds = new Set(content.content.dimensions.map((dimension) => dimension.dimensionId))
@@ -92,6 +105,59 @@ describe('relationship content package V3', () => {
       new Set(['daily', 'listening', 'reminder']),
     )
     expect(content.content.uiCopy.introBody).toContain('独立的场景题库')
+  })
+
+  it.each(RELATIONSHIP_CONTEXTS)('%s has a reachable conflict merge rule with a scoped NPC cue', (context) => {
+    const bank = getRelationshipBank(content, context)
+    const optionQuestion = new Map(bank.questions.flatMap((question) => (
+      question.options.map((option) => [option.optionId, question] as const)
+    )))
+
+    expect(bank.conflictMergeRules.length).toBeGreaterThan(0)
+    for (const rule of bank.conflictMergeRules) {
+      const questions = rule.optionIds.map((optionId) => optionQuestion.get(optionId))
+      expect(questions.every((question) => question !== undefined)).toBe(true)
+      expect(questions[0]?.questionId !== questions[1]?.questionId || questions[0]?.multiple).toBe(true)
+      expect(content.content.npcCues).toContainEqual(expect.objectContaining({
+        trigger: 'conflict',
+        relationshipContext: context,
+        conflictRuleId: rule.ruleId,
+      }))
+    }
+  })
+
+  it('rejects a conflict cue whose relationship rule does not exist', () => {
+    const broken = structuredClone(content)
+    const cue = broken.content.npcCues.find((item) => item.trigger === 'conflict')!
+    cue.conflictRuleId = 'missing-rule'
+
+    expect(validateContent(broken).errors.some((error) => error.includes('unknown conflict rule'))).toBe(true)
+  })
+
+  it('rejects duplicate, exclusive, unrelated, and wrong-section conflict rules', () => {
+    const duplicate = structuredClone(content)
+    duplicate.content.relationshipBanks!.friendship.conflictMergeRules[0]!.optionIds = [
+      'friend-conflict-jokes-stop', 'friend-conflict-jokes-stop',
+    ]
+    const exclusive = structuredClone(content)
+    const exclusiveBank = exclusive.content.relationshipBanks!.friendship
+    exclusiveBank.conflictMergeRules[0]!.optionIds = ['friend-conflict-jokes-stop', 'friend-conflict-jokes-ask']
+    exclusiveBank.conflictMergeRules[0]!.replacesTextKeys = [
+      'friend-conflict-jokes-stop-result', 'friend-conflict-jokes-ask-result',
+    ]
+    exclusiveBank.questions.find((question) => question.questionId === 'friend-conflict-jokes')!
+      .options.find((option) => option.optionId === 'friend-conflict-jokes-stop')!.exclusive = true
+    const unrelated = structuredClone(content)
+    unrelated.content.relationshipBanks!['close-relationship'].conflictMergeRules[0]!.replacesTextKeys = [
+      'close-care-language-action-result',
+    ]
+    const wrongSection = structuredClone(content)
+    wrongSection.content.relationshipBanks!.family.conflictMergeRules[0]!.cardSectionId = 'space'
+
+    expect(validateContent(duplicate).errors.some((error) => error.includes('distinct option'))).toBe(true)
+    expect(validateContent(exclusive).errors.some((error) => error.includes('unreachable option combination'))).toBe(true)
+    expect(validateContent(unrelated).errors.some((error) => error.includes('not emitted by triggering options'))).toBe(true)
+    expect(validateContent(wrongSection).errors.some((error) => error.includes('section mismatch'))).toBe(true)
   })
 
   it('keeps share-card and local export copy complete', () => {

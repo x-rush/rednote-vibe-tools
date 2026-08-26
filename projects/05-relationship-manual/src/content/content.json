@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "contentVersion": "3.0.0",
+  "contentVersion": "3.1.0",
   "projectId": "relationship-manual",
   "meta": {
     "title": "深夜信笺编辑部｜关系说明书",
@@ -214,9 +214,10 @@
         "skippable": true
       },
       {
-        "cueId": "cue-conflict-talk-space",
+        "cueId": "cue-conflict-close-talk-space",
         "trigger": "conflict",
-        "conflictRuleId": "merge-talk-and-space",
+        "relationshipContext": "close-relationship",
+        "conflictRuleId": "close-merge-talk-and-space",
         "pose": "reminder",
         "speaker": "小满",
         "roleLabel": "关系卡片整理员",
@@ -226,13 +227,27 @@
         "skippable": true
       },
       {
-        "cueId": "cue-conflict-advice-quiet",
+        "cueId": "cue-conflict-friend-advice-capacity",
         "trigger": "conflict",
-        "conflictRuleId": "merge-advice-and-quiet",
+        "relationshipContext": "friendship",
+        "conflictRuleId": "friend-merge-advice-and-capacity",
         "pose": "listening",
         "speaker": "小满",
         "roleLabel": "关系卡片整理员",
-        "text": "你可能先需要安静陪伴，等能说清以后再一起梳理。顺序不同，不代表需求彼此矛盾。",
+        "text": "你可以既想和朋友一起找办法，也允许对方坦白此刻听不动。把能力边界说清，并不会削弱这段友情。",
+        "primaryAction": "采用合并建议",
+        "secondaryAction": "保留原选择",
+        "skippable": true
+      },
+      {
+        "cueId": "cue-conflict-family-listen-advice",
+        "trigger": "conflict",
+        "relationshipContext": "family",
+        "conflictRuleId": "family-merge-listen-and-advice",
+        "pose": "listening",
+        "speaker": "小满",
+        "roleLabel": "关系卡片整理员",
+        "text": "想把话完整说完，也愿意听家人的建议，这两件事并不矛盾。先听清处境，再给可选择的办法。",
         "primaryAction": "采用合并建议",
         "secondaryAction": "保留原选择",
         "skippable": true
@@ -485,11 +500,6 @@
       {
         "ruleId": "safety-first-person",
         "label": "无法安全生成时使用第一人称回退",
-        "action": "fallback"
-      },
-      {
-        "ruleId": "safety-external-help",
-        "label": "出现明确即时危险时优先联系现实中的紧急支持",
         "action": "fallback"
       },
       {
@@ -1064,7 +1074,7 @@
               {
                 "optionId": "close-listening-capacity-small-support",
                 "text": "说明此刻能做到哪一点",
-                "subtitle": "完整倾听做不到时，也可以给一个拥抱、一杯水或一句确认。",
+                "subtitle": "完整倾听做不到时，也可以先问我是否需要拥抱、一杯水或一句确认。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "choice-autonomy",
@@ -1098,8 +1108,7 @@
             "sceneLead": "一次意见不同逐渐升温，真正要谈的事情开始被语气和防御遮住。",
             "prompt": "分歧中，哪一种沟通方式对你最重要？",
             "resultVoices": [
-              "request",
-              "boundary"
+              "request"
             ],
             "multiple": false,
             "selectionLimit": {
@@ -1132,18 +1141,18 @@
                 ]
               },
               {
-                "optionId": "close-conflict-tone-no-insult",
-                "text": "不提高音量也不贬低彼此",
-                "subtitle": "情绪可以存在，但攻击会让谈话失去安全感。",
+                "optionId": "close-conflict-tone-turn-taking",
+                "text": "轮流说完，再回应重点",
+                "subtitle": "先听完整再回应，能减少打断和防御，让分歧回到事情本身。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "conflict-clarity",
-                    "score": 3
+                    "score": 2
                   }
                 ],
-                "intensity": 3,
+                "intensity": 2,
                 "tags": [
-                  "no-insult"
+                  "turn-taking"
                 ],
                 "scenarios": [
                   "close-conflict-tone"
@@ -1152,7 +1161,7 @@
                 "conflictsWith": [],
                 "boundaryIds": [],
                 "resultTextKeys": [
-                  "close-conflict-tone-no-insult-result"
+                  "close-conflict-tone-turn-taking-result"
                 ]
               },
               {
@@ -1437,7 +1446,7 @@
               {
                 "optionId": "close-space-announce-brief",
                 "text": "只做简短说明，不展开原因",
-                "subtitle": "有时我还没准备好解释，但可以先让对方知道不是针对他。",
+                "subtitle": "有时我还没准备好解释，但可以先让对方知道这段安静不是在疏远关系。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "space-autonomy",
@@ -1748,7 +1757,7 @@
             "questionId": "close-care-language",
             "category": "care",
             "sceneLead": "对方想让关心抵达你，有些方式很动人，有些方式却可能与你真正需要的错开。",
-            "prompt": "最多选择两种最能让你感到被爱的表达。",
+            "prompt": "哪些表达最能让你感到被爱？最多选择两种。",
             "resultVoices": [
               "request"
             ],
@@ -2234,6 +2243,30 @@
                 "resultTextKeys": [
                   "close-boundary-public-sharing-anonymous-result"
                 ]
+              },
+              {
+                "optionId": "close-boundary-public-sharing-no-sharing",
+                "text": "关系细节原则上不对外分享",
+                "subtitle": "日常分享需要先确认；任何一方都可以寻求保密支持，出现安全风险时可以立即求助。",
+                "dimensionEffects": [
+                  {
+                    "dimensionId": "privacy-consent",
+                    "score": 3
+                  }
+                ],
+                "intensity": 3,
+                "tags": [
+                  "no-sharing"
+                ],
+                "scenarios": [
+                  "close-boundary-public-sharing"
+                ],
+                "hasConflict": false,
+                "conflictsWith": [],
+                "boundaryIds": [],
+                "resultTextKeys": [
+                  "close-boundary-public-sharing-no-sharing-result"
+                ]
               }
             ],
             "skipRule": {
@@ -2399,9 +2432,9 @@
                 ]
               },
               {
-                "optionId": "close-repair-change-support",
-                "text": "需要时一起寻找可行支持",
-                "subtitle": "困难可以被承认，也可以借助双方都接受的方法慢慢改变。",
+                "optionId": "close-repair-change-steps",
+                "text": "把困难拆成能执行的小步骤",
+                "subtitle": "可以约定提醒方式、调整节奏，或寻找双方都认可的支持。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "repair-accountability",
@@ -2410,7 +2443,7 @@
                 ],
                 "intensity": 2,
                 "tags": [
-                  "support"
+                  "steps"
                 ],
                 "scenarios": [
                   "close-repair-change"
@@ -2419,7 +2452,7 @@
                 "conflictsWith": [],
                 "boundaryIds": [],
                 "resultTextKeys": [
-                  "close-repair-change-support-result"
+                  "close-repair-change-steps-result"
                 ]
               }
             ],
@@ -2754,14 +2787,14 @@
             "compactDefault": true
           },
           {
-            "textKey": "close-conflict-tone-no-insult-result",
+            "textKey": "close-conflict-tone-turn-taking-result",
             "sourceSectionId": "conflict",
             "cardSectionId": "conflict",
-            "kind": "boundary",
-            "role": "trigger",
-            "voice": "boundary",
-            "intensity": 3,
-            "text": "分歧再大，我也需要我们不吼叫、不讽刺、不贬低彼此。",
+            "kind": "preference",
+            "role": "need",
+            "voice": "request",
+            "intensity": 2,
+            "text": "分歧升温时，希望我们轮流把重点说完，再回应彼此真正表达的内容。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -3162,6 +3195,18 @@
             "compactDefault": true
           },
           {
+            "textKey": "close-boundary-public-sharing-no-sharing-result",
+            "sourceSectionId": "boundary",
+            "cardSectionId": "boundary",
+            "kind": "boundary",
+            "role": "trigger",
+            "voice": "boundary",
+            "intensity": 3,
+            "text": "日常向外分享我们的关系细节前，请先征得我的同意；任何一方都可以寻求保密支持，出现安全风险时可以立即求助。",
+            "sensitive": false,
+            "compactDefault": true
+          },
+          {
             "textKey": "close-repair-apology-action-result",
             "sourceSectionId": "repair",
             "cardSectionId": "repair",
@@ -3222,14 +3267,14 @@
             "compactDefault": true
           },
           {
-            "textKey": "close-repair-change-support-result",
+            "textKey": "close-repair-change-steps-result",
             "sourceSectionId": "repair",
             "cardSectionId": "repair",
             "kind": "preference",
             "role": "need",
             "voice": "request",
             "intensity": 2,
-            "text": "如果改变确实困难，我希望我们坦白承认，并一起寻找双方都能接受的支持方式。",
+            "text": "如果改变确实困难，希望把它拆成可执行的小步骤，并约定提醒、调整或求助的方式。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -3414,7 +3459,21 @@
             "compactDefault": true
           }
         ],
-        "conflictMergeRules": [],
+        "conflictMergeRules": [
+          {
+            "ruleId": "close-merge-talk-and-space",
+            "optionIds": [
+              "close-conflict-tone-direct",
+              "close-conflict-pause-return-time"
+            ],
+            "cardSectionId": "conflict",
+            "text": "我希望分歧时直接谈具体事件和需要；如果情绪太满，也可以先暂停，并说明大概什么时候回来继续。",
+            "replacesTextKeys": [
+              "close-conflict-tone-direct-result",
+              "close-conflict-pause-return-time-result"
+            ]
+          }
+        ],
         "boundaryCommitmentRules": [],
         "defaultCommitmentTextKeys": [],
         "sectionFallbacks": {
@@ -3849,8 +3908,8 @@
           {
             "questionId": "friend-listening-capacity",
             "category": "listening",
-            "sceneLead": "朋友愿意开口时，你或对方也可能正处在没有足够情绪容量的一天。",
-            "prompt": "暂时接不住倾诉时，怎样说明最尊重彼此？",
+            "sceneLead": "朋友愿意开口时，你也可能正处在没有足够情绪容量的一天，勉强承接只会让双方更疲惫。",
+            "prompt": "当你暂时接不住朋友的倾诉时，愿意怎样说明？",
             "resultVoices": [
               "self-commitment"
             ],
@@ -4130,15 +4189,15 @@
             "questionId": "friend-conflict-jokes",
             "category": "conflict",
             "sceneLead": "一句玩笑让你不舒服，对方可能没有恶意，但实际感受仍需要被认真对待。",
-            "prompt": "玩笑越界时，你最希望朋友怎样回应？",
+            "prompt": "玩笑越界时，你希望朋友怎样回应？最多选择两项。",
             "resultVoices": [
               "boundary",
               "request"
             ],
-            "multiple": false,
+            "multiple": true,
             "selectionLimit": {
               "min": 1,
-              "max": 1
+              "max": 2
             },
             "options": [
               {
@@ -4224,7 +4283,7 @@
             "questionId": "friend-conflict-values",
             "category": "conflict",
             "sceneLead": "你们对一件重要议题看法不同，但也不想把一次争论变成整段友情的判决。",
-            "prompt": "价值观不同又想保留友情时，你最需要哪一种对话方式？",
+            "prompt": "面对观点差异时，你最需要哪一种处理？若言语已经构成歧视或贬损，请直接选择边界项。",
             "resultVoices": [
               "request",
               "boundary"
@@ -4424,7 +4483,7 @@
               {
                 "optionId": "friend-space-social-pause-status",
                 "text": "用一句话说明需要休息",
-                "subtitle": "不用展开原因，让重要朋友知道这段安静不是针对他。",
+                "subtitle": "不用展开原因，让重要朋友知道这段安静不是在疏远对方。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "space-autonomy",
@@ -4503,7 +4562,7 @@
           {
             "questionId": "friend-space-new-friends",
             "category": "space",
-            "sceneLead": "朋友结识了新的伙伴，你可能替他开心，也可能担心自己在关系里的位置发生变化。",
+            "sceneLead": "朋友结识了新的伙伴，你可能替对方开心，也可能担心自己在关系里的位置发生变化。",
             "prompt": "面对朋友有了新圈子时，你最需要什么？",
             "resultVoices": [
               "request"
@@ -4690,7 +4749,7 @@
             "questionId": "friend-care-ask-first",
             "category": "care",
             "sceneLead": "朋友看到你遇到困难，愿意伸手帮忙，但好意也可能无意间替你做了决定。",
-            "prompt": "朋友准备帮忙前，你最希望他先确认什么？",
+            "prompt": "朋友准备帮忙前，你最希望对方先确认哪一件事？",
             "resultVoices": [
               "request"
             ],
@@ -4782,7 +4841,7 @@
           {
             "questionId": "friend-care-support-limits",
             "category": "care",
-            "sceneLead": "金钱、时间或情绪支持都可能让友情更靠近，也可能在没有边界时让双方透支。",
+            "sceneLead": "当帮助明显超出日常小忙，涉及金钱、较长时间或持续情绪支持时，双方都可能在没有边界的情况下透支。",
             "prompt": "提供或接受较大帮助时，你最在意哪一点？",
             "resultVoices": [
               "request",
@@ -4989,14 +5048,14 @@
             "questionId": "friend-boundary-sharing",
             "category": "boundary",
             "sceneLead": "群聊截图、合照或动态都可能让一段私下互动进入更大的观看范围。",
-            "prompt": "发布涉及你的内容前，你最需要哪一种约定？",
+            "prompt": "发布涉及你的内容前，你需要哪些约定？最多选择两项。",
             "resultVoices": [
               "boundary"
             ],
-            "multiple": false,
+            "multiple": true,
             "selectionLimit": {
               "min": 1,
-              "max": 1
+              "max": 2
             },
             "options": [
               {
@@ -5287,15 +5346,15 @@
             "questionId": "friend-repair-group-misunderstanding",
             "category": "repair",
             "sceneLead": "误会已经传到共同朋友那里，修复不仅要在私下说清，也要处理已经扩散的信息。",
-            "prompt": "群体误会中，你最需要对方怎样修复？",
+            "prompt": "群体误会中，你最需要对方怎样修复？最多选择两项。",
             "resultVoices": [
               "request",
               "boundary"
             ],
-            "multiple": false,
+            "multiple": true,
             "selectionLimit": {
               "min": 1,
-              "max": 1
+              "max": 2
             },
             "options": [
               {
@@ -5560,7 +5619,7 @@
             "role": "need",
             "voice": "request",
             "intensity": 2,
-            "text": "重要消息没有回应时，希望我可以在之后轻轻提醒一次，不把提醒理解为责备。",
+            "text": "重要消息没有回应时，希望你能理解我之后可能轻轻提醒一次；那是在避免遗漏，不是责备。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -6405,7 +6464,21 @@
             "compactDefault": true
           }
         ],
-        "conflictMergeRules": [],
+        "conflictMergeRules": [
+          {
+            "ruleId": "friend-merge-advice-and-capacity",
+            "optionIds": [
+              "friend-listening-support-mode-advice",
+              "friend-listening-capacity-honest"
+            ],
+            "cardSectionId": "listening",
+            "text": "我需要办法时，希望朋友和我一起整理可选项；如果当下没有精力听，也可以坦白说明，不必勉强回应。",
+            "replacesTextKeys": [
+              "friend-listening-support-mode-advice-result",
+              "friend-listening-capacity-honest-result"
+            ]
+          }
+        ],
         "boundaryCommitmentRules": [],
         "defaultCommitmentTextKeys": [],
         "sectionFallbacks": {
@@ -6445,7 +6518,7 @@
             "questionId": "family-contact-checkin",
             "category": "contact",
             "sceneLead": "家人的牵挂需要一个落点，但每个人的生活节奏和可回应时间并不相同。",
-            "prompt": "关于报平安，哪一种方式最适合你？",
+            "prompt": "关于报平安，你最希望把哪一种联系约定写进卡片？",
             "resultVoices": [
               "request",
               "self-commitment"
@@ -6538,8 +6611,8 @@
           {
             "questionId": "family-contact-delay",
             "category": "contact",
-            "sceneLead": "消息没有及时回复，担心可能越来越大，但连续查问行踪也会让人感到窒息。",
-            "prompt": "没有及时联系上时，你最希望家人怎样处理？",
+            "sceneLead": "没有具体危险迹象、也不涉及事先约定的紧急情况时，消息没有及时回复仍可能引发担心，但连续查问行踪也会让人感到窒息。",
+            "prompt": "没有具体危险迹象且不涉及约定的紧急情况时，你最希望家人怎样处理？",
             "resultVoices": [
               "request"
             ],
@@ -6576,7 +6649,7 @@
               {
                 "optionId": "family-contact-delay-wait",
                 "text": "按约定时长再联系一次",
-                "subtitle": "不是不断拨打，而是根据事情紧急程度留出合理间隔。",
+                "subtitle": "不是不断拨打，而是按事先说好的时长留出合理间隔。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "contact-clarity",
@@ -6599,8 +6672,8 @@
               },
               {
                 "optionId": "family-contact-delay-channel",
-                "text": "重要事项使用约定渠道",
-                "subtitle": "普通问候可以等待，确实重要的家庭事项用双方知道的方式联系。",
+                "text": "需尽快处理的事项使用约定渠道",
+                "subtitle": "普通问候可以等待；没有危险迹象但需要尽快处理的家庭事项，用双方知道的方式联系。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "contact-clarity",
@@ -7157,18 +7230,18 @@
                 ]
               },
               {
-                "optionId": "family-conflict-authority-choice",
-                "text": "属于我的决定由我承担并作出",
-                "subtitle": "家人可以表达担心，但不能绕过我直接替我决定。",
+                "optionId": "family-conflict-authority-allow-difference",
+                "text": "允许暂时没有一致结论",
+                "subtitle": "彼此立场说清后，也可以保留不同意见，不用靠身份逼出当场答案。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "conflict-clarity",
-                    "score": 3
+                    "score": 2
                   }
                 ],
-                "intensity": 3,
+                "intensity": 2,
                 "tags": [
-                  "choice"
+                  "allow-difference"
                 ],
                 "scenarios": [
                   "family-conflict-authority"
@@ -7177,7 +7250,7 @@
                 "conflictsWith": [],
                 "boundaryIds": [],
                 "resultTextKeys": [
-                  "family-conflict-authority-choice-result"
+                  "family-conflict-authority-allow-difference-result"
                 ]
               }
             ],
@@ -7456,18 +7529,18 @@
                 ]
               },
               {
-                "optionId": "family-space-decisions-no-relatives",
-                "text": "未经同意不替我告诉亲属",
-                "subtitle": "我告诉一位家人，不等于同意整个家庭网络都知道。",
+                "optionId": "family-space-decisions-no-deadline",
+                "text": "不催我立刻给出结论",
+                "subtitle": "我可以继续考虑，也可以改变主意；关心不需要变成反复追问期限。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "space-autonomy",
-                    "score": 3
+                    "score": 2
                   }
                 ],
-                "intensity": 3,
+                "intensity": 2,
                 "tags": [
-                  "no-relatives"
+                  "no-deadline"
                 ],
                 "scenarios": [
                   "family-space-decisions"
@@ -7476,7 +7549,7 @@
                 "conflictsWith": [],
                 "boundaryIds": [],
                 "resultTextKeys": [
-                  "family-space-decisions-no-relatives-result"
+                  "family-space-decisions-no-deadline-result"
                 ]
               }
             ],
@@ -7489,10 +7562,11 @@
           {
             "questionId": "family-space-distance",
             "category": "space",
-            "sceneLead": "搬出、减少见面或调整联系可能是生活变化，也可能让家人感到失落和担心。",
-            "prompt": "需要拉开一些生活距离时，你最希望怎样沟通？",
+            "sceneLead": "搬出、减少见面或调整联系可能是生活变化，也可能是在保护自己的安全与承受能力；距离不需要以安抚所有人为前提。",
+            "prompt": "需要拉开生活距离时，哪一种安排最符合你当下的安全与承受能力？",
             "resultVoices": [
-              "self-commitment"
+              "self-commitment",
+              "boundary"
             ],
             "multiple": false,
             "selectionLimit": {
@@ -7549,18 +7623,18 @@
                 ]
               },
               {
-                "optionId": "family-space-distance-pace",
-                "text": "按双方承受能力慢慢调整",
-                "subtitle": "改变可以分阶段，不用一夜之间恢复旧模式或彻底断开。",
+                "optionId": "family-space-distance-full-pause",
+                "text": "需要时暂时完全停止联系",
+                "subtitle": "当联系带来持续压力或不安全，我可以先完整暂停，是否恢复由实际状态决定。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "space-autonomy",
-                    "score": 2
+                    "score": 3
                   }
                 ],
-                "intensity": 2,
+                "intensity": 3,
                 "tags": [
-                  "pace"
+                  "full-pause"
                 ],
                 "scenarios": [
                   "family-space-distance"
@@ -7569,7 +7643,7 @@
                 "conflictsWith": [],
                 "boundaryIds": [],
                 "resultTextKeys": [
-                  "family-space-distance-pace-result"
+                  "family-space-distance-full-pause-result"
                 ]
               },
               {
@@ -7872,7 +7946,7 @@
                 "subtitle": "担心之外有一个实际可选的支持，会让我更有力量面对。",
                 "dimensionEffects": [
                   {
-                    "dimensionId": "care-words",
+                    "dimensionId": "care-action",
                     "score": 2
                   }
                 ],
@@ -8087,7 +8161,7 @@
             "questionId": "family-boundary-relatives",
             "category": "boundary",
             "sceneLead": "你只向一位家人说过的事，可能很快经过关心和转述变成整个亲属圈都知道的消息。",
-            "prompt": "关于向亲属转述，你最需要哪一种约定？",
+            "prompt": "关于向亲属转述，或误传后的补救，你最需要哪一项？",
             "resultVoices": [
               "boundary",
               "request"
@@ -8193,7 +8267,7 @@
             "options": [
               {
                 "optionId": "family-repair-no-bypass-not-bypass",
-                "text": "不用品质或亲情跳过影响",
+                "text": "不拿好意或亲情要求翻篇",
                 "subtitle": "关系重要更应该认真处理，而不是要求我因为是一家人就算了。",
                 "dimensionEffects": [
                   {
@@ -8273,8 +8347,8 @@
           {
             "questionId": "family-repair-impact",
             "category": "repair",
-            "sceneLead": "家人解释自己本意是关心，但你的选择、隐私或感受确实已经受到影响。",
-            "prompt": "谈修复时，你最需要对方先看见什么？",
+            "sceneLead": "未经同意的安排、转述或介入已经影响了你的选择和隐私，修复需要把能挽回的部分真正还回来。",
+            "prompt": "影响已经发生后，你最需要家人先做哪一种具体补救？",
             "resultVoices": [
               "request"
             ],
@@ -8285,9 +8359,9 @@
             },
             "options": [
               {
-                "optionId": "family-repair-impact-impact",
-                "text": "承认好意也可能造成伤害",
-                "subtitle": "说明出发点可以帮助理解，却不能让实际影响消失。",
+                "optionId": "family-repair-impact-restore-choice",
+                "text": "撤回未经同意作出的安排",
+                "subtitle": "能取消的承诺或代办先取消，把决定权和后续选择还给真正受影响的人。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "repair-accountability",
@@ -8296,7 +8370,7 @@
                 ],
                 "intensity": 3,
                 "tags": [
-                  "impact"
+                  "restore-choice"
                 ],
                 "scenarios": [
                   "family-repair-impact"
@@ -8305,13 +8379,13 @@
                 "conflictsWith": [],
                 "boundaryIds": [],
                 "resultTextKeys": [
-                  "family-repair-impact-impact-result"
+                  "family-repair-impact-restore-choice-result"
                 ]
               },
               {
-                "optionId": "family-repair-impact-listen",
-                "text": "听我说完受到的影响",
-                "subtitle": "不急着解释或比较付出，让我的经验先完整出现。",
+                "optionId": "family-repair-impact-correct-information",
+                "text": "在原来扩散的范围内更正信息",
+                "subtitle": "消息传到哪里，就尽量在哪里澄清，不把解释和收拾影响都留给我。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "repair-accountability",
@@ -8320,7 +8394,7 @@
                 ],
                 "intensity": 3,
                 "tags": [
-                  "listen"
+                  "correct-information"
                 ],
                 "scenarios": [
                   "family-repair-impact"
@@ -8329,13 +8403,13 @@
                 "conflictsWith": [],
                 "boundaryIds": [],
                 "resultTextKeys": [
-                  "family-repair-impact-listen-result"
+                  "family-repair-impact-correct-information-result"
                 ]
               },
               {
-                "optionId": "family-repair-impact-ask",
-                "text": "问我现在需要怎样修复",
-                "subtitle": "家人熟悉我也不代表能替我决定什么补偿最合适。",
+                "optionId": "family-repair-impact-restore-privacy",
+                "text": "停止继续询问或转述我的私事",
+                "subtitle": "先让越界行为停下来，再由我决定哪些信息仍愿意保留或重新说明。",
                 "dimensionEffects": [
                   {
                     "dimensionId": "repair-accountability",
@@ -8344,7 +8418,7 @@
                 ],
                 "intensity": 3,
                 "tags": [
-                  "ask"
+                  "restore-privacy"
                 ],
                 "scenarios": [
                   "family-repair-impact"
@@ -8353,7 +8427,7 @@
                 "conflictsWith": [],
                 "boundaryIds": [],
                 "resultTextKeys": [
-                  "family-repair-impact-ask-result"
+                  "family-repair-impact-restore-privacy-result"
                 ]
               }
             ],
@@ -8503,7 +8577,7 @@
             "role": "need",
             "voice": "request",
             "intensity": 2,
-            "text": "暂时联系不上我时，希望先留一条说明担心的消息，给我看到后回应的时间。",
+            "text": "没有具体危险迹象、也不涉及约定的紧急情况时，希望先留一条说明担心的消息，给我看到后回应的时间。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -8515,7 +8589,7 @@
             "role": "need",
             "voice": "request",
             "intensity": 2,
-            "text": "如果事情不紧急，希望家人按约定的时间间隔再联系，不连续拨打或追问。",
+            "text": "没有具体危险迹象、也不涉及约定的紧急情况时，希望家人按约定的时间间隔再联系，不连续拨打或追问。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -8527,7 +8601,7 @@
             "role": "need",
             "voice": "request",
             "intensity": 2,
-            "text": "普通消息可以等待；确实重要的家庭事项，希望使用我们事先约定的联系方式。",
+            "text": "没有具体危险迹象、也不涉及约定的紧急情况时，需要尽快处理的家庭事项希望使用事先约定的联系方式。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -8736,14 +8810,14 @@
             "compactDefault": true
           },
           {
-            "textKey": "family-conflict-authority-choice-result",
+            "textKey": "family-conflict-authority-allow-difference-result",
             "sourceSectionId": "conflict",
             "cardSectionId": "conflict",
-            "kind": "boundary",
-            "role": "trigger",
-            "voice": "boundary",
-            "intensity": 3,
-            "text": "涉及我本人生活的决定，希望由我在了解后果后作出；家人可以表达担心，但不能替代我。",
+            "kind": "preference",
+            "role": "need",
+            "voice": "request",
+            "intensity": 2,
+            "text": "彼此立场说清后，希望允许暂时没有一致结论，不用年龄、辈分或身份逼我当场改口。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -8844,14 +8918,14 @@
             "compactDefault": true
           },
           {
-            "textKey": "family-space-decisions-no-relatives-result",
+            "textKey": "family-space-decisions-no-deadline-result",
             "sourceSectionId": "space",
             "cardSectionId": "space",
-            "kind": "boundary",
-            "role": "trigger",
-            "voice": "boundary",
-            "intensity": 3,
-            "text": "我告诉一位家人的事，未经我同意请不要转告其他亲属。",
+            "kind": "preference",
+            "role": "need",
+            "voice": "request",
+            "intensity": 2,
+            "text": "个人决定还没成熟时，希望不要催我立刻给出结论，也允许我在了解更多后改变主意。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -8880,14 +8954,14 @@
             "compactDefault": true
           },
           {
-            "textKey": "family-space-distance-pace-result",
+            "textKey": "family-space-distance-full-pause-result",
             "sourceSectionId": "space",
             "cardSectionId": "space",
-            "kind": "commitment",
-            "role": "action",
-            "voice": "self-commitment",
-            "intensity": 2,
-            "text": "我愿意根据实际承受能力逐步调整联系节奏，并在需要变化时说明。",
+            "kind": "boundary",
+            "role": "trigger",
+            "voice": "boundary",
+            "intensity": 3,
+            "text": "当联系持续带来压力或不安全时，我可以暂时完全停止联系；是否以及何时恢复，由我的安全和实际状态决定。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -9067,7 +9141,7 @@
             "role": "trigger",
             "voice": "boundary",
             "intensity": 3,
-            "text": "如果需要家人代办，我会明确授权的事项和范围；没有说明的部分不视为已经同意。",
+            "text": "只有我明确授权的事项和范围可以代办；没有说明的部分不视为同意，也不得自行延伸。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -9144,38 +9218,38 @@
             "compactDefault": true
           },
           {
-            "textKey": "family-repair-impact-impact-result",
+            "textKey": "family-repair-impact-restore-choice-result",
             "sourceSectionId": "repair",
             "cardSectionId": "repair",
             "kind": "preference",
             "role": "need",
             "voice": "request",
             "intensity": 3,
-            "text": "我希望你承认即使出发点是关心，做法仍可能给我造成真实影响。",
+            "text": "如果未经我同意作出了安排，希望先撤回能取消的承诺或代办，把决定权还给我。",
             "sensitive": false,
             "compactDefault": true
           },
           {
-            "textKey": "family-repair-impact-listen-result",
+            "textKey": "family-repair-impact-correct-information-result",
             "sourceSectionId": "repair",
             "cardSectionId": "repair",
             "kind": "preference",
             "role": "need",
             "voice": "request",
             "intensity": 3,
-            "text": "希望你先听我说完这件事怎样影响了我，不急着解释或比较谁付出更多。",
+            "text": "如果信息已经被转述，希望在原来扩散的范围内主动更正，不把解释责任留给我。",
             "sensitive": false,
             "compactDefault": true
           },
           {
-            "textKey": "family-repair-impact-ask-result",
+            "textKey": "family-repair-impact-restore-privacy-result",
             "sourceSectionId": "repair",
             "cardSectionId": "repair",
             "kind": "preference",
             "role": "need",
             "voice": "request",
             "intensity": 3,
-            "text": "谈修复时，希望先问我现在需要什么，不要因为熟悉就替我决定。",
+            "text": "希望先停止继续询问或转述我的私事，再由我决定哪些信息愿意保留或重新说明。",
             "sensitive": false,
             "compactDefault": true
           },
@@ -9360,7 +9434,21 @@
             "compactDefault": true
           }
         ],
-        "conflictMergeRules": [],
+        "conflictMergeRules": [
+          {
+            "ruleId": "family-merge-listen-and-advice",
+            "optionIds": [
+              "family-listening-first-response-listen",
+              "family-listening-advice-options"
+            ],
+            "cardSectionId": "listening",
+            "text": "我向家人说难受的事时，希望先让我把话说完；之后若要给建议，请把它作为可参考的选项，把决定留给我。",
+            "replacesTextKeys": [
+              "family-listening-first-response-listen-result",
+              "family-listening-advice-options-result"
+            ]
+          }
+        ],
         "boundaryCommitmentRules": [],
         "defaultCommitmentTextKeys": [],
         "sectionFallbacks": {
@@ -9773,10 +9861,7 @@
             },
             "question-repair": {
               "questionId": "family-repair-impact",
-              "optionIds": {
-                "option-repair-impact": "family-repair-impact-impact",
-                "option-repair-next": "family-repair-impact-ask"
-              }
+              "optionIds": {}
             },
             "question-apology": {
               "questionId": "family-repair-no-bypass",

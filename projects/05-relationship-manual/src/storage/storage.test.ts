@@ -41,6 +41,12 @@ describe('draft storage', () => {
       ...draftWithoutV2Fields,
       schemaVersion: 1,
       contentVersion: '1.0.0',
+      answers: [{
+        questionId: 'question-busy-contact',
+        optionIds: ['option-busy-brief'],
+        skipped: false,
+        updatedAt: now,
+      }],
       cardItems: [{
         itemId: 'text:pref-space', sectionId: 'companion', sourceTextKey: 'pref-space',
         provenanceIds: ['question-alone-space:option-space-full'], suggestedText: '旧建议', editedText: '我的旧改写',
@@ -49,12 +55,19 @@ describe('draft storage', () => {
     }
     storage.setItem('xhs-tool:relationship-manual:state:v1', JSON.stringify(legacyDraft))
 
-    const result = loadDraft(storage, content.contentVersion, buildStorageReferences(content))
+    const result = loadDraft(storage, content)
 
     expect(result.status).toBe('ok')
     if (result.status !== 'ok') return
     expect(result.payload.schemaVersion).toBe(2)
-    expect(result.payload.answers.map((item) => item.questionId)).toContain('question-busy-contact')
+    expect(result.payload.answers).toEqual([expect.objectContaining({
+      questionId: 'close-contact-busy',
+      optionIds: ['close-contact-busy-brief'],
+    })])
+    expect(result.migration).toEqual({
+      preservedAnswerCount: 1,
+      needsAnswerQuestionIds: expect.arrayContaining(['close-contact-delay']),
+    })
     expect(result.payload.cardItems.find((item) => item.itemId === 'text:pref-space')).toMatchObject({
       sectionId: 'space', role: 'need', editedText: '我的旧改写', needsReview: true,
     })
@@ -175,6 +188,15 @@ describe('draft storage', () => {
     expect(saveDraft(storage, oversized)).toEqual({ ok: false, error: 'payload-too-large' })
   })
 
+  it('bounds persisted conflict decisions', () => {
+    const storage = new MemoryStorage()
+    const conflictRuleDecisions = Object.fromEntries(
+      Array.from({ length: 13 }, (_, index) => [`rule-${index}`, 'adopted' as const]),
+    )
+
+    expect(saveDraft(storage, { ...draft, conflictRuleDecisions })).toEqual({ ok: false, error: 'payload-too-large' })
+  })
+
   it('refuses media-like data and limits edited text to 120 characters', () => {
     const storage = new MemoryStorage()
     const unsafe = {
@@ -232,6 +254,55 @@ describe('draft storage', () => {
       needsAnswerQuestionIds: expect.arrayContaining(['friend-contact-frequency']),
     })
     expect(result.migration?.needsAnswerQuestionIds).toHaveLength(20)
+  })
+
+  it('preserves stable answers and drops every materially replaced 3.0 choice', () => {
+    const nextContent = structuredClone(content)
+    nextContent.contentVersion = '3.1.0'
+    const cases = [
+      {
+        context: 'close-relationship' as const,
+        removed: [
+          answerFor('close-conflict-tone', 'close-conflict-tone-no-insult'),
+          answerFor('close-repair-change', 'close-repair-change-support'),
+        ],
+      },
+      {
+        context: 'family' as const,
+        removed: [
+          answerFor('family-conflict-authority', 'family-conflict-authority-choice'),
+          answerFor('family-space-decisions', 'family-space-decisions-no-relatives'),
+          answerFor('family-space-distance', 'family-space-distance-pace'),
+          answerFor('family-repair-impact', 'family-repair-impact-impact'),
+          answerFor('family-repair-impact', 'family-repair-impact-listen'),
+          answerFor('family-repair-impact', 'family-repair-impact-ask'),
+        ],
+      },
+    ]
+
+    for (const migrationCase of cases) {
+      const storage = new MemoryStorage()
+      const stableQuestion = nextContent.content.relationshipBanks![migrationCase.context].questions[0]!
+      const stableAnswer = answerFor(stableQuestion.questionId, stableQuestion.options[0]!.optionId)
+      storage.setItem(STORAGE_KEY, JSON.stringify({
+        ...draft,
+        relationshipContext: migrationCase.context,
+        contentVersion: '3.0.0',
+        answers: [stableAnswer, ...migrationCase.removed],
+      }))
+
+      const result = loadDraft(storage, nextContent)
+
+      expect(result.status).toBe('ok')
+      if (result.status !== 'ok') continue
+      expect(result.payload.answers).toEqual([stableAnswer])
+      expect(result.payload.contentVersion).toBe('3.1.0')
+      expect(result.payload.lastResult).toBeNull()
+      expect(result.migration?.preservedAnswerCount).toBe(1)
+      expect(result.migration?.needsAnswerQuestionIds).toEqual(expect.arrayContaining(
+        migrationCase.removed.map((answer) => answer.questionId),
+      ))
+    }
   })
 
   it('drops an answer whose IDs belong to a different relationship bank', () => {

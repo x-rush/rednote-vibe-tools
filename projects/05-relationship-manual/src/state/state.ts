@@ -3,20 +3,25 @@ import type {
   EditableCardItem,
   QuestionnaireAnswer,
   RelationshipCardViewModel,
+  RelationshipCategory,
   RelationshipContext,
+  ConflictRuleDecision,
 } from '../content/schema'
 import { limitText } from '../domain/card'
 
-export type AppPage = 'landing' | 'intro' | 'questionnaire' | 'review' | 'result' | 'editCard' | 'savedResult' | 'error'
+export type AppPage = 'landing' | 'intro' | 'chapterIntro' | 'questionnaire' | 'review' | 'result' | 'editCard' | 'savedResult' | 'error'
 
 export type RelationshipState = {
   page: AppPage
   relationshipContext: RelationshipContext
   currentQuestionIndex: number
+  seenChapterIds: RelationshipCategory[]
   answers: QuestionnaireAnswer[]
   cardItems: EditableCardItem[]
   lastResult: RelationshipCardViewModel | null
+  conflictRuleDecisions: Record<string, ConflictRuleDecision>
   settings: DraftPayload['settings']
+  returnToReviewAfterEdit: boolean
   hasDraft: boolean
   error: string | null
 }
@@ -24,8 +29,9 @@ export type RelationshipState = {
 export type RelationshipAction =
   | { type: 'OPEN_INTRO' }
   | { type: 'BEGIN'; relationshipContext: RelationshipContext }
+  | { type: 'CONTINUE_CHAPTER'; category: RelationshipCategory }
   | { type: 'SET_ANSWER'; answer: QuestionnaireAnswer }
-  | { type: 'SET_ANSWER_AND_NEXT'; answer: QuestionnaireAnswer; questionCount: number }
+  | { type: 'SET_ANSWER_AND_NEXT'; answer: QuestionnaireAnswer; questionCount: number; currentCategory?: RelationshipCategory; nextCategory?: RelationshipCategory }
   | { type: 'PREVIOUS_QUESTION' }
   | { type: 'NEXT_QUESTION'; questionCount: number }
   | { type: 'OPEN_REVIEW'; missingRequiredQuestionIds: string[] }
@@ -37,6 +43,7 @@ export type RelationshipAction =
   | { type: 'MOVE_ITEM'; itemId: string; direction: -1 | 1 }
   | { type: 'SET_COMPACT'; compactMode: boolean }
   | { type: 'SET_SENSITIVE_COMPACT'; show: boolean }
+  | { type: 'SET_CONFLICT_DECISION'; ruleId: string; decision: ConflictRuleDecision }
   | { type: 'SAVE_RESULT' }
   | { type: 'OPEN_SAVED' }
   | { type: 'RESTORE'; draft: DraftPayload }
@@ -48,10 +55,13 @@ export function createInitialState(hasDraft = false): RelationshipState {
     page: 'landing',
     relationshipContext: 'close-relationship',
     currentQuestionIndex: 0,
+    seenChapterIds: [],
     answers: [],
     cardItems: [],
     lastResult: null,
+    conflictRuleDecisions: {},
     settings: { compactMode: false, showSensitiveInCompact: false },
+    returnToReviewAfterEdit: false,
     hasDraft,
     error: null,
   }
@@ -67,6 +77,7 @@ export function cardToEditableItems(card: RelationshipCardViewModel): EditableCa
   return card.sections.flatMap((section) => section.paragraphs.map((paragraph, paragraphIndex) => ({
     itemId: section.paragraphIds?.[paragraphIndex] ?? `${section.sectionId}-${paragraphIndex}`,
     sectionId: section.sectionId,
+    role: section.paragraphRoles?.[paragraphIndex] ?? 'need',
     sourceTextKey: section.paragraphSourceTextKeys?.[paragraphIndex] ?? undefined,
     provenanceIds: section.paragraphProvenanceIds?.[paragraphIndex] ?? [],
     suggestedText: paragraph,
@@ -94,7 +105,16 @@ export function relationshipReducer(state: RelationshipState, action: Relationsh
       if (state.hasDraft && state.page === 'landing') {
         return { ...state, error: '请先确认是否清除已有草稿。' }
       }
-      return { ...state, page: 'questionnaire', relationshipContext: action.relationshipContext, currentQuestionIndex: 0, error: null, hasDraft: true }
+      return { ...state, page: 'chapterIntro', relationshipContext: action.relationshipContext, currentQuestionIndex: 0, error: null, hasDraft: true }
+    case 'CONTINUE_CHAPTER':
+      return {
+        ...state,
+        page: 'questionnaire',
+        seenChapterIds: state.seenChapterIds.includes(action.category)
+          ? state.seenChapterIds
+          : [...state.seenChapterIds, action.category],
+        error: null,
+      }
     case 'SET_ANSWER':
       return {
         ...state,
@@ -105,11 +125,19 @@ export function relationshipReducer(state: RelationshipState, action: Relationsh
       }
     case 'SET_ANSWER_AND_NEXT': {
       const nextIndex = Math.min(state.currentQuestionIndex + 1, Math.max(0, action.questionCount - 1))
+      const reachedReview = state.currentQuestionIndex >= action.questionCount - 1
       return {
         ...state,
-        page: state.currentQuestionIndex >= action.questionCount - 1 ? 'review' : 'questionnaire',
+        page: reachedReview
+          ? 'review'
+          : action.nextCategory !== undefined
+            && action.nextCategory !== action.currentCategory
+            && !state.seenChapterIds.includes(action.nextCategory)
+              ? 'chapterIntro'
+              : 'questionnaire',
         currentQuestionIndex: nextIndex,
         answers: setAnswer(state.answers, action.answer),
+        returnToReviewAfterEdit: reachedReview ? false : state.returnToReviewAfterEdit,
         error: null,
         hasDraft: true,
       }
@@ -121,9 +149,9 @@ export function relationshipReducer(state: RelationshipState, action: Relationsh
     case 'OPEN_REVIEW':
       return action.missingRequiredQuestionIds.length > 0
         ? { ...state, page: 'questionnaire', error: '还有必答题未完成。' }
-        : { ...state, page: 'review', error: null }
+        : { ...state, page: 'review', returnToReviewAfterEdit: false, error: null }
     case 'BACK_TO_QUESTION':
-      return { ...state, page: 'questionnaire', currentQuestionIndex: Math.max(0, action.questionIndex), error: null }
+      return { ...state, page: 'questionnaire', currentQuestionIndex: Math.max(0, action.questionIndex), returnToReviewAfterEdit: true, error: null }
     case 'GENERATE':
       return { ...state, page: 'result', lastResult: action.card, cardItems: action.cardItems ?? cardToEditableItems(action.card), error: null, hasDraft: true }
     case 'EDIT_CARD':
@@ -146,6 +174,12 @@ export function relationshipReducer(state: RelationshipState, action: Relationsh
       return { ...state, settings: { ...state.settings, compactMode: action.compactMode }, hasDraft: true }
     case 'SET_SENSITIVE_COMPACT':
       return { ...state, settings: { ...state.settings, showSensitiveInCompact: action.show }, hasDraft: true }
+    case 'SET_CONFLICT_DECISION':
+      return {
+        ...state,
+        conflictRuleDecisions: { ...state.conflictRuleDecisions, [action.ruleId]: action.decision },
+        hasDraft: true,
+      }
     case 'SAVE_RESULT':
       return { ...state, page: 'savedResult', error: null, hasDraft: true }
     case 'OPEN_SAVED':
@@ -155,10 +189,13 @@ export function relationshipReducer(state: RelationshipState, action: Relationsh
         page: action.draft.page,
         relationshipContext: action.draft.relationshipContext,
         currentQuestionIndex: action.draft.currentQuestionIndex,
+        seenChapterIds: action.draft.seenChapterIds,
         answers: action.draft.answers,
         cardItems: action.draft.cardItems,
         lastResult: action.draft.lastResult,
+        conflictRuleDecisions: action.draft.conflictRuleDecisions ?? {},
         settings: action.draft.settings,
+        returnToReviewAfterEdit: false,
         hasDraft: true,
         error: null,
       }
@@ -172,15 +209,17 @@ export function relationshipReducer(state: RelationshipState, action: Relationsh
 export function stateToDraft(state: RelationshipState, contentVersion: string, updatedAt: string): DraftPayload {
   const draftPage = state.page === 'landing' || state.page === 'intro' || state.page === 'error' ? 'questionnaire' : state.page
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     contentVersion,
     updatedAt,
     page: draftPage,
     relationshipContext: state.relationshipContext,
     currentQuestionIndex: state.currentQuestionIndex,
+    seenChapterIds: state.seenChapterIds,
     answers: state.answers,
     cardItems: state.cardItems,
     lastResult: state.lastResult,
+    conflictRuleDecisions: state.conflictRuleDecisions,
     settings: state.settings,
   }
 }

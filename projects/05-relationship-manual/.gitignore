@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# This project ships its hand-authored editorial SVG set.
+!src/assets/
+!src/assets/art/
+!src/assets/art/*.svg

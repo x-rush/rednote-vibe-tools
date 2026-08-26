@@ -1,5 +1,6 @@
 import rawContent from './content.json'
 import { RELATIONSHIP_CONTEXTS } from './bank'
+import { validateSelection } from '../domain/answers'
 import type {
   ContentValidationResult,
   ManualSentence,
@@ -258,20 +259,26 @@ function validateContentUnsafe(input: unknown): ContentValidationResult {
     const boundaryIds = new Set(bank.boundaryPreferences.flatMap((boundary) => (
       isRecord(boundary) && typeof boundary.boundaryId === 'string' ? [boundary.boundaryId] : []
     )))
-    const sentences = bank.sentenceFragments as Array<{
-      textKey: string
-      voice: ResultVoice
-      intensity: 1 | 2 | 3
-      sensitive: boolean
-      text: string
-    }>
+    const sentences = bank.sentenceFragments as ManualSentence[]
     const sentenceByKey = new Map(sentences.map((sentence) => [sentence.textKey, sentence]))
+    const conflictRules = bank.conflictMergeRules.filter((rule) => isRecord(rule)
+      && typeof rule.ruleId === 'string'
+      && Array.isArray(rule.optionIds)
+      && rule.optionIds.length === 2
+      && isStringArray(rule.optionIds)
+      && CHAPTER_CATEGORIES.includes(String(rule.cardSectionId) as RelationshipCategory)
+      && typeof rule.text === 'string'
+      && isStringArray(rule.replacesTextKeys))
+    if (conflictRules.length !== bank.conflictMergeRules.length) {
+      errors.push(`${base}.conflictMergeRules: invalid item structure`)
+    }
     const prefix = CONTEXT_PREFIXES[context]
     const localIds = [
       ...questions.map((question) => question.questionId),
       ...optionIds,
       ...boundaryIds,
       ...sentences.map((sentence) => sentence.textKey),
+      ...conflictRules.map((rule) => String(rule.ruleId)),
     ]
     globalIds.push(...localIds)
     for (const id of localIds) {
@@ -292,6 +299,38 @@ function validateContentUnsafe(input: unknown): ContentValidationResult {
       sentenceByKey as Map<string, ManualSentence>,
       errors,
     ))
+    const questionByOptionId = new Map(questions.flatMap((question) => (
+      question.options.map((option) => [option.optionId, question] as const)
+    )))
+    const optionById = new Map(questions.flatMap((question) => (
+      question.options.map((option) => [option.optionId, option] as const)
+    )))
+    for (const rule of conflictRules) {
+      const ruleBase = `${base}.conflictMergeRules.${String(rule.ruleId)}`
+      const ruleOptionIds = rule.optionIds as string[]
+      const ruleQuestions = ruleOptionIds.map((optionId) => questionByOptionId.get(optionId))
+      const firstQuestion = ruleQuestions[0]
+      const secondQuestion = ruleQuestions[1]
+      if (new Set(ruleOptionIds).size !== 2) errors.push(`${ruleBase}: expected two distinct option IDs`)
+      if (!firstQuestion || !secondQuestion) {
+        errors.push(`${ruleBase}: cross-bank option reference`)
+      } else if (firstQuestion.questionId === secondQuestion.questionId
+        && !validateSelection(firstQuestion, ruleOptionIds, false).valid) {
+        errors.push(`${ruleBase}: unreachable option combination`)
+      }
+      const triggeringTextKeys = new Set(ruleOptionIds.flatMap((optionId) => optionById.get(optionId)?.resultTextKeys ?? []))
+      for (const textKey of rule.replacesTextKeys as string[]) {
+        const sentence = sentenceByKey.get(textKey)
+        if (!sentence) errors.push(`${ruleBase}: cross-bank replacement text key`)
+        else if (!triggeringTextKeys.has(textKey)) errors.push(`${ruleBase}: replacement not emitted by triggering options`)
+        else if (sentence.cardSectionId !== rule.cardSectionId) errors.push(`${ruleBase}: replacement section mismatch`)
+      }
+      const hasCue = npcCues.some((cue) => isRecord(cue)
+        && cue.trigger === 'conflict'
+        && cue.relationshipContext === context
+        && cue.conflictRuleId === rule.ruleId)
+      if (!hasCue) errors.push(`${ruleBase}: missing scoped NPC cue`)
+    }
     for (const dimension of dimensions) {
       if (!isRecord(dimension) || !dimension.important || !isRecord(dimension.fallbackTextKeys)) continue
       const textKey = dimension.fallbackTextKeys[context]
@@ -307,6 +346,27 @@ function validateContentUnsafe(input: unknown): ContentValidationResult {
     }
   }
 
+  for (const cue of npcCues) {
+    if (!isRecord(cue) || cue.trigger !== 'conflict') continue
+    const context = cue.relationshipContext
+    const ruleId = cue.conflictRuleId
+    const scopedBank = RELATIONSHIP_CONTEXTS.includes(String(context) as RelationshipContext)
+      ? relationshipBanks[context as RelationshipContext]
+      : undefined
+    if (!scopedBank
+      || typeof ruleId !== 'string'
+      || !scopedBank.conflictMergeRules.some((rule) => (
+        isRecord(rule) && rule.ruleId === ruleId
+      ))) {
+      errors.push(`$.content.npcCues.${String(cue.cueId)}: unknown conflict rule`)
+    }
+  }
+
+  if (Array.isArray(safetyRules)) {
+    globalIds.push(...safetyRules.flatMap((rule) => (
+      isRecord(rule) && typeof rule.ruleId === 'string' ? [rule.ruleId] : []
+    )))
+  }
   for (const id of globalIds) if (!ID_PATTERN.test(id)) errors.push(`$: illegal id "${id}"`)
   for (const id of duplicates(globalIds)) errors.push(`$: duplicate id "${id}"`)
 

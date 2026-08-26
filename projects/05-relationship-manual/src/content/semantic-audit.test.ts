@@ -42,6 +42,10 @@ function outputForOption(context: RelationshipContext, questionId: string, optio
   return option.resultTextKeys.map((key) => sentences.get(key)!).filter(Boolean)
 }
 
+function question(context: RelationshipContext, questionId: string) {
+  return getRelationshipBank(content, context).questions.find((item) => item.questionId === questionId)!
+}
+
 describe('question-bank semantic audit', () => {
   it.each(RELATIONSHIP_CONTEXTS)('%s contains the reviewed 21-event matrix in chapter order', (context) => {
     expect(getRelationshipBank(content, context).questions.map((question) => question.questionId))
@@ -96,15 +100,106 @@ describe('question-bank semantic audit', () => {
   })
 
   it('keeps emergency-help guidance outside selectable preferences', () => {
-    const optionTexts = RELATIONSHIP_CONTEXTS
+    const options = RELATIONSHIP_CONTEXTS
       .flatMap((context) => getRelationshipBank(content, context).questions)
       .flatMap((question) => question.options)
-      .map((option) => `${option.text}${option.subtitle}`)
 
-    for (const optionText of optionTexts) {
-      expect(optionText).not.toMatch(/安全风险|即时安全|现实帮助/u)
+    for (const option of options) {
+      if (option.tags.includes('no-sharing')) continue
+      expect(`${option.text}${option.subtitle}`).not.toMatch(/安全风险|即时安全|现实帮助/u)
     }
     expect(content.content.safetyRules.some((rule) => /紧急支持/u.test(rule.label))).toBe(true)
+  })
+
+  it('keeps baseline conflict safety outside selectable communication preferences', () => {
+    const conflict = question('close-relationship', 'close-conflict-tone')
+
+    expect(conflict.options.map((option) => option.text).join('')).not.toMatch(/辱骂|贬低|侮辱/u)
+    expect(content.content.safetyRules.some((rule) => /贬低|侮辱/u.test(rule.label))).toBe(true)
+  })
+
+  it('requires consent before suggesting touch as listening support', () => {
+    const support = question('close-relationship', 'close-listening-capacity')
+      .options.find((option) => option.tags.includes('small-support'))!
+
+    expect(support.subtitle).toMatch(/先问|询问|同意/u)
+  })
+
+  it('allows relationship details to remain private', () => {
+    const sharing = question('close-relationship', 'close-boundary-public-sharing')
+    const noSharing = sharing.options.find((option) => option.tags.includes('no-sharing'))!
+    const resultText = outputForOption('close-relationship', sharing.questionId, 'no-sharing')
+      .map((sentence) => sentence.text).join('')
+
+    expect(noSharing).toBeDefined()
+    expect(`${noSharing.subtitle}${resultText}`).toMatch(/保密支持/u)
+    expect(`${noSharing.subtitle}${resultText}`).toMatch(/安全风险.{0,12}立即求助/u)
+    expect(`${noSharing.subtitle}${resultText}`).not.toMatch(/必要帮助.{0,8}先.{0,4}确认/u)
+  })
+
+  it('uses inclusive relationship subjects instead of defaulting to a male pronoun', () => {
+    const visibleText = JSON.stringify(content.content.relationshipBanks)
+
+    expect(visibleText).not.toMatch(/不是针对他(?:。|，)|替他开心|希望他先确认/u)
+  })
+
+  it('makes the friendship listening-capacity subject explicit', () => {
+    const capacity = question('friendship', 'friend-listening-capacity')
+
+    expect(capacity.prompt).toMatch(/当你|你暂时/u)
+    expect(capacity.sceneLead).not.toMatch(/你或对方/u)
+  })
+
+  it('limits delayed-contact guidance to confirmed non-emergencies', () => {
+    const delay = question('family', 'family-contact-delay')
+
+    expect(`${delay.sceneLead}${delay.prompt}`).toMatch(/没有具体危险迹象/u)
+    for (const tag of ['one-message', 'wait', 'channel']) {
+      const resultText = outputForOption('family', delay.questionId, tag).map((sentence) => sentence.text).join('')
+      expect(resultText).toMatch(/没有具体危险迹象/u)
+      expect(resultText).toMatch(/不涉及.{0,8}紧急/u)
+    }
+  })
+
+  it('lets the user pause family contact according to their own safety and capacity', () => {
+    const distance = question('family', 'family-space-distance')
+    const text = JSON.stringify(distance)
+
+    expect(distance.options.some((option) => option.tags.includes('full-pause'))).toBe(true)
+    expect(text).not.toMatch(/双方承受能力|不用.{0,8}彻底断开/u)
+  })
+
+  it('keeps family decision space distinct from relative-sharing boundaries', () => {
+    const decisions = question('family', 'family-space-decisions')
+
+    expect(decisions.options.some((option) => option.tags.includes('no-deadline'))).toBe(true)
+    expect(decisions.options.map((option) => option.tags).flat()).not.toContain('no-relatives')
+  })
+
+  it('scores practical family help as an action', () => {
+    const support = question('family', 'family-care-worry')
+      .options.find((option) => option.tags.includes('support'))!
+
+    expect(support.dimensionEffects[0]?.dimensionId).toBe('care-action')
+  })
+
+  it('states delegated-decision authorization as a boundary on the other person', () => {
+    const sentence = outputForOption('family', 'family-boundary-decisions', 'authorization')[0]!
+
+    expect(sentence.voice).toBe('boundary')
+    expect(sentence.text).toMatch(/只有|不视为同意|不得/u)
+    expect(sentence.text).not.toMatch(/^我会/u)
+  })
+
+  it('covers concrete restitution in family repair', () => {
+    const repair = question('family', 'family-repair-impact')
+    const tags = repair.options.flatMap((option) => option.tags)
+
+    expect(tags).toEqual(expect.arrayContaining(['restore-choice', 'correct-information', 'restore-privacy']))
+  })
+
+  it('contains no malformed family-repair phrase', () => {
+    expect(JSON.stringify(getRelationshipBank(content, 'family'))).not.toContain('不用品质或亲情')
   })
 
   it.each([
@@ -140,6 +235,13 @@ describe('question-bank semantic audit', () => {
   ] as const)('%s %s makes combinable choices multi-select or asks for one priority', (context, questionId) => {
     const question = getRelationshipBank(content, context).questions.find((item) => item.questionId === questionId)!
     expect(question.multiple || /最|哪一件/u.test(question.prompt)).toBe(true)
+  })
+
+  it('does not describe a multi-select joke response as one first action', () => {
+    const jokes = question('friendship', 'friend-conflict-jokes')
+
+    expect(jokes.multiple).toBe(true)
+    expect(jokes.prompt).not.toMatch(/先做什么/u)
   })
 
   it.each(RELATIONSHIP_CONTEXTS)('%s has no unreachable result sentence', (context) => {

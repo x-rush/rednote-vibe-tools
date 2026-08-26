@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { QuestionnaireAnswer, RelationshipCardViewModel } from '../content/schema'
-import { createInitialState, relationshipReducer } from './state'
+import { createInitialState, relationshipReducer, stateToDraft } from './state'
 import type { RelationshipState } from './state'
 
 const now = '2026-08-24T00:00:00.000Z'
@@ -13,13 +13,28 @@ const answer: QuestionnaireAnswer = {
 const card: RelationshipCardViewModel = {
   title: '我希望被这样对待',
   relationshipLabel: '好友关系',
-  sections: [{ sectionId: 'companion', title: '我希望你这样陪伴我', paragraphs: ['原始建议'], paragraphIds: ['text:companion'], paragraphSourceTextKeys: ['companion'], paragraphProvenanceIds: [['question:option']], sensitive: false, visible: true, order: 0 }],
+  sections: [{ sectionId: 'contact', title: '回信的节奏', paragraphs: ['原始建议'], paragraphRoles: ['need'], paragraphIds: ['text:contact'], paragraphSourceTextKeys: ['contact'], paragraphProvenanceIds: [['question:option']], sensitive: false, visible: true, order: 0 }],
   shareSummary: '分享摘要',
   disclaimer: '沟通辅助说明',
-  contentVersion: '1.0.0',
+  contentVersion: '2.0.0',
 }
 
 describe('relationship state reducer', () => {
+  it('opens a chapter intro once when the next question enters a new category', () => {
+    let state: RelationshipState = {
+      ...createInitialState(), page: 'questionnaire', currentQuestionIndex: 2, seenChapterIds: ['contact'],
+    }
+    state = relationshipReducer(state, {
+      type: 'SET_ANSWER_AND_NEXT', answer, questionCount: 21,
+      currentCategory: 'contact', nextCategory: 'listening',
+    })
+
+    expect(state).toMatchObject({ page: 'chapterIntro', currentQuestionIndex: 3 })
+    state = relationshipReducer(state, { type: 'CONTINUE_CHAPTER', category: 'listening' })
+    expect(state.page).toBe('questionnaire')
+    expect(state.seenChapterIds).toContain('listening')
+  })
+
   it('moves through landing, intro, questionnaire, review, result, edit, and saved result', () => {
     let state = createInitialState()
     state = relationshipReducer(state, { type: 'OPEN_INTRO' })
@@ -45,6 +60,28 @@ describe('relationship state reducer', () => {
     expect(state.error).toBe('还有必答题未完成。')
   })
 
+  it('returns a single-answer edit directly to the review without changing other answers', () => {
+    const laterAnswer: QuestionnaireAnswer = {
+      questionId: 'question-delay-contact',
+      optionIds: ['option-delay-estimate'],
+      skipped: false,
+      updatedAt: now,
+    }
+    let state: RelationshipState = {
+      ...createInitialState(),
+      page: 'review',
+      currentQuestionIndex: 20,
+      answers: [answer, laterAnswer],
+    }
+
+    state = relationshipReducer(state, { type: 'BACK_TO_QUESTION', questionIndex: 0 })
+    expect(state).toMatchObject({ page: 'questionnaire', currentQuestionIndex: 0, returnToReviewAfterEdit: true })
+
+    state = relationshipReducer(state, { type: 'OPEN_REVIEW', missingRequiredQuestionIds: [] })
+    expect(state).toMatchObject({ page: 'review', returnToReviewAfterEdit: false })
+    expect(state.answers).toEqual([answer, laterAnswer])
+  })
+
   it('stores an explicit skipped answer and advances to the next question', () => {
     const skipped: QuestionnaireAnswer = { questionId: 'question-conflict-tone', optionIds: [], skipped: true, updatedAt: now }
     const state = relationshipReducer(
@@ -68,12 +105,13 @@ describe('relationship state reducer', () => {
 
   it('restores a draft and clears back to a fresh landing state', () => {
     const draft = {
-      schemaVersion: 1 as const,
-      contentVersion: '1.0.0',
+      schemaVersion: 2 as const,
+      contentVersion: '2.0.0',
       updatedAt: now,
       page: 'questionnaire' as const,
       relationshipContext: 'friendship' as const,
       currentQuestionIndex: 6,
+      seenChapterIds: ['contact' as const, 'listening' as const],
       answers: [answer],
       cardItems: [],
       lastResult: null,
@@ -92,5 +130,16 @@ describe('relationship state reducer', () => {
     expect(blocked.page).toBe('landing')
     expect(blocked.hasDraft).toBe(true)
     expect(blocked.error).toBe('请先确认是否清除已有草稿。')
+  })
+
+  it('persists the user decision for each conflict merge rule', () => {
+    const decided = relationshipReducer(createInitialState(), {
+      type: 'SET_CONFLICT_DECISION', ruleId: 'close-merge-talk-and-space', decision: 'adopted',
+    })
+    const draft = stateToDraft(decided, '3.1.0', now)
+    const restored = relationshipReducer(createInitialState(true), { type: 'RESTORE', draft })
+
+    expect(draft.conflictRuleDecisions).toEqual({ 'close-merge-talk-and-space': 'adopted' })
+    expect(restored.conflictRuleDecisions).toEqual({ 'close-merge-talk-and-space': 'adopted' })
   })
 })

@@ -19,12 +19,13 @@ export function buildShareSummary(
   content: RelationshipContentPackage,
   profile: RelationshipProfile,
   relationshipContext: RelationshipContext,
+  adoptedConflictRuleIds: string[] = [],
 ): string {
   const rules = content.content.cardRules
   const bank = getRelationshipBank(content, relationshipContext)
   if (profile.selectedTextKeys.length === 0) return rules.neutralSummary
   const mergedConflict = bank.conflictMergeRules
-    .find((rule) => profile.conflictRuleIds.includes(rule.ruleId))
+    .find((rule) => profile.conflictRuleIds.includes(rule.ruleId) && adoptedConflictRuleIds.includes(rule.ruleId))
   if (mergedConflict) return limitText(mergedConflict.text, rules.maxSummaryChars)
   const sentenceByKey = new Map(bank.sentenceFragments
     .map((sentence) => [sentence.textKey, sentence]))
@@ -39,13 +40,14 @@ export function buildCardViewModel(
   content: RelationshipContentPackage,
   profile: RelationshipProfile,
   relationshipContext: RelationshipContext,
+  adoptedConflictRuleIds: string[] = [],
 ): RelationshipCardViewModel {
   const rules = content.content.cardRules
   const bank = getRelationshipBank(content, relationshipContext)
   const sentenceByKey = new Map(bank.sentenceFragments
     .map((sentence) => [sentence.textKey, sentence]))
   const activeConflictRules = bank.conflictMergeRules
-    .filter((rule) => profile.conflictRuleIds.includes(rule.ruleId))
+    .filter((rule) => profile.conflictRuleIds.includes(rule.ruleId) && adoptedConflictRuleIds.includes(rule.ruleId))
   const remainingFragments = profile.selectedFragments.filter((fragment) => !activeConflictRules.some((rule) => (
     fragment.optionId !== undefined
     && rule.optionIds.includes(fragment.optionId)
@@ -123,7 +125,7 @@ export function buildCardViewModel(
     title: rules.title,
     relationshipLabel: rules.relationshipLabels[relationshipContext],
     sections,
-    shareSummary: buildShareSummary(content, profile, relationshipContext),
+    shareSummary: buildShareSummary(content, profile, relationshipContext, adoptedConflictRuleIds),
     disclaimer: rules.disclaimer,
     contentVersion: content.contentVersion,
   }

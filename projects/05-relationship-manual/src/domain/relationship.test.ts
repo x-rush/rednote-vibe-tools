@@ -118,6 +118,23 @@ describe('relationship-specific profile and card', () => {
     expect(careText).toMatch(/在意与肯定/u)
   })
 
+  it('applies a conflict merge only after the user adopts it', () => {
+    const profile = buildRelationshipProfile(content, 'close-relationship', [
+      answer('close-conflict-tone', 'close-conflict-tone-direct'),
+      answer('close-conflict-pause', 'close-conflict-pause-return-time'),
+    ], now)
+    const preserved = buildCardViewModel(content, profile, 'close-relationship')
+    const adopted = buildCardViewModel(content, profile, 'close-relationship', ['close-merge-talk-and-space'])
+    const preservedText = preserved.sections.find((section) => section.sectionId === 'conflict')?.paragraphs.join('') ?? ''
+    const adoptedText = adopted.sections.find((section) => section.sectionId === 'conflict')?.paragraphs.join('') ?? ''
+
+    expect(profile.conflictRuleIds).toContain('close-merge-talk-and-space')
+    expect(preservedText).toContain('直接谈具体事件和需要')
+    expect(preservedText).toContain('大概多久后再回来继续')
+    expect(adoptedText).toContain('如果情绪太满，也可以先暂停')
+    expect(adoptedText).not.toContain('不用猜测彼此的动机')
+  })
+
   it('returns a usable neutral profile and summary when there are no answers', () => {
     const profile = buildRelationshipProfile(content, 'friendship', [], now)
     const card = buildCardViewModel(content, profile, 'friendship')

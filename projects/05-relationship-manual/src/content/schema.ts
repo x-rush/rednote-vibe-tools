@@ -12,6 +12,7 @@ export type CardSectionId = RelationshipCategory
 export type SentenceKind = 'preference' | 'boundary' | 'commitment'
 export type RelationshipContext = 'close-relationship' | 'friendship' | 'family'
 export type SentenceRole = 'need' | 'trigger' | 'action' | 'repair'
+export type ConflictRuleDecision = 'adopted' | 'preserved' | 'dismissed'
 export type ResultVoice = 'request' | 'boundary' | 'self-commitment'
 export type NpcPose = 'daily' | 'listening' | 'reminder'
 
@@ -195,6 +196,7 @@ export type DraftPayload = {
   answers: QuestionnaireAnswer[]
   cardItems: EditableCardItem[]
   lastResult: RelationshipCardViewModel | null
+  conflictRuleDecisions?: Record<string, ConflictRuleDecision>
   settings: {
     compactMode: boolean
     showSensitiveInCompact: boolean

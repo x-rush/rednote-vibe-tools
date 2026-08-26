@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import type { ShbtiContentPackage } from '../content/types'
 import { generateQuizResult, recordAnswer } from '../quiz/scoring'
-import { selectQuestionIds } from '../quiz/selection'
+import { prepareQuestionsForRun, selectQuestionIds } from '../quiz/selection'
 import { clearGuideState } from '../guide/guideState'
 import {
   clearStorage,
@@ -62,8 +62,12 @@ export function useShbtiApp(content: ShbtiContentPackage) {
     }
   }, [content, loaded.status, settings, state.progress, state.recentResult, state.screen])
 
+  const preparedQuestions = useMemo(
+    () => state.progress ? prepareQuestionsForRun(content, state.progress.questionIds, state.progress.seed) : [],
+    [content, state.progress],
+  )
   const currentQuestionId = state.progress?.questionIds[state.progress.currentIndex]
-  const currentQuestion = content.content.questions.find((question) => question.id === currentQuestionId)
+  const currentQuestion = preparedQuestions.find((question) => question.id === currentQuestionId)
   const selectedOptionId = state.progress?.answers.find((answer) => answer.questionId === currentQuestionId)?.optionId
 
   function start(seed = `run-${Date.now().toString(36)}`) {

@@ -15,7 +15,7 @@ class MemoryStorage {
 const content = validateContent(rawContent)
 const payload: StoragePayload = {
   schemaVersion: 1,
-  quizVersion: '1.0.0',
+  quizVersion: content.contentVersion,
   updatedAt: '2026-08-24T00:00:00.000Z',
   data: {
     activeProgress: { seed: 'stored', questionIds: selectQuestionIds(content, 'stored'), currentIndex: 0, answers: [] },

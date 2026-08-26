@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import rawContent from '../content/content.json'
 import { validateContent } from '../content/validate'
 import type { PoleCode } from '../content/types'
-import { selectQuestionIds } from './selection'
+import { prepareQuestionsForRun, selectQuestionIds } from './selection'
 import {
   calculateProgress,
   determineTypeCode,
@@ -59,6 +59,26 @@ describe('seeded question selection', () => {
     }
     expect(content.content.tieBreakers.every((item) => first.includes(item.questionId))).toBe(true)
     expect(questions.every((item, index) => index === 0 || item.primaryDimension !== questions[index - 1]!.primaryDimension)).toBe(true)
+  })
+
+  it('prepares a stable option order without positional score leakage', () => {
+    expect(prepareQuestionsForRun).toBeTypeOf('function')
+    const questionIds = selectQuestionIds(content, 'position-balance-seed')
+    const first = prepareQuestionsForRun!(content, questionIds, 'position-balance-seed')
+    const second = prepareQuestionsForRun!(content, questionIds, 'position-balance-seed')
+
+    expect(first).toEqual(second)
+    expect(first.map((question) => question.id)).toEqual(questionIds)
+    for (const dimension of ['RH', 'TV', 'LE', 'SM']) {
+      const questions = first.filter((question) => question.primaryDimension === dimension)
+      for (let position = 0; position < 4; position += 1) {
+        const choices = questions.map((question) => question.options[position]!)
+        expect(choices.filter((option) => option.score.weight === 1)).toHaveLength(3)
+        expect(choices.filter((option) => option.score.weight === 2)).toHaveLength(3)
+        expect(new Set(choices.map((option) => option.score.pole))).toHaveLength(2)
+        expect(choices.filter((option) => option.score.pole === choices[0]!.score.pole).length).toBe(3)
+      }
+    }
   })
 })
 

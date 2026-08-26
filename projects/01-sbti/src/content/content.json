@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "1.0.0",
+  "contentVersion": "1.1.0",
   "projectId": "shbti",
   "meta": {
     "title": "SHBTI｜山海兽格测试",
     "locale": "zh-CN",
-    "updatedAt": "2026-08-23"
+    "updatedAt": "2026-08-26"
   },
   "sources": [
     {
@@ -17,13 +17,13 @@
     {
       "id": "source-xi",
       "title": "《山海经·西山经》",
-      "url": "https://zh.wikisource.org/zh-hans/西山經",
+      "url": "https://zh.wikisource.org/zh-hans/山海經/西山經",
       "license": "公开古籍底本；发布前复核具体版本与异文"
     },
     {
       "id": "source-bei",
       "title": "《山海经·北山经》",
-      "url": "https://zh.wikisource.org/zh-hans/北山經",
+      "url": "https://zh.wikisource.org/zh-hans/山海經/北山經",
       "license": "公开古籍底本；发布前复核具体版本与异文"
     },
     {
@@ -40,13 +40,13 @@
     {
       "id": "source-hainei-xi",
       "title": "《山海经·海内西经》",
-      "url": "https://zh.wikisource.org/zh-hans/海內西經",
+      "url": "https://zh.wikisource.org/zh-hans/山海經/海內西經",
       "license": "公开古籍底本；发布前复核具体版本与异文"
     },
     {
       "id": "source-haiwai-bei",
       "title": "《山海经·海外北经》",
-      "url": "https://zh.wikisource.org/zh-hans/海外北經",
+      "url": "https://zh.wikisource.org/zh-hans/山海經/海外北經",
       "license": "公开古籍底本；发布前复核具体版本与异文"
     }
   ],
@@ -54,7 +54,7 @@
     "experience": {
       "title": "SHBTI｜山海兽格测试",
       "subtitle": "看看你在山海世界里，更习惯怎样回应、观察、决断与前行。",
-      "duration": "约 2–3 分钟 · 每轮 24 题",
+      "duration": "约 4–6 分钟 · 每轮 24 题",
       "intro": [
         "这是一次娱乐性文化创作，不是心理诊断或能力评估。",
         "24 次选择与结果都在本机计算，只保留进行中进度与最近一份结果。",
@@ -80,15 +80,15 @@
           "recent": "你的兽志仍收在案上。"
         },
         "chapterStart": {
-          "entry": "山门初启。这一卷，只问你会怎样迈出第一步。",
-          "trace": "前路分岔。第二卷，请照你辨认线索的习惯落笔。",
-          "change": "山势忽变。第三卷，仍选你更自然的应对。",
-          "return": "归途在前。最后一卷，不必揣测结果。"
+          "entry": "山门初启，雾关外正有人候行。这一卷，只问你会怎样迈出第一步。",
+          "trace": "你已越过雾关，山路留下真假难辨的足迹。第二卷，请照自己的观察习惯落笔。",
+          "change": "足迹忽然转向，旧路也被山势打乱。第三卷，仍选你当下最可能采取的行动。",
+          "return": "山势渐息，你带着见闻与未解之谜归城。最后一卷，请按自己的方式为旅程收尾。"
         },
         "chapterEnd": {
-          "entry": "入境卷已收好。前方的足迹正等你辨认。",
-          "trace": "寻迹卷已收好。再往前，山势将有变化。",
-          "change": "异变卷已收好。最后一程，该循原路归来。"
+          "entry": "雾关已经在身后。闻山收起入境卷，前方的足迹正等你辨认。",
+          "trace": "线索暂时连成一线，却把人引向骤变的山势。寻迹卷到此合拢。",
+          "change": "异变已过，你做出的选择也都留了痕。带上这卷记录，踏上归途吧。"
         },
         "reveal": {
           "collecting": "二十四道墨迹已经收齐，我先替你合卷。",
@@ -181,7 +181,7 @@
         "landingQuestion": "你会循着哪一种方式入山？",
         "landingFreshKicker": "一卷二十四问",
         "landingContinueKicker": "旧卷尚未合拢",
-        "landingMeta": "约 2–3 分钟 · 24 道情境 · 仅本机保存",
+        "landingMeta": "约 4–6 分钟 · 24 道情境 · 仅本机保存",
         "landingFootnote": "娱乐性文化创作 · 不作心理诊断",
         "introEyebrow": "入山前 · 阅卷须知",
         "introTitle": "先说清楚，再请你落笔",
@@ -292,25 +292,25 @@
         "id": "entry",
         "order": 1,
         "name": "入境",
-        "description": "越过雾关，决定怎样进入陌生山海。"
+        "description": "越过雾关，与陌生旅人一同踏入山海。"
       },
       {
         "id": "trace",
         "order": 2,
         "name": "寻迹",
-        "description": "沿着细微痕迹，理解所见与同行者。"
+        "description": "循着真假足迹，拼合山野留下的讯息。"
       },
       {
         "id": "change",
         "order": 3,
         "name": "异变",
-        "description": "局面突然变化，选择你的回应方式。"
+        "description": "线索忽然转向，在山势变化中作出回应。"
       },
       {
         "id": "return",
         "order": 4,
         "name": "归来",
-        "description": "带着未完的故事，重新整理这段旅程。"
+        "description": "带着见闻归城，为未完的故事留下位置。"
       }
     ],
     "questions": [
@@ -320,7 +320,7 @@
         "chapterId": "entry",
         "category": "雾关来客",
         "primaryDimension": "RH",
-        "prompt": "初到雾门后的山驿，几位陌生旅人正在围炉聊天。哪种反应更像你？",
+        "prompt": "初到雾门后的山驿，几位陌生旅人正在围炉聊天。你通常会怎么做？",
         "options": [
           {
             "id": "option-mist-gate-r",
@@ -342,7 +342,7 @@
           },
           {
             "id": "option-mist-gate-r-light",
-            "text": "听到熟悉的话题后，找机会加入几句。",
+            "text": "听到熟悉的话题时，我会找机会加入几句。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -373,11 +373,11 @@
         "chapterId": "entry",
         "category": "两种路标",
         "primaryDimension": "TV",
-        "prompt": "岔路口同时出现旧木牌和一串发光羽毛。你更自然地怎么判断方向？",
+        "prompt": "岔路口同时出现旧木牌和一串发光羽毛。你会从哪里开始判断方向？",
         "options": [
           {
             "id": "option-two-signposts-v",
-            "text": "先想羽毛为何出现在这里，它可能指向什么隐藏联系。",
+            "text": "想想羽毛为何出现，它可能指向什么隐藏联系。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -386,7 +386,7 @@
           },
           {
             "id": "option-two-signposts-t-light",
-            "text": "先查看木牌和近处脚印，再决定要不要继续确认。",
+            "text": "查看木牌、近处脚印和路面新旧，再决定是否前行。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -395,7 +395,7 @@
           },
           {
             "id": "option-two-signposts-v-light",
-            "text": "先猜测两种线索是否在讲同一件事，再找一点证据印证。",
+            "text": "猜测两种线索是否指向同一件事，再找现场细节印证。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -430,7 +430,7 @@
         "options": [
           {
             "id": "option-last-pass-e",
-            "text": "先听每个人在意什么，找一个大家都感到安心的安排。",
+            "text": "听每个人在意什么，找一个大家安心的安排。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -448,7 +448,7 @@
           },
           {
             "id": "option-last-pass-e-light",
-            "text": "先留意谁对安排最不安，把这种感受纳入考虑。",
+            "text": "留意谁对安排最不安，也把这种感受带入最后决定。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -479,7 +479,7 @@
         "chapterId": "entry",
         "category": "地图空白",
         "primaryDimension": "SM",
-        "prompt": "准备进入地图留白的山域时，你更喜欢怎样开始？",
+        "prompt": "准备进入地图留白的山域时，哪种起步方式最接近你的习惯？",
         "options": [
           {
             "id": "option-blank-map-m",
@@ -492,7 +492,7 @@
           },
           {
             "id": "option-blank-map-s-light",
-            "text": "先列出几个关键节点，其余部分到现场再决定。",
+            "text": "列出几个关键节点和会合方式，其余部分到现场决定。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -532,11 +532,11 @@
         "chapterId": "trace",
         "category": "失语的山民",
         "primaryDimension": "RH",
-        "prompt": "村民谈起夜里的兽影时都很含蓄。你更可能怎样了解故事？",
+        "prompt": "村民谈起夜里的兽影时都很含蓄。你会怎样了解故事？",
         "options": [
           {
             "id": "option-silent-villagers-h",
-            "text": "先安静听他们聊天，从停顿和反应中慢慢整理。",
+            "text": "安静听村民闲谈，从停顿和反应中整理。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -545,7 +545,7 @@
           },
           {
             "id": "option-silent-villagers-r-light",
-            "text": "先和一两位看起来愿意交流的人聊几句。",
+            "text": "我会找一两位愿意交流的人，从几句闲谈开始。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -598,7 +598,7 @@
           },
           {
             "id": "option-broken-stones-v-light",
-            "text": "先看整体排列像什么，再回头确认几个关键细节。",
+            "text": "把石阵整体看成一种轮廓，再回头确认几个关键细节。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -607,7 +607,7 @@
           },
           {
             "id": "option-broken-stones-t-light",
-            "text": "先挑最完整的几块测量，之后再猜它们的用途。",
+            "text": "挑最完整的几块测量，记录差异后再推测用途。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -638,11 +638,11 @@
         "chapterId": "trace",
         "category": "受伤的引路兽",
         "primaryDimension": "LE",
-        "prompt": "同行的引路兽走累了，大家在讨论接下来的节奏。你更自然地会？",
+        "prompt": "同行的引路兽显出疲态，大家开始商量接下来的节奏。你会怎样参与？",
         "options": [
           {
             "id": "option-injured-guide-beast-e",
-            "text": "先感受它现在是否愿意继续，再一起找让它舒服的办法。",
+            "text": "观察它的呼吸和脚步，也问照料者怎样能让它舒服。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -651,7 +651,7 @@
           },
           {
             "id": "option-injured-guide-beast-l-light",
-            "text": "先听同伴的行程考虑，同时留意引路兽的状态。",
+            "text": "把路程与休息条件列清，也将引路兽的状态作为依据。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -660,7 +660,7 @@
           },
           {
             "id": "option-injured-guide-beast-e-light",
-            "text": "先估算路程和休息时间，再为它多留一点余地。",
+            "text": "留意它最吃力的时刻，再为整队节奏多留一点余地。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -691,7 +691,7 @@
         "chapterId": "trace",
         "category": "线索突然中断",
         "primaryDimension": "SM",
-        "prompt": "追到河边后脚印消失了。你更喜欢用哪种方式继续寻找？",
+        "prompt": "追到河边后脚印消失了。你会用哪种方式继续寻找？",
         "options": [
           {
             "id": "option-lost-tracks-s",
@@ -704,7 +704,7 @@
           },
           {
             "id": "option-lost-tracks-m-light",
-            "text": "先检查最近几处河岸，再根据发现调整搜索范围。",
+            "text": "查看最近几处河岸，再根据新发现调整搜索范围。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -713,7 +713,7 @@
           },
           {
             "id": "option-lost-tracks-s-light",
-            "text": "先去高处看看整体地形，回来后选一个新方向尝试。",
+            "text": "沿河标出已确认和未查河段，再从缺口继续寻找。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -757,7 +757,7 @@
           },
           {
             "id": "option-companion-conflict-h-light",
-            "text": "先在旁边想一想，等有人询问时给出自己的判断。",
+            "text": "我会在旁边想一想，等有人询问时再给出判断。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -766,7 +766,7 @@
           },
           {
             "id": "option-companion-conflict-r-light",
-            "text": "先分别问问两人的理由，再帮忙补充遗漏的信息。",
+            "text": "分别问问两人的理由，再帮双方补充遗漏的信息。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -797,11 +797,11 @@
         "chapterId": "change",
         "category": "真假兽鸣",
         "primaryDimension": "TV",
-        "prompt": "林中传来熟悉的兽鸣，但回声有些反常。你第一时间更容易想到什么？",
+        "prompt": "林中传来熟悉的兽鸣，但回声有些反常。你会从哪里开始查明？",
         "options": [
           {
             "id": "option-false-beast-call-v",
-            "text": "它也许与前面的征兆有关，背后可能藏着另一层提示。",
+            "text": "把兽鸣与此前线索连起来，看它是否指向新的方向。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -810,7 +810,7 @@
           },
           {
             "id": "option-false-beast-call-t-light",
-            "text": "先听音量和间隔，再想这种声音通常从哪里传来。",
+            "text": "辨清音量、间隔与回声方向，再判断声音来自哪里。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -819,7 +819,7 @@
           },
           {
             "id": "option-false-beast-call-v-light",
-            "text": "先猜它想把人引向哪里，然后找附近痕迹验证。",
+            "text": "推想声音可能引向哪里，再用附近痕迹校准判断。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -850,11 +850,11 @@
         "chapterId": "change",
         "category": "封桥还是等人",
         "primaryDimension": "LE",
-        "prompt": "大家准备修一座旧木桥，却对先修哪里意见不同。你更倾向怎么决定？",
+        "prompt": "大家准备修一座旧木桥，却对修缮顺序意见不同。你通常怎样决定？",
         "options": [
           {
             "id": "option-breaking-bridge-l",
-            "text": "先统一判断标准，再按结构和使用频率安排顺序。",
+            "text": "统一判断标准，按结构和使用频率安排顺序。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -863,7 +863,7 @@
           },
           {
             "id": "option-breaking-bridge-e-light",
-            "text": "先听大家最担心哪一段，再结合结构情况排序。",
+            "text": "听大家最担心哪一段，也把实际需要带入修缮顺序。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -872,7 +872,7 @@
           },
           {
             "id": "option-breaking-bridge-l-light",
-            "text": "先照顾使用木桥最不方便的人，再讨论具体做法。",
+            "text": "核对桥面结构和使用频率，也考虑谁通行最不方便。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -881,7 +881,7 @@
           },
           {
             "id": "option-breaking-bridge-e",
-            "text": "先让每个人说出实际需要，选择对同行者最友善的顺序。",
+            "text": "让每个人说出实际需要，选择最友善的修缮顺序。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -903,7 +903,7 @@
         "chapterId": "change",
         "category": "原计划失效",
         "primaryDimension": "SM",
-        "prompt": "原本搭好的挡风棚不太管用。你更自然地怎么调整？",
+        "prompt": "原本搭好的挡风棚不太管用。你会怎样调整？",
         "options": [
           {
             "id": "option-failed-shelter-m",
@@ -916,7 +916,7 @@
           },
           {
             "id": "option-failed-shelter-s-light",
-            "text": "先改变一两个部分，边观察效果边继续调整。",
+            "text": "保留现有结构，只改一两个连接点并观察效果。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -956,7 +956,7 @@
         "chapterId": "return",
         "category": "带回的故事",
         "primaryDimension": "RH",
-        "prompt": "回到城中，朋友们好奇你在山海间的见闻。你更可能怎么讲？",
+        "prompt": "回到城中，朋友们好奇你在山海间的见闻。你通常会怎么讲？",
         "options": [
           {
             "id": "option-return-story-r",
@@ -969,7 +969,7 @@
           },
           {
             "id": "option-return-story-h-light",
-            "text": "先讲一个最有趣的片段，看看大家是否想继续听。",
+            "text": "整理一个最有趣的片段，等合适时机讲给少数人听。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -978,7 +978,7 @@
           },
           {
             "id": "option-return-story-r-light",
-            "text": "先写下几段，之后挑合适的人慢慢聊。",
+            "text": "先讲一段给身边朋友，在回应中决定要不要继续。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -1022,7 +1022,7 @@
           },
           {
             "id": "option-sort-fragments-v-light",
-            "text": "先分出几类明显不同的，再观察它们是否有关联。",
+            "text": "寻找几种可能的组合方式，再看纹石能否彼此呼应。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -1031,7 +1031,7 @@
           },
           {
             "id": "option-sort-fragments-t-light",
-            "text": "先按旅途中出现的顺序摆开，看看能否连成一段故事。",
+            "text": "按照发现顺序摆开，并记下材质与形状上的差别。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -1062,11 +1062,11 @@
         "chapterId": "return",
         "category": "公开一条危险路线",
         "primaryDimension": "LE",
-        "prompt": "你发现一条风景很美的新山路，朋友们问要不要把路线分享出去。你会更看重什么？",
+        "prompt": "你发现一条风景很美的新山路，朋友们问要不要把路线分享出去。你会优先考虑什么？",
         "options": [
           {
             "id": "option-dangerous-route-l",
-            "text": "先制定清楚的开放条件，让同样的规则适用于每位访客。",
+            "text": "制定清楚的开放条件，让同样规则适用于每位访客。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -1075,7 +1075,7 @@
           },
           {
             "id": "option-dangerous-route-e-light",
-            "text": "先了解沿途环境和访客需求，再拟一套基本规则。",
+            "text": "了解沿途照料者和访客需求，再拟一套基本规则。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1084,7 +1084,7 @@
           },
           {
             "id": "option-dangerous-route-l-light",
-            "text": "先想到沿路生灵可能受到的影响，倾向小范围分享。",
+            "text": "核对承载和维护条件，规则清楚后再小范围分享。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -1093,7 +1093,7 @@
           },
           {
             "id": "option-dangerous-route-e",
-            "text": "先听当地照料者和同行者的感受，再决定是否公开。",
+            "text": "听当地照料者和同行者的感受，再决定是否公开。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1115,7 +1115,7 @@
         "chapterId": "return",
         "category": "旅程结束以后",
         "primaryDimension": "SM",
-        "prompt": "一段旅程结束时还有几个谜没有答案。你更喜欢怎样收尾？",
+        "prompt": "一段旅程结束时还有几个谜没有答案。你通常怎样收尾？",
         "options": [
           {
             "id": "option-journey-ending-s",
@@ -1128,7 +1128,7 @@
           },
           {
             "id": "option-journey-ending-m-light",
-            "text": "先完成主要记录，再附上一页以后可以补充的空白。",
+            "text": "给主要记录暂时收尾，也留一页供未来继续补写。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -1137,7 +1137,7 @@
           },
           {
             "id": "option-journey-ending-s-light",
-            "text": "保留几条开放线索，同时整理已经确定的部分。",
+            "text": "整理已经确定的内容，也标出几条尚未完成的线索。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -1172,7 +1172,7 @@
         "options": [
           {
             "id": "option-strange-caravan-h",
-            "text": "先礼貌谢过，独行一段，熟悉他们的节奏后再决定。",
+            "text": "礼貌谢过，独行一段，熟悉商队节奏后再决定。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -1181,7 +1181,7 @@
           },
           {
             "id": "option-strange-caravan-r-light",
-            "text": "先和队尾的一两个人聊聊，不急着融入整支队伍。",
+            "text": "和队尾一两个人聊聊，从小范围交流开始认识商队。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -1190,7 +1190,7 @@
           },
           {
             "id": "option-strange-caravan-h-light",
-            "text": "接受邀请，先参与一点共同事务，再慢慢认识大家。",
+            "text": "接受同行，但先观察队伍节奏，熟悉后再参与事务。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -1221,11 +1221,11 @@
         "chapterId": "entry",
         "category": "未试过的罗盘",
         "primaryDimension": "TV",
-        "prompt": "旧罗盘稳定可靠，新铜镜据说能照见隐藏小路。你更想带哪一种、怎么用？",
+        "prompt": "旧罗盘标着已知道路，新铜镜能映出地势间的隐约联系。你会怎样配合使用？",
         "options": [
           {
             "id": "option-untested-compass-v",
-            "text": "带新铜镜，期待它展示旧方法看不到的可能。",
+            "text": "看铜镜映出的整体走向，让几种可能路径浮现。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -1234,7 +1234,7 @@
           },
           {
             "id": "option-untested-compass-t-light",
-            "text": "带旧罗盘为主，也愿意顺路观察一些反常迹象。",
+            "text": "以旧罗盘确认脚下方向，也留意铜镜的异常反光。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -1243,7 +1243,7 @@
           },
           {
             "id": "option-untested-compass-v-light",
-            "text": "带新铜镜试探，但会用熟悉的地标随时校准。",
+            "text": "用铜镜提出几个方向，再拿沿途地标逐一校准。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -1252,7 +1252,7 @@
           },
           {
             "id": "option-untested-compass-t",
-            "text": "带旧罗盘，依据可重复确认的方向稳稳前进。",
+            "text": "按罗盘和地标稳步推进，把铜镜当作补充线索。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -1278,7 +1278,7 @@
         "options": [
           {
             "id": "option-companion-exception-e",
-            "text": "先问他看见了什么、为何在意，再一起调整约定。",
+            "text": "问他看见什么、为何在意，再一起调整约定。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1287,7 +1287,7 @@
           },
           {
             "id": "option-companion-exception-l-light",
-            "text": "先理解当时情形，然后提醒下次提前留个信号。",
+            "text": "按约定核对偏离时长，再提醒下次提前留下信号。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -1296,7 +1296,7 @@
           },
           {
             "id": "option-companion-exception-e-light",
-            "text": "先确认偏离了多久，再和他商量更清楚的边界。",
+            "text": "问清他为何在意幼兽，再一起商量更合适的边界。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1305,7 +1305,7 @@
           },
           {
             "id": "option-companion-exception-l",
-            "text": "先按大家共同遵守的约定复盘，再决定以后如何处理。",
+            "text": "按大家共同的约定复盘，再决定以后如何处理。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -1340,7 +1340,7 @@
           },
           {
             "id": "option-pack-bag-s-light",
-            "text": "准备一个灵活的小包，其他物件临出发再选择。",
+            "text": "按用途整理必需品，再给临时选择留一个小包。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -1349,7 +1349,7 @@
           },
           {
             "id": "option-pack-bag-m-light",
-            "text": "先按用途整理必需品，同时允许换掉一两件。",
+            "text": "只定几类必需品，允许临行时换掉一两件物品。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -1384,7 +1384,7 @@
         "options": [
           {
             "id": "option-public-inquiry-h",
-            "text": "先分别听几段说法，独自整理后再找关键人物。",
+            "text": "分别听几段说法，独自整理后再找关键人物。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -1393,7 +1393,7 @@
           },
           {
             "id": "option-public-inquiry-r-light",
-            "text": "先找一位看起来不忙的人，小范围问几个问题。",
+            "text": "找一位暂时不忙的人交谈，从几个问题开始了解。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -1402,7 +1402,7 @@
           },
           {
             "id": "option-public-inquiry-h-light",
-            "text": "先公开说明来意，邀请愿意的人补充一两句。",
+            "text": "先旁听几段说法，整理疑点后再请一人确认。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -1446,7 +1446,7 @@
           },
           {
             "id": "option-two-herbs-v-light",
-            "text": "先核对几个最可靠的特征，再看看周围环境。",
+            "text": "从山坡生态推想两者的联系，再回头核对叶脉。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -1455,7 +1455,7 @@
           },
           {
             "id": "option-two-herbs-t-light",
-            "text": "先观察它们分别和虫鸟、湿度有什么关系，再检查细节。",
+            "text": "核对叶脉、气味和断面，再看看生长环境是否不同。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -1499,7 +1499,7 @@
           },
           {
             "id": "option-kind-concealment-e-light",
-          "text": "先回应他愿意说的部分，再温和问一个没展开的地方。",
+            "text": "回应他愿意说的部分，再温和问一个没展开的地方。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1508,7 +1508,7 @@
           },
           {
             "id": "option-kind-concealment-l-light",
-          "text": "先确认几个关键节点，也留意哪些部分还不确定。",
+            "text": "确认几个时间与地点节点，也标出仍不确定的部分。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -1539,7 +1539,7 @@
         "chapterId": "trace",
         "category": "调查被打断",
         "primaryDimension": "SM",
-        "prompt": "山雨打乱了原定的观察日程。你更可能怎么安排这一天？",
+        "prompt": "山雨打乱了原定的观察日程。你会怎么安排这一天？",
         "options": [
           {
             "id": "option-rain-interruption-m",
@@ -1552,7 +1552,7 @@
           },
           {
             "id": "option-rain-interruption-s-light",
-            "text": "先试一个雨天才适合的观察点，再决定后续安排。",
+            "text": "保住最重要的观察项目，再按优先级安排其余时间。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -1561,7 +1561,7 @@
           },
           {
             "id": "option-rain-interruption-m-light",
-            "text": "把最重要的项目挪到合适时段，其余根据天气微调。",
+            "text": "试一个雨天才适合的观察点，随发现调整后续安排。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -1570,7 +1570,7 @@
           },
           {
             "id": "option-rain-interruption-s",
-            "text": "先保护记录，再按原优先级重新排出明确日程。",
+            "text": "保护记录，按原优先级重新排出明确日程。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -1592,11 +1592,11 @@
         "chapterId": "change",
         "category": "山谷警报",
         "primaryDimension": "RH",
-        "prompt": "你最先看见远处烟尘，像是有兽群经过。你更自然地怎么分享发现？",
+        "prompt": "远处烟尘像是迁徙兽群，尚未靠近队伍路线。你会怎样分享发现？",
         "options": [
           {
             "id": "option-valley-warning-r",
-            "text": "马上告诉附近同伴，在大家回应中一起修正判断。",
+            "text": "当场招呼同伴一起看，让判断在讨论中慢慢成形。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -1605,7 +1605,7 @@
           },
           {
             "id": "option-valley-warning-h-light",
-            "text": "先问身边的人是否也看见，再共同观察一会儿。",
+            "text": "请身边一人也看一眼，各自观察片刻后交换判断。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -1614,7 +1614,7 @@
           },
           {
             "id": "option-valley-warning-r-light",
-            "text": "先确认方向和速度，有较清楚的判断后再提醒大家。",
+            "text": "确认大致方向后，在队伍里简短提出自己的发现。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -1623,7 +1623,7 @@
           },
           {
             "id": "option-valley-warning-h",
-            "text": "独自核对关键迹象，形成简洁结论后再集中说明。",
+            "text": "记下方位和变化，整理成简洁判断后再向队伍说明。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -1658,7 +1658,7 @@
           },
           {
             "id": "option-summer-frost-t-light",
-            "text": "先想一个可能原因，再查看几项现场迹象。",
+            "text": "测量温度和结霜范围，再对照风向与湿度。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -1667,7 +1667,7 @@
           },
           {
             "id": "option-summer-frost-v-light",
-            "text": "先测量温度和结霜范围，同时留意是否有共同模式。",
+            "text": "联想薄霜与此前异象的关系，再测几项现场数据。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -1702,7 +1702,7 @@
         "options": [
           {
             "id": "option-minority-risk-e",
-            "text": "先问走得慢的人需要什么，让路线照顾每个人的体验。",
+            "text": "问走得慢的人需要什么，让路线照顾每个人的体验。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1711,7 +1711,7 @@
           },
           {
             "id": "option-minority-risk-l-light",
-            "text": "先听各自偏好，再比较几条路线的实际条件。",
+            "text": "比较路程、时间和补给条件，也听取各自偏好。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -1720,7 +1720,7 @@
           },
           {
             "id": "option-minority-risk-e-light",
-            "text": "先评估路程和时间，同时为不同步调预留休息安排。",
+            "text": "了解不同步调带来的困难，为需要的人预留休息。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1751,7 +1751,7 @@
         "chapterId": "change",
         "category": "临时换领队",
         "primaryDimension": "SM",
-        "prompt": "负责安排路线的同伴临时离开半天。你更喜欢怎样接续？",
+        "prompt": "负责安排路线的同伴临时离开半天。你会怎样接续？",
         "options": [
           {
             "id": "option-replace-leader-s",
@@ -1764,7 +1764,7 @@
           },
           {
             "id": "option-replace-leader-m-light",
-            "text": "先沿用核心安排，再根据现场情况做少量调整。",
+            "text": "按此刻的情况重排部分任务，同时保留必要联络。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -1773,7 +1773,7 @@
           },
           {
             "id": "option-replace-leader-s-light",
-            "text": "按大家此刻最顺手的事情重新分配一部分任务。",
+            "text": "沿用核心安排，清楚指定暂代分工和交接节点。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -1808,7 +1808,7 @@
         "options": [
           {
             "id": "option-share-honor-h",
-            "text": "先和同伴逐一确认大家愿意公开的内容，再独自整理。",
+            "text": "逐一确认同伴愿意公开的内容，再独自整理。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -1817,7 +1817,7 @@
           },
           {
             "id": "option-share-honor-r-light",
-            "text": "先写好自己的部分，再找一两位同伴核对。",
+            "text": "独自列好讲述提纲，再请一位同伴帮忙核对。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -1826,7 +1826,7 @@
           },
           {
             "id": "option-share-honor-h-light",
-            "text": "先约大家碰一次面，把不同片段合成讲述。",
+            "text": "约几位同伴碰一次面，把不同片段合成讲述。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -1870,7 +1870,7 @@
           },
           {
             "id": "option-burned-page-v-light",
-            "text": "先读清确定内容，再列一两种可能解释。",
+            "text": "想想缺页在全卷中承担的作用，再列几种可能解释。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -1879,7 +1879,7 @@
           },
           {
             "id": "option-burned-page-t-light",
-            "text": "从上下文猜出大致意思，同时保留不确定处。",
+            "text": "顺着上下文逐句核对，标出确定与存疑的部分。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -1888,7 +1888,7 @@
           },
           {
             "id": "option-burned-page-v",
-            "text": "比较全卷结构和类似故事，想象缺失部分可能承担的作用。",
+            "text": "比较全卷结构和类似故事，推想缺失部分的作用。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -1914,7 +1914,7 @@
         "options": [
           {
             "id": "option-disputed-treasure-e",
-            "text": "先听它对当地人和同行者分别意味着什么，寻找都能接受的方式。",
+            "text": "听旧物对当地人和旅队意味着什么，寻找都能接受的方式。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1923,7 +1923,7 @@
           },
           {
             "id": "option-disputed-treasure-l-light",
-            "text": "先了解各方感受，再核对保管条件和实际影响。",
+            "text": "核对归属、保管条件和实际影响，也听取各方意见。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -1932,7 +1932,7 @@
           },
           {
             "id": "option-disputed-treasure-e-light",
-            "text": "先明确归属、保存条件和借展规则，再听取特殊需要。",
+            "text": "听它对各方意味着什么，再参考保管与借展规则。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -1963,11 +1963,11 @@
         "chapterId": "return",
         "category": "下一次出发",
         "primaryDimension": "SM",
-        "prompt": "刚回住处，又收到三天后进山的邀请。你更可能怎么回应？",
+        "prompt": "刚回住处，又收到三天后进山的邀请。你会怎样回应？",
         "options": [
           {
             "id": "option-next-departure-s",
-            "text": "先休息并完成这次记录，收尾后再答复新的邀请。",
+            "text": "休息并完成这次记录，收尾后再答复新邀请。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -1976,7 +1976,7 @@
           },
           {
             "id": "option-next-departure-m-light",
-            "text": "先完成最重要的收尾，再了解新行程是否合适。",
+            "text": "了解新行程的可能，再决定旧记录收尾到什么程度。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -1985,7 +1985,7 @@
           },
           {
             "id": "option-next-departure-s-light",
-            "text": "先听听新旅程有什么可能，再调整手头几项安排。",
+            "text": "列出这次必须完成的收尾，再调整其余几项安排。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -1994,7 +1994,7 @@
           },
           {
             "id": "option-next-departure-m",
-            "text": "很快进入新旅程的构想，让收尾工作随新节奏继续完成。",
+            "text": "和同伴约好最低收尾，再让余下工作随新旅程调整。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -2029,7 +2029,7 @@
           },
           {
             "id": "option-unsigned-invitation-h-light",
-            "text": "先问一位熟悉客舍的人，再自己看看请柬。",
+            "text": "自己看过请柬后，只向一位熟悉客舍的人求证。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -2038,7 +2038,7 @@
           },
           {
             "id": "option-unsigned-invitation-r-light",
-            "text": "先独自检查纸张和墨迹，之后找人确认一个疑点。",
+            "text": "向身边旅人提起请柬，再独自核对纸张和墨迹。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -2082,7 +2082,7 @@
           },
           {
             "id": "option-map-gap-t-light",
-            "text": "先画出几种可能轮廓，再去核对最近的地标。",
+            "text": "测出已知边界与最近地标，再补画相接的部分。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -2091,7 +2091,7 @@
           },
           {
             "id": "option-map-gap-v-light",
-            "text": "先测量已知边界，再谨慎延伸最确定的部分。",
+            "text": "勾出几种可能轮廓，再拿已知边界逐一核对。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -2126,7 +2126,7 @@
         "options": [
           {
             "id": "option-trade-information-l",
-            "text": "先讲清交换范围和双方标准，再按约定分享。",
+            "text": "讲清交换范围和双方标准，再按约定分享。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -2135,7 +2135,7 @@
           },
           {
             "id": "option-trade-information-e-light",
-            "text": "先确定基本边界，同时听听对方最想了解什么。",
+            "text": "听听对方最想了解什么，同时守住基本交换边界。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -2144,7 +2144,7 @@
           },
           {
             "id": "option-trade-information-l-light",
-            "text": "先问对方为什么需要这些消息，再决定哪些最有帮助。",
+            "text": "讲清交换范围和判断依据，再决定哪些消息可分享。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -2188,7 +2188,7 @@
           },
           {
             "id": "option-first-camp-s-light",
-            "text": "先派人向前看一小段，再根据新情况决定。",
+            "text": "在这里完成基本扎营，再派人向前探看一小段。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -2197,7 +2197,7 @@
           },
           {
             "id": "option-first-camp-m-light",
-            "text": "先把这里设为临时落脚点，但保留换地方的可能。",
+            "text": "轻装向前探看一小段，按新情况决定最终落脚点。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -2232,7 +2232,7 @@
         "options": [
           {
             "id": "option-unknown-guide-h",
-            "text": "先自己观察他说话和认路的细节，熟悉后再多交流。",
+            "text": "观察他说话和认路的细节，熟悉后再多交流。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -2241,7 +2241,7 @@
           },
           {
             "id": "option-unknown-guide-r-light",
-            "text": "先问几个具体地名，小范围判断彼此是否合拍。",
+            "text": "问几个具体地名，从简短来回中判断是否合拍。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -2250,7 +2250,7 @@
           },
           {
             "id": "option-unknown-guide-h-light",
-            "text": "边走边聊，用几次自然互动慢慢建立信任。",
+            "text": "边走边观察，等熟悉他的节奏后再慢慢多聊。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -2294,7 +2294,7 @@
           },
           {
             "id": "option-shared-dream-t-light",
-            "text": "先猜一个共同主题，再比较大家梦中的差异。",
+            "text": "逐一记下大家提到的颜色与位置，再比较共同处。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -2303,7 +2303,7 @@
           },
           {
             "id": "option-shared-dream-v-light",
-            "text": "先记录颜色、位置和出现顺序，再想它们是否有关联。",
+            "text": "寻找梦境共有的主题，再回头核对每个人的细节。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -2338,7 +2338,7 @@
         "options": [
           {
             "id": "option-two-villages-water-e",
-            "text": "先听双方最担心失去什么，照顾更难调整的处境。",
+            "text": "听双方最担心失去什么，照顾更难调整的处境。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -2347,7 +2347,7 @@
           },
           {
             "id": "option-two-villages-water-l-light",
-            "text": "先了解各自生活节奏，再估算大致用量。",
+            "text": "测算两边人数和大致用量，也了解日常取水节奏。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -2356,7 +2356,7 @@
           },
           {
             "id": "option-two-villages-water-e-light",
-            "text": "先测算水量和人数，同时为特殊需要留出空间。",
+            "text": "听双方最难调整的需要，再参考水量和人数安排。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -2400,7 +2400,7 @@
           },
           {
             "id": "option-new-evidence-m-light",
-            "text": "保留原计划骨架，只替换受新证据影响的部分。",
+            "text": "尝试一条新路线，也保留回到原线索的余地。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -2409,7 +2409,7 @@
           },
           {
             "id": "option-new-evidence-s-light",
-            "text": "先尝试一条新路线，同时保留回到旧线索的余地。",
+            "text": "保留原计划骨架，只替换被新证据推翻的部分。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -2444,7 +2444,7 @@
         "options": [
           {
             "id": "option-public-misunderstanding-h",
-            "text": "先想清楚误会从哪里产生，再找合适时机单独解释。",
+            "text": "想清误会从哪里产生，再找合适时机单独解释。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -2453,7 +2453,7 @@
           },
           {
             "id": "option-public-misunderstanding-r-light",
-            "text": "先用一句话说明重点，之后再私下补充。",
+            "text": "当场用一句话说明重点，看看回应后再补充。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -2462,7 +2462,7 @@
           },
           {
             "id": "option-public-misunderstanding-h-light",
-            "text": "马上澄清自己的意思，并邀请对方说说他的理解。",
+            "text": "听完对方的理解，想清误会来源后再简短回应。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -2506,7 +2506,7 @@
           },
           {
             "id": "option-forged-sign-v-light",
-            "text": "先确认两三个细节，再想留下记号的人是谁。",
+            "text": "推想记号想把队伍引向哪里，再核对两处细节。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -2515,7 +2515,7 @@
           },
           {
             "id": "option-forged-sign-t-light",
-            "text": "先推想这个记号希望你做什么，再回头检查痕迹。",
+            "text": "核对刻痕和脚印，再判断它是否出自熟悉工具。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -2524,7 +2524,7 @@
           },
           {
             "id": "option-forged-sign-v",
-            "text": "把它放进整段旅程中思考，寻找背后可能的意图和关联。",
+            "text": "把记号放回整段旅程，寻找背后的意图和关联。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -2550,7 +2550,7 @@
         "options": [
           {
             "id": "option-expired-pact-l",
-            "text": "先明确旧规则原本解决什么，再用一致原则调整条文。",
+            "text": "明确旧规则原本解决什么，再用一致原则调整条文。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -2559,7 +2559,7 @@
           },
           {
             "id": "option-expired-pact-e-light",
-            "text": "先梳理规则和现实的差距，也听听受影响的人怎么说。",
+            "text": "听受影响的人讲现实难处，再找旧规则需要调整之处。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -2568,7 +2568,7 @@
           },
           {
             "id": "option-expired-pact-l-light",
-            "text": "先从最受影响者的生活感受出发，再讨论可执行办法。",
+            "text": "梳理旧规则和现实的差距，再讨论可执行的改法。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -2599,7 +2599,7 @@
         "chapterId": "change",
         "category": "物资损失",
         "primaryDimension": "SM",
-        "prompt": "一部分旅行物资被雨水打湿，原计划需要调整。你更自然地怎么做？",
+        "prompt": "一部分旅行物资被雨水打湿，原计划需要调整。你会怎么做？",
         "options": [
           {
             "id": "option-lost-supplies-m",
@@ -2612,7 +2612,7 @@
           },
           {
             "id": "option-lost-supplies-s-light",
-            "text": "先尝试替代材料，再决定是否改变主要安排。",
+            "text": "保住核心目标和补给次序，再替换受损物资。",
             "score": {
               "dimension": "SM",
               "pole": "S",
@@ -2621,7 +2621,7 @@
           },
           {
             "id": "option-lost-supplies-m-light",
-            "text": "先保住核心目标，同时灵活取消一两项次要活动。",
+            "text": "寻找附近可用材料，也接受删改一两项活动。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -2665,7 +2665,7 @@
           },
           {
             "id": "option-face-doubt-h-light",
-            "text": "先分享一两件能确认的证据，看看他还想知道什么。",
+            "text": "整理一两件能确认的证据，等他再问时逐步说明。",
             "score": {
               "dimension": "RH",
               "pole": "H",
@@ -2674,7 +2674,7 @@
           },
           {
             "id": "option-face-doubt-r-light",
-            "text": "先整理好关键记录，再找机会和他单独聊。",
+            "text": "当场请他指出疑点，用几轮问答补清关键细节。",
             "score": {
               "dimension": "RH",
               "pole": "R",
@@ -2718,7 +2718,7 @@
           },
           {
             "id": "option-understand-failure-v-light",
-            "text": "先复盘几个关键节点，再想是否需要调整目标。",
+            "text": "把寻访放回更长的旅程中，再考虑是否调整目标。",
             "score": {
               "dimension": "TV",
               "pole": "V",
@@ -2727,7 +2727,7 @@
           },
           {
             "id": "option-understand-failure-t-light",
-            "text": "先思考原来的问题是否问对，再补看几项事实。",
+            "text": "逐一复盘卡住的节点，再核对遗漏的几项事实。",
             "score": {
               "dimension": "TV",
               "pole": "T",
@@ -2771,7 +2771,7 @@
           },
           {
             "id": "option-record-mistake-e-light",
-            "text": "先写事实，再补充当时条件，避免标准失去一致性。",
+            "text": "补上他当时面对的条件，让文字诚实又保留处境。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -2780,7 +2780,7 @@
           },
           {
             "id": "option-record-mistake-l-light",
-            "text": "写明事实，也照顾文字会怎样影响这位同伴。",
+            "text": "写明行为和后果，并沿用旅记中一致的记录标准。",
             "score": {
               "dimension": "LE",
               "pole": "L",
@@ -2789,7 +2789,7 @@
           },
           {
             "id": "option-record-mistake-e",
-            "text": "先理解他当时的处境，选择既诚实又不过度定性的表达。",
+            "text": "理解他当时的处境，选择诚实而不过度定性的表达。",
             "score": {
               "dimension": "LE",
               "pole": "E",
@@ -2824,7 +2824,7 @@
           },
           {
             "id": "option-unfinished-promise-m-light",
-            "text": "先提出一个可执行的新方案，再听对方是否需要调整。",
+            "text": "问清对方现在最在意什么，再一起改变兑现方式。",
             "score": {
               "dimension": "SM",
               "pole": "M",
@@ -2833,7 +2833,7 @@
           },
           {
             "id": "option-unfinished-promise-s-light",
-            "text": "先问对方现在最在意什么，再一起改变兑现方式。",
+            "text": "提出一个可执行的新方案，也约定清楚完成节点。",
             "score": {
               "dimension": "SM",
               "pole": "S",

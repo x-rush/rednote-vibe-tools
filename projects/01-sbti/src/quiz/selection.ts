@@ -1,4 +1,20 @@
-import type { ChapterCode, DimensionCode, Question, ShbtiContentPackage } from '../content/types'
+import type { AnswerOption, ChapterCode, DimensionCode, PoleCode, Question, ShbtiContentPackage } from '../content/types'
+
+const DIMENSION_POLES: Record<DimensionCode, [PoleCode, PoleCode]> = {
+  RH: ['R', 'H'],
+  TV: ['T', 'V'],
+  LE: ['L', 'E'],
+  SM: ['S', 'M'],
+}
+
+const OPTION_PATTERNS = [
+  [0, 1, 2, 3],
+  [0, 1, 3, 2],
+  [1, 0, 2, 3],
+  [2, 3, 0, 1],
+  [2, 3, 1, 0],
+  [3, 2, 0, 1],
+] as const
 
 function hashSeed(seed: string) {
   let value = 2166136261
@@ -83,3 +99,41 @@ export function selectQuestionIds(content: ShbtiContentPackage, seed: string): s
   }
   return ordered.map((question) => question.id)
 }
+
+function canonicalOptions(question: Question): [AnswerOption, AnswerOption, AnswerOption, AnswerOption] {
+  const [leftPole, rightPole] = DIMENSION_POLES[question.primaryDimension]
+  const find = (pole: PoleCode, weight: 1 | 2) => question.options.find(
+    (option) => option.score.pole === pole && option.score.weight === weight,
+  )
+  const options = [find(leftPole, 2), find(leftPole, 1), find(rightPole, 1), find(rightPole, 2)]
+  if (options.some((option) => !option)) throw new Error(`Question ${question.id} does not contain a complete preference set`)
+  return options as [AnswerOption, AnswerOption, AnswerOption, AnswerOption]
+}
+
+export function prepareQuestionsForRun(
+  content: ShbtiContentPackage,
+  questionIds: string[],
+  seed: string,
+): Question[] {
+  if (seed.trim() === '') throw new Error('A non-empty seed is required')
+  const byId = new Map(content.content.questions.map((question) => [question.id, question]))
+  const dimensionCounts = new Map<DimensionCode, number>()
+  const dimensionSettings = new Map(DIMENSION_POLES_KEYS.map((dimension) => {
+    const value = hashSeed(`${seed}:options:${dimension}`)
+    return [dimension, { offset: value % OPTION_PATTERNS.length, flipSides: ((value >>> 8) & 1) === 1 }]
+  }))
+
+  return questionIds.map((questionId) => {
+    const question = byId.get(questionId)
+    if (!question) throw new Error(`Unknown selected question ID: ${questionId}`)
+    const occurrence = dimensionCounts.get(question.primaryDimension) ?? 0
+    dimensionCounts.set(question.primaryDimension, occurrence + 1)
+    const settings = dimensionSettings.get(question.primaryDimension)!
+    const pattern = OPTION_PATTERNS[(occurrence + settings.offset) % OPTION_PATTERNS.length]!
+    const canonical = canonicalOptions(question)
+    const options = pattern.map((slot) => canonical[settings.flipSides ? 3 - slot : slot]) as unknown as Question['options']
+    return { ...question, options }
+  })
+}
+
+const DIMENSION_POLES_KEYS = Object.keys(DIMENSION_POLES) as DimensionCode[]

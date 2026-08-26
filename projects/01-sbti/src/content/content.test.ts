@@ -189,6 +189,46 @@ describe('production content package', () => {
     }
   })
 
+  it('keeps action lengths from revealing score strength', () => {
+    const actionLength = (text: string) => Array.from(text).length
+    const options = rawContent.content.questions.flatMap((question) => question.options)
+    const averageLength = (weight: 1 | 2) => {
+      const matching = options.filter((option) => option.score.weight === weight)
+      return matching.reduce((total, option) => total + actionLength(option.text), 0) / matching.length
+    }
+
+    expect(Math.abs(averageLength(1) - averageLength(2))).toBeLessThanOrEqual(0.75)
+    const leadingFirstByWeight = ([1, 2] as const).map(
+      (weight) => options.filter((option) => option.score.weight === weight && option.text.startsWith('先')).length,
+    )
+    expect(Math.abs(leadingFirstByWeight[0] - leadingFirstByWeight[1])).toBeLessThanOrEqual(8)
+    for (const dimension of ['RH', 'TV', 'LE', 'SM']) {
+      const dimensionOptions = rawContent.content.questions
+        .filter((question) => question.primaryDimension === dimension)
+        .flatMap((question) => question.options)
+      const [firstPole, secondPole] = [...new Set(dimensionOptions.map((option) => option.score.pole))]
+      const averageForPole = (pole: string) => {
+        const matching = dimensionOptions.filter((option) => option.score.pole === pole)
+        return matching.reduce((total, option) => total + actionLength(option.text), 0) / matching.length
+      }
+      expect(Math.abs(averageForPole(firstPole!) - averageForPole(secondPole!)), dimension).toBeLessThanOrEqual(0.5)
+    }
+    for (const question of rawContent.content.questions) {
+      const lengths = question.options.map((option) => actionLength(option.text))
+      expect(Math.min(...lengths), question.id).toBeGreaterThanOrEqual(18)
+      expect(Math.max(...lengths), question.id).toBeLessThanOrEqual(27)
+      expect(Math.max(...lengths) - Math.min(...lengths), question.id).toBeLessThanOrEqual(7)
+    }
+  })
+
+  it('avoids a repetitive questionnaire cadence', () => {
+    const questions = rawContent.content.questions
+    const options = questions.flatMap((question) => question.options)
+
+    expect(options.filter((option) => option.text.startsWith('先')).length).toBeLessThanOrEqual(76)
+    expect(questions.filter((question) => question.prompt.includes('更')).length).toBeLessThanOrEqual(24)
+  })
+
   it('covers every chapter and dimension cell with three questions', () => {
     for (const chapter of ['entry', 'trace', 'change', 'return']) {
       for (const dimension of ['RH', 'TV', 'LE', 'SM']) {

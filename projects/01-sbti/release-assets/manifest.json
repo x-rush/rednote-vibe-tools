@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-25",
+  "updatedAt": "2026-08-26",
   "projectId": "01-shbti",
   "portal": {
     "name": "SHBTI｜山海兽格测试",
@@ -19,6 +19,6 @@
     "release-assets/qa-tool-icon-128.png",
     "release-assets/qa-tool-icon-64.png"
   ],
-  "runtimeBundle": "SHBTI-山海兽格-小工具包-20260825.zip",
+  "runtimeBundle": "SHBTI-山海兽格-小工具包-20260826.zip",
   "runtimeBundleIncludesPortalAssets": false
 }

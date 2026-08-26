@@ -73,6 +73,98 @@ export function validateContentPackage(value: unknown): ValidationReport {
   const sourceIds = new Set(content.sources.map((item) => item.id))
   const sourceTypes = new Map(content.sources.map((item) => [item.id, item.type]))
 
+  const evidenceTemplateByType = {
+    字形: 'glyph-timeline',
+    字书: 'lexicon-scroll',
+    语义: 'semantic-map',
+    辨伪: 'myth-verdict',
+  } as const
+  const evidencePalettes = new Set(['jade', 'cinnabar', 'bronze', 'ink'])
+
+  function isRecord(item: unknown): item is Record<string, unknown> {
+    return Boolean(item) && typeof item === 'object' && !Array.isArray(item)
+  }
+
+  function validateVisualSources(value: unknown, path: string): void {
+    if (!Array.isArray(value) || !value.some((id) => typeof id === 'string' && sourceIds.has(id) && sourceTypes.get(id) !== 'F')) {
+      add('missing-evidence-visual-source', path, '事实观察点必须引用至少一个非虚构来源。')
+      return
+    }
+    value.forEach((id, position) => {
+      if (typeof id !== 'string' || !sourceIds.has(id)) add('invalid-evidence-visual-reference', `${path}[${position}]`, `视觉来源 ${String(id)} 不存在。`)
+      else if (sourceTypes.get(id) === 'F') add('missing-evidence-visual-source', `${path}[${position}]`, '虚构来源不能支撑事实视觉。')
+    })
+  }
+
+  function validateEvidenceVisual(evidence: DalisizianContentPackage['content']['evidence'][number], position: number): void {
+    const path = `$.content.evidence[${position}].visualSpec`
+    const visual = (evidence as unknown as Record<string, unknown>).visualSpec
+    if (!isRecord(visual)) {
+      add('missing-evidence-visual', path, '证物必须提供互动视觉规格。')
+      return
+    }
+    if (visual.template !== evidenceTemplateByType[evidence.type]) {
+      add('evidence-template-mismatch', `${path}.template`, `${evidence.type}证物必须使用 ${evidenceTemplateByType[evidence.type]} 模板。`)
+    }
+    if (typeof visual.thumbnailLabel !== 'string' || !visual.thumbnailLabel.trim()
+      || typeof visual.completionPrompt !== 'string' || !visual.completionPrompt.trim()
+      || typeof visual.fallbackSummary !== 'string' || !visual.fallbackSummary.trim()
+      || typeof visual.palette !== 'string' || !evidencePalettes.has(visual.palette)) {
+      add('invalid-evidence-visual', path, '视觉规格的标签、提示、回退说明或色板无效。')
+    }
+    if (!Array.isArray(visual.observationPoints) || visual.observationPoints.length < 2 || visual.observationPoints.length > 6) {
+      add('invalid-evidence-observation', `${path}.observationPoints`, '每件证物必须有 2 至 6 个观察点。')
+    } else {
+      const observationIds = new Set<string>()
+      visual.observationPoints.forEach((point, pointPosition) => {
+        const pointPath = `${path}.observationPoints[${pointPosition}]`
+        if (!isRecord(point) || typeof point.id !== 'string' || !idPattern.test(point.id)
+          || observationIds.has(point.id) || typeof point.title !== 'string' || !point.title.trim()
+          || typeof point.body !== 'string' || !point.body.trim() || !isRecord(point.anchor)
+          || typeof point.anchor.x !== 'number' || point.anchor.x < 0 || point.anchor.x > 100
+          || typeof point.anchor.y !== 'number' || point.anchor.y < 0 || point.anchor.y > 100) {
+          add('invalid-evidence-observation', pointPath, '观察点 ID、文字或锚点无效。')
+        } else observationIds.add(point.id)
+        if (isRecord(point)) validateVisualSources(point.sourceIds, `${pointPath}.sourceIds`)
+      })
+    }
+
+    if (visual.template === 'glyph-timeline') {
+      if (!Array.isArray(visual.stages) || visual.stages.length < 2 || visual.stages.length > 4) add('invalid-evidence-visual', `${path}.stages`, '字形时间轴必须有 2 至 4 个阶段。')
+      else visual.stages.forEach((stage, stagePosition) => {
+        const stagePath = `${path}.stages[${stagePosition}]`
+        if (!isRecord(stage) || typeof stage.id !== 'string' || !idPattern.test(stage.id) || typeof stage.label !== 'string' || !stage.label.trim()
+          || typeof stage.period !== 'string' || !stage.period.trim() || !['structure-diagram', 'database-rendering', 'rubbing', 'manual-tracing'].includes(String(stage.materialKind))
+          || typeof stage.certainty !== 'string' || !stage.certainty.trim()) add('invalid-evidence-visual', stagePath, '字形阶段字段无效。')
+        if (isRecord(stage)) validateVisualSources(stage.sourceIds, `${stagePath}.sourceIds`)
+      })
+    } else if (visual.template === 'lexicon-scroll') {
+      if (!Array.isArray(visual.entries) || visual.entries.length < 2) add('invalid-evidence-visual', `${path}.entries`, '字书卷至少需要两个条目层次。')
+      else visual.entries.forEach((entry, entryPosition) => {
+        const entryPath = `${path}.entries[${entryPosition}]`
+        if (!isRecord(entry) || typeof entry.id !== 'string' || !idPattern.test(entry.id) || !['heading', 'originalText', 'interpretation', 'highlight'].every((key) => typeof entry[key] === 'string' && String(entry[key]).trim())) add('invalid-evidence-visual', entryPath, '字书条目字段无效。')
+        if (isRecord(entry)) validateVisualSources(entry.sourceIds, `${entryPath}.sourceIds`)
+      })
+    } else if (visual.template === 'semantic-map') {
+      if (!Array.isArray(visual.nodes) || visual.nodes.length < 2 || !Array.isArray(visual.edges) || visual.edges.length < 1) add('invalid-evidence-visual', path, '语义图需要至少两个节点和一条关系。')
+      else {
+        const nodeIds = new Set(visual.nodes.filter(isRecord).map((node) => node.id).filter((id): id is string => typeof id === 'string'))
+        visual.edges.forEach((edge, edgePosition) => {
+          const edgePath = `${path}.edges[${edgePosition}]`
+          if (!isRecord(edge) || typeof edge.id !== 'string' || !idPattern.test(edge.id) || typeof edge.from !== 'string' || !nodeIds.has(edge.from)
+            || typeof edge.to !== 'string' || !nodeIds.has(edge.to) || typeof edge.label !== 'string' || !edge.label.trim()
+            || !['supported', 'possible', 'blocked'].includes(String(edge.strength))) add('invalid-evidence-visual-reference', edgePath, '语义关系引用或强度无效。')
+          if (isRecord(edge)) validateVisualSources(edge.sourceIds, `${edgePath}.sourceIds`)
+        })
+      }
+    } else if (visual.template === 'myth-verdict') {
+      if (typeof visual.claim !== 'string' || !visual.claim.trim()
+        || !Array.isArray(visual.supports) || !visual.supports.length
+        || !Array.isArray(visual.limits) || !visual.limits.length
+        || !Array.isArray(visual.disputes) || !visual.disputes.length) add('invalid-evidence-visual', path, '辨伪卷必须包含传闻、可证、不可证与争议内容。')
+    }
+  }
+
   function validateCondition(condition: ConditionExpression, path: string): void {
     if ('all' in condition) return condition.all.forEach((child, indexValue) => validateCondition(child, `${path}.all[${indexValue}]`))
     if ('any' in condition) return condition.any.forEach((child, indexValue) => validateCondition(child, `${path}.any[${indexValue}]`))
@@ -170,6 +262,7 @@ export function validateContentPackage(value: unknown): ValidationReport {
   })
 
   content.content.evidence.forEach((evidence, evidencePosition) => {
+    validateEvidenceVisual(evidence, evidencePosition)
     evidence.sourceIds.forEach((id, sourcePosition) => {
       const sourcePath = `$.content.evidence[${evidencePosition}].sourceIds[${sourcePosition}]`
       if (!sourceIds.has(id)) add('missing-source-reference', sourcePath, `来源 ${id} 不存在。`)

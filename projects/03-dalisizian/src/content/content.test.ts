@@ -130,4 +130,29 @@ describe('content envelope', () => {
       expect(new Set(evidenceSourceSets).size).toBeGreaterThan(1)
     }
   })
+
+  it('gives all 32 evidence records a distinct interactive visual', () => {
+    const evidence = content.content.evidence as Array<typeof content.content.evidence[number] & {
+      visualSpec?: {
+        template?: string
+        thumbnailLabel?: string
+        fallbackSummary?: string
+        observationPoints?: unknown[]
+      }
+    }>
+
+    expect(evidence).toHaveLength(32)
+    expect(new Set(evidence.map((item) => item.assetId)).size).toBe(32)
+    expect(new Set(evidence.map((item) => item.visualSpec?.thumbnailLabel)).size).toBe(32)
+    expect(new Set(evidence.map((item) => item.visualSpec?.template))).toEqual(new Set([
+      'glyph-timeline',
+      'lexicon-scroll',
+      'semantic-map',
+      'myth-verdict',
+    ]))
+    for (const item of evidence) {
+      expect(item.visualSpec?.observationPoints?.length, item.id).toBeGreaterThanOrEqual(2)
+      expect(item.visualSpec?.fallbackSummary?.length, item.id).toBeGreaterThan(12)
+    }
+  })
 })

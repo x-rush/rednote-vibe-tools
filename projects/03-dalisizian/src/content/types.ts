@@ -120,6 +120,74 @@ export type Clue = {
   sourceIds: string[]
 }
 
+export type EvidenceVisualTemplate = 'glyph-timeline' | 'lexicon-scroll' | 'semantic-map' | 'myth-verdict'
+
+export type EvidencePalette = 'jade' | 'cinnabar' | 'bronze' | 'ink'
+
+export type EvidenceObservationPoint = {
+  id: string
+  title: string
+  body: string
+  sourceIds: string[]
+  anchor: { x: number; y: number }
+}
+
+type EvidenceVisualBase = {
+  thumbnailLabel: string
+  palette: EvidencePalette
+  completionPrompt: string
+  fallbackSummary: string
+  observationPoints: EvidenceObservationPoint[]
+}
+
+export type GlyphTimelineVisual = EvidenceVisualBase & {
+  template: 'glyph-timeline'
+  stages: Array<{
+    id: string
+    label: string
+    period: string
+    assetId?: string
+    materialKind: 'structure-diagram' | 'database-rendering' | 'rubbing' | 'manual-tracing'
+    certainty: string
+    sourceIds: string[]
+  }>
+}
+
+export type LexiconScrollVisual = EvidenceVisualBase & {
+  template: 'lexicon-scroll'
+  entries: Array<{
+    id: string
+    heading: string
+    originalText: string
+    interpretation: string
+    highlight: string
+    sourceIds: string[]
+  }>
+}
+
+export type SemanticMapVisual = EvidenceVisualBase & {
+  template: 'semantic-map'
+  nodes: Array<{ id: string; label: string; detail: string }>
+  edges: Array<{
+    id: string
+    from: string
+    to: string
+    label: string
+    strength: 'supported' | 'possible' | 'blocked'
+    sourceIds: string[]
+  }>
+}
+
+export type MythVerdictVisual = EvidenceVisualBase & {
+  template: 'myth-verdict'
+  claim: string
+  supports: string[]
+  limits: string[]
+  disputes: string[]
+}
+
+export type EvidenceVisualSpec = GlyphTimelineVisual | LexiconScrollVisual | SemanticMapVisual | MythVerdictVisual
+
 export type Evidence = {
   id: string
   caseId: string
@@ -127,6 +195,7 @@ export type Evidence = {
   title: string
   body: string
   assetId: string
+  visualSpec: EvidenceVisualSpec
   sourceIds: string[]
   contentVersion: string
 }

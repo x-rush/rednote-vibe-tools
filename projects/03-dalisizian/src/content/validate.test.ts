@@ -93,4 +93,57 @@ describe('content validation', () => {
 
     expect(errorCodes(broken)).toContain('fiction-source-on-evidence')
   })
+
+  it('requires a complete visual spec on every evidence record', () => {
+    const broken = cloneContent()
+    delete (broken.content.evidence[0] as unknown as { visualSpec?: unknown }).visualSpec
+
+    expect(errorCodes(broken)).toContain('missing-evidence-visual')
+  })
+
+  it('matches each evidence type to its approved visual template', () => {
+    const broken = cloneContent()
+    ;(broken.content.evidence[0] as unknown as { visualSpec: { template: string } }).visualSpec = {
+      template: 'myth-verdict',
+    }
+
+    expect(errorCodes(broken)).toContain('evidence-template-mismatch')
+  })
+
+  it('requires factual visual observations to cite a non-fiction source', () => {
+    const broken = cloneContent()
+    ;(broken.content.evidence[0] as unknown as { visualSpec: unknown }).visualSpec = {
+      template: 'glyph-timeline',
+      thumbnailLabel: '家形初证',
+      palette: 'jade',
+      completionPrompt: '形体层次已核。',
+      fallbackSummary: '先看构件关系，再判断材料能够支持到哪一步。',
+      observationPoints: [
+        {
+          id: 'home-form-structure',
+          title: '构件关系',
+          body: '观察结构关系。',
+          sourceIds: ['source-fiction'],
+          anchor: { x: 30, y: 40 },
+        },
+        {
+          id: 'home-form-boundary',
+          title: '证据边界',
+          body: '区分材料与推断。',
+          sourceIds: ['source-home-moe-variants'],
+          anchor: { x: 70, y: 60 },
+        },
+      ],
+      stages: [{
+        id: 'home-stage-structure',
+        label: '结构图',
+        period: '分期材料',
+        materialKind: 'structure-diagram',
+        certainty: '只呈现结构关系。',
+        sourceIds: ['source-fiction'],
+      }],
+    }
+
+    expect(errorCodes(broken)).toContain('missing-evidence-visual-source')
+  })
 })

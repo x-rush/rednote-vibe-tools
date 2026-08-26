@@ -8810,7 +8810,66 @@
           "source-home-shuowen",
           "source-home-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "glyph-timeline",
+          "thumbnailLabel": "家·早期字形卷",
+          "palette": "jade",
+          "completionPrompt": "“早期字形卷”两处观察已核，可以归档。",
+          "fallbackSummary": "“家”的早期字形需要逐形核验，不能只拆现代楷书。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "home-early-form-focus-a",
+              "title": "分期先后",
+              "body": "先把早期材料与现代楷形分开观察。",
+              "sourceIds": [
+                "source-home-shuowen",
+                "source-home-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "home-early-form-focus-b",
+              "title": "构件关系",
+              "body": "关注宀、豕及传统声符分析各自能说明什么。",
+              "sourceIds": [
+                "source-home-shuowen",
+                "source-home-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "stages": [
+            {
+              "id": "home-structure-stage",
+              "label": "分期先后",
+              "period": "材料层一",
+              "materialKind": "structure-diagram",
+              "certainty": "先把早期材料与现代楷形分开观察。",
+              "sourceIds": [
+                "source-home-shuowen",
+                "source-home-moe-variants"
+              ]
+            },
+            {
+              "id": "home-comparison-stage",
+              "label": "构件关系",
+              "period": "材料层二",
+              "materialKind": "structure-diagram",
+              "certainty": "关注宀、豕及传统声符分析各自能说明什么。",
+              "sourceIds": [
+                "source-home-shuowen",
+                "source-home-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-home-shuowen",
@@ -8823,7 +8882,66 @@
           "source-shuowen-general",
           "source-home-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "lexicon-scroll",
+          "thumbnailLabel": "家·《说文》字条",
+          "palette": "jade",
+          "completionPrompt": "“《说文》字条”两处观察已核，可以归档。",
+          "fallbackSummary": "《说文》释“家，居也”，并记录“从宀，豭省声”的传统构形说。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "home-shuowen-focus-a",
+              "title": "字条原层",
+              "body": "定位“家，居也”的字书层，不把产品说明冒充原文。",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-home-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "home-shuowen-focus-b",
+              "title": "传统释形",
+              "body": "“从宀，豭省声”属于传统构形记录，仍需结合现代研究。",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-home-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "entries": [
+            {
+              "id": "home-record-entry",
+              "heading": "字条原层",
+              "originalText": "材料定位：《说文》释“家，居也”，并记录“从宀，豭省声”的传统构形说。",
+              "interpretation": "定位“家，居也”的字书层，不把产品说明冒充原文。",
+              "highlight": "字条原层",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-home-moe-variants"
+              ]
+            },
+            {
+              "id": "home-boundary-entry",
+              "heading": "传统释形",
+              "originalText": "产品释文与原始材料分层呈现。",
+              "interpretation": "“从宀，豭省声”属于传统构形记录，仍需结合现代研究。",
+              "highlight": "传统释形",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-home-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-home-phonetic",
@@ -8836,7 +8954,83 @@
           "source-home-moe-variants",
           "source-home-shuowen"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "semantic-map",
+          "thumbnailLabel": "家·声符辨析札",
+          "palette": "jade",
+          "completionPrompt": "“声符辨析札”两处观察已核，可以归档。",
+          "fallbackSummary": "“豭省声”提示相关构件可能承担声符功能，不能只讲成一幅生活图。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "home-phonetic-focus-a",
+              "title": "形旁线索",
+              "body": "宀提供的意义线索不能独自解释全字。",
+              "sourceIds": [
+                "source-home-moe-variants",
+                "source-home-shuowen"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "home-phonetic-focus-b",
+              "title": "声符功能",
+              "body": "豭省声提示相关构件可能承担声音功能。",
+              "sourceIds": [
+                "source-home-moe-variants",
+                "source-home-shuowen"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "home-source-node",
+              "label": "形旁线索",
+              "detail": "宀提供的意义线索不能独自解释全字。"
+            },
+            {
+              "id": "home-relation-node",
+              "label": "关系层",
+              "detail": "“豭省声”提示相关构件可能承担声符功能，不能只讲成一幅生活图。"
+            },
+            {
+              "id": "home-limit-node",
+              "label": "声符功能",
+              "detail": "豭省声提示相关构件可能承担声音功能。"
+            }
+          ],
+          "edges": [
+            {
+              "id": "home-supported-edge",
+              "from": "home-source-node",
+              "to": "home-relation-node",
+              "label": "材料支持",
+              "strength": "supported",
+              "sourceIds": [
+                "source-home-moe-variants",
+                "source-home-shuowen"
+              ]
+            },
+            {
+              "id": "home-blocked-edge",
+              "from": "home-relation-node",
+              "to": "home-limit-node",
+              "label": "不可直接跨越",
+              "strength": "blocked",
+              "sourceIds": [
+                "source-home-moe-variants",
+                "source-home-shuowen"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-home-social-leap",
@@ -8848,7 +9042,50 @@
         "sourceIds": [
           "source-home-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "myth-verdict",
+          "thumbnailLabel": "家·社会史越界批注",
+          "palette": "jade",
+          "completionPrompt": "“社会史越界批注”两处观察已核，可以归档。",
+          "fallbackSummary": "由一个构件直接推断“古人人人屋里养猪”超出了现有文字证据。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "home-social-leap-focus-a",
+              "title": "传闻抓手",
+              "body": "传闻抓住了宀与豕相关的传统材料。",
+              "sourceIds": [
+                "source-home-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "home-social-leap-focus-b",
+              "title": "越界一步",
+              "body": "从单字构件跳到普遍居住制度，证据链在这里断开。",
+              "sourceIds": [
+                "source-home-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "claim": "无猪不成家，所以古人家家屋里养猪。",
+          "supports": [
+            "传闻抓住了宀与豕相关的传统材料。"
+          ],
+          "limits": [
+            "从单字构件跳到普遍居住制度，证据链在这里断开。"
+          ],
+          "disputes": [
+            "由一个构件直接推断“古人人人屋里养猪”超出了现有文字证据。"
+          ]
+        }
       },
       {
         "id": "evidence-rest-components",
@@ -8861,7 +9098,66 @@
           "source-shuowen-general",
           "source-rest-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "glyph-timeline",
+          "thumbnailLabel": "休·人木构件卷",
+          "palette": "bronze",
+          "completionPrompt": "“人木构件卷”两处观察已核，可以归档。",
+          "fallbackSummary": "传统分析重视“休”中人、木构件的关系。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "rest-components-focus-a",
+              "title": "人木并置",
+              "body": "传统分析关注人和木的组合关系。",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-rest-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "rest-components-focus-b",
+              "title": "历史层次",
+              "body": "现代楷形只能作为入口，不能替代分期材料。",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-rest-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "stages": [
+            {
+              "id": "rest-structure-stage",
+              "label": "人木并置",
+              "period": "材料层一",
+              "materialKind": "structure-diagram",
+              "certainty": "传统分析关注人和木的组合关系。",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-rest-moe-variants"
+              ]
+            },
+            {
+              "id": "rest-comparison-stage",
+              "label": "历史层次",
+              "period": "材料层二",
+              "materialKind": "structure-diagram",
+              "certainty": "现代楷形只能作为入口，不能替代分期材料。",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-rest-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-rest-gloss",
@@ -8874,7 +9170,66 @@
           "source-shuowen-general",
           "source-rest-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "lexicon-scroll",
+          "thumbnailLabel": "休·传统会意条",
+          "palette": "bronze",
+          "completionPrompt": "“传统会意条”两处观察已核，可以归档。",
+          "fallbackSummary": "历代字书与六书解释为“人依木”提供了传统语境。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "rest-gloss-focus-a",
+              "title": "息止义项",
+              "body": "字书材料记录“休”与息止有关。",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-rest-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "rest-gloss-focus-b",
+              "title": "依木传统",
+              "body": "人依木是传统会意解释，不是万能猜字公式。",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-rest-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "entries": [
+            {
+              "id": "rest-record-entry",
+              "heading": "息止义项",
+              "originalText": "材料定位：历代字书与六书解释为“人依木”提供了传统语境。",
+              "interpretation": "字书材料记录“休”与息止有关。",
+              "highlight": "息止义项",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-rest-moe-variants"
+              ]
+            },
+            {
+              "id": "rest-boundary-entry",
+              "heading": "依木传统",
+              "originalText": "产品释文与原始材料分层呈现。",
+              "interpretation": "人依木是传统会意解释，不是万能猜字公式。",
+              "highlight": "依木传统",
+              "sourceIds": [
+                "source-shuowen-general",
+                "source-rest-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-rest-method-limit",
@@ -8886,7 +9241,79 @@
         "sourceIds": [
           "source-rest-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "semantic-map",
+          "thumbnailLabel": "休·方法边界札",
+          "palette": "bronze",
+          "completionPrompt": "“方法边界札”两处观察已核，可以归档。",
+          "fallbackSummary": "一个直观例子不能推出所有汉字都能按现代部件直接猜本义。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "rest-method-limit-focus-a",
+              "title": "直观个例",
+              "body": "“休”适合用来演示构件关系。",
+              "sourceIds": [
+                "source-rest-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "rest-method-limit-focus-b",
+              "title": "方法边界",
+              "body": "一个直观个例不能推出所有汉字都可看图猜义。",
+              "sourceIds": [
+                "source-rest-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "rest-source-node",
+              "label": "直观个例",
+              "detail": "“休”适合用来演示构件关系。"
+            },
+            {
+              "id": "rest-relation-node",
+              "label": "关系层",
+              "detail": "一个直观例子不能推出所有汉字都能按现代部件直接猜本义。"
+            },
+            {
+              "id": "rest-limit-node",
+              "label": "方法边界",
+              "detail": "一个直观个例不能推出所有汉字都可看图猜义。"
+            }
+          ],
+          "edges": [
+            {
+              "id": "rest-supported-edge",
+              "from": "rest-source-node",
+              "to": "rest-relation-node",
+              "label": "材料支持",
+              "strength": "supported",
+              "sourceIds": [
+                "source-rest-moe-variants"
+              ]
+            },
+            {
+              "id": "rest-blocked-edge",
+              "from": "rest-relation-node",
+              "to": "rest-limit-node",
+              "label": "不可直接跨越",
+              "strength": "blocked",
+              "sourceIds": [
+                "source-rest-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-rest-modern-shape",
@@ -8898,7 +9325,50 @@
         "sourceIds": [
           "source-rest-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "myth-verdict",
+          "thumbnailLabel": "休·楷形遮蔽批注",
+          "palette": "bronze",
+          "completionPrompt": "“楷形遮蔽批注”两处观察已核，可以归档。",
+          "fallbackSummary": "现代楷书形状可能掩盖历史字形变化，不能代替分期材料。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "rest-modern-shape-focus-a",
+              "title": "楷形印象",
+              "body": "现代写法容易制造一眼看懂的错觉。",
+              "sourceIds": [
+                "source-rest-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "rest-modern-shape-focus-b",
+              "title": "分期缺口",
+              "body": "没有历史阶段对照，楷形不能独自证明最初构形。",
+              "sourceIds": [
+                "source-rest-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "claim": "休一眼就是人靠树，所以所有汉字都能看图猜本义。",
+          "supports": [
+            "现代写法容易制造一眼看懂的错觉。"
+          ],
+          "limits": [
+            "没有历史阶段对照，楷形不能独自证明最初构形。"
+          ],
+          "disputes": [
+            "现代楷书形状可能掩盖历史字形变化，不能代替分期材料。"
+          ]
+        }
       },
       {
         "id": "evidence-take-form",
@@ -8911,7 +9381,66 @@
           "source-take-ctext",
           "source-take-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "glyph-timeline",
+          "thumbnailLabel": "取·手耳字形卷",
+          "palette": "cinnabar",
+          "completionPrompt": "“手耳字形卷”两处观察已核，可以归档。",
+          "fallbackSummary": "早期材料可见与手形、耳形相关的构件线索。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "take-form-focus-a",
+              "title": "手形线索",
+              "body": "早期材料呈现与手形相关的构件线索。",
+              "sourceIds": [
+                "source-take-ctext",
+                "source-take-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "take-form-focus-b",
+              "title": "耳形线索",
+              "body": "耳形线索需要与文本语境一起核验。",
+              "sourceIds": [
+                "source-take-ctext",
+                "source-take-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "stages": [
+            {
+              "id": "take-structure-stage",
+              "label": "手形线索",
+              "period": "材料层一",
+              "materialKind": "structure-diagram",
+              "certainty": "早期材料呈现与手形相关的构件线索。",
+              "sourceIds": [
+                "source-take-ctext",
+                "source-take-moe-variants"
+              ]
+            },
+            {
+              "id": "take-comparison-stage",
+              "label": "耳形线索",
+              "period": "材料层二",
+              "materialKind": "structure-diagram",
+              "certainty": "耳形线索需要与文本语境一起核验。",
+              "sourceIds": [
+                "source-take-ctext",
+                "source-take-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-take-rite",
@@ -8924,7 +9453,66 @@
           "source-take-ctext",
           "source-take-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "lexicon-scroll",
+          "thumbnailLabel": "取·取耳制度录",
+          "palette": "cinnabar",
+          "completionPrompt": "“取耳制度录”两处观察已核，可以归档。",
+          "fallbackSummary": "古代文本中存在“获者取左耳”等相关记载。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "take-rite-focus-a",
+              "title": "制度记载",
+              "body": "古代文本存在“获者取左耳”等相关记载。",
+              "sourceIds": [
+                "source-take-ctext",
+                "source-take-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "take-rite-focus-b",
+              "title": "适用范围",
+              "body": "制度语境能解释一层用法，不能覆盖全部后世词义。",
+              "sourceIds": [
+                "source-take-ctext",
+                "source-take-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "entries": [
+            {
+              "id": "take-record-entry",
+              "heading": "制度记载",
+              "originalText": "材料定位：古代文本中存在“获者取左耳”等相关记载。",
+              "interpretation": "古代文本存在“获者取左耳”等相关记载。",
+              "highlight": "制度记载",
+              "sourceIds": [
+                "source-take-ctext",
+                "source-take-moe-variants"
+              ]
+            },
+            {
+              "id": "take-boundary-entry",
+              "heading": "适用范围",
+              "originalText": "产品释文与原始材料分层呈现。",
+              "interpretation": "制度语境能解释一层用法，不能覆盖全部后世词义。",
+              "highlight": "适用范围",
+              "sourceIds": [
+                "source-take-ctext",
+                "source-take-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-take-semantic-change",
@@ -8936,7 +9524,79 @@
         "sourceIds": [
           "source-take-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "semantic-map",
+          "thumbnailLabel": "取·义变谱",
+          "palette": "cinnabar",
+          "completionPrompt": "“义变谱”两处观察已核，可以归档。",
+          "fallbackSummary": "“取”的词义经历扩展、抽象与中性化，现代用法不能被早期语境完全覆盖。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "take-semantic-change-focus-a",
+              "title": "早期语境",
+              "body": "早期语境提供词义史的起点之一。",
+              "sourceIds": [
+                "source-take-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "take-semantic-change-focus-b",
+              "title": "后世扩展",
+              "body": "取得、选取等中性用法显示词义经历扩展与抽象。",
+              "sourceIds": [
+                "source-take-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "take-source-node",
+              "label": "早期语境",
+              "detail": "早期语境提供词义史的起点之一。"
+            },
+            {
+              "id": "take-relation-node",
+              "label": "关系层",
+              "detail": "“取”的词义经历扩展、抽象与中性化，现代用法不能被早期语境完全覆盖。"
+            },
+            {
+              "id": "take-limit-node",
+              "label": "后世扩展",
+              "detail": "取得、选取等中性用法显示词义经历扩展与抽象。"
+            }
+          ],
+          "edges": [
+            {
+              "id": "take-supported-edge",
+              "from": "take-source-node",
+              "to": "take-relation-node",
+              "label": "材料支持",
+              "strength": "supported",
+              "sourceIds": [
+                "source-take-moe-variants"
+              ]
+            },
+            {
+              "id": "take-blocked-edge",
+              "from": "take-relation-node",
+              "to": "take-limit-node",
+              "label": "不可直接跨越",
+              "strength": "blocked",
+              "sourceIds": [
+                "source-take-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-take-moral-fallacy",
@@ -8948,7 +9608,50 @@
         "sourceIds": [
           "source-take-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "myth-verdict",
+          "thumbnailLabel": "取·道德倒推批注",
+          "palette": "cinnabar",
+          "completionPrompt": "“道德倒推批注”两处观察已核，可以归档。",
+          "fallbackSummary": "把构形历史直接变成现代词语的道德属性，是跨层推断。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "take-moral-fallacy-focus-a",
+              "title": "历史材料",
+              "body": "构形和制度材料可以说明历史语境。",
+              "sourceIds": [
+                "source-take-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "take-moral-fallacy-focus-b",
+              "title": "道德倒推",
+              "body": "把它直接变成现代每次用词的道德属性属于跨层推断。",
+              "sourceIds": [
+                "source-take-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "claim": "取含手耳，所以现代每个“取”都带着残酷道德。",
+          "supports": [
+            "构形和制度材料可以说明历史语境。"
+          ],
+          "limits": [
+            "把它直接变成现代每次用词的道德属性属于跨层推断。"
+          ],
+          "disputes": [
+            "把构形历史直接变成现代词语的道德属性，是跨层推断。"
+          ]
+        }
       },
       {
         "id": "evidence-pick-form",
@@ -8961,7 +9664,66 @@
           "source-pick-zhu",
           "source-pick-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "glyph-timeline",
+          "thumbnailLabel": "采·采字构件卷",
+          "palette": "jade",
+          "completionPrompt": "“采字构件卷”两处观察已核，可以归档。",
+          "fallbackSummary": "传统分析以爪、木关系解释取物之意。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "pick-form-focus-a",
+              "title": "爪形关系",
+              "body": "传统分析关注手形与木上之物的关系。",
+              "sourceIds": [
+                "source-pick-zhu",
+                "source-pick-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "pick-form-focus-b",
+              "title": "木上取物",
+              "body": "结构图只呈关系，不冒充未经核验的古文字摹本。",
+              "sourceIds": [
+                "source-pick-zhu",
+                "source-pick-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "stages": [
+            {
+              "id": "pick-structure-stage",
+              "label": "爪形关系",
+              "period": "材料层一",
+              "materialKind": "structure-diagram",
+              "certainty": "传统分析关注手形与木上之物的关系。",
+              "sourceIds": [
+                "source-pick-zhu",
+                "source-pick-moe-variants"
+              ]
+            },
+            {
+              "id": "pick-comparison-stage",
+              "label": "木上取物",
+              "period": "材料层二",
+              "materialKind": "structure-diagram",
+              "certainty": "结构图只呈关系，不冒充未经核验的古文字摹本。",
+              "sourceIds": [
+                "source-pick-zhu",
+                "source-pick-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-pick-bian-distinction",
@@ -8974,7 +9736,66 @@
           "source-pick-bian",
           "source-pick-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "lexicon-scroll",
+          "thumbnailLabel": "采·釆采分字札",
+          "palette": "jade",
+          "completionPrompt": "“釆采分字札”两处观察已核，可以归档。",
+          "fallbackSummary": "釆与采不能因显示相近便混作同一字头。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "pick-bian-distinction-focus-a",
+              "title": "釆字头",
+              "body": "釆与采在字书中有各自的字头定位。",
+              "sourceIds": [
+                "source-pick-bian",
+                "source-pick-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "pick-bian-distinction-focus-b",
+              "title": "采字头",
+              "body": "显示相近不等于历史上始终是同一个字。",
+              "sourceIds": [
+                "source-pick-bian",
+                "source-pick-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "entries": [
+            {
+              "id": "pick-record-entry",
+              "heading": "釆字头",
+              "originalText": "材料定位：釆与采不能因显示相近便混作同一字头。",
+              "interpretation": "釆与采在字书中有各自的字头定位。",
+              "highlight": "釆字头",
+              "sourceIds": [
+                "source-pick-bian",
+                "source-pick-moe-variants"
+              ]
+            },
+            {
+              "id": "pick-boundary-entry",
+              "heading": "采字头",
+              "originalText": "产品释文与原始材料分层呈现。",
+              "interpretation": "显示相近不等于历史上始终是同一个字。",
+              "highlight": "采字头",
+              "sourceIds": [
+                "source-pick-bian",
+                "source-pick-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-pick-extensions",
@@ -8987,7 +9808,83 @@
           "source-pick-moe-variants",
           "source-pick-zhu"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "semantic-map",
+          "thumbnailLabel": "采·采彩义变谱",
+          "palette": "jade",
+          "completionPrompt": "“采彩义变谱”两处观察已核，可以归档。",
+          "fallbackSummary": "采取、文采、色彩等义项需要分期说明，不能编成单线故事。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "pick-extensions-focus-a",
+              "title": "采取义群",
+              "body": "采取相关义项保留了取物关系。",
+              "sourceIds": [
+                "source-pick-moe-variants",
+                "source-pick-zhu"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "pick-extensions-focus-b",
+              "title": "文采色彩",
+              "body": "文采、色彩等关系需要分期，不能压成一次造字。",
+              "sourceIds": [
+                "source-pick-moe-variants",
+                "source-pick-zhu"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "pick-source-node",
+              "label": "采取义群",
+              "detail": "采取相关义项保留了取物关系。"
+            },
+            {
+              "id": "pick-relation-node",
+              "label": "关系层",
+              "detail": "采取、文采、色彩等义项需要分期说明，不能编成单线故事。"
+            },
+            {
+              "id": "pick-limit-node",
+              "label": "文采色彩",
+              "detail": "文采、色彩等关系需要分期，不能压成一次造字。"
+            }
+          ],
+          "edges": [
+            {
+              "id": "pick-supported-edge",
+              "from": "pick-source-node",
+              "to": "pick-relation-node",
+              "label": "材料支持",
+              "strength": "supported",
+              "sourceIds": [
+                "source-pick-moe-variants",
+                "source-pick-zhu"
+              ]
+            },
+            {
+              "id": "pick-blocked-edge",
+              "from": "pick-relation-node",
+              "to": "pick-limit-node",
+              "label": "不可直接跨越",
+              "strength": "blocked",
+              "sourceIds": [
+                "source-pick-moe-variants",
+                "source-pick-zhu"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-pick-leaf-story",
@@ -8999,7 +9896,50 @@
         "sourceIds": [
           "source-pick-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "myth-verdict",
+          "thumbnailLabel": "采·彩叶故事批注",
+          "palette": "jade",
+          "completionPrompt": "“彩叶故事批注”两处观察已核，可以归档。",
+          "fallbackSummary": "“摘彩叶所以有色彩”缺乏可直接支持的早期证据。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "pick-leaf-story-focus-a",
+              "title": "故事拼接",
+              "body": "彩叶故事把采、釆、彩拼成一幅顺口画面。",
+              "sourceIds": [
+                "source-pick-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "pick-leaf-story-focus-b",
+              "title": "直接证据",
+              "body": "现有早期材料不足以直接支持“摘彩叶所以有色彩”。",
+              "sourceIds": [
+                "source-pick-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "claim": "古人摘下彩叶，于是造出了表示色彩的字。",
+          "supports": [
+            "彩叶故事把采、釆、彩拼成一幅顺口画面。"
+          ],
+          "limits": [
+            "现有早期材料不足以直接支持“摘彩叶所以有色彩”。"
+          ],
+          "disputes": [
+            "“摘彩叶所以有色彩”缺乏可直接支持的早期证据。"
+          ]
+        }
       },
       {
         "id": "evidence-watch-form",
@@ -9012,7 +9952,66 @@
           "source-watch-shuowen",
           "source-watch-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "glyph-timeline",
+          "thumbnailLabel": "监·監字形卷",
+          "palette": "ink",
+          "completionPrompt": "“監字形卷”两处观察已核，可以归档。",
+          "fallbackSummary": "早期字形含人目与器皿相关构件意象。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "watch-form-focus-a",
+              "title": "人目线索",
+              "body": "结构材料包含人与目视相关线索。",
+              "sourceIds": [
+                "source-watch-shuowen",
+                "source-watch-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "watch-form-focus-b",
+              "title": "器皿线索",
+              "body": "器皿意象需要放回分期材料，不能直接等同现代镜子。",
+              "sourceIds": [
+                "source-watch-shuowen",
+                "source-watch-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "stages": [
+            {
+              "id": "watch-structure-stage",
+              "label": "人目线索",
+              "period": "材料层一",
+              "materialKind": "structure-diagram",
+              "certainty": "结构材料包含人与目视相关线索。",
+              "sourceIds": [
+                "source-watch-shuowen",
+                "source-watch-moe-variants"
+              ]
+            },
+            {
+              "id": "watch-comparison-stage",
+              "label": "器皿线索",
+              "period": "材料层二",
+              "materialKind": "structure-diagram",
+              "certainty": "器皿意象需要放回分期材料，不能直接等同现代镜子。",
+              "sourceIds": [
+                "source-watch-shuowen",
+                "source-watch-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-watch-gloss",
@@ -9025,7 +10024,66 @@
           "source-watch-shuowen",
           "source-watch-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "lexicon-scroll",
+          "thumbnailLabel": "监·临下字条",
+          "palette": "ink",
+          "completionPrompt": "“临下字条”两处观察已核，可以归档。",
+          "fallbackSummary": "《说文》传统解释强调“临下”，并非简单等同现代照镜。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "watch-gloss-focus-a",
+              "title": "临下释义",
+              "body": "传统字书强调“監，臨下也”。",
+              "sourceIds": [
+                "source-watch-shuowen",
+                "source-watch-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "watch-gloss-focus-b",
+              "title": "现代镜义",
+              "body": "临下与后来的镜鉴关系有关，但不是“只照镜子”。",
+              "sourceIds": [
+                "source-watch-shuowen",
+                "source-watch-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "entries": [
+            {
+              "id": "watch-record-entry",
+              "heading": "临下释义",
+              "originalText": "材料定位：《说文》传统解释强调“临下”，并非简单等同现代照镜。",
+              "interpretation": "传统字书强调“監，臨下也”。",
+              "highlight": "临下释义",
+              "sourceIds": [
+                "source-watch-shuowen",
+                "source-watch-moe-variants"
+              ]
+            },
+            {
+              "id": "watch-boundary-entry",
+              "heading": "现代镜义",
+              "originalText": "产品释文与原始材料分层呈现。",
+              "interpretation": "临下与后来的镜鉴关系有关，但不是“只照镜子”。",
+              "highlight": "现代镜义",
+              "sourceIds": [
+                "source-watch-shuowen",
+                "source-watch-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-watch-mirror-relation",
@@ -9037,7 +10095,79 @@
         "sourceIds": [
           "source-watch-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "semantic-map",
+          "thumbnailLabel": "监·监鉴关系札",
+          "palette": "ink",
+          "completionPrompt": "“监鉴关系札”两处观察已核，可以归档。",
+          "fallbackSummary": "监与鉴存在历史关系，但不能因此粗暴合一。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "watch-mirror-relation-focus-a",
+              "title": "监的义层",
+              "body": "监与观察、临视等义层相关。",
+              "sourceIds": [
+                "source-watch-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "watch-mirror-relation-focus-b",
+              "title": "鉴的字族",
+              "body": "鉴的器物义与字族发展不能被粗暴合并到同一时点。",
+              "sourceIds": [
+                "source-watch-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "watch-source-node",
+              "label": "监的义层",
+              "detail": "监与观察、临视等义层相关。"
+            },
+            {
+              "id": "watch-relation-node",
+              "label": "关系层",
+              "detail": "监与鉴存在历史关系，但不能因此粗暴合一。"
+            },
+            {
+              "id": "watch-limit-node",
+              "label": "鉴的字族",
+              "detail": "鉴的器物义与字族发展不能被粗暴合并到同一时点。"
+            }
+          ],
+          "edges": [
+            {
+              "id": "watch-supported-edge",
+              "from": "watch-source-node",
+              "to": "watch-relation-node",
+              "label": "材料支持",
+              "strength": "supported",
+              "sourceIds": [
+                "source-watch-moe-variants"
+              ]
+            },
+            {
+              "id": "watch-blocked-edge",
+              "from": "watch-relation-node",
+              "to": "watch-limit-node",
+              "label": "不可直接跨越",
+              "strength": "blocked",
+              "sourceIds": [
+                "source-watch-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-watch-modern-story",
@@ -9049,7 +10179,50 @@
         "sourceIds": [
           "source-watch-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "myth-verdict",
+          "thumbnailLabel": "监·照镜单线批注",
+          "palette": "ink",
+          "completionPrompt": "“照镜单线批注”两处观察已核，可以归档。",
+          "fallbackSummary": "把全部意义缩成“只是照镜子”遗漏了观察、临视等关系。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "watch-modern-story-focus-a",
+              "title": "照镜画面",
+              "body": "照镜画面能帮助理解部分器皿与俯视关系。",
+              "sourceIds": [
+                "source-watch-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "watch-modern-story-focus-b",
+              "title": "遗漏关系",
+              "body": "它遗漏了观察、临视以及监鉴分化的历史层次。",
+              "sourceIds": [
+                "source-watch-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "claim": "監最初只是低头照镜，监和鉴从一开始就是同一个写法。",
+          "supports": [
+            "照镜画面能帮助理解部分器皿与俯视关系。"
+          ],
+          "limits": [
+            "它遗漏了观察、临视以及监鉴分化的历史层次。"
+          ],
+          "disputes": [
+            "把全部意义缩成“只是照镜子”遗漏了观察、临视等关系。"
+          ]
+        }
       },
       {
         "id": "evidence-martial-form",
@@ -9063,7 +10236,70 @@
           "source-martial-moe-variants",
           "source-martial-csb-word-power"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "glyph-timeline",
+          "thumbnailLabel": "武·武字早形卷",
+          "palette": "cinnabar",
+          "completionPrompt": "“武字早形卷”两处观察已核，可以归档。",
+          "fallbackSummary": "早期“武”不能只按现代“停止”义拆解。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "martial-form-focus-a",
+              "title": "止的早形",
+              "body": "止的早期材料与足、行进相关。",
+              "sourceIds": [
+                "source-martial-shuowen",
+                "source-martial-moe-variants",
+                "source-martial-csb-word-power"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "martial-form-focus-b",
+              "title": "戈的关系",
+              "body": "止与戈的组合不能只用现代“停止”义拆解。",
+              "sourceIds": [
+                "source-martial-shuowen",
+                "source-martial-moe-variants",
+                "source-martial-csb-word-power"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "stages": [
+            {
+              "id": "martial-structure-stage",
+              "label": "止的早形",
+              "period": "材料层一",
+              "materialKind": "structure-diagram",
+              "certainty": "止的早期材料与足、行进相关。",
+              "sourceIds": [
+                "source-martial-shuowen",
+                "source-martial-moe-variants",
+                "source-martial-csb-word-power"
+              ]
+            },
+            {
+              "id": "martial-comparison-stage",
+              "label": "戈的关系",
+              "period": "材料层二",
+              "materialKind": "structure-diagram",
+              "certainty": "止与戈的组合不能只用现代“停止”义拆解。",
+              "sourceIds": [
+                "source-martial-shuowen",
+                "source-martial-moe-variants",
+                "source-martial-csb-word-power"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-martial-shuowen",
@@ -9076,7 +10312,66 @@
           "source-martial-shuowen",
           "source-martial-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "lexicon-scroll",
+          "thumbnailLabel": "武·止戈传统条",
+          "palette": "cinnabar",
+          "completionPrompt": "“止戈传统条”两处观察已核，可以归档。",
+          "fallbackSummary": "“止戈为武”有历史来源，是重要传统解释。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "martial-shuowen-focus-a",
+              "title": "止戈出处",
+              "body": "“止戈为武”具有历史出处与思想价值。",
+              "sourceIds": [
+                "source-martial-shuowen",
+                "source-martial-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "martial-shuowen-focus-b",
+              "title": "解释层级",
+              "body": "传统价值解释与最初构形证明属于不同证据层。",
+              "sourceIds": [
+                "source-martial-shuowen",
+                "source-martial-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "entries": [
+            {
+              "id": "martial-record-entry",
+              "heading": "止戈出处",
+              "originalText": "材料定位：“止戈为武”有历史来源，是重要传统解释。",
+              "interpretation": "“止戈为武”具有历史出处与思想价值。",
+              "highlight": "止戈出处",
+              "sourceIds": [
+                "source-martial-shuowen",
+                "source-martial-moe-variants"
+              ]
+            },
+            {
+              "id": "martial-boundary-entry",
+              "heading": "解释层级",
+              "originalText": "产品释文与原始材料分层呈现。",
+              "interpretation": "传统价值解释与最初构形证明属于不同证据层。",
+              "highlight": "解释层级",
+              "sourceIds": [
+                "source-martial-shuowen",
+                "source-martial-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-martial-foot",
@@ -9089,7 +10384,83 @@
           "source-martial-moe-variants",
           "source-martial-csb-word-power"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "semantic-map",
+          "thumbnailLabel": "武·止足关系札",
+          "palette": "cinnabar",
+          "completionPrompt": "“止足关系札”两处观察已核，可以归档。",
+          "fallbackSummary": "止的早期字形与足、行进相关，现代词义不能直接倒推。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "martial-foot-focus-a",
+              "title": "足形来源",
+              "body": "早期止形与足部意象相关。",
+              "sourceIds": [
+                "source-martial-moe-variants",
+                "source-martial-csb-word-power"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "martial-foot-focus-b",
+              "title": "行进义线",
+              "body": "从足与行进到现代停止义，需要承认语义发展的阶段。",
+              "sourceIds": [
+                "source-martial-moe-variants",
+                "source-martial-csb-word-power"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "martial-source-node",
+              "label": "足形来源",
+              "detail": "早期止形与足部意象相关。"
+            },
+            {
+              "id": "martial-relation-node",
+              "label": "关系层",
+              "detail": "止的早期字形与足、行进相关，现代词义不能直接倒推。"
+            },
+            {
+              "id": "martial-limit-node",
+              "label": "行进义线",
+              "detail": "从足与行进到现代停止义，需要承认语义发展的阶段。"
+            }
+          ],
+          "edges": [
+            {
+              "id": "martial-supported-edge",
+              "from": "martial-source-node",
+              "to": "martial-relation-node",
+              "label": "材料支持",
+              "strength": "supported",
+              "sourceIds": [
+                "source-martial-moe-variants",
+                "source-martial-csb-word-power"
+              ]
+            },
+            {
+              "id": "martial-blocked-edge",
+              "from": "martial-relation-node",
+              "to": "martial-limit-node",
+              "label": "不可直接跨越",
+              "strength": "blocked",
+              "sourceIds": [
+                "source-martial-moe-variants",
+                "source-martial-csb-word-power"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-martial-value-origin",
@@ -9101,7 +10472,50 @@
         "sourceIds": [
           "source-martial-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "myth-verdict",
+          "thumbnailLabel": "武·价值与字源批注",
+          "palette": "cinnabar",
+          "completionPrompt": "“价值与字源批注”两处观察已核，可以归档。",
+          "fallbackSummary": "思想价值阐释与排他的最初构形证明不是同一层问题。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "martial-value-origin-focus-a",
+              "title": "价值阐释",
+              "body": "止戈说可以表达重要的政治与伦理理想。",
+              "sourceIds": [
+                "source-martial-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "martial-value-origin-focus-b",
+              "title": "排他起源",
+              "body": "有价值不等于它已经排他证明了最初构形。",
+              "sourceIds": [
+                "source-martial-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "claim": "止就是停止，所以武从造字起便只表示停止战争。",
+          "supports": [
+            "止戈说可以表达重要的政治与伦理理想。"
+          ],
+          "limits": [
+            "有价值不等于它已经排他证明了最初构形。"
+          ],
+          "disputes": [
+            "思想价值阐释与排他的最初构形证明不是同一层问题。"
+          ]
+        }
       },
       {
         "id": "evidence-law-old-form",
@@ -9114,7 +10528,66 @@
           "source-law-ctext",
           "source-law-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "glyph-timeline",
+          "thumbnailLabel": "法·灋字旧形卷",
+          "palette": "ink",
+          "completionPrompt": "“灋字旧形卷”两处观察已核，可以归档。",
+          "fallbackSummary": "《说文》保存“灋”的传统字形材料，并记“法，今文省”；通行省形不能反证廌从未存在。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "law-old-form-focus-a",
+              "title": "灋的旧形",
+              "body": "传统材料保存水、廌、去等旧形层次。",
+              "sourceIds": [
+                "source-law-ctext",
+                "source-law-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "law-old-form-focus-b",
+              "title": "法的省形",
+              "body": "“法，今文省”说明省形存在，不能反证廌从未出现。",
+              "sourceIds": [
+                "source-law-ctext",
+                "source-law-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "stages": [
+            {
+              "id": "law-structure-stage",
+              "label": "灋的旧形",
+              "period": "材料层一",
+              "materialKind": "structure-diagram",
+              "certainty": "传统材料保存水、廌、去等旧形层次。",
+              "sourceIds": [
+                "source-law-ctext",
+                "source-law-moe-variants"
+              ]
+            },
+            {
+              "id": "law-comparison-stage",
+              "label": "法的省形",
+              "period": "材料层二",
+              "materialKind": "structure-diagram",
+              "certainty": "“法，今文省”说明省形存在，不能反证廌从未出现。",
+              "sourceIds": [
+                "source-law-ctext",
+                "source-law-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-law-shuowen",
@@ -9127,7 +10600,66 @@
           "source-law-ctext",
           "source-law-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "lexicon-scroll",
+          "thumbnailLabel": "法·灋字传统条",
+          "palette": "ink",
+          "completionPrompt": "“灋字传统条”两处观察已核，可以归档。",
+          "fallbackSummary": "传统字书明确同时解释水、廌与去；“平之如水”等说法有出处，却不等于今形两部就是完整古形。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "law-shuowen-focus-a",
+              "title": "传统字条",
+              "body": "字书传统同时谈到水、廌与去。",
+              "sourceIds": [
+                "source-law-ctext",
+                "source-law-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "law-shuowen-focus-b",
+              "title": "三层构件",
+              "body": "只截取“平之如水”会漏掉同一材料里的其他构件。",
+              "sourceIds": [
+                "source-law-ctext",
+                "source-law-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "entries": [
+            {
+              "id": "law-record-entry",
+              "heading": "传统字条",
+              "originalText": "材料定位：传统字书明确同时解释水、廌与去；“平之如水”等说法有出处，却不等于今形两部就是完整古形。",
+              "interpretation": "字书传统同时谈到水、廌与去。",
+              "highlight": "传统字条",
+              "sourceIds": [
+                "source-law-ctext",
+                "source-law-moe-variants"
+              ]
+            },
+            {
+              "id": "law-boundary-entry",
+              "heading": "三层构件",
+              "originalText": "产品释文与原始材料分层呈现。",
+              "interpretation": "只截取“平之如水”会漏掉同一材料里的其他构件。",
+              "highlight": "三层构件",
+              "sourceIds": [
+                "source-law-ctext",
+                "source-law-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-law-simplification",
@@ -9139,7 +10671,79 @@
         "sourceIds": [
           "source-law-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "semantic-map",
+          "thumbnailLabel": "法·简化时序札",
+          "palette": "ink",
+          "completionPrompt": "“简化时序札”两处观察已核，可以归档。",
+          "fallbackSummary": "“法”作为省形古已有之；从省形看不见廌，不能据此颠倒灋与法的材料顺序。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "law-simplification-focus-a",
+              "title": "旧形在前",
+              "body": "灋与法的材料关系需要按时序观察。",
+              "sourceIds": [
+                "source-law-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "law-simplification-focus-b",
+              "title": "省形并行",
+              "body": "通行省形看不见廌，不能据此颠倒材料先后。",
+              "sourceIds": [
+                "source-law-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "law-source-node",
+              "label": "旧形在前",
+              "detail": "灋与法的材料关系需要按时序观察。"
+            },
+            {
+              "id": "law-relation-node",
+              "label": "关系层",
+              "detail": "“法”作为省形古已有之；从省形看不见廌，不能据此颠倒灋与法的材料顺序。"
+            },
+            {
+              "id": "law-limit-node",
+              "label": "省形并行",
+              "detail": "通行省形看不见廌，不能据此颠倒材料先后。"
+            }
+          ],
+          "edges": [
+            {
+              "id": "law-supported-edge",
+              "from": "law-source-node",
+              "to": "law-relation-node",
+              "label": "材料支持",
+              "strength": "supported",
+              "sourceIds": [
+                "source-law-moe-variants"
+              ]
+            },
+            {
+              "id": "law-blocked-edge",
+              "from": "law-relation-node",
+              "to": "law-limit-node",
+              "label": "不可直接跨越",
+              "strength": "blocked",
+              "sourceIds": [
+                "source-law-moe-variants"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-law-water-fairness",
@@ -9151,7 +10755,50 @@
         "sourceIds": [
           "source-law-moe-variants"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "myth-verdict",
+          "thumbnailLabel": "法·流水公平批注",
+          "palette": "ink",
+          "completionPrompt": "“流水公平批注”两处观察已核，可以归档。",
+          "fallbackSummary": "“水去讲完全部字源、廌为后添”只截取传统解释的一部分，并与旧形材料相冲突。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "law-water-fairness-focus-a",
+              "title": "流水公平",
+              "body": "水与公平的传统解释确有材料出处。",
+              "sourceIds": [
+                "source-law-moe-variants"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "law-water-fairness-focus-b",
+              "title": "廌的缺席",
+              "body": "说廌是后添会与旧形材料冲突，不能由今形直接推出。",
+              "sourceIds": [
+                "source-law-moe-variants"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "claim": "水和去已经讲完法的全部字源，廌只是后来添加。",
+          "supports": [
+            "水与公平的传统解释确有材料出处。"
+          ],
+          "limits": [
+            "说廌是后添会与旧形材料冲突，不能由今形直接推出。"
+          ],
+          "disputes": [
+            "“水去讲完全部字源、廌为后添”只截取传统解释的一部分，并与旧形材料相冲突。"
+          ]
+        }
       },
       {
         "id": "evidence-autumn-variants",
@@ -9165,7 +10812,70 @@
           "source-autumn-moe-variants",
           "source-autumn-ntu"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "glyph-timeline",
+          "thumbnailLabel": "秋·秋字异体卷",
+          "palette": "bronze",
+          "completionPrompt": "“秋字异体卷”两处观察已核，可以归档。",
+          "fallbackSummary": "秋字存在多阶段、多异体材料；单张虫形、火形或禾火结构不能代表全部发展。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "autumn-variants-focus-a",
+              "title": "多形并存",
+              "body": "秋字材料并非只有一种固定早形。",
+              "sourceIds": [
+                "source-autumn-xiaoxue",
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "autumn-variants-focus-b",
+              "title": "阶段差异",
+              "body": "虫形、火形与禾火结构应分阶段比较，不宜挑一张代表全部。",
+              "sourceIds": [
+                "source-autumn-xiaoxue",
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "stages": [
+            {
+              "id": "autumn-structure-stage",
+              "label": "多形并存",
+              "period": "材料层一",
+              "materialKind": "structure-diagram",
+              "certainty": "秋字材料并非只有一种固定早形。",
+              "sourceIds": [
+                "source-autumn-xiaoxue",
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ]
+            },
+            {
+              "id": "autumn-comparison-stage",
+              "label": "阶段差异",
+              "period": "材料层二",
+              "materialKind": "structure-diagram",
+              "certainty": "虫形、火形与禾火结构应分阶段比较，不宜挑一张代表全部。",
+              "sourceIds": [
+                "source-autumn-xiaoxue",
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-autumn-insect-fire",
@@ -9179,7 +10889,70 @@
           "source-autumn-moe-variants",
           "source-autumn-ntu"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "lexicon-scroll",
+          "thumbnailLabel": "秋·虫火材料札",
+          "palette": "bronze",
+          "completionPrompt": "“虫火材料札”两处观察已核，可以归档。",
+          "fallbackSummary": "部分早期材料可见虫形或火形，但虫的具体身份、火所表达的行为及两者关系仍需核验。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "autumn-insect-fire-focus-a",
+              "title": "虫形材料",
+              "body": "部分早期材料可见虫形或火形线索。",
+              "sourceIds": [
+                "source-autumn-xiaoxue",
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "autumn-insect-fire-focus-b",
+              "title": "火形材料",
+              "body": "虫的身份、火的行为及二者关系仍存在解释空间。",
+              "sourceIds": [
+                "source-autumn-xiaoxue",
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "entries": [
+            {
+              "id": "autumn-record-entry",
+              "heading": "虫形材料",
+              "originalText": "材料定位：部分早期材料可见虫形或火形，但虫的具体身份、火所表达的行为及两者关系仍需核验。",
+              "interpretation": "部分早期材料可见虫形或火形线索。",
+              "highlight": "虫形材料",
+              "sourceIds": [
+                "source-autumn-xiaoxue",
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ]
+            },
+            {
+              "id": "autumn-boundary-entry",
+              "heading": "火形材料",
+              "originalText": "产品释文与原始材料分层呈现。",
+              "interpretation": "虫的身份、火的行为及二者关系仍存在解释空间。",
+              "highlight": "火形材料",
+              "sourceIds": [
+                "source-autumn-xiaoxue",
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-autumn-modern-form",
@@ -9192,7 +10965,83 @@
           "source-autumn-moe-variants",
           "source-autumn-ntu"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "semantic-map",
+          "thumbnailLabel": "秋·现代禾火批注",
+          "palette": "bronze",
+          "completionPrompt": "“现代禾火批注”两处观察已核，可以归档。",
+          "fallbackSummary": "现代禾火结构不能单独证明“焚田”或“以火除虫”是唯一原初故事。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "autumn-modern-form-focus-a",
+              "title": "现代禾火",
+              "body": "现代结构可帮助识别当前字形。",
+              "sourceIds": [
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "autumn-modern-form-focus-b",
+              "title": "原初故事",
+              "body": "它不能单独证明焚田或以火除虫是唯一原初故事。",
+              "sourceIds": [
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "nodes": [
+            {
+              "id": "autumn-source-node",
+              "label": "现代禾火",
+              "detail": "现代结构可帮助识别当前字形。"
+            },
+            {
+              "id": "autumn-relation-node",
+              "label": "关系层",
+              "detail": "现代禾火结构不能单独证明“焚田”或“以火除虫”是唯一原初故事。"
+            },
+            {
+              "id": "autumn-limit-node",
+              "label": "原初故事",
+              "detail": "它不能单独证明焚田或以火除虫是唯一原初故事。"
+            }
+          ],
+          "edges": [
+            {
+              "id": "autumn-supported-edge",
+              "from": "autumn-source-node",
+              "to": "autumn-relation-node",
+              "label": "材料支持",
+              "strength": "supported",
+              "sourceIds": [
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ]
+            },
+            {
+              "id": "autumn-blocked-edge",
+              "from": "autumn-relation-node",
+              "to": "autumn-limit-node",
+              "label": "不可直接跨越",
+              "strength": "blocked",
+              "sourceIds": [
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ]
+            }
+          ]
+        }
       },
       {
         "id": "evidence-autumn-debate",
@@ -9205,7 +11054,52 @@
           "source-autumn-moe-variants",
           "source-autumn-ntu"
         ],
-        "contentVersion": "2.0.0"
+        "contentVersion": "2.0.0",
+        "visualSpec": {
+          "template": "myth-verdict",
+          "thumbnailLabel": "秋·争议范围簿",
+          "palette": "bronze",
+          "completionPrompt": "“争议范围簿”两处观察已核，可以归档。",
+          "fallbackSummary": "两项假说均有支持点与解释缺口；保留竞争解释比挑选单图排他定案更符合当前证据。 图形不可用时，以这条证据边界继续核验。",
+          "observationPoints": [
+            {
+              "id": "autumn-debate-focus-a",
+              "title": "假说支持点",
+              "body": "不同假说各自能解释部分材料。",
+              "sourceIds": [
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ],
+              "anchor": {
+                "x": 30,
+                "y": 40
+              }
+            },
+            {
+              "id": "autumn-debate-focus-b",
+              "title": "解释缺口",
+              "body": "保留竞争解释比用单图排他定案更符合当前证据。",
+              "sourceIds": [
+                "source-autumn-moe-variants",
+                "source-autumn-ntu"
+              ],
+              "anchor": {
+                "x": 70,
+                "y": 62
+              }
+            }
+          ],
+          "claim": "找到一张虫火或禾火图，就能排他判定秋的唯一来源。",
+          "supports": [
+            "不同假说各自能解释部分材料。"
+          ],
+          "limits": [
+            "保留竞争解释比用单图排他定案更符合当前证据。"
+          ],
+          "disputes": [
+            "两项假说均有支持点与解释缺口；保留竞争解释比挑选单图排他定案更符合当前证据。"
+          ]
+        }
       }
     ],
     "endings": [

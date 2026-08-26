@@ -33,4 +33,11 @@
 
 ## 生成记录
 
-正式生成后逐图记录输出路径、最终提示词、WebP 哈希、大小与人木轮廓结论。
+| 资源 | image_gen 原图 | WebP SHA-256 | 字节 | 核验结论 |
+|---|---|---|---:|---|
+| `components` | `exec-8691673e-4403-45e1-9357-be583a2be1e6.png` | `cc10fc2a3b3d99e4294030bec0d9c698e8db952b652ebeeed0cbdffb39c266ca` | 154506 | 三期人木轮廓分置于竹、纸、帛，未合并改笔。 |
+| `gloss` | `exec-bac4f887-e642-47ff-8718-3394b65d8a27.png` | `d57cbeebf1d092ca269687bfe1d429ca0afe5e11a59fffbf41cc7a9bdddda0f9` | 64076 | 树皮卷、帛卷与压条均无可读正文。 |
+| `method-limit` | `exec-90cedd7e-c9ef-4bcc-a4f4-5eae9d8cf739.png` | `87bf9f4e92293f05ac52771565615bfbd0fd14736422887d05a758f8d8ce87ef` | 142966 | 实物签筹关系在空白结论签前断开；无文字流程图。 |
+| `modern-shape` | `exec-f76f6192-d1ff-4048-b287-bf229e727da9.png` | `0bd62fe5a9cd46aa4d754b9ed7ed2e61f194b4fa2c13be6afc613e468ac95857` | 94724 | 描纸掀起与朱圈遮蔽关系明确，底拓内容不可辨。 |
+
+四图均由内置 `image_gen` 独立生成，离线转为 1080×720 WebP（quality 78）。

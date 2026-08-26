@@ -3,8 +3,8 @@
   "updatedAt": "2026-08-26",
   "projectId": "02-wuhualu",
   "portal": {
-    "name": "物华录：文物寻踪",
-    "slogan": "循纹识器，点亮物华图鉴",
+    "name": "器华录：文物寻踪",
+    "slogan": "循纹识器翻开沉睡千年文物档案",
     "icon": {
       "path": "release-assets/tool-icon-v1.png",
       "format": "PNG",
@@ -19,6 +19,6 @@
     "release-assets/qa-tool-icon-128.png",
     "release-assets/qa-tool-icon-64.png"
   ],
-  "runtimeBundle": "物华录-文物寻踪-小工具包-20260826.zip",
+  "runtimeBundle": "器华录-文物寻踪-小工具包-20260826.zip",
   "runtimeBundleIncludesPortalAssets": false
 }

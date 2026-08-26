@@ -1,4 +1,4 @@
-# 物华录 · 美术生成与复检台账
+# 器华录 · 美术生成与复检台账
 
 ## 统一规则
 
@@ -121,7 +121,7 @@
 ## artifact-lotus-crane-hu / W2 轻灵轮廓基准 / 2026-08-25
 
 - 参考全部锁定河南博物院藏件：主图核验完整垂直轮廓，顶部近照核验仙鹤真实双足与双层莲瓣，三分之四图核验怪兽双耳、腹部攀附翼龙、圈足和两只底兽；故宫藏同墓另一件只记录“不可混用”，不进入生成输入。
-- `projectStyle`：现代博物暗柜；`pageRole`：高复杂度揭晓、双足莲鹤与双兽承托线索；`interactionMoment`：由“花上有鸟”逐步确认具体器物；`emotionalGoal`：轻灵、昂扬、精巧、可信；`seriesBaseline`：同一物华录暗柜与常驻 AI 性质标签；`avoid`：单足／三足鹤、真鸟、白瓷花瓶、莲花宝座、仙侠祥云、遗漏底兽、混用故宫藏件。
+- `projectStyle`：现代博物暗柜；`pageRole`：高复杂度揭晓、双足莲鹤与双兽承托线索；`interactionMoment`：由“花上有鸟”逐步确认具体器物；`emotionalGoal`：轻灵、昂扬、精巧、可信；`seriesBaseline`：同一器华录暗柜与常驻 AI 性质标签；`avoid`：单足／三足鹤、真鸟、白瓷花瓶、莲花宝座、仙侠祥云、遗漏底兽、混用故宫藏件。
 - V1 使用内置 ImageGen，主体结构条件通过：一只双足鹤、双层莲瓣、椭方壶体、怪兽双耳、腹部附兽与两只底兽成立；一足与后侧底兽的自然遮挡可接受。拒绝其左后方额外模糊青铜器，因为破坏单件暗柜焦点和系列一致性。
 - V2 使用内置 ImageGen 精确编辑，只移除背景干扰物并保持主体不变；单资源通过。研究母版 `research/generated/artifact-lotus-crane-hu/reveal-v2-clean-dark-cabinet.png`，2,202,996 bytes；正式 WebP `public/assets/artifacts/artifact-lotus-crane-hu/reveal-creative-reconstruction-v2.webp`，900×1125，120,150 bytes。
 - 揭晓页在 375／390／430px 通过：完整 `contain`、52px 主按钮、长文可滚到底；双足纠错、河南／故宫区分、两套口部尺寸差异和“不以 AI 图裁决”门禁均可达。
@@ -132,7 +132,7 @@
 ## artifact-zenghouyi-zunpan / W3 复杂工艺基准 / 2026-08-25
 
 - 参考：湖北省博物馆镇馆之宝主图作为唯一直接 ImageGen 输入；2025 工业 CT 数字化项目的标题图、新华社封面和带水印分体视频帧只作人工结构理解，因含大字、标识和水印，全部禁止进入生成。
-- `projectStyle`：现代博物暗柜与窄暖光；`pageRole`：复杂工艺揭晓、上尊下盘与多层镂空线索；`interactionMoment`：先辨两件组合，再读附饰层级；`emotionalGoal`：精密、繁复、可信；`seriesBaseline`：物华录 AI 性质标签与完整器形；`avoid`：单件香炉、奖杯、火锅、盘过小、平面蕾丝、奇幻龙群、数字灰模、新闻标识和伪铭文。
+- `projectStyle`：现代博物暗柜与窄暖光；`pageRole`：复杂工艺揭晓、上尊下盘与多层镂空线索；`interactionMoment`：先辨两件组合，再读附饰层级；`emotionalGoal`：精密、繁复、可信；`seriesBaseline`：器华录 AI 性质标签与完整器形；`avoid`：单件香炉、奖杯、火锅、盘过小、平面蕾丝、奇幻龙群、数字灰模、新闻标识和伪铭文。
 - V1 使用内置 ImageGen，结构条件通过：高尊置于宽盘、尊口和盘口分层、攀附兽与盘周附饰成立；但尊腹出现近似竖向文字的伪字纹，拒绝。
 - V2 使用内置 ImageGen 精确编辑，只把尊腹／颈部文字状符号改为非语言蟠螭和卷曲几何纹；所有组合、动物、镂空、构图和光照锁定。单资源条件通过，仍不宣称逐构件或数字复原。
 - 研究母版 `research/generated/artifact-zenghouyi-zunpan/reveal-v2-nonlinguistic-patterns.png`，2,473,563 bytes；正式 WebP `public/assets/artifacts/artifact-zenghouyi-zunpan/reveal-creative-reconstruction-v2.webp`，900×1125，174,760 bytes。

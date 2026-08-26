@@ -1,4 +1,4 @@
-# 《物华录》V2 黄金切片实施计划
+# 《器华录》V2 黄金切片实施计划
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -542,7 +542,7 @@ Expected: FAIL。
 
 - [ ] **Step 3: 实现任务板与五组图鉴**
 
-锁定卡可聚焦、可打开“资料整理中／尚未完成对应卷宗”的详情，不再 disabled；时期和套组只显示中文；每柜显示“已归档 n / 4”；顶部同时显示“物华录 20 件／本期可探索 9 件”，不得把门禁伪装成内容缺失。许照在首页、任务板、图鉴使用不同有效台词节点。
+锁定卡可聚焦、可打开“资料整理中／尚未完成对应卷宗”的详情，不再 disabled；时期和套组只显示中文；每柜显示“已归档 n / 4”；顶部同时显示“器华录 20 件／本期可探索 9 件”，不得把门禁伪装成内容缺失。许照在首页、任务板、图鉴使用不同有效台词节点。
 
 - [ ] **Step 4: 更新 TODO，仅勾选真实完成项**
 

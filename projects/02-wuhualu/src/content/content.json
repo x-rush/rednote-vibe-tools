@@ -3,7 +3,7 @@
   "contentVersion": "3.1.0-narrative-arc",
   "projectId": "wuhualu",
   "meta": {
-    "title": "物华录：文物寻踪",
+    "title": "器华录：文物寻踪",
     "locale": "zh-CN",
     "updatedAt": "2026-08-26"
   },
@@ -47,7 +47,7 @@
       { "id": "ritual-bronze", "name": "礼乐铸境", "description": "沿青铜器的结构、用途与组合关系理解礼制空间。", "sealLabel": "铸境", "guideCompleteLines": ["四件青铜重器已经归位，形制和用途终于连成了一条线。", "礼乐铸境封签完成，复杂不等于神秘，结构就是证据。", "这一柜收好了；下一柜会让青铜从器用转向声音与交流。"] },
       { "id": "chu-sound", "name": "楚风新声", "description": "从声音、宴飨、兵器与动物形器物观察区域交流。", "sealLabel": "楚声", "guideCompleteLines": ["楚风新声四格归位，声音、铸造与交流被放进了同一柜。", "这一组不只宏大，它留下的文字、声音和结构都可以互证。", "楚声封签完成；别急着走，下一柜的光会落到汉代生活里。"] },
       { "id": "han-light", "name": "汉室长明", "description": "借灯具、葬具、香具与陶俑观察汉代生活的不同侧面。", "sealLabel": "长明", "guideCompleteLines": ["汉室长明四格归位，光、香、身体与表演各自留下证据。", "这组最容易被华丽外观带偏，你已经学会先问用途和结构。", "长明封签完成；接下来看看盛唐器物怎样容纳更远的世界。"] },
-      { "id": "tang-world", "name": "盛唐万象", "description": "从金银器、香具与乐舞俑观察盛唐的工艺和往来。", "sealLabel": "万象", "guideCompleteLines": ["盛唐万象四格归位，材料、机械与乐舞终于彼此照见。", "五组档案的最后一柜已经封签，但物华录仍可以继续细读。", "万象入册完成；回到时间轴，你会看到二十件旧物怎样相连。"] }
+      { "id": "tang-world", "name": "盛唐万象", "description": "从金银器、香具与乐舞俑观察盛唐的工艺和往来。", "sealLabel": "万象", "guideCompleteLines": ["盛唐万象四格归位，材料、机械与乐舞终于彼此照见。", "五组档案的最后一柜已经封签，但器华录仍可以继续细读。", "万象入册完成；回到时间轴，你会看到二十件旧物怎样相连。"] }
     ],
     "categories": [
       { "id": "category-prehistoric-pottery", "name": "史前陶器" },
@@ -66,7 +66,7 @@
         "id": "artifact-eagle-tripod", "name": "鹰形陶鼎", "setId": "first-fire", "timelineOrder": 1, "aliases": [], "period": "新石器时代仰韶文化", "periodGroup": "prehistoric", "categoryIds": ["category-prehistoric-pottery", "category-sculpture"], "material": "陶", "use": "鼎形器皿", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
         "summary": "一件把猛禽雕塑与三足器皿结合在一起的陶器。", "highlight": "两腿和尾部构成三个稳定支点，器口设在背部。", "culturalNote": "它让动物造型与器物功能成为同一个完整结构。",
         "clues": [{ "id": "clue-eagle-tripod-1", "level": 1, "text": "我像一只站立的猛禽，却同时是一件器皿。" }, { "id": "clue-eagle-tripod-2", "level": 2, "text": "两腿和尾部形成三个稳定支点。" }, { "id": "clue-eagle-tripod-3", "level": 3, "text": "器口藏在背部与双翼之间。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "猛禽稳稳落地，也落入你的物华录。", "wrongAnswerExplanation": "容易与鸟形器物混淆；关键是鹰身同时构成三足鼎。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依规划提供的中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-eagle-tripod"], "assetRefs": { "fullAssetId": "asset-full-eagle-tripod", "detailAssetIds": ["asset-detail-eagle-tripod-1"], "fallbackAssetId": "asset-silhouette-eagle-tripod", "thumbnailAssetId": "asset-thumb-eagle-tripod" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "猛禽稳稳落地，也落入你的器华录。", "wrongAnswerExplanation": "容易与鸟形器物混淆；关键是鹰身同时构成三足鼎。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依规划提供的中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-eagle-tripod"], "assetRefs": { "fullAssetId": "asset-full-eagle-tripod", "detailAssetIds": ["asset-detail-eagle-tripod-1"], "fallbackAssetId": "asset-silhouette-eagle-tripod", "thumbnailAssetId": "asset-thumb-eagle-tripod" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "它把一只昂首的鹰和一件能稳稳站立的陶鼎烧成了同一个身体。",
           "story": [
@@ -138,7 +138,7 @@
         "id": "artifact-jiahu-flute", "name": "贾湖骨笛", "setId": "first-fire", "timelineOrder": 3, "aliases": [], "period": "新石器时代贾湖遗址", "periodGroup": "prehistoric", "categoryIds": ["category-music"], "material": "禽鸟骨", "use": "可吹奏乐器", "dimensions": null, "excavation": "贾湖遗址", "museum": "河南博物院",
         "summary": "以禽鸟中空尺骨制成的早期可吹奏乐器。", "highlight": "细长骨管上排列经过计算的音孔。", "culturalNote": "同遗址出土同类器物存在不同时期和孔数，表述避免无条件称世界最早。",
         "clues": [{ "id": "clue-jiahu-flute-1", "level": 1, "text": "我细长中空，原料不是竹。" }, { "id": "clue-jiahu-flute-2", "level": 2, "text": "身上排列着经过计算的音孔。" }, { "id": "clue-jiahu-flute-3", "level": 3, "text": "同遗址出土了一批不同时期、不同孔数的同类器物。" }],
-        "difficulty": "normal", "distractorTags": ["use", "material", "shape", "period"], "unlockCopy": "来自远古的骨管声已收入物华录。", "wrongAnswerExplanation": "细长骨器容易与骨哨、骨针混淆；成列音孔说明它是可吹奏乐器。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "按馆藏页转写，最早类称号保持克制。", "sourceIds": ["source-henan-jiahu-flute"], "assetRefs": { "fullAssetId": "asset-full-jiahu-flute", "detailAssetIds": ["asset-detail-jiahu-flute-1"], "fallbackAssetId": "asset-silhouette-jiahu-flute", "thumbnailAssetId": "asset-thumb-jiahu-flute" }, "contentVersion": "2.0.0",
+        "difficulty": "normal", "distractorTags": ["use", "material", "shape", "period"], "unlockCopy": "来自远古的骨管声已收入器华录。", "wrongAnswerExplanation": "细长骨器容易与骨哨、骨针混淆；成列音孔说明它是可吹奏乐器。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "按馆藏页转写，最早类称号保持克制。", "sourceIds": ["source-henan-jiahu-flute"], "assetRefs": { "fullAssetId": "asset-full-jiahu-flute", "detailAssetIds": ["asset-detail-jiahu-flute-1"], "fallbackAssetId": "asset-silhouette-jiahu-flute", "thumbnailAssetId": "asset-thumb-jiahu-flute" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "一截禽鸟尺骨上的成列音孔，把八千多年前的计算重新变成可以讨论的声音。",
           "story": [
@@ -174,7 +174,7 @@
         "id": "artifact-jade-dragon", "name": "红山玉龙", "setId": "first-fire", "timelineOrder": 4, "aliases": ["C形玉龙"], "period": "红山文化", "periodGroup": "prehistoric", "categoryIds": ["category-jade"], "material": "玉", "use": "玉器，具体用途资料待独立馆藏页核验", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
         "summary": "一件长身卷曲、无足，身体接近 C 形的玉龙。", "highlight": "突出的吻部与飘起长鬣意象形成鲜明侧影。", "culturalNote": "公众常用的称号不等同于学术定论。",
         "clues": [{ "id": "clue-jade-dragon-1", "level": 1, "text": "我的身体弯成接近 C 形。" }, { "id": "clue-jade-dragon-2", "level": 2, "text": "头部有突出的吻和飘起的长鬣意象。" }, { "id": "clue-jade-dragon-3", "level": 3, "text": "我常被公众冠以醒目的第一之称，但这里不会把称号当学术定论。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "material", "period", "category"], "unlockCopy": "卷曲的玉龙轮廓已收入物华录。", "wrongAnswerExplanation": "同类玉器都可能呈环形；长身、无足和扬起的鬣是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写，具体用途仍不作定论。", "sourceIds": ["source-chnmuseum-jade-dragon"], "assetRefs": { "fullAssetId": "asset-full-jade-dragon", "detailAssetIds": ["asset-detail-jade-dragon-1"], "fallbackAssetId": "asset-silhouette-jade-dragon", "thumbnailAssetId": "asset-thumb-jade-dragon" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["shape", "material", "period", "category"], "unlockCopy": "卷曲的玉龙轮廓已收入器华录。", "wrongAnswerExplanation": "同类玉器都可能呈环形；长身、无足和扬起的鬣是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写，具体用途仍不作定论。", "sourceIds": ["source-chnmuseum-jade-dragon"], "assetRefs": { "fullAssetId": "asset-full-jade-dragon", "detailAssetIds": ["asset-detail-jade-dragon-1"], "fallbackAssetId": "asset-silhouette-jade-dragon", "thumbnailAssetId": "asset-thumb-jade-dragon" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "一整块墨绿色玉料被琢成卷曲若钩的身体，却把真正用途留在了问题里。",
           "story": [
@@ -210,7 +210,7 @@
         "id": "artifact-houmuwu-ding", "name": "后母戊青铜方鼎", "setId": "ritual-bronze", "timelineOrder": 5, "aliases": ["司母戊鼎"], "period": "商王武丁时期", "periodGroup": "shang-zhou", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "青铜礼器", "dimensions": "重量 832.84 千克", "excavation": null, "museum": "中国国家博物馆",
         "summary": "长方深腹、两耳四柱足的大型青铜方鼎。", "highlight": "腹内壁铸有后母戊三字铭文，重量达 832.84 千克。", "culturalNote": "现行馆名使用后母戊，曾长期被称为司母戊鼎。",
         "clues": [{ "id": "clue-houmuwu-ding-1", "level": 1, "text": "我有两耳、长方深腹和四柱足。" }, { "id": "clue-houmuwu-ding-2", "level": 2, "text": "我重 832.84 千克。" }, { "id": "clue-houmuwu-ding-3", "level": 3, "text": "腹内壁铸有三个与现行馆名相同的字。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四足重器已经稳稳收入物华录。", "wrongAnswerExplanation": "同为青铜礼器时要看长方深腹、四柱足以及腹内三字铭文。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-houmuwu"], "assetRefs": { "fullAssetId": "asset-full-houmuwu-ding", "detailAssetIds": ["asset-detail-houmuwu-ding-1"], "fallbackAssetId": "asset-silhouette-houmuwu-ding", "thumbnailAssetId": "asset-thumb-houmuwu-ding" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四足重器已经稳稳收入器华录。", "wrongAnswerExplanation": "同为青铜礼器时要看长方深腹、四柱足以及腹内三字铭文。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆独立馆藏页转写。", "sourceIds": ["source-chnmuseum-houmuwu"], "assetRefs": { "fullAssetId": "asset-full-houmuwu-ding", "detailAssetIds": ["asset-detail-houmuwu-ding-1"], "fallbackAssetId": "asset-silhouette-houmuwu-ding", "thumbnailAssetId": "asset-thumb-houmuwu-ding" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "八百三十二点八四千克的重量背后，是一套必须严密协同的商代大型铸造工程。",
           "story": [
@@ -246,7 +246,7 @@
         "id": "artifact-four-ram-zun", "name": "四羊方尊", "setId": "ritual-bronze", "timelineOrder": 6, "aliases": [], "period": "商代后期", "periodGroup": "shang-zhou", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "盛酒礼器尊", "dimensions": null, "excavation": null, "museum": "中国国家博物馆",
         "summary": "方正尊体四角各伸出一只卷角羊头。", "highlight": "羊头羊颈伸出器外，羊身与腿附着在腹部和圈足。", "culturalNote": "平面纹饰与立体动物雕塑在一件方尊上结合。",
         "clues": [{ "id": "clue-four-ram-zun-1", "level": 1, "text": "我的整体方正，却在四角长出动物立体头部。" }, { "id": "clue-four-ram-zun-2", "level": 2, "text": "卷角羊头伸出器外，羊身和腿附着在腹部与圈足。" }, { "id": "clue-four-ram-zun-3", "level": 3, "text": "我是盛酒礼器中的尊，不是用四足承腹的鼎。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四角羊首的青铜尊已收入物华录。", "wrongAnswerExplanation": "动物附饰并不少见；四角各有卷角羊头且器类为方尊才是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依国家博物馆馆方专题页转写。", "sourceIds": ["source-chnmuseum-four-ram"], "assetRefs": { "fullAssetId": "asset-full-four-ram-zun", "detailAssetIds": ["asset-detail-four-ram-zun-1"], "fallbackAssetId": "asset-silhouette-four-ram-zun", "thumbnailAssetId": "asset-thumb-four-ram-zun" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "四角羊首的青铜尊已收入器华录。", "wrongAnswerExplanation": "动物附饰并不少见；四角各有卷角羊头且器类为方尊才是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依国家博物馆馆方专题页转写。", "sourceIds": ["source-chnmuseum-four-ram"], "assetRefs": { "fullAssetId": "asset-full-four-ram-zun", "detailAssetIds": ["asset-detail-four-ram-zun-1"], "fallbackAssetId": "asset-silhouette-four-ram-zun", "thumbnailAssetId": "asset-thumb-four-ram-zun" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "四只卷角羊不是贴在器表的徽章，而从方尊四角向外长成完整结构。",
           "story": [
@@ -282,7 +282,7 @@
         "id": "artifact-lotus-crane-hu", "name": "莲鹤方壶", "setId": "ritual-bronze", "timelineOrder": 7, "aliases": [], "period": "春秋", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "青铜壶", "dimensions": null, "excavation": null, "museum": "河南博物院",
         "summary": "壶盖双层莲瓣中心立着一只展翅欲鸣的鹤。", "highlight": "龙形耳、攀爬翼龙和卷尾兽承托共同制造向上的动势。", "culturalNote": "成对器分藏的关系应在揭晓中说明，不能把同器另一件当普通错误项。",
         "clues": [{ "id": "clue-lotus-crane-hu-1", "level": 1, "text": "盖顶不是普通钮，而是一朵双层莲瓣。" }, { "id": "clue-lotus-crane-hu-2", "level": 2, "text": "莲心站着一只展翅欲鸣的鹤。" }, { "id": "clue-lotus-crane-hu-3", "level": 3, "text": "壶身还有龙形耳、攀爬翼龙和承托卷尾兽。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "莲瓣上的鹤已停入你的物华录。", "wrongAnswerExplanation": "复杂动物附饰容易混淆；盖顶双层莲瓣与立鹤是唯一组合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页与出土百年专题转写。", "sourceIds": ["source-henan-lotus-crane", "source-henan-lotus-crane-history"], "assetRefs": { "fullAssetId": "asset-full-lotus-crane-hu", "detailAssetIds": ["asset-detail-lotus-crane-hu-1"], "fallbackAssetId": "asset-silhouette-lotus-crane-hu", "thumbnailAssetId": "asset-thumb-lotus-crane-hu" }, "contentVersion": "2.0.0",
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "莲瓣上的鹤已停入你的器华录。", "wrongAnswerExplanation": "复杂动物附饰容易混淆；盖顶双层莲瓣与立鹤是唯一组合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页与出土百年专题转写。", "sourceIds": ["source-henan-lotus-crane", "source-henan-lotus-crane-history"], "assetRefs": { "fullAssetId": "asset-full-lotus-crane-hu", "detailAssetIds": ["asset-detail-lotus-crane-hu-1"], "fallbackAssetId": "asset-silhouette-lotus-crane-hu", "thumbnailAssetId": "asset-thumb-lotus-crane-hu" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "双层莲瓣托起一只展翅欲鸣的鹤，让沉重青铜从壶盖一路向上生长。",
           "story": [
@@ -318,7 +318,7 @@
         "id": "artifact-cloud-bronze-jin", "name": "云纹铜禁", "setId": "ritual-bronze", "timelineOrder": 8, "aliases": [], "period": "春秋", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "承放酒器的案", "dimensions": null, "excavation": null, "museum": "河南博物院",
         "summary": "由繁密云纹和多只兽形构成的青铜承置器。", "highlight": "器身镂空，形态像一张被云与兽托起的案几。", "culturalNote": "禁在这里指承放酒器的器类，不是牢笼。复杂工艺与失蜡法的关系仍待独立来源复核。",
         "clues": [{ "id": "clue-cloud-bronze-jin-1", "level": 1, "text": "我的名字容易让人想到牢笼，其实我是一类承放酒器的案。" }, { "id": "clue-cloud-bronze-jin-2", "level": 2, "text": "器身由繁密云纹与多只兽形构成。" }, { "id": "clue-cloud-bronze-jin-3", "level": 3, "text": "复杂镂空结构常与一种精细铸造工艺的研究联系。" }],
-        "difficulty": "hard", "distractorTags": ["use", "pattern", "material", "category"], "unlockCopy": "云与兽托起的铜案已收入物华录。", "wrongAnswerExplanation": "与复杂青铜组合器易混淆；承置酒器的案形用途最关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页核对器形、用途、附兽、出土与修复记录。", "sourceIds": ["source-henan-cloud-bronze-jin"], "assetRefs": { "fullAssetId": "asset-full-cloud-bronze-jin", "detailAssetIds": ["asset-detail-cloud-bronze-jin-1"], "fallbackAssetId": "asset-silhouette-cloud-bronze-jin", "thumbnailAssetId": "asset-thumb-cloud-bronze-jin" }, "contentVersion": "2.0.0",
+        "difficulty": "hard", "distractorTags": ["use", "pattern", "material", "category"], "unlockCopy": "云与兽托起的铜案已收入器华录。", "wrongAnswerExplanation": "与复杂青铜组合器易混淆；承置酒器的案形用途最关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页核对器形、用途、附兽、出土与修复记录。", "sourceIds": ["source-henan-cloud-bronze-jin"], "assetRefs": { "fullAssetId": "asset-full-cloud-bronze-jin", "detailAssetIds": ["asset-detail-cloud-bronze-jin-1"], "fallbackAssetId": "asset-silhouette-cloud-bronze-jin", "thumbnailAssetId": "asset-thumb-cloud-bronze-jin" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "它名字里的禁不是牢笼，而是一张由云纹和兽群共同托起的青铜酒器案。",
           "story": [
@@ -383,7 +383,7 @@
         "id": "artifact-zenghouyi-bells", "name": "曾侯乙编钟", "setId": "chu-sound", "timelineOrder": 9, "aliases": [], "period": "战国早期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-music"], "material": "青铜", "use": "成套乐器", "dimensions": "全套 65 件，钟架呈曲尺形", "excavation": null, "museum": "湖北省博物馆",
         "summary": "一套分三层八组悬挂、共 65 件的青铜编钟系统。", "highlight": "钟体和钟架钩上留有大量编号、记事、标音及乐律铭文。", "culturalNote": "它不是单独一口钟，而是完整的成套乐器与乐律资料。",
         "clues": [{ "id": "clue-zenghouyi-bells-1", "level": 1, "text": "我不是一口钟，而是一整套分层悬挂的乐器。" }, { "id": "clue-zenghouyi-bells-2", "level": 2, "text": "全套共 65 件，钟架呈曲尺形。" }, { "id": "clue-zenghouyi-bells-3", "level": 3, "text": "钟和架钩上有大量编号、记事、标音及乐律铭文。" }],
-        "difficulty": "easy", "distractorTags": ["use", "material", "period", "category"], "unlockCopy": "三层钟架的恢宏乐声已收入物华录。", "wrongAnswerExplanation": "同为成套乐器时，要看 65 件青铜钟、曲尺形钟架和乐律铭文。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-bells"], "assetRefs": { "fullAssetId": "asset-full-zenghouyi-bells", "detailAssetIds": ["asset-detail-zenghouyi-bells-1"], "fallbackAssetId": "asset-silhouette-zenghouyi-bells", "thumbnailAssetId": "asset-thumb-zenghouyi-bells" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["use", "material", "period", "category"], "unlockCopy": "三层钟架的恢宏乐声已收入器华录。", "wrongAnswerExplanation": "同为成套乐器时，要看 65 件青铜钟、曲尺形钟架和乐律铭文。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-bells"], "assetRefs": { "fullAssetId": "asset-full-zenghouyi-bells", "detailAssetIds": ["asset-detail-zenghouyi-bells-1"], "fallbackAssetId": "asset-silhouette-zenghouyi-bells", "thumbnailAssetId": "asset-thumb-zenghouyi-bells" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "它不是一口钟，而是一座把声音、尺度与文字共同悬在梁上的礼乐档案。",
           "story": [
@@ -448,7 +448,7 @@
         "id": "artifact-zenghouyi-zunpan", "name": "曾侯乙尊盘", "setId": "chu-sound", "timelineOrder": 10, "aliases": [], "period": "战国早期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-bronze-ritual"], "material": "青铜", "use": "尊与盘组成的礼器组合", "dimensions": null, "excavation": null, "museum": "湖北省博物馆",
         "summary": "上置尊、下承盘的两件式青铜礼器组合。", "highlight": "尊口沿多层镂空如云，近看由龙蛇状纹样组成。", "culturalNote": "它以组合结构和繁复镂空见长，不是一只普通酒杯。",
         "clues": [{ "id": "clue-zenghouyi-zunpan-1", "level": 1, "text": "我由上面的尊和下面的盘两件组成。" }, { "id": "clue-zenghouyi-zunpan-2", "level": 2, "text": "口沿像云，近看由无数龙蛇状镂空纹组成。" }, { "id": "clue-zenghouyi-zunpan-3", "level": 3, "text": "我以结构繁复闻名，而不是一只普通酒杯。" }],
-        "difficulty": "hard", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "如凝云般的尊盘组合已收入物华录。", "wrongAnswerExplanation": "与繁复镂空青铜器易混淆；上尊下盘的两件组合是判断核心。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆馆藏页与湖北省文化和旅游厅数字化研究成果转写。", "sourceIds": ["source-hubei-zunpan", "source-hubei-zunpan-digital"], "assetRefs": { "fullAssetId": "asset-full-zenghouyi-zunpan", "detailAssetIds": ["asset-detail-zenghouyi-zunpan-1"], "fallbackAssetId": "asset-silhouette-zenghouyi-zunpan", "thumbnailAssetId": "asset-thumb-zenghouyi-zunpan" }, "contentVersion": "2.0.0",
+        "difficulty": "hard", "distractorTags": ["shape", "pattern", "use", "category"], "unlockCopy": "如凝云般的尊盘组合已收入器华录。", "wrongAnswerExplanation": "与繁复镂空青铜器易混淆；上尊下盘的两件组合是判断核心。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆馆藏页与湖北省文化和旅游厅数字化研究成果转写。", "sourceIds": ["source-hubei-zunpan", "source-hubei-zunpan-digital"], "assetRefs": { "fullAssetId": "asset-full-zenghouyi-zunpan", "detailAssetIds": ["asset-detail-zenghouyi-zunpan-1"], "fallbackAssetId": "asset-silhouette-zenghouyi-zunpan", "thumbnailAssetId": "asset-thumb-zenghouyi-zunpan" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "一件尊落进一件盘，龙蛇般的镂空边缘把两件青铜礼器连成一座云团。",
           "story": [
@@ -513,7 +513,7 @@
         "id": "artifact-goujian-sword", "name": "越王勾践剑", "setId": "chu-sound", "timelineOrder": 11, "aliases": [], "period": "春秋晚期", "periodGroup": "spring-autumn-warring", "categoryIds": ["category-weapon"], "material": "青铜", "use": "剑", "dimensions": "长 55.6 厘米、宽 5 厘米", "excavation": "1965 年湖北江陵望山一号墓出土", "museum": "湖北省博物馆",
         "summary": "剑身有规整深色菱形纹，近剑格处留有鸟篆铭文。", "highlight": "菱形暗格纹与越王鸠浅自作用剑的八字鸟篆共同确认身份。", "culturalNote": "保存状况不能简化成某种神秘配方的单一因果。",
         "clues": [{ "id": "clue-goujian-sword-1", "level": 1, "text": "剑身布满规整深色菱形纹。" }, { "id": "clue-goujian-sword-2", "level": 2, "text": "剑首有多道同心圆，剑格嵌饰不同材料。" }, { "id": "clue-goujian-sword-3", "level": 3, "text": "近剑格处的鸟篆铭文包含越王、鸠浅与自作用剑等信息。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "菱纹剑身与鸟篆铭文已收入物华录。", "wrongAnswerExplanation": "同代青铜兵器容易混淆；深色菱纹与八字鸟篆必须同时出现。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-goujian"], "assetRefs": { "fullAssetId": "asset-full-goujian-sword", "detailAssetIds": ["asset-detail-goujian-sword-1"], "fallbackAssetId": "asset-silhouette-goujian-sword", "thumbnailAssetId": "asset-thumb-goujian-sword" }, "contentVersion": "2.0.0",
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "菱纹剑身与鸟篆铭文已收入器华录。", "wrongAnswerExplanation": "同代青铜兵器容易混淆；深色菱纹与八字鸟篆必须同时出现。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依湖北省博物馆独立馆藏页转写。", "sourceIds": ["source-hubei-goujian"], "assetRefs": { "fullAssetId": "asset-full-goujian-sword", "detailAssetIds": ["asset-detail-goujian-sword-1"], "fallbackAssetId": "asset-silhouette-goujian-sword", "thumbnailAssetId": "asset-thumb-goujian-sword" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "一柄埋藏两千余年的青铜剑，让纹饰、铭文与墓葬线索共同说出名字。",
           "story": [
@@ -549,7 +549,7 @@
         "id": "artifact-changxin-lamp", "name": "长信宫灯", "setId": "han-light", "timelineOrder": 13, "aliases": [], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-lamp"], "material": "鎏金铜", "use": "灯具", "dimensions": "高 48 厘米", "excavation": "1968 年河北满城窦绾墓出土", "museum": "河北博物院",
         "summary": "一位跪坐宫女执灯的造型，同时也是完整灯具结构。", "highlight": "右臂与袖口形成导烟通路，灯罩可以调节光线。", "culturalNote": "结果页只说明可核验结构，不使用世界最早环保灯等绝对化说法。",
         "clues": [{ "id": "clue-changxin-lamp-1", "level": 1, "text": "我像一位跪坐执灯的宫女。" }, { "id": "clue-changxin-lamp-2", "level": 2, "text": "灯罩可调节光线，右臂与袖口形成导烟通路。" }, { "id": "clue-changxin-lamp-3", "level": 3, "text": "身上多处铭文记录重量、容量和所属。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "执灯宫女与她的导烟袖管已收入物华录。", "wrongAnswerExplanation": "同为铜灯时应看人物跪坐造型，以及手臂、袖管与灯体形成的通路。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院与故宫博物院展品资料转写。", "sourceIds": ["source-hebei-changxin", "source-palace-changxin"], "assetRefs": { "fullAssetId": "asset-full-changxin-lamp", "detailAssetIds": ["asset-detail-changxin-lamp-1"], "fallbackAssetId": "asset-silhouette-changxin-lamp", "thumbnailAssetId": "asset-thumb-changxin-lamp" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "执灯宫女与她的导烟袖管已收入器华录。", "wrongAnswerExplanation": "同为铜灯时应看人物跪坐造型，以及手臂、袖管与灯体形成的通路。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院与故宫博物院展品资料转写。", "sourceIds": ["source-hebei-changxin", "source-palace-changxin"], "assetRefs": { "fullAssetId": "asset-full-changxin-lamp", "detailAssetIds": ["asset-detail-changxin-lamp-1"], "fallbackAssetId": "asset-silhouette-changxin-lamp", "thumbnailAssetId": "asset-thumb-changxin-lamp" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "宫女安静跪坐，双臂却把托灯、调光和导烟三件事组织成一套结构。",
           "story": [
@@ -585,7 +585,7 @@
         "id": "artifact-liusheng-jade-suit", "name": "刘胜金缕玉衣", "setId": "han-light", "timelineOrder": 14, "aliases": [], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-burial", "category-jade"], "material": "玉片与金丝", "use": "葬服", "dimensions": "通长 188 厘米", "excavation": "1968 年河北满城刘胜墓出土", "museum": "河北博物院",
         "summary": "由不同形状的玉片以金丝连缀成人体外形的葬服。", "highlight": "头罩、上衣、手套、裤筒和鞋由 2498 片玉片组成。", "culturalNote": "它不是由一整块玉雕成，而是像甲片一样逐片连接。",
         "clues": [{ "id": "clue-liusheng-jade-suit-1", "level": 1, "text": "我不是一整块玉雕成。" }, { "id": "clue-liusheng-jade-suit-2", "level": 2, "text": "不同形状玉片覆盖头罩、上衣、手套、裤筒和鞋。" }, { "id": "clue-liusheng-jade-suit-3", "level": 3, "text": "这件葬服使用 2498 片玉片和约 1100 克金丝。" }],
-        "difficulty": "easy", "distractorTags": ["use", "material", "shape", "category"], "unlockCopy": "金丝连缀的玉片葬服已收入物华录。", "wrongAnswerExplanation": "与玉覆面等葬玉易混淆；覆盖完整人体且用金丝连接是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院独立专题与中国国家博物馆满城汉墓特展资料转写。", "sourceIds": ["source-hebei-jade-suit", "source-chnmuseum-jade-suit"], "assetRefs": { "fullAssetId": "asset-full-liusheng-jade-suit", "detailAssetIds": ["asset-detail-liusheng-jade-suit-1"], "fallbackAssetId": "asset-silhouette-liusheng-jade-suit", "thumbnailAssetId": "asset-thumb-liusheng-jade-suit" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["use", "material", "shape", "category"], "unlockCopy": "金丝连缀的玉片葬服已收入器华录。", "wrongAnswerExplanation": "与玉覆面等葬玉易混淆；覆盖完整人体且用金丝连接是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院独立专题与中国国家博物馆满城汉墓特展资料转写。", "sourceIds": ["source-hebei-jade-suit", "source-chnmuseum-jade-suit"], "assetRefs": { "fullAssetId": "asset-full-liusheng-jade-suit", "detailAssetIds": ["asset-detail-liusheng-jade-suit-1"], "fallbackAssetId": "asset-silhouette-liusheng-jade-suit", "thumbnailAssetId": "asset-thumb-liusheng-jade-suit" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "两千四百九十八片玉没有雕成一尊人，而是被金丝逐片连成一套葬服。",
           "story": [
@@ -621,7 +621,7 @@
         "id": "artifact-boshan-incense-burner", "name": "错金铜博山炉", "setId": "han-light", "timelineOrder": 15, "aliases": ["博山炉"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-incense"], "material": "错金铜", "use": "熏炉", "dimensions": "通高 26 厘米", "excavation": "1968 年河北满城刘胜墓出土", "museum": "河北博物院",
         "summary": "炉盖层叠如山峦，山间布置神兽、人物与树木。", "highlight": "香烟可从重叠山形间升起，炉座由透雕龙形承托。", "culturalNote": "山形构造形成仙山意象，具体细节仍待馆方专题或考古报告复核。",
         "clues": [{ "id": "clue-boshan-incense-burner-1", "level": 1, "text": "我的盖不是平盖，而像重叠山峦。" }, { "id": "clue-boshan-incense-burner-2", "level": 2, "text": "山间可见神兽、虎豹、人物与树木。" }, { "id": "clue-boshan-incense-burner-3", "level": 3, "text": "炉座有透雕龙形承托，整体以错金装饰。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "category"], "unlockCopy": "山形炉盖间的香烟意象已收入物华录。", "wrongAnswerExplanation": "与其他熏炉易混淆；重叠山峦式炉盖和透雕龙座是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院独立藏品页与满城汉墓常设展资料转写。", "sourceIds": ["source-hebei-boshan"], "assetRefs": { "fullAssetId": "asset-full-boshan-incense-burner", "detailAssetIds": ["asset-detail-boshan-incense-burner-1"], "fallbackAssetId": "asset-silhouette-boshan-incense-burner", "thumbnailAssetId": "asset-thumb-boshan-incense-burner" }, "contentVersion": "2.0.0",
+        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "category"], "unlockCopy": "山形炉盖间的香烟意象已收入器华录。", "wrongAnswerExplanation": "与其他熏炉易混淆；重叠山峦式炉盖和透雕龙座是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河北博物院独立藏品页与满城汉墓常设展资料转写。", "sourceIds": ["source-hebei-boshan"], "assetRefs": { "fullAssetId": "asset-full-boshan-incense-burner", "detailAssetIds": ["asset-detail-boshan-incense-burner-1"], "fallbackAssetId": "asset-silhouette-boshan-incense-burner", "thumbnailAssetId": "asset-thumb-boshan-incense-burner" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "工匠把层峦、走兽、猎人与三条蛟龙压缩进二十六厘米高的一座熏炉。",
           "story": [
@@ -657,7 +657,7 @@
         "id": "artifact-storyteller-drummer", "name": "击鼓说唱俑", "setId": "han-light", "timelineOrder": 16, "aliases": [], "period": "东汉", "periodGroup": "han", "categoryIds": ["category-sculpture"], "material": "陶", "use": "表现俳优说唱状态的陶俑", "dimensions": "高 56 厘米", "excavation": "1957 年四川成都天回山出土", "museum": "中国国家博物馆",
         "summary": "袒胸露腹、张口嘻笑，抱鼓举槌的说唱表演陶俑。", "highlight": "夸张动作、身体重心、笑容与鼓槌共同凝固表演瞬间。", "culturalNote": "它不是肃立仪仗俑，而是具有强烈动态的表演者形象。",
         "clues": [{ "id": "clue-storyteller-drummer-1", "level": 1, "text": "我袒胸露腹、动作夸张，不是肃立的仪仗俑。" }, { "id": "clue-storyteller-drummer-2", "level": 2, "text": "左臂抱扁鼓，右手举槌。" }, { "id": "clue-storyteller-drummer-3", "level": 3, "text": "张口嘻笑，表现俳优说唱状态。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "笑声与鼓槌定格的表演者已收入物华录。", "wrongAnswerExplanation": "表演陶俑动作都很鲜明；扁鼓、举槌与嘻笑神态组合才是识别点。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆馆方说明转写。", "sourceIds": ["source-chnmuseum-storyteller"], "assetRefs": { "fullAssetId": "asset-full-storyteller-drummer", "detailAssetIds": ["asset-detail-storyteller-drummer-1", "asset-detail-storyteller-drummer-2"], "fallbackAssetId": "asset-silhouette-storyteller-drummer", "thumbnailAssetId": "asset-thumb-storyteller-drummer" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "笑声与鼓槌定格的表演者已收入器华录。", "wrongAnswerExplanation": "表演陶俑动作都很鲜明；扁鼓、举槌与嘻笑神态组合才是识别点。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆馆方说明转写。", "sourceIds": ["source-chnmuseum-storyteller"], "assetRefs": { "fullAssetId": "asset-full-storyteller-drummer", "detailAssetIds": ["asset-detail-storyteller-drummer-1", "asset-detail-storyteller-drummer-2"], "fallbackAssetId": "asset-silhouette-storyteller-drummer", "thumbnailAssetId": "asset-thumb-storyteller-drummer" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "鼓槌尚未落下，笑声却仿佛已经从一千八百年前传来。",
           "story": [
@@ -693,7 +693,7 @@
         "id": "artifact-wuzetian-gold-slip", "name": "武则天金简", "setId": "tang-world", "timelineOrder": 17, "aliases": ["武则天除罪金简"], "period": "唐代武周（公元 700 年）", "periodGroup": "tang", "categoryIds": ["category-gold-silver"], "material": "金", "use": "道教投简仪式中的金质奏文", "dimensions": "长 36.2 厘米、宽 8 厘米、重 223.5 克", "excavation": "1982 年河南登封嵩山峻极峰北侧石缝发现", "museum": "河南博物院",
         "summary": "一片有文字的金质长方形薄片，发现于嵩山石缝。", "highlight": "铭文含大周国主武曌等内容，落款指向公元 700 年七月七日。", "culturalNote": "它不是印玺，而是以第一人称身份投递的金简。",
         "clues": [{ "id": "clue-wuzetian-gold-slip-1", "level": 1, "text": "我是一片有文字的金质长方形薄片，不是印玺。" }, { "id": "clue-wuzetian-gold-slip-2", "level": 2, "text": "我发现于嵩山峻极峰石缝。" }, { "id": "clue-wuzetian-gold-slip-3", "level": 3, "text": "铭文含大周国主武曌等内容，落款指向公元 700 年七月七日。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "material", "use", "period"], "unlockCopy": "嵩山石缝中的金质文字已收入物华录。", "wrongAnswerExplanation": "与金册、玉简等有铭器物易混淆；金质薄片与武曌第一人称铭文是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页转写。", "sourceIds": ["source-henan-gold-slip"], "assetRefs": { "fullAssetId": "asset-full-wuzetian-gold-slip", "detailAssetIds": ["asset-detail-wuzetian-gold-slip-1", "asset-detail-wuzetian-gold-slip-2"], "fallbackAssetId": "asset-silhouette-wuzetian-gold-slip", "thumbnailAssetId": "asset-thumb-wuzetian-gold-slip" }, "contentVersion": "2.0.0",
+        "difficulty": "normal", "distractorTags": ["shape", "material", "use", "period"], "unlockCopy": "嵩山石缝中的金质文字已收入器华录。", "wrongAnswerExplanation": "与金册、玉简等有铭器物易混淆；金质薄片与武曌第一人称铭文是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依河南博物院独立馆藏页转写。", "sourceIds": ["source-henan-gold-slip"], "assetRefs": { "fullAssetId": "asset-full-wuzetian-gold-slip", "detailAssetIds": ["asset-detail-wuzetian-gold-slip-1", "asset-detail-wuzetian-gold-slip-2"], "fallbackAssetId": "asset-silhouette-wuzetian-gold-slip", "thumbnailAssetId": "asset-thumb-wuzetian-gold-slip" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "一片没有华丽纹饰的黄金，把女皇晚年的祈愿送进嵩山。",
           "story": [
@@ -729,7 +729,7 @@
         "id": "artifact-dancing-horse-flask", "name": "鎏金舞马衔杯纹皮囊式银壶", "setId": "tang-world", "timelineOrder": 18, "aliases": ["舞马衔杯纹银壶"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-gold-silver"], "material": "银质，局部鎏金", "use": "仿皮囊形盛酒器", "dimensions": "通高 14.8 厘米、重 549 克", "excavation": "1970 年陕西西安何家村窖藏出土", "museum": "陕西历史博物馆",
         "summary": "一件模仿便携皮囊外形、腹部装饰衔杯舞马的银壶。", "highlight": "壶腹两面各有一匹口衔杯作舞的马。", "culturalNote": "便携皮囊器形与宫廷舞马纹样形成鲜明组合。",
         "clues": [{ "id": "clue-dancing-horse-flask-1", "level": 1, "text": "我的外形模仿一种便携皮囊。" }, { "id": "clue-dancing-horse-flask-2", "level": 2, "text": "腹部两面都有一匹口衔杯的舞马。" }, { "id": "clue-dancing-horse-flask-3", "level": 3, "text": "我通高约 14.8 厘米，出自何家村窖藏体系。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "皮囊形银壶上的衔杯舞马已收入物华录。", "wrongAnswerExplanation": "唐代金银器纹饰丰富；皮囊形壶身与衔杯舞马必须同时符合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依陕西历史博物馆馆藏页与文物主管部门数据转写。", "sourceIds": ["source-shaanxi-horse-flask", "source-baoji-horse-flask"], "assetRefs": { "fullAssetId": "asset-full-dancing-horse-flask", "detailAssetIds": ["asset-detail-dancing-horse-flask-1", "asset-detail-dancing-horse-flask-2"], "fallbackAssetId": "asset-silhouette-dancing-horse-flask", "thumbnailAssetId": "asset-thumb-dancing-horse-flask" }, "contentVersion": "2.0.0",
+        "difficulty": "normal", "distractorTags": ["shape", "pattern", "material", "period"], "unlockCopy": "皮囊形银壶上的衔杯舞马已收入器华录。", "wrongAnswerExplanation": "唐代金银器纹饰丰富；皮囊形壶身与衔杯舞马必须同时符合。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依陕西历史博物馆馆藏页与文物主管部门数据转写。", "sourceIds": ["source-shaanxi-horse-flask", "source-baoji-horse-flask"], "assetRefs": { "fullAssetId": "asset-full-dancing-horse-flask", "detailAssetIds": ["asset-detail-dancing-horse-flask-1", "asset-detail-dancing-horse-flask-2"], "fallbackAssetId": "asset-silhouette-dancing-horse-flask", "thumbnailAssetId": "asset-thumb-dancing-horse-flask" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "一只银壶借来皮囊的身体，又把宫廷舞马压进金色浮雕。",
           "story": [
@@ -765,7 +765,7 @@
         "id": "artifact-grape-bird-sachet", "name": "葡萄花鸟纹银香囊", "setId": "tang-world", "timelineOrder": 19, "aliases": ["唐代银香囊"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-gold-silver", "category-incense"], "material": "银质外壳、同心机环与金质香盂", "use": "悬挂或佩戴的盛香器", "dimensions": "直径约 4.5 厘米、链长 7.5 厘米", "excavation": "1970 年陕西西安何家村窖藏出土", "museum": "陕西历史博物馆",
         "summary": "外表为镂空银球，内部以同心机环悬置金香盂的香囊。", "highlight": "外壳摆动时，重力与活动机环让内部金香盂开口保持向上。", "culturalNote": "它不是丝织荷包，而是一件将纹饰、香气与活动结构结合的金银器。",
         "clues": [{ "id": "clue-grape-bird-sachet-1", "level": 1, "text": "我外表是镂空圆球，不是丝织荷包。" }, { "id": "clue-grape-bird-sachet-2", "level": 2, "text": "内部有多层同心活动结构，帮助盛香容器保持方向。" }, { "id": "clue-grape-bird-sachet-3", "level": 3, "text": "外壳装饰葡萄与花鸟纹。" }],
-        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "material"], "unlockCopy": "转动仍持平的银球香囊已收入物华录。", "wrongAnswerExplanation": "与球形熏香器易混淆；镂空银球、同心活动结构和葡萄花鸟纹是组合锚点。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "尺寸依陕西历史博物馆馆藏页；结构与工作原理依新华社对该馆典藏部主任的采访转写。", "sourceIds": ["source-shaanxi-sachet-collection", "source-xinhua-sachet-mechanics"], "assetRefs": { "fullAssetId": "asset-full-grape-bird-sachet", "detailAssetIds": ["asset-detail-grape-bird-sachet-1", "asset-diagram-grape-bird-gimbal"], "fallbackAssetId": "asset-silhouette-grape-bird-sachet", "thumbnailAssetId": "asset-thumb-grape-bird-sachet" }, "contentVersion": "2.0.0",
+        "difficulty": "normal", "distractorTags": ["shape", "use", "pattern", "material"], "unlockCopy": "转动仍持平的银球香囊已收入器华录。", "wrongAnswerExplanation": "与球形熏香器易混淆；镂空银球、同心活动结构和葡萄花鸟纹是组合锚点。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "尺寸依陕西历史博物馆馆藏页；结构与工作原理依新华社对该馆典藏部主任的采访转写。", "sourceIds": ["source-shaanxi-sachet-collection", "source-xinhua-sachet-mechanics"], "assetRefs": { "fullAssetId": "asset-full-grape-bird-sachet", "detailAssetIds": ["asset-detail-grape-bird-sachet-1", "asset-diagram-grape-bird-gimbal"], "fallbackAssetId": "asset-silhouette-grape-bird-sachet", "thumbnailAssetId": "asset-thumb-grape-bird-sachet" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "一枚掌心大的镂空银球，会随人摆动，里面的香盂却不肯倾覆。",
           "story": [
@@ -801,7 +801,7 @@
         "id": "artifact-tricolor-music-camel", "name": "唐三彩载乐骆驼俑", "setId": "tang-world", "timelineOrder": 20, "aliases": ["三彩载乐骆驼俑"], "period": "唐代", "periodGroup": "tang", "categoryIds": ["category-sculpture"], "material": "三彩釉陶", "use": "骆驼与八人乐团组合明器", "dimensions": "通高 58 厘米、驼高 48.5 厘米", "excavation": "1959 年陕西西安中堡村唐墓出土", "museum": "陕西历史博物馆",
         "summary": "骆驼背上七名男乐手围坐演奏，中央一名女歌者站立歌唱。", "highlight": "一峰引颈长嘶的骆驼托起平台、彩毯与完整八人乐团。", "culturalNote": "中原衣着与不同来源的乐器同台出现，留下唐代乐舞交流的鲜活图像。",
         "clues": [{ "id": "clue-tricolor-music-camel-1", "level": 1, "text": "我不是单独的骆驼，背上承载多人乐舞组合。" }, { "id": "clue-tricolor-music-camel-2", "level": 2, "text": "人物围坐演奏，中间有人起舞。" }, { "id": "clue-tricolor-music-camel-3", "level": 3, "text": "三彩釉色与丝路题材共同构成鲜明识别。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "period"], "unlockCopy": "骆驼背上的八人乐团已收入物华录。", "wrongAnswerExplanation": "与普通骆驼俑和骑驼俑易混淆；七名围坐男乐手与中央站立女歌者才是核心。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依陕西历史博物馆独立馆藏页与陕西省文物局资料转写。", "sourceIds": ["source-shaanxi-camel", "source-shaanxi-camel-specs"], "assetRefs": { "fullAssetId": "asset-full-tricolor-music-camel", "detailAssetIds": ["asset-detail-tricolor-music-camel-1", "asset-detail-tricolor-music-camel-2"], "fallbackAssetId": "asset-silhouette-tricolor-music-camel", "thumbnailAssetId": "asset-thumb-tricolor-music-camel" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "period"], "unlockCopy": "骆驼背上的八人乐团已收入器华录。", "wrongAnswerExplanation": "与普通骆驼俑和骑驼俑易混淆；七名围坐男乐手与中央站立女歌者才是核心。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依陕西历史博物馆独立馆藏页与陕西省文物局资料转写。", "sourceIds": ["source-shaanxi-camel", "source-shaanxi-camel-specs"], "assetRefs": { "fullAssetId": "asset-full-tricolor-music-camel", "detailAssetIds": ["asset-detail-tricolor-music-camel-1", "asset-detail-tricolor-music-camel-2"], "fallbackAssetId": "asset-silhouette-tricolor-music-camel", "thumbnailAssetId": "asset-thumb-tricolor-music-camel" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "骆驼尚在引颈长嘶，背上的七件乐器与一位歌者已经开场。",
           "story": [
@@ -828,7 +828,7 @@
             "clueOpened": ["中央站立者已经找到，沿平台边缘继续数到七。", "不同乐器比单纯多人更关键，它明确指向乐团。", "中堡村唐墓补足来历，也提醒你这是一件明器。"],
             "correct": ["七坐一立、平台与骆驼全对上了，载乐骆驼俑归档。", "你没有只认一峰三彩骆驼，而是认出了完整乐团。", "人数、座次和乐器彼此证明，盛唐万象最后一格点亮。"],
             "incorrect": ["普通骆驼俑也有三彩釉，回到背上数清八个人。", "骑驼人物通常围绕乘骑，眼前七人都在面朝外演奏。", "别把中央女子看成第八位坐奏者，她正站立歌唱。"],
-            "archived": ["驼背上的八人乐团已经进入物华录，二十件全部归位。", "五组档案封签完成，声音、香气、文字与金银重新相遇。", "回到图鉴慢慢翻看吧，每件文物都还有五页故事等你重读。"]
+            "archived": ["驼背上的八人乐团已经进入器华录，二十件全部归位。", "五组档案封签完成，声音、香气、文字与金银重新相遇。", "回到图鉴慢慢翻看吧，每件文物都还有五页故事等你重读。"]
           },
           "storyFactCheckStatus": "mixed-with-bounded-context", "storyContentVersion": "3.0.0-twenty-complete"
         }
@@ -837,7 +837,7 @@
         "id": "artifact-bronze-rhino-zun", "name": "错金银云纹铜犀尊", "setId": "chu-sound", "timelineOrder": 12, "aliases": ["铜犀尊"], "period": "西汉", "periodGroup": "han", "categoryIds": ["category-bronze-ritual"], "material": "错金银青铜", "use": "盛酒器尊", "dimensions": "高 34.1 厘米、长 58.1 厘米", "excavation": "1963 年陕西兴平出土", "museum": "中国国家博物馆",
         "summary": "以一只写实犀牛的完整身体作为器形的盛酒器。", "highlight": "背部设盖，犀牛身体装饰流动的错金银云纹。", "culturalNote": "动物雕塑与盛酒器尊的功能叠合在同一器形上。",
         "clues": [{ "id": "clue-bronze-rhino-zun-1", "level": 1, "text": "我以一只犀牛的完整身体作为器形。" }, { "id": "clue-bronze-rhino-zun-2", "level": 2, "text": "背部有盖，身体装饰错金银云纹。" }, { "id": "clue-bronze-rhino-zun-3", "level": 3, "text": "我既是动物雕塑，也是盛酒器中的尊。" }],
-        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "披着流云纹的写实铜犀已收入物华录。", "wrongAnswerExplanation": "动物形青铜器彼此相似；犀牛写实轮廓、背盖和错金银云纹是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆馆方专题与研究文章转写。", "sourceIds": ["source-chnmuseum-rhino", "source-chnmuseum-rhino-study"], "assetRefs": { "fullAssetId": "asset-full-bronze-rhino-zun", "detailAssetIds": ["asset-detail-bronze-rhino-zun-1"], "fallbackAssetId": "asset-silhouette-bronze-rhino-zun", "thumbnailAssetId": "asset-thumb-bronze-rhino-zun" }, "contentVersion": "2.0.0",
+        "difficulty": "easy", "distractorTags": ["shape", "use", "material", "category"], "unlockCopy": "披着流云纹的写实铜犀已收入器华录。", "wrongAnswerExplanation": "动物形青铜器彼此相似；犀牛写实轮廓、背盖和错金银云纹是关键。", "factCheckStatus": "verified-from-provided-source", "sourceNote": "依中国国家博物馆馆方专题与研究文章转写。", "sourceIds": ["source-chnmuseum-rhino", "source-chnmuseum-rhino-study"], "assetRefs": { "fullAssetId": "asset-full-bronze-rhino-zun", "detailAssetIds": ["asset-detail-bronze-rhino-zun-1"], "fallbackAssetId": "asset-silhouette-bronze-rhino-zun", "thumbnailAssetId": "asset-thumb-bronze-rhino-zun" }, "contentVersion": "2.0.0",
         "experienceV2": {
           "storyHook": "一只低头站立的青铜犀牛，背上藏着入口，嘴边还藏着倒酒的出口。",
           "story": [
@@ -992,7 +992,7 @@
           ]
         },
         {
-          "id": "act-5", "unlockCount": 16, "eyebrow": "第五幕 · 谁在写物华录", "title": "交接册来到你这一侧", "summary": "十六件归位之后，玩家不再只是来帮忙的人，而成为共同整理者。", "imageAssetId": "asset-guide-xuzhao-journal", "actionLabel": "接过交接册",
+          "id": "act-5", "unlockCount": 16, "eyebrow": "第五幕 · 谁在写器华录", "title": "交接册来到你这一侧", "summary": "十六件归位之后，玩家不再只是来帮忙的人，而成为共同整理者。", "imageAssetId": "asset-guide-xuzhao-journal", "actionLabel": "接过交接册",
           "beats": [
             { "id": "act-5-four-seals", "speaker": "旁白", "body": "交接册上已经并列四枚朱印。缺口彼此相接，像一条仍未封闭的路径。" },
             { "id": "act-5-title", "speaker": "许照", "body": "我一直说这是一本没写完的交接册。其实它不是在等某个标准结语，它是在等真正看过这些旧物的人。" },
@@ -1001,13 +1001,13 @@
           ]
         },
         {
-          "id": "finale", "unlockCount": 20, "eyebrow": "终章 · 天亮前最后一页", "title": "给下一次观看留下入口", "summary": "二十件旧物全部归位，完成的不是答案合集，而是一种观看的方法。", "imageAssetId": "asset-guide-xuzhao-finale", "actionLabel": "合上物华录",
+          "id": "finale", "unlockCount": 20, "eyebrow": "终章 · 天亮前最后一页", "title": "给下一次观看留下入口", "summary": "二十件旧物全部归位，完成的不是答案合集，而是一种观看的方法。", "imageAssetId": "asset-guide-xuzhao-finale", "actionLabel": "合上器华录",
           "beats": [
             { "id": "finale-dawn", "speaker": "旁白", "body": "第二十件旧物归位时，窗边已经有了很淡的晨光。许照把最后一枚朱印盖下，却没有填满末页。" },
             { "id": "finale-thanks", "speaker": "许照", "body": "谢谢你逐件看完。不是因为你猜中了二十个名字，而是因为你愿意让每一个判断都有证据。" },
             { "id": "finale-blank", "speaker": "许照", "body": "我们也留下了不知道的部分。那不是档案的缺陷，是提醒后来的人还可以再看一次。" },
             { "id": "finale-entry", "speaker": "许照", "body": "档案不是替旧物把话说完，而是给下一次观看留下入口。最后这条空线，就留给以后吧。" },
-            { "id": "finale-close", "speaker": "旁白", "body": "交接册轻轻合上。五枚印已经完整并列，而你的物华录从此多了一页可以重读的清晨。" }
+            { "id": "finale-close", "speaker": "旁白", "body": "交接册轻轻合上。五枚印已经完整并列，而你的器华录从此多了一页可以重读的清晨。" }
           ]
         }
       ],
@@ -1015,7 +1015,7 @@
       "completionLine": "二十件旧物已经归位；答案写进档案，仍未知道的部分留给下一次观看。"
     },
     "copy": {
-      "brand": "物华录",
+      "brand": "器华录",
       "subtitle": "文物寻踪",
       "landingTitle": "从一线轮廓，认出一件旧物",
       "landingBody": "一局五件。轻触图上的观察签查看局部，自由拆阅线索印，识别后把它收入专题图鉴。",
@@ -1036,7 +1036,7 @@
       "clueAction": "再看一条线索",
       "submitAction": "确认答案",
       "nextAction": "下一件",
-      "collectionTitle": "我的物华录",
+      "collectionTitle": "我的器华录",
       "emptyCollection": "还没有藏品。完成一次揭晓，第一件文物就会来到这里。",
       "summaryTitle": "本轮寻踪完成",
       "errorTitle": "内容暂时无法读取",

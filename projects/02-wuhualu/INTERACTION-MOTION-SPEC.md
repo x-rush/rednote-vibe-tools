@@ -1,4 +1,4 @@
-# 《物华录》V2 交互与动效规格
+# 《器华录》V2 交互与动效规格
 
 状态：`MOTION HANDOFF / PURE FRONTEND`
 基线：`390×844 CSS px`

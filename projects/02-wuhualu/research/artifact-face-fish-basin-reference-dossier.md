@@ -1,4 +1,4 @@
-# 物华录 · 人面鱼纹彩陶盆参考证据包
+# 器华录 · 人面鱼纹彩陶盆参考证据包
 
 状态：`REFERENCE VERIFIED / V1 VISIBLE-SCOPE SINGLE-ASSET CONDITIONAL PASS / REVEAL PAGE THREE-WIDTH APPROVED`。馆方实物图仅作内部核验；裂缝、缺口和纹样不得由模型擅自修复或改写。
 

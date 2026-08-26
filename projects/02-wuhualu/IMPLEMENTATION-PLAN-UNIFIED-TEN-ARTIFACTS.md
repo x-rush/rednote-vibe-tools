@@ -1,4 +1,4 @@
-# 《物华录》十件文物统一完整体验 Implementation Plan
+# 《器华录》十件文物统一完整体验 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 

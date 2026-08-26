@@ -1,4 +1,4 @@
-# 物华录 FOUNDATION Implementation Plan
+# 器华录 FOUNDATION Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. User constraints forbid subagent dispatch and all Git write operations.
 

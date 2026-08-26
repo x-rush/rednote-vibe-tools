@@ -1,4 +1,4 @@
-# 物华录 · 云纹铜禁参考证据包
+# 器华录 · 云纹铜禁参考证据包
 
 状态：`REFERENCE READY / V1+V2 REJECTED / V3 ALL STATIC ROLES THREE-WIDTH APPROVED`。V3 仍只能作为常驻标注的 AI 创意重构，不是逐根铜梗复原；WSL 动态 QA 未完成。
 

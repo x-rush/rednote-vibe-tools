@@ -1,4 +1,4 @@
-# 物华录 FOUNDATION 准备报告
+# 器华录 FOUNDATION 准备报告
 
 日期：2026-08-24  
 范围：`projects/02-wuhualu/**`

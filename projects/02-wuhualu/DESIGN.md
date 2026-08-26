@@ -1,4 +1,4 @@
-# Design System — 物华录：文物寻踪
+# Design System — 器华录：文物寻踪
 
 状态：`VISUAL DIRECTION APPROVED`
 

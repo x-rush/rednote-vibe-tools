@@ -1,4 +1,4 @@
-# 物华录 · 红山玉龙参考证据包
+# 器华录 · 红山玉龙参考证据包
 
 状态：`REFERENCE VERIFIED / V2 HIDDEN-MOUNT SINGLE-ASSET CONDITIONAL PASS / REVEAL PAGE THREE-WIDTH APPROVED`。已找到中国国家博物馆独立专题资料，不再停留在“仅首页总目可见”的状态。
 
@@ -48,7 +48,7 @@
 ## 6. V1 拒绝与 V2 单资源复检 / 2026-08-25
 
 - 工具：Codex 内置 ImageGen；以国博主参考严格锁定反 C 形、吻、长鬣、尾、无肢无爪和单一背部穿孔。
-- V1：器形事实正确，但玉体四周出现多枚透明小卡扣；移动端会像附着异物，也不符合物华录“克制隐藏支撑”的系列基准，故不进入公开包。
+- V1：器形事实正确，但玉体四周出现多枚透明小卡扣；移动端会像附着异物，也不符合器华录“克制隐藏支撑”的系列基准，故不进入公开包。
 - V2：只移除可见卡扣并改为隐藏背部承托；玉龙轮廓、穿孔、材质、光线、构图和阴影保持。
 - 研究母版：`research/generated/artifact-jade-dragon/reveal-v2-hidden-mount-reference-verified.png`；公开候选：`public/assets/artifacts/artifact-jade-dragon/reveal-creative-reconstruction-v2.webp`，900×1125，54,694 bytes。
 - 通过：反 C 形开口、短吻上翘、细眼、后卷长鬣、内屈尾、无肢无爪、一个背部穿孔和墨绿不透明旧玉成立；无传统龙角、鳞片、须、龙珠、祥云或翡翠发光。

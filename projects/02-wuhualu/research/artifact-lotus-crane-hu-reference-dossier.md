@@ -1,4 +1,4 @@
-# 物华录 · 莲鹤方壶参考证据包
+# 器华录 · 莲鹤方壶参考证据包
 
 状态：`REFERENCE READY / HENAN PRIMARY + TOP DETAIL + THREE-QUARTER VERIFIED / PROMPT FREEZE NEXT`。必须区分河南博物院与故宫博物院两件同出一墓的方壶；本包图像均锁定河南藏件。
 

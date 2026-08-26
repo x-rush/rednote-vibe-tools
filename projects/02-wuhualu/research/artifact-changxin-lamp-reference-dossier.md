@@ -1,4 +1,4 @@
-# 物华录 · 长信宫灯参考档案
+# 器华录 · 长信宫灯参考档案
 
 状态：`REFERENCE GATE OPEN FOR CREATIVE RECONSTRUCTION`。实物摄影仅存研究目录；发布图必须标“创意重构”，不冒充河北博物院藏品照片。
 

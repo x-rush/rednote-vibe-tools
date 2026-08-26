@@ -27,6 +27,12 @@ const completeArtifactIds = [
 ] as const
 
 describe('production content package', () => {
+  it('uses the approved Qihualu public brand consistently', () => {
+    expect(content.meta.title).toBe('器华录：文物寻踪')
+    expect(content.content.copy.brand).toBe('器华录')
+    expect(JSON.stringify(content)).not.toContain('物华录')
+  })
+
   it('contains exactly 20 uniquely identified artifacts', () => {
     expect(content.content.artifacts).toHaveLength(20)
     expect(new Set(content.content.artifacts.map(({ id }) => id)).size).toBe(20)

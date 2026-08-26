@@ -1,4 +1,4 @@
-# 物华录 · UI/UX 重设计会话提示词
+# 器华录 · UI/UX 重设计会话提示词
 
 你在 `~/project/www/rednote-vibe-tools` 工作，本轮只为 `projects/02-wuhualu` 完成 V2 UI/UX、玩法呈现与交互特效设计，不写业务代码。不得修改其他项目、根配置、锁文件或 `docs/`。
 

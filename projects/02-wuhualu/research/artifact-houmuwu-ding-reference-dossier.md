@@ -1,4 +1,4 @@
-# 物华录 · “后母戊”青铜方鼎参考证据包
+# 器华录 · “后母戊”青铜方鼎参考证据包
 
 状态：`REFERENCE READY / V1 REJECTED / V2 SINGLE-ASSET CONDITIONAL PASS / REVEAL THREE-WIDTH APPROVED`。馆方摄影只作内部形态参考；铭文拓片只作知识证据，严禁作为 AI 文字生成参考。
 

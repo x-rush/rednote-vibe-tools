@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "3.0.0-twenty-artifacts",
+  "contentVersion": "3.1.0-narrative-arc",
   "projectId": "wuhualu",
   "meta": {
     "title": "物华录：文物寻踪",
@@ -939,6 +939,76 @@
       "status": "planned",
       "imageNature": "diagram-or-reviewed-reconstruction",
       "global": { "placeholderAssetId": "asset-global-placeholder", "shareCoverAssetId": "asset-global-share-cover" }
+    },
+    "narrative": {
+      "fictionLabel": "馆内叙事 · 虚构角色线",
+      "journalTitle": "闭馆手记",
+      "journalIntro": "许照把共同整理的经过夹在档案之间；每一次归档，都会让未完成的交接册多一页。",
+      "recentArtifactResponseTemplate": "你刚刚记住了「{artifact}」的{evidence}。名字会回到标签上，这处证据会留在你的眼睛里。",
+      "prologue": [
+        { "id": "prologue-room", "speaker": "旁白", "body": "闭馆后的整理室只剩工作灯亮着。许照从待归档材料下面，抽出一本没有结语的交接册。" },
+        { "id": "prologue-journal", "speaker": "许照", "body": "它只写了标题，后面的页码都是空的。今晚我想请你和我一起，把看见的东西写进去。" },
+        { "id": "prologue-rule", "speaker": "许照", "body": "先别急着叫出名字。让器形、材料和使用痕迹先说话——这是我们共同整理的第一条规则。" }
+      ],
+      "chapters": [
+        {
+          "id": "act-1", "unlockCount": 1, "eyebrow": "第一幕 · 物先说话", "title": "第一行不写名字", "summary": "第一件旧物归位，交接册先记下证据，而不是答案。", "imageAssetId": "asset-guide-xuzhao-master", "actionLabel": "收下第一行",
+          "beats": [
+            { "id": "act-1-lamp", "speaker": "旁白", "body": "第一件旧物归位后，许照没有立刻合上档案。她把交接册转过来，空白页停在你面前。" },
+            { "id": "act-1-evidence", "speaker": "许照", "body": "以前我会先抄下标准名称，再把尺寸、材料一项项填满。这样很整齐，却容易忘记自己究竟看见了什么。" },
+            { "id": "act-1-write", "speaker": "许照", "body": "所以这一行先不写名字。我把你找到的结构证据记在前面，让答案晚一点落笔。" },
+            { "id": "act-1-margin", "speaker": "旁白", "body": "纸页左侧多了一行小字，右侧仍然留白。第一件文物没有因此沉默，反而像刚刚开口。" }
+          ]
+        },
+        {
+          "id": "act-2", "unlockCount": 4, "eyebrow": "第二幕 · 名字之外", "title": "一枚缺口朝外的印", "summary": "四件旧物之后，许照承认自己也曾只记标签、忘了观看。", "imageAssetId": "asset-guide-xuzhao-master", "actionLabel": "盖下第一枚印",
+          "beats": [
+            { "id": "act-2-label", "speaker": "许照", "body": "我刚进整理室时，以为能把年代和名称背熟，就算真正懂得它们。后来有人拿走标签，我却突然不知道该从哪里看起。" },
+            { "id": "act-2-return", "speaker": "许照", "body": "是器口、接缝和磨痕把我带了回来。名字当然重要，但名字应该是观察的落点，不是起点。" },
+            { "id": "act-2-seal", "speaker": "旁白", "body": "她在交接册第一页盖下一枚朱印，故意让印边朝外缺了一角。" },
+            { "id": "act-2-gap", "speaker": "许照", "body": "留个缺口吧。档案如果看起来太圆满，人就容易忘记还有东西尚未知道。" }
+          ]
+        },
+        {
+          "id": "act-3", "unlockCount": 8, "eyebrow": "第三幕 · 没有消失的声音", "title": "你真正记住了什么", "summary": "许照第一次不再提示答案，而是认真听玩家讲出一处证据。", "imageAssetId": "asset-guide-xuzhao-journal", "actionLabel": "把答案留在页边",
+          "beats": [
+            { "id": "act-3-quiet", "speaker": "旁白", "body": "夜更深了。整理室里没有乐声，纸页翻动、铅笔落下，仍让八件旧物有了各自的节拍。" },
+            { "id": "act-3-question", "speaker": "许照", "body": "这一次我不递线索。你闭上眼想一想，刚才那件旧物最先留下来的，是名字，还是某一处形状？" },
+            { "id": "act-3-listen", "speaker": "旁白", "body": "她没有替你补完句子，只把交接册推近一点，等那处真正被记住的证据落在页边。" },
+            { "id": "act-3-echo", "speaker": "许照", "body": "看不见原来的声音，也能从孔、钟、鼓和人的动作里找到回声。观看有时就是这样，让已经远去的事重新有方向。" }
+          ]
+        },
+        {
+          "id": "act-4", "unlockCount": 12, "eyebrow": "第四幕 · 档案里的人间", "title": "夹在页间的一张旧票", "summary": "器物不只属于年代，也曾进入照明、宴饮、熏香与告别。", "imageAssetId": "asset-guide-xuzhao-journal", "actionLabel": "翻过这一页",
+          "beats": [
+            { "id": "act-4-ticket", "speaker": "旁白", "body": "许照从交接册后页取出一张褪色的旧参观票。票面文字已经模糊，只剩一道被折过许多次的痕迹。" },
+            { "id": "act-4-child", "speaker": "许照", "body": "小时候第一次进展厅，我没记住任何年代。只记得有人告诉我，一盏灯的烟也需要有地方可去。" },
+            { "id": "act-4-life", "speaker": "许照", "body": "后来我才明白，档案里的灯、酒器、香具和乐舞，不只是分类。它们都曾回答过生活里的具体问题。" },
+            { "id": "act-4-place", "speaker": "旁白", "body": "她把旧票夹回页间，没有给它编号。属于许照自己的那段记忆，就留在史实资料之外。" }
+          ]
+        },
+        {
+          "id": "act-5", "unlockCount": 16, "eyebrow": "第五幕 · 谁在写物华录", "title": "交接册来到你这一侧", "summary": "十六件归位之后，玩家不再只是来帮忙的人，而成为共同整理者。", "imageAssetId": "asset-guide-xuzhao-journal", "actionLabel": "接过交接册",
+          "beats": [
+            { "id": "act-5-four-seals", "speaker": "旁白", "body": "交接册上已经并列四枚朱印。缺口彼此相接，像一条仍未封闭的路径。" },
+            { "id": "act-5-title", "speaker": "许照", "body": "我一直说这是一本没写完的交接册。其实它不是在等某个标准结语，它是在等真正看过这些旧物的人。" },
+            { "id": "act-5-together", "speaker": "许照", "body": "你会核对证据，也会在不知道的地方停笔。做到这里，你已经不是来替我整理，而是在和我一起整理。" },
+            { "id": "act-5-push", "speaker": "旁白", "body": "她把册子推到工作台的另一侧。最后一格仍然空着，位置正朝向你。" }
+          ]
+        },
+        {
+          "id": "finale", "unlockCount": 20, "eyebrow": "终章 · 天亮前最后一页", "title": "给下一次观看留下入口", "summary": "二十件旧物全部归位，完成的不是答案合集，而是一种观看的方法。", "imageAssetId": "asset-guide-xuzhao-finale", "actionLabel": "合上物华录",
+          "beats": [
+            { "id": "finale-dawn", "speaker": "旁白", "body": "第二十件旧物归位时，窗边已经有了很淡的晨光。许照把最后一枚朱印盖下，却没有填满末页。" },
+            { "id": "finale-thanks", "speaker": "许照", "body": "谢谢你逐件看完。不是因为你猜中了二十个名字，而是因为你愿意让每一个判断都有证据。" },
+            { "id": "finale-blank", "speaker": "许照", "body": "我们也留下了不知道的部分。那不是档案的缺陷，是提醒后来的人还可以再看一次。" },
+            { "id": "finale-entry", "speaker": "许照", "body": "档案不是替旧物把话说完，而是给下一次观看留下入口。最后这条空线，就留给以后吧。" },
+            { "id": "finale-close", "speaker": "旁白", "body": "交接册轻轻合上。五枚印已经完整并列，而你的物华录从此多了一页可以重读的清晨。" }
+          ]
+        }
+      ],
+      "completionSeal": "共同整理完成",
+      "completionLine": "二十件旧物已经归位；答案写进档案，仍未知道的部分留给下一次观看。"
     },
     "copy": {
       "brand": "物华录",

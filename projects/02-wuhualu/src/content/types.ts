@@ -22,6 +22,7 @@ export type PeriodGroup = 'prehistoric' | 'shang-zhou' | 'spring-autumn-warring'
 export type DistractorTag = 'shape' | 'use' | 'period' | 'material' | 'pattern' | 'category'
 export type ArtifactSetId = 'first-fire' | 'ritual-bronze' | 'chu-sound' | 'han-light' | 'tang-world'
 export type StorySectionId = 'first-look' | 'making' | 'lived-world' | 'journey' | 'why-now'
+export type NarrativeChapterId = 'act-1' | 'act-2' | 'act-3' | 'act-4' | 'act-5' | 'finale'
 
 export type ArtifactSetDefinition = {
   id: ArtifactSetId
@@ -149,6 +150,34 @@ export type AssetManifest = {
     placeholderAssetId: string
     shareCoverAssetId: string
   }
+}
+
+export type NarrativeBeat = {
+  id: string
+  speaker: '许照' | '旁白'
+  body: string
+}
+
+export type NarrativeChapter = {
+  id: NarrativeChapterId
+  unlockCount: 1 | 4 | 8 | 12 | 16 | 20
+  eyebrow: string
+  title: string
+  summary: string
+  imageAssetId: string
+  beats: NarrativeBeat[]
+  actionLabel: string
+}
+
+export type NarrativeContent = {
+  fictionLabel: string
+  journalTitle: string
+  journalIntro: string
+  recentArtifactResponseTemplate: string
+  prologue: NarrativeBeat[]
+  chapters: NarrativeChapter[]
+  completionSeal: string
+  completionLine: string
 }
 
 export type ContentCopy = {
@@ -289,6 +318,7 @@ export type WuhualuContentPackage = {
     rounds: { id: string; artifactCount: 5; optionCount: 4; maxSameMaterial: 2; maxSamePeriodGroup: 2 }[]
     collectionRules: { unlockOnReveal: true; keepBestStars: true }
     assetManifest: AssetManifest
+    narrative: NarrativeContent
     copy: ContentCopy
   }
 }

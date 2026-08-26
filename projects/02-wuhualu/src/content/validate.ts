@@ -19,6 +19,11 @@ const CLUE_CATEGORIES = ['shape', 'material', 'provenance'] as const
 const CLUE_LABELS = ['看形', '辨材', '问来历'] as const
 const STORY_STATUSES = new Set(['verified', 'mixed-with-bounded-context', 'pending'])
 const GUIDE_LINE_KEYS = ['beforeObservation', 'clueOpened', 'correct', 'incorrect', 'archived'] as const
+const NARRATIVE_CHAPTERS = [
+  ['act-1', 1], ['act-2', 4], ['act-3', 8],
+  ['act-4', 12], ['act-5', 16], ['finale', 20],
+] as const
+const NARRATIVE_SPEAKERS = new Set(['许照', '旁白'])
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -45,7 +50,7 @@ export function validateContent(input: unknown): ContentValidationResult {
   }
   if (!Array.isArray(input.sources)) issue('$.sources', 'sources 必须是数组')
   if (!isRecord(input.content)) return { issues: [...issues, { path: '$.content', message: 'content 必须是对象' }] }
-  const contentKeys = new Set(['artifacts', 'sets', 'categories', 'distractorCandidates', 'rounds', 'collectionRules', 'assetManifest', 'copy'])
+  const contentKeys = new Set(['artifacts', 'sets', 'categories', 'distractorCandidates', 'rounds', 'collectionRules', 'assetManifest', 'narrative', 'copy'])
   Object.keys(input.content).forEach(key => {
     if (!contentKeys.has(key)) issue(`$.content.${key}`, '未知业务根字段')
   })
@@ -279,6 +284,51 @@ export function validateContent(input: unknown): ContentValidationResult {
   })
   for (const artifactId of artifactIds) {
     if ((candidateCount.get(artifactId) ?? 0) < 3) issue('$.content.distractorCandidates', `${artifactId} 的已审校干扰项不足三个`)
+  }
+
+  const narrative = input.content.narrative
+  if (!isRecord(narrative)) issue('$.content.narrative', '馆内叙事必须是完整对象')
+  else {
+    for (const key of ['fictionLabel', 'journalTitle', 'journalIntro', 'recentArtifactResponseTemplate', 'completionSeal', 'completionLine']) {
+      if (!nonEmpty(narrative[key])) issue(`$.content.narrative.${key}`, '叙事文案不能为空')
+    }
+    if (nonEmpty(narrative.recentArtifactResponseTemplate)
+      && (!narrative.recentArtifactResponseTemplate.includes('{artifact}') || !narrative.recentArtifactResponseTemplate.includes('{evidence}'))) {
+      issue('$.content.narrative.recentArtifactResponseTemplate', '最近文物回应必须包含 artifact 与 evidence 占位符')
+    }
+
+    const validateBeats = (value: unknown, path: string, min: number, max: number) => {
+      if (!Array.isArray(value) || value.length < min || value.length > max) {
+        issue(path, `对话节拍必须为 ${min}–${max} 条`)
+        return
+      }
+      const beatIds = new Set<string>()
+      value.forEach((beat, index) => {
+        const beatPath = `${path}[${index}]`
+        if (!isRecord(beat)) return issue(beatPath, '对话节拍必须是对象')
+        if (!nonEmpty(beat.id) || !ID_PATTERN.test(beat.id)) issue(`${beatPath}.id`, '对话节拍 ID 非法')
+        else if (beatIds.has(beat.id)) issue(`${beatPath}.id`, '对话节拍 ID 重复')
+        else beatIds.add(beat.id)
+        if (!NARRATIVE_SPEAKERS.has(String(beat.speaker))) issue(`${beatPath}.speaker`, '说话人只能是许照或旁白')
+        if (!nonEmpty(beat.body) || textLength(beat.body) < 8 || textLength(beat.body) > 90) issue(`${beatPath}.body`, '对话节拍必须为 8–90 字')
+      })
+    }
+
+    validateBeats(narrative.prologue, '$.content.narrative.prologue', 2, 4)
+    const chapters = Array.isArray(narrative.chapters) ? narrative.chapters : []
+    if (chapters.length !== NARRATIVE_CHAPTERS.length) issue('$.content.narrative.chapters', '必须包含五幕与一个终章')
+    chapters.forEach((chapter, index) => {
+      const chapterPath = `$.content.narrative.chapters[${index}]`
+      if (!isRecord(chapter)) return issue(chapterPath, '叙事章节必须是对象')
+      const expected = NARRATIVE_CHAPTERS[index]
+      if (!expected || chapter.id !== expected[0]) issue(`${chapterPath}.id`, '叙事章节 ID 或顺序非法')
+      if (!expected || chapter.unlockCount !== expected[1]) issue(`${chapterPath}.unlockCount`, '叙事里程碑或顺序非法')
+      for (const key of ['eyebrow', 'title', 'summary', 'actionLabel']) {
+        if (!nonEmpty(chapter[key])) issue(`${chapterPath}.${key}`, '章节文案不能为空')
+      }
+      if (!nonEmpty(chapter.imageAssetId) || !ASSET_PATTERN.test(chapter.imageAssetId)) issue(`${chapterPath}.imageAssetId`, '章节图片必须使用本地 asset ID')
+      validateBeats(chapter.beats, `${chapterPath}.beats`, 3, 5)
+    })
   }
 
   const copy = input.content.copy

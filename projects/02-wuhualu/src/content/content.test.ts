@@ -36,6 +36,33 @@ describe('production content package', () => {
     expect(validateContent(content).issues).toEqual([])
   })
 
+  it('ships the complete fictional Xu Zhao arc at ordered collection milestones', () => {
+    const narrative = (parseContent(content).content as unknown as {
+      narrative: { chapters: Array<{ id: string; unlockCount: number; beats: unknown[] }> }
+    }).narrative
+
+    expect(narrative.chapters.map(({ id, unlockCount }) => [id, unlockCount])).toEqual([
+      ['act-1', 1], ['act-2', 4], ['act-3', 8],
+      ['act-4', 12], ['act-5', 16], ['finale', 20],
+    ])
+    expect(narrative.chapters.every(chapter => chapter.beats.length >= 3 && chapter.beats.length <= 5)).toBe(true)
+  })
+
+  it('rejects a narrative chapter whose milestone or image asset is invalid', () => {
+    const broken = structuredClone(content) as unknown as {
+      content: Record<string, unknown> & {
+        narrative?: { chapters: Array<{ unlockCount: number; imageAssetId: string }> }
+      }
+    }
+    broken.content.narrative = {
+      chapters: [{ unlockCount: 1, imageAssetId: 'asset-guide-master' }, { unlockCount: 3, imageAssetId: 'https://example.com/x.webp' }],
+    }
+
+    const paths = validateContent(broken).issues.map(({ path }) => path)
+    expect(paths).toContain('$.content.narrative.chapters[1].unlockCount')
+    expect(paths).toContain('$.content.narrative.chapters[1].imageAssetId')
+  })
+
   it('gives every artifact three ordered text clues and planned fallback assets', () => {
     for (const artifact of content.content.artifacts) {
       expect(artifact.clues.map(({ level }) => level)).toEqual([1, 2, 3])

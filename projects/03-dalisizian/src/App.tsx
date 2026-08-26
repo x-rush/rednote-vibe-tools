@@ -2,11 +2,13 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { resolveCharacterAsset, resolveSceneAsset } from './app/assets'
 import { createCollectionStoryModel, createShareCardModel, getCollectionEntries } from './app/collection'
 import { getWrappedFocusIndex } from './app/focus'
-import { getCaseListItems, getDeductionReviewModel, getInvestigationRouteItems, getNodeDisplayText, getVerdictLabel, isClueBookOverlay, type DeductionReviewModel, type ReturnContext } from './app/viewModel'
+import { getCaseListItems, getDeductionEvidenceItems, getDeductionReviewModel, getInvestigationRouteItems, getNewEvidenceItems, getNodeDisplayText, getVerdictLabel, isClueBookOverlay, type DeductionReviewModel, type ReturnContext } from './app/viewModel'
 import { contentIndex, contentPackage } from './content'
 import type { CaseRuntimeState, ScreenState } from './content/types'
 import { validateContentPackage } from './content/validate'
-import { calculateVerdict, chooseOption, createInitialCaseState, enterNode, markRouteReviewed, submitDeductionAnswer, type EngineResult } from './game/engine'
+import { EvidenceArtifact } from './evidence/EvidenceArtifact'
+import { EvidenceThumbnail } from './evidence/EvidenceThumbnail'
+import { calculateVerdict, chooseOption, createInitialCaseState, enterNode, markEvidenceObserved, markRouteReviewed, submitDeductionAnswer, type EngineResult } from './game/engine'
 import { createIndexedDbCaseRecordStore } from './storage/indexedDb'
 import { STORAGE_KEY, createDefaultSave, createResilientCaseRecordStore, loadSave, recordCaseCompletion, restoreCaseProgress, saveLauncher } from './storage/storage'
 import type { CaseRecordStore, CaseVerdictRecord, ProjectSaveData } from './storage/types'
@@ -44,7 +46,9 @@ function App() {
   const [screen, setScreen] = useState<ScreenState>(validation.valid ? 'landing' : 'error')
   const [caseState, setCaseState] = useState<CaseRuntimeState>()
   const [returnContext, setReturnContext] = useState<ReturnContext>()
+  const [evidenceReturnContext, setEvidenceReturnContext] = useState<ReturnContext>()
   const [selectedEvidenceId, setSelectedEvidenceId] = useState<string>()
+  const [newEvidenceIds, setNewEvidenceIds] = useState<string[]>([])
   const [notice, setNotice] = useState<string | undefined>(loaded.issue)
   const [busyChoiceId, setBusyChoiceId] = useState<string>()
   const [guideOpen, setGuideOpen] = useState(false)
@@ -138,6 +142,8 @@ function App() {
   }, [])
 
   function applyResult(result: EngineResult): void {
+    const newlyAcquired = caseState ? getNewEvidenceItems(caseState, result.state, contentIndex) : []
+    setNewEvidenceIds(newlyAcquired.map((item) => item.id))
     setCaseState(result.state)
     setScreen(result.state.screen)
     if (!result.ok) setNotice(result.message)
@@ -216,6 +222,19 @@ function App() {
     setScreen('clueBook')
   }
 
+  function openEvidence(evidenceId: string, context: ReturnContext): void {
+    cancelPendingChoice()
+    setSelectedEvidenceId(evidenceId)
+    setEvidenceReturnContext(context)
+    setScreen('evidenceDetail')
+  }
+
+  function closeEvidence(): void {
+    if (!caseState) return
+    setScreen(evidenceReturnContext?.screen ?? 'clueBook')
+    setEvidenceReturnContext(undefined)
+  }
+
   function closeClueBook(): void {
     if (!caseState) return
     setScreen(returnContext?.screen ?? caseState.screen)
@@ -279,6 +298,9 @@ function App() {
     await recordStore.clear()
     setSave(createDefaultSave(firstCase.caseId))
     setCaseState(undefined)
+    setNewEvidenceIds([])
+    setSelectedEvidenceId(undefined)
+    setEvidenceReturnContext(undefined)
     setReviewReturnNodeId(undefined)
     setVerdictRecords({})
     setCollectionOpen(false)
@@ -391,17 +413,18 @@ function App() {
       <nav className="ledger-tabs" aria-label="证据分类"><span className="is-active">全部</span><span>事实 {clues.length}</span><span>证物 {items.length}</span></nav>
       {!clues.length && !items.length && <div className="empty-state"><span className="empty-glyph">卷</span><h2>尚无线索</h2><p>继续调查字形、字书和流传语境，所得材料会在这里归档。</p></div>}
       <div className="record-grid">{clues.map((clue, index) => <article key={clue.id} className="record-card"><span className="evidence-index">证 {String(index + 1).padStart(2, '0')}</span><p className="record-type">{clue.category}</p><h2>{clue.title}</h2><p>{clue.summary}</p><details><summary>查看可证范围</summary><p>{clue.explanation.form}</p><p>{clue.explanation.meaning}</p><p>{clue.explanation.semantics}</p><p className="uncertainty">证据边界：{clue.explanation.certainty}</p></details></article>)}</div>
-      {items.length > 0 && <><h2 className="section-title">证物案签</h2><div className="evidence-list">{items.map((item) => <button key={item.id} type="button" onClick={() => { setSelectedEvidenceId(item.id); setScreen('evidenceDetail') }}><span>{item.type}</span><strong>{item.title}</strong><i aria-hidden="true">→</i></button>)}</div></>}
+      {items.length > 0 && <><h2 className="section-title">证物案签</h2><div className="evidence-list">{items.map((item) => <button key={item.id} type="button" className="evidence-ledger-card" onClick={() => openEvidence(item.id, { screen: 'clueBook', nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={item} observedIds={caseState.evidenceObservationIdsByEvidenceId[item.id] ?? []} /><span className="evidence-ledger-action">打开核验 <i aria-hidden="true">→</i></span></button>)}</div></>}
     </section>
   }
 
   function renderEvidenceDetail() {
     const item = selectedEvidenceId ? contentIndex.evidence.get(selectedEvidenceId) : undefined
-    if (!item) return <section className="empty-state standalone"><h1>证物未找到</h1><button type="button" onClick={() => setScreen('clueBook')}>返回证据簿</button></section>
+    if (!item) return <section className="empty-state standalone"><h1>证物未找到</h1><button type="button" onClick={closeEvidence}>返回上一页</button></section>
     const sources = item.sourceIds.map((id) => contentPackage.sources.find((source) => source.id === id)).filter((source) => source !== undefined)
-    return <article className="evidence-screen" aria-labelledby="evidence-title"><header className="page-header"><button type="button" className="icon-button" aria-label="返回证据簿" onClick={() => setScreen('clueBook')}>←</button><div><p className="eyebrow">ORIGINAL MATERIAL</p><h1 id="evidence-title">证物检查</h1></div><span className="seal-mini">{item.type}</span></header>
-      <div className="artifact-stage"><span className="artifact-corners" aria-hidden="true" /><div className="artifact-placeholder"><span>{item.type}</span><strong>人工核验资源位</strong><small>图形未过审时，仅展示可追溯文字说明</small></div></div>
-      <div className="detail-sheet"><p className="record-type">{item.type}证据</p><h2>{item.title}</h2><p>{item.body}</p><div className="boundary-card"><b>证据边界</b><p>图片缺失不影响取得事实；古文字图形只接受权威来源与人工核验 SVG。</p></div><details><summary>来源与资源性质</summary><ul>{sources.map((source) => <li key={source.id}><span>{source.title}</span><p>{source.note}</p></li>)}</ul></details></div>
+    const observedIds = caseState?.evidenceObservationIdsByEvidenceId[item.id] ?? []
+    return <article className="evidence-screen" aria-labelledby="evidence-title"><header className="page-header"><button type="button" className="icon-button" aria-label="返回上一页" onClick={closeEvidence}>←</button><div><p className="eyebrow">ORIGINAL MATERIAL</p><h1 id="evidence-title">证物检查</h1></div><span className="seal-mini">{item.type}</span></header>
+      <EvidenceArtifact evidence={item} sources={contentPackage.sources} observedIds={observedIds} reducedMotion={save.settings.reducedMotion} onObserve={(observationId) => setCaseState((current) => current ? markEvidenceObserved(current, item.id, observationId, contentIndex) : current)} />
+      <div className="detail-sheet"><p className="record-type">{item.type}证据</p><h2>{item.title}</h2><p>{item.body}</p><div className="boundary-card"><b>证据边界</b><p>{item.visualSpec.fallbackSummary}</p></div><details><summary>来源与资源性质</summary><ul>{sources.map((source) => <li key={source.id}><span>{source.title}</span><p>{source.note}</p></li>)}</ul></details></div>
     </article>
   }
 
@@ -433,7 +456,11 @@ function App() {
     const routeChoices = node.kind === 'investigation-hub' ? new Map((node.choices ?? []).filter((item) => routeEntryIds.has(item.nextNodeId)).map((item) => [item.nextNodeId, item])) : new Map()
     const routesComplete = routeItems.length > 0 && routeItems.every((item) => item.completed)
     const reviewModel = deduction ? getDeductionReviewModel(deduction, caseState, contentIndex) : undefined
-    const focusEvidence = (deduction?.focusEvidenceIds ?? []).map((id) => contentIndex.evidence.get(id)).filter((item) => item !== undefined)
+    const focusEvidence = deduction ? getDeductionEvidenceItems(deduction, caseState, contentIndex) : []
+    const newEvidence = newEvidenceIds.flatMap((id) => {
+      const item = contentIndex.evidence.get(id)
+      return item?.caseId === caseState.caseId ? [item] : []
+    })
     const options = node.kind === 'investigation-hub' ? [] : deduction?.options ?? node.choices ?? []
     return <section className={`case-shell screen-${screen}`} aria-labelledby="case-title">
       <header className="case-header"><button type="button" className="icon-button dark" aria-label="返回案卷柜" disabled={sealActive} onClick={() => { cancelPendingChoice(); setReviewReturnNodeId(undefined); setScreen('caseList') }}>←</button><div className="case-heading"><p>第 {String(caseData.order).padStart(2, '0')} 案 · {screenNames[screen] ?? caseData.difficulty}</p><h1 id="case-title">{caseData.title}</h1></div><button type="button" className="ledger-button" disabled={sealActive} onClick={openClueBook}><span>{caseState.clueIds.length}</span>证据簿</button></header>
@@ -451,8 +478,9 @@ function App() {
           <button type="button" className={`deduction-gate ${routesComplete ? 'is-ready' : ''}`} disabled={!routesComplete || !deductionChoice || Boolean(busyChoiceId)} onClick={() => deductionChoice && choose(deductionChoice.id)}><span>{routesComplete ? '证据链已齐备' : `尚缺 ${routeItems.filter((item) => !item.completed).length} 路线索`}</span><b>{deductionChoice?.text ?? '整理证据，申请终判'}</b></button>
         </section>}
         {node.kind === 'clue' && acquiredClues.map((clue) => <div className="acquired-card" key={clue.id}><span>已归档</span><div><b>{clue.title}</b><small>{clue.summary}</small></div></div>)}
+        {newEvidence.length > 0 && <section className="evidence-acquired" aria-live="polite"><header><div><span>NEW EVIDENCE</span><b>新证物入卷</b></div><button type="button" onClick={() => setNewEvidenceIds([])}>稍后再看</button></header><div>{newEvidence.map((item) => <button key={item.id} type="button" onClick={() => openEvidence(item.id, { screen, nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={item} observedIds={caseState.evidenceObservationIdsByEvidenceId[item.id] ?? []} /></button>)}</div><p>点击案签检查图像，并核验两处观察点；进度会自动记入证据簿。</p></section>}
         {caseState.deductionFeedback && <div className={`feedback ${reviewModel ? 'is-broken-chain' : ''}`} role="status"><span>{reviewModel ? '证据链在这里断开' : '复核意见'}</span><p>{caseState.deductionFeedback}</p>{reviewModel && <button type="button" onClick={() => reviewDeduction(reviewModel)}>回查{reviewModel.routeTitle ? `「${reviewModel.routeTitle}」` : '相关证据'}</button>}</div>}
-        {focusEvidence.length > 0 && <div className="focus-evidence" aria-label="本问关联证物">{focusEvidence.map((item) => <span key={item.id}>{caseState.evidenceIds.includes(item.id) ? '已核' : '待核'} · {item.title}</span>)}</div>}
+        {focusEvidence.length > 0 && <section className="focus-evidence" aria-label="本问关联证物"><header><span>本问证物</span><small>可随时打开复核，不会丢失当前推理</small></header><div>{focusEvidence.map(({ evidence, acquired }) => <button key={evidence.id} type="button" disabled={!acquired} onClick={() => openEvidence(evidence.id, { screen, nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={evidence} observedIds={caseState.evidenceObservationIdsByEvidenceId[evidence.id] ?? []} /><span>{acquired ? '打开复核' : '尚未取得'}</span></button>)}</div></section>}
         {deduction && <div className="deduction-head"><span>选择成立的证据关系</span><small>错误不会清除已有证据</small></div>}
         {options.length > 0 && <div className="option-list" aria-label={deduction ? '推理选项' : '对话选项'}>{options.map((option, index) => <button key={option.id} type="button" disabled={Boolean(busyChoiceId)} className={busyChoiceId === option.id ? 'is-committing' : ''} onClick={() => deduction ? answer(option.id) : choose(option.id)}><span className="choice-index">{String(index + 1).padStart(2, '0')}</span><span>{option.text}</span><i aria-hidden="true" /></button>)}</div>}
         {verdict && <div className="ending-result"><div className={`verdict-seal ${sealActive ? 'is-active' : ''}`} aria-hidden="true">定</div><p className="seal-label">大理寺参考判词</p><h2>{verdict.ending.title}</h2><p>{verdict.ending.verdictReason}</p><div className="verdict-compare"><div><span>初判</span><b>{getVerdictLabel(caseState.initialVerdict)}</b></div><i aria-hidden="true">→</i><div><span>终判</span><b>{getVerdictLabel(caseState.finalVerdict ?? verdict.ending.officialVerdict)}</b></div></div><p className="uncertainty">争议说明：{verdict.ending.scholarlyUncertainty}</p><dl><div><dt>评价</dt><dd>{verdict.rating}</dd></div><div><dt>证据质量</dt><dd>{verdict.score} / 100</dd></div></dl><div className="score-breakdown"><b>本次成立的断案依据</b><ul>{caseData.scoringRules.filter((rule) => verdict.matchedRuleIds.includes(rule.id)).map((rule) => <li key={rule.id}><span>{rule.label}</span><em>+{rule.points}</em></li>)}</ul></div><details><summary>来源与叙事说明</summary><ul>{verdict.ending.sourceIds.map((id) => { const source = contentPackage.sources.find((item) => item.id === id); return source ? <li key={id}><span>{source.title}</span><p>{source.note}</p></li> : null })}</ul></details><p className="archive-reward">落印后收入断案图鉴，并生成专属 3:4 战绩卡。</p><button type="button" className="primary seal-button" disabled={sealActive} onClick={archiveEnding}>{sealActive ? '正在落印…' : '落印 · 收入图鉴'}</button></div>}

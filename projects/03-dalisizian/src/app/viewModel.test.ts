@@ -111,6 +111,16 @@ describe('semantic page view model', () => {
     ])
   })
 
+  it('does not announce another case\'s restored evidence as newly acquired', () => {
+    const restoredState = {
+      ...baseState,
+      caseId: 'case-rest-under-tree',
+      evidenceIds: ['evidence-rest-components'],
+    }
+
+    expect(getNewEvidenceItems(baseState, restoredState, contentIndex)).toEqual([])
+  })
+
   it('preserves deduction evidence order without granting missing evidence', () => {
     const caseData = contentIndex.cases.get(baseState.caseId)
     const deduction = caseData?.deductions.find((item) => item.id === 'deduction-home-method')

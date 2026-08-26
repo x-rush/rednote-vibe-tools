@@ -109,6 +109,7 @@ export function getNewEvidenceItems(
   next: CaseRuntimeState,
   index: ContentIndex,
 ): Evidence[] {
+  if (previous.caseId !== next.caseId) return []
   const previousIds = new Set(previous.evidenceIds)
   return next.evidenceIds
     .filter((id) => !previousIds.has(id))

@@ -528,6 +528,9 @@ export function appReducer(state: AppState, action: AppAction): AppState {
           return { ...state, payload, chapterId: 'finale', replay: false }
         }
       }
+      if (state.chapterId === 'finale' && payload.collection.length === 20) {
+        return { screen: 'collection', payload, returnTo: 'landing', summarySession: null }
+      }
       return resumeAfterNarrative(state, payload)
     }
     case 'deferNarrative': {

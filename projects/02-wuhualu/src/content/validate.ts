@@ -289,7 +289,7 @@ export function validateContent(input: unknown): ContentValidationResult {
   const narrative = input.content.narrative
   if (!isRecord(narrative)) issue('$.content.narrative', '馆内叙事必须是完整对象')
   else {
-    for (const key of ['fictionLabel', 'journalTitle', 'journalIntro', 'recentArtifactResponseTemplate', 'completionSeal', 'completionLine']) {
+    for (const key of ['fictionLabel', 'journalTitle', 'journalIntro', 'continueActionLabel', 'deferActionLabel', 'pendingActionLabel', 'replayActionLabel', 'recentArtifactResponseTemplate', 'completionSeal', 'completionLine']) {
       if (!nonEmpty(narrative[key])) issue(`$.content.narrative.${key}`, '叙事文案不能为空')
     }
     if (nonEmpty(narrative.recentArtifactResponseTemplate)

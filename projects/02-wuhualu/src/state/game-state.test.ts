@@ -45,8 +45,9 @@ function answerCurrent(state: AppState, correct: boolean): AppState {
 
 function archiveCurrent(state: AppState): AppState {
   state = answerCurrent(state, true)
-  if (state.screen !== 'reveal') throw new Error('expected reveal')
-  const artifact = state.artifacts.find(({ id }) => id === state.result.artifactId)
+  if (state.screen !== 'reveal' || !('result' in state) || !('artifacts' in state)) throw new Error('expected reveal')
+  const resultArtifactId = state.result.artifactId
+  const artifact = state.artifacts.find(({ id }) => id === resultArtifactId)
   if (!artifact) throw new Error('missing current artifact')
   state = appReducer(state, { type: 'openStory' })
   for (const section of artifact.experienceV2.story) {
@@ -238,7 +239,7 @@ describe('application V2 state machine', () => {
     expect((state as unknown as { chapterId: string }).chapterId).toBe('finale')
     state = appReducer(state, { type: 'completeNarrative' })
 
-    expect(state.screen).toBe('observation')
+    expect(state.screen).toBe('collection')
     expect(state.payload.seenNarrativeIds).toEqual(['act-1', 'act-2', 'act-3', 'act-4', 'act-5', 'finale'])
   })
 

@@ -1,16 +1,17 @@
 import { describe, expect, it } from 'vitest'
 import rawContent from '../content/content.json'
 import { parseContent } from '../content/validate.ts'
-import { getPageChrome, pageScrollScope, shouldShowExitAction, type ScreenName } from './page-model.ts'
+import { buildNarrativeJournalModel, getPageChrome, pageScrollScope, shouldShowExitAction, type ScreenName } from './page-model.ts'
 
-const copy = parseContent(rawContent).content.copy
+const parsed = parseContent(rawContent)
+const copy = parsed.content.copy
 
 describe('semantic page model', () => {
   it('gives every required screen a title and primary action from content copy', () => {
     const screens: ScreenName[] = [
       'landing', 'intro', 'modeSelect', 'observation', 'clueSelect', 'answering',
       'wrongReview', 'reveal', 'story', 'memory', 'archive', 'setComplete',
-      'collection', 'artifactDetail', 'summary', 'error',
+      'narrativeInterlude', 'collection', 'artifactDetail', 'summary', 'error',
     ]
     for (const screen of screens) {
       const chrome = getPageChrome(screen, copy)
@@ -41,5 +42,15 @@ describe('semantic page model', () => {
     expect(pageScrollScope({ screen: 'answering', session: { index: 2 } })).toBe('case:2')
     expect(pageScrollScope({ screen: 'observation', session: { index: 3 } })).toBe('case:3')
     expect(pageScrollScope({ screen: 'artifactDetail', artifactId: 'artifact-eagle-tripod' })).toBe('artifactDetail:artifact-eagle-tripod')
+  })
+
+  it('exposes unlocked journal entries and a finale replay at 20/20', () => {
+    const seenIds = ['act-1', 'act-2', 'act-3', 'act-4', 'act-5', 'finale'] as const
+    const model = buildNarrativeJournalModel(parsed.content.narrative, 20, seenIds, [])
+
+    expect(model.complete).toBe(true)
+    expect(model.pendingId).toBeNull()
+    expect(model.entries.filter(({ unlocked }) => unlocked)).toHaveLength(6)
+    expect(model.replayableIds).toContain('finale')
   })
 })

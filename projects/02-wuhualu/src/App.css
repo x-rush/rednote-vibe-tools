@@ -44,6 +44,44 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .intro-steps li > span { display: grid; place-items: center; align-self: start; width: 42px; height: 42px; color: var(--accent); border: 1px solid currentColor; font: 700 .76rem Georgia, serif; transform: rotate(-3deg); }
 .intro-steps strong { font: 700 1.08rem "Songti SC", SimSun, serif; }
 .intro-steps p { margin: 7px 0 0; color: var(--muted); font-size: .86rem; line-height: 1.7; }
+.narrative-prologue { margin: 24px 0; padding: 18px; border: 1px solid var(--line-strong); background: #efe7d6; }
+.narrative-prologue > p { margin: 0 0 13px; color: var(--accent); font-size: .68rem; font-weight: 750; letter-spacing: .1em; }
+.narrative-prologue > div { display: grid; gap: 12px; }
+.narrative-prologue blockquote { margin: 0; padding-left: 12px; font: 700 .9rem/1.75 "Songti SC", SimSun, serif; border-left: 2px solid var(--line-strong); }
+.narrative-prologue blockquote span { display: block; margin-bottom: 3px; color: var(--accent); font: 700 .65rem/1.4 system-ui, sans-serif; letter-spacing: .08em; }
+.narrative-interlude { position: relative; isolation: isolate; display: grid; grid-template-rows: minmax(390px, 50svh) auto; min-height: calc(100svh - 82px); margin-inline: -18px; color: #f8f1e3; background: #171817; overflow: hidden; }
+.narrative-interlude__portrait { position: relative; min-width: 0; overflow: hidden; background: #252726; }
+.narrative-interlude__portrait::after { content: ''; position: absolute; inset: 46% 0 0; background: linear-gradient(to bottom, transparent, #171817); pointer-events: none; }
+.narrative-interlude__portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
+.narrative-interlude__dialogue { position: relative; z-index: 1; display: grid; align-content: start; min-width: 0; margin-top: -44px; padding: 24px 18px max(24px, env(safe-area-inset-bottom)); background: linear-gradient(to bottom, rgb(23 24 23 / 70%), #171817 48px); }
+.narrative-interlude__fiction, .narrative-interlude__eyebrow, .narrative-interlude__speaker { margin: 0; }
+.narrative-interlude__fiction { color: #cdbb9b; font-size: .66rem; letter-spacing: .09em; }
+.narrative-interlude__eyebrow { margin-top: 15px; color: #d7a47f; font-size: .72rem; font-weight: 750; letter-spacing: .12em; }
+.narrative-interlude h1 { max-width: none; margin: 7px 0 18px; color: #fff9eb; font-size: clamp(1.8rem, 8vw, 3rem); }
+.narrative-interlude__speaker { color: #d7a47f; font-size: .72rem; font-weight: 750; }
+.narrative-interlude blockquote { min-height: 6.8em; margin: 7px 0 18px; font: 700 1.04rem/1.8 "Songti SC", SimSun, serif; }
+.narrative-interlude__progress { display: flex; gap: 7px; margin-bottom: 18px; }
+.narrative-interlude__progress span { width: 24px; height: 2px; background: rgb(255 249 235 / 22%); }
+.narrative-interlude__progress span.is-read { background: #d7a47f; }
+.narrative-interlude__actions { display: grid; grid-template-columns: minmax(90px, auto) minmax(0, 1fr); gap: 12px; align-items: center; }
+.narrative-interlude__actions .text-button { color: #cdbb9b; }
+.narrative-interlude__actions .primary-button { color: #211c16; background: #efe2c7; }
+.narrative-interlude__actions .primary-button:only-child { grid-column: 1 / -1; }
+.narrative-interlude--finale .narrative-interlude__portrait::after { background: linear-gradient(to bottom, transparent, #22201c); }
+.narrative-journal { margin: 30px 0; padding: 18px; border: 1px solid var(--line-strong); background: #eee5d3; }
+.narrative-journal > header { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+.narrative-journal > header p { margin: 0 0 5px; color: var(--accent); font-size: .66rem; letter-spacing: .09em; }
+.narrative-journal h2 { margin: 0; font: 700 1.35rem "Songti SC", SimSun, serif; }
+.narrative-journal__intro { margin: 14px 0 18px; color: var(--muted); font-size: .82rem; line-height: 1.7; }
+.narrative-journal__seal { display: grid; place-items: center; flex: 0 0 72px; width: 72px; min-height: 72px; padding: 8px; color: var(--accent); text-align: center; border: 3px double currentColor; border-radius: 50%; font: 700 .7rem/1.35 "Songti SC", SimSun, serif; transform: rotate(-6deg); }
+.narrative-journal ol { display: grid; gap: 1px; margin: 0; padding: 1px; list-style: none; background: var(--line); }
+.narrative-journal li { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 12px; background: var(--paper); }
+.narrative-journal li > span { align-self: start; color: var(--accent); font: 700 .7rem Georgia, serif; }
+.narrative-journal li strong { font: 700 .94rem "Songti SC", SimSun, serif; }
+.narrative-journal li p { margin: 4px 0 0; color: var(--muted); font-size: .72rem; line-height: 1.55; }
+.narrative-journal li button { min-height: 44px; padding: 7px 10px; color: var(--accent); border: 1px solid currentColor; background: transparent; font-size: .68rem; }
+.narrative-journal li.is-new { box-shadow: inset 3px 0 var(--accent); }
+.narrative-journal li.is-seen { opacity: .78; }
 .guide-overlay { position: fixed; z-index: 20; inset: 0; display: grid; align-items: end; padding: 10px; background: rgba(24, 23, 20, .72); }
 .guide-sheet { position: relative; width: min(100%, 520px); max-height: calc(100svh - 20px); margin: 0 auto; overflow-y: auto; color: var(--ink); border: 1px solid var(--line-strong); background: var(--paper); box-shadow: 0 -18px 50px rgba(20, 18, 14, .34); outline: 0; }
 .guide-sheet__close { position: absolute; z-index: 4; top: 10px; right: 10px; display: grid; place-items: center; width: 48px; min-height: 48px; padding: 0; color: #fff; border: 1px solid rgb(255 255 255 / 58%); border-radius: 50%; background: rgb(24 23 20 / 64%); font-size: 1.6rem; }
@@ -154,7 +192,7 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 .error-page { text-align: center; }
 .error-page h1 { margin-inline: auto; }
 .error-mark { width: 54px; height: 54px; margin: 28px auto; border: 2px solid var(--accent); transform: rotate(45deg); }
-@media (min-width: 430px) { .app-shell { padding-inline: 24px; } .mode-grid { grid-template-columns: 1fr 1fr; } .collection-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 430px) { .app-shell { padding-inline: 24px; } .narrative-interlude { margin-inline: -24px; } .mode-grid { grid-template-columns: 1fr 1fr; } .collection-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 560px) { .detail-evidence-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .detail-evidence-card { display: block; } .detail-evidence-card > span { display: block; margin-bottom: 20px; } .detail-evidence-card p { margin-top: 8px; } .detail-archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .detail-related-shelf { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-inline: 0; padding-inline: 0; overflow: visible; } .detail-related-shelf article { min-width: 0; } }
 @media (prefers-reduced-motion: no-preference) { button { transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, transform 160ms ease; } button:not(:disabled):active { transform: translateY(1px); } }
 
@@ -290,6 +328,9 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
   .guide-presence--stage .guide-presence__portrait img { animation: guide-stage-in 440ms cubic-bezier(.22, .72, .24, 1) both; }
   .guide-presence--stage .guide-presence__dialogue { animation: guide-dialogue-in 280ms 120ms ease-out both; }
   .guide-sheet { animation: guide-sheet-in 240ms ease-out both; }
+  .narrative-interlude__portrait img { animation: narrative-portrait-in 520ms ease-out both; }
+  .narrative-interlude blockquote { animation: narrative-beat-in 220ms ease-out both; }
+  .narrative-journal li.is-new { animation: narrative-journal-in 240ms ease-out both; }
   .intro-steps li { animation: guide-note-in 260ms ease-out both; }
   .intro-steps li:nth-child(2) { animation-delay: 60ms; }
   .intro-steps li:nth-child(3) { animation-delay: 120ms; }
@@ -310,3 +351,6 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 @keyframes guide-stage-in { from { opacity: .55; transform: translateX(18px) scale(1.015); } }
 @keyframes guide-dialogue-in { from { opacity: 0; transform: translateY(12px); } }
 @keyframes guide-sheet-in { from { opacity: 0; transform: translateY(20px); } }
+@keyframes narrative-portrait-in { from { opacity: .68; transform: scale(1.018); } }
+@keyframes narrative-beat-in { from { opacity: 0; transform: translateY(7px); } }
+@keyframes narrative-journal-in { from { opacity: .55; transform: translateX(8px); } }

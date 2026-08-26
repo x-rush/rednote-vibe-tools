@@ -173,6 +173,10 @@ export type NarrativeContent = {
   fictionLabel: string
   journalTitle: string
   journalIntro: string
+  continueActionLabel: string
+  deferActionLabel: string
+  pendingActionLabel: string
+  replayActionLabel: string
   recentArtifactResponseTemplate: string
   prologue: NarrativeBeat[]
   chapters: NarrativeChapter[]

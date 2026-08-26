@@ -944,6 +944,10 @@
       "fictionLabel": "馆内叙事 · 虚构角色线",
       "journalTitle": "闭馆手记",
       "journalIntro": "许照把共同整理的经过夹在档案之间；每一次归档，都会让未完成的交接册多一页。",
+      "continueActionLabel": "继续听",
+      "deferActionLabel": "稍后再看",
+      "pendingActionLabel": "读新一页",
+      "replayActionLabel": "重新翻开",
       "recentArtifactResponseTemplate": "你刚刚记住了「{artifact}」的{evidence}。名字会回到标签上，这处证据会留在你的眼睛里。",
       "prologue": [
         { "id": "prologue-room", "speaker": "旁白", "body": "闭馆后的整理室只剩工作灯亮着。许照从待归档材料下面，抽出一本没有结语的交接册。" },

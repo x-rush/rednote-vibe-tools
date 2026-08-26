@@ -2,10 +2,10 @@ import type { Evidence, EvidenceObservationPoint, EvidenceVisualSpec, MythVerdic
 import { resolveEvidenceAsset } from './assets'
 
 const evidenceResourceNatureByTemplate: Record<EvidenceVisualSpec['template'], string> = {
-  'glyph-timeline': '产品重构 · 构件结构示意图',
-  'lexicon-scroll': '产品重构 · 字书材料排版',
-  'semantic-map': '产品重构 · 语义关系图',
-  'myth-verdict': '产品重构 · 证据边界对照图',
+  'glyph-timeline': '字形演变卷',
+  'lexicon-scroll': '字书抄录卷',
+  'semantic-map': '义项勘校卷',
+  'myth-verdict': '传言核验卷',
 }
 
 export function getEvidenceResourceNature(visual: EvidenceVisualSpec): string {

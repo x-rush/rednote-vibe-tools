@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from 'react'
 import type { Evidence, SourceRecord } from '../content/types'
 import { createEvidenceArtifactModel, getEvidenceResourceNature } from './model'
+import { resolveEvidenceGlyphAsset } from './assets'
 import { GlyphTimelineArtifact } from './GlyphTimelineArtifact'
 import { LexiconScrollArtifact } from './LexiconScrollArtifact'
 import { MythVerdictArtifact } from './MythVerdictArtifact'
@@ -18,6 +19,13 @@ export type EvidenceArtifactProps = {
 export function EvidenceArtifact({ evidence, sources, observedIds, onObserve, reducedMotion }: EvidenceArtifactProps) {
   const model = createEvidenceArtifactModel(evidence, observedIds, sources)
   const template = model.visualSpec
+  const glyphStages = template.template === 'glyph-timeline'
+    ? template.stages.flatMap((stage) => {
+        const path = stage.glyphAssetId ? resolveEvidenceGlyphAsset(stage.glyphAssetId) : undefined
+        return path ? [{ path, stage }] : []
+      })
+    : []
+  const glyphName = model.thumbnailLabel.split('·')[0]
   const [activeObservationId, setActiveObservationId] = useState<string | undefined>(undefined)
   const activeObservation = model.observationPoints.find((point) => point.id === activeObservationId)
   const observe = (observationId: string) => {
@@ -25,9 +33,10 @@ export function EvidenceArtifact({ evidence, sources, observedIds, onObserve, re
     onObserve(observationId)
   }
   return <section className={`evidence-artifact palette-${model.palette} ${reducedMotion ? 'is-reduced-motion' : ''}`} data-evidence-id={evidence.id} data-template={model.template}>
-    <header className="evidence-artifact-heading"><div><span>{evidence.type}证物 · EVIDENCE WORKBENCH</span><h2>{model.thumbnailLabel}</h2></div><strong className={model.progress.complete ? 'is-complete' : ''}>{model.progress.complete ? '已核' : `${model.progress.observed} / ${model.progress.total}`}</strong></header>
+    <header className="evidence-artifact-heading"><div><span>{evidence.type}证物 · CASE EVIDENCE</span><h2>{model.thumbnailLabel}</h2></div><strong className={model.progress.complete ? 'is-complete' : ''}>{model.progress.complete ? '已核' : `${model.progress.observed} / ${model.progress.total}`}</strong></header>
     <div className="evidence-plate">
       {model.assetPath ? <img src={model.assetPath} alt="" decoding="async" /> : <div className="evidence-artifact-fallback"><b>{evidence.type}</b><p>{model.fallbackSummary}</p></div>}
+      {glyphStages.length > 0 && <div className="glyph-facsimile-layer">{glyphStages.map(({ path, stage }) => <figure key={stage.id}><img src={path} alt={`${glyphName}字${stage.period}字形摹本`} decoding="async" /><figcaption>{stage.period}</figcaption></figure>)}</div>}
       <div className="evidence-hotspots" aria-label="证物观察点">{model.observationPoints.map((point, index) => <button key={point.id} type="button" data-observation-id={point.id} className={model.observedIds.includes(point.id) ? 'is-observed' : ''} style={{ '--point-x': `${point.anchor.x}%`, '--point-y': `${point.anchor.y}%` } as CSSProperties} aria-label={`观察：${point.title}`} onClick={() => observe(point.id)}><i aria-hidden="true">{model.observedIds.includes(point.id) ? '✓' : index + 1}</i><span>{point.title}</span></button>)}</div>
     </div>
     <div className="evidence-template-body">

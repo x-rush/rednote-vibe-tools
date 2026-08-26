@@ -7,6 +7,12 @@ import { getMythObservationIdForReveal } from './model'
 
 describe('interactive evidence components', () => {
   it.each(contentPackage.content.evidence)('renders $id without the generic placeholder', (evidence) => {
+    const expectedVolumeLabel = {
+      'glyph-timeline': '字形演变卷',
+      'lexicon-scroll': '字书抄录卷',
+      'semantic-map': '义项勘校卷',
+      'myth-verdict': '传言核验卷',
+    }[evidence.visualSpec.template]
     const html = renderToStaticMarkup(
       <EvidenceArtifact
         evidence={evidence}
@@ -24,7 +30,8 @@ describe('interactive evidence components', () => {
     expect(html).not.toContain('产品结构图')
     expect(html).not.toContain('产品释文')
     expect(html).not.toContain('ORIGINAL MATERIAL')
-    expect(html).toContain('产品重构')
+    expect(html).not.toContain('产品重构')
+    expect(html).toContain(expectedVolumeLabel)
   })
 
   it('renders a complete thumbnail seal from observed progress', () => {
@@ -46,6 +53,19 @@ describe('interactive evidence components', () => {
     expect(html).toContain('evidence-artifact-fallback')
     expect(html).toContain(evidence.visualSpec.fallbackSummary)
     expect(html).not.toContain('人工核验资源位')
+  })
+
+  it('lays licensed historical glyphs over the home facsimile plate', () => {
+    const evidence = contentPackage.content.evidence.find((item) => item.id === 'evidence-home-early-form')
+    if (!evidence) throw new Error('home early-form fixture missing')
+    const html = renderToStaticMarkup(
+      <EvidenceArtifact evidence={evidence} sources={contentPackage.sources} observedIds={[]} onObserve={() => {}} reducedMotion />,
+    )
+
+    expect(html).toContain('glyph-facsimile-layer')
+    expect(html).toContain('家字商代甲骨字形摹本')
+    expect(html).toContain('家字西周金文字形摹本')
+    expect(html).toContain('家字《说文》小篆字形摹本')
   })
 
   it.each(contentPackage.content.evidence.filter((item) => item.visualSpec.template === 'myth-verdict'))(

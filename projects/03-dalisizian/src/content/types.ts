@@ -147,6 +147,7 @@ export type GlyphTimelineVisual = EvidenceVisualBase & {
     label: string
     period: string
     assetId?: string
+    glyphAssetId?: string
     materialKind: 'structure-diagram' | 'database-rendering' | 'rubbing' | 'manual-tracing'
     certainty: string
     sourceIds: string[]

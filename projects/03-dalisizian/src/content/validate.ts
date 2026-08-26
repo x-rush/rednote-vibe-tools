@@ -153,6 +153,7 @@ export function validateContentPackage(value: unknown): ValidationReport {
           else if (typeof stage.id === 'string') stageIds.add(stage.id)
           validateObservationLink(stage.observationId, `${stagePath}.observationId`, true)
           if (stage.assetId !== undefined && (typeof stage.assetId !== 'string' || !idPattern.test(stage.assetId) || stage.assetId !== evidence.assetId)) add('invalid-evidence-visual-reference', `${stagePath}.assetId`, '阶段资源必须解析为当前证物的本地图版。')
+          if (stage.glyphAssetId !== undefined && (typeof stage.glyphAssetId !== 'string' || !idPattern.test(stage.glyphAssetId))) add('invalid-evidence-visual-reference', `${stagePath}.glyphAssetId`, '阶段字形资源 ID 无效。')
           validateVisualSources(stage.sourceIds, `${stagePath}.sourceIds`)
         }
         })

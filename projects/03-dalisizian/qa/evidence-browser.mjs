@@ -116,7 +116,7 @@ async function seedCase(caseData, evidenceIds) {
 async function openSeededLedger() {
   await command('Page.navigate', { url: baseUrl })
   await waitFor(`document.querySelector('.landing-screen') !== null`)
-  await evaluate(`document.querySelector('.landing-actions .primary').click()`)
+  await evaluate(`document.querySelector('.landing-primary').click()`)
   await waitFor(`document.querySelector('.case-shell') !== null`)
   await evaluate(`document.querySelector('.ledger-button').click()`)
   await waitFor(`document.querySelector('.ledger-screen') !== null`)
@@ -209,7 +209,7 @@ if (allEvidenceReports.length !== 32) throw new Error(`Expected 32 evidence repo
 await seedCase(homeCase, [])
 await command('Page.navigate', { url: baseUrl })
 await waitFor(`document.querySelector('.landing-screen') !== null`)
-await evaluate(`document.querySelector('.landing-actions .primary').click()`)
+await evaluate(`document.querySelector('.landing-primary').click()`)
 await waitFor(`document.querySelector('.case-shell') !== null`)
 let acquisitionSteps = 0
 while (!(await evaluate(`document.querySelector('.evidence-acquired') !== null`)) && acquisitionSteps < 40) {

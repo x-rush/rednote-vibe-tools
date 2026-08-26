@@ -1,5 +1,5 @@
 const evidenceAssets: Readonly<Record<string, string>> = Object.freeze({
-  'asset-evidence-home-early-form': './assets/evidence/home/asset-evidence-home-early-form-v1.svg',
+  'asset-evidence-home-early-form': './assets/evidence/home/asset-evidence-home-early-form-v2.webp',
   'asset-evidence-home-shuowen': './assets/evidence/home/asset-evidence-home-shuowen-v1.svg',
   'asset-evidence-home-phonetic': './assets/evidence/home/asset-evidence-home-phonetic-v1.svg',
   'asset-evidence-home-social-leap': './assets/evidence/home/asset-evidence-home-social-leap-v1.svg',
@@ -33,6 +33,16 @@ const evidenceAssets: Readonly<Record<string, string>> = Object.freeze({
   'asset-evidence-autumn-debate': './assets/evidence/autumn/asset-evidence-autumn-debate-v1.svg',
 })
 
+const evidenceGlyphAssets: Readonly<Record<string, string>> = Object.freeze({
+  'asset-glyph-home-oracle-pd': './assets/evidence/home/glyph-home-oracle-pd-v1.svg',
+  'asset-glyph-home-bronze-pd': './assets/evidence/home/glyph-home-bronze-pd-v1.svg',
+  'asset-glyph-home-seal-pd': './assets/evidence/home/glyph-home-seal-pd-v1.svg',
+})
+
 export function resolveEvidenceAsset(assetId: string): string | undefined {
   return evidenceAssets[assetId]
+}
+
+export function resolveEvidenceGlyphAsset(assetId: string): string | undefined {
+  return evidenceGlyphAssets[assetId]
 }

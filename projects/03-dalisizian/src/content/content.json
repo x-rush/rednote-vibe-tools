@@ -25,6 +25,27 @@
       "note": "核对家字传统解释。"
     },
     {
+      "id": "source-home-glyph-oracle-commons",
+      "title": "Wikimedia Commons“家”商代甲骨字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E5%AE%B6-oracle.svg",
+      "note": "公版古文字 SVG 图版，页面标注为商代甲骨字形并定位 J17442；本作将其作为摹本字形嵌入复原证物。"
+    },
+    {
+      "id": "source-home-glyph-bronze-commons",
+      "title": "Wikimedia Commons“家”西周金文字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E5%AE%B6-bronze.svg",
+      "note": "公版古文字 SVG 图版，页面标注为西周金文字形并定位 B11216；本作将其作为摹本字形嵌入复原证物。"
+    },
+    {
+      "id": "source-home-glyph-seal-commons",
+      "title": "Wikimedia Commons“家”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E5%AE%B6-seal.svg",
+      "note": "公版古文字 SVG 图版，页面标注为《说文》小篆字形并定位 S05205；本作将其作为摹本字形嵌入复原证物。"
+    },
+    {
       "id": "source-take-ctext",
       "title": "中国哲学书电子化计划“取”字资料",
       "type": "A",
@@ -8808,7 +8829,10 @@
         "assetId": "asset-evidence-home-early-form",
         "sourceIds": [
           "source-home-shuowen",
-          "source-home-moe-variants"
+          "source-home-moe-variants",
+          "source-home-glyph-oracle-commons",
+          "source-home-glyph-bronze-commons",
+          "source-home-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -8823,8 +8847,9 @@
               "title": "分期先后",
               "body": "先把早期材料与现代楷形分开观察。",
               "sourceIds": [
-                "source-home-shuowen",
-                "source-home-moe-variants"
+                "source-home-moe-variants",
+                "source-home-glyph-oracle-commons",
+                "source-home-glyph-bronze-commons"
               ],
               "anchor": {
                 "x": 30,
@@ -8837,7 +8862,8 @@
               "body": "关注宀、豕及传统声符分析各自能说明什么。",
               "sourceIds": [
                 "source-home-shuowen",
-                "source-home-moe-variants"
+                "source-home-moe-variants",
+                "source-home-glyph-seal-commons"
               ],
               "anchor": {
                 "x": 70,
@@ -8847,26 +8873,39 @@
           ],
           "stages": [
             {
-              "id": "home-structure-stage",
-              "label": "分期先后",
-              "period": "材料层一",
-              "materialKind": "structure-diagram",
-              "certainty": "先把早期材料与现代楷形分开观察。",
+              "id": "home-oracle-stage",
+              "label": "甲骨字形",
+              "period": "商代甲骨",
+              "glyphAssetId": "asset-glyph-home-oracle-pd",
+              "materialKind": "database-rendering",
+              "certainty": "公版图版标注为商代甲骨字形；观察时先记录形体，不把图像直接扩写成生活制度。",
               "sourceIds": [
-                "source-home-shuowen",
-                "source-home-moe-variants"
+                "source-home-glyph-oracle-commons"
               ],
               "observationId": "home-early-form-focus-a"
             },
             {
-              "id": "home-comparison-stage",
-              "label": "构件关系",
-              "period": "材料层二",
-              "materialKind": "structure-diagram",
-              "certainty": "关注宀、豕及传统声符分析各自能说明什么。",
+              "id": "home-bronze-stage",
+              "label": "金文字形",
+              "period": "西周金文",
+              "glyphAssetId": "asset-glyph-home-bronze-pd",
+              "materialKind": "database-rendering",
+              "certainty": "与甲骨字形并置，确认不同时段的形体差异，再讨论构件关系。",
+              "sourceIds": [
+                "source-home-glyph-bronze-commons"
+              ],
+              "observationId": "home-early-form-focus-a"
+            },
+            {
+              "id": "home-seal-stage",
+              "label": "篆形参照",
+              "period": "《说文》小篆",
+              "glyphAssetId": "asset-glyph-home-seal-pd",
+              "materialKind": "database-rendering",
+              "certainty": "《说文》篆形与传统“从宀，豭省声”释文属于可核对材料，不能替全部早期形体定案。",
               "sourceIds": [
                 "source-home-shuowen",
-                "source-home-moe-variants"
+                "source-home-glyph-seal-commons"
               ],
               "observationId": "home-early-form-focus-b"
             }

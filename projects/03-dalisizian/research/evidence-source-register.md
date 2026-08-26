@@ -3,13 +3,19 @@
 登记日期：2026-08-26
 访问日期：2026-08-26
 
-本登记簿逐件记录产品图版的事实主张、来源定位、直接 URL、资源性质与复核状态。全部图版是产品重构，不是原件、拓片或权威数据库字形；运行时事实文字及来源仍以 src/content/content.json 为唯一业务内容。
+本登记簿逐件记录产品图版的事实主张、来源定位、直接 URL、资源性质与复核状态。证物装帧均为产品复原，不冒充馆藏原件；`evidence-home-early-form` 例外装入三份授权明确的公版古文字 SVG，其余图版仍为结构化产品重构。运行时事实文字及来源仍以 `src/content/content.json` 为唯一业务内容。
 
-审核口径：Codex 仅完成结构、引用、资源边界与工程一致性复核，不替代具名文字学者或版权审校。精确古文字双人审校仍未完成；若以后换入精确字形，必须补齐著录号、授权、描摹者和第二审核者。
+审核口径：Codex 仅完成结构、引用、版权声明、资源边界与工程一致性复核，不替代具名文字学者审校。三份“家”字图版的来源页均标注 Public Domain，并保留 J17442、B11216、S05205 定位；若以后更换或人工改描精确字形，仍须补齐著录号、授权、描摹者和第二审核者。
+
+## 古籍证物复原资源记录
+
+- 非文字底图：`asset-evidence-home-early-form-v2.webp`。由图像生成工具制作无字、无符号、无史实断言的旧拓纸张与案头装帧，随后离线压缩为 1080×720 WebP；它只负责材质和氛围。
+- 文字图形：`glyph-home-oracle-pd-v1.svg`、`glyph-home-bronze-pd-v1.svg`、`glyph-home-seal-pd-v1.svg`。分别来自 Wikimedia Commons 的公版图版，作为独立本地层叠加，未由生成模型绘制或补笔。
+- 玩家界面：使用“公版字形摹本／字形演变卷”等案卷叙事标签；证物详情明确说明“复原装帧，并非馆藏原件”，并逐项展示来源。
 
 | 证物 ID | 事实主张／定位 | 视觉模板 | 资源性质 | 来源 ID | 直接 URL（访问 2026-08-26） | 复核者／日期 | 审核状态 |
 |---|---|---|---|---|---|---|---|
-| `evidence-home-early-form` | “家”的早期字形需要逐形核验，不能只拆现代楷书。 | 字形时间轴 | structure-diagram | `source-home-shuowen`<br>`source-home-moe-variants` | [source-home-shuowen](https://ctext.org/shuo-wen-jie-zi/mian-bu/ens)<br>[source-home-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-home-early-form` | “家”的早期字形需要逐形核验，不能只拆现代楷书。 | 字形时间轴 | generated-facsimile + public-domain-glyphs | `source-home-shuowen`<br>`source-home-moe-variants`<br>`source-home-glyph-oracle-commons`<br>`source-home-glyph-bronze-commons`<br>`source-home-glyph-seal-commons` | [《说文》家部](https://ctext.org/shuo-wen-jie-zi/mian-bu/ens)<br>[异体字字典](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794)<br>[商代甲骨 J17442](https://commons.wikimedia.org/wiki/File:%E5%AE%B6-oracle.svg)<br>[西周金文 B11216](https://commons.wikimedia.org/wiki/File:%E5%AE%B6-bronze.svg)<br>[《说文》小篆 S05205](https://commons.wikimedia.org/wiki/File:%E5%AE%B6-seal.svg) | Codex 工程、来源与授权复核／2026-08-26；具名史料审校待补 | 三图版来源页均标 Public Domain；装帧为生成式复原、不是原件；事实边界与来源分层完成 |
 | `evidence-home-shuowen` | 《说文》释“家，居也”，并记录“从宀，豭省声”的传统构形说。 | 字书展开卷 | product-typesetting | `source-shuowen-general`<br>`source-home-moe-variants` | [source-shuowen-general](https://ctext.org/shuo-wen-jie-zi/zhs)<br>[source-home-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
 | `evidence-home-phonetic` | “豭省声”提示相关构件可能承担声符功能，不能只讲成一幅生活图。 | 语义关系图 | product-diagram | `source-home-moe-variants`<br>`source-home-shuowen` | [source-home-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794)<br>[source-home-shuowen](https://ctext.org/shuo-wen-jie-zi/mian-bu/ens) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
 | `evidence-home-social-leap` | 由一个构件直接推断“古人人人屋里养猪”超出了现有文字证据。 | 辨伪对照卷 | product-diagram | `source-home-moe-variants` | [source-home-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |

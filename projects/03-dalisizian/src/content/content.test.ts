@@ -162,4 +162,21 @@ describe('content envelope', () => {
       expect(new Set(linkedIds.filter((id): id is string => Boolean(id))), item.id).toEqual(new Set(visual.observationPoints.map((point) => point.id)))
     }
   })
+
+  it('builds the home early-form facsimile from three licensed historical glyphs', () => {
+    const evidence = content.content.evidence.find((item) => item.id === 'evidence-home-early-form')
+    if (evidence?.visualSpec.template !== 'glyph-timeline') throw new Error('home early-form fixture missing')
+    const stages = evidence.visualSpec.stages as Array<typeof evidence.visualSpec.stages[number] & { glyphAssetId?: string }>
+
+    expect(stages.map((stage) => [stage.period, stage.glyphAssetId])).toEqual([
+      ['商代甲骨', 'asset-glyph-home-oracle-pd'],
+      ['西周金文', 'asset-glyph-home-bronze-pd'],
+      ['《说文》小篆', 'asset-glyph-home-seal-pd'],
+    ])
+    expect(evidence.sourceIds).toEqual(expect.arrayContaining([
+      'source-home-glyph-oracle-commons',
+      'source-home-glyph-bronze-commons',
+      'source-home-glyph-seal-commons',
+    ]))
+  })
 })

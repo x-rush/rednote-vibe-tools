@@ -2,6 +2,7 @@ import type {
   ArtifactLearningProgress,
   ArtifactSetId,
   CollectionEntry,
+  NarrativeChapterId,
   QuizSession,
   RecentAttempt,
   StoragePayload,
@@ -14,6 +15,7 @@ const MAX_RECENT_ARTIFACTS = 10
 const STABLE_ID_PATTERN = /^[a-z][a-z0-9-]*$/
 const STORY_SECTION_IDS = new Set<StorySectionId>(['first-look', 'making', 'lived-world', 'journey', 'why-now'])
 const ARTIFACT_SET_IDS = new Set<ArtifactSetId>(['first-fire', 'ritual-bronze', 'chu-sound', 'han-light', 'tang-world'])
+const NARRATIVE_CHAPTER_IDS = new Set<NarrativeChapterId>(['act-1', 'act-2', 'act-3', 'act-4', 'act-5', 'finale'])
 
 export type StorageLike = {
   getItem(key: string): string | null
@@ -48,6 +50,8 @@ export function createDefaultStoragePayload(contentVersion: string, now = new Da
     recentArtifactIds: [],
     artifactProgress: [],
     setSealIds: [],
+    seenNarrativeIds: [],
+    deferredNarrativeIds: [],
     settings: { muted: false, reducedMotion: false },
   }
 }
@@ -121,6 +125,14 @@ function normalizeSetSealIds(value: unknown): { ids: ArtifactSetId[]; sanitized:
   return { ids, sanitized: ids.length !== value.length }
 }
 
+function normalizeNarrativeIds(value: unknown): { ids: NarrativeChapterId[]; sanitized: boolean } {
+  if (value === undefined) return { ids: [], sanitized: false }
+  if (!Array.isArray(value)) return { ids: [], sanitized: true }
+  const ids = [...new Set(value.filter((id): id is NarrativeChapterId =>
+    typeof id === 'string' && NARRATIVE_CHAPTER_IDS.has(id as NarrativeChapterId)))]
+  return { ids, sanitized: ids.length !== value.length }
+}
+
 function normalizeStoragePayload(
   input: Record<string, unknown>,
   validIds: ReadonlySet<string>,
@@ -139,6 +151,10 @@ function normalizeStoragePayload(
   const recentArtifactIds = [...new Set(input.recentArtifactIds.filter((id): id is string => typeof id === 'string' && validIds.has(id)))].slice(-MAX_RECENT_ARTIFACTS)
   const artifactProgress = normalizeArtifactProgress(input.artifactProgress, validIds)
   const setSealIds = normalizeSetSealIds(input.setSealIds)
+  const seenNarrativeIds = normalizeNarrativeIds(input.seenNarrativeIds)
+  const deferredNarrativeIds = normalizeNarrativeIds(input.deferredNarrativeIds)
+  const seenNarrativeIdSet = new Set(seenNarrativeIds.ids)
+  const filteredDeferredNarrativeIds = deferredNarrativeIds.ids.filter(id => !seenNarrativeIdSet.has(id))
   const contentChanged = input.contentVersion !== contentVersion
   const currentSession = !contentChanged && (input.currentSession === null || isSession(input.currentSession, validIds))
     ? input.currentSession as QuizSession | null
@@ -151,6 +167,9 @@ function normalizeStoragePayload(
     || recentArtifactIds.length !== input.recentArtifactIds.length
     || artifactProgress.sanitized
     || setSealIds.sanitized
+    || seenNarrativeIds.sanitized
+    || deferredNarrativeIds.sanitized
+    || filteredDeferredNarrativeIds.length !== deferredNarrativeIds.ids.length
     || (!contentChanged && input.currentSession !== null && currentSession === null)
 
   return {
@@ -165,6 +184,8 @@ function normalizeStoragePayload(
       recentArtifactIds,
       artifactProgress: artifactProgress.progress,
       setSealIds: setSealIds.ids,
+      seenNarrativeIds: seenNarrativeIds.ids,
+      deferredNarrativeIds: filteredDeferredNarrativeIds,
       settings,
     },
     recovery: contentChanged ? 'content-version-changed' : sanitized ? 'sanitized-references' : null,

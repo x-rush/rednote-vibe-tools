@@ -92,6 +92,45 @@ describe('versioned local storage', () => {
     expect(loaded.payload.setSealIds).toEqual([])
   })
 
+  it('adds empty narrative progress while preserving an older collection', () => {
+    const storage = new MemoryStorage()
+    storage.setItem(STORAGE_KEY, JSON.stringify({
+      schemaVersion: 1,
+      contentVersion: '3.1.0-narrative-arc',
+      updatedAt: '2026-08-24T00:00:00.000Z',
+      collection: [{ artifactId: 'artifact-a', bestStars: 2, unlockedAt: '2026-08-24T00:00:00.000Z' }],
+      bestScore: 200,
+      recentAttempts: [],
+      currentSession: null,
+      recentArtifactIds: [],
+      artifactProgress: [],
+      setSealIds: [],
+      settings: { muted: false, reducedMotion: false },
+    }))
+
+    const loaded = loadStorage(storage, validIds, '3.1.0-narrative-arc', '2026-08-25T00:00:00.000Z')
+    const narrative = loaded.payload as unknown as { seenNarrativeIds: string[]; deferredNarrativeIds: string[] }
+    expect(loaded.payload.collection.map(({ artifactId }) => artifactId)).toEqual(['artifact-a'])
+    expect(narrative.seenNarrativeIds).toEqual([])
+    expect(narrative.deferredNarrativeIds).toEqual([])
+  })
+
+  it('deduplicates valid narrative IDs and drops unknown or already-seen IDs', () => {
+    const storage = new MemoryStorage()
+    const payload = createDefaultStoragePayload('3.1.0-narrative-arc', '2026-08-25T00:00:00.000Z')
+    Object.assign(payload, {
+      seenNarrativeIds: ['act-1', 'act-1', 'bad'],
+      deferredNarrativeIds: ['act-1', 'act-2', 'bad', 'act-2'],
+    })
+    storage.setItem(STORAGE_KEY, JSON.stringify(payload))
+
+    const loaded = loadStorage(storage, validIds, '3.1.0-narrative-arc', payload.updatedAt)
+    const narrative = loaded.payload as unknown as { seenNarrativeIds: string[]; deferredNarrativeIds: string[] }
+    expect(narrative.seenNarrativeIds).toEqual(['act-1'])
+    expect(narrative.deferredNarrativeIds).toEqual(['act-2'])
+    expect(loaded.recovery).toBe('sanitized-references')
+  })
+
   it('drops a malformed current session before it can crash resume', () => {
     const storage = new MemoryStorage()
     const payload = createDefaultStoragePayload('2.0.0', '2026-08-25T00:00:00.000Z')

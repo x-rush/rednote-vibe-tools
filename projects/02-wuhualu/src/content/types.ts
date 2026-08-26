@@ -466,5 +466,7 @@ export type StoragePayload = {
   recentArtifactIds: string[]
   artifactProgress: ArtifactLearningProgress[]
   setSealIds: ArtifactSetId[]
+  seenNarrativeIds: NarrativeChapterId[]
+  deferredNarrativeIds: NarrativeChapterId[]
   settings: { muted: boolean; reducedMotion: boolean }
 }

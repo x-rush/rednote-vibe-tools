@@ -5,10 +5,18 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { contentPackage } from '../content'
-import { resolveEvidenceAsset } from './assets'
+import { resolveEvidenceAsset, resolveEvidenceAssetSet } from './assets'
 import * as evidenceAssetModule from './assets'
 
 describe('evidence asset resolver', () => {
+  it('keeps an explicit local fallback beside the formal evidence plate', () => {
+    expect(resolveEvidenceAssetSet('asset-evidence-home-early-form')).toEqual({
+      primary: './assets/evidence/home/asset-evidence-home-early-form-v2.webp',
+      fallback: './assets/evidence/home/asset-evidence-home-early-form-v1.svg',
+    })
+    expect(resolveEvidenceAssetSet('asset-evidence-unknown')).toBeUndefined()
+  })
+
   it('resolves every evidence asset ID to a packaged local plate', () => {
     for (const evidence of contentPackage.content.evidence) {
       const path = resolveEvidenceAsset(evidence.assetId)

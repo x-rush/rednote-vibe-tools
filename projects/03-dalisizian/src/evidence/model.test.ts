@@ -13,6 +13,7 @@ describe('evidence artifact model', () => {
 
       expect(model.template).toBe(template)
       expect(model.assetPath).toMatch(/^\.\/assets\/evidence\//)
+      expect(model.fallbackAssetPath).toMatch(/^\.\/assets\/evidence\//)
       expect(model.progress).toEqual({ observed: 0, total: 2, complete: false })
       expect(model.sources.every((source) => source.type !== 'F')).toBe(true)
     },
@@ -48,6 +49,7 @@ describe('evidence artifact model', () => {
     const model = createEvidenceArtifactModel(evidence, [], contentPackage.sources)
 
     expect(model.assetPath).toBeUndefined()
+    expect(model.fallbackAssetPath).toBeUndefined()
     expect(model.fallbackSummary).toContain('图形不可用时')
   })
 })

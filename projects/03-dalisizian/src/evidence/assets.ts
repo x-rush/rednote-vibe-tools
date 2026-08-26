@@ -8,10 +8,10 @@ function evidenceAsset(primary: string, fallback = primary.replace(/-v\d+\.(?:sv
 }
 
 const evidenceAssets: Readonly<Record<string, EvidenceAssetSet>> = Object.freeze({
-  'asset-evidence-home-early-form': evidenceAsset('./assets/evidence/home/asset-evidence-home-early-form-v2.webp'),
-  'asset-evidence-home-shuowen': evidenceAsset('./assets/evidence/home/asset-evidence-home-shuowen-v1.svg'),
-  'asset-evidence-home-phonetic': evidenceAsset('./assets/evidence/home/asset-evidence-home-phonetic-v1.svg'),
-  'asset-evidence-home-social-leap': evidenceAsset('./assets/evidence/home/asset-evidence-home-social-leap-v1.svg'),
+  'asset-evidence-home-early-form': evidenceAsset('./assets/evidence/home/asset-evidence-home-early-form-v3.webp'),
+  'asset-evidence-home-shuowen': evidenceAsset('./assets/evidence/home/asset-evidence-home-shuowen-v3.webp'),
+  'asset-evidence-home-phonetic': evidenceAsset('./assets/evidence/home/asset-evidence-home-phonetic-v3.webp'),
+  'asset-evidence-home-social-leap': evidenceAsset('./assets/evidence/home/asset-evidence-home-social-leap-v3.webp'),
   'asset-evidence-rest-components': evidenceAsset('./assets/evidence/rest/asset-evidence-rest-components-v1.svg'),
   'asset-evidence-rest-gloss': evidenceAsset('./assets/evidence/rest/asset-evidence-rest-gloss-v1.svg'),
   'asset-evidence-rest-method-limit': evidenceAsset('./assets/evidence/rest/asset-evidence-rest-method-limit-v1.svg'),

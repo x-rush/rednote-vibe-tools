@@ -11,7 +11,7 @@ import * as evidenceAssetModule from './assets'
 describe('evidence asset resolver', () => {
   it('keeps an explicit local fallback beside the formal evidence plate', () => {
     expect(resolveEvidenceAssetSet('asset-evidence-home-early-form')).toEqual({
-      primary: './assets/evidence/home/asset-evidence-home-early-form-v2.webp',
+      primary: './assets/evidence/home/asset-evidence-home-early-form-v3.webp',
       fallback: './assets/evidence/home/asset-evidence-home-early-form-v1.svg',
     })
     expect(resolveEvidenceAssetSet('asset-evidence-unknown')).toBeUndefined()
@@ -23,7 +23,7 @@ describe('evidence asset resolver', () => {
       expect(path, evidence.id).toMatch(/^\.\/assets\/evidence\/[a-z-]+\/[a-z0-9-]+-v\d+\.(?:svg|webp)$/)
       expect(existsSync(resolve('public', path!.slice(2))), evidence.id).toBe(true)
     }
-    expect(resolveEvidenceAsset('asset-evidence-home-early-form')).toBe('./assets/evidence/home/asset-evidence-home-early-form-v2.webp')
+    expect(resolveEvidenceAsset('asset-evidence-home-early-form')).toBe('./assets/evidence/home/asset-evidence-home-early-form-v3.webp')
     expect(resolveEvidenceAsset('asset-evidence-unknown')).toBeUndefined()
   })
 

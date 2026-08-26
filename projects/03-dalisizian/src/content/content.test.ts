@@ -9,6 +9,15 @@ describe('content envelope', () => {
     expect(content.projectId).toBe('dalisizian')
     expect(content.schemaVersion).toBe(1)
     expect(content.meta.locale).toBe('zh-CN')
+    expect(content.meta.evidenceUi).toEqual({
+      reconstructionDisclosure: '画面采用古籍证物复原装帧，并非馆藏原件；其中引用的公版古文字字形与事实依据均在下列来源单独标明。',
+      resourceNatureLabels: {
+        'glyph-timeline': '字形演变卷',
+        'lexicon-scroll': '字书抄录卷',
+        'semantic-map': '义项勘校卷',
+        'myth-verdict': '传言核验卷',
+      },
+    })
     expect(content.contentVersion).toBe('2.0.0')
     expect(content.content.cases).toHaveLength(8)
     expect(content.content.characters.length).toBeGreaterThanOrEqual(4)

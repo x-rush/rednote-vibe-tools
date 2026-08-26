@@ -1,15 +1,8 @@
-import type { Evidence, EvidenceObservationPoint, EvidenceVisualSpec, MythVerdictVisual, SourceRecord } from '../content/types'
+import type { Evidence, EvidenceObservationPoint, EvidenceUiCopy, EvidenceVisualSpec, MythVerdictVisual, SourceRecord } from '../content/types'
 import { resolveEvidenceAsset } from './assets'
 
-const evidenceResourceNatureByTemplate: Record<EvidenceVisualSpec['template'], string> = {
-  'glyph-timeline': '字形演变卷',
-  'lexicon-scroll': '字书抄录卷',
-  'semantic-map': '义项勘校卷',
-  'myth-verdict': '传言核验卷',
-}
-
-export function getEvidenceResourceNature(visual: EvidenceVisualSpec): string {
-  return evidenceResourceNatureByTemplate[visual.template]
+export function getEvidenceResourceNature(visual: EvidenceVisualSpec, uiCopy: EvidenceUiCopy): string {
+  return uiCopy.resourceNatureLabels[visual.template]
 }
 
 export function getMythObservationIdForReveal(visual: MythVerdictVisual, reveal: 1 | 2 | 3): string | undefined {

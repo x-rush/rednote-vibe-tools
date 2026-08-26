@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { contentPackage } from '../content'
-import { createEvidenceArtifactModel, getEvidenceProgress } from './model'
+import { createEvidenceArtifactModel, getEvidenceProgress, getEvidenceResourceNature } from './model'
 
 describe('evidence artifact model', () => {
   it.each(['glyph-timeline', 'lexicon-scroll', 'semantic-map', 'myth-verdict'] as const)(
@@ -27,6 +27,18 @@ describe('evidence artifact model', () => {
       total: 2,
       complete: true,
     })
+  })
+
+  it.each([
+    ['glyph-timeline', '字形演变卷'],
+    ['lexicon-scroll', '字书抄录卷'],
+    ['semantic-map', '义项勘校卷'],
+    ['myth-verdict', '传言核验卷'],
+  ] as const)('reads the %s player label from validated content', (template, label) => {
+    const evidence = contentPackage.content.evidence.find((item) => item.visualSpec.template === template)
+    if (!evidence) throw new Error(`missing ${template} fixture`)
+
+    expect(getEvidenceResourceNature(evidence.visualSpec, contentPackage.meta.evidenceUi)).toBe(label)
   })
 
   it('keeps a semantic fallback when the visual plate mapping is unavailable', () => {

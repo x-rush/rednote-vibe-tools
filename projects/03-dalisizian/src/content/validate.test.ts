@@ -18,6 +18,14 @@ describe('content validation', () => {
     expect(report.issues.filter((issue) => issue.severity === 'error')).toEqual([])
   })
 
+  it('requires complete player-facing evidence UI copy', () => {
+    const broken = cloneContent()
+    broken.meta.evidenceUi.reconstructionDisclosure = ' '
+    broken.meta.evidenceUi.resourceNatureLabels['glyph-timeline'] = ''
+
+    expect(errorCodes(broken)).toContain('invalid-evidence-ui-copy')
+  })
+
   it('reports duplicate case IDs and missing entity references', () => {
     const broken = cloneContent()
     broken.content.cases[1].caseId = broken.content.cases[0].caseId

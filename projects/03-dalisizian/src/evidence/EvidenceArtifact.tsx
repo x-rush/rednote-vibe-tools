@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from 'react'
-import type { Evidence, SourceRecord } from '../content/types'
+import type { Evidence, EvidenceUiCopy, SourceRecord } from '../content/types'
 import { createEvidenceArtifactModel, getEvidenceResourceNature } from './model'
 import { resolveEvidenceGlyphAsset } from './assets'
 import { GlyphTimelineArtifact } from './GlyphTimelineArtifact'
@@ -14,9 +14,10 @@ export type EvidenceArtifactProps = {
   observedIds: string[]
   onObserve: (observationId: string) => void
   reducedMotion: boolean
+  uiCopy: EvidenceUiCopy
 }
 
-export function EvidenceArtifact({ evidence, sources, observedIds, onObserve, reducedMotion }: EvidenceArtifactProps) {
+export function EvidenceArtifact({ evidence, sources, observedIds, onObserve, reducedMotion, uiCopy }: EvidenceArtifactProps) {
   const model = createEvidenceArtifactModel(evidence, observedIds, sources)
   const template = model.visualSpec
   const glyphStages = template.template === 'glyph-timeline'
@@ -46,6 +47,6 @@ export function EvidenceArtifact({ evidence, sources, observedIds, onObserve, re
       {template.template === 'myth-verdict' && <MythVerdictArtifact visual={template} points={model.observationPoints} onObserve={observe} />}
     </div>
     {activeObservation && <aside className="evidence-observation-detail" role="status"><span>观察记录 · {activeObservation.title}</span><p>{activeObservation.body}</p><small>此观察点引用 {activeObservation.sourceIds.length} 项非虚构来源；可证范围以来源说明为准。</small></aside>}
-    <footer className="evidence-artifact-footer"><div><b>{getEvidenceResourceNature(template)}</b><p>{model.progress.complete ? model.completionPrompt : model.fallbackSummary}</p></div><span>{model.sources.length} 项可追溯来源</span></footer>
+    <footer className="evidence-artifact-footer"><div><b>{getEvidenceResourceNature(template, uiCopy)}</b><p>{model.progress.complete ? model.completionPrompt : model.fallbackSummary}</p></div><span>{model.sources.length} 项可追溯来源</span></footer>
   </section>
 }

@@ -1,3 +1,7 @@
+/// <reference types="node" />
+
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { createElement, type ComponentType } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
@@ -54,5 +58,10 @@ describe('landing screen', () => {
     expect(html).toContain('案卷柜')
     expect(html).toContain('断案图鉴')
     expect(html).toContain('听沈砚说明查案方法')
+  })
+
+  it('keeps every visible landing action at least 44 CSS pixels tall', () => {
+    const appCss = readFileSync(resolve('src/App.css'), 'utf8')
+    expect(appCss).toMatch(/\.landing-clear\s*\{[^}]*min-height:\s*44px/)
   })
 })

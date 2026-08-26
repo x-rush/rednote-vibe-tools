@@ -122,6 +122,11 @@ export type Clue = {
 
 export type EvidenceVisualTemplate = 'glyph-timeline' | 'lexicon-scroll' | 'semantic-map' | 'myth-verdict'
 
+export type EvidenceUiCopy = {
+  reconstructionDisclosure: string
+  resourceNatureLabels: Record<EvidenceVisualTemplate, string>
+}
+
 export type EvidencePalette = 'jade' | 'cinnabar' | 'bronze' | 'ink'
 
 export type EvidenceObservationPoint = {
@@ -306,6 +311,7 @@ export type DalisizianContentPackage = {
     locale: 'zh-CN'
     updatedAt: string
     disclaimer: string
+    evidenceUi: EvidenceUiCopy
   }
   sources: SourceRecord[]
   content: {

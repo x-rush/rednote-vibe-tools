@@ -35,6 +35,20 @@ export function validateContentPackage(value: unknown): ValidationReport {
   if (content.schemaVersion !== 1) add('invalid-schema-version', '$.schemaVersion', 'schemaVersion 必须为 1。')
   if (content.projectId !== 'dalisizian') add('invalid-project-id', '$.projectId', 'projectId 必须为 dalisizian。')
   if (!content.meta || content.meta.locale !== 'zh-CN') add('invalid-locale', '$.meta.locale', 'locale 必须为 zh-CN。')
+  const evidenceUi = content.meta?.evidenceUi as unknown
+  const evidenceTemplates = ['glyph-timeline', 'lexicon-scroll', 'semantic-map', 'myth-verdict'] as const
+  if (!evidenceUi || typeof evidenceUi !== 'object' || Array.isArray(evidenceUi)) {
+    add('invalid-evidence-ui-copy', '$.meta.evidenceUi', '证物界面文案配置必须完整。')
+  } else {
+    const copy = evidenceUi as Record<string, unknown>
+    const labels = copy.resourceNatureLabels
+    if (typeof copy.reconstructionDisclosure !== 'string' || !copy.reconstructionDisclosure.trim()
+      || !labels || typeof labels !== 'object' || Array.isArray(labels)
+      || evidenceTemplates.some((template) => typeof (labels as Record<string, unknown>)[template] !== 'string'
+        || !String((labels as Record<string, unknown>)[template]).trim())) {
+      add('invalid-evidence-ui-copy', '$.meta.evidenceUi', '复原声明与四类证物卷名均须为非空文字。')
+    }
+  }
   const requiredArrays = ['sources', 'characters', 'cases', 'nodes', 'evidence', 'endings'] as const
   const missingArray = requiredArrays.some((key) => key === 'sources'
     ? !Array.isArray(content.sources)

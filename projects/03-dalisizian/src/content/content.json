@@ -7,7 +7,16 @@
     "subtitle": "查的不是人，是汉字的前世今生。",
     "locale": "zh-CN",
     "updatedAt": "2026-08-26",
-    "disclaimer": "大理寺字案录是虚构的文字案件机构；人物、卷宗和审讯对话属于游戏叙事。字形与字义资料须依可靠来源复核。"
+    "disclaimer": "大理寺字案录是虚构的文字案件机构；人物、卷宗和审讯对话属于游戏叙事。字形与字义资料须依可靠来源复核。",
+    "evidenceUi": {
+      "reconstructionDisclosure": "画面采用古籍证物复原装帧，并非馆藏原件；其中引用的公版古文字字形与事实依据均在下列来源单独标明。",
+      "resourceNatureLabels": {
+        "glyph-timeline": "字形演变卷",
+        "lexicon-scroll": "字书抄录卷",
+        "semantic-map": "义项勘校卷",
+        "myth-verdict": "传言核验卷"
+      }
+    }
   },
   "sources": [
     {

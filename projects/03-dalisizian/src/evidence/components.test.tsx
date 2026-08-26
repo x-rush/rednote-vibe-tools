@@ -7,12 +7,7 @@ import { getMythObservationIdForReveal } from './model'
 
 describe('interactive evidence components', () => {
   it.each(contentPackage.content.evidence)('renders $id without the generic placeholder', (evidence) => {
-    const expectedVolumeLabel = {
-      'glyph-timeline': '字形演变卷',
-      'lexicon-scroll': '字书抄录卷',
-      'semantic-map': '义项勘校卷',
-      'myth-verdict': '传言核验卷',
-    }[evidence.visualSpec.template]
+    const expectedVolumeLabel = contentPackage.meta.evidenceUi.resourceNatureLabels[evidence.visualSpec.template]
     const html = renderToStaticMarkup(
       <EvidenceArtifact
         evidence={evidence}
@@ -20,6 +15,7 @@ describe('interactive evidence components', () => {
         observedIds={[]}
         onObserve={() => {}}
         reducedMotion
+        uiCopy={contentPackage.meta.evidenceUi}
       />,
     )
 
@@ -47,7 +43,7 @@ describe('interactive evidence components', () => {
     const evidence = structuredClone(contentPackage.content.evidence[0])
     evidence.assetId = 'asset-evidence-unmapped'
     const html = renderToStaticMarkup(
-      <EvidenceArtifact evidence={evidence} sources={contentPackage.sources} observedIds={[]} onObserve={() => {}} reducedMotion />,
+      <EvidenceArtifact evidence={evidence} sources={contentPackage.sources} observedIds={[]} onObserve={() => {}} reducedMotion uiCopy={contentPackage.meta.evidenceUi} />,
     )
 
     expect(html).toContain('evidence-artifact-fallback')
@@ -59,7 +55,7 @@ describe('interactive evidence components', () => {
     const evidence = contentPackage.content.evidence.find((item) => item.id === 'evidence-home-early-form')
     if (!evidence) throw new Error('home early-form fixture missing')
     const html = renderToStaticMarkup(
-      <EvidenceArtifact evidence={evidence} sources={contentPackage.sources} observedIds={[]} onObserve={() => {}} reducedMotion />,
+      <EvidenceArtifact evidence={evidence} sources={contentPackage.sources} observedIds={[]} onObserve={() => {}} reducedMotion uiCopy={contentPackage.meta.evidenceUi} />,
     )
 
     expect(html).toContain('glyph-facsimile-layer')

@@ -134,6 +134,7 @@ export type ConflictMergeRule = {
 }
 
 export type RelationshipProfile = {
+  relationshipContext?: RelationshipContext
   answers: QuestionnaireAnswer[]
   scores: PreferenceScore[]
   priorityDimensionIds: string[]

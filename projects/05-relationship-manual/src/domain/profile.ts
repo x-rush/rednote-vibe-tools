@@ -2,17 +2,23 @@ import type {
   PreferenceScore,
   QuestionnaireAnswer,
   RelationshipContentPackage,
+  RelationshipContext,
   RelationshipOption,
   RelationshipProfile,
 } from '../content/schema'
+import { getRelationshipBank } from '../content/bank'
 
 function unique<T>(values: T[]): T[] {
   return [...new Set(values)]
 }
 
-function calculateMaximums(content: RelationshipContentPackage, answeredQuestionIds: Set<string>): Map<string, number> {
+function calculateMaximums(
+  content: RelationshipContentPackage,
+  questions: RelationshipContentPackage['content']['questions'],
+  answeredQuestionIds: Set<string>,
+): Map<string, number> {
   const maximums = new Map(content.content.dimensions.map((dimension) => [dimension.dimensionId, 0]))
-  for (const question of content.content.questions.filter((item) => answeredQuestionIds.has(item.questionId))) {
+  for (const question of questions.filter((item) => answeredQuestionIds.has(item.questionId))) {
     for (const dimension of content.content.dimensions) {
       const scores = question.options
         .map((option) => option.dimensionEffects.find((effect) => effect.dimensionId === dimension.dimensionId)?.score ?? 0)
@@ -38,10 +44,29 @@ function rankScores(scores: PreferenceScore[]): PreferenceScore[] {
 
 export function buildRelationshipProfile(
   content: RelationshipContentPackage,
+  relationshipContext: RelationshipContext,
   answers: QuestionnaireAnswer[],
   generatedAt: string,
+): RelationshipProfile
+export function buildRelationshipProfile(
+  content: RelationshipContentPackage,
+  answers: QuestionnaireAnswer[],
+  generatedAt: string,
+): RelationshipProfile
+export function buildRelationshipProfile(
+  content: RelationshipContentPackage,
+  contextOrAnswers: RelationshipContext | QuestionnaireAnswer[],
+  answersOrGeneratedAt: QuestionnaireAnswer[] | string,
+  maybeGeneratedAt?: string,
 ): RelationshipProfile {
-  const optionById = new Map(content.content.questions.flatMap((question) => question.options).map((option) => [option.optionId, option]))
+  const relationshipContext = typeof contextOrAnswers === 'string' ? contextOrAnswers : undefined
+  const sourceAnswers = typeof contextOrAnswers === 'string' ? answersOrGeneratedAt as QuestionnaireAnswer[] : contextOrAnswers
+  const generatedAt = typeof contextOrAnswers === 'string' ? maybeGeneratedAt! : answersOrGeneratedAt as string
+  const bank = relationshipContext ? getRelationshipBank(content, relationshipContext) : null
+  const questions = bank?.questions ?? content.content.questions
+  const questionIds = new Set(questions.map((question) => question.questionId))
+  const answers = sourceAnswers.filter((answer) => questionIds.has(answer.questionId))
+  const optionById = new Map(questions.flatMap((question) => question.options).map((option) => [option.optionId, option]))
   const selectedEntries: Array<{ answer: QuestionnaireAnswer; optionId: string; option: RelationshipOption }> = answers.flatMap((answer) => (
     answer.optionIds.flatMap((optionId) => {
       const option = optionById.get(optionId)
@@ -54,7 +79,7 @@ export function buildRelationshipProfile(
     for (const effect of option.dimensionEffects) totals.set(effect.dimensionId, (totals.get(effect.dimensionId) ?? 0) + effect.score)
   }
 
-  const maximums = calculateMaximums(content, new Set(answers.filter((answer) => !answer.skipped).map((answer) => answer.questionId)))
+  const maximums = calculateMaximums(content, questions, new Set(answers.filter((answer) => !answer.skipped).map((answer) => answer.questionId)))
   const scores = rankScores(content.content.dimensions.map((dimension) => {
     const score = totals.get(dimension.dimensionId) ?? 0
     const maxPossible = maximums.get(dimension.dimensionId) ?? 0
@@ -79,9 +104,10 @@ export function buildRelationshipProfile(
   const selectedTextKeys = unique(selectedFragments.map((fragment) => fragment.textKey))
 
   if (selectedOptions.length > 0) {
-    const commitmentRules = new Map(content.content.cardRules.boundaryCommitmentRules.map((rule) => [rule.boundaryId, rule.textKeys]))
+    const commitmentRules = new Map((bank?.boundaryCommitmentRules ?? content.content.cardRules.boundaryCommitmentRules)
+      .map((rule) => [rule.boundaryId, rule.textKeys]))
     const matchingCommitments = unique(selectedBoundaryIds.flatMap((boundaryId) => commitmentRules.get(boundaryId) ?? []))
-    for (const key of [...matchingCommitments, ...content.content.cardRules.defaultCommitmentTextKeys]) {
+    for (const key of [...matchingCommitments, ...(bank?.defaultCommitmentTextKeys ?? content.content.cardRules.defaultCommitmentTextKeys)]) {
       if (selectedTextKeys.filter((item) => item.startsWith('commit-')).length >= 2) break
       if (!selectedTextKeys.includes(key)) {
         selectedTextKeys.push(key)
@@ -91,11 +117,12 @@ export function buildRelationshipProfile(
   }
 
   const selectedOptionIds = new Set(selectedOptions.map((option) => option.optionId))
-  const conflictRuleIds = content.content.cardRules.conflictMergeRules
+  const conflictRuleIds = (bank?.conflictMergeRules ?? content.content.cardRules.conflictMergeRules)
     .filter((rule) => rule.optionIds.every((optionId) => selectedOptionIds.has(optionId)))
     .map((rule) => rule.ruleId)
 
   return {
+    relationshipContext,
     answers,
     scores,
     priorityDimensionIds,

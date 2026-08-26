@@ -6,6 +6,7 @@ import type {
   RelationshipContext,
   RelationshipProfile,
 } from '../content/schema'
+import { getRelationshipBank } from '../content/bank'
 
 export function limitText(text: string, maxCharacters: number): string {
   const normalized = text.trim().replace(/\s+/gu, ' ')
@@ -17,12 +18,16 @@ export function limitText(text: string, maxCharacters: number): string {
 export function buildShareSummary(
   content: RelationshipContentPackage,
   profile: RelationshipProfile,
+  relationshipContext?: RelationshipContext,
 ): string {
   const rules = content.content.cardRules
+  const bank = relationshipContext ? getRelationshipBank(content, relationshipContext) : null
   if (profile.selectedTextKeys.length === 0) return rules.neutralSummary
-  const mergedConflict = rules.conflictMergeRules.find((rule) => profile.conflictRuleIds.includes(rule.ruleId))
+  const mergedConflict = (bank?.conflictMergeRules ?? rules.conflictMergeRules)
+    .find((rule) => profile.conflictRuleIds.includes(rule.ruleId))
   if (mergedConflict) return limitText(mergedConflict.text, rules.maxSummaryChars)
-  const sentenceByKey = new Map(content.content.sentenceFragments.map((sentence) => [sentence.textKey, sentence]))
+  const sentenceByKey = new Map((bank?.sentenceFragments ?? content.content.sentenceFragments)
+    .map((sentence) => [sentence.textKey, sentence]))
   const candidate = profile.selectedTextKeys
     .map((key) => sentenceByKey.get(key))
     .find((sentence) => sentence && !sentence.sensitive)
@@ -36,8 +41,12 @@ export function buildCardViewModel(
   relationshipContext: RelationshipContext,
 ): RelationshipCardViewModel {
   const rules = content.content.cardRules
-  const sentenceByKey = new Map(content.content.sentenceFragments.map((sentence) => [sentence.textKey, sentence]))
-  const activeConflictRules = rules.conflictMergeRules.filter((rule) => profile.conflictRuleIds.includes(rule.ruleId))
+  const usesRelationshipBank = profile.relationshipContext === relationshipContext
+  const bank = usesRelationshipBank ? getRelationshipBank(content, relationshipContext) : null
+  const sentenceByKey = new Map((bank?.sentenceFragments ?? content.content.sentenceFragments)
+    .map((sentence) => [sentence.textKey, sentence]))
+  const activeConflictRules = (bank?.conflictMergeRules ?? rules.conflictMergeRules)
+    .filter((rule) => profile.conflictRuleIds.includes(rule.ruleId))
   const remainingFragments = profile.selectedFragments.filter((fragment) => !activeConflictRules.some((rule) => (
     fragment.optionId !== undefined
     && rule.optionIds.includes(fragment.optionId)
@@ -53,6 +62,7 @@ export function buildCardViewModel(
   })
 
   const sections: CardSection[] = rules.sections.map((rule, order) => {
+    const bankFallback = bank?.sectionFallbacks[rule.sectionId]
     const conflictItems = activeConflictRules
       .filter((conflictRule) => conflictRule.cardSectionId === rule.sectionId)
       .map((conflictRule) => ({
@@ -61,6 +71,7 @@ export function buildCardViewModel(
         sourceTextKey: null,
         provenanceIds: [...conflictRule.optionIds],
         sensitive: false,
+        role: 'action' as const,
       }))
     const sentenceItems = selectedSentences
       .filter(({ sentence }) => sentence.cardSectionId === rule.sectionId)
@@ -70,20 +81,36 @@ export function buildCardViewModel(
         sourceTextKey: sentence.textKey,
         provenanceIds,
         sensitive: sentence.sensitive,
+        role: sentence.role,
       }))
-    const fallbackItem = {
-      id: `fallback:${rule.sectionId}`,
-      text: rule.fallbackText,
+    const fallbackNeedItem = {
+      id: `fallback-need:${rule.sectionId}`,
+      text: bankFallback?.needText ?? rule.fallbackNeedText,
       sourceTextKey: null,
       provenanceIds: [] as string[],
       sensitive: false,
+      role: 'need' as const,
     }
-    const matchedItems = [...conflictItems, ...sentenceItems].slice(0, rule.maxItems)
-    const items = matchedItems.length > 0 ? matchedItems : [fallbackItem]
+    const fallbackActionItem = {
+      id: `fallback-action:${rule.sectionId}`,
+      text: bankFallback?.actionText ?? rule.fallbackActionText,
+      sourceTextKey: null,
+      provenanceIds: [] as string[],
+      sensitive: false,
+      role: 'action' as const,
+    }
+    const matchedItems = [...conflictItems, ...sentenceItems]
+    const needItem = matchedItems.find((item) => item.role === 'need') ?? fallbackNeedItem
+    const actionItem = matchedItems.find((item) => item.role === 'action') ?? fallbackActionItem
+    const supportingItems = matchedItems
+      .filter((item) => item.id !== needItem.id && item.id !== actionItem.id)
+      .slice(0, Math.max(0, rule.maxItems - 2))
+    const items = [needItem, ...supportingItems, actionItem]
     return {
       sectionId: rule.sectionId as CardSectionId,
       title: rule.title,
       paragraphs: items.map((item) => limitText(item.text, rules.maxParagraphChars)),
+      paragraphRoles: items.map((item) => item.role),
       paragraphIds: items.map((item) => item.id),
       paragraphSourceTextKeys: items.map((item) => item.sourceTextKey),
       paragraphProvenanceIds: items.map((item) => item.provenanceIds),
@@ -97,7 +124,7 @@ export function buildCardViewModel(
     title: rules.title,
     relationshipLabel: rules.relationshipLabels[relationshipContext],
     sections,
-    shareSummary: buildShareSummary(content, profile),
+    shareSummary: buildShareSummary(content, profile, bank ? relationshipContext : undefined),
     disclaimer: rules.disclaimer,
     contentVersion: content.contentVersion,
   }

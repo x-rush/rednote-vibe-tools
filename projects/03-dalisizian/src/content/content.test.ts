@@ -10,7 +10,7 @@ describe('content envelope', () => {
     expect(content.schemaVersion).toBe(1)
     expect(content.meta.locale).toBe('zh-CN')
     expect(content.meta.evidenceUi).toEqual({
-      reconstructionDisclosure: '画面采用古籍证物复原装帧，并非馆藏原件；其中引用的公版古文字字形与事实依据均在下列来源单独标明。',
+      reconstructionDisclosure: '画面依据所列资料进行 AI 参考复原，并非馆藏原件；古文字形与事实依据均在下列来源单独标明。',
       resourceNatureLabels: {
         'glyph-timeline': '字形演变卷',
         'lexicon-scroll': '字书抄录卷',

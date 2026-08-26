@@ -130,17 +130,21 @@ async function inspectEvidence(evidenceId) {
   const report = await evaluate(`(() => {
     const artifact = document.querySelector('[data-evidence-id=${JSON.stringify(evidenceId)}]')
     const buttons = [...artifact.querySelectorAll('button')]
+    const plateImage = artifact.querySelector('.evidence-plate > img')
     return {
       id: artifact.dataset.evidenceId,
       template: artifact.dataset.template,
       observationCount: artifact.querySelectorAll('.evidence-hotspots button').length,
+      primarySrc: plateImage?.currentSrc ?? '',
+      primarySize: [plateImage?.naturalWidth ?? 0, plateImage?.naturalHeight ?? 0],
+      duplicateGlyphOverlays: artifact.querySelectorAll('.glyph-facsimile-layer').length,
       brokenImages: [...document.images].filter((image) => image.getClientRects().length && image.naturalWidth === 0).length,
       placeholder: document.body.textContent.includes('人工核验资源位'),
       minTarget: Math.min(...buttons.map((button) => Math.min(button.getBoundingClientRect().width, button.getBoundingClientRect().height))),
       activeInArtifact: Boolean(document.activeElement.closest?.('.evidence-artifact')),
     }
   })()`)
-  if (report.id !== evidenceId || report.observationCount < 2 || report.brokenImages || report.placeholder || report.minTarget < 44 || !report.activeInArtifact) {
+  if (report.id !== evidenceId || report.observationCount < 2 || !report.primarySrc.includes('-v3.webp') || report.primarySize[0] !== 1080 || report.primarySize[1] !== 720 || report.duplicateGlyphOverlays || report.brokenImages || report.placeholder || report.minTarget < 44 || !report.activeInArtifact) {
     throw new Error(`Evidence inspection regression: ${JSON.stringify(report)}`)
   }
   return report
@@ -274,9 +278,10 @@ await waitFor(`document.querySelector('.evidence-artifact') !== null`)
 await command('Emulation.setEmulatedMedia', { media: 'screen', features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] })
 const reducedMotion = await evaluate(`(() => ({
   templateAnimation: getComputedStyle(document.querySelector('.evidence-template-body')).animationName,
+  plateLightAnimation: getComputedStyle(document.querySelector('.evidence-plate'), '::after').animationName,
   hotspotTransition: getComputedStyle(document.querySelector('.evidence-hotspots button')).transitionDuration,
 }))()`)
-if (reducedMotion.templateAnimation !== 'none' || reducedMotion.hotspotTransition !== '0.001s') throw new Error(`Reduced-motion regression: ${JSON.stringify(reducedMotion)}`)
+if (reducedMotion.templateAnimation !== 'none' || reducedMotion.plateLightAnimation !== 'none' || reducedMotion.hotspotTransition !== '0.001s') throw new Error(`Reduced-motion regression: ${JSON.stringify(reducedMotion)}`)
 await command('Emulation.setEmulatedMedia', { media: 'screen', features: [] })
 
 if (browserErrors.length) throw new Error(`Browser console errors: ${browserErrors.join(' | ')}`)

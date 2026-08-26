@@ -18,7 +18,7 @@
 
 ## 本地输入哈希
 
-`autumn-qiu-form-reference.png`：`8065e6be10d23662631bfbc04fd62a5eac32594840dfcd4343f45f5871588e71`。输入左为甲骨、右为小篆。
+`autumn-qiu-form-reference.png`：`17b0600f98b92687d8771affecb3a4c077d607b36cd75509aceac03d0f048ede`。输入左为甲骨、右为小篆；由公版 SVG 在白底分别栅格化后并列，不进入发布包。
 
 ## 四图提示词
 
@@ -34,4 +34,11 @@
 
 ## 生成记录
 
-正式生成后逐图记录输出路径、最终提示词、WebP 哈希、大小与中立性结论。
+| 证物 | AI 原始输出 | WebP SHA-256 | 字节 | 审查结论 |
+|---|---|---|---:|---|
+| `variants` | `exec-8ec1c033-bb07-442c-bb1e-eb4f023e8a54.png` | `ffae6bc984c06443cae82d744b5119a14f85c6c0b6632290266084b93b1446ef` | 136684 | 仅出现核验过的甲骨、小篆两形；无虚构金文。 |
+| `insect-fire` | `exec-739ef7d9-ad06-4a08-adf9-7ad82f20293c.png` | `92f731f43cc37a716656d4db1a168083fb46e687ef34485a0ec715af44655e86` | 81250 | 标本盒封闭，无虫体特写；虫、火只作为材料线索。 |
+| `modern-form` | `exec-5003b5cf-d58f-4954-9dd4-9193d158474d.png` | `d373e4137c0c1d71e153fa53bfd97dbd2d580d0b3c1e22264badb0a41f0fc9cc` | 93524 | 两份旧拓轮廓准确；上层现代校勘纸为空白，不伪造今形。 |
+| `debate` | `exec-5a889c0c-d653-49d7-9448-67cc7ffacc79.png` | `6cc8211022be1ba18de9abbfd7dc724fc2093dd6c9e1482d36bc704703b863de` | 68260 | 两袋等大、等光、等材质，各有支持筹与缺口筹，视觉同权。 |
+
+四张正式资源均为 1080×720 WebP；生成画面不含可读长文、随机古文、水印或现代 UI。

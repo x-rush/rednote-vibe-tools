@@ -36,10 +36,10 @@ const evidenceAssets: Readonly<Record<string, EvidenceAssetSet>> = Object.freeze
   'asset-evidence-law-shuowen': evidenceAsset('./assets/evidence/law/asset-evidence-law-shuowen-v3.webp'),
   'asset-evidence-law-simplification': evidenceAsset('./assets/evidence/law/asset-evidence-law-simplification-v3.webp'),
   'asset-evidence-law-water-fairness': evidenceAsset('./assets/evidence/law/asset-evidence-law-water-fairness-v3.webp'),
-  'asset-evidence-autumn-variants': evidenceAsset('./assets/evidence/autumn/asset-evidence-autumn-variants-v1.svg'),
-  'asset-evidence-autumn-insect-fire': evidenceAsset('./assets/evidence/autumn/asset-evidence-autumn-insect-fire-v1.svg'),
-  'asset-evidence-autumn-modern-form': evidenceAsset('./assets/evidence/autumn/asset-evidence-autumn-modern-form-v1.svg'),
-  'asset-evidence-autumn-debate': evidenceAsset('./assets/evidence/autumn/asset-evidence-autumn-debate-v1.svg'),
+  'asset-evidence-autumn-variants': evidenceAsset('./assets/evidence/autumn/asset-evidence-autumn-variants-v3.webp'),
+  'asset-evidence-autumn-insect-fire': evidenceAsset('./assets/evidence/autumn/asset-evidence-autumn-insect-fire-v3.webp'),
+  'asset-evidence-autumn-modern-form': evidenceAsset('./assets/evidence/autumn/asset-evidence-autumn-modern-form-v3.webp'),
+  'asset-evidence-autumn-debate': evidenceAsset('./assets/evidence/autumn/asset-evidence-autumn-debate-v3.webp'),
 })
 
 const evidenceGlyphAssets: Readonly<Record<string, string>> = Object.freeze({

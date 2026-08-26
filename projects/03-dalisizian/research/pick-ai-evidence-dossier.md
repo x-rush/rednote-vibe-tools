@@ -36,4 +36,11 @@
 
 ## 生成记录
 
-正式生成后逐图记录输出路径、最终提示词、WebP 哈希、大小与釆／采分形结论。
+| 资源 | image_gen 原图 | WebP SHA-256 | 字节 | 核验结论 |
+|---|---|---|---:|---|
+| `form` | `exec-a8c5b6ab-f121-4569-bb86-3cb8737c10e1.png` | `49848fe17d9ae37e8802683088b22dabe784cd4785f4e0844deb7fa4c48c3b70` | 154426 | 采三期轮廓分别落于竹、石、纸；叶片为独立标本。 |
+| `bian-distinction` | `exec-5987422c-91f7-40a9-ac36-207f47844926.png` | `abef3ce30ea8b63bfa75ce6546a722edacd938d11d84720ca80f1690acb96c84` | 78972 | 左釆右采，木隔条分开；两形未混笔。 |
+| `extensions` | `exec-9fe7f86d-18a4-4357-9af3-43241e00e9c8.png` | `619deaff1db7cbdd1cc6d9c8be731b67476af16366870cf84a1b18ce6ba12b8e` | 114000 | 矿物颜料、织物、木筹与空册表达义项扩展，无字。 |
+| `leaf-story` | `exec-b669692d-2ad1-4223-bddb-8742c0c6b7c7.png` | `384daccf22577e32e067bce95145e4d80ff5fe391bdb567d2007e3e6a9e0dcdf` | 99138 | 彩叶传闻被印台压住，断绳不接来源册。 |
+
+四图均由内置 `image_gen` 独立生成，离线转为 1080×720 WebP（quality 78）。

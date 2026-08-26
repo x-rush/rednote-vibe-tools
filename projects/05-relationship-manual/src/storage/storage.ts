@@ -38,6 +38,13 @@ const LEGACY_SECTION_MAP: Record<string, CardSectionId> = {
   care: 'care',
   commitment: 'repair',
 }
+const LEGACY_TEXT_SECTION_MAP: Record<string, CardSectionId> = {
+  'pref-space': 'space',
+  'pref-conflict-timing': 'conflict',
+  'pref-care-action': 'care',
+  'boundary-private': 'boundary',
+  'commit-repair-action': 'repair',
+}
 
 export type LoadDraftResult =
   | { status: 'empty' }
@@ -235,7 +242,7 @@ export function migrateAnswers(
   context: RelationshipContext,
   content: RelationshipContentPackage,
 ): { answers: DraftPayload['answers']; preservedAnswerCount: number } {
-  const migration = content.content.answerMigrations?.find((item) => item.fromContentVersion === fromContentVersion)
+  const migration = content.content.answerMigrations.find((item) => item.fromContentVersion === fromContentVersion)
   const mappings = migration?.byContext[context]
   if (!mappings) return { answers: [], preservedAnswerCount: 0 }
   const migrated = answers.flatMap((answer) => {
@@ -258,8 +265,9 @@ export function migrateAnswers(
 function migrateLegacyCardItem(item: Record<string, unknown>, references?: StorageReferences): DraftPayload['cardItems'][number] | null {
   const sourceTextKey = typeof item.sourceTextKey === 'string' ? item.sourceTextKey : undefined
   const mappedSection = sourceTextKey ? references?.sentenceSectionByTextKey?.get(sourceTextKey) : undefined
+  const legacyTextSection = sourceTextKey ? LEGACY_TEXT_SECTION_MAP[sourceTextKey] : undefined
   const legacySection = typeof item.sectionId === 'string' ? LEGACY_SECTION_MAP[item.sectionId] : undefined
-  const sectionId = mappedSection ?? legacySection
+  const sectionId = mappedSection ?? legacyTextSection ?? legacySection
   if (!sectionId) return null
   const mappedRole = sourceTextKey ? references?.sentenceRoleByTextKey?.get(sourceTextKey) : undefined
   const role = mappedRole ?? (item.sectionId === 'avoid' ? 'trigger' : item.sectionId === 'commitment' ? 'repair' : 'need')

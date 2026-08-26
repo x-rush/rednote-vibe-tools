@@ -18,15 +18,15 @@ export function limitText(text: string, maxCharacters: number): string {
 export function buildShareSummary(
   content: RelationshipContentPackage,
   profile: RelationshipProfile,
-  relationshipContext?: RelationshipContext,
+  relationshipContext: RelationshipContext,
 ): string {
   const rules = content.content.cardRules
-  const bank = relationshipContext ? getRelationshipBank(content, relationshipContext) : null
+  const bank = getRelationshipBank(content, relationshipContext)
   if (profile.selectedTextKeys.length === 0) return rules.neutralSummary
-  const mergedConflict = (bank?.conflictMergeRules ?? rules.conflictMergeRules)
+  const mergedConflict = bank.conflictMergeRules
     .find((rule) => profile.conflictRuleIds.includes(rule.ruleId))
   if (mergedConflict) return limitText(mergedConflict.text, rules.maxSummaryChars)
-  const sentenceByKey = new Map((bank?.sentenceFragments ?? content.content.sentenceFragments)
+  const sentenceByKey = new Map(bank.sentenceFragments
     .map((sentence) => [sentence.textKey, sentence]))
   const candidate = profile.selectedTextKeys
     .map((key) => sentenceByKey.get(key))
@@ -41,11 +41,10 @@ export function buildCardViewModel(
   relationshipContext: RelationshipContext,
 ): RelationshipCardViewModel {
   const rules = content.content.cardRules
-  const usesRelationshipBank = profile.relationshipContext === relationshipContext
-  const bank = usesRelationshipBank ? getRelationshipBank(content, relationshipContext) : null
-  const sentenceByKey = new Map((bank?.sentenceFragments ?? content.content.sentenceFragments)
+  const bank = getRelationshipBank(content, relationshipContext)
+  const sentenceByKey = new Map(bank.sentenceFragments
     .map((sentence) => [sentence.textKey, sentence]))
-  const activeConflictRules = (bank?.conflictMergeRules ?? rules.conflictMergeRules)
+  const activeConflictRules = bank.conflictMergeRules
     .filter((rule) => profile.conflictRuleIds.includes(rule.ruleId))
   const remainingFragments = profile.selectedFragments.filter((fragment) => !activeConflictRules.some((rule) => (
     fragment.optionId !== undefined
@@ -62,7 +61,7 @@ export function buildCardViewModel(
   })
 
   const sections: CardSection[] = rules.sections.map((rule, order) => {
-    const bankFallback = bank?.sectionFallbacks[rule.sectionId]
+    const bankFallback = bank.sectionFallbacks[rule.sectionId]
     const conflictItems = activeConflictRules
       .filter((conflictRule) => conflictRule.cardSectionId === rule.sectionId)
       .map((conflictRule) => ({
@@ -85,7 +84,7 @@ export function buildCardViewModel(
       }))
     const fallbackNeedItem = {
       id: `fallback-need:${rule.sectionId}`,
-      text: bankFallback?.needText ?? rule.fallbackNeedText,
+      text: bankFallback.needText,
       sourceTextKey: null,
       provenanceIds: [] as string[],
       sensitive: false,
@@ -93,7 +92,7 @@ export function buildCardViewModel(
     }
     const fallbackActionItem = {
       id: `fallback-action:${rule.sectionId}`,
-      text: bankFallback?.actionText ?? rule.fallbackActionText,
+      text: bankFallback.actionText,
       sourceTextKey: null,
       provenanceIds: [] as string[],
       sensitive: false,
@@ -124,7 +123,7 @@ export function buildCardViewModel(
     title: rules.title,
     relationshipLabel: rules.relationshipLabels[relationshipContext],
     sections,
-    shareSummary: buildShareSummary(content, profile, bank ? relationshipContext : undefined),
+    shareSummary: buildShareSummary(content, profile, relationshipContext),
     disclaimer: rules.disclaimer,
     contentVersion: content.contentVersion,
   }

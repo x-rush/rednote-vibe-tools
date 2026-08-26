@@ -157,7 +157,7 @@ describe('relationship content package V3', () => {
   })
 
   it.each(RELATIONSHIP_CONTEXTS)('%s provides broad, valid V2 answer migration coverage', (context) => {
-    const migration = content.content.answerMigrations?.find((item) => item.fromContentVersion === '2.0.0')
+    const migration = content.content.answerMigrations.find((item) => item.fromContentVersion === '2.0.0')
     const mappings = migration?.byContext[context] ?? {}
     const bank = getRelationshipBank(content, context)
     const questionById = new Map(bank.questions.map((question) => [question.questionId, question]))

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { DraftPayload } from '../content/schema'
 import { getValidatedContent } from '../content/validate'
-import { clearDraft, loadDraft, saveDraft, STORAGE_KEY } from './storage'
+import { buildStorageReferences, clearDraft, loadDraft, saveDraft, STORAGE_KEY } from './storage'
 
 class MemoryStorage implements Storage {
   private values = new Map<string, string>()
@@ -29,6 +29,10 @@ const draft: DraftPayload = {
   settings: { compactMode: false, showSensitiveInCompact: false },
 }
 
+function answerFor(questionId: string, optionId: string): DraftPayload['answers'][number] {
+  return { questionId, optionIds: [optionId], skipped: false, updatedAt: now }
+}
+
 describe('draft storage', () => {
   it('migrates a v1 draft without losing stable answers or hand edits', () => {
     const storage = new MemoryStorage()
@@ -45,11 +49,7 @@ describe('draft storage', () => {
     }
     storage.setItem('xhs-tool:relationship-manual:state:v1', JSON.stringify(legacyDraft))
 
-    const result = loadDraft(storage, content.contentVersion, {
-      questionsById: new Map(content.content.questions.map((question) => [question.questionId, question])),
-      sentenceSectionByTextKey: new Map(content.content.sentenceFragments.map((sentence) => [sentence.textKey, sentence.cardSectionId])),
-      sentenceRoleByTextKey: new Map(content.content.sentenceFragments.map((sentence) => [sentence.textKey, sentence.role])),
-    })
+    const result = loadDraft(storage, content.contentVersion, buildStorageReferences(content))
 
     expect(result.status).toBe('ok')
     if (result.status !== 'ok') return
@@ -99,38 +99,38 @@ describe('draft storage', () => {
 
   it('restores known IDs after a content update and drops stale answer references', () => {
     const storage = new MemoryStorage()
+    const currentQuestion = content.content.relationshipBanks!['close-relationship'].questions[0]!
+    const currentAnswer = answerFor(currentQuestion.questionId, currentQuestion.options[0]!.optionId)
     saveDraft(storage, {
       ...draft,
       contentVersion: '0.9.0',
-      answers: [...draft.answers, { questionId: 'question-removed', optionIds: ['option-removed'], skipped: false, updatedAt: now }],
+      answers: [currentAnswer, { questionId: 'question-removed', optionIds: ['option-removed'], skipped: false, updatedAt: now }],
     })
 
-    const result = loadDraft(storage, '2.0.0', {
-      questionsById: new Map(content.content.questions
-        .filter((question) => question.questionId === 'question-busy-contact')
-        .map((question) => [question.questionId, question])),
-    })
+    const result = loadDraft(storage, '3.0.0', buildStorageReferences(content))
 
     expect(result.status).toBe('ok')
     if (result.status === 'ok') {
       expect(result.contentChanged).toBe(true)
-      expect(result.payload.answers).toEqual(draft.answers)
+      expect(result.payload.answers).toEqual([currentAnswer])
       expect(result.payload.lastResult).toBeNull()
       expect(result.payload.page).toBe('review')
-      expect(result.payload.contentVersion).toBe('2.0.0')
+      expect(result.payload.contentVersion).toBe('3.0.0')
     }
   })
 
   it('drops an option that exists globally but belongs to a different question', () => {
     const storage = new MemoryStorage()
+    const bank = content.content.relationshipBanks!['close-relationship']
+    const target = bank.questions[0]!
+    const foreignOption = bank.questions[1]!.options[0]!
     saveDraft(storage, {
       ...draft,
-      answers: [{ ...draft.answers[0]!, optionIds: ['option-care-action'] }],
+      contentVersion: '3.0.0',
+      answers: [answerFor(target.questionId, foreignOption.optionId)],
     })
 
-    const result = loadDraft(storage, '2.0.0', {
-      questionsById: new Map(content.content.questions.map((question) => [question.questionId, question])),
-    })
+    const result = loadDraft(storage, '3.0.0', buildStorageReferences(content))
 
     expect(result.status).toBe('ok')
     if (result.status === 'ok') expect(result.payload.answers).toEqual([])
@@ -138,7 +138,8 @@ describe('draft storage', () => {
 
   it('rejects restored answers that skip required questions or violate selection rules', () => {
     const storage = new MemoryStorage()
-    const question = structuredClone(content.content.questions.find((item) => item.questionId === 'question-conflict-tone')!)
+    const question = structuredClone(content.content.relationshipBanks!['close-relationship'].questions
+      .find((item) => item.questionId === 'close-conflict-tone')!)
     question.skipRule.allowed = false
     question.options[2]!.exclusive = true
     saveDraft(storage, {
@@ -150,7 +151,9 @@ describe('draft storage', () => {
       ],
     })
 
-    const result = loadDraft(storage, '2.0.0', { questionsById: new Map([[question.questionId, question]]) })
+    const references = buildStorageReferences(content)
+    references.questionBanks!['close-relationship'] = new Map([[question.questionId, question]])
+    const result = loadDraft(storage, '3.0.0', references)
 
     expect(result.status).toBe('ok')
     if (result.status === 'ok') expect(result.payload.answers).toEqual([])

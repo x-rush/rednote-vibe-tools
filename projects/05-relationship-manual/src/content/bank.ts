@@ -16,9 +16,7 @@ export function getRelationshipBank(
   content: RelationshipContentPackage,
   context: RelationshipContext,
 ): RelationshipBank {
-  const bank = content.content.relationshipBanks?.[context]
-  if (!bank) throw new Error(`缺少关系题库：${context}`)
-  return bank
+  return content.content.relationshipBanks[context]
 }
 
 export function getAllQuestions(content: RelationshipContentPackage): RelationshipQuestion[] {

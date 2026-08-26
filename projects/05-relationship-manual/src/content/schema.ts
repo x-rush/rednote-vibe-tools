@@ -49,8 +49,7 @@ export type PreferenceDimension = {
   label: string
   description: string
   important: boolean
-  fallbackTextKey: string
-  fallbackTextKeys?: Record<RelationshipContext, string>
+  fallbackTextKeys: Record<RelationshipContext, string>
 }
 
 export type PreferenceScore = {
@@ -95,9 +94,8 @@ export type RelationshipQuestion = {
   questionId: string
   category: RelationshipCategory
   sceneLead: string
-  sceneLeadByContext?: Partial<Record<RelationshipContext, string>>
   prompt: string
-  resultVoices?: ResultVoice[]
+  resultVoices: ResultVoice[]
   multiple: boolean
   selectionLimit: { min: number; max: number }
   options: RelationshipOption[]
@@ -118,8 +116,8 @@ export type ManualSentence = {
   cardSectionId: CardSectionId
   kind: SentenceKind
   role: SentenceRole
-  voice?: ResultVoice
-  intensity?: 1 | 2 | 3
+  voice: ResultVoice
+  intensity: 1 | 2 | 3
   text: string
   sensitive: boolean
   compactDefault: boolean
@@ -134,7 +132,7 @@ export type ConflictMergeRule = {
 }
 
 export type RelationshipProfile = {
-  relationshipContext?: RelationshipContext
+  relationshipContext: RelationshipContext
   answers: QuestionnaireAnswer[]
   scores: PreferenceScore[]
   priorityDimensionIds: string[]
@@ -206,7 +204,6 @@ export type DraftPayload = {
 export type CardRules = {
   title: string
   disclaimer: string
-  safetyFallback: string
   neutralSummary: string
   summaryPrefix: string
   maxParagraphChars: number
@@ -217,15 +214,7 @@ export type CardRules = {
     sectionId: CardSectionId
     title: string
     maxItems: number
-    fallbackNeedText: string
-    fallbackActionText: string
   }>
-  conflictMergeRules: ConflictMergeRule[]
-  boundaryCommitmentRules: Array<{
-    boundaryId: string
-    textKeys: string[]
-  }>
-  defaultCommitmentTextKeys: string[]
 }
 
 export type RelationshipBank = {
@@ -245,7 +234,7 @@ export type RelationshipBank = {
 }
 
 export type AnswerMigration = {
-  fromContentVersion: string
+  fromContentVersion: '2.0.0'
   byContext: Record<RelationshipContext, Record<string, {
     questionId: string
     optionIds: Record<string, string>
@@ -257,11 +246,8 @@ export type RelationshipContent = {
   contextCopy: Record<RelationshipContext, RelationshipContextCopy>
   npcCues: NpcCue[]
   dimensions: PreferenceDimension[]
-  questions: RelationshipQuestion[]
-  boundaryPreferences: BoundaryPreference[]
-  sentenceFragments: ManualSentence[]
-  relationshipBanks?: Record<RelationshipContext, RelationshipBank>
-  answerMigrations?: AnswerMigration[]
+  relationshipBanks: Record<RelationshipContext, RelationshipBank>
+  answerMigrations: AnswerMigration[]
   cardRules: CardRules
   safetyRules: Array<{
     ruleId: string

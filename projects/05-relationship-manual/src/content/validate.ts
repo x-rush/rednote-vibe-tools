@@ -142,7 +142,7 @@ function validateQuestion(
         errors.push(`${optionBase}.resultTextKeys[${textIndex}]: cross-bank result key "${textKey}"`)
         return
       }
-      if (!question.resultVoices?.includes(sentence.voice as ResultVoice)) {
+      if (!question.resultVoices.includes(sentence.voice)) {
         errors.push(`${optionBase}.resultTextKeys[${textIndex}]: result voice mismatch`)
       }
       if (!sentence.sensitive && Math.abs(option.intensity - Number(sentence.intensity)) > 1) {
@@ -208,7 +208,7 @@ function validateContentUnsafe(input: unknown): ContentValidationResult {
       || typeof dimension.description !== 'string'
       || typeof dimension.important !== 'boolean'
       || !isRecord(dimension.fallbackTextKeys)
-      || RELATIONSHIP_CONTEXTS.some((context) => typeof dimension.fallbackTextKeys?.[context] !== 'string')) return true
+      || RELATIONSHIP_CONTEXTS.some((context) => typeof dimension.fallbackTextKeys[context] !== 'string')) return true
     dimensionIds.add(dimension.dimensionId)
     return false
   })) errors.push('$.content.dimensions: invalid item structure')

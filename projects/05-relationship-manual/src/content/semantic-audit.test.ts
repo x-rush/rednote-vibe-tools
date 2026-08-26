@@ -108,6 +108,32 @@ describe('question-bank semantic audit', () => {
   })
 
   it.each([
+    ['close-relationship', 'close-care-language', {
+      words: 'care-words',
+      action: 'care-action',
+      details: 'care-details',
+    }],
+    ['friendship', 'friend-care-checkin', {
+      specific: 'care-details',
+      'no-reply': 'care-words',
+      company: 'care-action',
+    }],
+    ['family', 'family-care-preference', {
+      meal: 'care-action',
+      company: 'care-action',
+      space: 'space-autonomy',
+    }],
+  ] as const)('%s %s scores each selected care mode in its matching dimension', (context, questionId, expected) => {
+    const question = getRelationshipBank(content, context).questions.find((item) => item.questionId === questionId)!
+    const actual = Object.fromEntries(question.options.map((option) => [
+      option.tags[0],
+      option.dimensionEffects[0]?.dimensionId,
+    ]))
+
+    expect(actual).toEqual(expected)
+  })
+
+  it.each([
     ['close-relationship', 'close-contact-plan-change'],
     ['friendship', 'friend-boundary-sharing'],
     ['family', 'family-repair-change'],
@@ -123,7 +149,7 @@ describe('question-bank semantic audit', () => {
       ...bank.boundaryPreferences.map((boundary) => boundary.textKey),
       ...bank.boundaryCommitmentRules.flatMap((rule) => rule.textKeys),
       ...bank.defaultCommitmentTextKeys,
-      ...content.content.dimensions.flatMap((dimension) => dimension.fallbackTextKeys?.[context] ?? []),
+      ...content.content.dimensions.map((dimension) => dimension.fallbackTextKeys[context]),
     ])
     expect(bank.sentenceFragments.filter((sentence) => !reachable.has(sentence.textKey))).toEqual([])
   })

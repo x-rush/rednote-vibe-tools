@@ -1,48 +1,57 @@
 import { describe, expect, it } from 'vitest'
 import { getValidatedContent } from '../content/validate'
+import { getRelationshipBank } from '../content/bank'
 import type { EditableCardItem, RelationshipCardViewModel } from '../content/schema'
 import { buildDisplayCard, findMissingRequiredQuestions, reconcileCardItems } from './view-model'
 
 const content = getValidatedContent()
+const closeQuestions = getRelationshipBank(content, 'close-relationship').questions
 const baseCard: RelationshipCardViewModel = {
   title: '我希望被这样对待',
   relationshipLabel: '亲密关系',
   sections: [
-    { sectionId: 'care', title: '表达关心可以这样做', paragraphs: ['建议一', '建议二'], paragraphIds: ['text:care-one', 'text:care-two'], paragraphSourceTextKeys: ['care-one', 'care-two'], paragraphProvenanceIds: [['q1:o1'], ['q2:o2']], sensitive: false, visible: true, order: 0 },
-    { sectionId: 'avoid', title: '请尽量不要', paragraphs: ['敏感边界'], paragraphIds: ['text:avoid-one'], paragraphSourceTextKeys: ['avoid-one'], paragraphProvenanceIds: [['q3:o3']], sensitive: true, visible: true, order: 1 },
+    { sectionId: 'care', title: '表达关心可以这样做', paragraphs: ['建议一', '建议二'], paragraphRoles: ['need', 'action'], paragraphIds: ['text:care-one', 'text:care-two'], paragraphSourceTextKeys: ['care-one', 'care-two'], paragraphProvenanceIds: [['q1:o1'], ['q2:o2']], sensitive: false, visible: true, order: 0 },
+    { sectionId: 'boundary', title: '不能被翻过的页', paragraphs: ['敏感边界'], paragraphRoles: ['trigger'], paragraphIds: ['text:avoid-one'], paragraphSourceTextKeys: ['avoid-one'], paragraphProvenanceIds: [['q3:o3']], sensitive: true, visible: true, order: 1 },
   ],
   shareSummary: '摘要',
   disclaimer: '说明',
-  contentVersion: '1.0.0',
+  contentVersion: '2.0.0',
 }
 
 const items: EditableCardItem[] = [
-  { itemId: 'text:care-one', sectionId: 'care', suggestedText: '建议一', editedText: '建议一', visible: true, sensitive: false, order: 0, needsReview: false, provenanceIds: ['q1:o1'] },
-  { itemId: 'text:care-two', sectionId: 'care', suggestedText: '建议二', editedText: '建议二', visible: true, sensitive: false, order: 1, needsReview: false, provenanceIds: ['q2:o2'] },
-  { itemId: 'text:avoid-one', sectionId: 'avoid', suggestedText: '敏感边界', editedText: '敏感边界', visible: true, sensitive: true, order: 2, needsReview: false, provenanceIds: ['q3:o3'] },
+  { itemId: 'text:care-one', sectionId: 'care', role: 'need', suggestedText: '建议一', editedText: '建议一', visible: true, sensitive: false, order: 0, needsReview: false, provenanceIds: ['q1:o1'] },
+  { itemId: 'text:care-two', sectionId: 'care', role: 'action', suggestedText: '建议二', editedText: '建议二', visible: true, sensitive: false, order: 1, needsReview: false, provenanceIds: ['q2:o2'] },
+  { itemId: 'text:avoid-one', sectionId: 'boundary', role: 'trigger', suggestedText: '敏感边界', editedText: '敏感边界', visible: true, sensitive: true, order: 2, needsReview: false, provenanceIds: ['q3:o3'] },
 ]
 
 describe('page view model helpers', () => {
   it('reports required questions but accepts explicitly skipped optional questions', () => {
+    const required = {
+      ...closeQuestions[0]!,
+      skipRule: { allowed: false, reason: 'required fixture' },
+    }
+    const optional = closeQuestions[1]!
     const answers = [
-      { questionId: 'question-busy-contact', optionIds: ['option-busy-brief'], skipped: false, updatedAt: '2026-08-24T00:00:00.000Z' },
-      { questionId: 'question-conflict-tone', optionIds: [], skipped: true, updatedAt: '2026-08-24T00:00:00.000Z' },
-      { questionId: 'question-space-not-rejection', optionIds: [], skipped: true, updatedAt: '2026-08-24T00:00:00.000Z' },
+      { questionId: required.questionId, optionIds: [required.options[0]!.optionId], skipped: false, updatedAt: '2026-08-24T00:00:00.000Z' },
+      { questionId: optional.questionId, optionIds: [], skipped: true, updatedAt: '2026-08-24T00:00:00.000Z' },
     ]
 
-    const missing = findMissingRequiredQuestions(content.content.questions, answers)
+    const missing = findMissingRequiredQuestions([required, optional], answers)
 
-    expect(missing).not.toContain('question-busy-contact')
-    expect(missing).not.toContain('question-conflict-tone')
-    expect(missing).toContain('question-message-delay')
+    expect(missing).not.toContain(required.questionId)
+    expect(missing).not.toContain(optional.questionId)
   })
 
   it('does not let a restored skip marker satisfy a required question', () => {
-    const missing = findMissingRequiredQuestions(content.content.questions, [{
-      questionId: 'question-busy-contact', optionIds: [], skipped: true, updatedAt: '2026-08-24T00:00:00.000Z',
+    const required = {
+      ...closeQuestions[0]!,
+      skipRule: { allowed: false, reason: 'required fixture' },
+    }
+    const missing = findMissingRequiredQuestions([required], [{
+      questionId: required.questionId, optionIds: [], skipped: true, updatedAt: '2026-08-24T00:00:00.000Z',
     }])
 
-    expect(missing).toContain('question-busy-contact')
+    expect(missing).toContain(required.questionId)
   })
 
   it('keeps full preview content but excludes sensitive items from compact preview by default', () => {
@@ -51,8 +60,8 @@ describe('page view model helpers', () => {
     const compactWithSensitive = buildDisplayCard(baseCard, items, true, true)
 
     expect(full.sections.flatMap((section) => section.paragraphs)).toEqual(['建议一', '建议二', '敏感边界'])
-    expect(compact.sections.flatMap((section) => section.paragraphs)).toEqual(['建议一'])
-    expect(compactWithSensitive.sections.flatMap((section) => section.paragraphs)).toEqual(['建议一', '敏感边界'])
+    expect(compact.sections.flatMap((section) => section.paragraphs)).toEqual(['建议二'])
+    expect(compactWithSensitive.sections.flatMap((section) => section.paragraphs)).toEqual(['建议二', '敏感边界'])
   })
 
   it('preserves edited text and marks it for review when regeneration changes the suggestion', () => {

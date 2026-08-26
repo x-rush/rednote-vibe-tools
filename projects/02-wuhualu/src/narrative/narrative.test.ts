@@ -20,6 +20,15 @@ describe('collection narrative logic', () => {
     expect(nextUnreadNarrativeChapter(chapters, 4, ['act-1'], ['act-2'])).toBeNull()
   })
 
+  it('does not unlock the finale before act five has actually been read', () => {
+    expect(nextUnreadNarrativeChapter(
+      chapters,
+      20,
+      ['act-1', 'act-2', 'act-3', 'act-4'],
+      ['act-5'],
+    )).toBeNull()
+  })
+
   it('keeps a guide line stable within a round and rotates across seeds', () => {
     const lines = ['甲', '乙', '丙']
     expect(pickGuideLine(lines, 'round-a', 'artifact-a', 'reveal')).toBe(

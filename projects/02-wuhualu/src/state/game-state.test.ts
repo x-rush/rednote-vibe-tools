@@ -43,6 +43,19 @@ function answerCurrent(state: AppState, correct: boolean): AppState {
   return appReducer(state, { type: 'submitAnswer', answeredAt: NOW })
 }
 
+function archiveCurrent(state: AppState): AppState {
+  state = answerCurrent(state, true)
+  if (state.screen !== 'reveal') throw new Error('expected reveal')
+  const artifact = state.artifacts.find(({ id }) => id === state.result.artifactId)
+  if (!artifact) throw new Error('missing current artifact')
+  state = appReducer(state, { type: 'openStory' })
+  for (const section of artifact.experienceV2.story) {
+    state = appReducer(state, { type: 'markStorySectionRead', sectionId: section.id })
+  }
+  state = appReducer(state, { type: 'answerMemory', optionId: artifact.experienceV2.memoryChallenge.answerId })
+  return appReducer(state, { type: 'archiveArtifact', artifacts: content.content.artifacts, archivedAt: NOW })
+}
+
 describe('application V2 state machine', () => {
   it('moves from landing through intake and mode selection to a five-item observation case', () => {
     const state = startWithSeed('state-test')
@@ -177,6 +190,80 @@ describe('application V2 state machine', () => {
     expect(state.screen).toBe('setComplete')
     expect(state.payload.setSealIds).toEqual(['chu-sound'])
     expect(appReducer(state, { type: 'archiveArtifact', artifacts: content.content.artifacts, archivedAt: NOW })).toBe(state)
+  })
+
+  it('opens act one after the first archive and resumes the next question after completion', () => {
+    let state = archiveCurrent(startedGoldenState())
+    expect(state.screen).toBe('archive')
+    state = appReducer(state, { type: 'nextQuestion', narrative: content.content.narrative.chapters })
+    expect(state.screen).toBe('narrativeInterlude')
+    expect((state as unknown as { chapterId: string }).chapterId).toBe('act-1')
+
+    state = appReducer(state, { type: 'completeNarrative' })
+    expect(state.payload.seenNarrativeIds).toEqual(['act-1'])
+    expect(state.screen).toBe('observation')
+  })
+
+  it('preserves a pending set-complete continuation around act two', () => {
+    const payload = createDefaultStoragePayload(content.contentVersion, '2026-08-25T00:00:00.000Z')
+    payload.collection = content.content.artifacts
+      .filter(artifact => artifact.setId === 'chu-sound' && artifact.id !== 'artifact-zenghouyi-bells')
+      .map(artifact => ({ artifactId: artifact.id, bestStars: 2, unlockedAt: payload.updatedAt }))
+    payload.seenNarrativeIds = ['act-1']
+    let state = archiveCurrent(startedGoldenState(payload))
+    expect(state.screen).toBe('setComplete')
+
+    state = appReducer(state, { type: 'leaveSetComplete', narrative: content.content.narrative.chapters })
+    expect(state.screen).toBe('narrativeInterlude')
+    expect((state as unknown as { chapterId: string }).chapterId).toBe('act-2')
+    state = appReducer(state, { type: 'completeNarrative' })
+
+    expect(state.screen).toBe('observation')
+    expect(state.payload.setSealIds).toContain('chu-sound')
+  })
+
+  it('queues act five before the finale at twenty collected artifacts', () => {
+    const payload = createDefaultStoragePayload(content.contentVersion, '2026-08-25T00:00:00.000Z')
+    payload.collection = content.content.artifacts
+      .filter(artifact => artifact.id !== 'artifact-zenghouyi-bells')
+      .map(artifact => ({ artifactId: artifact.id, bestStars: 3, unlockedAt: payload.updatedAt }))
+    payload.seenNarrativeIds = ['act-1', 'act-2', 'act-3', 'act-4']
+    payload.setSealIds = content.content.sets.map(({ id }) => id)
+    let state = archiveCurrent(startedGoldenState(payload))
+    state = appReducer(state, { type: 'nextQuestion', narrative: content.content.narrative.chapters })
+    expect((state as unknown as { chapterId: string }).chapterId).toBe('act-5')
+
+    state = appReducer(state, { type: 'completeNarrative' })
+    expect(state.screen).toBe('narrativeInterlude')
+    expect((state as unknown as { chapterId: string }).chapterId).toBe('finale')
+    state = appReducer(state, { type: 'completeNarrative' })
+
+    expect(state.screen).toBe('observation')
+    expect(state.payload.seenNarrativeIds).toEqual(['act-1', 'act-2', 'act-3', 'act-4', 'act-5', 'finale'])
+  })
+
+  it('lets an upgraded save defer one pending act and later finish or replay it from the task board', () => {
+    const payload = createDefaultStoragePayload(content.contentVersion, '2026-08-25T00:00:00.000Z')
+    payload.collection = content.content.artifacts.slice(0, 4)
+      .map(artifact => ({ artifactId: artifact.id, bestStars: 2, unlockedAt: payload.updatedAt }))
+    payload.seenNarrativeIds = ['act-1']
+    let state = createInitialState(payload)
+    state = appReducer(state, { type: 'showModeSelect' })
+    state = appReducer(state, { type: 'openPendingNarrative', narrative: content.content.narrative.chapters })
+    expect((state as unknown as { chapterId: string }).chapterId).toBe('act-2')
+
+    state = appReducer(state, { type: 'deferNarrative' })
+    expect(state.screen).toBe('modeSelect')
+    expect(state.payload.deferredNarrativeIds).toEqual(['act-2'])
+    state = appReducer(state, { type: 'replayNarrative', narrative: content.content.narrative.chapters, chapterId: 'act-2' })
+    state = appReducer(state, { type: 'completeNarrative' })
+    expect(state.screen).toBe('modeSelect')
+    expect(state.payload.seenNarrativeIds).toEqual(['act-1', 'act-2'])
+    expect(state.payload.deferredNarrativeIds).toEqual([])
+
+    state = appReducer(state, { type: 'replayNarrative', narrative: content.content.narrative.chapters, chapterId: 'act-2' })
+    state = appReducer(state, { type: 'completeNarrative' })
+    expect(state.payload.seenNarrativeIds).toEqual(['act-1', 'act-2'])
   })
 
   it('supports collection, detail, exit, replay, error, and recovery states', () => {

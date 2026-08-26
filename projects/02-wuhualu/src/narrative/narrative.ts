@@ -15,8 +15,10 @@ export function nextUnreadNarrativeChapter(
 ): NarrativeChapter | null {
   const seen = new Set(seenIds)
   const deferred = new Set(deferredIds)
-  return unlockedNarrativeChapters(chapters, collectionCount)
+  const next = unlockedNarrativeChapters(chapters, collectionCount)
     .find(chapter => !seen.has(chapter.id) && !deferred.has(chapter.id)) ?? null
+  if (next?.id === 'finale' && !seen.has('act-5')) return null
+  return next
 }
 
 function stableHash(value: string): number {

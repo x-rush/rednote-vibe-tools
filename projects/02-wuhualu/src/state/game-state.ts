@@ -7,6 +7,8 @@ import type {
   CaseProgress,
   DistractorCandidate,
   GuessResult,
+  NarrativeChapter,
+  NarrativeChapterId,
   QuizQuestion,
   QuizSession,
   StoragePayload,
@@ -16,10 +18,23 @@ import { unlockArtifact } from '../game/collection.ts'
 import { getSetProgress, openClueCard } from '../game/experience.ts'
 import { evaluateGuess } from '../game/progress.ts'
 import { createQuizQuestion, isQuizGenerationError, selectRoundArtifacts } from '../game/quiz.ts'
+import { nextUnreadNarrativeChapter } from '../narrative/narrative.ts'
 
 type StoredState = { payload: StoragePayload }
 type QuestionCore = StoredState & { artifacts: CompleteArtifact[]; questions: QuizQuestion[]; session: QuizSession }
 type ResultCore = QuestionCore & { result: GuessResult }
+type NarrativeResumeTarget =
+  | { kind: 'advance'; artifacts: CompleteArtifact[]; questions: QuizQuestion[]; session: QuizSession; result: GuessResult }
+  | { kind: 'modeSelect' }
+  | { kind: 'collection'; returnTo: 'landing' | 'summary'; summarySession: QuizSession | null }
+
+export type NarrativeInterludeState = StoredState & {
+  screen: 'narrativeInterlude'
+  chapterId: NarrativeChapterId
+  chapters: readonly NarrativeChapter[]
+  replay: boolean
+  resumeTarget: NarrativeResumeTarget
+}
 
 export type PlayState =
   | (QuestionCore & { screen: 'observation' | 'clueSelect' })
@@ -35,6 +50,7 @@ export type AppState =
   | (StoredState & { screen: 'summary'; session: QuizSession })
   | (StoredState & { screen: 'collection'; returnTo: 'landing' | 'summary'; summarySession: QuizSession | null })
   | (StoredState & { screen: 'artifactDetail'; artifactId: string; returnTo: 'landing' | 'summary'; summarySession: QuizSession | null })
+  | NarrativeInterludeState
   | (StoredState & { screen: 'error'; message: string })
 
 export type AppAction =
@@ -52,8 +68,12 @@ export type AppAction =
   | { type: 'markStorySectionRead'; sectionId: StorySectionId }
   | { type: 'answerMemory'; optionId: string }
   | { type: 'archiveArtifact'; artifacts: readonly Artifact[]; archivedAt: string }
-  | { type: 'nextQuestion' }
-  | { type: 'leaveSetComplete' }
+  | { type: 'nextQuestion'; narrative?: readonly NarrativeChapter[] }
+  | { type: 'leaveSetComplete'; narrative?: readonly NarrativeChapter[] }
+  | { type: 'openPendingNarrative'; narrative: readonly NarrativeChapter[] }
+  | { type: 'completeNarrative' }
+  | { type: 'deferNarrative' }
+  | { type: 'replayNarrative'; narrative: readonly NarrativeChapter[]; chapterId: NarrativeChapterId }
   | { type: 'exitRound' }
   | { type: 'openCollection' }
   | { type: 'openArtifact'; artifactId: string }
@@ -316,6 +336,54 @@ function advanceQuestion(state: ResultCore): AppState {
   }
 }
 
+function resumeAfterNarrative(state: NarrativeInterludeState, payload: StoragePayload): AppState {
+  if (state.resumeTarget.kind === 'modeSelect') return { screen: 'modeSelect', payload }
+  if (state.resumeTarget.kind === 'collection') {
+    return {
+      screen: 'collection',
+      payload,
+      returnTo: state.resumeTarget.returnTo,
+      summarySession: state.resumeTarget.summarySession,
+    }
+  }
+  return advanceQuestion({
+    payload,
+    artifacts: state.resumeTarget.artifacts,
+    questions: state.resumeTarget.questions,
+    session: state.resumeTarget.session,
+    result: state.resumeTarget.result,
+  })
+}
+
+function openNarrativeInterlude(
+  payload: StoragePayload,
+  chapters: readonly NarrativeChapter[],
+  resumeTarget: NarrativeResumeTarget,
+): AppState | null {
+  const chapter = nextUnreadNarrativeChapter(
+    chapters,
+    payload.collection.length,
+    payload.seenNarrativeIds,
+    payload.deferredNarrativeIds,
+  )
+  if (!chapter) return null
+  return { screen: 'narrativeInterlude', payload, chapterId: chapter.id, chapters, replay: false, resumeTarget }
+}
+
+function advanceWithNarrative(state: ResultCore, chapters?: readonly NarrativeChapter[]): AppState {
+  if (chapters) {
+    const interlude = openNarrativeInterlude(state.payload, chapters, {
+      kind: 'advance',
+      artifacts: state.artifacts,
+      questions: state.questions,
+      session: state.session,
+      result: state.result,
+    })
+    if (interlude) return interlude
+  }
+  return advanceQuestion(state)
+}
+
 export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'showIntro':
@@ -431,9 +499,60 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         : { ...state, screen: 'archive', session, payload }
     }
     case 'nextQuestion':
-      return state.screen === 'archive' ? advanceQuestion(state) : state
+      return state.screen === 'archive' ? advanceWithNarrative(state, action.narrative) : state
     case 'leaveSetComplete':
-      return state.screen === 'setComplete' ? advanceQuestion(state) : state
+      return state.screen === 'setComplete' ? advanceWithNarrative(state, action.narrative) : state
+    case 'openPendingNarrative': {
+      if (state.screen !== 'modeSelect') return state
+      return openNarrativeInterlude(state.payload, action.narrative, { kind: 'modeSelect' }) ?? state
+    }
+    case 'completeNarrative': {
+      if (state.screen !== 'narrativeInterlude') return state
+      if (state.replay) return resumeAfterNarrative(state, state.payload)
+      const seenNarrativeIds = state.payload.seenNarrativeIds.includes(state.chapterId)
+        ? state.payload.seenNarrativeIds
+        : [...state.payload.seenNarrativeIds, state.chapterId]
+      const payload = {
+        ...state.payload,
+        seenNarrativeIds,
+        deferredNarrativeIds: state.payload.deferredNarrativeIds.filter(id => id !== state.chapterId),
+      }
+      if (state.chapterId === 'act-5') {
+        const finale = nextUnreadNarrativeChapter(
+          state.chapters,
+          payload.collection.length,
+          payload.seenNarrativeIds,
+          payload.deferredNarrativeIds,
+        )
+        if (finale?.id === 'finale') {
+          return { ...state, payload, chapterId: 'finale', replay: false }
+        }
+      }
+      return resumeAfterNarrative(state, payload)
+    }
+    case 'deferNarrative': {
+      if (state.screen !== 'narrativeInterlude' || state.replay) return state
+      const deferredNarrativeIds = state.payload.deferredNarrativeIds.includes(state.chapterId)
+        ? state.payload.deferredNarrativeIds
+        : [...state.payload.deferredNarrativeIds, state.chapterId]
+      return resumeAfterNarrative(state, { ...state.payload, deferredNarrativeIds })
+    }
+    case 'replayNarrative': {
+      if (state.screen !== 'modeSelect' && state.screen !== 'collection') return state
+      const chapter = action.narrative.find(item => item.id === action.chapterId && item.unlockCount <= state.payload.collection.length)
+      if (!chapter) return state
+      const resumeTarget: NarrativeResumeTarget = state.screen === 'collection'
+        ? { kind: 'collection', returnTo: state.returnTo, summarySession: state.summarySession }
+        : { kind: 'modeSelect' }
+      return {
+        screen: 'narrativeInterlude',
+        payload: state.payload,
+        chapterId: chapter.id,
+        chapters: action.narrative,
+        replay: state.payload.seenNarrativeIds.includes(chapter.id),
+        resumeTarget,
+      }
+    }
     case 'exitRound':
       return 'session' in state ? { screen: 'landing', payload: state.payload } : state
     case 'openCollection':

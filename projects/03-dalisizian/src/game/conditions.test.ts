@@ -10,6 +10,7 @@ const state: CaseRuntimeState = {
   flags: { 'flag-home-rumor-noted': true },
   clueIds: ['clue-home-form'],
   evidenceIds: ['evidence-home-early-form'],
+  evidenceObservationIdsByEvidenceId: {},
   unlockedSceneIds: ['scene-home-court'],
   visitedNodeIds: ['node-home-00'],
   deductionAnswers: { 'deduction-home-method': 'option-home-method-b' },

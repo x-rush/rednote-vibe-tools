@@ -328,6 +328,7 @@ export type CaseRuntimeState = {
   flags: Record<string, boolean>
   clueIds: string[]
   evidenceIds: string[]
+  evidenceObservationIdsByEvidenceId: Record<string, string[]>
   unlockedSceneIds: string[]
   visitedNodeIds: string[]
   deductionAnswers: Record<string, string>

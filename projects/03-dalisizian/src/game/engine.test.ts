@@ -8,6 +8,7 @@ import {
   chooseOption,
   createInitialCaseState,
   enterNode,
+  markEvidenceObserved,
   markRouteReviewed,
   restartCase,
   setFlag,
@@ -105,6 +106,26 @@ describe('case engine', () => {
     const reviewed = markRouteReviewed(markRouteReviewed(initial, 'route-home-form'), 'route-home-form')
 
     expect(reviewed.reviewedRouteIds).toEqual(['route-home-form'])
+  })
+
+  it('marks a valid evidence observation once without changing story progress', () => {
+    const initial = createInitialCaseState(homeCase)
+    const observed = markEvidenceObserved(initial, 'evidence-home-early-form', 'home-early-form-focus-a', contentIndex)
+    const repeated = markEvidenceObserved(observed, 'evidence-home-early-form', 'home-early-form-focus-a', contentIndex)
+
+    expect(observed.evidenceObservationIdsByEvidenceId).toEqual({
+      'evidence-home-early-form': ['home-early-form-focus-a'],
+    })
+    expect(observed.currentNodeId).toBe(initial.currentNodeId)
+    expect(repeated).toBe(observed)
+  })
+
+  it('ignores observations from unknown evidence, another case, or an unknown point', () => {
+    const initial = createInitialCaseState(homeCase)
+
+    expect(markEvidenceObserved(initial, 'evidence-does-not-exist', 'point', contentIndex)).toBe(initial)
+    expect(markEvidenceObserved(initial, 'evidence-rest-components', 'rest-components-focus-a', contentIndex)).toBe(initial)
+    expect(markEvidenceObserved(initial, 'evidence-home-early-form', 'point-does-not-exist', contentIndex)).toBe(initial)
   })
 
   it('blocks a deduction when its required clues are missing', () => {

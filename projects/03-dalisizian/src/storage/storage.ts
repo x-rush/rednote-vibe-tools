@@ -172,6 +172,15 @@ export function restoreCaseProgress(
   if (isRecord(value.deductionAttempts)) Object.entries(value.deductionAttempts).forEach(([key, item]) => {
     if (deductions.has(key) && typeof item === 'number' && Number.isInteger(item) && item > 0) deductionAttempts[key] = Math.min(item, 99)
   })
+  const evidenceObservationIdsByEvidenceId: Record<string, string[]> = {}
+  if (isRecord(value.evidenceObservationIdsByEvidenceId)) caseData.evidenceIds.forEach((evidenceId) => {
+    const evidence = index.evidence.get(evidenceId)
+    if (!evidence) return
+    const source = value.evidenceObservationIdsByEvidenceId as Record<string, unknown>
+    const saved = new Set(Array.isArray(source[evidenceId]) ? source[evidenceId].filter((item): item is string => typeof item === 'string') : [])
+    const valid = evidence.visualSpec.observationPoints.map((point) => point.id).filter((id) => saved.has(id))
+    if (valid.length) evidenceObservationIdsByEvidenceId[evidenceId] = valid
+  })
   const validScreens = new Set<ScreenState>(['landing', 'caseList', 'briefing', 'investigation', 'scene', 'dialogue', 'clueBook', 'evidenceDetail', 'deduction', 'verdict', 'ending', 'error'])
   const screen = typeof value.screen === 'string' && validScreens.has(value.screen as ScreenState) ? value.screen as ScreenState : 'investigation'
   const restored: CaseRuntimeState = {
@@ -182,6 +191,7 @@ export function restoreCaseProgress(
     flags,
     clueIds: uniqueValid(value.clueIds, clueIds, clueIds.size),
     evidenceIds: uniqueValid(value.evidenceIds, evidenceIds, evidenceIds.size),
+    evidenceObservationIdsByEvidenceId,
     unlockedSceneIds: uniqueValid(value.unlockedSceneIds, sceneIds, sceneIds.size),
     visitedNodeIds: uniqueValid(value.visitedNodeIds, nodeIds, nodeIds.size),
     deductionAnswers,

@@ -36,6 +36,27 @@ export function acquireEvidence(state: CaseRuntimeState, evidenceId: string): Ca
   return { ...state, evidenceIds: uniqueAdd(state.evidenceIds, evidenceId) }
 }
 
+export function markEvidenceObserved(
+  state: CaseRuntimeState,
+  evidenceId: string,
+  observationId: string,
+  index: ContentIndex,
+): CaseRuntimeState {
+  const evidence = index.evidence.get(evidenceId)
+  if (!evidence || evidence.caseId !== state.caseId) return state
+  const validIds = evidence.visualSpec.observationPoints.map((point) => point.id)
+  if (!validIds.includes(observationId)) return state
+  const current = state.evidenceObservationIdsByEvidenceId[evidenceId] ?? []
+  if (current.includes(observationId)) return state
+  return {
+    ...state,
+    evidenceObservationIdsByEvidenceId: {
+      ...state.evidenceObservationIdsByEvidenceId,
+      [evidenceId]: validIds.filter((id) => current.includes(id) || id === observationId),
+    },
+  }
+}
+
 export function unlockScene(state: CaseRuntimeState, sceneId: string): CaseRuntimeState {
   return { ...state, unlockedSceneIds: uniqueAdd(state.unlockedSceneIds, sceneId) }
 }
@@ -79,6 +100,7 @@ export function createInitialCaseState(caseData: HanziCase): CaseRuntimeState {
     flags: {},
     clueIds: [],
     evidenceIds: [],
+    evidenceObservationIdsByEvidenceId: {},
     unlockedSceneIds: [],
     visitedNodeIds: [],
     deductionAnswers: {},

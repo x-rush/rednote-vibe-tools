@@ -6,6 +6,7 @@ import { getCaseListItems, getDeductionReviewModel, getInvestigationRouteItems, 
 
 const baseState: CaseRuntimeState = {
   caseId: 'case-home-roof-pig', screen: 'investigation', currentNodeId: 'node-home-00', flags: {}, clueIds: [], evidenceIds: [],
+  evidenceObservationIdsByEvidenceId: {},
   unlockedSceneIds: [], visitedNodeIds: [], deductionAnswers: {}, deductionAttempts: {}, firstDeductionAnswers: {}, reviewedRouteIds: [], styleTags: [], completed: false,
 }
 

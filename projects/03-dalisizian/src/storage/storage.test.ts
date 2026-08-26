@@ -165,11 +165,32 @@ describe('versioned project storage', () => {
     delete legacy.deductionAttempts
     delete legacy.firstDeductionAnswers
     delete legacy.reviewedRouteIds
+    delete legacy.evidenceObservationIdsByEvidenceId
 
     const restored = restoreCaseProgress(legacy, caseData, contentIndex)
 
     expect(restored.data.deductionAttempts).toEqual({})
     expect(restored.data.firstDeductionAnswers).toEqual({})
     expect(restored.data.reviewedRouteIds).toEqual([])
+    expect(restored.data.evidenceObservationIdsByEvidenceId).toEqual({})
+  })
+
+  it('sanitizes evidence observations by case, point ID, uniqueness, and source order', () => {
+    const caseData = contentIndex.cases.get(firstCaseId)
+    if (!caseData) throw new Error('case fixture missing')
+    const progress = {
+      ...createInitialCaseState(caseData),
+      evidenceObservationIdsByEvidenceId: {
+        'evidence-home-early-form': ['home-early-form-focus-b', 'bad-id', 'home-early-form-focus-a', 'home-early-form-focus-b'],
+        'evidence-rest-components': ['rest-components-focus-a'],
+      },
+    }
+
+    const restored = restoreCaseProgress(progress, caseData, contentIndex)
+
+    expect(restored.recovered).toBe(true)
+    expect(restored.data.evidenceObservationIdsByEvidenceId).toEqual({
+      'evidence-home-early-form': ['home-early-form-focus-a', 'home-early-form-focus-b'],
+    })
   })
 })

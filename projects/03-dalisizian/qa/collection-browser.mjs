@@ -138,7 +138,7 @@ for (const [width, height] of [[375, 812], [390, 844], [430, 932]]) {
     width: document.documentElement.scrollWidth,
     minButtonHeight: Math.min(...[...document.querySelectorAll('.story-screen button')].filter((item) => item.getClientRects().length).map((item) => item.getBoundingClientRect().height))
   }))()`)
-  if (story.title !== '汉字故事卷' || story.chapters !== 3 || story.verdict !== '部分可信' || !story.truth.includes('复杂构形') || story.width !== width || story.minButtonHeight < 48) {
+  if (story.title !== '汉字故事卷' || story.chapters !== 3 || story.verdict !== '部分可信' || !story.truth.includes('传统释形') || story.width !== width || story.minButtonHeight < 48) {
     throw new Error(`Story regression at ${width}: ${JSON.stringify(story)}`)
   }
   if (width === 390) await screenshot('dalisizian-story-390.png')
@@ -159,7 +159,7 @@ for (const [width, height] of [[375, 812], [390, 844], [430, 932]]) {
       brokenImages: [...document.images].filter((item) => item.getClientRects().length && item.naturalWidth === 0).length
     }
   })()`)
-  if (Math.abs(card.ratio - 0.75) > 0.01 || card.title !== '家字失踪案' || !card.verdict.includes('常见误解') || !card.verdict.includes('部分可信') || !card.score.includes('96') || !card.evidence.includes('收录证物 4') || !card.truth.includes('复杂构形') || card.signets !== 3 || card.brokenImages !== 0) {
+  if (Math.abs(card.ratio - 0.75) > 0.01 || card.title !== '家字失踪案' || !card.verdict.includes('常见误解') || !card.verdict.includes('部分可信') || !card.score.includes('96') || !card.evidence.includes('收录证物 4') || !card.truth.includes('传统释形') || card.signets !== 3 || card.brokenImages !== 0) {
     throw new Error(`Share-card regression at ${width}: ${JSON.stringify(card)}`)
   }
   if (width === 390) await screenshot('dalisizian-share-card-390.png')

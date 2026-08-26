@@ -60,6 +60,7 @@ function App() {
   const [shareCaptureMode, setShareCaptureMode] = useState(false)
   const [reviewReturnNodeId, setReviewReturnNodeId] = useState<string>()
   const choiceLockRef = useRef(false)
+  const returnFocusEvidenceIdRef = useRef<string | undefined>(undefined)
   const choiceTimerRef = useRef<number | undefined>(undefined)
   const sealLockRef = useRef(false)
   const sealTimerRef = useRef<number | undefined>(undefined)
@@ -140,6 +141,25 @@ function App() {
     if (choiceTimerRef.current !== undefined) window.clearTimeout(choiceTimerRef.current)
     if (sealTimerRef.current !== undefined) window.clearTimeout(sealTimerRef.current)
   }, [])
+
+  useEffect(() => {
+    if (screen !== 'evidenceDetail') return
+    const frame = window.requestAnimationFrame(() => document.querySelector<HTMLElement>('.evidence-artifact button')?.focus())
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      setScreen(evidenceReturnContext?.screen ?? 'clueBook')
+      setEvidenceReturnContext(undefined)
+      const evidenceId = returnFocusEvidenceIdRef.current
+      returnFocusEvidenceIdRef.current = undefined
+      window.requestAnimationFrame(() => document.querySelector<HTMLElement>(`[data-evidence-trigger="${evidenceId}"]`)?.focus())
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [screen, selectedEvidenceId, evidenceReturnContext])
 
   function applyResult(result: EngineResult): void {
     const newlyAcquired = caseState ? getNewEvidenceItems(caseState, result.state, contentIndex) : []
@@ -224,6 +244,7 @@ function App() {
 
   function openEvidence(evidenceId: string, context: ReturnContext): void {
     cancelPendingChoice()
+    returnFocusEvidenceIdRef.current = evidenceId
     setSelectedEvidenceId(evidenceId)
     setEvidenceReturnContext(context)
     setScreen('evidenceDetail')
@@ -233,6 +254,9 @@ function App() {
     if (!caseState) return
     setScreen(evidenceReturnContext?.screen ?? 'clueBook')
     setEvidenceReturnContext(undefined)
+    const evidenceId = returnFocusEvidenceIdRef.current
+    returnFocusEvidenceIdRef.current = undefined
+    window.requestAnimationFrame(() => document.querySelector<HTMLElement>(`[data-evidence-trigger="${evidenceId}"]`)?.focus())
   }
 
   function closeClueBook(): void {
@@ -413,7 +437,7 @@ function App() {
       <nav className="ledger-tabs" aria-label="证据分类"><span className="is-active">全部</span><span>事实 {clues.length}</span><span>证物 {items.length}</span></nav>
       {!clues.length && !items.length && <div className="empty-state"><span className="empty-glyph">卷</span><h2>尚无线索</h2><p>继续调查字形、字书和流传语境，所得材料会在这里归档。</p></div>}
       <div className="record-grid">{clues.map((clue, index) => <article key={clue.id} className="record-card"><span className="evidence-index">证 {String(index + 1).padStart(2, '0')}</span><p className="record-type">{clue.category}</p><h2>{clue.title}</h2><p>{clue.summary}</p><details><summary>查看可证范围</summary><p>{clue.explanation.form}</p><p>{clue.explanation.meaning}</p><p>{clue.explanation.semantics}</p><p className="uncertainty">证据边界：{clue.explanation.certainty}</p></details></article>)}</div>
-      {items.length > 0 && <><h2 className="section-title">证物案签</h2><div className="evidence-list">{items.map((item) => <button key={item.id} type="button" className="evidence-ledger-card" onClick={() => openEvidence(item.id, { screen: 'clueBook', nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={item} observedIds={caseState.evidenceObservationIdsByEvidenceId[item.id] ?? []} /><span className="evidence-ledger-action">打开核验 <i aria-hidden="true">→</i></span></button>)}</div></>}
+      {items.length > 0 && <><h2 className="section-title">证物案签</h2><div className="evidence-list">{items.map((item) => <button key={item.id} type="button" className="evidence-ledger-card" data-evidence-trigger={item.id} onClick={() => openEvidence(item.id, { screen: 'clueBook', nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={item} observedIds={caseState.evidenceObservationIdsByEvidenceId[item.id] ?? []} /><span className="evidence-ledger-action">打开核验 <i aria-hidden="true">→</i></span></button>)}</div></>}
     </section>
   }
 
@@ -478,9 +502,9 @@ function App() {
           <button type="button" className={`deduction-gate ${routesComplete ? 'is-ready' : ''}`} disabled={!routesComplete || !deductionChoice || Boolean(busyChoiceId)} onClick={() => deductionChoice && choose(deductionChoice.id)}><span>{routesComplete ? '证据链已齐备' : `尚缺 ${routeItems.filter((item) => !item.completed).length} 路线索`}</span><b>{deductionChoice?.text ?? '整理证据，申请终判'}</b></button>
         </section>}
         {node.kind === 'clue' && acquiredClues.map((clue) => <div className="acquired-card" key={clue.id}><span>已归档</span><div><b>{clue.title}</b><small>{clue.summary}</small></div></div>)}
-        {newEvidence.length > 0 && <section className="evidence-acquired" aria-live="polite"><header><div><span>NEW EVIDENCE</span><b>新证物入卷</b></div><button type="button" onClick={() => setNewEvidenceIds([])}>稍后再看</button></header><div>{newEvidence.map((item) => <button key={item.id} type="button" onClick={() => openEvidence(item.id, { screen, nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={item} observedIds={caseState.evidenceObservationIdsByEvidenceId[item.id] ?? []} /></button>)}</div><p>点击案签检查图像，并核验两处观察点；进度会自动记入证据簿。</p></section>}
+        {newEvidence.length > 0 && <section className="evidence-acquired" aria-live="polite"><header><div><span>NEW EVIDENCE</span><b>新证物入卷</b></div><button type="button" onClick={() => setNewEvidenceIds([])}>稍后再看</button></header><div>{newEvidence.map((item) => <button key={item.id} type="button" data-evidence-trigger={item.id} onClick={() => openEvidence(item.id, { screen, nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={item} observedIds={caseState.evidenceObservationIdsByEvidenceId[item.id] ?? []} /></button>)}</div><p>点击案签检查图像，并核验两处观察点；进度会自动记入证据簿。</p></section>}
         {caseState.deductionFeedback && <div className={`feedback ${reviewModel ? 'is-broken-chain' : ''}`} role="status"><span>{reviewModel ? '证据链在这里断开' : '复核意见'}</span><p>{caseState.deductionFeedback}</p>{reviewModel && <button type="button" onClick={() => reviewDeduction(reviewModel)}>回查{reviewModel.routeTitle ? `「${reviewModel.routeTitle}」` : '相关证据'}</button>}</div>}
-        {focusEvidence.length > 0 && <section className="focus-evidence" aria-label="本问关联证物"><header><span>本问证物</span><small>可随时打开复核，不会丢失当前推理</small></header><div>{focusEvidence.map(({ evidence, acquired }) => <button key={evidence.id} type="button" disabled={!acquired} onClick={() => openEvidence(evidence.id, { screen, nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={evidence} observedIds={caseState.evidenceObservationIdsByEvidenceId[evidence.id] ?? []} /><span>{acquired ? '打开复核' : '尚未取得'}</span></button>)}</div></section>}
+        {focusEvidence.length > 0 && <section className="focus-evidence" aria-label="本问关联证物"><header><span>本问证物</span><small>可随时打开复核，不会丢失当前推理</small></header><div>{focusEvidence.map(({ evidence, acquired }) => <button key={evidence.id} type="button" disabled={!acquired} data-evidence-trigger={evidence.id} onClick={() => openEvidence(evidence.id, { screen, nodeId: caseState.currentNodeId })}><EvidenceThumbnail evidence={evidence} observedIds={caseState.evidenceObservationIdsByEvidenceId[evidence.id] ?? []} /><span>{acquired ? '打开复核' : '尚未取得'}</span></button>)}</div></section>}
         {deduction && <div className="deduction-head"><span>选择成立的证据关系</span><small>错误不会清除已有证据</small></div>}
         {options.length > 0 && <div className="option-list" aria-label={deduction ? '推理选项' : '对话选项'}>{options.map((option, index) => <button key={option.id} type="button" disabled={Boolean(busyChoiceId)} className={busyChoiceId === option.id ? 'is-committing' : ''} onClick={() => deduction ? answer(option.id) : choose(option.id)}><span className="choice-index">{String(index + 1).padStart(2, '0')}</span><span>{option.text}</span><i aria-hidden="true" /></button>)}</div>}
         {verdict && <div className="ending-result"><div className={`verdict-seal ${sealActive ? 'is-active' : ''}`} aria-hidden="true">定</div><p className="seal-label">大理寺参考判词</p><h2>{verdict.ending.title}</h2><p>{verdict.ending.verdictReason}</p><div className="verdict-compare"><div><span>初判</span><b>{getVerdictLabel(caseState.initialVerdict)}</b></div><i aria-hidden="true">→</i><div><span>终判</span><b>{getVerdictLabel(caseState.finalVerdict ?? verdict.ending.officialVerdict)}</b></div></div><p className="uncertainty">争议说明：{verdict.ending.scholarlyUncertainty}</p><dl><div><dt>评价</dt><dd>{verdict.rating}</dd></div><div><dt>证据质量</dt><dd>{verdict.score} / 100</dd></div></dl><div className="score-breakdown"><b>本次成立的断案依据</b><ul>{caseData.scoringRules.filter((rule) => verdict.matchedRuleIds.includes(rule.id)).map((rule) => <li key={rule.id}><span>{rule.label}</span><em>+{rule.points}</em></li>)}</ul></div><details><summary>来源与叙事说明</summary><ul>{verdict.ending.sourceIds.map((id) => { const source = contentPackage.sources.find((item) => item.id === id); return source ? <li key={id}><span>{source.title}</span><p>{source.note}</p></li> : null })}</ul></details><p className="archive-reward">落印后收入断案图鉴，并生成专属 3:4 战绩卡。</p><button type="button" className="primary seal-button" disabled={sealActive} onClick={archiveEnding}>{sealActive ? '正在落印…' : '落印 · 收入图鉴'}</button></div>}

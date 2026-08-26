@@ -20,6 +20,8 @@ describe('interactive evidence components', () => {
     expect(html).toContain(`data-template="${evidence.visualSpec.template}"`)
     expect(html).toContain(evidence.visualSpec.thumbnailLabel)
     expect(html).not.toContain('人工核验资源位')
+    expect(html).not.toContain('产品结构图')
+    expect(html).not.toContain('产品释文')
   })
 
   it('renders a complete thumbnail seal from observed progress', () => {

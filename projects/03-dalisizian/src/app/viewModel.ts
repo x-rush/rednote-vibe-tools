@@ -36,6 +36,40 @@ export type DeductionReviewModel = {
   evidenceTitles: string[]
 }
 
+export type LandingHeroModel = {
+  companion: {
+    name: string
+    title: string
+    role: string
+    assetId: string
+  }
+  currentCase?: HanziCase
+  firstUnlockedCaseId: string
+  primaryLabel: '领取第一案' | '继续查案'
+  completedCount: number
+  totalCases: number
+}
+
+export function getLandingHeroModel(index: ContentIndex, save: ProjectSaveData): LandingHeroModel {
+  const cases = [...index.cases.values()].sort((a, b) => a.order - b.order)
+  const companion = index.characters.get('character-temple-official')
+  if (!companion) throw new Error('Landing companion is missing')
+  const currentCase = save.currentCaseId ? index.cases.get(save.currentCaseId) : undefined
+  return {
+    companion: {
+      name: companion.name,
+      title: companion.title,
+      role: companion.role,
+      assetId: companion.assetId,
+    },
+    currentCase,
+    firstUnlockedCaseId: save.unlockedCaseIds[0] ?? cases[0]?.caseId ?? '',
+    primaryLabel: currentCase ? '继续查案' : '领取第一案',
+    completedCount: save.completedCaseIds.length,
+    totalCases: cases.length,
+  }
+}
+
 export function getNodeDisplayText(node: CaseNode, deduction?: DeductionQuestion): string {
   return deduction?.prompt ?? node.text
 }

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { resolveCharacterAsset, resolveSceneAsset } from './app/assets'
 import { createCollectionStoryModel, createShareCardModel, getCollectionEntries } from './app/collection'
 import { getWrappedFocusIndex } from './app/focus'
-import { getCaseListItems, getDeductionEvidenceItems, getDeductionReviewModel, getInvestigationRouteItems, getNewEvidenceItems, getNodeDisplayText, getVerdictLabel, isClueBookOverlay, type DeductionReviewModel, type ReturnContext } from './app/viewModel'
+import { getCaseListItems, getDeductionEvidenceItems, getDeductionReviewModel, getInvestigationRouteItems, getLandingHeroModel, getNewEvidenceItems, getNodeDisplayText, getVerdictLabel, isClueBookOverlay, type DeductionReviewModel, type LandingHeroModel, type ReturnContext } from './app/viewModel'
 import { contentIndex, contentPackage } from './content'
 import type { CaseRuntimeState, ScreenState } from './content/types'
 import { validateContentPackage } from './content/validate'
@@ -18,6 +18,7 @@ import './App.css'
 const firstCase = [...contentIndex.cases.values()].sort((a, b) => a.order - b.order)[0]
 
 const screenNames: Partial<Record<ScreenState, string>> = {
+  landing: '整理案卷',
   briefing: '接案', dialogue: '问话', verdict: '初判封存', investigation: '调查', scene: '转场',
   clueBook: '证物归档', deduction: '证据推理', ending: '结案',
 }
@@ -38,6 +39,39 @@ function AssetImage({ src, alt, className, fallback }: { src?: string; alt: stri
   const [failed, setFailed] = useState(!src)
   if (failed || !src) return <>{fallback}</>
   return <img className={className} src={src} alt={alt} decoding="async" onError={() => setFailed(true)} />
+}
+
+export type LandingScreenProps = {
+  model: LandingHeroModel
+  title: string
+  subtitle: string
+  disclaimer: string
+  portraitSrc?: string
+  onPrimary: () => void
+  onOpenCaseList: () => void
+  onOpenCollection: () => void
+  onOpenGuide: () => void
+  onClearData: () => void
+}
+
+export function LandingScreen({ model, title, subtitle, disclaimer, portraitSrc, onPrimary, onOpenCaseList, onOpenCollection, onOpenGuide, onClearData }: LandingScreenProps) {
+  return <section className="landing-screen" aria-labelledby="landing-title">
+    <div className="landing-atmosphere" aria-hidden="true"><i /><i /><i /></div>
+    <header className="landing-brand"><span className="brand-mark">字</span><span>大理寺 · 案牍八卷</span><small>{model.completedCount}/{model.totalCases} 已结</small></header>
+    <div className="landing-title-block"><p className="eyebrow">纯选项式汉字证据推理</p><h1 id="landing-title">{title}</h1><p>{subtitle}</p></div>
+    <button type="button" className="landing-companion" aria-label="听沈砚说明查案方法" onClick={onOpenGuide}>
+      <span className="landing-companion-glow" aria-hidden="true" />
+      <AssetImage src={portraitSrc} alt="沈砚全身立绘" className="landing-companion-portrait" fallback={<span className="landing-companion-fallback">沈砚</span>} />
+      <span className="landing-companion-plaque"><small>案卷搭档</small><strong>{model.companion.name}</strong><em>{model.companion.title}</em><i>{model.companion.role}</i></span>
+    </button>
+    <div className="landing-desk">
+      <div className="landing-current"><span>{model.currentCase ? '案卷续审' : '新案候审'}</span><b>{model.currentCase?.title ?? '第一卷已在案头启封'}</b></div>
+      <button type="button" className="primary landing-primary" onClick={onPrimary}><span>{model.primaryLabel}</span><i aria-hidden="true">→</i></button>
+      <div className="landing-secondary-actions"><button type="button" onClick={onOpenCaseList}>案卷柜</button><button type="button" onClick={onOpenCollection}>断案图鉴 <small>{model.completedCount}/{model.totalCases}</small></button></div>
+      <button type="button" className="quiet landing-clear" onClick={onClearData}>清理本地案卷</button>
+      <p className="landing-note">{disclaimer}</p>
+    </div>
+  </section>
 }
 
 function App() {
@@ -336,20 +370,10 @@ function App() {
   }
 
   function renderLanding() {
-    const current = save.currentCaseId ? contentIndex.cases.get(save.currentCaseId) : undefined
-    return <section className="landing-screen" aria-labelledby="landing-title">
-      <div className="landing-orbit orbit-one" aria-hidden="true" /><div className="landing-orbit orbit-two" aria-hidden="true" />
-      <header className="landing-brand"><span className="brand-mark">字</span><span>大理寺 · 案牍八卷</span></header>
-      <div className="landing-copy"><p className="eyebrow">纯选项式汉字证据推理</p><h1 id="landing-title">{contentPackage.meta.title}</h1><p className="hero-line">字不是谜面，<br /><em>证据才是。</em></p><p className="subtitle">{contentPackage.meta.subtitle}</p></div>
-      <div className="landing-docket" aria-hidden="true"><span>案</span><b>08</b><i /></div>
-      <div className="landing-actions">
-        {current && <button type="button" className="primary large" onClick={() => void openCase(current.caseId, false)}><span>继续查案</span><small>{current.title}</small></button>}
-        <button type="button" className={current ? '' : 'primary large'} onClick={() => setScreen('caseList')}>{current ? '展开案卷柜' : '领取第一案'}</button>
-        <button type="button" onClick={() => void openCollection()}>查看断案图鉴 · {save.completedCaseIds.length}/8</button>
-        <button type="button" className="quiet" onClick={() => void clearData()}>清理本地案卷</button>
-      </div>
-      <p className="landing-note">{contentPackage.meta.disclaimer}</p>
-    </section>
+    const model = getLandingHeroModel(contentIndex, save)
+    const portrait = resolveCharacterAsset(model.companion.assetId)?.master
+    return <LandingScreen model={model} title={contentPackage.meta.title} subtitle={contentPackage.meta.subtitle} disclaimer={contentPackage.meta.disclaimer} portraitSrc={portrait}
+      onPrimary={() => void openCase(model.currentCase?.caseId ?? model.firstUnlockedCaseId, false)} onOpenCaseList={() => setScreen('caseList')} onOpenCollection={() => void openCollection()} onOpenGuide={() => setGuideOpen(true)} onClearData={() => void clearData()} />
   }
 
   function renderCaseList() {
@@ -449,16 +473,18 @@ function App() {
     const observedIds = caseState?.evidenceObservationIdsByEvidenceId[item.id] ?? []
     return <article className="evidence-screen" aria-labelledby="evidence-title"><header className="page-header"><button type="button" className="icon-button" aria-label="返回上一页" onClick={closeEvidence}>←</button><div><p className="eyebrow">EVIDENCE REVIEW</p><h1 id="evidence-title">证物核验</h1></div><span className="seal-mini">{item.type}</span></header>
       <EvidenceArtifact evidence={item} sources={contentPackage.sources} observedIds={observedIds} reducedMotion={save.settings.reducedMotion} onObserve={(observationId) => setCaseState((current) => current ? markEvidenceObserved(current, item.id, observationId, contentIndex) : current)} />
-      <div className="detail-sheet"><p className="record-type">{item.type}证据</p><h2>{item.title}</h2><p>{item.body}</p><div className="resource-disclosure"><b>{getEvidenceResourceNature(item.visualSpec)}</b><p>图版用于整理证据关系，不是原件、拓片或数据库字形影像；事实判断只以文字说明和下列可追溯来源为准。</p></div><div className="boundary-card"><b>证据边界</b><p>{item.visualSpec.fallbackSummary}</p></div><details><summary>来源与资源性质</summary><ul>{sources.map((source) => <li key={source.id}><span>{source.title}</span><p>{source.note}</p></li>)}</ul></details></div>
+      <div className="detail-sheet"><p className="record-type">{item.type}证据</p><h2>{item.title}</h2><p>{item.body}</p><div className="resource-disclosure"><b>{getEvidenceResourceNature(item.visualSpec)}</b><p>画面采用古籍证物复原装帧，并非馆藏原件；其中引用的公版古文字字形与事实依据均在下列来源单独标明。</p></div><div className="boundary-card"><b>证据边界</b><p>{item.visualSpec.fallbackSummary}</p></div><details><summary>来源与资源性质</summary><ul>{sources.map((source) => <li key={source.id}><span>{source.title}</span><p>{source.note}</p></li>)}</ul></details></div>
     </article>
   }
 
   function renderGuide() {
-    if (!guideOpen || !caseState) return null
-    const caseData = contentIndex.cases.get(caseState.caseId)
+    if (!guideOpen) return null
+    const landing = getLandingHeroModel(contentIndex, save)
+    const activeCaseId = caseState?.caseId ?? landing.currentCase?.caseId ?? landing.firstUnlockedCaseId
+    const caseData = contentIndex.cases.get(activeCaseId)
     const guide = contentIndex.characters.get('character-temple-official')
     const portrait = guide ? resolveCharacterAsset(guide.assetId)?.master : undefined
-    return <div className="sheet-backdrop" role="presentation" onClick={() => setGuideOpen(false)}><section className="guide-sheet" role="dialog" aria-modal="true" aria-labelledby="guide-title" onClick={(event) => event.stopPropagation()}><div className="sheet-handle" /><header className="guide-hero"><div className="guide-portrait-stage"><AssetImage src={portrait} alt="沈砚半身立绘" className="guide-portrait" fallback={<span className="guide-portrait fallback">沈砚</span>} /><i aria-hidden="true">砚</i></div><div className="guide-hero-copy"><p className="eyebrow">CASE PARTNER · 案卷搭档</p><h2 id="guide-title">沈砚的案头提示</h2><span>{guide?.title ?? '大理寺录事'}</span><small>案卷在手，证据说话</small></div><button type="button" className="icon-button" aria-label="关闭帮助" onClick={() => setGuideOpen(false)}>×</button></header><div className="guide-content"><div className="guide-grid"><div><span>当前目标</span><b>{screenNames[screen] ?? '继续核验'}</b></div><div><span>关键线索</span><b>{caseState.clueIds.length} / {caseData?.requiredClueIds.length ?? 0}</b></div><div><span>已收证物</span><b>{caseState.evidenceIds.length}</b></div></div><p>先分清“材料写了什么”和“我们能推出什么”。我负责看程序，你负责下判断。</p><button type="button" className="primary" onClick={() => setGuideOpen(false)}>回到当前案卷</button></div></section></div>
+    return <div className="sheet-backdrop" role="presentation" onClick={() => setGuideOpen(false)}><section className="guide-sheet" role="dialog" aria-modal="true" aria-labelledby="guide-title" onClick={(event) => event.stopPropagation()}><div className="sheet-handle" /><header className="guide-hero"><div className="guide-portrait-stage"><AssetImage src={portrait} alt="沈砚半身立绘" className="guide-portrait" fallback={<span className="guide-portrait fallback">沈砚</span>} /><i aria-hidden="true">砚</i></div><div className="guide-hero-copy"><p className="eyebrow">CASE PARTNER · 案卷搭档</p><h2 id="guide-title">沈砚的案头提示</h2><span>{guide?.title ?? '大理寺录事'}</span><small>案卷在手，证据说话</small></div><button type="button" className="icon-button" aria-label="关闭帮助" onClick={() => setGuideOpen(false)}>×</button></header><div className="guide-content"><div className="guide-grid"><div><span>当前目标</span><b>{screenNames[screen] ?? '继续核验'}</b></div><div><span>关键线索</span><b>{caseState?.clueIds.length ?? 0} / {caseData?.requiredClueIds.length ?? 0}</b></div><div><span>已收证物</span><b>{caseState?.evidenceIds.length ?? 0}</b></div></div><p>先分清“材料写了什么”和“我们能推出什么”。我负责看程序，你负责下判断。</p><button type="button" className="primary" onClick={() => setGuideOpen(false)}>{caseState ? '回到当前案卷' : '回到案头'}</button></div></section></div>
   }
 
   function renderCase() {
@@ -510,14 +536,14 @@ function App() {
         {options.length > 0 && <div className="option-list" aria-label={deduction ? '推理选项' : '对话选项'}>{options.map((option, index) => <button key={option.id} type="button" disabled={Boolean(busyChoiceId)} className={busyChoiceId === option.id ? 'is-committing' : ''} onClick={() => deduction ? answer(option.id) : choose(option.id)}><span className="choice-index">{String(index + 1).padStart(2, '0')}</span><span>{option.text}</span><i aria-hidden="true" /></button>)}</div>}
         {verdict && <div className="ending-result"><div className={`verdict-seal ${sealActive ? 'is-active' : ''}`} aria-hidden="true">定</div><p className="seal-label">大理寺参考判词</p><h2>{verdict.ending.title}</h2><p>{verdict.ending.verdictReason}</p><div className="verdict-compare"><div><span>初判</span><b>{getVerdictLabel(caseState.initialVerdict)}</b></div><i aria-hidden="true">→</i><div><span>终判</span><b>{getVerdictLabel(caseState.finalVerdict ?? verdict.ending.officialVerdict)}</b></div></div><p className="uncertainty">争议说明：{verdict.ending.scholarlyUncertainty}</p><dl><div><dt>评价</dt><dd>{verdict.rating}</dd></div><div><dt>证据质量</dt><dd>{verdict.score} / 100</dd></div></dl><div className="score-breakdown"><b>本次成立的断案依据</b><ul>{caseData.scoringRules.filter((rule) => verdict.matchedRuleIds.includes(rule.id)).map((rule) => <li key={rule.id}><span>{rule.label}</span><em>+{rule.points}</em></li>)}</ul></div><details><summary>来源与叙事说明</summary><ul>{verdict.ending.sourceIds.map((id) => { const source = contentPackage.sources.find((item) => item.id === id); return source ? <li key={id}><span>{source.title}</span><p>{source.note}</p></li> : null })}</ul></details><p className="archive-reward">落印后收入断案图鉴，并生成专属 3:4 战绩卡。</p><button type="button" className="primary seal-button" disabled={sealActive} onClick={archiveEnding}>{sealActive ? '正在落印…' : '落印 · 收入图鉴'}</button></div>}
       </article>
-      <button type="button" className="guide-button" onClick={() => setGuideOpen(true)} aria-label="召回沈砚帮助"><AssetImage src={resolveCharacterAsset('asset-character-temple-official')?.avatar} alt="" className="guide-button-avatar" fallback={<span>沈</span>} /><i aria-hidden="true">?</i></button>{renderGuide()}
+      <button type="button" className="guide-button" onClick={() => setGuideOpen(true)} aria-label="召回沈砚帮助"><AssetImage src={resolveCharacterAsset('asset-character-temple-official')?.avatar} alt="" className="guide-button-avatar" fallback={<span>沈</span>} /><i aria-hidden="true">?</i></button>
     </section>
   }
 
   if (screen === 'error' || !validation.valid) return <main className="app-shell"><section className="error-state standalone"><p className="eyebrow">内容错误</p><h1>案卷未能读取</h1><p>内容包校验发现 {validation.issues.length} 项问题。本地进度不会被自动覆盖。</p><button type="button" onClick={() => window.location.reload()}>重新打开</button></section></main>
   return <main className="app-shell">{notice && <aside className="notice" role="status"><span>{notice}</span><button type="button" className="text-button" onClick={() => setNotice(undefined)}>知道了</button></aside>}
     {collectionOpen ? renderCollection() : <>{screen === 'landing' && renderLanding()}{screen === 'caseList' && renderCaseList()}{isClueBookOverlay(screen, returnContext) && renderClueBook()}{screen === 'evidenceDetail' && renderEvidenceDetail()}
-    {(!['landing', 'caseList', 'evidenceDetail', 'error'].includes(screen) && !isClueBookOverlay(screen, returnContext)) && renderCase()}</>}{renderShareCard()}
+    {(!['landing', 'caseList', 'evidenceDetail', 'error'].includes(screen) && !isClueBookOverlay(screen, returnContext)) && renderCase()}</>}{renderGuide()}{renderShareCard()}
   </main>
 }
 

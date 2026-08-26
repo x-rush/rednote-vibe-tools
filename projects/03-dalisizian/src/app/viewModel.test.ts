@@ -3,6 +3,7 @@ import { contentIndex } from '../content'
 import type { CaseNode, CaseRuntimeState, ScreenState } from '../content/types'
 import { createDefaultSave } from '../storage/storage'
 import { getCaseListItems, getDeductionEvidenceItems, getDeductionReviewModel, getInvestigationRouteItems, getNewEvidenceItems, getNodeDisplayText, getNodeScreen, getReturnTarget, getVerdictLabel, isClueBookOverlay } from './viewModel'
+import * as landingViewModel from './viewModel'
 
 const baseState: CaseRuntimeState = {
   caseId: 'case-home-roof-pig', screen: 'investigation', currentNodeId: 'node-home-00', flags: {}, clueIds: [], evidenceIds: [],
@@ -11,6 +12,41 @@ const baseState: CaseRuntimeState = {
 }
 
 describe('semantic page view model', () => {
+  it('builds a fresh landing desk around Shen Yan and the first unlocked case', () => {
+    const getLandingHeroModel = (landingViewModel as Partial<typeof landingViewModel & {
+      getLandingHeroModel: (index: typeof contentIndex, save: ReturnType<typeof createDefaultSave>) => unknown
+    }>).getLandingHeroModel
+
+    expect(getLandingHeroModel?.(contentIndex, createDefaultSave('case-home-roof-pig'))).toEqual({
+      companion: {
+        name: '沈砚',
+        title: '大理寺录事',
+        role: '管理案卷、说明程序与证据方法，不代替玩家作答。',
+        assetId: 'asset-character-temple-official',
+      },
+      currentCase: undefined,
+      firstUnlockedCaseId: 'case-home-roof-pig',
+      primaryLabel: '领取第一案',
+      completedCount: 0,
+      totalCases: 8,
+    })
+  })
+
+  it('turns the primary landing action into an exact continue-case handoff', () => {
+    const save = { ...createDefaultSave('case-home-roof-pig'), currentCaseId: 'case-rest-under-tree', completedCaseIds: ['case-home-roof-pig'] }
+    const getLandingHeroModel = (landingViewModel as Partial<typeof landingViewModel & {
+      getLandingHeroModel: (index: typeof contentIndex, save: ReturnType<typeof createDefaultSave>) => unknown
+    }>).getLandingHeroModel
+
+    expect(getLandingHeroModel?.(contentIndex, save)).toMatchObject({
+      currentCase: { caseId: 'case-rest-under-tree', title: '休字树下案' },
+      firstUnlockedCaseId: 'case-home-roof-pig',
+      primaryLabel: '继续查案',
+      completedCount: 1,
+      totalCases: 8,
+    })
+  })
+
   it.each([
     ['narration', 'briefing'],
     ['dialogue', 'dialogue'],

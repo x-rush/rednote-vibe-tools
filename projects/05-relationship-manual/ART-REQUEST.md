@@ -15,6 +15,8 @@
 | 12 | `src/assets/art/sensitive.svg` | 24×24 SVG | 敏感章节提示，始终与文字同现 | 已接入 |
 | 13 | `src/assets/art/edit-conflict.svg` | 24×24 SVG | 手工改写需复核状态 | 已接入 |
 | 14 | `release-assets/tool-icon-v1.png` | 1024×1024 RGBA PNG，1,848,402 bytes | 小工具后台上传用品牌图标；不进入运行时 ZIP，避免增加首屏体积 | 已生成并保留为交付资源 |
+| 15 | `release-assets/tool-icon-v2.png` | 1024×1024 RGBA PNG，1,352,188 bytes | “双页说明卡＋装订线＋铅笔批注”方案 | 已生成，因书册意象过强未采用 |
+| 16 | `release-assets/tool-icon-v3.png` | 1024×1024 RGBA PNG，1,732,226 bytes | “被接住的便笺”方案；从项目名出发，表达需要被看见、尊重和温柔承接 | 已生成，当前推荐方案 |
 
 三张立绘合计 784,032 bytes（约 766 KiB），低于 1.2 MB 预算；均为 `yuva420p`，实际透明通道覆盖 0–255。角色身份固定为成年中国女性编辑搭档：棕色低马尾、暖灰针织开衫、鼠尾草绿上衣、白色长裤和蓝铅笔。三态只改变姿势与表情。
 
@@ -25,6 +27,8 @@
 | daily | `/home/xrush/.codex/generated_images/01a03bac-d3d8-7f01-9e5d-4bd762d0b705/exec-ba9ccf54-d564-4c2b-97e4-81ebc06861f7.png` |
 | listening | `/home/xrush/.codex/generated_images/01a03bac-d3d8-7f01-9e5d-4bd762d0b705/exec-bc7e9ff7-01f8-4622-97d8-c27ee82f4d37.png` |
 | reminder | `/home/xrush/.codex/generated_images/01a03bac-d3d8-7f01-9e5d-4bd762d0b705/exec-4bc62d52-59ea-463c-8aaa-0cbae813669e.png` |
+| tool icon v2 | `/home/xrush/.codex/generated_images/01a03bac-d3d8-7f01-9e5d-4bd762d0b705/exec-0b5269b3-00e7-48a6-bc06-f37c63d2fb35.png` |
+| tool icon v3 | `/home/xrush/.codex/generated_images/01a03bac-d3d8-7f01-9e5d-4bd762d0b705/exec-4b515284-86bb-4f7c-93ff-18cdbb774ede.png` |
 
 原图经本地 `ffmpeg` 转为 1080×1440 WebP；无运行时 CDN、外部 API 或远程字体依赖。
 

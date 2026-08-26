@@ -35,4 +35,11 @@
 
 ## 生成记录
 
-正式生成后逐图记录输出路径、最终提示词、WebP 哈希、大小与安全表现结论。
+| 资源 | image_gen 原图 | WebP SHA-256 | 字节 | 核验结论 |
+|---|---|---|---:|---|
+| `form` | `exec-57e48127-d44c-418b-8e9e-57bb46c9a39c.png` | `a084690ae54abb07e5c2281a2edc9062ccfabf777a3a80a4f3e313aff2fe4742` | 127402 | 三期轮廓独立清楚；全图无人体、血迹或伪长文。 |
+| `rite` | `exec-1b2b19fc-5a4e-4176-9ea0-ed228e80461f.png` | `39426103440296edd49e73529f3cd38d02d3b8c376e2efe8eb7eae657dfbe363` | 112676 | 闭合简册、封袋和计数筹均为非血腥制度物证。 |
+| `semantic-change` | `exec-a7681301-a21c-4d42-91e1-aebe5f91e479.png` | `af5603e03b595cfc35cdbaf7eacf8f383693e4be789bbec8af031c2c648bc9eb` | 141078 | 三站材料年代和用途分层，标签为空。 |
+| `moral-fallacy` | `exec-b9ab09ff-6e4a-42e4-a540-7fefcffa76d7.png` | `a2df5ba99fc8efdbdbe006753ff672edab2597dbbc5c8bba5a8c8fc7243ecfa4` | 73698 | 旧材料卷与新评判札被铜钉断线分隔，无可读评语。 |
+
+四图均由内置 `image_gen` 独立生成，离线转为 1080×720 WebP（quality 78）。

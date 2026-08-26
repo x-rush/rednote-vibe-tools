@@ -8,14 +8,22 @@ const content = loadContent(rawContent)
 
 class MemoryStorage {
   values = new Map<string, string>()
+  failReads = false
   failWrites = false
+  failRemovals = false
 
-  getItem(key: string) { return this.values.get(key) ?? null }
+  getItem(key: string) {
+    if (this.failReads) throw new Error('storage blocked')
+    return this.values.get(key) ?? null
+  }
   setItem(key: string, value: string) {
     if (this.failWrites) throw new Error('quota exceeded')
     this.values.set(key, value)
   }
-  removeItem(key: string) { this.values.delete(key) }
+  removeItem(key: string) {
+    if (this.failRemovals) throw new Error('storage blocked')
+    this.values.delete(key)
+  }
 }
 
 const saved = (id: string, updatedAt: string, itemId = 'phone'): SavedChecklist => ({
@@ -42,15 +50,32 @@ describe('checklist storage', () => {
     expect(memory.getItem(STORAGE_KEY)).not.toContain('用于联系支付与行程')
   })
 
-  it('keeps only the three most recently updated lists', () => {
+  it('requires an explicit target before saving a fourth list', () => {
     const memory = new MemoryStorage()
     const storage = createChecklistStorage(memory, content)
     storage.save(saved('save-1', '2026-08-24T01:00:00.000Z'))
     storage.save(saved('save-2', '2026-08-24T02:00:00.000Z'))
     storage.save(saved('save-3', '2026-08-24T03:00:00.000Z'))
-    storage.save(saved('save-4', '2026-08-24T04:00:00.000Z'))
 
+    expect(storage.save(saved('save-4', '2026-08-24T04:00:00.000Z'))).toEqual({
+      ok: false,
+      error: 'overwrite-required',
+      candidateId: 'save-1',
+    })
+    expect(storage.load().payload.savedChecklists.map((item) => item.id)).toEqual(['save-3', 'save-2', 'save-1'])
+
+    expect(storage.save(saved('save-4', '2026-08-24T04:00:00.000Z'), 'save-1')).toEqual({ ok: true })
     expect(storage.load().payload.savedChecklists.map((item) => item.id)).toEqual(['save-4', 'save-3', 'save-2'])
+  })
+
+  it('persists the guide preference across ordinary writes', () => {
+    const memory = new MemoryStorage()
+    const storage = createChecklistStorage(memory, content)
+
+    expect(storage.setGuideDismissed(true)).toEqual({ ok: true })
+    storage.save(saved('save-1', '2026-08-24T01:00:00.000Z'))
+
+    expect(storage.load().payload.guideDismissed).toBe(true)
   })
 
   it('updates an existing ID rather than creating a duplicate', () => {
@@ -118,5 +143,15 @@ describe('checklist storage', () => {
 
     memory.failWrites = true
     expect(storage.save(saved('save-3', '2026-08-24T03:00:00.000Z'))).toEqual({ ok: false, error: 'write-failed' })
+  })
+
+  it('reports unavailable reads and removals without throwing', () => {
+    const memory = new MemoryStorage()
+    const storage = createChecklistStorage(memory, content)
+    memory.failReads = true
+    expect(storage.load().status).toBe('unavailable')
+    memory.failReads = false
+    memory.failRemovals = true
+    expect(storage.clear()).toEqual({ ok: false, error: 'write-failed' })
   })
 })

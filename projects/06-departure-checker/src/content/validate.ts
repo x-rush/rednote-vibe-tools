@@ -361,6 +361,47 @@ export const loadContent = (value: unknown): DepartureContentPackage => {
   return value as DepartureContentPackage
 }
 
+export type RecoverableContentLoadResult =
+  | { status: 'ok'; content: DepartureContentPackage }
+  | {
+    status: 'recovered'
+    content: DepartureContentPackage
+    diagnosticCode: 'CONTENT_RULE_REFERENCE'
+  }
+  | { status: 'error'; issues: ValidationIssue[] }
+
+export const loadContentRecoverably = (value: unknown): RecoverableContentLoadResult => {
+  const strictResult = validateContent(value, 'production')
+  if (strictResult.success) return { status: 'ok', content: value as DepartureContentPackage }
+  if (!isRecord(value) || !isRecord(value.content) || !Array.isArray(value.content.rules)) {
+    return { status: 'error', issues: strictResult.issues }
+  }
+
+  const ruleIndexes = new Set<number>()
+  for (const issue of strictResult.issues) {
+    const match = /^content\.rules\[(\d+)\]/.exec(issue.path)
+    if (!match || issue.code !== 'missing-reference') {
+      return { status: 'error', issues: strictResult.issues }
+    }
+    ruleIndexes.add(Number(match[1]))
+  }
+  if (ruleIndexes.size === 0) return { status: 'error', issues: strictResult.issues }
+
+  const candidate = structuredClone(value)
+  if (!isRecord(candidate) || !isRecord(candidate.content) || !Array.isArray(candidate.content.rules)) {
+    return { status: 'error', issues: strictResult.issues }
+  }
+  candidate.content.rules = candidate.content.rules.filter((_rule, index) => !ruleIndexes.has(index))
+  const recoveredResult = validateContent(candidate, 'production')
+  if (!recoveredResult.success) return { status: 'error', issues: recoveredResult.issues }
+
+  return {
+    status: 'recovered',
+    content: candidate as DepartureContentPackage,
+    diagnosticCode: 'CONTENT_RULE_REFERENCE',
+  }
+}
+
 export const matchesRuleCondition = (
   condition: RuleCondition,
   conditions: Record<string, unknown>,

@@ -93,7 +93,7 @@ type SavedChecklist = {
 };
 ```
 
-损坏 JSON 和未来 schema 不会被静默覆盖；读取结果返回可恢复原文，用户明确清空后才能重建。内容更新后失效的非关键 itemId 会被过滤并显示恢复提示。保存第四份时覆盖更新时间最早的一份。
+损坏 JSON 和未来 schema 不会被静默覆盖；读取结果返回可恢复原文，用户明确清空后才能重建。内容更新后失效的非关键 itemId 会被过滤并显示恢复提示。保存第四份时不会静默覆盖：先返回候选旧记录，用户可改选目标、取消或明确确认覆盖。
 
 ## UI 接口
 
@@ -110,20 +110,34 @@ type SavedChecklist = {
 
 响应式 CSS 使用流式容器与 `minmax(0, 1fr)`：430px 视口内容宽 398px；390px 视口内容宽 366px；375px 视口内容宽 351px。390/375 断点缩小网格并将条目操作换行，主要按钮和交互控件最小高度 44px，底部操作避让 `safe-area-inset-bottom`。
 
-## 未来图标 asset ID
+## V2 图标与引导资源
 
 - 场景：`icon-scenario-commute`、`icon-scenario-short-trip`、`icon-scenario-exercise`、`icon-scenario-date`、`icon-scenario-with-child`、`icon-scenario-with-pet`、`icon-scenario-appointment`、`icon-scenario-event`。
 - 分类：`icon-category-*`；位置：`icon-location-*`。
-- 内置项目：`icon-item-<item-id>`。
-- 确认事项：`icon-confirm-door-lock`、`icon-confirm-appliance`、`icon-confirm-ticket-rule`、`icon-confirm-medical-notice`、`icon-confirm-child-seat`、`icon-confirm-pet-restraint`。
+- 状态：`completion-stamp.svg`、`partial-available.svg`。
+- 引导：`guide-master-v2.webp`、`guide-avatar-v2.webp`。
 
-当前 UI 只显示克制的 asset ID 占位，没有下载或生成最终素材。
+最终实现不为 83 个物品逐项绘图；清单行复用类别图标和结构化文字。30 个 SVG 与 2 个 WebP 均为本地静态资源，无运行时 CDN。
+
+## V3 路岚陪伴式布局
+
+- 新增统一的 `GuidePortrait` 展示组件，使用 `home / wizard / summary / urgent / completion / help` 六个受控裁切变体。
+- 首页、条件问答、清单摘要、帮助、最后一分钟和完成结果均展示半身级主立绘；最近清单和部分恢复状态使用头像。
+- 复用既有 900×1200 主图与 160×160 头像，没有新增美术资源、业务内容或依赖。
+- 所有业务文案与控件仍是 DOM；清单人物区使用可访问按钮，重复立绘不重复播报替代文本。
+- 页面状态、规则引擎、`content.json` 与存储 schema 均未修改。
+- 首页最终使用人物优先构图：主标题位于纸面，立绘横向占比约 66%–68%，避免标题换行挤占角色空间。
+- 条件问答的布尔、单选和数字预设点击后直接前进；末题通过纯函数合并最新条件后生成，手动数字保留显式确认。
+- 首次引导和大图帮助不再重复头像；问答答案（含数字预设）固定两列，底栏最多两个导航按钮。
+- 直接进入下一题后焦点移到新题标题；取消条件差异会恢复原清单条件，避免摘要与清单不一致。
 
 ## 测试与构建结果
 
 - `pnpm lint`：通过，0 条错误。
-- `pnpm test`：通过，4 个测试文件、42 项测试。
-- `pnpm build`：通过；Vite 产物 JS gzip 79.62 kB，CSS gzip 2.09 kB。
-- 375 / 390 / 430 CSS px：通过上述流式宽度、断点和最小触控尺寸契约检查，无固定超宽内容。
+- `pnpm test`：通过，12 个测试文件、81 项测试。
+- `pnpm build`：通过；小工具经典脚本产物 JS gzip 93.55 kB，样式随 IIFE 注入。
+- `pnpm validate:mini`：通过；离线 ZIP 根目录包含 `index.html`，无外部资源或禁用端能力调用。
+- 375 / 390 / 430 CSS px：真实浏览器检查均满足 `documentElement.scrollWidth === documentElement.clientWidth`，0 断图。
+- 完整黄金流程已覆盖条件问答、无精确匹配、生成、三视图、空间路线、条目解释、条件差异、完整关键项、保存/恢复/原位更新和第四份显式覆盖；控制台 0 error。
 
 最终结果以完成本报告后重新运行的验证命令为准。

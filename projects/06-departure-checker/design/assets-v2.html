@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>出门检查官 V2 资源板</title>
+  <style>
+    :root { color: #24312d; background: #f6f2e8; font-family: Inter, "PingFang SC", sans-serif; }
+    * { box-sizing: border-box; }
+    body { max-width: 1180px; margin: auto; padding: 40px 20px 80px; }
+    h1 { margin-bottom: 8px; font-family: "Songti SC", serif; }
+    p { color: #68736e; }
+    main { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 28px; }
+    article { padding: 16px; border: 1px solid #cfd4cc; border-radius: 14px; background: #fffcf5; }
+    h2 { min-height: 38px; margin: 0 0 14px; font-size: 14px; }
+    .sizes { display: flex; min-height: 46px; align-items: center; gap: 18px; color: #386b59; }
+    img { display: block; color: #386b59; }
+  </style>
+</head>
+<body>
+  <h1>V2 矢量资源板</h1>
+  <p>30 枚 SVG · 16 / 24 / 32px 同屏辨识</p>
+  <main id="board"></main>
+  <script>
+    const names = [
+      'scenario-commute', 'scenario-short-trip', 'scenario-exercise', 'scenario-date',
+      'scenario-with-child', 'scenario-with-pet', 'scenario-appointment', 'scenario-event',
+      'category-essentials', 'category-electronics', 'category-weather', 'category-health',
+      'category-work', 'category-sports', 'category-child', 'category-pet', 'category-event',
+      'category-confirmation', 'category-custom', 'location-desk', 'location-charging',
+      'location-bedroom', 'location-bathroom', 'location-fridge', 'location-entryway',
+      'location-documents', 'location-pet-area', 'location-child-area', 'completion-stamp',
+      'partial-available',
+    ]
+    const board = document.querySelector('#board')
+    for (const name of names) {
+      const article = document.createElement('article')
+      const heading = document.createElement('h2')
+      heading.textContent = name
+      const sizes = document.createElement('div')
+      sizes.className = 'sizes'
+      for (const size of [16, 24, 32]) {
+        const image = document.createElement('img')
+        image.src = `/assets/icons/${name}.svg`
+        image.alt = ''
+        image.width = size
+        image.height = size
+        sizes.append(image)
+      }
+      article.append(heading, sizes)
+      board.append(article)
+    }
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
-:root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #202a25; background: #f4f7f5; font-synthesis: none; text-rendering: optimizeLegibility; }
+:root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #24312d; background: #f6f2e8; font-synthesis: none; text-rendering: optimizeLegibility; }
 * { box-sizing: border-box; }
-html { min-width: 320px; background: #f4f7f5; }
-body { min-width: 320px; min-height: 100vh; margin: 0; }
+html { min-width: 320px; background: #f6f2e8; touch-action: manipulation; }
+body { min-width: 320px; min-height: 100vh; margin: 0; -webkit-touch-callout: none; }
 button, input, textarea, select { font: inherit; }
-button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #e2a82f; outline-offset: 2px; }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid #c77c45; outline-offset: 2px; }

@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "test": "vitest run",
+    "validate:mini": "node scripts/validate-mini-package.mjs dist",
     "check": "pnpm lint && pnpm test && pnpm build",
     "preview": "vite preview"
   },

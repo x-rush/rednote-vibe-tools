@@ -165,6 +165,7 @@ export type GeneratedChecklist = {
   scenarioId: string
   contentVersion: string
   conditions: Record<ConditionKey, ConditionValue | ConditionValue[]>
+  matchedRuleIds: string[]
   entries: ChecklistEntry[]
   sections: {
     must: ChecklistEntry[]
@@ -198,6 +199,7 @@ export type StoragePayload = {
   schemaVersion: 1
   contentVersion: string
   activeChecklistId?: string
+  guideDismissed?: boolean
   savedChecklists: SavedChecklist[]
   updatedAt: string
 }

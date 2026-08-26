@@ -16,7 +16,7 @@ export type StorageLike = {
   removeItem(key: string): void
 }
 
-export type StorageLoadStatus = 'empty' | 'ok' | 'recovered' | 'corrupt' | 'unsupported-version'
+export type StorageLoadStatus = 'empty' | 'ok' | 'recovered' | 'corrupt' | 'unsupported-version' | 'unavailable'
 
 export type StorageLoadResult = {
   status: StorageLoadStatus
@@ -27,6 +27,7 @@ export type StorageLoadResult = {
 export type StorageWriteResult =
   | { ok: true }
   | { ok: false; error: 'storage-corrupt' | 'invalid-data' | 'write-failed' }
+  | { ok: false; error: 'overwrite-required'; candidateId: string }
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -121,7 +122,12 @@ export const createChecklistStorage = (storage: StorageLike, content: DepartureC
 
   const load = (): StorageLoadResult => {
     const fallback = emptyPayload(content.contentVersion)
-    const raw = storage.getItem(STORAGE_KEY)
+    let raw: string | null
+    try {
+      raw = storage.getItem(STORAGE_KEY)
+    } catch {
+      return { status: 'unavailable', payload: fallback }
+    }
     if (raw === null) return { status: 'empty', payload: fallback }
     let parsed: unknown
     try {
@@ -152,12 +158,15 @@ export const createChecklistStorage = (storage: StorageLike, content: DepartureC
       ? parsed.activeChecklistId
       : undefined
     if (parsed.activeChecklistId !== undefined && activeChecklistId === undefined) recovered = true
+    const guideDismissed = typeof parsed.guideDismissed === 'boolean' ? parsed.guideDismissed : undefined
+    if (parsed.guideDismissed !== undefined && guideDismissed === undefined) recovered = true
     return {
       status: recovered ? 'recovered' : 'ok',
       payload: {
         schemaVersion: 1,
         contentVersion: content.contentVersion,
         ...(activeChecklistId ? { activeChecklistId } : {}),
+        ...(guideDismissed === undefined ? {} : { guideDismissed }),
         savedChecklists: checklists,
         updatedAt: parsed.updatedAt,
       },
@@ -173,15 +182,25 @@ export const createChecklistStorage = (storage: StorageLike, content: DepartureC
     }
   }
 
-  const save = (checklist: SavedChecklist): StorageWriteResult => {
+  const save = (checklist: SavedChecklist, overwriteId?: string): StorageWriteResult => {
     const current = load()
     if (current.status === 'corrupt' || current.status === 'unsupported-version') {
       return { ok: false, error: 'storage-corrupt' }
     }
+    if (current.status === 'unavailable') return { ok: false, error: 'write-failed' }
     const sanitized = sanitizeChecklist(checklist, scenarioIds, itemIds)
     if (!sanitized.checklist || sanitized.recovered) return { ok: false, error: 'invalid-data' }
+    const isExisting = current.payload.savedChecklists.some((candidate) => candidate.id === checklist.id)
+    if (!isExisting && current.payload.savedChecklists.length >= MAX_SAVED_CHECKLISTS) {
+      const oldest = current.payload.savedChecklists.at(-1)
+      if (!oldest) return { ok: false, error: 'invalid-data' }
+      if (!overwriteId) return { ok: false, error: 'overwrite-required', candidateId: oldest.id }
+      if (!current.payload.savedChecklists.some((candidate) => candidate.id === overwriteId)) {
+        return { ok: false, error: 'invalid-data' }
+      }
+    }
     const savedChecklists = current.payload.savedChecklists
-      .filter((candidate) => candidate.id !== checklist.id)
+      .filter((candidate) => candidate.id !== checklist.id && candidate.id !== overwriteId)
       .concat(sanitized.checklist)
       .sort(byMostRecent)
       .slice(0, MAX_SAVED_CHECKLISTS)
@@ -189,6 +208,7 @@ export const createChecklistStorage = (storage: StorageLike, content: DepartureC
       schemaVersion: 1,
       contentVersion: content.contentVersion,
       activeChecklistId: checklist.id,
+      ...(current.payload.guideDismissed === undefined ? {} : { guideDismissed: current.payload.guideDismissed }),
       savedChecklists,
       updatedAt: checklist.updatedAt,
     })
@@ -199,18 +219,40 @@ export const createChecklistStorage = (storage: StorageLike, content: DepartureC
     if (current.status === 'corrupt' || current.status === 'unsupported-version') {
       return { ok: false, error: 'storage-corrupt' }
     }
+    if (current.status === 'unavailable') return { ok: false, error: 'write-failed' }
     const savedChecklists = current.payload.savedChecklists.filter((checklist) => checklist.id !== checklistId)
     return write({
       schemaVersion: 1,
       contentVersion: content.contentVersion,
       ...(current.payload.activeChecklistId === checklistId ? {} :
         current.payload.activeChecklistId ? { activeChecklistId: current.payload.activeChecklistId } : {}),
+      ...(current.payload.guideDismissed === undefined ? {} : { guideDismissed: current.payload.guideDismissed }),
       savedChecklists,
       updatedAt: new Date().toISOString(),
     })
   }
 
-  const clear = () => storage.removeItem(STORAGE_KEY)
+  const setGuideDismissed = (guideDismissed: boolean): StorageWriteResult => {
+    const current = load()
+    if (current.status === 'corrupt' || current.status === 'unsupported-version') {
+      return { ok: false, error: 'storage-corrupt' }
+    }
+    if (current.status === 'unavailable') return { ok: false, error: 'write-failed' }
+    return write({
+      ...current.payload,
+      guideDismissed,
+      updatedAt: new Date().toISOString(),
+    })
+  }
 
-  return { load, save, remove, clear }
+  const clear = (): StorageWriteResult => {
+    try {
+      storage.removeItem(STORAGE_KEY)
+      return { ok: true }
+    } catch {
+      return { ok: false, error: 'write-failed' }
+    }
+  }
+
+  return { load, save, remove, clear, setGuideDismissed }
 }

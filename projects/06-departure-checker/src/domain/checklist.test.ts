@@ -15,6 +15,11 @@ describe('checklist engine', () => {
     }
   })
 
+  it('reports whether any explicit condition rule matched', () => {
+    expect(generateChecklist({ scenarioId: 'scenario-commute', conditions: {} }, content).matchedRuleIds).toEqual([])
+    expect(generateChecklist({ scenarioId: 'scenario-commute', conditions: { rain: true } }, content).matchedRuleIds.length).toBeGreaterThan(0)
+  })
+
   it('does not let a lower-priority removal delete a safety mandatory item', () => {
     const candidate = structuredClone(content) as DepartureContentPackage
     candidate.content.rules.push({

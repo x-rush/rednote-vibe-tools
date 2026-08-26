@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>出门检查官 · V2 UI Preview</title>
+  <style>
+    :root {
+      --paper: #f6f2e8;
+      --raised: #fffcf5;
+      --ink: #24312d;
+      --muted: #68736e;
+      --forest: #386b59;
+      --forest-dark: #244a3e;
+      --mist: #577c87;
+      --clay: #c77c45;
+      --line: #cfd4cc;
+      --danger: #9a4e45;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #eef1eb;
+      background: #1e302b;
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-image: radial-gradient(circle at 85% 0%, #3c574e 0, transparent 30rem);
+    }
+    button, input { font: inherit; }
+    .board { max-width: 1500px; margin: auto; padding: 52px 24px 100px; }
+    .board-head { display: grid; grid-template-columns: 1.4fr .6fr; gap: 36px; align-items: end; margin-bottom: 44px; }
+    .kicker { color: #b8c9c2; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; }
+    .board h1 { max-width: 800px; margin: 12px 0 18px; font: 700 clamp(42px, 6vw, 76px)/1.05 "Songti SC", serif; letter-spacing: -.04em; }
+    .board-head p { max-width: 780px; color: #c6d0cc; line-height: 1.8; }
+    .palette { display: grid; grid-template-columns: repeat(4, 1fr); height: 80px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(300px, 1fr)); gap: 34px; }
+    .case { min-width: 0; }
+    .case > h2 { min-height: 30px; margin: 0 0 10px; color: #b7c5bf; font-size: 12px; font-weight: 500; letter-spacing: .08em; }
+    .phone { width: 390px; max-width: 100%; height: 844px; margin: auto; overflow: hidden; border: 8px solid #43534e; border-radius: 36px; background: var(--paper); box-shadow: 0 24px 65px #07110e80; }
+    .screen { position: relative; height: 100%; overflow: hidden; color: var(--ink); background: var(--paper); }
+    .scroll { height: 100%; overflow: hidden; padding: 26px 18px 104px; }
+    .top { display: flex; min-height: 38px; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; }
+    .brand { color: var(--forest); font-weight: 800; letter-spacing: .05em; }
+    .local { padding: 6px 9px; border: 1px solid #8aa99d; border-radius: 999px; color: var(--forest); }
+    .title { margin: 24px 0 8px; font: 700 34px/1.16 "Songti SC", serif; letter-spacing: -.03em; }
+    .lead { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .section-label { display: flex; align-items: end; justify-content: space-between; margin: 22px 0 10px; }
+    .section-label h3 { margin: 0; font-size: 16px; }
+    .section-label small, small { color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .scene-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .scene { display: grid; grid-template-columns: 38px minmax(0, 1fr); min-height: 84px; align-items: center; gap: 9px; padding: 11px; border: 1px solid var(--line); background: var(--raised); text-align: left; }
+    .scene strong, .recent strong { display: block; font-size: 14px; }
+    .scene small { display: block; margin-top: 3px; }
+    .glyph { display: grid; width: 38px; height: 38px; place-items: center; border: 2px solid var(--mist); border-radius: 11px; color: var(--mist); background: #edf2ef; font-weight: 800; }
+    .recent { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 10px; margin: 16px 0; padding: 12px; border-left: 3px solid var(--forest); background: #e5ebe5; }
+    .arrow { color: var(--forest); font-weight: 900; }
+    .bottom { position: absolute; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom)); left: 18px; }
+    .button { width: 100%; min-height: 52px; border: 0; border-radius: 13px; color: #fff; background: var(--forest); font-weight: 800; }
+    .button.secondary { color: var(--forest-dark); background: #dce9e3; }
+    .button.ghost { border: 1px solid var(--forest); color: var(--forest); background: transparent; }
+    .two-actions { display: grid; grid-template-columns: .8fr 1.2fr; gap: 9px; }
+    .progress { height: 4px; margin: 10px 0 24px; background: #d9ded8; }
+    .progress > i { display: block; width: 50%; height: 100%; background: var(--forest); }
+    .question { margin-top: 44px; }
+    .question h3 { margin: 0 0 18px; font: 700 30px/1.25 "Songti SC", serif; }
+    .options { display: grid; gap: 9px; }
+    .option { min-height: 56px; padding: 15px; border: 1px solid var(--line); border-radius: 13px; background: var(--raised); font-weight: 700; }
+    .option.active { border: 2px solid var(--forest); color: var(--forest-dark); background: #e1ece6; }
+    .condition-summary { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .chip { padding: 7px 10px; border: 1px solid #b8c2bb; border-radius: 999px; background: var(--raised); font-size: 12px; }
+    .chip.active { border-color: var(--forest); color: #fff; background: var(--forest); }
+    .generator { display: grid; height: 100%; place-content: center; padding: 30px; text-align: center; }
+    .generator-mark { display: grid; width: 92px; height: 92px; margin: 0 auto 24px; place-items: center; border: 2px solid var(--forest); border-radius: 50%; color: var(--forest); font: 700 28px "Songti SC", serif; }
+    .generator h3 { font: 700 28px "Songti SC", serif; }
+    .generator-list { display: grid; gap: 8px; margin-top: 26px; text-align: left; }
+    .generator-list span { padding: 9px 12px; border-left: 3px solid var(--forest); background: #e5ebe5; }
+    .summary-head { margin: -26px -18px 0; padding: 24px 18px 18px; color: #fff; background: var(--forest); }
+    .summary-head small { color: #e5efea; }
+    .summary-head h3 { margin: 6px 0 4px; font: 700 28px "Songti SC", serif; }
+    .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+    .tabs span { padding: 12px 2px 10px; text-align: center; font-size: 12px; }
+    .tabs .active { border-bottom: 3px solid var(--forest); font-weight: 800; }
+    .group { margin-top: 18px; }
+    .group-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .group-head b { font-size: 14px; }
+    .critical { color: var(--danger); }
+    .item { display: grid; grid-template-columns: 30px 36px minmax(0, 1fr) auto; min-height: 62px; align-items: center; gap: 8px; border-top: 1px solid var(--line); }
+    .check { display: grid; width: 27px; height: 27px; place-items: center; border: 2px solid #86938d; border-radius: 8px; font-style: normal; }
+    .check.done { border-color: var(--forest); color: #fff; background: var(--forest); }
+    .item .glyph { width: 32px; height: 32px; border-width: 1.5px; border-radius: 9px; font-size: 11px; }
+    .item strong { display: block; font-size: 14px; }
+    .item small { display: block; margin-top: 2px; }
+    .why { color: var(--forest); font-size: 11px; }
+    .route-head { margin: -26px -18px 0; padding: 24px 18px 20px; color: #fff; background: var(--mist); }
+    .route-head small { color: #eaf1f2; }
+    .route-head h3 { margin: 5px 0; font: 700 30px "Songti SC", serif; }
+    .route { margin: 20px 0 0 10px; padding-left: 20px; border-left: 2px solid #b9c8c9; }
+    .stop { position: relative; padding: 0 0 20px; }
+    .stop::before { position: absolute; top: 3px; left: -28px; width: 14px; height: 14px; border: 3px solid var(--mist); border-radius: 50%; background: var(--paper); content: ""; }
+    .stop.current::before { border-color: var(--clay); background: var(--clay); }
+    .stop h4 { margin: 0 0 8px; font-size: 14px; }
+    .mini { margin: 5px 0; padding: 10px; border: 1px solid var(--line); background: var(--raised); font-size: 13px; }
+    .sheet-bg { opacity: .35; }
+    .sheet { position: absolute; right: 0; bottom: 0; left: 0; z-index: 2; padding: 20px 18px calc(22px + env(safe-area-inset-bottom)); border-radius: 24px 24px 0 0; background: var(--raised); box-shadow: 0 -18px 45px #1f2f2930; }
+    .handle { width: 44px; height: 4px; margin: -7px auto 18px; border-radius: 3px; background: #c8cec9; }
+    .sheet h3 { margin: 8px 0; font: 700 27px "Songti SC", serif; }
+    .reason-list { margin: 18px 0; padding-left: 20px; color: var(--muted); line-height: 1.8; }
+    .diff { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 18px 0; }
+    .diff span { padding: 12px 5px; background: #e6ebe5; text-align: center; font-size: 11px; }
+    .diff b { display: block; color: var(--forest); font-size: 22px; }
+    .urgent { color: #eef4f1; background: var(--forest-dark); }
+    .urgent .scroll { padding-top: 26px; }
+    .urgent .top, .urgent small { color: #c4d3cc; }
+    .urgent-title { margin: 34px 0 22px; text-align: center; }
+    .urgent-title h3 { margin: 8px 0; font: 700 33px/1.25 "Songti SC", serif; }
+    .urgent-card { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 12px; margin: 10px 0; padding: 15px; border-radius: 14px; color: var(--ink); background: var(--raised); }
+    .urgent-card .check { width: 44px; height: 44px; }
+    .urgent .button { min-height: 66px; background: var(--clay); font-size: 17px; }
+    .complete { display: grid; height: 100%; place-content: center; padding: 28px; text-align: center; }
+    .stamp { display: grid; width: 150px; height: 150px; margin: 0 auto 26px; place-items: center; border: 5px double var(--forest); border-radius: 50%; color: var(--forest); font: 800 23px/1.2 "Songti SC", serif; transform: rotate(-4deg); }
+    .complete h3 { font: 700 30px "Songti SC", serif; }
+    .field { margin: 12px 0; padding: 13px; border: 1px solid var(--line); background: var(--raised); }
+    .field label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 800; }
+    .input { min-height: 48px; padding: 13px; border: 1px solid #aeb9b1; border-radius: 10px; background: #fff; color: var(--ink); }
+    .record { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 14px 0; border-top: 1px solid var(--line); }
+    .record strong, .record small { display: block; }
+    .dialog { margin-top: 28px; padding: 16px; border: 2px solid var(--clay); background: var(--raised); }
+    .dialog h3 { margin: 6px 0; }
+    .notice { margin-top: 16px; padding: 12px; border-left: 3px solid var(--clay); background: #eee5d8; color: #574c40; font-size: 12px; line-height: 1.7; }
+    .error-center { display: grid; height: 100%; place-content: center; padding: 28px; text-align: center; }
+    .error-mark { display: grid; width: 82px; height: 82px; margin: 0 auto 18px; place-items: center; border: 3px solid var(--clay); border-radius: 24px; color: var(--clay); font: 800 28px "Songti SC", serif; }
+    .error-center h3 { margin: 8px 0; font: 700 29px/1.3 "Songti SC", serif; }
+    .guide-stage { height: 360px; margin: 12px -18px 0; background: linear-gradient(155deg, #dbe7e0, #afc8bd); }
+    .guide-figure { display: grid; width: 180px; height: 310px; margin: auto; place-items: center; color: #fff; background: linear-gradient(#6e9a84 0 34%, #4e7467 34% 100%); clip-path: polygon(32% 0, 68% 0, 75% 16%, 92% 100%, 8% 100%, 25% 16%); font: 700 48px "Songti SC", serif; }
+    .guide-head { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+    .avatar { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 14px; color: #fff; background: var(--forest); font: 700 20px "Songti SC", serif; }
+    .help-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 14px 0; border-top: 1px solid var(--line); }
+    @media (max-width: 1020px) { .grid { grid-template-columns: repeat(2, minmax(280px, 1fr)); } .board-head { grid-template-columns: 1fr; } }
+    @media (max-width: 680px) { .board { padding: 28px 12px 70px; } .grid { grid-template-columns: minmax(0, 1fr); } .phone { height: 780px; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <header class="board-head">
+      <div>
+        <div class="kicker">V2 · DEPARTURE FIELD BOARD</div>
+        <h1>不催你，只把出门前的路理顺。</h1>
+        <p>首页直接选场景；条件与真实内容契约一一对应；同一份清单在重要程度、类别和空间路线之间重组。路岚只在需要时出现，不挡住任务。</p>
+      </div>
+      <div class="palette" aria-label="色板">
+        <i style="background:#f6f2e8"></i><i style="background:#386b59"></i><i style="background:#577c87"></i><i style="background:#c77c45"></i>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="case"><h2>01 / 首页 · 直接选场景</h2><div class="phone"><div class="screen"><div class="scroll">
+        <div class="top"><span class="brand">出门检查官</span><span class="local">只在本机</span></div>
+        <h3 class="title">今天去哪儿？</h3><p class="lead">选一个最接近的场景，马上生成能解释原因的清单。</p>
+        <div class="recent"><span class="glyph">旅</span><span><strong>继续：周末短途</strong><small>还有 3 个必带未完成</small></span><span class="arrow">继续</span></div>
+        <div class="scene-grid">
+          <button class="scene"><span class="glyph">通</span><span><strong>日常通勤</strong><small>上班上课前</small></span></button>
+          <button class="scene"><span class="glyph">旅</span><span><strong>周末短途</strong><small>一日游或短住</small></span></button>
+          <button class="scene"><span class="glyph">动</span><span><strong>运动健身</strong><small>室内或户外</small></span></button>
+          <button class="scene"><span class="glyph">见</span><span><strong>约会见面</strong><small>预订与返程</small></span></button>
+          <button class="scene"><span class="glyph">童</span><span><strong>带娃出门</strong><small>年龄与时长</small></span></button>
+          <button class="scene"><span class="glyph">宠</span><span><strong>带宠出门</strong><small>牵引与清洁</small></span></button>
+          <button class="scene"><span class="glyph">办</span><span><strong>就医或办事</strong><small>通知与材料</small></span></button>
+          <button class="scene"><span class="glyph">演</span><span><strong>演出或活动</strong><small>票证与场规</small></span></button>
+        </div>
+      </div></div></div></article>
+
+      <article class="case"><h2>02 / 首次引导 · 可跳过路岚</h2><div class="phone"><div class="screen"><div class="scroll sheet-bg">
+        <div class="top"><span class="brand">周末短途</span><span>已选择</span></div><div class="guide-stage"><div class="guide-figure">岚</div></div>
+      </div><section class="sheet"><div class="handle"></div><div class="guide-head"><span class="avatar">岚</span><span><strong>路岚</strong><small>出门前的第二双眼睛</small></span><small>首次</small></div><h3>三步就好。</h3><p class="lead">去哪里、补几项条件、只留下这趟容易忘的东西。</p><div class="two-actions" style="margin-top:18px"><button class="button ghost">跳过</button><button class="button">继续</button></div></section></div></div></article>
+
+      <article class="case"><h2>03 / 条件 · 一个真实问题一屏</h2><div class="phone"><div class="screen"><div class="scroll">
+        <div class="top"><span>返回场景</span><span>周末短途 · 2 / 4</span></div><div class="progress"><i></i></div>
+        <div class="condition-summary"><span class="chip active">会过夜</span></div>
+        <div class="question"><small>交通方式</small><h3>主要怎么出发？</h3><div class="options"><div class="option">步行或市内交通</div><div class="option active">火车</div><div class="option">驾车</div><div class="option">飞机</div></div></div>
+        <div class="bottom"><div class="two-actions"><button class="button ghost">暂不选择</button><button class="button">下一题</button></div></div>
+      </div></div></div></article>
+
+      <article class="case"><h2>04 / 生成 · 解释本地计算</h2><div class="phone"><div class="screen"><div class="generator">
+        <div class="generator-mark">理</div><small>完全在本机完成</small><h3>正在排好检查顺序</h3><p class="lead">不联网，也不会读取定位。</p><div class="generator-list"><span>基础项已找到</span><span>条件项已加入</span><span>正在合并重复提醒</span></div>
+      </div></div></div></article>
+
+      <article class="case"><h2>05 / 重要程度 · 关键数置顶</h2><div class="phone"><div class="screen"><div class="scroll">
+        <header class="summary-head"><small>周末短途 · 过夜 · 火车</small><h3>必带还剩 4 项</h3><small>已完成 3 / 12 · 修改条件</small></header>
+        <nav class="tabs"><span class="active">重要程度</span><span>类别</span><span>空间巡视</span></nav>
+        <div class="group"><div class="group-head"><b class="critical">必带 · 4</b><small>缺少会影响行程</small></div>
+          <div class="item"><i class="check"></i><span class="glyph">随</span><span><strong>身份证件</strong><small>身份核验可能需要</small></span><span class="why">解释</span></div>
+          <div class="item"><i class="check done">✓</i><span class="glyph">电</span><span><strong>手机</strong><small>联系、支付与行程</small></span><span class="why">解释</span></div>
+          <div class="item"><i class="check"></i><span class="glyph">行</span><span><strong>票或二维码</strong><small>火车条件加入</small></span><span class="why">解释</span></div>
+        </div>
+        <div class="group"><div class="group-head"><b>出门前确认 · 1</b><small>离家前检查</small></div><div class="item"><i class="check"></i><span class="glyph">确</span><span><strong>门窗已经关好</strong><small>返程前的最后确认</small></span><span class="why">解释</span></div></div>
+        <div class="bottom"><button class="button">进入最后一分钟</button></div>
+      </div></div></div></article>
+
+      <article class="case"><h2>06 / 类别 · 同一条目重组</h2><div class="phone"><div class="screen"><div class="scroll">
+        <header class="summary-head"><small>视图改变，勾选不变</small><h3>已完成 3 / 12</h3></header><nav class="tabs"><span>重要程度</span><span class="active">类别</span><span>空间巡视</span></nav>
+        <div class="group"><div class="group-head"><b>随身关键 · 4</b><small>2 项完成</small></div><div class="item"><i class="check"></i><span class="glyph">随</span><span><strong>身份证件</strong><small>必带</small></span><span></span></div><div class="item"><i class="check done">✓</i><span class="glyph">随</span><span><strong>手机</strong><small>必带</small></span><span></span></div></div>
+        <div class="group"><div class="group-head"><b>电子充电 · 3</b><small>1 项完成</small></div><div class="item"><i class="check"></i><span class="glyph">电</span><span><strong>充电器</strong><small>建议 · 过夜</small></span><span></span></div><div class="item"><i class="check"></i><span class="glyph">电</span><span><strong>充电宝</strong><small>建议 · 火车</small></span><span></span></div></div>
+        <div class="group"><div class="group-head"><b>衣物天气 · 2</b><small>0 项完成</small></div></div>
+      </div></div></div></article>
+
+      <article class="case"><h2>07 / 空间巡视 · 下一站</h2><div class="phone"><div class="screen"><div class="scroll">
+        <header class="route-head"><small>空间巡视 · 下一站</small><h3>先去充电处</h3><span>这里还有 2 项未完成</span></header><nav class="tabs"><span>重要程度</span><span>类别</span><span class="active">空间巡视</span></nav>
+        <div class="route"><section class="stop current"><h4>充电处 · 当前</h4><div class="mini">□ 手机充电</div><div class="mini">□ 充电器</div></section><section class="stop"><h4>卧室 · 2 项</h4><div class="mini">换洗衣物</div></section><section class="stop"><h4>卫生间 · 1 项</h4></section><section class="stop"><h4>文件收纳 · 2 项</h4></section><section class="stop"><h4>玄关 · 3 项</h4></section></div>
+        <div class="notice">路线来自常见拿取位置，不读取户型或设备位置。</div>
+      </div></div></div></article>
+
+      <article class="case"><h2>08 / 项目解释 · 保留背景位置</h2><div class="phone"><div class="screen"><div class="scroll sheet-bg"><header class="summary-head"><small>周末短途</small><h3>必带还剩 4 项</h3></header><div class="item"><i class="check"></i><span class="glyph">随</span><span><strong>身份证件</strong><small>身份核验可能需要</small></span><span></span></div></div>
+        <section class="sheet"><div class="handle"></div><div class="guide-head"><span class="glyph">随</span><span><small>必带 · 文件收纳</small><strong>身份证件</strong></span><span class="avatar">岚</span></div><h3>为什么会出现？</h3><ul class="reason-list"><li>周末短途的基础关键项</li><li>身份核验可能需要</li><li>以运营方或机构正式通知为准</li></ul><button class="button">知道了，回到清单</button></section>
+      </div></div></article>
+
+      <article class="case"><h2>09 / 条件变更 · 先看差异</h2><div class="phone"><div class="screen"><div class="scroll sheet-bg"><div class="top"><span>修改条件</span><span>带娃出门</span></div></div>
+        <section class="sheet"><div class="handle"></div><small>重算结果</small><h3>清单会这样变化</h3><div class="diff"><span><b>+5</b>新增</span><span><b style="color:var(--clay)">−1</b>移除</span><span><b style="color:var(--mist)">3</b>保留勾选</span></div><div class="notice">自定义项不会自动删除；仍存在的稳定 item ID 保留勾选。</div><div class="two-actions" style="margin-top:16px"><button class="button ghost">返回修改</button><button class="button">确认更新</button></div></section>
+      </div></div></article>
+
+      <article class="case"><h2>10 / 最后一分钟 · 单手模式</h2><div class="phone"><div class="screen urgent"><div class="scroll">
+        <div class="top"><span>最后一分钟</span><span>退出</span></div><div class="urgent-title"><small>没有倒计时</small><h3>只看还没完成的关键项</h3><span>1 / 4</span></div>
+        <div class="urgent-card"><i class="check"></i><span><strong>身份证件</strong><small>摸一下包内固定位置</small></span></div><div class="urgent-card"><i class="check"></i><span><strong>票或二维码</strong><small>提前打开或收好</small></span></div><div class="urgent-card"><i class="check"></i><span><strong>门窗已经关好</strong><small>离家前最后确认</small></span></div>
+        <div class="bottom"><button class="button">完成这一项 · 下一项</button></div>
+      </div></div></div></article>
+
+      <article class="case"><h2>11 / 完成 · 不制造打卡</h2><div class="phone"><div class="screen"><div class="complete">
+        <div class="stamp">已经<br>检查</div><small>周末短途 · 关键项 7 / 7</small><h3>关键的都带上了。</h3><p class="lead">建议项仍留在完整清单，需要时可以回看。一路顺利。</p><button class="button" style="margin-top:24px">返回完整清单</button><button class="button ghost" style="margin-top:9px">回到首页</button>
+      </div></div></div></article>
+
+      <article class="case"><h2>12 / 自定义项 · 可编辑归位</h2><div class="phone"><div class="screen"><div class="scroll">
+        <div class="top"><span>取消</span><span>自定义项</span></div><h3 class="title">补一项自己的提醒</h3><div class="field"><label>名称 · 最多 30 字</label><div class="input">给朋友的书</div></div><div class="field"><label>优先级</label><div class="condition-summary"><span class="chip">必带</span><span class="chip active">建议</span><span class="chip">可选</span></div></div><div class="field"><label>类别</label><div class="condition-summary"><span class="chip active">自定义</span><span class="chip">行程活动</span></div></div><div class="field"><label>拿取位置</label><div class="condition-summary"><span class="chip active">桌面</span><span class="chip">玄关</span></div></div><div class="bottom"><button class="button">加入当前清单</button></div>
+      </div></div></div></article>
+
+      <article class="case"><h2>13 / 最近清单 · 继续或重算</h2><div class="phone"><div class="screen"><div class="scroll">
+        <div class="top"><span>返回首页</span><span>最多 3 份</span></div><h3 class="title">最近出过的门</h3>
+        <div class="record"><span class="glyph">旅</span><span><strong>周末短途</strong><small>11 / 12 · 今天 08:42</small></span><span class="arrow">继续</span></div><div class="record"><span class="glyph">通</span><span><strong>周一上班</strong><small>8 / 10 · 昨天</small></span><span class="arrow">继续</span></div><div class="record"><span class="glyph">办</span><span><strong>去医院复诊</strong><small>6 / 6 · 8 月 20 日</small></span><span class="arrow">查看</span></div>
+        <div class="notice">复制并重算会保留原清单，使用新条件创建一份实例。</div><div class="bottom"><button class="button">创建新清单</button></div>
+      </div></div></div></article>
+
+      <article class="case"><h2>14 / 第四份 · 明确覆盖对象</h2><div class="phone"><div class="screen"><div class="scroll">
+        <div class="top"><span>取消</span><span>保存新清单</span></div><h3 class="title">最近位置已经满了</h3><p class="lead">选择一份要替换的旧记录。默认选中最早更新的一份。</p><div class="dialog"><small>将被覆盖</small><h3>去医院复诊</h3><p class="lead">8 月 20 日 · 已完成 6 / 6</p><div class="option active" style="margin-top:14px">覆盖这份最旧记录</div><div class="option" style="margin-top:8px">选择另外一份</div></div><div class="notice">只替换这一份实例，不影响内置场景、规则或另外两份记录。</div><div class="bottom"><button class="button">确认覆盖并保存</button></div>
+      </div></div></div></article>
+
+      <article class="case"><h2>15 / 无精确匹配 · 基础清单</h2><div class="phone"><div class="screen"><div class="error-center">
+        <div class="error-mark">基</div><small>仍可继续</small><h3>先为你保留基础清单</h3><p class="lead">这组条件没有更多精确建议。基础必带仍然可用，也可以返回调整。</p><div class="notice">基础清单 6 项 · 没有添加无法解释的项目。</div><button class="button" style="margin-top:18px">使用基础清单</button><button class="button ghost" style="margin-top:9px">调整条件</button>
+      </div></div></div></article>
+
+      <article class="case"><h2>16 / 部分可用 · 排除坏引用</h2><div class="phone"><div class="screen"><div class="error-center">
+        <div class="error-mark">半</div><span class="local" style="margin:auto">部分可用</span><h3>有一部分建议暂时没跟上</h3><p class="lead">坏引用已经被排除，场景基础项和其他合法建议仍可使用。</p><div class="notice">当前可用：基础项 6 · 条件建议 4。诊断编号不包含你的输入。</div><button class="button" style="margin-top:18px">先使用可用清单</button><button class="button secondary" style="margin-top:9px">返回调整条件</button>
+      </div></div></div></article>
+
+      <article class="case"><h2>17 / 坏存档 · 原数据不覆盖</h2><div class="phone"><div class="screen"><div class="error-center">
+        <div class="error-mark">存</div><small>可恢复错误</small><h3>本机清单暂时读不了</h3><p class="lead">原数据还在，没有被新内容覆盖。你可以先返回空白首页，或明确清空本工具数据。</p><button class="button">先回到空白首页</button><button class="button ghost" style="margin-top:9px;color:var(--danger);border-color:var(--danger)">清空本工具数据</button>
+      </div></div></div></article>
+
+      <article class="case"><h2>18 / 路岚召回 · 解释不改状态</h2><div class="phone"><div class="screen"><div class="scroll sheet-bg"><header class="summary-head"><small>周末短途</small><h3>必带还剩 4 项</h3></header></div>
+        <section class="sheet"><div class="handle"></div><div class="guide-head"><span class="avatar">岚</span><span><strong>问路岚</strong><small>不改变当前勾选状态</small></span><span>关闭</span></div><div style="margin-top:18px"><div class="help-row"><span><strong>为什么出现这一项？</strong><small>查看场景和条件来源</small></span><span>›</span></div><div class="help-row"><span><strong>怎样精简清单？</strong><small>先保留必带，再看建议</small></span><span>›</span></div><div class="help-row"><span><strong>最后一分钟是什么？</strong><small>只看未完成关键项</small></span><span>›</span></div></div><button class="button" style="margin-top:16px">回到原来的位置</button></section>
+      </div></div></article>
+    </section>
+  </main>
+</body>
+</html>

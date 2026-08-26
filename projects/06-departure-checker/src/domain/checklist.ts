@@ -194,6 +194,7 @@ export const generateChecklist = (
     scenarioId: input.scenarioId,
     contentVersion: contentPackage.contentVersion,
     conditions: structuredClone(input.conditions),
+    matchedRuleIds: matchedRules.map((rule) => rule.ruleId),
     entries,
     sections: buildSections(entries),
   }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import content from './content.json'
-import { validateContent } from './validate'
+import { loadContentRecoverably, validateContent } from './validate'
 
 const validFixture = {
   schemaVersion: 1,
@@ -131,5 +131,27 @@ describe('content validation', () => {
     expect(content.content.scenarios).toHaveLength(8)
     expect(content.content.items.length).toBeGreaterThanOrEqual(60)
     expect(content.content.items.length).toBeLessThanOrEqual(90)
+  })
+
+  it('drops a rule with a stale item reference and keeps the valid package', () => {
+    const candidate = structuredClone(content)
+    candidate.content.rules[0].effect.addItemIds = ['missing-item']
+
+    const result = loadContentRecoverably(candidate)
+
+    expect(result.status).toBe('recovered')
+    if (result.status === 'recovered') {
+      expect(result.diagnosticCode).toBe('CONTENT_RULE_REFERENCE')
+      expect(result.content.content.rules.some(
+        (rule) => rule.ruleId === candidate.content.rules[0].ruleId,
+      )).toBe(false)
+    }
+  })
+
+  it('does not pretend a broken scenario base list is partially usable', () => {
+    const candidate = structuredClone(content)
+    candidate.content.scenarios[0].baseItemIds = ['missing-item']
+
+    expect(loadContentRecoverably(candidate).status).toBe('error')
   })
 })

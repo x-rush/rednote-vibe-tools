@@ -261,11 +261,11 @@ progress { width: 58%; height: 4px; border: 0; accent-color: var(--accent); }
 
 .artifact-story h1 { max-width: none; }
 .story-hook { margin: 24px 0; padding: 18px; font: 700 1.08rem/1.8 "Songti SC", SimSun, serif; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); }
-.story-index { position: sticky; z-index: 4; top: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 8px; background: rgb(236 232 222 / 94%); backdrop-filter: blur(8px); }
+.story-index { position: sticky; z-index: 4; top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px)); display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; padding: 8px; background: rgb(236 232 222 / 94%); backdrop-filter: blur(8px); }
 .story-index a { display: grid; place-items: center; min-height: 36px; color: var(--muted); border: 1px solid var(--line); background: var(--paper); text-decoration: none; }
 .story-index a.read { color: #fff; border-color: var(--accent); background: var(--accent); }
 .story-sections { display: grid; gap: 18px; margin: 18px 0; }
-.story-sections > section { scroll-margin-top: 70px; padding: 22px 18px; border: 1px solid var(--line); background: var(--paper); }
+.story-sections > section { scroll-margin-top: calc(70px + var(--safe-area-inset-top, env(safe-area-inset-top, 0px))); padding: 22px 18px; border: 1px solid var(--line); background: var(--paper); }
 .story-sections h2 { font: 700 1.45rem "Songti SC", SimSun, serif; }
 .story-sections > section > p:not(.story-number) { font: 400 1rem/2 "Songti SC", SimSun, serif; }
 .story-number { color: var(--accent); font-size: .7rem; letter-spacing: .12em; }

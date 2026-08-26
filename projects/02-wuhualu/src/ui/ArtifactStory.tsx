@@ -25,7 +25,7 @@ export function ArtifactStory({ model, readIds, onSectionRead, copy }: ArtifactS
               <p className="story-number">{copy.sectionPrefix} {index + 1} 札</p>
               <h2>{section.title}</h2>
               <p>{section.body}</p>
-              <details><summary>{copy.sourcesLabel} · {section.sources.length}</summary><ul>{section.sources.map(source => <li key={source.id}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a><span>{source.level} {copy.sourceLevelSuffix}</span></li>)}</ul></details>
+              <details><summary>{copy.sourcesLabel} · {section.sources.length}</summary><ul>{section.sources.map(source => <li key={source.id}><span className="source-title">{source.title}</span><span className="source-level">{source.level} {copy.sourceLevelSuffix}</span></li>)}</ul></details>
               <button className={read ? 'read-button done' : 'read-button'} type="button" onClick={() => onSectionRead(section.id)}>{read ? copy.readDone : copy.readAction}</button>
             </section>
           )

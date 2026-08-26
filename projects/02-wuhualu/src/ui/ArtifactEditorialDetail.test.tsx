@@ -44,5 +44,7 @@ describe('ArtifactEditorialDetail', () => {
     expect(markup).toContain('<h3>四羊方尊</h3>')
     expect(markup).toContain('中国国家博物馆：鹰形陶鼎馆藏页')
     expect(markup.match(/source-chnmuseum-eagle-tripod/g)).toHaveLength(1)
+    expect(markup).not.toContain('href="https://')
+    expect(markup).not.toContain('target="_blank"')
   })
 })

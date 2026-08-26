@@ -1,7 +1,7 @@
 :root { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; color: #201f1b; background: #ece8de; font-synthesis: none; text-rendering: optimizeLegibility; --ink: #201f1b; --muted: #6f6b61; --accent: #9b3d2c; --focus: #c58b28; --paper: #f8f5ed; --paper-strong: #f2ede2; --cabinet: #ded8ca; --placeholder: #706b60; --line: #d3cdbf; --line-strong: #aaa293; }
 * { box-sizing: border-box; }
-html { background: #ece8de; }
-body { min-height: 100vh; margin: 0; }
+html { touch-action: manipulation; background: #ece8de; }
+body { min-height: 100vh; margin: 0; -webkit-touch-callout: none; }
 button, input, textarea, select { font: inherit; }
 button { -webkit-tap-highlight-color: transparent; }
 ::selection { color: #fff; background: var(--accent); }

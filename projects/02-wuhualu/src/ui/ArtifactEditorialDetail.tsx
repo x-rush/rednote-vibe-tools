@@ -124,8 +124,8 @@ export function ArtifactEditorialDetail({ model, copy, onBack }: ArtifactEditori
             <ul>
               {editorial.sources.map(source => (
                 <li key={source.id} data-source-id={source.id}>
-                  <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>
-                  <span>{source.level} {copy.storySourceLevelSuffix}</span>
+                  <span className="source-title">{source.title}</span>
+                  <span className="source-level">{source.level} {copy.storySourceLevelSuffix}</span>
                 </li>
               ))}
             </ul>

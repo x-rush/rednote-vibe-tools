@@ -8,6 +8,7 @@ import type { CaseRuntimeState, ScreenState } from './content/types'
 import { validateContentPackage } from './content/validate'
 import { EvidenceArtifact } from './evidence/EvidenceArtifact'
 import { EvidenceThumbnail } from './evidence/EvidenceThumbnail'
+import { getEvidenceResourceNature } from './evidence/model'
 import { calculateVerdict, chooseOption, createInitialCaseState, enterNode, markEvidenceObserved, markRouteReviewed, submitDeductionAnswer, type EngineResult } from './game/engine'
 import { createIndexedDbCaseRecordStore } from './storage/indexedDb'
 import { STORAGE_KEY, createDefaultSave, createResilientCaseRecordStore, loadSave, recordCaseCompletion, restoreCaseProgress, saveLauncher } from './storage/storage'
@@ -446,9 +447,9 @@ function App() {
     if (!item) return <section className="empty-state standalone"><h1>证物未找到</h1><button type="button" onClick={closeEvidence}>返回上一页</button></section>
     const sources = item.sourceIds.map((id) => contentPackage.sources.find((source) => source.id === id)).filter((source) => source !== undefined)
     const observedIds = caseState?.evidenceObservationIdsByEvidenceId[item.id] ?? []
-    return <article className="evidence-screen" aria-labelledby="evidence-title"><header className="page-header"><button type="button" className="icon-button" aria-label="返回上一页" onClick={closeEvidence}>←</button><div><p className="eyebrow">ORIGINAL MATERIAL</p><h1 id="evidence-title">证物检查</h1></div><span className="seal-mini">{item.type}</span></header>
+    return <article className="evidence-screen" aria-labelledby="evidence-title"><header className="page-header"><button type="button" className="icon-button" aria-label="返回上一页" onClick={closeEvidence}>←</button><div><p className="eyebrow">EVIDENCE REVIEW</p><h1 id="evidence-title">证物核验</h1></div><span className="seal-mini">{item.type}</span></header>
       <EvidenceArtifact evidence={item} sources={contentPackage.sources} observedIds={observedIds} reducedMotion={save.settings.reducedMotion} onObserve={(observationId) => setCaseState((current) => current ? markEvidenceObserved(current, item.id, observationId, contentIndex) : current)} />
-      <div className="detail-sheet"><p className="record-type">{item.type}证据</p><h2>{item.title}</h2><p>{item.body}</p><div className="boundary-card"><b>证据边界</b><p>{item.visualSpec.fallbackSummary}</p></div><details><summary>来源与资源性质</summary><ul>{sources.map((source) => <li key={source.id}><span>{source.title}</span><p>{source.note}</p></li>)}</ul></details></div>
+      <div className="detail-sheet"><p className="record-type">{item.type}证据</p><h2>{item.title}</h2><p>{item.body}</p><div className="resource-disclosure"><b>{getEvidenceResourceNature(item.visualSpec)}</b><p>图版用于整理证据关系，不是原件、拓片或数据库字形影像；事实判断只以文字说明和下列可追溯来源为准。</p></div><div className="boundary-card"><b>证据边界</b><p>{item.visualSpec.fallbackSummary}</p></div><details><summary>来源与资源性质</summary><ul>{sources.map((source) => <li key={source.id}><span>{source.title}</span><p>{source.note}</p></li>)}</ul></details></div>
     </article>
   }
 

@@ -153,6 +153,13 @@ describe('content envelope', () => {
     for (const item of evidence) {
       expect(item.visualSpec?.observationPoints?.length, item.id).toBeGreaterThanOrEqual(2)
       expect(item.visualSpec?.fallbackSummary?.length, item.id).toBeGreaterThan(12)
+      const visual = item.visualSpec
+      if (!visual) continue
+      const linkedIds = visual.template === 'glyph-timeline' ? visual.stages.map((stage) => stage.observationId)
+        : visual.template === 'lexicon-scroll' ? visual.entries.map((entry) => entry.observationId)
+          : visual.template === 'semantic-map' ? [...visual.nodes.map((node) => node.observationId), ...visual.edges.map((edge) => edge.observationId)]
+            : [visual.supportObservationId, visual.limitObservationId, visual.disputeObservationId]
+      expect(new Set(linkedIds.filter((id): id is string => Boolean(id))), item.id).toEqual(new Set(visual.observationPoints.map((point) => point.id)))
     }
   })
 })

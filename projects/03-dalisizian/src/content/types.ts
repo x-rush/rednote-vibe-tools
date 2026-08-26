@@ -150,6 +150,7 @@ export type GlyphTimelineVisual = EvidenceVisualBase & {
     materialKind: 'structure-diagram' | 'database-rendering' | 'rubbing' | 'manual-tracing'
     certainty: string
     sourceIds: string[]
+    observationId: string
   }>
 }
 
@@ -162,12 +163,13 @@ export type LexiconScrollVisual = EvidenceVisualBase & {
     interpretation: string
     highlight: string
     sourceIds: string[]
+    observationId: string
   }>
 }
 
 export type SemanticMapVisual = EvidenceVisualBase & {
   template: 'semantic-map'
-  nodes: Array<{ id: string; label: string; detail: string }>
+  nodes: Array<{ id: string; label: string; detail: string; observationId?: string }>
   edges: Array<{
     id: string
     from: string
@@ -175,6 +177,7 @@ export type SemanticMapVisual = EvidenceVisualBase & {
     label: string
     strength: 'supported' | 'possible' | 'blocked'
     sourceIds: string[]
+    observationId?: string
   }>
 }
 
@@ -184,6 +187,9 @@ export type MythVerdictVisual = EvidenceVisualBase & {
   supports: string[]
   limits: string[]
   disputes: string[]
+  supportObservationId: string
+  limitObservationId?: string
+  disputeObservationId: string
 }
 
 export type EvidenceVisualSpec = GlyphTimelineVisual | LexiconScrollVisual | SemanticMapVisual | MythVerdictVisual

@@ -141,9 +141,40 @@ describe('content validation', () => {
         materialKind: 'structure-diagram',
         certainty: '只呈现结构关系。',
         sourceIds: ['source-fiction'],
+        observationId: 'home-form-structure',
       }],
     }
 
     expect(errorCodes(broken)).toContain('missing-evidence-visual-source')
+  })
+
+  it('rejects duplicate template IDs and unknown observation links', () => {
+    const broken = cloneContent()
+    const visual = broken.content.evidence[0].visualSpec
+    if (visual.template !== 'glyph-timeline') throw new Error('glyph fixture missing')
+    visual.stages[1].id = visual.stages[0].id
+    ;(visual.stages[0] as unknown as { observationId: string }).observationId = 'missing-observation'
+
+    expect(errorCodes(broken)).toEqual(expect.arrayContaining(['invalid-evidence-visual', 'invalid-evidence-visual-reference']))
+  })
+
+  it('validates semantic nodes and myth list element types exhaustively', () => {
+    const broken = cloneContent()
+    const semantic = broken.content.evidence.find((item) => item.visualSpec.template === 'semantic-map')?.visualSpec
+    const myth = broken.content.evidence.find((item) => item.visualSpec.template === 'myth-verdict')?.visualSpec
+    if (!semantic || semantic.template !== 'semantic-map' || !myth || myth.template !== 'myth-verdict') throw new Error('visual fixtures missing')
+    semantic.nodes[0].label = ' '
+    Object.assign(myth, { supports: [42] })
+
+    expect(errorCodes(broken).filter((code) => code === 'invalid-evidence-visual').length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('rejects unresolved stage asset IDs', () => {
+    const broken = cloneContent()
+    const visual = broken.content.evidence[0].visualSpec
+    if (visual.template !== 'glyph-timeline') throw new Error('glyph fixture missing')
+    visual.stages[0].assetId = 'asset-evidence-not-packaged'
+
+    expect(errorCodes(broken)).toContain('invalid-evidence-visual-reference')
   })
 })

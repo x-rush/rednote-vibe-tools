@@ -1,42 +1,43 @@
 # 证物视觉来源登记簿
 
-日期：2026-08-26
+登记日期：2026-08-26
+访问日期：2026-08-26
 
-本登记簿与 `src/content/content.json` 的 `sources` 以稳定 `sourceId` 连接；直接 URL、来源等级与边界说明以对应来源记录为准。本轮所有字形视觉均采用 `structure-diagram`，不复刻、不描摹、不生成甲骨文、金文或小篆，因此不冒充原片、拓影或权威数据库字形。字书使用产品排版并明确区分材料定位与产品释文。
+本登记簿逐件记录产品图版的事实主张、来源定位、直接 URL、资源性质与复核状态。全部图版是产品重构，不是原件、拓片或权威数据库字形；运行时事实文字及来源仍以 src/content/content.json 为唯一业务内容。
 
-审核口径：内容 v2 已有 A/B 来源边界复核；精确古文字双人审校不适用。若以后换入精确字形，必须新增著录号、授权、描摹者和第二审核者后才能改变资源性质。
+审核口径：Codex 仅完成结构、引用、资源边界与工程一致性复核，不替代具名文字学者或版权审校。精确古文字双人审校仍未完成；若以后换入精确字形，必须补齐著录号、授权、描摹者和第二审核者。
 
-| 证物 ID | 视觉模板 | 资源性质 | 来源 ID | 审核状态 |
-|---|---|---|---|---|
-| `evidence-home-early-form` | 字形时间轴 | structure-diagram | `source-home-shuowen`, `source-home-moe-variants` | 结构关系可用；无精确古字形 |
-| `evidence-home-shuowen` | 字书展开卷 | product-typesetting | `source-shuowen-general`, `source-home-moe-variants` | 材料定位与产品释文已分层 |
-| `evidence-home-phonetic` | 语义关系图 | product-diagram | `source-home-moe-variants`, `source-home-shuowen` | 声符功能按可能关系呈现 |
-| `evidence-home-social-leap` | 辨伪对照卷 | product-diagram | `source-home-moe-variants` | 社会史越界点已标出 |
-| `evidence-rest-components` | 字形时间轴 | structure-diagram | `source-shuowen-general`, `source-rest-moe-variants` | 人木关系可用；无精确古字形 |
-| `evidence-rest-gloss` | 字书展开卷 | product-typesetting | `source-shuowen-general`, `source-rest-moe-variants` | 传统解释与方法边界已分层 |
-| `evidence-rest-method-limit` | 语义关系图 | product-diagram | `source-rest-moe-variants` | 个例与通则断线已标出 |
-| `evidence-rest-modern-shape` | 辨伪对照卷 | product-diagram | `source-rest-moe-variants` | 楷形倒推边界已标出 |
-| `evidence-take-form` | 字形时间轴 | structure-diagram | `source-take-ctext`, `source-take-moe-variants` | 手耳关系可用；无精确古字形 |
-| `evidence-take-rite` | 字书展开卷 | product-typesetting | `source-take-ctext`, `source-take-moe-variants` | 制度材料与后世义项已分层 |
-| `evidence-take-semantic-change` | 语义关系图 | product-diagram | `source-take-moe-variants` | 义变阶段按关系图呈现 |
-| `evidence-take-moral-fallacy` | 辨伪对照卷 | product-diagram | `source-take-moe-variants` | 道德倒推断线已标出 |
-| `evidence-pick-form` | 字形时间轴 | structure-diagram | `source-pick-zhu`, `source-pick-moe-variants` | 爪木关系可用；无精确古字形 |
-| `evidence-pick-bian-distinction` | 字书展开卷 | product-typesetting | `source-pick-bian`, `source-pick-moe-variants` | 釆、采字头已分层 |
-| `evidence-pick-extensions` | 语义关系图 | product-diagram | `source-pick-moe-variants`, `source-pick-zhu` | 采、彩关系不作同一断言 |
-| `evidence-pick-leaf-story` | 辨伪对照卷 | product-diagram | `source-pick-moe-variants` | 彩叶拼接越界已标出 |
-| `evidence-watch-form` | 字形时间轴 | structure-diagram | `source-watch-shuowen`, `source-watch-moe-variants` | 人目器皿关系可用；无精确古字形 |
-| `evidence-watch-gloss` | 字书展开卷 | product-typesetting | `source-watch-shuowen`, `source-watch-moe-variants` | 临下与现代镜义已分层 |
-| `evidence-watch-mirror-relation` | 语义关系图 | product-diagram | `source-watch-moe-variants` | 监鉴关系按阶段呈现 |
-| `evidence-watch-modern-story` | 辨伪对照卷 | product-diagram | `source-watch-moe-variants` | 单线照镜叙事已拆解 |
-| `evidence-martial-form` | 字形时间轴 | structure-diagram | `source-martial-shuowen`, `source-martial-moe-variants`, `source-martial-csb-word-power` | 止戈关系可用；无精确古字形 |
-| `evidence-martial-shuowen` | 字书展开卷 | product-typesetting | `source-martial-shuowen`, `source-martial-moe-variants` | 传统价值解释已标层级 |
-| `evidence-martial-foot` | 语义关系图 | product-diagram | `source-martial-moe-variants`, `source-martial-csb-word-power` | 足、行进、停止关系已分层 |
-| `evidence-martial-value-origin` | 辨伪对照卷 | product-diagram | `source-martial-moe-variants` | 价值阐释与构形证明已断线 |
-| `evidence-law-old-form` | 字形时间轴 | structure-diagram | `source-law-ctext`, `source-law-moe-variants` | 灋、法层次可用；无精确古字形 |
-| `evidence-law-shuowen` | 字书展开卷 | product-typesetting | `source-law-ctext`, `source-law-moe-variants` | 水、廌、去三层均保留 |
-| `evidence-law-simplification` | 语义关系图 | product-diagram | `source-law-moe-variants` | 旧形与省形时序已标出 |
-| `evidence-law-water-fairness` | 辨伪对照卷 | product-diagram | `source-law-moe-variants` | 截取水义的缺口已标出 |
-| `evidence-autumn-variants` | 字形时间轴 | structure-diagram | `source-autumn-xiaoxue`, `source-autumn-moe-variants`, `source-autumn-ntu` | 多形并存可用；无精确古字形 |
-| `evidence-autumn-insect-fire` | 字书展开卷 | product-typesetting | `source-autumn-xiaoxue`, `source-autumn-moe-variants`, `source-autumn-ntu` | 虫火材料与争议已分层 |
-| `evidence-autumn-modern-form` | 语义关系图 | product-diagram | `source-autumn-moe-variants`, `source-autumn-ntu` | 现代形与原初故事已断线 |
-| `evidence-autumn-debate` | 辨伪对照卷 | product-diagram | `source-autumn-moe-variants`, `source-autumn-ntu` | 竞争解释均保留缺口 |
+| 证物 ID | 事实主张／定位 | 视觉模板 | 资源性质 | 来源 ID | 直接 URL（访问 2026-08-26） | 复核者／日期 | 审核状态 |
+|---|---|---|---|---|---|---|---|
+| `evidence-home-early-form` | “家”的早期字形需要逐形核验，不能只拆现代楷书。 | 字形时间轴 | structure-diagram | `source-home-shuowen`<br>`source-home-moe-variants` | [source-home-shuowen](https://ctext.org/shuo-wen-jie-zi/mian-bu/ens)<br>[source-home-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-home-shuowen` | 《说文》释“家，居也”，并记录“从宀，豭省声”的传统构形说。 | 字书展开卷 | product-typesetting | `source-shuowen-general`<br>`source-home-moe-variants` | [source-shuowen-general](https://ctext.org/shuo-wen-jie-zi/zhs)<br>[source-home-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
+| `evidence-home-phonetic` | “豭省声”提示相关构件可能承担声符功能，不能只讲成一幅生活图。 | 语义关系图 | product-diagram | `source-home-moe-variants`<br>`source-home-shuowen` | [source-home-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794)<br>[source-home-shuowen](https://ctext.org/shuo-wen-jie-zi/mian-bu/ens) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
+| `evidence-home-social-leap` | 由一个构件直接推断“古人人人屋里养猪”超出了现有文字证据。 | 辨伪对照卷 | product-diagram | `source-home-moe-variants` | [source-home-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=10794) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |
+| `evidence-rest-components` | 传统分析重视“休”中人、木构件的关系。 | 字形时间轴 | structure-diagram | `source-shuowen-general`<br>`source-rest-moe-variants` | [source-shuowen-general](https://ctext.org/shuo-wen-jie-zi/zhs)<br>[source-rest-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=936&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-rest-gloss` | 历代字书与六书解释为“人依木”提供了传统语境。 | 字书展开卷 | product-typesetting | `source-shuowen-general`<br>`source-rest-moe-variants` | [source-shuowen-general](https://ctext.org/shuo-wen-jie-zi/zhs)<br>[source-rest-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=936&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
+| `evidence-rest-method-limit` | 一个直观例子不能推出所有汉字都能按现代部件直接猜本义。 | 语义关系图 | product-diagram | `source-rest-moe-variants` | [source-rest-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=936&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
+| `evidence-rest-modern-shape` | 现代楷书形状可能掩盖历史字形变化，不能代替分期材料。 | 辨伪对照卷 | product-diagram | `source-rest-moe-variants` | [source-rest-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=936&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |
+| `evidence-take-form` | 早期材料可见与手形、耳形相关的构件线索。 | 字形时间轴 | structure-diagram | `source-take-ctext`<br>`source-take-moe-variants` | [source-take-ctext](https://ctext.org/dictionary.pl?char=%E5%8F%96&if=en)<br>[source-take-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=5237) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-take-rite` | 古代文本中存在“获者取左耳”等相关记载。 | 字书展开卷 | product-typesetting | `source-take-ctext`<br>`source-take-moe-variants` | [source-take-ctext](https://ctext.org/dictionary.pl?char=%E5%8F%96&if=en)<br>[source-take-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=5237) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
+| `evidence-take-semantic-change` | “取”的词义经历扩展、抽象与中性化，现代用法不能被早期语境完全覆盖。 | 语义关系图 | product-diagram | `source-take-moe-variants` | [source-take-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=5237) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
+| `evidence-take-moral-fallacy` | 把构形历史直接变成现代词语的道德属性，是跨层推断。 | 辨伪对照卷 | product-diagram | `source-take-moe-variants` | [source-take-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=5237) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |
+| `evidence-pick-form` | 传统分析以爪、木关系解释取物之意。 | 字形时间轴 | structure-diagram | `source-pick-zhu`<br>`source-pick-moe-variants` | [source-pick-zhu](https://ctext.org/wiki.pl?chapter=348569&if=en&remap=gb)<br>[source-pick-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=46886&q=1) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-pick-bian-distinction` | 釆与采不能因显示相近便混作同一字头。 | 字书展开卷 | product-typesetting | `source-pick-bian`<br>`source-pick-moe-variants` | [source-pick-bian](https://ctext.org/shuo-wen-jie-zi/bian-bu/ens)<br>[source-pick-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=46886&q=1) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
+| `evidence-pick-extensions` | 采取、文采、色彩等义项需要分期说明，不能编成单线故事。 | 语义关系图 | product-diagram | `source-pick-moe-variants`<br>`source-pick-zhu` | [source-pick-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=46886&q=1)<br>[source-pick-zhu](https://ctext.org/wiki.pl?chapter=348569&if=en&remap=gb) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
+| `evidence-pick-leaf-story` | “摘彩叶所以有色彩”缺乏可直接支持的早期证据。 | 辨伪对照卷 | product-diagram | `source-pick-moe-variants` | [source-pick-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=46886&q=1) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |
+| `evidence-watch-form` | 早期字形含人目与器皿相关构件意象。 | 字形时间轴 | structure-diagram | `source-watch-shuowen`<br>`source-watch-moe-variants` | [source-watch-shuowen](https://ctext.org/shuo-wen-jie-zi/wo-bu)<br>[source-watch-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=29503&q=1) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-watch-gloss` | 《说文》传统解释强调“临下”，并非简单等同现代照镜。 | 字书展开卷 | product-typesetting | `source-watch-shuowen`<br>`source-watch-moe-variants` | [source-watch-shuowen](https://ctext.org/shuo-wen-jie-zi/wo-bu)<br>[source-watch-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=29503&q=1) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
+| `evidence-watch-mirror-relation` | 监与鉴存在历史关系，但不能因此粗暴合一。 | 语义关系图 | product-diagram | `source-watch-moe-variants` | [source-watch-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=29503&q=1) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
+| `evidence-watch-modern-story` | 把全部意义缩成“只是照镜子”遗漏了观察、临视等关系。 | 辨伪对照卷 | product-diagram | `source-watch-moe-variants` | [source-watch-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=29503&q=1) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |
+| `evidence-martial-form` | 早期“武”不能只按现代“停止”义拆解。 | 字形时间轴 | structure-diagram | `source-martial-shuowen`<br>`source-martial-moe-variants`<br>`source-martial-csb-word-power` | [source-martial-shuowen](https://ctext.org/shuo-wen-jie-zi/ge-bu1/ens)<br>[source-martial-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=22440&la=0)<br>[source-martial-csb-word-power](https://www.csb.gov.hk/hkgcsb/ol/news/no101/html/sc/p8.html) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-martial-shuowen` | “止戈为武”有历史来源，是重要传统解释。 | 字书展开卷 | product-typesetting | `source-martial-shuowen`<br>`source-martial-moe-variants` | [source-martial-shuowen](https://ctext.org/shuo-wen-jie-zi/ge-bu1/ens)<br>[source-martial-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=22440&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
+| `evidence-martial-foot` | 止的早期字形与足、行进相关，现代词义不能直接倒推。 | 语义关系图 | product-diagram | `source-martial-moe-variants`<br>`source-martial-csb-word-power` | [source-martial-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=22440&la=0)<br>[source-martial-csb-word-power](https://www.csb.gov.hk/hkgcsb/ol/news/no101/html/sc/p8.html) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
+| `evidence-martial-value-origin` | 思想价值阐释与排他的最初构形证明不是同一层问题。 | 辨伪对照卷 | product-diagram | `source-martial-moe-variants` | [source-martial-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=22440&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |
+| `evidence-law-old-form` | 《说文》保存“灋”的传统字形材料，并记“法，今文省”；通行省形不能反证廌从未存在。 | 字形时间轴 | structure-diagram | `source-law-ctext`<br>`source-law-moe-variants` | [source-law-ctext](https://ctext.org/dictionary.pl?char=%E7%81%8B&if=en)<br>[source-law-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=23553&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-law-shuowen` | 传统字书明确同时解释水、廌与去；“平之如水”等说法有出处，却不等于今形两部就是完整古形。 | 字书展开卷 | product-typesetting | `source-law-ctext`<br>`source-law-moe-variants` | [source-law-ctext](https://ctext.org/dictionary.pl?char=%E7%81%8B&if=en)<br>[source-law-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=23553&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
+| `evidence-law-simplification` | “法”作为省形古已有之；从省形看不见廌，不能据此颠倒灋与法的材料顺序。 | 语义关系图 | product-diagram | `source-law-moe-variants` | [source-law-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=23553&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
+| `evidence-law-water-fairness` | “水去讲完全部字源、廌为后添”只截取传统解释的一部分，并与旧形材料相冲突。 | 辨伪对照卷 | product-diagram | `source-law-moe-variants` | [source-law-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=23553&la=0) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |
+| `evidence-autumn-variants` | 秋字存在多阶段、多异体材料；单张虫形、火形或禾火结构不能代表全部发展。 | 字形时间轴 | structure-diagram | `source-autumn-xiaoxue`<br>`source-autumn-moe-variants`<br>`source-autumn-ntu` | [source-autumn-xiaoxue](https://xiaoxue.iis.sinica.edu.tw/jiaguwen)<br>[source-autumn-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=31183&la=0)<br>[source-autumn-ntu](https://case.ntu.edu.tw/blog/?p=41292) | Codex 工程复核／2026-08-26；具名史料审校待补 | 结构关系工程核对完成；非古字原形；具名史料复核待补 |
+| `evidence-autumn-insect-fire` | 部分早期材料可见虫形或火形，但虫的具体身份、火所表达的行为及两者关系仍需核验。 | 字书展开卷 | product-typesetting | `source-autumn-xiaoxue`<br>`source-autumn-moe-variants`<br>`source-autumn-ntu` | [source-autumn-xiaoxue](https://xiaoxue.iis.sinica.edu.tw/jiaguwen)<br>[source-autumn-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=31183&la=0)<br>[source-autumn-ntu](https://case.ntu.edu.tw/blog/?p=41292) | Codex 工程复核／2026-08-26；具名史料审校待补 | 材料与产品释文分层完成；具名史料复核待补 |
+| `evidence-autumn-modern-form` | 现代禾火结构不能单独证明“焚田”或“以火除虫”是唯一原初故事。 | 语义关系图 | product-diagram | `source-autumn-moe-variants`<br>`source-autumn-ntu` | [source-autumn-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=31183&la=0)<br>[source-autumn-ntu](https://case.ntu.edu.tw/blog/?p=41292) | Codex 工程复核／2026-08-26；具名史料审校待补 | 关系强弱与断线工程核对完成；具名史料复核待补 |
+| `evidence-autumn-debate` | 两项假说均有支持点与解释缺口；保留竞争解释比挑选单图排他定案更符合当前证据。 | 辨伪对照卷 | product-diagram | `source-autumn-moe-variants`<br>`source-autumn-ntu` | [source-autumn-moe-variants](https://dict.variants.moe.edu.tw/dictView.jsp?ID=31183&la=0)<br>[source-autumn-ntu](https://case.ntu.edu.tw/blog/?p=41292) | Codex 工程复核／2026-08-26；具名史料审校待补 | 可证／不可证／争议层工程核对完成；具名史料复核待补 |

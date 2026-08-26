@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { contentPackage } from '../content'
 import { EvidenceArtifact } from './EvidenceArtifact'
 import { EvidenceThumbnail } from './EvidenceThumbnail'
+import { getMythObservationIdForReveal } from './model'
 
 describe('interactive evidence components', () => {
   it.each(contentPackage.content.evidence)('renders $id without the generic placeholder', (evidence) => {
@@ -22,6 +23,8 @@ describe('interactive evidence components', () => {
     expect(html).not.toContain('人工核验资源位')
     expect(html).not.toContain('产品结构图')
     expect(html).not.toContain('产品释文')
+    expect(html).not.toContain('ORIGINAL MATERIAL')
+    expect(html).toContain('产品重构')
   })
 
   it('renders a complete thumbnail seal from observed progress', () => {
@@ -44,4 +47,15 @@ describe('interactive evidence components', () => {
     expect(html).toContain(evidence.visualSpec.fallbackSummary)
     expect(html).not.toContain('人工核验资源位')
   })
+
+  it.each(contentPackage.content.evidence.filter((item) => item.visualSpec.template === 'myth-verdict'))(
+    'only completes $id after the dispute boundary is revealed',
+    (evidence) => {
+      const visual = evidence.visualSpec
+      if (visual.template !== 'myth-verdict') throw new Error('myth fixture missing')
+      expect(getMythObservationIdForReveal(visual, 1)).toBe(visual.observationPoints[0].id)
+      expect(getMythObservationIdForReveal(visual, 2)).toBeUndefined()
+      expect(getMythObservationIdForReveal(visual, 3)).toBe(visual.observationPoints[1].id)
+    },
+  )
 })

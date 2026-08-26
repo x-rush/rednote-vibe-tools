@@ -8855,7 +8855,8 @@
               "sourceIds": [
                 "source-home-shuowen",
                 "source-home-moe-variants"
-              ]
+              ],
+              "observationId": "home-early-form-focus-a"
             },
             {
               "id": "home-comparison-stage",
@@ -8866,7 +8867,8 @@
               "sourceIds": [
                 "source-home-shuowen",
                 "source-home-moe-variants"
-              ]
+              ],
+              "observationId": "home-early-form-focus-b"
             }
           ]
         }
@@ -8927,7 +8929,8 @@
               "sourceIds": [
                 "source-shuowen-general",
                 "source-home-moe-variants"
-              ]
+              ],
+              "observationId": "home-shuowen-focus-a"
             },
             {
               "id": "home-boundary-entry",
@@ -8938,7 +8941,8 @@
               "sourceIds": [
                 "source-shuowen-general",
                 "source-home-moe-variants"
-              ]
+              ],
+              "observationId": "home-shuowen-focus-b"
             }
           ]
         }
@@ -8993,7 +8997,8 @@
             {
               "id": "home-source-node",
               "label": "形旁线索",
-              "detail": "宀提供的意义线索不能独自解释全字。"
+              "detail": "宀提供的意义线索不能独自解释全字。",
+              "observationId": "home-phonetic-focus-a"
             },
             {
               "id": "home-relation-node",
@@ -9003,7 +9008,8 @@
             {
               "id": "home-limit-node",
               "label": "声符功能",
-              "detail": "豭省声提示相关构件可能承担声音功能。"
+              "detail": "豭省声提示相关构件可能承担声音功能。",
+              "observationId": "home-phonetic-focus-b"
             }
           ],
           "edges": [
@@ -9016,7 +9022,8 @@
               "sourceIds": [
                 "source-home-moe-variants",
                 "source-home-shuowen"
-              ]
+              ],
+              "observationId": "home-phonetic-focus-a"
             },
             {
               "id": "home-blocked-edge",
@@ -9027,7 +9034,8 @@
               "sourceIds": [
                 "source-home-moe-variants",
                 "source-home-shuowen"
-              ]
+              ],
+              "observationId": "home-phonetic-focus-b"
             }
           ]
         }
@@ -9084,7 +9092,9 @@
           ],
           "disputes": [
             "由一个构件直接推断“古人人人屋里养猪”超出了现有文字证据。"
-          ]
+          ],
+          "supportObservationId": "home-social-leap-focus-a",
+          "disputeObservationId": "home-social-leap-focus-b"
         }
       },
       {
@@ -9143,7 +9153,8 @@
               "sourceIds": [
                 "source-shuowen-general",
                 "source-rest-moe-variants"
-              ]
+              ],
+              "observationId": "rest-components-focus-a"
             },
             {
               "id": "rest-comparison-stage",
@@ -9154,7 +9165,8 @@
               "sourceIds": [
                 "source-shuowen-general",
                 "source-rest-moe-variants"
-              ]
+              ],
+              "observationId": "rest-components-focus-b"
             }
           ]
         }
@@ -9215,7 +9227,8 @@
               "sourceIds": [
                 "source-shuowen-general",
                 "source-rest-moe-variants"
-              ]
+              ],
+              "observationId": "rest-gloss-focus-a"
             },
             {
               "id": "rest-boundary-entry",
@@ -9226,7 +9239,8 @@
               "sourceIds": [
                 "source-shuowen-general",
                 "source-rest-moe-variants"
-              ]
+              ],
+              "observationId": "rest-gloss-focus-b"
             }
           ]
         }
@@ -9278,7 +9292,8 @@
             {
               "id": "rest-source-node",
               "label": "直观个例",
-              "detail": "“休”适合用来演示构件关系。"
+              "detail": "“休”适合用来演示构件关系。",
+              "observationId": "rest-method-limit-focus-a"
             },
             {
               "id": "rest-relation-node",
@@ -9288,7 +9303,8 @@
             {
               "id": "rest-limit-node",
               "label": "方法边界",
-              "detail": "一个直观个例不能推出所有汉字都可看图猜义。"
+              "detail": "一个直观个例不能推出所有汉字都可看图猜义。",
+              "observationId": "rest-method-limit-focus-b"
             }
           ],
           "edges": [
@@ -9300,7 +9316,8 @@
               "strength": "supported",
               "sourceIds": [
                 "source-rest-moe-variants"
-              ]
+              ],
+              "observationId": "rest-method-limit-focus-a"
             },
             {
               "id": "rest-blocked-edge",
@@ -9310,7 +9327,8 @@
               "strength": "blocked",
               "sourceIds": [
                 "source-rest-moe-variants"
-              ]
+              ],
+              "observationId": "rest-method-limit-focus-b"
             }
           ]
         }
@@ -9367,7 +9385,9 @@
           ],
           "disputes": [
             "现代楷书形状可能掩盖历史字形变化，不能代替分期材料。"
-          ]
+          ],
+          "supportObservationId": "rest-modern-shape-focus-a",
+          "disputeObservationId": "rest-modern-shape-focus-b"
         }
       },
       {
@@ -9426,7 +9446,8 @@
               "sourceIds": [
                 "source-take-ctext",
                 "source-take-moe-variants"
-              ]
+              ],
+              "observationId": "take-form-focus-a"
             },
             {
               "id": "take-comparison-stage",
@@ -9437,7 +9458,8 @@
               "sourceIds": [
                 "source-take-ctext",
                 "source-take-moe-variants"
-              ]
+              ],
+              "observationId": "take-form-focus-b"
             }
           ]
         }
@@ -9498,7 +9520,8 @@
               "sourceIds": [
                 "source-take-ctext",
                 "source-take-moe-variants"
-              ]
+              ],
+              "observationId": "take-rite-focus-a"
             },
             {
               "id": "take-boundary-entry",
@@ -9509,7 +9532,8 @@
               "sourceIds": [
                 "source-take-ctext",
                 "source-take-moe-variants"
-              ]
+              ],
+              "observationId": "take-rite-focus-b"
             }
           ]
         }
@@ -9561,7 +9585,8 @@
             {
               "id": "take-source-node",
               "label": "早期语境",
-              "detail": "早期语境提供词义史的起点之一。"
+              "detail": "早期语境提供词义史的起点之一。",
+              "observationId": "take-semantic-change-focus-a"
             },
             {
               "id": "take-relation-node",
@@ -9571,7 +9596,8 @@
             {
               "id": "take-limit-node",
               "label": "后世扩展",
-              "detail": "取得、选取等中性用法显示词义经历扩展与抽象。"
+              "detail": "取得、选取等中性用法显示词义经历扩展与抽象。",
+              "observationId": "take-semantic-change-focus-b"
             }
           ],
           "edges": [
@@ -9583,7 +9609,8 @@
               "strength": "supported",
               "sourceIds": [
                 "source-take-moe-variants"
-              ]
+              ],
+              "observationId": "take-semantic-change-focus-a"
             },
             {
               "id": "take-blocked-edge",
@@ -9593,7 +9620,8 @@
               "strength": "blocked",
               "sourceIds": [
                 "source-take-moe-variants"
-              ]
+              ],
+              "observationId": "take-semantic-change-focus-b"
             }
           ]
         }
@@ -9650,7 +9678,9 @@
           ],
           "disputes": [
             "把构形历史直接变成现代词语的道德属性，是跨层推断。"
-          ]
+          ],
+          "supportObservationId": "take-moral-fallacy-focus-a",
+          "disputeObservationId": "take-moral-fallacy-focus-b"
         }
       },
       {
@@ -9709,7 +9739,8 @@
               "sourceIds": [
                 "source-pick-zhu",
                 "source-pick-moe-variants"
-              ]
+              ],
+              "observationId": "pick-form-focus-a"
             },
             {
               "id": "pick-comparison-stage",
@@ -9720,7 +9751,8 @@
               "sourceIds": [
                 "source-pick-zhu",
                 "source-pick-moe-variants"
-              ]
+              ],
+              "observationId": "pick-form-focus-b"
             }
           ]
         }
@@ -9781,7 +9813,8 @@
               "sourceIds": [
                 "source-pick-bian",
                 "source-pick-moe-variants"
-              ]
+              ],
+              "observationId": "pick-bian-distinction-focus-a"
             },
             {
               "id": "pick-boundary-entry",
@@ -9792,7 +9825,8 @@
               "sourceIds": [
                 "source-pick-bian",
                 "source-pick-moe-variants"
-              ]
+              ],
+              "observationId": "pick-bian-distinction-focus-b"
             }
           ]
         }
@@ -9847,7 +9881,8 @@
             {
               "id": "pick-source-node",
               "label": "采取义群",
-              "detail": "采取相关义项保留了取物关系。"
+              "detail": "采取相关义项保留了取物关系。",
+              "observationId": "pick-extensions-focus-a"
             },
             {
               "id": "pick-relation-node",
@@ -9857,7 +9892,8 @@
             {
               "id": "pick-limit-node",
               "label": "文采色彩",
-              "detail": "文采、色彩等关系需要分期，不能压成一次造字。"
+              "detail": "文采、色彩等关系需要分期，不能压成一次造字。",
+              "observationId": "pick-extensions-focus-b"
             }
           ],
           "edges": [
@@ -9870,7 +9906,8 @@
               "sourceIds": [
                 "source-pick-moe-variants",
                 "source-pick-zhu"
-              ]
+              ],
+              "observationId": "pick-extensions-focus-a"
             },
             {
               "id": "pick-blocked-edge",
@@ -9881,7 +9918,8 @@
               "sourceIds": [
                 "source-pick-moe-variants",
                 "source-pick-zhu"
-              ]
+              ],
+              "observationId": "pick-extensions-focus-b"
             }
           ]
         }
@@ -9938,7 +9976,9 @@
           ],
           "disputes": [
             "“摘彩叶所以有色彩”缺乏可直接支持的早期证据。"
-          ]
+          ],
+          "supportObservationId": "pick-leaf-story-focus-a",
+          "disputeObservationId": "pick-leaf-story-focus-b"
         }
       },
       {
@@ -9997,7 +10037,8 @@
               "sourceIds": [
                 "source-watch-shuowen",
                 "source-watch-moe-variants"
-              ]
+              ],
+              "observationId": "watch-form-focus-a"
             },
             {
               "id": "watch-comparison-stage",
@@ -10008,7 +10049,8 @@
               "sourceIds": [
                 "source-watch-shuowen",
                 "source-watch-moe-variants"
-              ]
+              ],
+              "observationId": "watch-form-focus-b"
             }
           ]
         }
@@ -10069,7 +10111,8 @@
               "sourceIds": [
                 "source-watch-shuowen",
                 "source-watch-moe-variants"
-              ]
+              ],
+              "observationId": "watch-gloss-focus-a"
             },
             {
               "id": "watch-boundary-entry",
@@ -10080,7 +10123,8 @@
               "sourceIds": [
                 "source-watch-shuowen",
                 "source-watch-moe-variants"
-              ]
+              ],
+              "observationId": "watch-gloss-focus-b"
             }
           ]
         }
@@ -10132,7 +10176,8 @@
             {
               "id": "watch-source-node",
               "label": "监的义层",
-              "detail": "监与观察、临视等义层相关。"
+              "detail": "监与观察、临视等义层相关。",
+              "observationId": "watch-mirror-relation-focus-a"
             },
             {
               "id": "watch-relation-node",
@@ -10142,7 +10187,8 @@
             {
               "id": "watch-limit-node",
               "label": "鉴的字族",
-              "detail": "鉴的器物义与字族发展不能被粗暴合并到同一时点。"
+              "detail": "鉴的器物义与字族发展不能被粗暴合并到同一时点。",
+              "observationId": "watch-mirror-relation-focus-b"
             }
           ],
           "edges": [
@@ -10154,7 +10200,8 @@
               "strength": "supported",
               "sourceIds": [
                 "source-watch-moe-variants"
-              ]
+              ],
+              "observationId": "watch-mirror-relation-focus-a"
             },
             {
               "id": "watch-blocked-edge",
@@ -10164,7 +10211,8 @@
               "strength": "blocked",
               "sourceIds": [
                 "source-watch-moe-variants"
-              ]
+              ],
+              "observationId": "watch-mirror-relation-focus-b"
             }
           ]
         }
@@ -10221,7 +10269,9 @@
           ],
           "disputes": [
             "把全部意义缩成“只是照镜子”遗漏了观察、临视等关系。"
-          ]
+          ],
+          "supportObservationId": "watch-modern-story-focus-a",
+          "disputeObservationId": "watch-modern-story-focus-b"
         }
       },
       {
@@ -10284,7 +10334,8 @@
                 "source-martial-shuowen",
                 "source-martial-moe-variants",
                 "source-martial-csb-word-power"
-              ]
+              ],
+              "observationId": "martial-form-focus-a"
             },
             {
               "id": "martial-comparison-stage",
@@ -10296,7 +10347,8 @@
                 "source-martial-shuowen",
                 "source-martial-moe-variants",
                 "source-martial-csb-word-power"
-              ]
+              ],
+              "observationId": "martial-form-focus-b"
             }
           ]
         }
@@ -10357,7 +10409,8 @@
               "sourceIds": [
                 "source-martial-shuowen",
                 "source-martial-moe-variants"
-              ]
+              ],
+              "observationId": "martial-shuowen-focus-a"
             },
             {
               "id": "martial-boundary-entry",
@@ -10368,7 +10421,8 @@
               "sourceIds": [
                 "source-martial-shuowen",
                 "source-martial-moe-variants"
-              ]
+              ],
+              "observationId": "martial-shuowen-focus-b"
             }
           ]
         }
@@ -10423,7 +10477,8 @@
             {
               "id": "martial-source-node",
               "label": "足形来源",
-              "detail": "早期止形与足部意象相关。"
+              "detail": "早期止形与足部意象相关。",
+              "observationId": "martial-foot-focus-a"
             },
             {
               "id": "martial-relation-node",
@@ -10433,7 +10488,8 @@
             {
               "id": "martial-limit-node",
               "label": "行进义线",
-              "detail": "从足与行进到现代停止义，需要承认语义发展的阶段。"
+              "detail": "从足与行进到现代停止义，需要承认语义发展的阶段。",
+              "observationId": "martial-foot-focus-b"
             }
           ],
           "edges": [
@@ -10446,7 +10502,8 @@
               "sourceIds": [
                 "source-martial-moe-variants",
                 "source-martial-csb-word-power"
-              ]
+              ],
+              "observationId": "martial-foot-focus-a"
             },
             {
               "id": "martial-blocked-edge",
@@ -10457,7 +10514,8 @@
               "sourceIds": [
                 "source-martial-moe-variants",
                 "source-martial-csb-word-power"
-              ]
+              ],
+              "observationId": "martial-foot-focus-b"
             }
           ]
         }
@@ -10514,7 +10572,9 @@
           ],
           "disputes": [
             "思想价值阐释与排他的最初构形证明不是同一层问题。"
-          ]
+          ],
+          "supportObservationId": "martial-value-origin-focus-a",
+          "disputeObservationId": "martial-value-origin-focus-b"
         }
       },
       {
@@ -10573,7 +10633,8 @@
               "sourceIds": [
                 "source-law-ctext",
                 "source-law-moe-variants"
-              ]
+              ],
+              "observationId": "law-old-form-focus-a"
             },
             {
               "id": "law-comparison-stage",
@@ -10584,7 +10645,8 @@
               "sourceIds": [
                 "source-law-ctext",
                 "source-law-moe-variants"
-              ]
+              ],
+              "observationId": "law-old-form-focus-b"
             }
           ]
         }
@@ -10645,7 +10707,8 @@
               "sourceIds": [
                 "source-law-ctext",
                 "source-law-moe-variants"
-              ]
+              ],
+              "observationId": "law-shuowen-focus-a"
             },
             {
               "id": "law-boundary-entry",
@@ -10656,7 +10719,8 @@
               "sourceIds": [
                 "source-law-ctext",
                 "source-law-moe-variants"
-              ]
+              ],
+              "observationId": "law-shuowen-focus-b"
             }
           ]
         }
@@ -10708,7 +10772,8 @@
             {
               "id": "law-source-node",
               "label": "旧形在前",
-              "detail": "灋与法的材料关系需要按时序观察。"
+              "detail": "灋与法的材料关系需要按时序观察。",
+              "observationId": "law-simplification-focus-a"
             },
             {
               "id": "law-relation-node",
@@ -10718,7 +10783,8 @@
             {
               "id": "law-limit-node",
               "label": "省形并行",
-              "detail": "通行省形看不见廌，不能据此颠倒材料先后。"
+              "detail": "通行省形看不见廌，不能据此颠倒材料先后。",
+              "observationId": "law-simplification-focus-b"
             }
           ],
           "edges": [
@@ -10730,7 +10796,8 @@
               "strength": "supported",
               "sourceIds": [
                 "source-law-moe-variants"
-              ]
+              ],
+              "observationId": "law-simplification-focus-a"
             },
             {
               "id": "law-blocked-edge",
@@ -10740,7 +10807,8 @@
               "strength": "blocked",
               "sourceIds": [
                 "source-law-moe-variants"
-              ]
+              ],
+              "observationId": "law-simplification-focus-b"
             }
           ]
         }
@@ -10797,7 +10865,9 @@
           ],
           "disputes": [
             "“水去讲完全部字源、廌为后添”只截取传统解释的一部分，并与旧形材料相冲突。"
-          ]
+          ],
+          "supportObservationId": "law-water-fairness-focus-a",
+          "disputeObservationId": "law-water-fairness-focus-b"
         }
       },
       {
@@ -10860,7 +10930,8 @@
                 "source-autumn-xiaoxue",
                 "source-autumn-moe-variants",
                 "source-autumn-ntu"
-              ]
+              ],
+              "observationId": "autumn-variants-focus-a"
             },
             {
               "id": "autumn-comparison-stage",
@@ -10872,7 +10943,8 @@
                 "source-autumn-xiaoxue",
                 "source-autumn-moe-variants",
                 "source-autumn-ntu"
-              ]
+              ],
+              "observationId": "autumn-variants-focus-b"
             }
           ]
         }
@@ -10937,7 +11009,8 @@
                 "source-autumn-xiaoxue",
                 "source-autumn-moe-variants",
                 "source-autumn-ntu"
-              ]
+              ],
+              "observationId": "autumn-insect-fire-focus-a"
             },
             {
               "id": "autumn-boundary-entry",
@@ -10949,7 +11022,8 @@
                 "source-autumn-xiaoxue",
                 "source-autumn-moe-variants",
                 "source-autumn-ntu"
-              ]
+              ],
+              "observationId": "autumn-insect-fire-focus-b"
             }
           ]
         }
@@ -11004,7 +11078,8 @@
             {
               "id": "autumn-source-node",
               "label": "现代禾火",
-              "detail": "现代结构可帮助识别当前字形。"
+              "detail": "现代结构可帮助识别当前字形。",
+              "observationId": "autumn-modern-form-focus-a"
             },
             {
               "id": "autumn-relation-node",
@@ -11014,7 +11089,8 @@
             {
               "id": "autumn-limit-node",
               "label": "原初故事",
-              "detail": "它不能单独证明焚田或以火除虫是唯一原初故事。"
+              "detail": "它不能单独证明焚田或以火除虫是唯一原初故事。",
+              "observationId": "autumn-modern-form-focus-b"
             }
           ],
           "edges": [
@@ -11027,7 +11103,8 @@
               "sourceIds": [
                 "source-autumn-moe-variants",
                 "source-autumn-ntu"
-              ]
+              ],
+              "observationId": "autumn-modern-form-focus-a"
             },
             {
               "id": "autumn-blocked-edge",
@@ -11038,7 +11115,8 @@
               "sourceIds": [
                 "source-autumn-moe-variants",
                 "source-autumn-ntu"
-              ]
+              ],
+              "observationId": "autumn-modern-form-focus-b"
             }
           ]
         }
@@ -11098,7 +11176,9 @@
           ],
           "disputes": [
             "两项假说均有支持点与解释缺口；保留竞争解释比挑选单图排他定案更符合当前证据。"
-          ]
+          ],
+          "supportObservationId": "autumn-debate-focus-a",
+          "disputeObservationId": "autumn-debate-focus-b"
         }
       }
     ],

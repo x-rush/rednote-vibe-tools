@@ -226,11 +226,14 @@ while (!(await evaluate(`document.querySelector('.evidence-acquired') !== null`)
   await sleep(280)
 }
 if (acquisitionSteps >= 40) throw new Error('Acquisition flow exceeded 40 steps')
+const acquisitionMinTarget = await evaluate(`Math.min(...[...document.querySelectorAll('.evidence-acquired button')].map((button) => Math.min(button.getBoundingClientRect().width, button.getBoundingClientRect().height)))`)
+if (acquisitionMinTarget < 44) throw new Error(`Acquisition target is too small: ${acquisitionMinTarget}`)
 await evaluate(`document.querySelector('.evidence-acquired [data-evidence-trigger]').click()`)
 await waitFor(`document.querySelector('.evidence-artifact') !== null`)
 const acquisitionEvidenceId = await evaluate(`document.querySelector('.evidence-artifact').dataset.evidenceId`)
 await command('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 })
 await waitFor(`document.querySelector('.evidence-acquired') !== null`)
+await waitFor(`document.activeElement?.dataset?.evidenceTrigger === ${JSON.stringify(acquisitionEvidenceId)}`)
 const acquisitionFocusRestored = await evaluate(`document.activeElement?.dataset?.evidenceTrigger === ${JSON.stringify(acquisitionEvidenceId)}`)
 if (!acquisitionFocusRestored) throw new Error('Acquisition inspector did not return focus to its trigger')
 
@@ -256,6 +259,7 @@ await evaluate(`document.querySelector('.focus-evidence button:not(:disabled)').
 await waitFor(`document.querySelector('.evidence-artifact') !== null`)
 await command('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 })
 await waitFor(`document.querySelector('.screen-deduction') !== null`)
+await waitFor(`Boolean(document.activeElement.closest?.('.focus-evidence'))`)
 const deductionReturn = await evaluate(`(() => ({
   prompt: document.querySelector('.dialogue-text').textContent,
   optionCount: document.querySelectorAll('.option-list button').length,
@@ -281,6 +285,7 @@ console.log(JSON.stringify({
   allEvidenceCount: allEvidenceReports.length,
   acquisitionSteps,
   acquisitionEvidenceId,
+  acquisitionMinTarget,
   acquisitionFocusRestored,
   deductionSteps,
   deductionReturn,

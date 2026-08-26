@@ -75,6 +75,7 @@
 - `template`：四种模板之一；
 - `thumbnailLabel`：证据簿缩略图的短标签；
 - `observationPoints`：可操作观察点，含稳定 ID、标题、说明、锚点与 `sourceIds`；
+- 每个可触发核验的阶段、条目、语义节点／关系或辨伪揭示层必须以 `observationId` 显式关联观察点；禁止按数组位置猜测关联。只有关联材料真正展开时才记录观察完成；
 - `completionPrompt`：完成主要观察后的归档提示；
 - `palette`：从有限的产品色板枚举中选择，不允许任意颜色值；
 - `fallbackSummary`：资源不可用时仍可完成推理的文字摘要。

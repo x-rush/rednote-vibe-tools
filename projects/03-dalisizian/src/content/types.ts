@@ -124,6 +124,7 @@ export type EvidenceVisualTemplate = 'glyph-timeline' | 'lexicon-scroll' | 'sema
 
 export type EvidenceUiCopy = {
   reconstructionDisclosure: string
+  unavailableLabel: string
   resourceNatureLabels: Record<EvidenceVisualTemplate, string>
 }
 

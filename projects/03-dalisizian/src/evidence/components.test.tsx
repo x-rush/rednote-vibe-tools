@@ -37,6 +37,8 @@ describe('interactive evidence components', () => {
 
     expect(html).toContain('已核')
     expect(html).toContain('2 / 2')
+    expect(html).toContain('asset-evidence-home-early-form-v3.webp')
+    expect(html).toContain('data-fallback-src="./assets/evidence/home/asset-evidence-home-early-form-v1.svg"')
   })
 
   it('uses the evidence-specific fallback when a plate is unavailable', () => {

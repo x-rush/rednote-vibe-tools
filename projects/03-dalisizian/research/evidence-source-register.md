@@ -10,8 +10,21 @@
 ## AI 古籍证物复原资源记录
 
 - 正式图版：32 件 `*-v3.webp` 均由图像生成工具逐张制作，再离线压缩为 1080×720 WebP；总计 3,255,604 bytes，32 个内容哈希互不重复。
-- 字形约束：可见古文字使用本案生成档案中记录的权威、公版参考轮廓；模型若添加第三字形、伪文字、乱码或改变关键笔画即淘汰重做。旧 `*-v1.svg` 仅作断图回退。
+- 字形约束：可见古文字使用本案生成档案中记录的权威、公版参考轮廓；八案共 24 条轮廓来源均已进入玩家可见 `content.json` 并关联对应证物。模型若添加第三字形、伪文字、乱码或改变关键笔画即淘汰重做。旧 `*-v1.svg` 仅作断图回退。
 - 玩家界面：使用“字形演变卷／字书抄录卷／义项勘校卷／传言核验卷”等案卷标签；证物详情明确说明“AI 参考复原，并非馆藏原件”，并逐项展示事实来源。
+
+## 玩家可见古文字轮廓来源
+
+| 案 | 关联证物 | 公版轮廓来源 |
+|---|---|---|
+| 家 | `evidence-home-early-form` | [甲骨 J17442](https://commons.wikimedia.org/wiki/File:%E5%AE%B6-oracle.svg) · [金文 B11216](https://commons.wikimedia.org/wiki/File:%E5%AE%B6-bronze.svg) · [小篆 S05205](https://commons.wikimedia.org/wiki/File:%E5%AE%B6-seal.svg) |
+| 休 | `evidence-rest-components` | [甲骨（来源页未列著录号）](https://commons.wikimedia.org/wiki/File:%E4%BC%91-oracle.svg) · [金文 B08758](https://commons.wikimedia.org/wiki/File:%E4%BC%91-bronze.svg) · [小篆（来源页未列著录号）](https://commons.wikimedia.org/wiki/File:%E4%BC%91-seal.svg) |
+| 取 | `evidence-take-form` | [甲骨](https://commons.wikimedia.org/wiki/File:%E5%8F%96-oracle.svg) · [金文](https://commons.wikimedia.org/wiki/File:%E5%8F%96-bronze.svg) · [小篆](https://commons.wikimedia.org/wiki/File:%E5%8F%96-seal.svg)（三页均未列具体著录号） |
+| 采／釆 | `evidence-pick-form`、`evidence-pick-bian-distinction` | [采甲骨 J14195](https://commons.wikimedia.org/wiki/File:%E9%87%87-oracle.svg) · [采金文 B08735](https://commons.wikimedia.org/wiki/File:%E9%87%87-bronze.svg) · [采小篆 S04357](https://commons.wikimedia.org/wiki/File:%E9%87%87-seal.svg) · [釆小篆 S00801](https://commons.wikimedia.org/wiki/File:%E9%87%86-seal.svg) |
+| 监 | `evidence-watch-form` | [監甲骨 J19737](https://commons.wikimedia.org/wiki/File:%E7%9B%A3-oracle.svg) · [監金文 B12690](https://commons.wikimedia.org/wiki/File:%E7%9B%A3-bronze.svg) · [監小篆 S05970](https://commons.wikimedia.org/wiki/File:%E7%9B%A3-seal.svg) |
+| 武 | `evidence-martial-form` | [甲骨 43.EF5F](https://commons.wikimedia.org/wiki/File:%E6%AD%A6-oracle.svg) · [金文 B17520／集成 02759](https://commons.wikimedia.org/wiki/File:%E6%AD%A6-bronze.svg) · [小篆 S09412](https://commons.wikimedia.org/wiki/File:%E6%AD%A6-seal.svg) |
+| 法／灋 | `evidence-law-old-form`、`evidence-law-simplification` | [灋小篆](https://commons.wikimedia.org/wiki/File:%E7%81%8B-seal.svg) · [法金文](https://commons.wikimedia.org/wiki/File:%E6%B3%95-bronze.svg) · [法小篆](https://commons.wikimedia.org/wiki/File:%E6%B3%95-seal.svg)（来源页均未列具体著录号；不补造“法甲骨”） |
+| 秋 | `evidence-autumn-variants`、`evidence-autumn-modern-form` | [甲骨 林 2.15.9／43.F211](https://commons.wikimedia.org/wiki/File:%E7%A7%8B-oracle.svg) · [小篆 S05082／27.79CB](https://commons.wikimedia.org/wiki/File:%E7%A7%8B-seal.svg)（不补造缺失金文） |
 
 | 证物 ID | 事实主张／定位 | 视觉模板 | 资源性质 | 来源 ID | 直接 URL（访问 2026-08-26） | 复核者／日期 | 审核状态 |
 |---|---|---|---|---|---|---|---|

@@ -9,6 +9,7 @@ describe('EvidencePlateImage', () => {
         primarySrc="./main.webp"
         fallbackSrc="./fallback.svg"
         fallbackAlt="证物图版回退"
+        unavailableLabel="图版待核"
       />,
     )
 
@@ -17,9 +18,10 @@ describe('EvidencePlateImage', () => {
   })
 
   it('renders a semantic fallback when neither image path exists', () => {
-    const html = renderToStaticMarkup(<EvidencePlateImage fallbackAlt="证物图版暂缺" />)
+    const html = renderToStaticMarkup(<EvidencePlateImage fallbackAlt="证物图版暂缺" unavailableLabel="图版待核" />)
 
     expect(html).toContain('evidence-artifact-fallback')
+    expect(html).toContain('图版待核')
     expect(html).toContain('证物图版暂缺')
   })
 })

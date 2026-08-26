@@ -10,6 +10,7 @@
     "disclaimer": "大理寺字案录是虚构的文字案件机构；人物、卷宗和审讯对话属于游戏叙事。字形与字义资料须依可靠来源复核。",
     "evidenceUi": {
       "reconstructionDisclosure": "画面依据所列资料进行 AI 参考复原，并非馆藏原件；古文字形与事实依据均在下列来源单独标明。",
+      "unavailableLabel": "图版暂缺",
       "resourceNatureLabels": {
         "glyph-timeline": "字形演变卷",
         "lexicon-scroll": "字书抄录卷",
@@ -38,21 +39,21 @@
       "title": "Wikimedia Commons“家”商代甲骨字形",
       "type": "B",
       "url": "https://commons.wikimedia.org/wiki/File:%E5%AE%B6-oracle.svg",
-      "note": "公版古文字 SVG 图版，页面标注为商代甲骨字形并定位 J17442；本作将其作为摹本字形嵌入复原证物。"
+      "note": "公版古文字 SVG 图版，页面标注为商代甲骨字形并定位 J17442；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
     },
     {
       "id": "source-home-glyph-bronze-commons",
       "title": "Wikimedia Commons“家”西周金文字形",
       "type": "B",
       "url": "https://commons.wikimedia.org/wiki/File:%E5%AE%B6-bronze.svg",
-      "note": "公版古文字 SVG 图版，页面标注为西周金文字形并定位 B11216；本作将其作为摹本字形嵌入复原证物。"
+      "note": "公版古文字 SVG 图版，页面标注为西周金文字形并定位 B11216；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
     },
     {
       "id": "source-home-glyph-seal-commons",
       "title": "Wikimedia Commons“家”《说文》小篆字形",
       "type": "B",
       "url": "https://commons.wikimedia.org/wiki/File:%E5%AE%B6-seal.svg",
-      "note": "公版古文字 SVG 图版，页面标注为《说文》小篆字形并定位 S05205；本作将其作为摹本字形嵌入复原证物。"
+      "note": "公版古文字 SVG 图版，页面标注为《说文》小篆字形并定位 S05205；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
     },
     {
       "id": "source-take-ctext",
@@ -102,6 +103,153 @@
       "type": "A",
       "url": "https://xiaoxue.iis.sinica.edu.tw/jiaguwen",
       "note": "用于逐形核验秋字早期材料。"
+    },
+    {
+      "id": "source-rest-glyph-oracle-commons",
+      "title": "Wikimedia Commons“休”甲骨字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E4%BC%91-oracle.svg",
+      "note": "来源页标注 Public Domain，未列具体著录号；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-rest-glyph-bronze-commons",
+      "title": "Wikimedia Commons“休”金文字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E4%BC%91-bronze.svg",
+      "note": "来源页标注 Public Domain，定位 B08758；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-rest-glyph-seal-commons",
+      "title": "Wikimedia Commons“休”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E4%BC%91-seal.svg",
+      "note": "来源页标注 Public Domain，未列具体著录号；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-take-glyph-oracle-commons",
+      "title": "Wikimedia Commons“取”甲骨字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E5%8F%96-oracle.svg",
+      "note": "来源页标注 Public Domain，未列具体著录号；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-take-glyph-bronze-commons",
+      "title": "Wikimedia Commons“取”金文字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E5%8F%96-bronze.svg",
+      "note": "来源页标注 Public Domain，未列具体著录号；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-take-glyph-seal-commons",
+      "title": "Wikimedia Commons“取”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E5%8F%96-seal.svg",
+      "note": "来源页标注 Public Domain，未列具体著录号；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-pick-glyph-oracle-commons",
+      "title": "Wikimedia Commons“采”甲骨字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E9%87%87-oracle.svg",
+      "note": "来源页标注 Public Domain，定位 J14195；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-pick-glyph-bronze-commons",
+      "title": "Wikimedia Commons“采”金文字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E9%87%87-bronze.svg",
+      "note": "来源页标注 Public Domain，定位 B08735；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-pick-glyph-seal-commons",
+      "title": "Wikimedia Commons“采”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E9%87%87-seal.svg",
+      "note": "来源页标注 Public Domain，定位 S04357；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-pick-glyph-bian-seal-commons",
+      "title": "Wikimedia Commons“釆”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E9%87%86-seal.svg",
+      "note": "来源页标注 Public Domain，定位 S00801；用于与“采”分字头核验，仅作 AI 参考复原依据。"
+    },
+    {
+      "id": "source-watch-glyph-oracle-commons",
+      "title": "Wikimedia Commons“監”甲骨字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E7%9B%A3-oracle.svg",
+      "note": "来源页标注 Public Domain，定位 J19737；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-watch-glyph-bronze-commons",
+      "title": "Wikimedia Commons“監”金文字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E7%9B%A3-bronze.svg",
+      "note": "来源页标注 Public Domain，定位 B12690；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-watch-glyph-seal-commons",
+      "title": "Wikimedia Commons“監”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E7%9B%A3-seal.svg",
+      "note": "来源页标注 Public Domain，定位 S05970；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-martial-glyph-oracle-commons",
+      "title": "Wikimedia Commons“武”商代甲骨字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E6%AD%A6-oracle.svg",
+      "note": "来源页标注 Public Domain，定位小学堂 43.EF5F，未列 J 编号；仅作 AI 参考复原依据。"
+    },
+    {
+      "id": "source-martial-glyph-bronze-commons",
+      "title": "Wikimedia Commons“武”西周金文字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E6%AD%A6-bronze.svg",
+      "note": "来源页标注 Public Domain，定位 B17520、作册大方鼎／集成 02759；仅作 AI 参考复原依据。"
+    },
+    {
+      "id": "source-martial-glyph-seal-commons",
+      "title": "Wikimedia Commons“武”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E6%AD%A6-seal.svg",
+      "note": "来源页标注 Public Domain，定位 S09412；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-law-glyph-archaic-seal-commons",
+      "title": "Wikimedia Commons“灋”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E7%81%8B-seal.svg",
+      "note": "来源页标注 Public Domain，未列具体著录号；用于核验水、廌、去三构件，仅作 AI 参考复原依据。"
+    },
+    {
+      "id": "source-law-glyph-bronze-commons",
+      "title": "Wikimedia Commons“法”金文字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E6%B3%95-bronze.svg",
+      "note": "来源页标注 Public Domain，未列具体著录号；仅作 AI 参考复原依据，不补造不存在的“法甲骨”形。"
+    },
+    {
+      "id": "source-law-glyph-seal-commons",
+      "title": "Wikimedia Commons“法”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E6%B3%95-seal.svg",
+      "note": "来源页标注 Public Domain，未列具体著录号；仅作 AI 参考复原的字形轮廓依据，并非馆藏原件。"
+    },
+    {
+      "id": "source-autumn-glyph-oracle-commons",
+      "title": "Wikimedia Commons“秋”商代甲骨字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E7%A7%8B-oracle.svg",
+      "note": "来源页标注 Public Domain，定位林 2.15.9／小学堂 43.F211；仅作 AI 参考复原依据。"
+    },
+    {
+      "id": "source-autumn-glyph-seal-commons",
+      "title": "Wikimedia Commons“秋”《说文》小篆字形",
+      "type": "B",
+      "url": "https://commons.wikimedia.org/wiki/File:%E7%A7%8B-seal.svg",
+      "note": "来源页标注 Public Domain，定位 S05082／小学堂 27.79CB；仅作 AI 参考复原依据，不补造缺失金文。"
     },
     {
       "id": "source-fiction",
@@ -9154,7 +9302,10 @@
         "assetId": "asset-evidence-rest-components",
         "sourceIds": [
           "source-shuowen-general",
-          "source-rest-moe-variants"
+          "source-rest-moe-variants",
+          "source-rest-glyph-oracle-commons",
+          "source-rest-glyph-bronze-commons",
+          "source-rest-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -9447,7 +9598,10 @@
         "assetId": "asset-evidence-take-form",
         "sourceIds": [
           "source-take-ctext",
-          "source-take-moe-variants"
+          "source-take-moe-variants",
+          "source-take-glyph-oracle-commons",
+          "source-take-glyph-bronze-commons",
+          "source-take-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -9740,7 +9894,10 @@
         "assetId": "asset-evidence-pick-form",
         "sourceIds": [
           "source-pick-zhu",
-          "source-pick-moe-variants"
+          "source-pick-moe-variants",
+          "source-pick-glyph-oracle-commons",
+          "source-pick-glyph-bronze-commons",
+          "source-pick-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -9814,7 +9971,11 @@
         "assetId": "asset-evidence-pick-bian-distinction",
         "sourceIds": [
           "source-pick-bian",
-          "source-pick-moe-variants"
+          "source-pick-moe-variants",
+          "source-pick-glyph-oracle-commons",
+          "source-pick-glyph-bronze-commons",
+          "source-pick-glyph-seal-commons",
+          "source-pick-glyph-bian-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -10038,7 +10199,10 @@
         "assetId": "asset-evidence-watch-form",
         "sourceIds": [
           "source-watch-shuowen",
-          "source-watch-moe-variants"
+          "source-watch-moe-variants",
+          "source-watch-glyph-oracle-commons",
+          "source-watch-glyph-bronze-commons",
+          "source-watch-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -10332,7 +10496,10 @@
         "sourceIds": [
           "source-martial-shuowen",
           "source-martial-moe-variants",
-          "source-martial-csb-word-power"
+          "source-martial-csb-word-power",
+          "source-martial-glyph-oracle-commons",
+          "source-martial-glyph-bronze-commons",
+          "source-martial-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -10634,7 +10801,10 @@
         "assetId": "asset-evidence-law-old-form",
         "sourceIds": [
           "source-law-ctext",
-          "source-law-moe-variants"
+          "source-law-moe-variants",
+          "source-law-glyph-archaic-seal-commons",
+          "source-law-glyph-bronze-commons",
+          "source-law-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -10781,7 +10951,9 @@
         "body": "“法”作为省形古已有之；从省形看不见廌，不能据此颠倒灋与法的材料顺序。",
         "assetId": "asset-evidence-law-simplification",
         "sourceIds": [
-          "source-law-moe-variants"
+          "source-law-moe-variants",
+          "source-law-glyph-archaic-seal-commons",
+          "source-law-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -10928,7 +11100,9 @@
         "sourceIds": [
           "source-autumn-xiaoxue",
           "source-autumn-moe-variants",
-          "source-autumn-ntu"
+          "source-autumn-ntu",
+          "source-autumn-glyph-oracle-commons",
+          "source-autumn-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {
@@ -11085,7 +11259,9 @@
         "assetId": "asset-evidence-autumn-modern-form",
         "sourceIds": [
           "source-autumn-moe-variants",
-          "source-autumn-ntu"
+          "source-autumn-ntu",
+          "source-autumn-glyph-oracle-commons",
+          "source-autumn-glyph-seal-commons"
         ],
         "contentVersion": "2.0.0",
         "visualSpec": {

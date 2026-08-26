@@ -243,6 +243,8 @@ const fallbackReports = []
 const homeCaseEvidence = evidence.filter((item) => item.caseId === homeCase.caseId)
 await seedCase(homeCase, homeCaseEvidence.map((item) => item.id))
 await openSeededLedger()
+await waitFor(`[...document.querySelectorAll('.evidence-ledger-card .evidence-thumbnail img')].length === 4 && [...document.querySelectorAll('.evidence-ledger-card .evidence-thumbnail img')].every((image) => image.complete && image.currentSrc.includes('-v1.svg'))`)
+const ledgerThumbnailFallbacks = await evaluate(`[...document.querySelectorAll('.evidence-ledger-card .evidence-thumbnail img')].filter((image) => image.currentSrc.includes('-v1.svg')).length`)
 for (const item of homeCaseEvidence) {
   fallbackReports.push(await inspectFallbackEvidence(item.id))
   await evaluate(`document.querySelector('.evidence-screen .page-header button').click()`)
@@ -251,8 +253,6 @@ for (const item of homeCaseEvidence) {
 if (fallbackReports.length !== 4 || new Set(fallbackReports.map((item) => item.template)).size !== 4) {
   throw new Error(`Expected four evidence-template fallbacks: ${JSON.stringify(fallbackReports)}`)
 }
-await command('Network.setBlockedURLs', { urls: [] })
-await command('Network.setCacheDisabled', { cacheDisabled: false })
 
 await seedCase(homeCase, [])
 await command('Page.navigate', { url: baseUrl })
@@ -274,6 +274,8 @@ while (!(await evaluate(`document.querySelector('.evidence-acquired') !== null`)
   await sleep(280)
 }
 if (acquisitionSteps >= 40) throw new Error('Acquisition flow exceeded 40 steps')
+await waitFor(`document.querySelector('.evidence-acquired .evidence-thumbnail img')?.currentSrc.includes('-v1.svg')`)
+const acquisitionThumbnailFallback = await evaluate(`document.querySelector('.evidence-acquired .evidence-thumbnail img').currentSrc`)
 const acquisitionMinTarget = await evaluate(`Math.min(...[...document.querySelectorAll('.evidence-acquired button')].map((button) => Math.min(button.getBoundingClientRect().width, button.getBoundingClientRect().height)))`)
 if (acquisitionMinTarget < 44) throw new Error(`Acquisition target is too small: ${acquisitionMinTarget}`)
 await evaluate(`document.querySelector('.evidence-acquired [data-evidence-trigger]').click()`)
@@ -302,6 +304,8 @@ while (!(await evaluate(`document.querySelector('.focus-evidence') !== null && d
   await sleep(280)
 }
 if (deductionSteps >= 80) throw new Error('Deduction flow exceeded 80 steps')
+await waitFor(`[...document.querySelectorAll('.focus-evidence .evidence-thumbnail img')].some((image) => image.currentSrc.includes('-v1.svg'))`)
+const deductionThumbnailFallbacks = await evaluate(`[...document.querySelectorAll('.focus-evidence .evidence-thumbnail img')].filter((image) => image.currentSrc.includes('-v1.svg')).length`)
 const deductionPrompt = await evaluate(`document.querySelector('.dialogue-text').textContent`)
 await evaluate(`document.querySelector('.focus-evidence button:not(:disabled)').click()`)
 await waitFor(`document.querySelector('.evidence-artifact') !== null`)
@@ -327,12 +331,19 @@ const reducedMotion = await evaluate(`(() => ({
 }))()`)
 if (reducedMotion.templateAnimation !== 'none' || reducedMotion.plateLightAnimation !== 'none' || reducedMotion.hotspotTransition !== '0.001s') throw new Error(`Reduced-motion regression: ${JSON.stringify(reducedMotion)}`)
 await command('Emulation.setEmulatedMedia', { media: 'screen', features: [] })
+await command('Network.setBlockedURLs', { urls: [] })
+await command('Network.setCacheDisabled', { cacheDisabled: false })
 
 if (browserErrors.length) throw new Error(`Browser console errors: ${browserErrors.join(' | ')}`)
 console.log(JSON.stringify({
   viewportReports,
   allEvidenceCount: allEvidenceReports.length,
   fallbackReports,
+  thumbnailFallbackEntrances: {
+    ledger: ledgerThumbnailFallbacks,
+    acquisition: acquisitionThumbnailFallback,
+    deduction: deductionThumbnailFallbacks,
+  },
   acquisitionSteps,
   acquisitionEvidenceId,
   acquisitionMinTarget,

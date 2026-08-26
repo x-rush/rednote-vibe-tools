@@ -4,15 +4,16 @@ export type EvidencePlateImageProps = {
   primarySrc?: string
   fallbackSrc?: string
   fallbackAlt: string
+  unavailableLabel?: string
 }
 
-export function EvidencePlateImage({ primarySrc, fallbackSrc, fallbackAlt }: EvidencePlateImageProps) {
+export function EvidencePlateImage({ primarySrc, fallbackSrc, fallbackAlt, unavailableLabel }: EvidencePlateImageProps) {
   const initialSrc = primarySrc ?? fallbackSrc
   const [src, setSrc] = useState(initialSrc)
   const [unavailable, setUnavailable] = useState(!initialSrc)
 
   if (unavailable || !src) {
-    return <div className="evidence-artifact-fallback"><b>图版暂缺</b><p>{fallbackAlt}</p></div>
+    return unavailableLabel ? <div className="evidence-artifact-fallback"><b>{unavailableLabel}</b><p>{fallbackAlt}</p></div> : null
   }
 
   return <img

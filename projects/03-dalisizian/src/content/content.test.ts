@@ -10,7 +10,8 @@ describe('content envelope', () => {
     expect(content.schemaVersion).toBe(1)
     expect(content.meta.locale).toBe('zh-CN')
     expect(content.meta.evidenceUi).toEqual({
-      reconstructionDisclosure: '画面采用古籍证物复原装帧，并非馆藏原件；其中引用的公版古文字字形与事实依据均在下列来源单独标明。',
+      reconstructionDisclosure: '画面依据所列资料进行 AI 参考复原，并非馆藏原件；古文字形与事实依据均在下列来源单独标明。',
+      unavailableLabel: '图版暂缺',
       resourceNatureLabels: {
         'glyph-timeline': '字形演变卷',
         'lexicon-scroll': '字书抄录卷',
@@ -24,6 +25,27 @@ describe('content envelope', () => {
     expect(content.content.nodes.length).toBeGreaterThanOrEqual(144)
     expect(content.content.evidence.length).toBeGreaterThanOrEqual(32)
     expect(content.content.endings).toHaveLength(8)
+  })
+
+  it('publishes every referenced ancient-glyph source in the player-visible evidence record', () => {
+    const expectedGlyphSourceCounts = {
+      home: 3,
+      rest: 3,
+      take: 3,
+      pick: 4,
+      watch: 3,
+      martial: 3,
+      law: 3,
+      autumn: 2,
+    }
+    for (const [caseKey, expectedCount] of Object.entries(expectedGlyphSourceCounts)) {
+      const sources = content.sources.filter((source) => source.id.startsWith(`source-${caseKey}-glyph-`))
+      expect(sources, caseKey).toHaveLength(expectedCount)
+      for (const source of sources) {
+        expect(source.url, source.id).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/)
+        expect(content.content.evidence.some((evidence) => evidence.sourceIds.includes(source.id)), source.id).toBe(true)
+      }
+    }
   })
 
   it('gives every case a complete option-driven investigation contract', () => {

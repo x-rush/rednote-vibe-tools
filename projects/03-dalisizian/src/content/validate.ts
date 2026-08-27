@@ -43,10 +43,11 @@ export function validateContentPackage(value: unknown): ValidationReport {
     const copy = evidenceUi as Record<string, unknown>
     const labels = copy.resourceNatureLabels
     if (typeof copy.reconstructionDisclosure !== 'string' || !copy.reconstructionDisclosure.trim()
+      || typeof copy.unavailableLabel !== 'string' || !copy.unavailableLabel.trim()
       || !labels || typeof labels !== 'object' || Array.isArray(labels)
       || evidenceTemplates.some((template) => typeof (labels as Record<string, unknown>)[template] !== 'string'
         || !String((labels as Record<string, unknown>)[template]).trim())) {
-      add('invalid-evidence-ui-copy', '$.meta.evidenceUi', '复原声明与四类证物卷名均须为非空文字。')
+      add('invalid-evidence-ui-copy', '$.meta.evidenceUi', '复原声明、缺图提示与四类证物卷名均须为非空文字。')
     }
   }
   const requiredArrays = ['sources', 'characters', 'cases', 'nodes', 'evidence', 'endings'] as const

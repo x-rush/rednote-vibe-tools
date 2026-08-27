@@ -1,5 +1,5 @@
 import type { Evidence, EvidenceObservationPoint, EvidenceUiCopy, EvidenceVisualSpec, MythVerdictVisual, SourceRecord } from '../content/types'
-import { resolveEvidenceAsset } from './assets'
+import { resolveEvidenceAssetSet } from './assets'
 
 export function getEvidenceResourceNature(visual: EvidenceVisualSpec, uiCopy: EvidenceUiCopy): string {
   return uiCopy.resourceNatureLabels[visual.template]
@@ -25,6 +25,7 @@ export type EvidenceArtifactModel = {
   completionPrompt: string
   fallbackSummary: string
   assetPath?: string
+  fallbackAssetPath?: string
   visualSpec: EvidenceVisualSpec
   observationPoints: EvidenceObservationPoint[]
   observedIds: string[]
@@ -50,6 +51,7 @@ export function createEvidenceArtifactModel(
 ): EvidenceArtifactModel {
   const validObservedIds = getObservedIds(evidence, observedIds)
   const sourceIds = new Set(evidence.sourceIds)
+  const assetSet = resolveEvidenceAssetSet(evidence.assetId)
   return {
     evidenceId: evidence.id,
     title: evidence.title,
@@ -59,7 +61,8 @@ export function createEvidenceArtifactModel(
     thumbnailLabel: evidence.visualSpec.thumbnailLabel,
     completionPrompt: evidence.visualSpec.completionPrompt,
     fallbackSummary: evidence.visualSpec.fallbackSummary,
-    assetPath: resolveEvidenceAsset(evidence.assetId),
+    assetPath: assetSet?.primary,
+    fallbackAssetPath: assetSet?.fallback,
     visualSpec: evidence.visualSpec,
     observationPoints: evidence.visualSpec.observationPoints,
     observedIds: validObservedIds,

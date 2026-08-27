@@ -21,6 +21,7 @@ describe('content validation', () => {
   it('requires complete player-facing evidence UI copy', () => {
     const broken = cloneContent()
     broken.meta.evidenceUi.reconstructionDisclosure = ' '
+    broken.meta.evidenceUi.unavailableLabel = ' '
     broken.meta.evidenceUi.resourceNatureLabels['glyph-timeline'] = ''
 
     expect(errorCodes(broken)).toContain('invalid-evidence-ui-copy')

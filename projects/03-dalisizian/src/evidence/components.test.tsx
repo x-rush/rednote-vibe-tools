@@ -37,6 +37,8 @@ describe('interactive evidence components', () => {
 
     expect(html).toContain('已核')
     expect(html).toContain('2 / 2')
+    expect(html).toContain('asset-evidence-home-early-form-v3.webp')
+    expect(html).toContain('data-fallback-src="./assets/evidence/home/asset-evidence-home-early-form-v1.svg"')
   })
 
   it('uses the evidence-specific fallback when a plate is unavailable', () => {
@@ -51,17 +53,15 @@ describe('interactive evidence components', () => {
     expect(html).not.toContain('人工核验资源位')
   })
 
-  it('lays licensed historical glyphs over the home facsimile plate', () => {
+  it('uses the complete AI plate without a duplicate glyph overlay', () => {
     const evidence = contentPackage.content.evidence.find((item) => item.id === 'evidence-home-early-form')
     if (!evidence) throw new Error('home early-form fixture missing')
     const html = renderToStaticMarkup(
       <EvidenceArtifact evidence={evidence} sources={contentPackage.sources} observedIds={[]} onObserve={() => {}} reducedMotion uiCopy={contentPackage.meta.evidenceUi} />,
     )
 
-    expect(html).toContain('glyph-facsimile-layer')
-    expect(html).toContain('家字商代甲骨字形摹本')
-    expect(html).toContain('家字西周金文字形摹本')
-    expect(html).toContain('家字《说文》小篆字形摹本')
+    expect(html).toContain('asset-evidence-home-early-form-v3.webp')
+    expect(html).not.toContain('glyph-facsimile-layer')
   })
 
   it.each(contentPackage.content.evidence.filter((item) => item.visualSpec.template === 'myth-verdict'))(

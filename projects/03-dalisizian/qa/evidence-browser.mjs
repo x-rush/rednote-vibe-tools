@@ -130,18 +130,48 @@ async function inspectEvidence(evidenceId) {
   const report = await evaluate(`(() => {
     const artifact = document.querySelector('[data-evidence-id=${JSON.stringify(evidenceId)}]')
     const buttons = [...artifact.querySelectorAll('button')]
+    const plateImage = artifact.querySelector('.evidence-plate > img')
     return {
       id: artifact.dataset.evidenceId,
       template: artifact.dataset.template,
       observationCount: artifact.querySelectorAll('.evidence-hotspots button').length,
+      primarySrc: plateImage?.currentSrc ?? '',
+      primarySize: [plateImage?.naturalWidth ?? 0, plateImage?.naturalHeight ?? 0],
+      duplicateGlyphOverlays: artifact.querySelectorAll('.glyph-facsimile-layer').length,
       brokenImages: [...document.images].filter((image) => image.getClientRects().length && image.naturalWidth === 0).length,
       placeholder: document.body.textContent.includes('人工核验资源位'),
       minTarget: Math.min(...buttons.map((button) => Math.min(button.getBoundingClientRect().width, button.getBoundingClientRect().height))),
       activeInArtifact: Boolean(document.activeElement.closest?.('.evidence-artifact')),
     }
   })()`)
-  if (report.id !== evidenceId || report.observationCount < 2 || report.brokenImages || report.placeholder || report.minTarget < 44 || !report.activeInArtifact) {
+  if (report.id !== evidenceId || report.observationCount < 2 || !report.primarySrc.includes('-v3.webp') || report.primarySize[0] !== 1080 || report.primarySize[1] !== 720 || report.duplicateGlyphOverlays || report.brokenImages || report.placeholder || report.minTarget < 44 || !report.activeInArtifact) {
     throw new Error(`Evidence inspection regression: ${JSON.stringify(report)}`)
+  }
+  return report
+}
+
+async function inspectFallbackEvidence(evidenceId) {
+  await evaluate(`document.querySelector('[data-evidence-trigger=${JSON.stringify(evidenceId)}]').click()`)
+  await waitFor(`document.querySelector('[data-evidence-id=${JSON.stringify(evidenceId)}]') !== null`)
+  await waitFor(`(() => {
+    const image = document.querySelector('[data-evidence-id=${JSON.stringify(evidenceId)}] .evidence-plate > img')
+    return image?.complete && image.currentSrc.includes('-v1.svg')
+  })()`)
+  const report = await evaluate(`(() => {
+    const artifact = document.querySelector('[data-evidence-id=${JSON.stringify(evidenceId)}]')
+    const image = artifact.querySelector('.evidence-plate > img')
+    return {
+      id: artifact.dataset.evidenceId,
+      template: artifact.dataset.template,
+      fallbackSrc: image.currentSrc,
+      fallbackSize: [image.naturalWidth, image.naturalHeight],
+      brokenImages: [...document.images].filter((item) => item.getClientRects().length && item.naturalWidth === 0).length,
+      observationCount: artifact.querySelectorAll('.evidence-hotspots button').length,
+    }
+  })()`)
+  const fallbackRatio = report.fallbackSize[0] / report.fallbackSize[1]
+  if (!report.fallbackSrc.includes('-v1.svg') || report.fallbackSize[0] <= 0 || Math.abs(fallbackRatio - 1.5) > 0.01 || report.brokenImages || report.observationCount < 2) {
+    throw new Error(`Evidence fallback regression: ${JSON.stringify(report)}`)
   }
   return report
 }
@@ -206,6 +236,24 @@ for (const caseData of cases) {
 }
 if (allEvidenceReports.length !== 32) throw new Error(`Expected 32 evidence reports, got ${allEvidenceReports.length}`)
 
+await command('Network.enable')
+await command('Network.setCacheDisabled', { cacheDisabled: true })
+await command('Network.setBlockedURLs', { urls: ['*-v3.webp'] })
+const fallbackReports = []
+const homeCaseEvidence = evidence.filter((item) => item.caseId === homeCase.caseId)
+await seedCase(homeCase, homeCaseEvidence.map((item) => item.id))
+await openSeededLedger()
+await waitFor(`[...document.querySelectorAll('.evidence-ledger-card .evidence-thumbnail img')].length === 4 && [...document.querySelectorAll('.evidence-ledger-card .evidence-thumbnail img')].every((image) => image.complete && image.currentSrc.includes('-v1.svg'))`)
+const ledgerThumbnailFallbacks = await evaluate(`[...document.querySelectorAll('.evidence-ledger-card .evidence-thumbnail img')].filter((image) => image.currentSrc.includes('-v1.svg')).length`)
+for (const item of homeCaseEvidence) {
+  fallbackReports.push(await inspectFallbackEvidence(item.id))
+  await evaluate(`document.querySelector('.evidence-screen .page-header button').click()`)
+  await waitFor(`document.querySelector('.ledger-screen') !== null`)
+}
+if (fallbackReports.length !== 4 || new Set(fallbackReports.map((item) => item.template)).size !== 4) {
+  throw new Error(`Expected four evidence-template fallbacks: ${JSON.stringify(fallbackReports)}`)
+}
+
 await seedCase(homeCase, [])
 await command('Page.navigate', { url: baseUrl })
 await waitFor(`document.querySelector('.landing-screen') !== null`)
@@ -226,6 +274,8 @@ while (!(await evaluate(`document.querySelector('.evidence-acquired') !== null`)
   await sleep(280)
 }
 if (acquisitionSteps >= 40) throw new Error('Acquisition flow exceeded 40 steps')
+await waitFor(`document.querySelector('.evidence-acquired .evidence-thumbnail img')?.currentSrc.includes('-v1.svg')`)
+const acquisitionThumbnailFallback = await evaluate(`document.querySelector('.evidence-acquired .evidence-thumbnail img').currentSrc`)
 const acquisitionMinTarget = await evaluate(`Math.min(...[...document.querySelectorAll('.evidence-acquired button')].map((button) => Math.min(button.getBoundingClientRect().width, button.getBoundingClientRect().height)))`)
 if (acquisitionMinTarget < 44) throw new Error(`Acquisition target is too small: ${acquisitionMinTarget}`)
 await evaluate(`document.querySelector('.evidence-acquired [data-evidence-trigger]').click()`)
@@ -254,6 +304,8 @@ while (!(await evaluate(`document.querySelector('.focus-evidence') !== null && d
   await sleep(280)
 }
 if (deductionSteps >= 80) throw new Error('Deduction flow exceeded 80 steps')
+await waitFor(`[...document.querySelectorAll('.focus-evidence .evidence-thumbnail img')].some((image) => image.currentSrc.includes('-v1.svg'))`)
+const deductionThumbnailFallbacks = await evaluate(`[...document.querySelectorAll('.focus-evidence .evidence-thumbnail img')].filter((image) => image.currentSrc.includes('-v1.svg')).length`)
 const deductionPrompt = await evaluate(`document.querySelector('.dialogue-text').textContent`)
 await evaluate(`document.querySelector('.focus-evidence button:not(:disabled)').click()`)
 await waitFor(`document.querySelector('.evidence-artifact') !== null`)
@@ -274,15 +326,24 @@ await waitFor(`document.querySelector('.evidence-artifact') !== null`)
 await command('Emulation.setEmulatedMedia', { media: 'screen', features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] })
 const reducedMotion = await evaluate(`(() => ({
   templateAnimation: getComputedStyle(document.querySelector('.evidence-template-body')).animationName,
+  plateLightAnimation: getComputedStyle(document.querySelector('.evidence-plate'), '::after').animationName,
   hotspotTransition: getComputedStyle(document.querySelector('.evidence-hotspots button')).transitionDuration,
 }))()`)
-if (reducedMotion.templateAnimation !== 'none' || reducedMotion.hotspotTransition !== '0.001s') throw new Error(`Reduced-motion regression: ${JSON.stringify(reducedMotion)}`)
+if (reducedMotion.templateAnimation !== 'none' || reducedMotion.plateLightAnimation !== 'none' || reducedMotion.hotspotTransition !== '0.001s') throw new Error(`Reduced-motion regression: ${JSON.stringify(reducedMotion)}`)
 await command('Emulation.setEmulatedMedia', { media: 'screen', features: [] })
+await command('Network.setBlockedURLs', { urls: [] })
+await command('Network.setCacheDisabled', { cacheDisabled: false })
 
 if (browserErrors.length) throw new Error(`Browser console errors: ${browserErrors.join(' | ')}`)
 console.log(JSON.stringify({
   viewportReports,
   allEvidenceCount: allEvidenceReports.length,
+  fallbackReports,
+  thumbnailFallbackEntrances: {
+    ledger: ledgerThumbnailFallbacks,
+    acquisition: acquisitionThumbnailFallback,
+    deduction: deductionThumbnailFallbacks,
+  },
   acquisitionSteps,
   acquisitionEvidenceId,
   acquisitionMinTarget,

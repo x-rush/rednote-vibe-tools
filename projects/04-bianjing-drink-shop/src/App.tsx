@@ -8,6 +8,7 @@ import { businessCompletionAction, createUiFlow, nextDisplayAfterEvent, nextDisp
 import { pendingEventTiming, resolveResumeRoute } from './state/resume-route'
 import { buildGameViewModel } from './state/view-model'
 import { changeOperatingMode } from './state/decision-edit'
+import { newGameLabel } from './state/new-game-copy'
 import { decodeSave } from './storage/save-codec'
 import { createSavePayload } from './storage/save-payload'
 import { IndexedDbSaveRepository } from './storage/indexed-db'
@@ -94,6 +95,10 @@ function App() {
     [decision, game, lastResult],
   )
   const reusableDecision = useMemo(() => game ? reuseLastDecision(game, content) : undefined, [game])
+  const newShopLabel = newGameLabel(Boolean(game), {
+    firstOpening: ui.firstOpening,
+    startAnotherShop: ui.startAnotherShop,
+  })
 
   function reviseDecision(transform: (current: DailyDecision) => DailyDecision) {
     setRiskConfirmed(false)
@@ -257,13 +262,13 @@ function App() {
     <div className="cover-copy"><p className="section-kicker">{ui.coverEnglishLabel}</p><h1 id="landing-title">{ui.landingTitle}</h1><p className="cover-promise">{ui.coverPromise}</p><p>{ui.coverSubtitle}</p></div>
     <ShopScene phase="cover" alt={ui.shopAltCover} caption={ui.morningSceneCaption}><span className="shop-banner">{ui.viewShop}</span></ShopScene>
     {notice && <p className="notice" role="status">{notice}</p>}
-    <ActionGroup layout="stack" surface="dark">{game && <button className="primary-action" type="button" onClick={resumeGame}>{ui.continueGame}</button>}<button className={game ? 'secondary-action' : 'primary-action'} type="button" onClick={showNewGame}>{ui.newGame}</button></ActionGroup>
+    <ActionGroup layout="stack" surface="dark">{game && <button className="primary-action" type="button" onClick={resumeGame}>{ui.continueGame}</button>}<button className={game ? 'secondary-action' : 'primary-action'} type="button" onClick={showNewGame}>{newShopLabel}</button></ActionGroup>
     <p className="supporting-copy">{ui.localSaveLine}</p>
     <button className="text-button" type="button" onClick={() => void resetProjectData()}>{ui.resetData}</button>
   </ScreenFrame>
 
   if (displayPage === 'newGame') return <ScreenFrame key={displayPage} className="intro-shell" labelledBy="new-game-title" surface="dark">
-    <p className="section-kicker">{ui.eyebrow}</p><h1 id="new-game-title">{ui.newGame}</h1><p>{ui.newShopWarning}</p>
+    <p className="section-kicker">{ui.eyebrow}</p><h1 id="new-game-title">{newShopLabel}</h1><p>{ui.newShopWarning}</p>
     <button className="primary-action" type="button" onClick={() => setDisplayPage('tutorial')}>{ui.beginIntroduction}</button>
   </ScreenFrame>
 

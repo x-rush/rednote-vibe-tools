@@ -28,9 +28,9 @@
   --dark-accent: #e3b75f;
   --dark-border: rgb(242 229 199 / 70%);
   --dark-button: rgb(31 41 39 / 78%);
-  --host-nav-height: 56px;
+  --host-nav-height: 36px;
   --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
-  --content-top: calc(var(--host-nav-height) + var(--safe-top) + 18px);
+  --content-top: calc(var(--host-nav-height) + var(--safe-top) + 10px);
   --sticky-top: calc(var(--host-nav-height) + var(--safe-top));
 }
 

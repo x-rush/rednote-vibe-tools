@@ -27,6 +27,16 @@ describe('content validation', () => {
     expect(errorCodes(broken)).toContain('invalid-evidence-ui-copy')
   })
 
+  it('requires complete player-facing landing UI copy', () => {
+    const broken = cloneContent()
+    ;(broken.meta as unknown as Record<string, unknown>).landingUi = {
+      caseOrderNames: ['零'],
+      newCaseLabelTemplate: '领取案件',
+    }
+
+    expect(errorCodes(broken)).toContain('invalid-landing-ui-copy')
+  })
+
   it('reports duplicate case IDs and missing entity references', () => {
     const broken = cloneContent()
     broken.content.cases[1].caseId = broken.content.cases[0].caseId

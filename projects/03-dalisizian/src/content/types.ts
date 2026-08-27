@@ -128,6 +128,17 @@ export type EvidenceUiCopy = {
   resourceNatureLabels: Record<EvidenceVisualTemplate, string>
 }
 
+export type LandingUiCopy = {
+  caseOrderNames: string[]
+  newCaseLabelTemplate: string
+  continueCaseLabelTemplate: string
+  completeLabel: string
+  newStatus: string
+  continueStatus: string
+  completeStatus: string
+  completeTitle: string
+}
+
 export type EvidencePalette = 'jade' | 'cinnabar' | 'bronze' | 'ink'
 
 export type EvidenceObservationPoint = {
@@ -313,6 +324,7 @@ export type DalisizianContentPackage = {
     updatedAt: string
     disclaimer: string
     evidenceUi: EvidenceUiCopy
+    landingUi: LandingUiCopy
   }
   sources: SourceRecord[]
   content: {

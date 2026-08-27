@@ -8,6 +8,16 @@
     "locale": "zh-CN",
     "updatedAt": "2026-08-26",
     "disclaimer": "大理寺字案录是虚构的文字案件机构；人物、卷宗和审讯对话属于游戏叙事。字形与字义资料须依可靠来源复核。",
+    "landingUi": {
+      "caseOrderNames": ["零", "一", "二", "三", "四", "五", "六", "七", "八"],
+      "newCaseLabelTemplate": "领取第{order}案",
+      "continueCaseLabelTemplate": "继续第{order}案",
+      "completeLabel": "查看断案图鉴",
+      "newStatus": "新案候审",
+      "continueStatus": "案卷续审",
+      "completeStatus": "八案归档",
+      "completeTitle": "八卷皆已结案"
+    },
     "evidenceUi": {
       "reconstructionDisclosure": "画面依据所列资料进行 AI 参考复原，并非馆藏原件；古文字形与事实依据均在下列来源单独标明。",
       "unavailableLabel": "图版暂缺",

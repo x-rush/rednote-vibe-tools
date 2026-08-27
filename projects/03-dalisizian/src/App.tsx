@@ -65,7 +65,7 @@ export function LandingScreen({ model, title, subtitle, disclaimer, portraitSrc,
       <span className="landing-companion-plaque"><small>案卷搭档</small><strong>{model.companion.name}</strong><em>{model.companion.title}</em><i>{model.companion.role}</i></span>
     </button>
     <div className="landing-desk">
-      <div className="landing-current"><span>{model.currentCase ? '案卷续审' : '新案候审'}</span><b>{model.currentCase?.title ?? '第一卷已在案头启封'}</b></div>
+      <div className="landing-current"><span>{model.primaryStatus}</span><b>{model.primaryTitle}</b></div>
       <button type="button" className="primary landing-primary" onClick={onPrimary}><span>{model.primaryLabel}</span><i aria-hidden="true">→</i></button>
       <div className="landing-secondary-actions"><button type="button" onClick={onOpenCaseList}>案卷柜</button><button type="button" onClick={onOpenCollection}>断案图鉴 <small>{model.completedCount}/{model.totalCases}</small></button></div>
       <button type="button" className="quiet landing-clear" onClick={onClearData}>清理本地案卷</button>
@@ -370,10 +370,10 @@ function App() {
   }
 
   function renderLanding() {
-    const model = getLandingHeroModel(contentIndex, save)
+    const model = getLandingHeroModel(contentIndex, save, contentPackage.meta.landingUi)
     const portrait = resolveCharacterAsset(model.companion.assetId)?.master
     return <LandingScreen model={model} title={contentPackage.meta.title} subtitle={contentPackage.meta.subtitle} disclaimer={contentPackage.meta.disclaimer} portraitSrc={portrait}
-      onPrimary={() => void openCase(model.currentCase?.caseId ?? model.firstUnlockedCaseId, false)} onOpenCaseList={() => setScreen('caseList')} onOpenCollection={() => void openCollection()} onOpenGuide={() => setGuideOpen(true)} onClearData={() => void clearData()} />
+      onPrimary={() => model.primaryAction === 'collection' ? void openCollection() : model.primaryCase && void openCase(model.primaryCase.caseId, false)} onOpenCaseList={() => setScreen('caseList')} onOpenCollection={() => void openCollection()} onOpenGuide={() => setGuideOpen(true)} onClearData={() => void clearData()} />
   }
 
   function renderCaseList() {
@@ -479,8 +479,8 @@ function App() {
 
   function renderGuide() {
     if (!guideOpen) return null
-    const landing = getLandingHeroModel(contentIndex, save)
-    const activeCaseId = caseState?.caseId ?? landing.currentCase?.caseId ?? landing.firstUnlockedCaseId
+    const landing = getLandingHeroModel(contentIndex, save, contentPackage.meta.landingUi)
+    const activeCaseId = caseState?.caseId ?? landing.currentCase?.caseId ?? landing.primaryCase?.caseId ?? firstCase.caseId
     const caseData = contentIndex.cases.get(activeCaseId)
     const guide = contentIndex.characters.get('character-temple-official')
     const portrait = guide ? resolveCharacterAsset(guide.assetId)?.master : undefined

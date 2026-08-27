@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { contentIndex } from '../content'
+import { contentIndex, contentPackage } from '../content'
 import type { CaseNode, CaseRuntimeState, ScreenState } from '../content/types'
 import { createDefaultSave } from '../storage/storage'
 import { getCaseListItems, getDeductionEvidenceItems, getDeductionReviewModel, getInvestigationRouteItems, getNewEvidenceItems, getNodeDisplayText, getNodeScreen, getReturnTarget, getVerdictLabel, isClueBookOverlay } from './viewModel'
@@ -14,10 +14,10 @@ const baseState: CaseRuntimeState = {
 describe('semantic page view model', () => {
   it('builds a fresh landing desk around Shen Yan and the first unlocked case', () => {
     const getLandingHeroModel = (landingViewModel as Partial<typeof landingViewModel & {
-      getLandingHeroModel: (index: typeof contentIndex, save: ReturnType<typeof createDefaultSave>) => unknown
+      getLandingHeroModel: (index: typeof contentIndex, save: ReturnType<typeof createDefaultSave>, uiCopy: typeof contentPackage.meta.landingUi) => unknown
     }>).getLandingHeroModel
 
-    expect(getLandingHeroModel?.(contentIndex, createDefaultSave('case-home-roof-pig'))).toEqual({
+    expect(getLandingHeroModel?.(contentIndex, createDefaultSave('case-home-roof-pig'), contentPackage.meta.landingUi)).toEqual({
       companion: {
         name: '沈砚',
         title: '大理寺录事',
@@ -25,25 +25,71 @@ describe('semantic page view model', () => {
         assetId: 'asset-character-temple-official',
       },
       currentCase: undefined,
-      firstUnlockedCaseId: 'case-home-roof-pig',
+      primaryCase: { caseId: 'case-home-roof-pig', order: 1, title: '家字失踪案' },
+      primaryAction: 'case',
+      primaryMode: 'new',
       primaryLabel: '领取第一案',
+      primaryStatus: '新案候审',
+      primaryTitle: '家字失踪案',
       completedCount: 0,
       totalCases: 8,
     })
   })
 
   it('turns the primary landing action into an exact continue-case handoff', () => {
-    const save = { ...createDefaultSave('case-home-roof-pig'), currentCaseId: 'case-rest-under-tree', completedCaseIds: ['case-home-roof-pig'] }
+    const save = {
+      ...createDefaultSave('case-home-roof-pig'),
+      currentCaseId: 'case-rest-under-tree',
+      unlockedCaseIds: ['case-home-roof-pig', 'case-rest-under-tree'],
+      completedCaseIds: ['case-home-roof-pig'],
+    }
     const getLandingHeroModel = (landingViewModel as Partial<typeof landingViewModel & {
-      getLandingHeroModel: (index: typeof contentIndex, save: ReturnType<typeof createDefaultSave>) => unknown
+      getLandingHeroModel: (index: typeof contentIndex, save: ReturnType<typeof createDefaultSave>, uiCopy: typeof contentPackage.meta.landingUi) => unknown
     }>).getLandingHeroModel
 
-    expect(getLandingHeroModel?.(contentIndex, save)).toMatchObject({
+    expect(getLandingHeroModel?.(contentIndex, save, contentPackage.meta.landingUi)).toMatchObject({
       currentCase: { caseId: 'case-rest-under-tree', title: '休字树下案' },
-      firstUnlockedCaseId: 'case-home-roof-pig',
-      primaryLabel: '继续查案',
+      primaryCase: { caseId: 'case-rest-under-tree', title: '休字树下案' },
+      primaryAction: 'case',
+      primaryMode: 'continue',
+      primaryLabel: '继续第二案',
       completedCount: 1,
       totalCases: 8,
+    })
+  })
+
+  it('offers the earliest unlocked unfinished case after archived cases', () => {
+    const save = {
+      ...createDefaultSave('case-home-roof-pig'),
+      unlockedCaseIds: ['case-home-roof-pig', 'case-rest-under-tree', 'case-take-ear'],
+      completedCaseIds: ['case-home-roof-pig', 'case-rest-under-tree'],
+    }
+
+    expect(landingViewModel.getLandingHeroModel(contentIndex, save, contentPackage.meta.landingUi)).toMatchObject({
+      currentCase: undefined,
+      primaryCase: { caseId: 'case-take-ear', title: '取字失耳案' },
+      primaryAction: 'case',
+      primaryMode: 'new',
+      primaryLabel: '领取第三案',
+      completedCount: 2,
+    })
+  })
+
+  it('sends a fully completed archive to the collection instead of reopening a case', () => {
+    const caseIds = [...contentIndex.cases.values()].sort((a, b) => a.order - b.order).map((item) => item.caseId)
+    const save = {
+      ...createDefaultSave('case-home-roof-pig'),
+      unlockedCaseIds: caseIds,
+      completedCaseIds: caseIds,
+    }
+
+    expect(landingViewModel.getLandingHeroModel(contentIndex, save, contentPackage.meta.landingUi)).toMatchObject({
+      currentCase: undefined,
+      primaryCase: undefined,
+      primaryAction: 'collection',
+      primaryMode: 'complete',
+      primaryLabel: '查看断案图鉴',
+      completedCount: 8,
     })
   })
 

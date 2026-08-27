@@ -35,6 +35,23 @@ export function validateContentPackage(value: unknown): ValidationReport {
   if (content.schemaVersion !== 1) add('invalid-schema-version', '$.schemaVersion', 'schemaVersion 必须为 1。')
   if (content.projectId !== 'dalisizian') add('invalid-project-id', '$.projectId', 'projectId 必须为 dalisizian。')
   if (!content.meta || content.meta.locale !== 'zh-CN') add('invalid-locale', '$.meta.locale', 'locale 必须为 zh-CN。')
+  const landingUi = content.meta?.landingUi as unknown
+  if (!landingUi || typeof landingUi !== 'object' || Array.isArray(landingUi)) {
+    add('invalid-landing-ui-copy', '$.meta.landingUi', '首页界面文案配置必须完整。')
+  } else {
+    const copy = landingUi as Record<string, unknown>
+    const labels = [
+      'newCaseLabelTemplate', 'continueCaseLabelTemplate', 'completeLabel', 'newStatus',
+      'continueStatus', 'completeStatus', 'completeTitle',
+    ]
+    const orderNames = copy.caseOrderNames
+    if (!Array.isArray(orderNames) || orderNames.length < 9 || orderNames.some((item) => typeof item !== 'string' || !item.trim())
+      || labels.some((key) => typeof copy[key] !== 'string' || !String(copy[key]).trim())
+      || !String(copy.newCaseLabelTemplate).includes('{order}')
+      || !String(copy.continueCaseLabelTemplate).includes('{order}')) {
+      add('invalid-landing-ui-copy', '$.meta.landingUi', '案件序数、入口模板、状态与结案文案均须完整。')
+    }
+  }
   const evidenceUi = content.meta?.evidenceUi as unknown
   const evidenceTemplates = ['glyph-timeline', 'lexicon-scroll', 'semantic-map', 'myth-verdict'] as const
   if (!evidenceUi || typeof evidenceUi !== 'object' || Array.isArray(evidenceUi)) {

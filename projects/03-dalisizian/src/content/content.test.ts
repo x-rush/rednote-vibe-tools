@@ -19,6 +19,16 @@ describe('content envelope', () => {
         'myth-verdict': '传言核验卷',
       },
     })
+    expect((content.meta as unknown as Record<string, unknown>).landingUi).toEqual({
+      caseOrderNames: ['零', '一', '二', '三', '四', '五', '六', '七', '八'],
+      newCaseLabelTemplate: '领取第{order}案',
+      continueCaseLabelTemplate: '继续第{order}案',
+      completeLabel: '查看断案图鉴',
+      newStatus: '新案候审',
+      continueStatus: '案卷续审',
+      completeStatus: '八案归档',
+      completeTitle: '八卷皆已结案',
+    })
     expect(content.contentVersion).toBe('2.0.0')
     expect(content.content.cases).toHaveLength(8)
     expect(content.content.characters.length).toBeGreaterThanOrEqual(4)

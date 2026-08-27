@@ -1,4 +1,4 @@
-import type { CaseNode, CaseRuntimeState, CaseVerdict, ContentIndex, DeductionQuestion, Evidence, HanziCase, ScreenState } from '../content/types'
+import type { CaseNode, CaseRuntimeState, CaseVerdict, ContentIndex, DeductionQuestion, Evidence, HanziCase, LandingUiCopy, ScreenState } from '../content/types'
 import type { EvaluationRating, ProjectSaveData } from '../storage/types'
 
 export type CaseListItem = {
@@ -44,17 +44,30 @@ export type LandingHeroModel = {
     assetId: string
   }
   currentCase?: HanziCase
-  firstUnlockedCaseId: string
-  primaryLabel: '领取第一案' | '继续查案'
+  primaryCase?: Pick<HanziCase, 'caseId' | 'order' | 'title'>
+  primaryAction: 'case' | 'collection'
+  primaryMode: 'new' | 'continue' | 'complete'
+  primaryLabel: string
+  primaryStatus: string
+  primaryTitle: string
   completedCount: number
   totalCases: number
 }
 
-export function getLandingHeroModel(index: ContentIndex, save: ProjectSaveData): LandingHeroModel {
+function formatCaseLabel(template: string, order: number, uiCopy: LandingUiCopy): string {
+  return template.replace('{order}', uiCopy.caseOrderNames[order] ?? String(order))
+}
+
+export function getLandingHeroModel(index: ContentIndex, save: ProjectSaveData, uiCopy: LandingUiCopy): LandingHeroModel {
   const cases = [...index.cases.values()].sort((a, b) => a.order - b.order)
   const companion = index.characters.get('character-temple-official')
   if (!companion) throw new Error('Landing companion is missing')
-  const currentCase = save.currentCaseId ? index.cases.get(save.currentCaseId) : undefined
+  const currentCase = save.currentCaseId && save.unlockedCaseIds.includes(save.currentCaseId)
+    ? index.cases.get(save.currentCaseId)
+    : undefined
+  const nextCase = cases.find((item) => save.unlockedCaseIds.includes(item.caseId) && !save.completedCaseIds.includes(item.caseId))
+  const primaryCase = currentCase ?? nextCase
+  const primaryMode: LandingHeroModel['primaryMode'] = currentCase ? 'continue' : primaryCase ? 'new' : 'complete'
   return {
     companion: {
       name: companion.name,
@@ -63,8 +76,14 @@ export function getLandingHeroModel(index: ContentIndex, save: ProjectSaveData):
       assetId: companion.assetId,
     },
     currentCase,
-    firstUnlockedCaseId: save.unlockedCaseIds[0] ?? cases[0]?.caseId ?? '',
-    primaryLabel: currentCase ? '继续查案' : '领取第一案',
+    primaryCase: primaryCase ? { caseId: primaryCase.caseId, order: primaryCase.order, title: primaryCase.title } : undefined,
+    primaryAction: primaryCase ? 'case' : 'collection',
+    primaryMode,
+    primaryLabel: primaryCase
+      ? formatCaseLabel(currentCase ? uiCopy.continueCaseLabelTemplate : uiCopy.newCaseLabelTemplate, primaryCase.order, uiCopy)
+      : uiCopy.completeLabel,
+    primaryStatus: primaryMode === 'continue' ? uiCopy.continueStatus : primaryMode === 'new' ? uiCopy.newStatus : uiCopy.completeStatus,
+    primaryTitle: primaryCase?.title ?? uiCopy.completeTitle,
     completedCount: save.completedCaseIds.length,
     totalCases: cases.length,
   }

@@ -29,8 +29,12 @@ const model: LandingHeroModel = {
     assetId: 'asset-character-temple-official',
   },
   currentCase: undefined,
-  firstUnlockedCaseId: 'case-home-roof-pig',
+  primaryCase: { caseId: 'case-home-roof-pig', order: 1, title: '家字失踪案' },
+  primaryAction: 'case',
+  primaryMode: 'new',
   primaryLabel: '领取第一案',
+  primaryStatus: '新案候审',
+  primaryTitle: '家字失踪案',
   completedCount: 0,
   totalCases: 8,
 }
@@ -63,5 +67,12 @@ describe('landing screen', () => {
   it('keeps every visible landing action at least 44 CSS pixels tall', () => {
     const appCss = readFileSync(resolve('src/App.css'), 'utf8')
     expect(appCss).toMatch(/\.landing-clear\s*\{[^}]*min-height:\s*44px/)
+  })
+
+  it('allows the companion introduction to wrap instead of clipping it', () => {
+    const appCss = readFileSync(resolve('src/App.css'), 'utf8')
+    const roleRule = appCss.match(/\.landing-companion-plaque i\s*\{([^}]*)\}/)?.[1] ?? ''
+    expect(roleRule).toContain('white-space: normal')
+    expect(roleRule).not.toContain('text-overflow: ellipsis')
   })
 })

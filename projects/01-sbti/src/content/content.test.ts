@@ -146,6 +146,21 @@ describe('production content package', () => {
     expect(() => validateContent(broken)).toThrow(/\$\.content\.experience\.surfaces/)
   })
 
+  it('requires both Chinese share-card artwork choices in the content package', () => {
+    const shareCard = validateContent(rawContent).content.experience.shareCard
+    expect(shareCard).toMatchObject({
+      artworkStyleLegend: '选择兽志画风',
+      chibiStyleLabel: '灵兽小像',
+      originalStyleLabel: '山海原像',
+    })
+
+    const broken = structuredClone(rawContent) as unknown as {
+      content: { experience: { shareCard: { chibiStyleLabel?: string } } }
+    }
+    delete broken.content.experience.shareCard.chibiStyleLabel
+    expect(() => validateContent(broken)).toThrow(/shareCard\.chibiStyleLabel/)
+  })
+
   it('reports the JSON path of an invalid dimension score', () => {
     const broken = structuredClone(rawContent) as unknown as {
       content: { questions: Array<{ options: Array<{ score: { dimension: string } }> }> }
@@ -247,6 +262,33 @@ describe('production content package', () => {
       expect(result.shareLine.length).toBeGreaterThan(0)
       expect(result.artAssetId).toMatch(/^creature-[a-z][a-z0-9-]*$/)
     }
+  })
+
+  it('gives every beast one complete recognition card with a unique Chinese seal', () => {
+    const seals: string[] = []
+    for (const result of rawContent.content.resultTypes as unknown as Array<Record<string, unknown>>) {
+      const creature = rawContent.content.creatures.find((item) => item.id === result.creatureId)!
+      const card = result.recognitionCard as Record<string, unknown> | undefined
+      expect(card).toMatchObject({
+        kicker: expect.stringMatching(/^闻山认兽 · /u),
+        hook: expect.stringMatching(/.{10,}/u),
+        blessing: expect.stringMatching(/.{8,}/u),
+        seal: expect.stringMatching(/^\p{Script=Han}$/u),
+        alt: expect.stringContaining(creature.name),
+      })
+      seals.push(card!.seal as string)
+    }
+    expect(seals).toHaveLength(16)
+    expect(new Set(seals).size).toBe(16)
+  })
+
+  it('rejects a result type without its recognition card', () => {
+    const broken = structuredClone(rawContent) as unknown as {
+      content: { resultTypes: Array<Record<string, unknown>> }
+    }
+    delete broken.content.resultTypes[0]!.recognitionCard
+
+    expect(() => validateContent(broken)).toThrow(/resultTypes\[0\]\.recognitionCard/)
   })
 
   it('gives every beast type a substantial long-scroll profile and three shareable lines', () => {

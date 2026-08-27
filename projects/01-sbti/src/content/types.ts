@@ -49,10 +49,19 @@ export type BeastProfile = {
   contentVersion: string
 }
 
+export type RecognitionCardCopy = {
+  kicker: string
+  hook: string
+  blessing: string
+  seal: string
+  alt: string
+}
+
 export type PersonalityType = {
   code: string
   chineseName: string
   creatureId: string
+  recognitionCard: RecognitionCardCopy
   coreDescription: string
   longPortrait: [string, string]
   innerDrive: string
@@ -183,6 +192,11 @@ export type ExperienceCopy = {
     failure: string
     retryLabel: string
     closeLabel: string
+    artworkStyleLegend: string
+    chibiStyleLabel: string
+    chibiStyleDescription: string
+    originalStyleLabel: string
+    originalStyleDescription: string
   }
   disclaimer: string
   calculating: string

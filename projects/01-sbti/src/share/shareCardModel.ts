@@ -7,6 +7,7 @@ export type ShareCardModel = {
   creatureName: string
   typeName: string
   line: string
+  chibiLine: string
   quote: string
   guideLabel: string
   guideSeal: string
@@ -15,6 +16,7 @@ export type ShareCardModel = {
   brand: string
   boundary: string
   imageSrc?: string
+  chibiSrc?: string
   placeholderSrc?: string
   imageFocusY: number
 }
@@ -40,6 +42,7 @@ export function createShareCardModel(input: ShareCardModelInput): ShareCardModel
     creatureName: input.share.creatureName,
     typeName: input.share.typeName,
     line: input.share.line,
+    chibiLine: input.profile.recognitionCard.blessing,
     quote: input.profile.shareQuotes[0],
     guideLabel: input.copy.guideLabel,
     guideSeal: input.copy.guideSeal,
@@ -48,6 +51,7 @@ export function createShareCardModel(input: ShareCardModelInput): ShareCardModel
     brand: input.identity.formalName,
     boundary: input.identity.boundary,
     imageSrc: asset?.src,
+    chibiSrc: asset?.chibiSrc,
     placeholderSrc: asset?.placeholder,
     imageFocusY: asset?.shareFocusY ?? 0.5,
   }

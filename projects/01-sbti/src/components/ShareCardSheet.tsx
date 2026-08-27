@@ -3,7 +3,7 @@ import type { ExperienceCopy } from '../content/types'
 import { focusLoopTargetIndex } from '../guide/focusLoop'
 import { getPhotoAlbumBridge, saveCardToPhotoAlbum } from '../share/miniToolAlbum'
 import type { ShareCardModel } from '../share/shareCardModel'
-import { renderShareCard } from '../share/shareCardRenderer'
+import { renderShareCard, type ShareCardArtworkStyle } from '../share/shareCardRenderer'
 import { initialShareCardState, shareCardReducer } from '../share/shareCardState'
 
 type Props = {
@@ -16,11 +16,14 @@ type Props = {
 export function ShareCardSheet({ model, copy, returnFocusRef, onClose }: Props) {
   const titleId = useId()
   const statusId = useId()
+  const previewId = useId()
+  const artworkStyleName = useId()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const [state, dispatch] = useReducer(shareCardReducer, initialShareCardState)
   const [generationAttempt, setGenerationAttempt] = useState(0)
+  const [artworkStyle, setArtworkStyle] = useState<ShareCardArtworkStyle>('chibi')
   const bridge = getPhotoAlbumBridge()
   const hasPreview = 'dataUri' in state
 
@@ -28,11 +31,11 @@ export function ShareCardSheet({ model, copy, returnFocusRef, onClose }: Props) 
     let active = true
     const canvas = canvasRef.current
     if (!canvas) return () => { active = false }
-    void renderShareCard(canvas, model)
+    void renderShareCard(canvas, model, { artworkStyle })
       .then(({ dataUri }) => { if (active) dispatch({ type: 'GENERATED', dataUri }) })
       .catch(() => { if (active) dispatch({ type: 'GENERATION_FAILED' }) })
     return () => { active = false }
-  }, [generationAttempt, model])
+  }, [artworkStyle, generationAttempt, model])
 
   useEffect(() => {
     const focusFrame = window.requestAnimationFrame(() => titleRef.current?.focus())
@@ -101,7 +104,41 @@ export function ShareCardSheet({ model, copy, returnFocusRef, onClose }: Props) 
           <button type="button" className="share-card-sheet__close" aria-label={copy.closeLabel} onClick={onClose}>×</button>
         </header>
 
-        <div className={`share-card-preview${state.phase === 'generating' ? ' share-card-preview--writing' : ''}`}>
+        <fieldset className="share-card-style-picker">
+          <legend>{copy.artworkStyleLegend}</legend>
+          <div className="share-card-style-picker__options" role="radiogroup" aria-label={copy.artworkStyleLegend}>
+            {([
+              { value: 'chibi', label: copy.chibiStyleLabel, description: copy.chibiStyleDescription, src: model.chibiSrc ?? model.imageSrc },
+              { value: 'original', label: copy.originalStyleLabel, description: copy.originalStyleDescription, src: model.imageSrc ?? model.placeholderSrc },
+            ] as const).map((option) => (
+              <label className="share-card-style-option" key={option.value}>
+                <input
+                  type="radio"
+                  name={artworkStyleName}
+                  value={option.value}
+                  checked={artworkStyle === option.value}
+                  aria-controls={previewId}
+                  onChange={() => {
+                    if (artworkStyle === option.value) return
+                    dispatch({ type: 'RETRY_GENERATION' })
+                    setArtworkStyle(option.value)
+                  }}
+                />
+                <span className="share-card-style-option__card">
+                  <span className="share-card-style-option__thumb" aria-hidden="true">
+                    {option.src && <img src={option.src} alt="" width="48" height="48" />}
+                  </span>
+                  <span className="share-card-style-option__copy">
+                    <strong>{option.label}</strong>
+                    <small>{option.description}</small>
+                  </span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div id={previewId} aria-busy={state.phase === 'generating'} className={`share-card-preview${state.phase === 'generating' ? ' share-card-preview--writing' : ''}`}>
           {hasPreview
             ? <img src={state.dataUri} alt={copy.previewAlt} width="1080" height="1440" />
             : <div className="share-card-preview__writing" aria-hidden="true"><span className="share-card-preview__mountain" /><i>闻山</i></div>}

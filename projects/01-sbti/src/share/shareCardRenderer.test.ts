@@ -7,6 +7,7 @@ const model: ShareCardModel = {
   creatureName: '陆吾',
   typeName: '镇岳守序者',
   line: '你习惯先看清边界，再稳稳守住值得托付的秩序。',
+  chibiLine: '你最了不起的不是从不累，而是认准的事再小也肯继续；久而久之，海也会记住你的名字。',
   quote: '真正的稳，不是停在原地，而是知道什么值得守住。',
   guideLabel: '闻山批注',
   guideSeal: '守卷',
@@ -15,6 +16,7 @@ const model: ShareCardModel = {
   brand: 'SHBTI｜山海兽格测试',
   boundary: '娱乐性自我探索工具，不是专业心理测评。',
   imageSrc: './beast.webp',
+  chibiSrc: './chibi.webp',
   placeholderSrc: './placeholder.webp',
   imageFocusY: 0.5,
 }
@@ -51,7 +53,10 @@ describe('share card canvas renderer', () => {
     const target = fakeCanvas()
     const beast = { width: 900, height: 1125, marker: 'beast' }
 
-    const rendered = await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, async () => beast as unknown as HTMLImageElement)
+    const rendered = await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, {
+      artworkStyle: 'original',
+      loader: async () => beast as unknown as HTMLImageElement,
+    })
 
     expect(rendered).toEqual({ dataUri: 'data:image/png;base64,rendered', imageFallback: false })
     expect(target.canvas.width).toBe(1080)
@@ -61,6 +66,8 @@ describe('share card canvas renderer', () => {
       expect(target.texts).toContain(text)
     }
     expect(target.texts.join('')).toContain('真正的稳')
+    expect(target.texts.join('')).toContain(model.line)
+    expect(target.texts.join('')).not.toContain(model.chibiLine)
     expect(target.canvas.toDataURL).toHaveBeenCalledWith('image/png')
   })
 
@@ -72,7 +79,10 @@ describe('share card canvas renderer', () => {
       return placeholder as unknown as HTMLImageElement
     })
 
-    const rendered = await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, loadImage)
+    const rendered = await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, {
+      artworkStyle: 'original',
+      loader: loadImage,
+    })
 
     expect(rendered.imageFallback).toBe(true)
     expect(loadImage).toHaveBeenNthCalledWith(1, './beast.webp')
@@ -87,7 +97,7 @@ describe('share card canvas renderer', () => {
     await renderShareCard(
       target.canvas as unknown as HTMLCanvasElement,
       { ...model, imageFocusY: 0.25 } as ShareCardModel,
-      async () => beast as unknown as HTMLImageElement,
+      { artworkStyle: 'original', loader: async () => beast as unknown as HTMLImageElement },
     )
 
     const [, , sourceY] = target.imageDraws[0]
@@ -97,7 +107,10 @@ describe('share card canvas renderer', () => {
 
   it('keeps the product boundary above the inner frame with a readable bottom margin', async () => {
     const target = fakeCanvas()
-    await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, async () => ({ width: 900, height: 1125 }) as HTMLImageElement)
+    await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, {
+      artworkStyle: 'original',
+      loader: async () => ({ width: 900, height: 1125 }) as HTMLImageElement,
+    })
 
     const boundary = target.textDraws.find((draw) => draw.text === model.boundary)
     expect(boundary?.y).toBeLessThanOrEqual(1368)
@@ -105,10 +118,72 @@ describe('share card canvas renderer', () => {
 
   it('reserves a clear gutter between Wenshan copy and the seal', async () => {
     const target = fakeCanvas()
-    await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, async () => ({ width: 900, height: 1125 }) as HTMLImageElement)
+    await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, {
+      artworkStyle: 'original',
+      loader: async () => ({ width: 900, height: 1125 }) as HTMLImageElement,
+    })
 
     const noteLines = target.textDraws.filter((draw) => draw.y >= 1200 && draw.y <= 1290 && draw.text !== model.guideSeal)
     expect(noteLines.length).toBeGreaterThan(0)
     for (const line of noteLines) expect(line.x + line.width).toBeLessThanOrEqual(840)
+  })
+
+  it('uses the complete square spirit portrait without cropping in the default share style', async () => {
+    const target = fakeCanvas()
+    const chibi = { width: 768, height: 768, marker: 'chibi' }
+
+    await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, {
+      artworkStyle: 'chibi',
+      loader: async () => chibi as unknown as HTMLImageElement,
+    })
+
+    expect(target.imageDraws[0]).toEqual([chibi, 270, 165, 540, 540])
+  })
+
+  it('uses the complete recognition compliment instead of formal copy for the spirit portrait', async () => {
+    const target = fakeCanvas()
+
+    await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, {
+      artworkStyle: 'chibi',
+      loader: async () => ({ width: 768, height: 768 }) as HTMLImageElement,
+    })
+
+    const renderedCopy = target.texts.join('')
+    expect(renderedCopy).toContain(model.chibiLine)
+    expect(renderedCopy).not.toContain(model.line)
+    expect(renderedCopy).not.toContain(model.quote)
+    expect(renderedCopy).not.toContain('…')
+  })
+
+  it('falls back from a missing spirit portrait to the original portrait before the silhouette', async () => {
+    const target = fakeCanvas()
+    const portrait = { width: 900, height: 1125, marker: 'portrait' }
+    const loadImage = vi.fn(async (src: string) => {
+      if (src === model.chibiSrc) throw new Error('chibi failed')
+      return portrait as unknown as HTMLImageElement
+    })
+
+    const rendered = await renderShareCard(target.canvas as unknown as HTMLCanvasElement, model, {
+      artworkStyle: 'chibi',
+      loader: loadImage,
+    })
+
+    expect(rendered.imageFallback).toBe(true)
+    expect(loadImage).toHaveBeenNthCalledWith(1, './chibi.webp')
+    expect(loadImage).toHaveBeenNthCalledWith(2, './beast.webp')
+    expect(target.images).toContain(portrait)
+  })
+
+  it('reports a fallback when the spirit portrait mapping is absent', async () => {
+    const target = fakeCanvas()
+    const portrait = { width: 900, height: 1125, marker: 'portrait' }
+
+    const rendered = await renderShareCard(target.canvas as unknown as HTMLCanvasElement, { ...model, chibiSrc: undefined }, {
+      artworkStyle: 'chibi',
+      loader: async () => portrait as unknown as HTMLImageElement,
+    })
+
+    expect(rendered.imageFallback).toBe(true)
+    expect(target.images).toContain(portrait)
   })
 })

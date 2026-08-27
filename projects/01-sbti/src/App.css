@@ -441,6 +441,35 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
 .wenshan-note { position: relative; margin: calc(var(--space-5) * -1) var(--space-3) 0; border: 1px solid rgb(70 83 78 / 24%); border-left: 3px solid var(--cinnabar); padding: var(--space-4); background: rgb(248 241 223 / 94%); box-shadow: 0 10px 24px rgb(24 35 33 / 10%); }
 .wenshan-note span, .insight-grid span, .scene-list span, .need-card span, .growth-card span, .source-layer span { color: var(--malachite); font-size: var(--text-xs); font-weight: 700; letter-spacing: .12em; }
 .wenshan-note p { margin: var(--space-1) 0 0; font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif; line-height: 1.75; }
+.beast-recognition-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(112px, 34vw, 138px) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  overflow: hidden;
+  border: 1px solid rgb(130 99 54 / 30%);
+  border-top: 3px double var(--gold-muted);
+  padding: var(--space-3);
+  background:
+    linear-gradient(100deg, rgb(183 154 98 / 8%), transparent 42%),
+    rgb(248 241 223 / 82%);
+  box-shadow: 0 12px 28px rgb(24 35 33 / 9%), inset 0 0 0 4px rgb(248 241 223 / 52%);
+  isolation: isolate;
+}
+.beast-recognition-card::before { position: absolute; z-index: 0; top: 10px; right: 10px; bottom: 10px; left: 10px; border: 1px solid rgb(70 83 78 / 8%); pointer-events: none; content: ""; }
+.beast-recognition-card::after { position: absolute; z-index: 0; top: 12px; bottom: 12px; left: calc(clamp(112px, 34vw, 138px) + var(--space-4)); width: 1px; background: linear-gradient(transparent, rgb(63 116 100 / 24%) 24% 76%, transparent); pointer-events: none; content: ""; }
+.beast-recognition-card__figure { position: relative; z-index: 1; aspect-ratio: 1; min-width: 0; overflow: hidden; }
+.beast-recognition-card__figure img { display: block; width: 100%; height: 100%; object-fit: contain; filter: saturate(.92) contrast(.98); transform: scale(1.06); }
+.beast-recognition-card__copy { position: relative; z-index: 2; min-width: 0; padding: var(--space-2) var(--space-1) var(--space-2) var(--space-2); }
+.beast-recognition-card__copy p, .beast-recognition-card__copy strong { margin: 0; }
+.beast-recognition-card__copy .eyebrow { color: var(--malachite); font-size: var(--text-xs); letter-spacing: .08em; }
+.beast-recognition-card__copy strong { display: block; margin-top: var(--space-1); font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif; font-size: var(--text-body); line-height: 1.62; text-wrap: pretty; }
+.beast-recognition-card__copy > p:last-child { margin-top: var(--space-2); padding-right: 48px; padding-bottom: var(--space-2); color: var(--ink-soft); font-size: var(--text-sm); line-height: 1.65; text-wrap: pretty; }
+.beast-recognition-card__seal { position: absolute; z-index: 3; right: 10px; bottom: 10px; display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid var(--cinnabar-dark); color: var(--paper-light); background: var(--cinnabar); box-shadow: inset 0 0 0 2px rgb(248 241 223 / 16%); font: 700 var(--text-sm)/1 "KaiTi", "STKaiti", serif; transform: rotate(-6deg); }
+.beast-recognition-card__fallback { display: grid; width: 84%; height: 84%; margin: 8%; place-items: center; border: 1px dashed rgb(70 83 78 / 30%); color: var(--ink-muted); background: radial-gradient(circle, rgb(166 61 47 / 7%), transparent 66%); font: 700 2.4rem/1 "KaiTi", "STKaiti", serif; }
+.beast-recognition-card--fallback .beast-recognition-card__copy { grid-column: 2; }
 .result-volume { position: relative; }
 .volume-heading { display: grid; grid-template-columns: 42px minmax(0, 1fr); align-items: center; gap: var(--space-3); margin-bottom: var(--space-5); }
 .volume-heading > span { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--cinnabar); color: var(--cinnabar-dark); font: 700 var(--text-xs)/1 "KaiTi", "STKaiti", serif; transform: rotate(-2deg); }
@@ -519,6 +548,20 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
 .share-card-sheet__header h2 { margin: var(--space-1) 0 var(--space-3); font-family: "KaiTi", "STKaiti", serif; font-size: var(--text-title); }
 .share-card-sheet__header h2:focus { outline: 0; }
 .share-card-sheet__close { position: absolute; top: -6px; right: -6px; display: grid; width: 40px; height: 40px; place-items: center; border: 0; color: var(--ink-muted); background: transparent; font-size: 1.8rem; line-height: 1; cursor: pointer; }
+.share-card-style-picker { min-width: 0; margin: 0 0 var(--space-3); border: 0; padding: 0; }
+.share-card-style-picker legend { margin-bottom: var(--space-2); padding: 0; color: var(--ink-muted); font-size: var(--text-xs); font-weight: 700; letter-spacing: .08em; }
+.share-card-style-picker__options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.share-card-style-option { position: relative; min-width: 0; cursor: pointer; }
+.share-card-style-option input { position: absolute; width: 1px; height: 1px; overflow: hidden; margin: -1px; clip: rect(0 0 0 0); clip-path: inset(50%); }
+.share-card-style-option__card { display: grid; min-height: 58px; grid-template-columns: 44px minmax(0, 1fr); gap: var(--space-2); align-items: center; border: 1px solid rgb(70 83 78 / 22%); border-radius: 3px; padding: 6px 8px; background: rgb(255 252 240 / 56%); transition: border-color var(--duration-short) ease, background-color var(--duration-short) ease, box-shadow var(--duration-short) ease, transform var(--duration-short) var(--ease-move); }
+.share-card-style-option__thumb { position: relative; width: 42px; aspect-ratio: 1; overflow: hidden; border: 1px solid rgb(183 154 98 / 48%); border-radius: 50%; background: var(--paper); }
+.share-card-style-option__thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 360ms var(--ease-move); }
+.share-card-style-option__copy { display: grid; min-width: 0; gap: 1px; }
+.share-card-style-option__copy strong { color: var(--ink); font-family: "KaiTi", "STKaiti", serif; font-size: var(--text-sm); line-height: 1.25; }
+.share-card-style-option__copy small { overflow: hidden; color: var(--ink-muted); font-size: .68rem; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+.share-card-style-option input:checked + .share-card-style-option__card { border-color: rgb(166 61 47 / 72%); background: rgb(166 61 47 / 8%); box-shadow: inset 3px 0 0 var(--cinnabar), 0 5px 16px rgb(70 83 78 / 9%); transform: translateY(-1px); }
+.share-card-style-option input:checked + .share-card-style-option__card .share-card-style-option__thumb img { transform: scale(1.06); }
+.share-card-style-option input:focus-visible + .share-card-style-option__card { outline: 2px solid var(--malachite); outline-offset: 2px; }
 .share-card-preview { position: relative; width: min(74vw, 280px); aspect-ratio: 3 / 4; overflow: hidden; margin: 0 auto; border: 1px solid rgb(183 154 98 / 58%); padding: 5px; background: var(--night-raised); box-shadow: 0 16px 34px rgb(24 35 33 / 22%); }
 .share-card-preview img { width: 100%; height: 100%; object-fit: contain; background: var(--paper); animation: share-card-ink-develop 460ms var(--ease-enter) both; }
 .share-card-preview__writing { position: relative; width: 100%; height: 100%; overflow: hidden; background: linear-gradient(155deg, #e8dcc1, #f8f1df 48%, #d8c8a7); }
@@ -564,6 +607,15 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
 @keyframes guide-portrait-arrive { from { opacity: 0; transform: translateX(-14px); filter: saturate(.45); } }
 @keyframes guide-slip-unfurl { from { opacity: 0; transform: translateX(18px); clip-path: inset(0 0 0 38%); } }
 @keyframes entry-panel-arrive { from { opacity: 0; transform: translateY(14px); } }
+@keyframes beast-chibi-arrive { from { opacity: 0; transform: translateX(-10px) rotate(-2deg) scale(.94); filter: saturate(.5) blur(2px); } }
+@keyframes beast-copy-unfurl { from { opacity: 0; transform: translateX(10px); clip-path: inset(0 0 0 28%); } }
+@keyframes beast-seal-press { from { opacity: 0; transform: scale(1.35) rotate(4deg); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .beast-recognition-card.is-entered .beast-recognition-card__figure { animation: beast-chibi-arrive 480ms var(--ease-enter) both; }
+  .beast-recognition-card.is-entered .beast-recognition-card__copy { animation: beast-copy-unfurl 420ms var(--ease-enter) 90ms both; }
+  .beast-recognition-card.is-entered .beast-recognition-card__seal { animation: beast-seal-press 260ms var(--ease-enter) 330ms both; }
+}
 
 @media (max-width: 389px) {
   .page { padding-right: var(--space-4); padding-left: var(--space-4); }
@@ -577,6 +629,10 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
   .guide-sheet__copy { padding-right: var(--space-4); padding-left: var(--space-4); }
   .page--quiz form { padding-right: var(--space-2); padding-left: var(--space-2); }
   .choice-slip { padding-right: var(--space-3); }
+  .beast-recognition-card { grid-template-columns: 106px minmax(0, 1fr); gap: var(--space-2); padding: var(--space-2); }
+  .beast-recognition-card::after { left: calc(106px + var(--space-3)); }
+  .beast-recognition-card__copy { padding-left: var(--space-1); }
+  .beast-recognition-card__copy strong { font-size: var(--text-sm); }
 }
 
 @media (max-height: 740px) {
@@ -586,6 +642,10 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
   .share-card-preview { width: min(57vw, 230px); }
   .share-card-sheet { padding-top: var(--space-3); }
   .share-card-sheet__header h2 { margin-bottom: var(--space-2); font-size: var(--text-title-sm); }
+  .share-card-style-picker { margin-bottom: var(--space-2); }
+  .share-card-style-picker legend { margin-bottom: var(--space-1); }
+  .share-card-style-option__card { min-height: 52px; grid-template-columns: 38px minmax(0, 1fr); padding: 5px 7px; }
+  .share-card-style-option__thumb { width: 36px; }
   .share-card-sheet__status { margin-top: var(--space-2); }
   .landing-guide > .guide-presence { bottom: var(--space-3); min-height: 104px; }
   .guide-sheet__portrait { height: 180px; }
@@ -597,7 +657,7 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .landing-masthead, .landing-scene, .landing-guide__portrait, .landing-guide > .guide-presence, .entry-panel, .cover-visual__mist, .button, .text-button, button.guide-presence, .guide-topic, .button__state, .choice-slip, .choice-slip::before, .choice-slip::after, .choice-slip__marker, .guide-avatar, .guide-presence__copy small, .guide-overlay, .guide-sheet, .share-card-overlay, .share-card-sheet, .share-card-preview img, .share-card-preview__writing::after, .share-card-preview__writing i, .chapter-interlude, .chapter-interlude .guide-sheet, .volume-progress__seal::after, .reveal-sequence__seal, .page--result[data-state="revealed"] > * { animation: none; transition: none; }
+  .landing-masthead, .landing-scene, .landing-guide__portrait, .landing-guide > .guide-presence, .entry-panel, .cover-visual__mist, .button, .text-button, button.guide-presence, .guide-topic, .button__state, .choice-slip, .choice-slip::before, .choice-slip::after, .choice-slip__marker, .guide-avatar, .guide-presence__copy small, .guide-overlay, .guide-sheet, .share-card-overlay, .share-card-sheet, .share-card-style-option__card, .share-card-style-option__thumb img, .share-card-preview img, .share-card-preview__writing::after, .share-card-preview__writing i, .chapter-interlude, .chapter-interlude .guide-sheet, .volume-progress__seal::after, .reveal-sequence__seal, .beast-recognition-card__figure, .beast-recognition-card__copy, .beast-recognition-card__seal, .page--result[data-state="revealed"] > * { animation: none; transition: none; }
   .choice-slip--selected, .choice-slip--selected .choice-slip__marker { transform: none; }
 }
 
@@ -622,6 +682,8 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
 :root[data-reduced-motion="true"] .guide-sheet,
 :root[data-reduced-motion="true"] .share-card-overlay,
 :root[data-reduced-motion="true"] .share-card-sheet,
+:root[data-reduced-motion="true"] .share-card-style-option__card,
+:root[data-reduced-motion="true"] .share-card-style-option__thumb img,
 :root[data-reduced-motion="true"] .share-card-preview img,
 :root[data-reduced-motion="true"] .share-card-preview__writing::after,
 :root[data-reduced-motion="true"] .share-card-preview__writing i,
@@ -629,6 +691,9 @@ progress { width: 100%; height: 6px; margin-bottom: var(--space-8); accent-color
 :root[data-reduced-motion="true"] .chapter-interlude .guide-sheet,
 :root[data-reduced-motion="true"] .volume-progress__seal::after,
 :root[data-reduced-motion="true"] .reveal-sequence__seal,
+:root[data-reduced-motion="true"] .beast-recognition-card__figure,
+:root[data-reduced-motion="true"] .beast-recognition-card__copy,
+:root[data-reduced-motion="true"] .beast-recognition-card__seal,
 :root[data-reduced-motion="true"] .page--result[data-state="revealed"] > * { animation: none; transition: none; }
 :root[data-reduced-motion="true"] .choice-slip--selected,
 :root[data-reduced-motion="true"] .choice-slip--selected .choice-slip__marker { transform: none; }

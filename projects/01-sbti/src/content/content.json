@@ -203,7 +203,12 @@
         "unsupported": "当前环境可以预览；请在小红书真机中保存到相册。",
         "failure": "未能保存。请检查相册权限后重试。",
         "retryLabel": "重新誊写",
-        "closeLabel": "关闭预览"
+        "closeLabel": "关闭预览",
+        "artworkStyleLegend": "选择兽志画风",
+        "chibiStyleLabel": "灵兽小像",
+        "chibiStyleDescription": "轻松分享",
+        "originalStyleLabel": "山海原像",
+        "originalStyleDescription": "原典气韵"
       },
       "disclaimer": "SHBTI 是娱乐性文化创作，不用于心理诊断、能力评估、招聘、教育分流或重要人生决策。",
       "calculating": "正在汇拢四维足迹，让你的山海兽格显形。",
@@ -3010,6 +3015,13 @@
         "code": "RTLS",
         "chineseName": "山司型",
         "creatureId": "creature-luwu",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 陆吾",
+          "hook": "九条尾巴却不是狐，这是巡守昆仑的陆吾。",
+          "blessing": "你最让人安心的，不是事事有答案，而是再乱的局面，到你手里也会慢慢有章法。",
+          "seal": "守",
+          "alt": "Q版陆吾，人面虎身，九尾展开，一爪按住卷册"
+        },
         "coreDescription": "走到局面中央，查清事实，再把纷乱放回各自的位置。",
         "longPortrait": [
           "你很少满足于只把眼前的麻烦压下去。局面一旦混乱，你会本能地靠近中心，先分清事实、责任与边界，再寻找多数人能够继续前行的秩序。",
@@ -3063,6 +3075,13 @@
         "code": "RTLM",
         "chineseName": "飞策型",
         "creatureId": "creature-ershu",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 耳鼠",
+          "hook": "兔首、麋身、鼠形，还能借长尾飞——这位是耳鼠。",
+          "blessing": "你的机灵从不只会救场——别人还在找路时，你已经把新办法带回来了。",
+          "seal": "捷",
+          "alt": "Q版耳鼠，兔首麋身，长尾卷起，抬头迈步"
+        },
         "coreDescription": "靠近现场、快速试一步，再根据真实反馈换下一步。",
         "longPortrait": [
           "你理解世界的方式很靠近现场。与其隔着地图反复推演，你更愿意先走近一点、试一个轻巧动作，再从回声、风向和人的反应里判断下一步。",
@@ -3116,6 +3135,13 @@
         "code": "RTES",
         "chineseName": "丰候型",
         "creatureId": "creature-dangkang",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 当康",
+          "hook": "这可不是野猪，是报丰年的瑞兽当康。",
+          "blessing": "古书说它“见则天下大穰”——你不是在等好运，你走到哪里，哪里就有好日子开张。",
+          "seal": "丰",
+          "alt": "Q版当康，豕形有牙，抬起前蹄，身旁有谷穗"
+        },
         "coreDescription": "把关心变成安排，让一群人切实过得更好。",
         "longPortrait": [
           "你的关心往往带着重量：不是一句安慰，而是一顿饭、一次分工、一份可以兑现的安排。你很容易注意到谁缺少资源，也愿意把丰足变成众人都摸得到的日常。",
@@ -3169,6 +3195,13 @@
         "code": "RTEM",
         "chineseName": "歌游型",
         "creatureId": "creature-xingxing",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 狌狌",
+          "hook": "白耳善走的狌狌，最懂得边走边看。",
+          "blessing": "你走到哪里都不冷场，连平常日子跟着你，也会自己长出新鲜感。",
+          "seal": "游",
+          "alt": "Q版狌狌，白耳蹲坐，伸出一手，长尾卷起"
+        },
         "coreDescription": "从人与现场得到能量，跟着真实感受调整节奏。",
         "longPortrait": [
           "你对人与现场的温度非常敏锐。一个眼神、一次停顿或气氛的轻微变化，都可能让你自然地调整表达，使原本僵住的局面重新有了呼吸。",
@@ -3222,6 +3255,13 @@
         "code": "RVLS",
         "chineseName": "巡境型",
         "creatureId": "creature-yingzhao",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 英招",
+          "hook": "人面、马身、虎纹、鸟翼，这位巡境者叫英招。",
+          "blessing": "你眼里装得下全局，心里也放得下同行的人；被你照看过的路，总会更稳一点。",
+          "seal": "巡",
+          "alt": "Q版英招，人面马身，虎纹清楚，双翼半展"
+        },
         "coreDescription": "看整片地图，也亲自巡视每个关键节点。",
         "longPortrait": [
           "你习惯先把零散事件放进更大的地图，观察它们如何互相牵动，再选择几个真正决定成败的节点亲自确认。宏观与落地对你并不是两件事。",
@@ -3275,6 +3315,13 @@
         "code": "RVLM",
         "chineseName": "无界舞型",
         "creatureId": "creature-dijiang",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 帝江",
+          "hook": "黄囊、六足、四翼，古书里的帝江本就无面目，却最懂歌舞。",
+          "blessing": "你自带让人放松的节奏；有你在，连拘谨的人也会卸下包袱，跟着快乐起来。",
+          "seal": "舞",
+          "alt": "Q版帝江，无面囊形身体，六足四翼正在起舞"
+        },
         "coreDescription": "先捕捉整体节奏，让答案在移动中显形。",
         "longPortrait": [
           "你常在别人还整理局部时，先感到事物之间隐约相连的节奏。答案未必以直线出现，它可能来自跨领域联想、气氛变化或一次看似无关的移动。",
@@ -3328,6 +3375,13 @@
         "code": "RVES",
         "chineseName": "定声型",
         "creatureId": "creature-huan",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 讙",
+          "hook": "一只眼、三条尾，还能拟出百种声音——这位是讙。",
+          "blessing": "再乱的声音到了你这里，也能被听懂、被说清；你开口时，别人愿意认真听。",
+          "seal": "声",
+          "alt": "Q版讙，一只眼、三条尾，张口发出声纹"
+        },
         "coreDescription": "听见不同声音，再提炼出大家可以共同遵守的约定。",
         "longPortrait": [
           "你对群体中的多种声音有天然敏感度，不只听见发言最响的人，也会留意犹豫、沉默和尚未成句的意见。你希望共识来自真正的听见。",
@@ -3381,6 +3435,13 @@
         "code": "RVEM",
         "chineseName": "丹歌型",
         "creatureId": "creature-fenghuang",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 凤凰",
+          "hook": "它不是普通彩鸟，一开口能歌、一振羽会舞——这才是凤凰。",
+          "blessing": "你不用追着光走——你认真做自己时，光和同路的人都会循声而来。",
+          "seal": "和",
+          "alt": "Q版凤凰，五彩羽翼舒展，昂首轻鸣"
+        },
         "coreDescription": "让一群人看见共同愿景，也为新的表达保留空间。",
         "longPortrait": [
           "你很容易察觉一群人可以共同相信什么，并把零散期待整理成有感染力的方向。你的表达不只传递信息，也在邀请别人看见更好的可能。",
@@ -3434,6 +3495,13 @@
         "code": "HTLS",
         "chineseName": "负图型",
         "creatureId": "creature-xuangui",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 旋龟",
+          "hook": "龟身、鸟首、虺尾，像山海拼图？它叫旋龟。",
+          "blessing": "你看着稳，其实最会转弯；再难走的水路，到你这里也总能找到靠岸的办法。",
+          "seal": "稳",
+          "alt": "Q版旋龟，龟身鸟首，蛇尾卷起，正在爬过小石"
+        },
         "coreDescription": "安静核对细节，等证据咬合后再判断。",
         "longPortrait": [
           "你不急着对第一眼看见的东西下结论。面对纷杂线索，你会安静地核对来源、寻找矛盾，让事实一块块咬合，直到判断能够被别人沿路追问。",
@@ -3487,6 +3555,13 @@
         "code": "HTLM",
         "chineseName": "火迹型",
         "creatureId": "creature-bifang",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 毕方",
+          "hook": "别数了，毕方天生一足；它一出现，连火光都像提前递来的消息。",
+          "blessing": "你总能比别人早看见那点火苗；有你在，许多麻烦还没烧起来，就已经有了转机。",
+          "seal": "明",
+          "alt": "Q版毕方，单足站立，青羽赤纹，白喙旁有火星"
+        },
         "coreDescription": "对异常迹象敏锐，会独自追到背后因果。",
         "longPortrait": [
           "你常比别人更早注意到不合常理的细节：一句话里的停顿、流程里多出的一步、平静表面下微弱的热度。异常会唤起你的追索本能。",
@@ -3540,6 +3615,13 @@
         "code": "HTES",
         "chineseName": "填海型",
         "creatureId": "creature-jingwei",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 精卫",
+          "hook": "嘴里叼的不是树枝收藏，是它的填海工程。",
+          "blessing": "你最了不起的不是从不累，而是认准的事再小也肯继续；久而久之，海也会记住你的名字。",
+          "seal": "恒",
+          "alt": "Q版精卫，低头衔着细枝，前方散落两颗小石"
+        },
         "coreDescription": "不一定高声表态，却用具体行动守住承诺。",
         "longPortrait": [
           "你未必总是最先高声表态，却会记住那些真正答应过的事情。对你而言，价值并不只存在于态度里，它必须经过一次次具体行动才能站稳。",
@@ -3593,6 +3675,13 @@
         "code": "HTEM",
         "chineseName": "谣尾型",
         "creatureId": "creature-lushu",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 鹿蜀",
+          "hook": "白首、虎纹、赤尾，像马又自带歌谣——这是鹿蜀。",
+          "blessing": "你一出现，气氛就会变好；不是你刻意讨人喜欢，是你的真诚本来就让人想靠近。",
+          "seal": "谣",
+          "alt": "Q版鹿蜀，白首虎纹，赤色长尾扬起"
+        },
         "coreDescription": "细腻温和，从具体相处找到舒服距离。",
         "longPortrait": [
           "你常从细小的相处感受里理解关系：语气是否放松、距离是否合适、一个人今天有没有多承担一点。你愿意调整自己，让同行变得自然。",
@@ -3646,6 +3735,13 @@
         "code": "HVLS",
         "chineseName": "多面门型",
         "creatureId": "creature-kaimingshou",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 开明兽",
+          "hook": "九张面孔不是九个分身，是守在昆仑的开明兽。",
+          "blessing": "你不是想得太多，是看得到别人没看见的那一面；门再多，你也认得出值得守的那扇。",
+          "seal": "门",
+          "alt": "Q版开明兽，虎身稳立，九张人面扇形排布"
+        },
         "coreDescription": "同时从多个方向看问题，最终会选择一扇门守住。",
         "longPortrait": [
           "你很少相信问题只有一个正面。面对复杂局面，你会主动转换视角，容纳彼此冲突的解释，并观察每一种选择将关闭或开启哪些可能。",
@@ -3699,6 +3795,13 @@
         "code": "HVLM",
         "chineseName": "司晦型",
         "creatureId": "creature-zhuyin",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 烛阴",
+          "hook": "人面蛇身，一呼一息都是昼夜寒暑的传说。",
+          "blessing": "你不是慢半拍，是看得比一时得失更远；别人慌着赶路时，你心里一直有灯。",
+          "seal": "晦",
+          "alt": "Q版烛阴，人面赤色蛇身，盘成昼夜弧线"
+        },
         "coreDescription": "从长时间尺度观察变化，为未来保留可转向的坐标。",
         "longPortrait": [
           "你习惯把今天放进更长的时间里观察。眼前的起伏未必立刻改变你的判断，你更关心它属于偶然波动、重复周期，还是正在形成的新趋势。",
@@ -3752,6 +3855,13 @@
         "code": "HVES",
         "chineseName": "安忧型",
         "creatureId": "creature-feifei",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 朏朏",
+          "hook": "白尾有鬣，看着像猫？它是古书里的忘忧兽朏朏。",
+          "blessing": "你很懂得把世界调成舒服的音量；和你待在一起，连紧绷的心都会悄悄松开。",
+          "seal": "安",
+          "alt": "Q版朏朏，白尾有鬣，蓬松尾巴环抱身体"
+        },
         "coreDescription": "察觉未说出口的疲惫，用安静陪伴给人支点。",
         "longPortrait": [
           "你能察觉许多尚未被说出口的疲惫。别人强撑时，你往往先注意到语气、停顿和细微退缩，并用不逼迫的陪伴让对方重新找到支点。",
@@ -3805,6 +3915,13 @@
         "code": "HVEM",
         "chineseName": "青丘型",
         "creatureId": "creature-jiuweihu",
+        "recognitionCard": {
+          "kicker": "闻山认兽 · 九尾狐",
+          "hook": "九条尾巴不是仙气特效，这是古书里聪慧又有锋芒的九尾狐。",
+          "blessing": "你看得懂人心，也守得住自己；聪明有边界，温柔有锋芒，越了解越让人着迷。",
+          "seal": "界",
+          "alt": "Q版九尾狐，正面端坐，九尾展开，露出一点犬齿"
+        },
         "coreDescription": "内在世界丰盛，善于读懂关系中未明说的暗流。",
         "longPortrait": [
           "你的内在世界有许多层次，能从隐喻、语气和关系的暗流里读出表面话语之外的含义。你也擅长转换表达，为难以直说的经验找到新的入口。",

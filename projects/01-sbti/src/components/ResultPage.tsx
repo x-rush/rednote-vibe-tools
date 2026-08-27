@@ -5,6 +5,7 @@ import type { QuizResult, ShareCardViewModel } from '../quiz/types'
 import { formatResultIdentity, toDimensionDisplay } from '../quiz/presentation'
 import { createShareCardModel } from '../share/shareCardModel'
 import { BeastPortrait } from './BeastPortrait'
+import { BeastRecognitionCard } from './BeastRecognitionCard'
 import { GuidePresence } from './guide/GuidePresence'
 import { GuideTopicSheet } from './guide/GuideTopicSheet'
 import { ShareCardSheet } from './ShareCardSheet'
@@ -33,6 +34,7 @@ export function ResultPage({ result, profile, neighborLabel, share, guide, ident
           setHelpOpen(true)
         }}
       />
+      <BeastRecognitionCard code={result.code} copy={profile.recognitionCard} />
 
       <section className="result-volume" aria-labelledby="portrait-title">
         <div className="volume-heading" aria-label="卷一 · 本相"><span>卷一</span><div><p>本相</p><h2 id="portrait-title">你如何成为现在的你</h2></div></div>

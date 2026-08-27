@@ -190,6 +190,17 @@ function guideTopicsAt(value: unknown, path: string, issues: string[]) {
   })
 }
 
+function recognitionCardAt(value: unknown, path: string, issues: string[]) {
+  if (!isRecord(value)) {
+    issues.push(`${path}: expected an object`)
+    return
+  }
+  requiredStrings(value, ['kicker', 'hook', 'blessing', 'seal', 'alt'], path, issues)
+  if (typeof value.seal === 'string' && !/^\p{Script=Han}$/u.test(value.seal)) {
+    issues.push(`${path}.seal: expected exactly one Chinese character`)
+  }
+}
+
 function validateType(value: unknown, index: number, creatureIds: Set<string>, issues: string[]): value is PersonalityType {
   const path = `$.content.resultTypes[${index}]`
   if (!isRecord(value)) {
@@ -198,6 +209,7 @@ function validateType(value: unknown, index: number, creatureIds: Set<string>, i
   }
   if (!TYPE_CODES.includes(String(value.code))) issues.push(`${path}.code: illegal type code`)
   requiredStrings(value, ['chineseName', 'creatureId', 'coreDescription', 'stressState', 'shareTitle', 'shareLine', 'classicalNote', 'creativeNote', 'disclaimer', 'artAssetId', 'contentVersion'], path, issues)
+  recognitionCardAt(value.recognitionCard, `${path}.recognitionCard`, issues)
   substantialStringArrayAt(value.longPortrait, `${path}.longPortrait`, 2, 45, issues)
   substantialStringAt(value.innerDrive, `${path}.innerDrive`, 24, issues)
   substantialStringAt(value.misreadAs, `${path}.misreadAs`, 20, issues)
@@ -315,7 +327,8 @@ export function validateContent(input: unknown): ShbtiContentPackage {
     else {
       requiredStrings(content.experience.shareCard, [
         'triggerLabel', 'launchDescription', 'title', 'cardEyebrow', 'guideLabel', 'guideSeal', 'generating', 'previewAlt', 'saveLabel', 'savingLabel',
-        'success', 'unsupported', 'failure', 'retryLabel', 'closeLabel',
+        'success', 'unsupported', 'failure', 'retryLabel', 'closeLabel', 'artworkStyleLegend', 'chibiStyleLabel', 'chibiStyleDescription',
+        'originalStyleLabel', 'originalStyleDescription',
       ], '$.content.experience.shareCard', issues)
     }
   }

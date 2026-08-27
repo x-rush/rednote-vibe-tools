@@ -26,12 +26,20 @@ function diskPath(src: string) {
 describe('SHBTI release asset manifest', () => {
   const profiles = releaseManifest.items.filter((item) => item.id.startsWith('shbti.beast.') && item.id.endsWith('.profile'))
   const placeholders = releaseManifest.items.filter((item) => item.id.startsWith('shbti.beast.') && item.id.endsWith('.placeholder'))
+  const chibis = releaseManifest.items.filter((item) => item.id.startsWith('shbti.beast.') && item.id.endsWith('.chibi'))
 
   it('ships one reference-verified profile and one same-beast placeholder for all 16 types', () => {
     expect(profiles).toHaveLength(16)
     expect(placeholders).toHaveLength(16)
     expect(new Set(profiles.flatMap((item) => item.contentIds ?? []).filter((value) => /^[A-Z]{4}$/.test(value)))).toHaveLength(16)
     expect(new Set(placeholders.map((item) => item.src))).toHaveLength(16)
+  })
+
+  it('registers one local recognition-card chibi for all 16 types', () => {
+    expect(chibis).toHaveLength(16)
+    expect(new Set(chibis.flatMap((item) => item.contentIds ?? []).filter((value) => /^[A-Z]{4}$/.test(value)))).toHaveLength(16)
+    expect(new Set(chibis.map((item) => item.src))).toHaveLength(16)
+    expect(chibis.every((item) => item.src?.endsWith('/chibi-v1.webp'))).toBe(true)
   })
 
   it('points every runtime image at an existing file with synchronized byte metadata', () => {

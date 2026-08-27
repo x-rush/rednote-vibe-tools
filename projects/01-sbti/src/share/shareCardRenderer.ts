@@ -2,6 +2,12 @@ import type { ShareCardModel } from './shareCardModel'
 
 export type ShareCardRenderResult = { dataUri: string; imageFallback: boolean }
 export type ShareCardImageLoader = (src: string) => Promise<HTMLImageElement>
+export type ShareCardArtworkStyle = 'chibi' | 'original'
+
+type ShareCardRenderOptions = {
+  artworkStyle?: ShareCardArtworkStyle
+  loader?: ShareCardImageLoader
+}
 
 const WIDTH = 1080
 const HEIGHT = 1440
@@ -82,19 +88,60 @@ function drawInkFallback(context: CanvasRenderingContext2D) {
   context.globalAlpha = 1
 }
 
-async function resolveArtwork(model: ShareCardModel, loader: ShareCardImageLoader) {
-  if (model.imageSrc) {
-    try { return { image: await loader(model.imageSrc), fallback: false } }
-    catch { /* use the bundled placeholder below */ }
+async function resolveArtwork(model: ShareCardModel, style: ShareCardArtworkStyle, loader: ShareCardImageLoader) {
+  const candidates: Array<{ src: string | undefined; style: ShareCardArtworkStyle }> = style === 'chibi'
+    ? [
+        { src: model.chibiSrc, style: 'chibi' },
+        { src: model.imageSrc, style: 'original' },
+        { src: model.placeholderSrc, style: 'original' },
+      ]
+    : [
+        { src: model.imageSrc, style: 'original' },
+        { src: model.placeholderSrc, style: 'original' },
+      ]
+
+  let attempted = 0
+  for (const candidate of candidates) {
+    if (!candidate.src) continue
+    attempted += 1
+    try {
+      return { image: await loader(candidate.src), style: candidate.style, fallback: candidate.style !== style || attempted > 1 }
+    } catch { /* try the next bundled artwork */ }
   }
-  if (model.placeholderSrc) {
-    try { return { image: await loader(model.placeholderSrc), fallback: true } }
-    catch { /* draw an ink silhouette below */ }
-  }
-  return { image: undefined, fallback: true }
+  return { image: undefined, style: 'original' as const, fallback: true }
 }
 
-export async function renderShareCard(canvas: HTMLCanvasElement, model: ShareCardModel, loader: ShareCardImageLoader = loadShareCardImage): Promise<ShareCardRenderResult> {
+function drawChibiArtwork(context: CanvasRenderingContext2D, image: HTMLImageElement) {
+  context.fillStyle = '#e8dcc2'
+  context.fillRect(72, 154, 936, 562)
+
+  context.fillStyle = 'rgba(63, 116, 100, 0.11)'
+  context.beginPath()
+  context.moveTo(72, 658)
+  context.lineTo(166, 486)
+  context.lineTo(248, 658)
+  context.fill()
+  context.beginPath()
+  context.moveTo(832, 658)
+  context.lineTo(930, 456)
+  context.lineTo(1008, 658)
+  context.fill()
+
+  context.strokeStyle = 'rgba(166, 61, 47, 0.24)'
+  context.lineWidth = 3
+  context.beginPath()
+  context.arc(169, 284, 54, 0, Math.PI * 2)
+  context.stroke()
+  context.beginPath()
+  context.arc(920, 584, 34, 0, Math.PI * 2)
+  context.stroke()
+
+  context.drawImage(image, 270, 165, 540, 540)
+}
+
+export async function renderShareCard(canvas: HTMLCanvasElement, model: ShareCardModel, options: ShareCardRenderOptions = {}): Promise<ShareCardRenderResult> {
+  const artworkStyle = options.artworkStyle ?? 'chibi'
+  const loader = options.loader ?? loadShareCardImage
   canvas.width = WIDTH
   canvas.height = HEIGHT
   const context = canvas.getContext('2d')
@@ -123,11 +170,12 @@ export async function renderShareCard(canvas: HTMLCanvasElement, model: ShareCar
   context.textBaseline = 'alphabetic'
   context.fillText(model.eyebrow, 72, 112)
 
-  const artwork = await resolveArtwork(model, loader)
+  const artwork = await resolveArtwork(model, artworkStyle, loader)
   context.save()
   roundedRect(context, 72, 154, 936, 562, 10)
   context.clip()
-  if (artwork.image) drawCoverImage(context, artwork.image, 72, 154, 936, 562, model.imageFocusY)
+  if (artwork.image && artwork.style === 'chibi') drawChibiArtwork(context, artwork.image)
+  else if (artwork.image) drawCoverImage(context, artwork.image, 72, 154, 936, 562, model.imageFocusY)
   else drawInkFallback(context)
   context.restore()
   context.strokeStyle = 'rgba(24, 35, 33, 0.55)'
@@ -141,14 +189,22 @@ export async function renderShareCard(canvas: HTMLCanvasElement, model: ShareCar
   context.font = '700 38px "STKaiti", "KaiTi", serif'
   context.fillText(model.typeName, 72, 870)
 
-  context.fillStyle = '#46534e'
-  context.font = '32px "Songti SC", "STSong", serif'
-  drawWrappedText(context, model.line, 72, 934, 936, 45, 1)
+  if (artworkStyle === 'chibi') {
+    context.fillStyle = '#762a22'
+    context.fillRect(72, 913, 4, 92)
+    context.fillStyle = '#46534e'
+    context.font = '32px "Songti SC", "STSong", serif'
+    drawWrappedText(context, model.chibiLine, 92, 950, 896, 46, 2)
+  } else {
+    context.fillStyle = '#46534e'
+    context.font = '32px "Songti SC", "STSong", serif'
+    drawWrappedText(context, model.line, 72, 934, 936, 45, 1)
 
-  context.fillStyle = '#762a22'
-  context.fillRect(72, 975, 4, 34)
-  context.font = '26px "Songti SC", "STSong", serif'
-  drawWrappedText(context, `「${model.quote}」`, 92, 1001, 896, 38, 1)
+    context.fillStyle = '#762a22'
+    context.fillRect(72, 975, 4, 34)
+    context.font = '26px "Songti SC", "STSong", serif'
+    drawWrappedText(context, `「${model.quote}」`, 92, 1001, 896, 38, 1)
+  }
 
   model.preferredPoles.slice(0, 4).forEach((pole, index) => {
     const x = 72 + index * 236

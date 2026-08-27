@@ -142,10 +142,15 @@ async function inspectEvidence(evidenceId) {
       placeholder: document.body.textContent.includes('人工核验资源位'),
       minTarget: Math.min(...buttons.map((button) => Math.min(button.getBoundingClientRect().width, button.getBoundingClientRect().height))),
       activeInArtifact: Boolean(document.activeElement.closest?.('.evidence-artifact')),
+      semanticActionLabels: [...artifact.querySelectorAll('.semantic-edges button')].map((button) => button.textContent.replace(/^[×→]/, '').trim()),
+      semanticActionOverflow: [...artifact.querySelectorAll('.semantic-edges button')].some((button) => button.scrollWidth > button.clientWidth + 1 || button.scrollHeight > button.clientHeight + 1),
     }
   })()`)
   if (report.id !== evidenceId || report.observationCount < 2 || !report.primarySrc.includes('-v3.webp') || report.primarySize[0] !== 1080 || report.primarySize[1] !== 720 || report.duplicateGlyphOverlays || report.brokenImages || report.placeholder || report.minTarget < 44 || !report.activeInArtifact) {
     throw new Error(`Evidence inspection regression: ${JSON.stringify(report)}`)
+  }
+  if (report.template === 'semantic-map' && (JSON.stringify(report.semanticActionLabels) !== JSON.stringify(['材料能证明什么', '材料不能证明什么']) || report.semanticActionOverflow)) {
+    throw new Error(`Semantic-map action regression: ${JSON.stringify(report)}`)
   }
   return report
 }
@@ -190,11 +195,12 @@ const viewportCases = [
 ]
 const homeCase = cases.find((item) => item.caseId === 'case-home-roof-pig')
 const homeEvidence = evidence.find((item) => item.id === 'evidence-home-early-form')
-if (!homeCase || !homeEvidence) throw new Error('Home browser fixtures missing')
+const homeSemanticEvidence = evidence.find((item) => item.id === 'evidence-home-phonetic')
+if (!homeCase || !homeEvidence || !homeSemanticEvidence) throw new Error('Home browser fixtures missing')
 
 for (const viewport of viewportCases) {
   await command('Emulation.setDeviceMetricsOverride', { width: viewport.width, height: viewport.height, deviceScaleFactor: 1, mobile: true })
-  await seedCase(homeCase, [homeEvidence.id])
+  await seedCase(homeCase, [homeEvidence.id, homeSemanticEvidence.id])
   await openSeededLedger()
   const inspected = await inspectEvidence(homeEvidence.id)
   await evaluate(`document.documentElement.style.setProperty('--safe-area-inset-top', ${JSON.stringify(`${viewport.safeTop}px`)})`)
@@ -217,7 +223,10 @@ for (const viewport of viewportCases) {
   await waitFor(`document.activeElement?.dataset?.evidenceTrigger === ${JSON.stringify(homeEvidence.id)}`)
   const focusRestored = await evaluate(`document.activeElement?.dataset?.evidenceTrigger === ${JSON.stringify(homeEvidence.id)}`)
   if (!focusRestored) throw new Error(`Evidence trigger focus was not restored at ${viewport.width}px`)
-  viewportReports.push({ ...layout, ...inspected, focusRestored })
+  const semanticInspected = await inspectEvidence(homeSemanticEvidence.id)
+  await evaluate(`document.querySelector('.evidence-screen .page-header button').click()`)
+  await waitFor(`document.querySelector('.ledger-screen') !== null`)
+  viewportReports.push({ ...layout, ...inspected, focusRestored, semanticActions: semanticInspected.semanticActionLabels })
 }
 
 await command('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true })

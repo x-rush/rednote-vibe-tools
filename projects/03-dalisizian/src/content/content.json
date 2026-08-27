@@ -9223,7 +9223,7 @@
               "id": "home-supported-edge",
               "from": "home-source-node",
               "to": "home-relation-node",
-              "label": "材料支持",
+              "label": "材料能证明什么",
               "strength": "supported",
               "sourceIds": [
                 "source-home-moe-variants",
@@ -9235,7 +9235,7 @@
               "id": "home-blocked-edge",
               "from": "home-relation-node",
               "to": "home-limit-node",
-              "label": "不可直接跨越",
+              "label": "材料不能证明什么",
               "strength": "blocked",
               "sourceIds": [
                 "source-home-moe-variants",
@@ -9521,7 +9521,7 @@
               "id": "rest-supported-edge",
               "from": "rest-source-node",
               "to": "rest-relation-node",
-              "label": "材料支持",
+              "label": "材料能证明什么",
               "strength": "supported",
               "sourceIds": [
                 "source-rest-moe-variants"
@@ -9532,7 +9532,7 @@
               "id": "rest-blocked-edge",
               "from": "rest-relation-node",
               "to": "rest-limit-node",
-              "label": "不可直接跨越",
+              "label": "材料不能证明什么",
               "strength": "blocked",
               "sourceIds": [
                 "source-rest-moe-variants"
@@ -9817,7 +9817,7 @@
               "id": "take-supported-edge",
               "from": "take-source-node",
               "to": "take-relation-node",
-              "label": "材料支持",
+              "label": "材料能证明什么",
               "strength": "supported",
               "sourceIds": [
                 "source-take-moe-variants"
@@ -9828,7 +9828,7 @@
               "id": "take-blocked-edge",
               "from": "take-relation-node",
               "to": "take-limit-node",
-              "label": "不可直接跨越",
+              "label": "材料不能证明什么",
               "strength": "blocked",
               "sourceIds": [
                 "source-take-moe-variants"
@@ -10120,7 +10120,7 @@
               "id": "pick-supported-edge",
               "from": "pick-source-node",
               "to": "pick-relation-node",
-              "label": "材料支持",
+              "label": "材料能证明什么",
               "strength": "supported",
               "sourceIds": [
                 "source-pick-moe-variants",
@@ -10132,7 +10132,7 @@
               "id": "pick-blocked-edge",
               "from": "pick-relation-node",
               "to": "pick-limit-node",
-              "label": "不可直接跨越",
+              "label": "材料不能证明什么",
               "strength": "blocked",
               "sourceIds": [
                 "source-pick-moe-variants",
@@ -10418,7 +10418,7 @@
               "id": "watch-supported-edge",
               "from": "watch-source-node",
               "to": "watch-relation-node",
-              "label": "材料支持",
+              "label": "材料能证明什么",
               "strength": "supported",
               "sourceIds": [
                 "source-watch-moe-variants"
@@ -10429,7 +10429,7 @@
               "id": "watch-blocked-edge",
               "from": "watch-relation-node",
               "to": "watch-limit-node",
-              "label": "不可直接跨越",
+              "label": "材料不能证明什么",
               "strength": "blocked",
               "sourceIds": [
                 "source-watch-moe-variants"
@@ -10722,7 +10722,7 @@
               "id": "martial-supported-edge",
               "from": "martial-source-node",
               "to": "martial-relation-node",
-              "label": "材料支持",
+              "label": "材料能证明什么",
               "strength": "supported",
               "sourceIds": [
                 "source-martial-moe-variants",
@@ -10734,7 +10734,7 @@
               "id": "martial-blocked-edge",
               "from": "martial-relation-node",
               "to": "martial-limit-node",
-              "label": "不可直接跨越",
+              "label": "材料不能证明什么",
               "strength": "blocked",
               "sourceIds": [
                 "source-martial-moe-variants",
@@ -11022,7 +11022,7 @@
               "id": "law-supported-edge",
               "from": "law-source-node",
               "to": "law-relation-node",
-              "label": "材料支持",
+              "label": "材料能证明什么",
               "strength": "supported",
               "sourceIds": [
                 "source-law-moe-variants"
@@ -11033,7 +11033,7 @@
               "id": "law-blocked-edge",
               "from": "law-relation-node",
               "to": "law-limit-node",
-              "label": "不可直接跨越",
+              "label": "材料不能证明什么",
               "strength": "blocked",
               "sourceIds": [
                 "source-law-moe-variants"
@@ -11332,7 +11332,7 @@
               "id": "autumn-supported-edge",
               "from": "autumn-source-node",
               "to": "autumn-relation-node",
-              "label": "材料支持",
+              "label": "材料能证明什么",
               "strength": "supported",
               "sourceIds": [
                 "source-autumn-moe-variants",
@@ -11344,7 +11344,7 @@
               "id": "autumn-blocked-edge",
               "from": "autumn-relation-node",
               "to": "autumn-limit-node",
-              "label": "不可直接跨越",
+              "label": "材料不能证明什么",
               "strength": "blocked",
               "sourceIds": [
                 "source-autumn-moe-variants",

@@ -58,6 +58,19 @@ describe('content envelope', () => {
     }
   })
 
+  it('uses plain-language evidence-boundary actions in every semantic map', () => {
+    const semanticMaps = content.content.evidence
+      .map((evidence) => evidence.visualSpec)
+      .filter((visual) => visual.template === 'semantic-map')
+
+    expect(semanticMaps).toHaveLength(8)
+    for (const visual of semanticMaps) {
+      expect(visual.edges.find((edge) => edge.strength === 'supported')?.label).toBe('材料能证明什么')
+      expect(visual.edges.find((edge) => edge.strength === 'blocked')?.label).toBe('材料不能证明什么')
+    }
+    expect(JSON.stringify(semanticMaps)).not.toMatch(/材料支持|不可直接跨越/)
+  })
+
   it('gives every case a complete option-driven investigation contract', () => {
     for (const item of content.content.cases) {
       expect(item.characterIds.length).toBeGreaterThanOrEqual(3)

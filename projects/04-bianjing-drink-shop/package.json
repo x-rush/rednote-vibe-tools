@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
+    "build:minitool": "tsc -b && vite build --mode minitool && node scripts/prepare-minitool.mjs",
+    "lint": "oxlint --ignore-pattern 'dist-minitool/**'",
     "test": "vitest run",
     "check": "pnpm lint && pnpm test && pnpm build",
     "preview": "vite preview"

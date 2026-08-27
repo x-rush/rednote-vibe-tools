@@ -1,6 +1,6 @@
 # 汴京饮子铺 · 美术与声音生成台账
 
-状态：页面反推资源已冻结；正式场景、饮子、顾客和声音仍受参考／许可门禁约束。
+状态：运行时场景、饮子与七类剧情角色已完成；声音仍受来源／许可门禁约束。
 
 ## 生成顺序
 
@@ -58,3 +58,128 @@
 - 单资源自检：人物手势、三枚竹筹、空碗口沿、包巾和工作服均清楚可信；自然半身构图允许腰以下被画面裁切，不要求破坏构图以展示脚部。
 - 导出：`guide-master-v1.webp` 900×1200、65,458 bytes；`guide-avatar-v1.webp` 160×160、2,586 bytes；`guide-placeholder-v1.webp` 72×96、834 bytes。
 - 装回二检：首次引导态使用完整立绘和头像；375／390／430px 均无横向溢出、破图或人物越框，主按钮最小高度 46px；位图不承载文案，加载失败仍保留角色名、身份、引导语和操作按钮。
+
+## 2026-08-26 V2 运行时美术包
+
+生成方式：Codex 内置 `image_gen`，未使用 CLI、外部 API 或运行时下载。最终输出统一由源 PNG 转为 WebP；人物与饮子保留 Alpha，位图不承载文字。
+
+### 最终提示词公共约束
+
+店铺使用 `historical-scene`：北宋汴京单层敞棚临街饮子小铺，低矮灰瓦、直木柱、浅柜台、素面陶瓷与竹木器；低饱和赭木、茶青、烟墨二维游戏插画；顶部 HUD、中心人物和底部经营台安全区；空白布幌；禁止文字、人物、Logo、水印、明清酒楼、宫殿飞檐、灯笼、水乡桥河、日式町屋与现代容器。
+
+人物使用 `illustration-story`：柔和精绘二维游戏人物，透明背景，低饱和赭木／茶青／烟墨统一色系；双手和指定道具完整；禁止文字、Logo、水印、清代帽服、辫子、现代围裙、仙侠服饰与裁手。
+
+饮子使用 `product-mockup`：单只素面青釉／青白釉／陶碗，略俯视三分之四角度，透明背景，43px 仍有清楚轮廓；禁止器皿纹字、玻璃、塑料、吸管、现代咖啡杯、柠檬、冰块、Logo 和水印。以下“差分”与这组公共约束合并即为最终提示词。
+
+### 人物差分与验收
+
+| 文件 | 最终提示词差分 | 尺寸／字节 | 验收 |
+|---|---|---:|---|
+| `guide/ayuan-master.webp` | 二十二至二十六岁店伙计；深灰黑软巾、烟灰窄袖交领工作服、暖米内层、赭棕腰布；右手恰好三枚无字竹筹，左手托空素面青白瓷碗 | 900×1200／135,490 | 三筹、双手、空碗和服装清楚 |
+| `customers/market-worker.webp` | 浅色短打、白色背搭、劳动头巾；双手握小竹篮；端正而不贫困猎奇 | 800×1000／105,014 | 双手和小篮完整，身份可读 |
+| `customers/merchant.webp` | 深色包巾、清楚盘领灰袍、腰间收束；一手一枚无字木签，另一手完整 | 800×1000／93,410 | 盘领和木签通过，无伪字 |
+| `customers/scholar.webp` | 素色宽袍；低、软、圆弧贴头的宋式黑巾，无高冠方形和硬片；双手托无字卷轴 | 800×1000／67,386 | V1 因头服偏方帽被拒；V2 低软巾和双手通过 |
+
+### 饮子差分与验收
+
+| 文件 | 最终提示词差分 | 字节 |
+|---|---|---:|
+| `drinks/drink-green-plum.webp` | 淡黄绿至浅琥珀饮液、小青梅意象；明确游戏创意名 | 18,904 |
+| `drinks/drink-ginger-honey.webp` | 淡琥珀液、三片姜片、一段真实姜根；无蜂蜜罐、蜂巢和柠檬 | 24,832 |
+| `drinks/drink-perilla.webp` | 草褐淡琥珀液、两片粗锯齿紫苏叶；不画葡萄紫 | 38,696 |
+| `drinks/drink-lychee-paste.webp` | 略稠浅蜜色、克制荔枝果肉与整果意象 | 38,710 |
+| `drinks/drink-fragrant-bean.webp` | 米褐饮液、少量浅豆；无现代豆奶杯和拉花 | 17,996 |
+| `drinks/drink-lotus.webp` | 淡茶青褐饮液、小莲房切面与莲子意象 | 28,428 |
+| `drinks/drink-mint.webp` | 极浅茶青液、恰好两片薄荷叶；无莫吉托和气泡 | 27,338 |
+| `drinks/drink-cinnamon.webp` | 暖琥珀褐液、短桂皮段、轻蒸汽；无咖啡和八角 | 41,276 |
+| `drinks/drink-date.webp` | 清透红褐液、两枚枣意象、轻蒸汽 | 34,174 |
+| `drinks/drink-signature.webp` | 自然琥珀茶青层次；紫苏叶、姜片、青梅三种既有原料；无奖杯金币和魔法发光 | 36,628 |
+
+十张饮子均为 512×512 `yuva420p` WebP。主店铺 `scenes/shop-base-day.webp` 为 1280×800、140,730 bytes；15 张资源合计约 849KB。最终资源仅位于 `public/assets`，生成源仍保留在 Codex 默认生成目录，不作为项目运行依赖。
+
+## 2026-08-26 V2 四类剧情角色补充
+
+生成方式：Codex 内置 `image_gen` 首轮并行生成，四张首轮稿均通过，无拒绝变体；随后以本地 FFmpeg 统一转换为 800×1000、`yuva420p` 透明 WebP。源 PNG 不进入运行时包。
+
+### 少年跑腿
+
+```text
+Use case: illustration-story
+Asset type: transparent game character layer for a mobile historical shop-management UI
+Primary request: a Northern Song-inspired adolescent neighborhood errand runner from Bianjing, clearly a teenager rather than a small child, approachable and alert, carrying one small tied plain paper parcel
+Scene/backdrop: genuinely transparent background, isolated full character
+Subject: plain short working clothes in warm gray and muted tea green, soft cloth head wrap, practical cloth shoes; both hands fully visible and anatomically clear, one supporting the parcel and one steadying its cord
+Style/medium: softly refined 2D game illustration matching a low-saturation ochre wood, tea green, ink gray character set; historical creative reconstruction, not photoreal
+Composition/framing: vertical 4:5 character cutout, head through feet visible with comfortable transparent margin, no cropped hands or role-defining parcel
+Lighting/mood: soft warm daylight, modest, capable, never pitiable
+Constraints: no text anywhere, no letters on parcel, no logo, no watermark; transparent alpha background
+Avoid: modern apron, Qing garments, braid queue, fantasy robes or armor, official costume, poverty caricature, malformed fingers, extra limbs, cropped props
+```
+
+### 普通老客
+
+```text
+Use case: illustration-story
+Asset type: transparent game character layer for a mobile historical shop-management UI
+Primary request: an ordinary elderly regular customer of a Northern Song-inspired Bianjing drink shop, dignified and familiar rather than elite
+Scene/backdrop: genuinely transparent background, isolated full character
+Subject: restrained layered robe in muted warm gray and brown, low soft cloth head wrap; one hand clearly rests on a simple uncarved walking stick, the other hand visibly holds a small plain cloth coin purse with no markings; kind weathered face
+Style/medium: softly refined 2D game illustration matching a low-saturation ochre wood, tea green, ink gray character set; historical creative reconstruction, not photoreal
+Composition/framing: vertical 4:5 character cutout, head through feet visible with comfortable transparent margin; both hands, walking stick, and purse fully visible
+Lighting/mood: soft warm daylight, calm, self-possessed, a long-time neighborhood customer
+Constraints: no text, no seal, no logo, no watermark; transparent alpha background
+Avoid: emperor or scholar status, luxury brocade, Qing garments, braid queue, fantasy costume, begging pose, poverty caricature, malformed hands, cropped walking stick
+```
+
+### 邻里女店主／住户
+
+```text
+Use case: illustration-story
+Asset type: transparent game character layer for a mobile historical shop-management UI
+Primary request: an adult neighborhood woman who runs or helps at a small street shop in Northern Song-inspired Bianjing, practical and recognizable as a capable resident
+Scene/backdrop: genuinely transparent background, isolated full character
+Subject: practical Song-inspired layered cross-collar clothing with narrow working sleeves, muted tea green outer layer, warm beige inner layer, rust-brown waist tie; simple neat hair wrap; both hands fully visible, holding a small unmarked folded account cloth and a plain reed basket
+Style/medium: softly refined 2D game illustration matching a low-saturation ochre wood, tea green, ink gray character set; historical creative reconstruction, not photoreal
+Composition/framing: vertical 4:5 character cutout, head through feet visible with comfortable transparent margin, both hands and basket fully inside frame
+Lighting/mood: soft warm daylight, grounded, neighborly, competent, not idealized court beauty
+Constraints: no text, no writing, no logo, no watermark; transparent alpha background
+Avoid: modern apron, Qing garments, elaborate palace hair, fantasy hanfu, sexualized pose, servant stereotype, malformed fingers, extra limbs, cropped basket
+```
+
+### 公廨差遣跑腿
+
+```text
+Use case: illustration-story
+Asset type: transparent game character layer for a mobile historical shop-management UI
+Primary request: an adult public-office errand worker in Northern Song-inspired Bianjing, clearly a low-ranking messenger and not an imposing official
+Scene/backdrop: genuinely transparent background, isolated full character
+Subject: plain dark gray and muted brown duty clothing without rank insignia, simple soft cap, tied leggings and practical shoes; one hand holds a single blank unmarked wooden dispatch tally, the other hand fully visible at his side; brisk but non-threatening stance
+Style/medium: softly refined 2D game illustration matching a low-saturation ochre wood, tea green, ink gray character set; historical creative reconstruction, not photoreal
+Composition/framing: vertical 4:5 character cutout, head through feet visible with comfortable transparent margin; both hands and tally entirely visible
+Lighting/mood: soft daylight, busy, matter-of-fact, ordinary civic labor
+Constraints: no text, no pseudo-writing, no seal, no logo, no watermark; transparent alpha background
+Avoid: weapons, armor, rank badge, authority spectacle, police intimidation, Qing garments, braid queue, fantasy costume, malformed hands, extra limbs, cropped tally
+```
+
+| 最终文件 | 尺寸／像素格式 | 字节 | 单资源验收 |
+|---|---:|---:|---|
+| `customers/youth.webp` | 800×1000／`yuva420p` | 76,366 | 少年身份、双手与无字纸包完整；无贫困猎奇 |
+| `customers/elder.webp` | 800×1000／`yuva420p` | 113,734 | 手杖与无字钱袋完整；普通老客而非权贵／乞者 |
+| `customers/neighbor-woman.webp` | 800×1000／`yuva420p` | 103,636 | 窄袖层衣、双手与竹篮完整；账布无可读文字 |
+| `customers/runner.webp` | 800×1000／`yuva420p` | 90,888 | 木牒无字、无兵器品秩；动作利落但不具压迫感 |
+
+四张均检查透明边缘、头脚与身份道具裁切、手指结构、时代错置、伪文字、Logo 和水印；首轮均通过，因此拒绝变体为 0。
+
+## 品牌图标「一盏开门」（2026-08-27）
+
+生成方式：Codex 内置 `image_gen`。以 01 正式图标作为视觉语言参考，以本项目招牌饮子作为题材参考；首轮通过，使用 FFmpeg Lanczos 缩放导出 512／128／64px PNG。
+
+```text
+Use case: logo-brand
+Asset type: mobile game/app icon for “汴京饮子铺：开店一百天”
+Primary request: create an original minimal emblem called “一盏开门”, unmistakably representing a Northern Song street drink shop
+Subject: one low ochre-gold shop eave silhouette, one centered celadon drink bowl, one warm-ivory steam ribbon, and one muted cinnabar-red sun
+Style/medium: bold vector-friendly flat shapes with subtle handmade paper texture; inherit only the restrained visual language of the reference icon, never its mountain-gate-river composition
+Composition/framing: centered rounded-square dark ink-green field, generous negative space, 12% safe margin, readable at 64px
+Constraints: no text, people, coins, mountains, gate, river, chopsticks, detailed tiles, watermark, photorealism or 3D
+```

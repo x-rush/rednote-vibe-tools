@@ -13,11 +13,12 @@ const allowed: Record<PageState, PageState[]> = {
   preparation: ['morning','opening','error'],
   opening: ['event','settlement','error'],
   event: ['settlement','error'],
-  settlement: ['morning','milestone','bankruptcy','finalEnding','error'],
+  settlement: ['morning','milestone','financialCrisis','bankruptcy','finalEnding','error'],
+  financialCrisis: ['morning','bankruptcy','error'],
   milestone: ['morning','error'],
   bankruptcy: ['newGame','landing'],
   finalEnding: ['newGame','landing'],
-  continueGame: ['morning','preparation','event','settlement','milestone','bankruptcy','finalEnding','error'],
+  continueGame: ['morning','preparation','event','settlement','financialCrisis','milestone','bankruptcy','finalEnding','error'],
   error: ['landing','continueGame'],
 }
 

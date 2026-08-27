@@ -8,7 +8,8 @@ describe('semantic page state machine', () => {
       ['landing','newGame'], ['landing','continueGame'], ['newGame','tutorial'], ['tutorial','morning'],
       ['morning','preparation'], ['preparation','opening'], ['opening','event'], ['opening','settlement'],
       ['event','settlement'], ['settlement','morning'], ['settlement','milestone'], ['settlement','bankruptcy'],
-      ['settlement','finalEnding'], ['milestone','morning'], ['continueGame','morning'], ['error','landing'],
+      ['settlement','financialCrisis'], ['financialCrisis','morning'], ['financialCrisis','bankruptcy'],
+      ['settlement','finalEnding'], ['milestone','morning'], ['continueGame','morning'], ['continueGame','financialCrisis'], ['error','landing'],
     ]
     for (const [from, to] of paths) expect(transitionGame({ page: from }, { type: 'navigate', to })).toMatchObject({ page: to })
   })

@@ -1,6 +1,10 @@
 import type { RngState } from './rng'
 
 export type ShopStatKey = 'reputation' | 'energy' | 'relationships'
+export type OperatingMode = 'full' | 'half' | 'rest'
+export type ShelfClass = 'fresh' | 'brewed' | 'dry' | 'concentrate'
+export type FinancialPhase = 'normal' | 'warning' | 'offer' | 'grace'
+export type DemandLossReason = 'stockout' | 'menu-mismatch' | 'price' | 'service'
 export type PageState =
   | 'landing'
   | 'newGame'
@@ -10,6 +14,7 @@ export type PageState =
   | 'opening'
   | 'event'
   | 'settlement'
+  | 'financialCrisis'
   | 'milestone'
   | 'bankruptcy'
   | 'finalEnding'
@@ -24,6 +29,7 @@ export interface Product {
   basePrice: number
   complexity: 1 | 2 | 3
   preferenceTags: string[]
+  shelfClass: ShelfClass
   keepRate: number
   initiallyUnlocked: boolean
   assetId: string
@@ -62,6 +68,7 @@ export interface ShopStats {
 
 export interface DayContext {
   day: number
+  operatingDay: number
   weatherId: string
   seasonId: string
   eventVisitorDelta: number
@@ -76,8 +83,108 @@ export interface MenuDecision {
 
 export interface DailyDecision {
   menu: MenuDecision[]
-  closeEarly: boolean
+  operatingMode: OperatingMode
   strategyId: string
+}
+
+export interface PendingFollowUp {
+  eventId: string
+  earliestDay: number
+}
+
+export interface DemandFunnel {
+  footTraffic: number
+  buyers: number
+  unserved: number
+  conversionRate: number
+  productDemand: Record<string, number>
+}
+
+export interface ForecastDemandGroup {
+  segmentId: string
+  expectedCustomers: number
+  actualCustomers: number
+}
+
+export interface DayForecast {
+  forecastId: string
+  day: number
+  operatingDay: number
+  weatherId: string
+  seasonId: string
+  marketSignalId: string
+  activeTags: string[]
+  demandGroups: ForecastDemandGroup[]
+}
+
+export interface DemandLosses {
+  stockout: number
+  menuMismatch: number
+  price: number
+  service: number
+}
+
+export interface ProductDemandOutcome {
+  productId: string
+  directDemand: number
+  directSold: number
+  substituteSold: number
+  prepared: number
+  unsold: number
+  stockoutLost: number
+}
+
+export interface DemandResolution {
+  potentialBuyers: number
+  servedCustomers: number
+  losses: DemandLosses
+  products: ProductDemandOutcome[]
+}
+
+export interface DemandBand {
+  minimum: number
+  maximum: number
+  tendency: 'hot' | 'steady' | 'quiet'
+}
+
+export type BusinessBeatKind = 'direct-sale' | 'substitute' | 'stockout' | 'menu-mismatch' | 'price-left' | 'quiet'
+
+export interface BusinessBeat {
+  stage: 0 | 1 | 2 | 3
+  kind: BusinessBeatKind
+  count: number
+  productId?: string
+  alternativeProductId?: string
+}
+
+export type SettlementReason =
+  | 'rested'
+  | 'profitable'
+  | 'loss'
+  | 'price-high'
+  | 'poor-fit'
+  | 'low-energy'
+  | 'stockout'
+  | 'waste'
+
+export type EventTiming = 'opening' | 'business' | 'closing'
+export type EventActorRole = 'none' | 'worker' | 'merchant' | 'scholar' | 'youth' | 'elder' | 'neighbor-woman' | 'runner'
+export type EventLocation = 'counter' | 'street' | 'kitchen' | 'market' | 'back-room'
+export type ImpactAxis = 'money' | 'reputation' | 'energy' | 'relationships' | 'inventory' | 'future'
+export type ImpactDirection = 'up' | 'down' | 'mixed' | 'uncertain'
+export type ModifierTarget = 'visitor-count' | 'energy-cost' | 'fixed-cost' | 'sales-income' | 'waste-return' | 'product-demand'
+export type ModifierOperation = 'add' | 'multiply'
+
+export interface EventScene {
+  timing: EventTiming
+  location: EventLocation
+  actorRole: EventActorRole
+}
+
+export interface ImpactHint {
+  axis: ImpactAxis
+  direction: ImpactDirection
+  text: string
 }
 
 export type EventCondition =
@@ -93,6 +200,10 @@ export type EventCondition =
   | { type: 'chain-status'; chainId: string; status: ChainStatus }
   | { type: 'completed-chain-count-at-least'; value: number }
   | { type: 'inventory-at-least'; productId: string; value: number }
+  | { type: 'weather-is'; weatherId: string }
+  | { type: 'weather-in'; weatherIds: string[] }
+  | { type: 'season-is'; seasonId: string }
+  | { type: 'season-in'; seasonIds: string[] }
   | { type: 'all'; conditions: EventCondition[] }
   | { type: 'any'; conditions: EventCondition[] }
   | { type: 'not'; condition: EventCondition }
@@ -101,6 +212,8 @@ export interface ScheduledEffect {
   scheduledEffectId: string
   dueDay: number
   effects: EventEffect[]
+  contractId?: string
+  contractSceneTrigger?: ContractSceneTrigger
 }
 
 export type EventEffect =
@@ -110,15 +223,17 @@ export type EventEffect =
   | { type: 'add-flag'; flag: string }
   | { type: 'remove-flag'; flag: string }
   | { type: 'unlock-product'; productId: string }
-  | { type: 'set-modifier'; modifierId: string; value: number; durationDays: number }
+  | { type: 'set-modifier'; modifierId: string; value: number; durationDays: number; target: ModifierTarget; operation: ModifierOperation; productId?: string; playerLabel: string }
   | { type: 'schedule-effect'; delayDays: number; effects: EventEffect[] }
+  | { type: 'start-chain'; chainId: string }
   | { type: 'advance-chain'; chainId: string; nodeId: string }
   | { type: 'interrupt-chain'; chainId: string; reason: string }
 
 export interface EventChoice {
   choiceId: string
   text: string
-  impactTags: string[]
+  impactHints: ImpactHint[]
+  resultText: string
   effects: EventEffect[]
   followUpEventIds: string[]
 }
@@ -136,11 +251,23 @@ export interface BusinessEvent {
   conflictTags: string[]
   tags: string[]
   choices: EventChoice[]
+  scene: EventScene
   assetId: string
   provisional: boolean
+  allowedOperatingModes?: OperatingMode[]
 }
 
 export type ChainStatus = 'inactive' | 'active' | 'completed' | 'interrupted'
+
+export interface EventChainNodeVariant {
+  variantId: string
+  conditions: EventCondition[]
+  title: string
+  content: string
+  choices: EventChoice[]
+  scene?: EventScene
+  assetId?: string
+}
 
 export interface EventChainNode {
   nodeId: string
@@ -149,8 +276,14 @@ export interface EventChainNode {
   minDelayDays: number
   maxDelayDays: number
   choices: EventChoice[]
+  scene: EventScene
+  conditions: EventCondition[]
+  interruptionText: string
   assetId: string
+  variants?: EventChainNodeVariant[]
 }
+
+export type ResolvedEventChainNode = Omit<EventChainNode, 'variants'> & { variantId?: string }
 
 export interface EventChain {
   chainId: string
@@ -184,6 +317,13 @@ export interface ChainProgress {
   reason?: string
 }
 
+export interface ChainInterruption {
+  chainId: string
+  nodeId: string
+  chainStatus: 'interrupted'
+  reasonId: string
+}
+
 export interface EventHistoryItem {
   day: number
   eventId: string
@@ -197,7 +337,16 @@ export interface DecisionSummary {
   productIds: string[]
   prepared: number
   averagePrice: number
-  closeEarly: boolean
+  operatingMode: OperatingMode
+}
+
+export interface CampaignTotals {
+  trackedOperatingDays: number
+  totalSold: number
+  profitDays: number
+  lossDays: number
+  breakEvenDays: number
+  productSold: Record<string, number>
 }
 
 export interface LedgerLine {
@@ -211,28 +360,79 @@ export interface ProductSale {
   productId: string
   prepared: number
   demand: number
+  directSold?: number
+  substituteSold?: number
   sold: number
+  stockoutLost?: number
   unsold: number
   price: number
 }
 
+export type ContractSceneTrigger = 'accepted' | 'first-installment' | 'second-installment' | 'target-success' | 'target-failure' | 'grace-success' | 'grace-failure'
+
+export interface PendingContractScene {
+  contractId: string
+  trigger: ContractSceneTrigger
+}
+
+export interface ActiveCrisisContract {
+  contractId: string
+  acceptedDay: number
+  graceEndsDay: number
+  preorderProgress: number
+}
+
+export interface FinancialHealthState {
+  phase: FinancialPhase
+  rescueUsed: boolean
+  activeContract?: ActiveCrisisContract
+}
+
+export interface EventResolution {
+  eventId: string
+  choiceId: string
+  variantId?: string
+  moneyDelta: number
+  statDeltas: Partial<Record<ShopStatKey, number>>
+  activatedModifierIds: string[]
+  chainId?: string
+  chainStatus?: ChainStatus
+}
+
 export interface DailyResult {
   day: number
+  operatingDay: number
   weatherId: string
   visitors: number
+  operatingMode?: OperatingMode
+  footTraffic?: number
+  buyers?: number
+  unserved?: number
+  conversionRate?: number
+  energyDelta?: number
+  demandResolution?: DemandResolution
+  businessBeats?: BusinessBeat[]
   sales: ProductSale[]
   ledger: LedgerLine[]
   moneyDelta: number
   eventId?: string
   choiceId?: string
+  eventResolution?: EventResolution
+  chainInterruptions: ChainInterruption[]
   endingId?: string
   nextState: GameState
 }
 
 export interface ActiveModifier {
   modifierId: string
+  target: ModifierTarget
+  operation: ModifierOperation
   value: number
   expiresDay: number
+  productId?: string
+  playerLabel: string
+  durationBasis?: 'calendar' | 'operating'
+  remainingOperatingDays?: number
 }
 
 export interface PendingOpening {
@@ -240,12 +440,24 @@ export interface PendingOpening {
   dayContext: DayContext
   decision: DailyDecision
   visitors: number
+  operatingMode?: OperatingMode
+  footTraffic?: number
+  buyers?: number
+  unserved?: number
+  conversionRate?: number
+  energyDelta?: number
+  demandResolution?: DemandResolution
+  businessBeats?: BusinessBeat[]
   sales: ProductSale[]
   ledger: LedgerLine[]
+  moneyDelta: number
+  energyCost: number
+  chainInterruptions: ChainInterruption[]
   eventId?: string
   selectionKind: 'none' | 'event' | 'chain'
   chainId?: string
   nodeId?: string
+  variantId?: string
   rngState: RngState
 }
 
@@ -256,6 +468,7 @@ export interface GameState extends ShopStats {
   seed: string
   rngState: RngState
   day: number
+  operatingDay: number
   page: PageState
   inventory: Record<string, number>
   prices: Record<string, number>
@@ -268,11 +481,17 @@ export interface GameState extends ShopStats {
   pendingEffects: ScheduledEffect[]
   modifiers: ActiveModifier[]
   decisionSummaries: DecisionSummary[]
+  campaignTotals?: CampaignTotals
   unlockedEndingIds: string[]
   currentEndingId?: string
   pendingOpening?: PendingOpening
   lastResolutionId?: string
   negativeProfitStreak: number
+  pendingFollowUps?: PendingFollowUp[]
+  dayForecast?: DayForecast
+  financialHealth?: FinancialHealthState
+  pendingContractScene?: PendingContractScene
+  lastDecision?: DailyDecision
 }
 
 export interface SavePayload {

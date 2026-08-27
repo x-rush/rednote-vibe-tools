@@ -1,9 +1,17 @@
 import { describe, expect, it } from 'vitest'
-import type { EventCondition } from '../domain/types'
+import type { DayContext, EventCondition } from '../domain/types'
 import { makeState } from '../tests/fixtures'
 import { conditionsMatch, evaluateCondition } from './conditions'
 
 describe('finite event conditions', () => {
+  const context = (weatherId: string, seasonId: string): DayContext => ({
+    day: 42,
+    operatingDay: 12,
+    weatherId,
+    seasonId,
+    eventVisitorDelta: 0,
+    activeTags: [],
+  })
   const state = makeState({
     day: 42, money: 30, reputation: 55, flags: ['trusted'],
     triggeredEventIds: ['event-signboard'],
@@ -32,5 +40,25 @@ describe('finite event conditions', () => {
       { type: 'has-flag', flag: 'trusted' },
       { type: 'any', conditions: [{ type: 'money-at-most', value: 10 }, { type: 'not', condition: { type: 'money-at-most', value: 10 } }] },
     ] }], state)).toBe(true)
+  })
+
+  it('matches weather and season from the current day context', () => {
+    const rainy = context('weather-rain', 'season-late-spring')
+    const sunny = context('weather-clear', 'season-late-spring')
+    const winter = context('weather-snow', 'season-winter-entry')
+
+    expect(conditionsMatch([{ type: 'weather-is', weatherId: 'weather-rain' }], state, rainy)).toBe(true)
+    expect(conditionsMatch([{ type: 'weather-is', weatherId: 'weather-rain' }], state, sunny)).toBe(false)
+    expect(conditionsMatch([{ type: 'weather-in', weatherIds: ['weather-rain', 'weather-snow'] }], state, winter)).toBe(true)
+    expect(conditionsMatch([{ type: 'season-is', seasonId: 'season-late-spring' }], state, rainy)).toBe(true)
+    expect(conditionsMatch([{ type: 'season-in', seasonIds: ['season-winter-entry'] }], state, winter)).toBe(true)
+  })
+
+  it('passes the same context through nested conditions', () => {
+    const rainy = context('weather-rain', 'season-late-spring')
+    expect(conditionsMatch([{ type: 'all', conditions: [
+      { type: 'weather-is', weatherId: 'weather-rain' },
+      { type: 'not', condition: { type: 'season-is', seasonId: 'season-winter-entry' } },
+    ] }], state, rainy)).toBe(true)
   })
 })

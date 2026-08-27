@@ -1,33 +1,54 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { shopContent } from './content'
-import type { DailyDecision, DailyResult, GameState, PageState, SavePayload } from './domain/types'
+import type { DailyDecision, DailyResult, GameState, PageState } from './domain/types'
 import { createNewGame, openDay, resolveDay } from './engine/simulator'
+import { acceptCrisisContract, acknowledgeCrisisScene } from './engine/financial-health'
+import { recommendDecision, reuseLastDecision } from './engine/planning'
+import { businessCompletionAction, createUiFlow, nextDisplayAfterEvent, nextDisplayAfterOpening, reduceUiFlow } from './state/ui-flow'
+import { pendingEventTiming, resolveResumeRoute } from './state/resume-route'
 import { buildGameViewModel } from './state/view-model'
+import { changeOperatingMode } from './state/decision-edit'
 import { decodeSave } from './storage/save-codec'
+import { createSavePayload } from './storage/save-payload'
 import { IndexedDbSaveRepository } from './storage/indexed-db'
 import { clearLauncher, loadLauncher, saveLauncher } from './storage/launcher'
 import type { SaveRepository } from './storage/repository'
+import { BusinessTicker, GameHeader, GuideCard, LedgerPanel, OpeningSummary, OutcomePanel, PreparationPanel, ShopScene } from './ui/GameUi'
+import { EventChoicePanel, EventResultPanel, EventSettlementSummary, EventSituation } from './ui/EventExperience'
+import { ActionGroup } from './ui/ActionGroup'
+import { ScreenFrame } from './ui/ScreenFrame'
+import { AyuanStage } from './ui/AyuanStage'
+import { MorningIntel } from './ui/MorningIntel'
+import { FinancialCrisis } from './ui/FinancialCrisis'
+import { calendarDayForOperatingDay, campaignChapter } from './engine/campaign'
 import './App.css'
 
 const { content } = shopContent
 const ui = content.ui
+type DisplayPage = PageState | 'openingReview' | 'business'
 
 const newDecision = (state: GameState): DailyDecision => ({
-  menu: content.drinks.filter((product) => state.unlockedProductIds.includes(product.productId)).slice(0, 3).map((product) => ({ productId: product.productId, prepare: 4, price: product.basePrice })),
-  closeEarly: false,
+  menu: content.drinks
+    .filter((product) => state.unlockedProductIds.includes(product.productId))
+    .slice(0, 3)
+    .map((product) => ({ productId: product.productId, prepare: 4, price: product.basePrice })),
+  operatingMode: 'full',
   strategyId: 'player',
 })
 
 function App() {
   const [game, setGame] = useState<GameState>()
-  const [displayPage, setDisplayPage] = useState<PageState>('landing')
+  const [displayPage, setDisplayPage] = useState<DisplayPage>('landing')
   const [decision, setDecision] = useState<DailyDecision>()
   const [lastResult, setLastResult] = useState<DailyResult>()
   const [loading, setLoading] = useState(true)
   const [notice, setNotice] = useState<string>()
+  const [riskConfirmed, setRiskConfirmed] = useState(false)
   const [error, setError] = useState<string>()
+  const [uiFlow, dispatchUi] = useReducer(reduceUiFlow, undefined, createUiFlow)
   const repository = useRef<SaveRepository>(undefined)
   const previousDay = useRef<GameState>(undefined)
+  const resolving = useRef(false)
 
   useEffect(() => {
     document.title = shopContent.meta.title
@@ -44,8 +65,9 @@ function App() {
         const stored = await repository.current.load(launcher.activeSaveId)
         if (!stored || cancelled) { setLoading(false); return }
         const recovered = decodeSave(JSON.stringify(stored), content)
-        if (recovered.status === 'ok' || recovered.status === 'recovered-previous') {
+        if (recovered.status === 'ok' || recovered.status === 'migrated' || recovered.status === 'recovered-previous') {
           setGame(recovered.payload.current)
+          previousDay.current = recovered.payload.previousDay
           setDecision(newDecision(recovered.payload.current))
           if (recovered.status === 'recovered-previous') setNotice(ui.recoveredPrevious)
         } else setError(recovered.reason)
@@ -59,11 +81,28 @@ function App() {
     return () => { cancelled = true }
   }, [])
 
-  const view = useMemo(() => game ? buildGameViewModel(game, content) : undefined, [game])
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      document.getElementById('screen-root')?.focus({ preventScroll: true })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [displayPage, error, loading])
+
+  const view = useMemo(
+    () => game ? buildGameViewModel(game, content, { decision, result: lastResult }) : undefined,
+    [decision, game, lastResult],
+  )
+  const reusableDecision = useMemo(() => game ? reuseLastDecision(game, content) : undefined, [game])
+
+  function reviseDecision(transform: (current: DailyDecision) => DailyDecision) {
+    setRiskConfirmed(false)
+    setDecision((current) => current ? transform(current) : current)
+  }
 
   async function persist(current: GameState, previous?: GameState) {
     if (!repository.current || typeof window === 'undefined') return
-    const payload: SavePayload = { schemaVersion: 1, contentVersion: shopContent.contentVersion, id: current.saveId, updatedAt: new Date().toISOString(), current, previousDay: previous }
+    const payload = createSavePayload(current, previous)
     await repository.current.save(payload)
     saveLauncher(window.localStorage, { activeSaveId: current.saveId, settings: loadLauncher(window.localStorage).settings })
   }
@@ -75,8 +114,16 @@ function App() {
     setDecision(newDecision(state))
     setLastResult(undefined)
     setNotice(undefined)
+    setRiskConfirmed(false)
+    dispatchUi({ type: 'tutorial-skip' })
+    dispatchUi({ type: 'reset-day' })
     setDisplayPage('morning')
     void persist(state).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : ui.errorTitle))
+  }
+
+  function showNewGame() {
+    dispatchUi({ type: 'tutorial-restart' })
+    setDisplayPage('newGame')
   }
 
   function handleOpen() {
@@ -84,8 +131,21 @@ function App() {
     try {
       previousDay.current = game
       const opened = openDay(game, decision, content)
+      const timing = pendingEventTiming(opened.state, content)
+      const route = nextDisplayAfterOpening(decision.operatingMode, timing)
+      if (route === 'settlement') {
+        const result = resolveDay(opened.state, undefined, content)
+        setLastResult(result)
+        setGame(result.nextState)
+        dispatchUi({ type: 'reset-day' })
+        setDisplayPage('settlement')
+        void persist(result.nextState, game).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : ui.errorTitle))
+        return
+      }
       setGame(opened.state)
-      setDisplayPage('opening')
+      dispatchUi({ type: 'reset-day' })
+      if (timing) dispatchUi({ type: 'event-open', timing })
+      setDisplayPage(route)
       void persist(opened.state, game).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : ui.errorTitle))
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : ui.errorTitle)
@@ -94,16 +154,25 @@ function App() {
   }
 
   function handleResolve(choiceId?: string) {
-    if (!game) return
+    if (!game || resolving.current) return
+    resolving.current = true
+    dispatchUi({ type: 'submit-start' })
     try {
+      const resolvesEvent = game.pendingOpening?.selectionKind !== 'none'
       const result = resolveDay(game, choiceId, content)
       setLastResult(result)
       setGame(result.nextState)
-      setDisplayPage('settlement')
+      if (resolvesEvent) {
+        dispatchUi({ type: 'event-resolved' })
+        setDisplayPage('event')
+      } else setDisplayPage('settlement')
       void persist(result.nextState, previousDay.current).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : ui.errorTitle))
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : ui.errorTitle)
       setDisplayPage('error')
+    } finally {
+      resolving.current = false
+      dispatchUi({ type: 'submit-end' })
     }
   }
 
@@ -111,7 +180,56 @@ function App() {
     if (!game) return
     setLastResult(undefined)
     setDecision(newDecision(game))
+    setRiskConfirmed(false)
+    dispatchUi({ type: 'reset-day' })
     setDisplayPage(game.page)
+  }
+
+  function acceptContract(contractId: string) {
+    if (!game || resolving.current) return
+    resolving.current = true
+    dispatchUi({ type: 'crisis-submit-start' })
+    try {
+      const accepted = acceptCrisisContract(game, contractId, content).state
+      setGame(accepted)
+      setDisplayPage('financialCrisis')
+      void persist(accepted, game).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : ui.errorTitle))
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : ui.errorTitle)
+      setDisplayPage('error')
+    } finally {
+      resolving.current = false
+      dispatchUi({ type: 'crisis-submit-end' })
+    }
+  }
+
+  function acknowledgeContractScene() {
+    if (!game?.pendingContractScene) return
+    const next = acknowledgeCrisisScene(game)
+    setGame(next)
+    setDecision(newDecision(next))
+    setLastResult(undefined)
+    setRiskConfirmed(false)
+    setDisplayPage(next.page)
+    void persist(next, game).catch((reason: unknown) => setError(reason instanceof Error ? reason.message : ui.errorTitle))
+  }
+
+  function resumeGame() {
+    if (!game) return
+    const route = resolveResumeRoute(game, content)
+    if (route.eventTiming) dispatchUi({ type: 'event-open', timing: route.eventTiming })
+    setDisplayPage(route.displayPage)
+  }
+
+  function showPendingEvent() {
+    if (!game) return
+    const timing = pendingEventTiming(game, content)
+    if (!timing) {
+      setDisplayPage('settlement')
+      return
+    }
+    dispatchUi({ type: 'event-open', timing })
+    setDisplayPage('event')
   }
 
   async function resetProjectData() {
@@ -126,29 +244,176 @@ function App() {
     setDisplayPage('landing')
   }
 
-  if (loading) return <main className="app-shell"><p>{ui.loading}</p></main>
-  if (displayPage === 'error' || error) return <main className="app-shell page-card" aria-labelledby="error-title"><p className="eyebrow">{ui.eyebrow}</p><h1 id="error-title">{ui.errorTitle}</h1><p role="alert">{error}</p><button type="button" onClick={() => { setError(undefined); setDisplayPage('landing') }}>{ui.retryLanding}</button><button className="quiet-button" type="button" onClick={() => void resetProjectData()}>{ui.resetData}</button></main>
-  if (displayPage === 'landing') return <main className="app-shell landing" aria-labelledby="landing-title"><p className="eyebrow">{ui.eyebrow}</p><h1 id="landing-title">{ui.landingTitle}</h1><p className="lead">{ui.landingLead}</p>{notice && <p className="notice" role="status">{notice}</p>}<div className="action-stack">{game && <button type="button" onClick={() => setDisplayPage('continueGame')}>{ui.continueGame}</button>}<button type="button" onClick={() => setDisplayPage('newGame')}>{ui.newGame}</button></div><p className="supporting-copy">{ui.saveNotice}</p><button className="text-button" type="button" onClick={() => void resetProjectData()}>{ui.resetData}</button></main>
-  if (displayPage === 'newGame') return <main className="app-shell page-card" aria-labelledby="new-game-title"><p className="eyebrow">{ui.eyebrow}</p><h1 id="new-game-title">{ui.newGame}</h1><p>{ui.newShopWarning}</p><button type="button" onClick={() => setDisplayPage('tutorial')}>{ui.beginIntroduction}</button></main>
-  if (displayPage === 'tutorial') return <main className="app-shell page-card" aria-labelledby="tutorial-title"><p className="eyebrow">{ui.eyebrow}</p><h1 id="tutorial-title">{ui.tutorialTitle}</h1><p>{ui.tutorialBody}</p><button type="button" onClick={beginNewGame}>{ui.beginBusiness}</button></main>
-  if (displayPage === 'continueGame' && game) return <main className="app-shell page-card" aria-labelledby="continue-title"><p className="eyebrow">{view?.dayLabel}</p><h1 id="continue-title">{ui.continueGame}</h1><p>{ui.resumePrompt}</p><button type="button" onClick={() => setDisplayPage(game.page)}>{ui.resumeNow}</button></main>
-  if (!game || !view || !decision) return <main className="app-shell"><p>{ui.noSave}</p></main>
+  if (loading) return <ScreenFrame key="loading" className="loading-screen" surface="dark"><p className="section-kicker">{ui.eyebrow}</p><p>{ui.loading}</p></ScreenFrame>
 
-  const header = <header className="shop-header"><div><p className="eyebrow">{view.dayLabel}</p><h1>{view.title}</h1></div><dl className="stat-grid">{view.stats.map((stat) => <div key={stat.id}><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}</dl></header>
-  if (displayPage === 'morning') return <main className="app-shell">{header}<section className="page-card"><h2>{ui.morningTitle}</h2><p>{ui.saveNotice}</p><button type="button" onClick={() => setDisplayPage('preparation')}>{ui.goPreparation}</button></section></main>
-  if (displayPage === 'preparation') return <main className="app-shell">{header}<form className="page-card" onSubmit={(event) => { event.preventDefault(); handleOpen() }}><h2>{ui.preparationTitle}</h2><p>{ui.preparationHelp}</p><div className="product-list">{view.products.map((product) => {
-    const entry = decision.menu.find((item) => item.productId === product.productId)
-    return <fieldset key={product.productId} className="product-row"><legend><label><input type="checkbox" checked={Boolean(entry)} onChange={(event) => setDecision((current) => current && ({ ...current, menu: event.target.checked ? [...current.menu, { productId: product.productId, prepare: 4, price: product.basePrice }] : current.menu.filter((item) => item.productId !== product.productId) }))} /> {product.name}</label></legend><p>{ui.unitCost}：{product.unitCost} · {ui.basePrice}：{product.basePrice}</p>{entry && <div className="input-pair"><label>{ui.preparedQuantity}<input type="number" min="0" max="12" value={entry.prepare} onChange={(event) => setDecision((current) => current && ({ ...current, menu: current.menu.map((item) => item.productId === product.productId ? { ...item, prepare: Number(event.target.value) } : item) }))} /></label><label>{ui.sellingPrice}<input type="number" min={Math.ceil(product.basePrice * .8)} max={Math.floor(product.basePrice * 1.4)} value={entry.price} onChange={(event) => setDecision((current) => current && ({ ...current, menu: current.menu.map((item) => item.productId === product.productId ? { ...item, price: Number(event.target.value) } : item) }))} /></label></div>}</fieldset>
-  })}</div><label className="check-row"><input type="checkbox" checked={decision.closeEarly} onChange={(event) => setDecision({ ...decision, closeEarly: event.target.checked })} /> {ui.closeEarly}</label><button type="submit">{ui.openShop}</button></form></main>
-  if (displayPage === 'opening' && game.pendingOpening) return <main className="app-shell">{header}<section className="page-card"><h2>{ui.openShop}</h2><dl className="summary-list"><div><dt>{ui.visitors}</dt><dd>{game.pendingOpening.visitors}</dd></div><div><dt>{ui.day}</dt><dd>{game.pendingOpening.dayContext.day}</dd></div></dl><button type="button" onClick={() => setDisplayPage(game.pendingOpening?.selectionKind === 'none' ? 'settlement' : 'event')}>{game.pendingOpening.selectionKind === 'none' ? ui.settleNoEvent : ui.viewEvent}</button></section></main>
-  if (displayPage === 'event' && view.event) return <main className="app-shell">{header}<article className="page-card event-card" aria-labelledby="event-title"><p className="eyebrow">{ui.eventTitle}</p><h2 id="event-title">{view.event.title}</h2><p>{view.event.content}</p><p className="asset-slot">{ui.assetPlaceholder}：{view.event.assetId}</p><p>{ui.choiceLocked}</p><div className="choice-grid">{view.event.choices.map((choice) => <button type="button" key={choice.choiceId} onClick={() => handleResolve(choice.choiceId)}><span>{choice.text}</span><small>{choice.impactTags.join(' / ')}</small></button>)}</div></article></main>
-  if (displayPage === 'settlement') return <main className="app-shell">{header}<section className="page-card" aria-labelledby="settlement-title"><h2 id="settlement-title">{ui.settlementTitle}</h2>{!lastResult && <><p>{ui.noEvent}</p><button type="button" onClick={() => handleResolve()}>{ui.settleNoEvent}</button></>}{lastResult && <><p>{ui.visitors}：{lastResult.visitors}</p>{game.negativeProfitStreak >= 3 && <p className="notice">{ui.lossWarning}</p>}<div className="table-wrap"><table><thead><tr><th>{ui.ledgerItem}</th><th>{ui.ledgerAmount}</th></tr></thead><tbody>{lastResult.ledger.map((line, index) => <tr key={`${line.labelId}-${index}`}><td>{line.labelId}</td><td className={line.amount < 0 ? 'negative' : 'positive'}>{line.amount}</td></tr>)}</tbody></table></div><h3>{ui.salesSummary}</h3><div className="table-wrap"><table><thead><tr><th>{ui.ledgerItem}</th><th>{ui.prepared}</th><th>{ui.demand}</th><th>{ui.sold}</th><th>{ui.unsold}</th></tr></thead><tbody>{lastResult.sales.map((sale) => <tr key={sale.productId}><td>{content.drinks.find((item) => item.productId === sale.productId)?.name}</td><td>{sale.prepared}</td><td>{sale.demand}</td><td>{sale.sold}</td><td>{sale.unsold}</td></tr>)}</tbody></table></div><button type="button" onClick={afterSettlement}>{game.page === 'bankruptcy' || game.page === 'finalEnding' ? ui.viewOutcome : ui.nextDay}</button></>}</section></main>
-  if (displayPage === 'milestone') return <main className="app-shell">{header}<section className="page-card"><h2>{ui.milestoneTitle}</h2><p>{ui.completedDayPrefix}{game.day - 1}{ui.completedDaySuffix}</p><button type="button" onClick={() => { const next = { ...game, page: 'morning' as const }; setGame(next); setDisplayPage('morning'); setDecision(newDecision(next)) }}>{ui.nextDay}</button></section></main>
-  if (displayPage === 'bankruptcy' || displayPage === 'finalEnding') {
-    const ending = content.endings.find((item) => item.endingId === game.currentEndingId)
-    return <main className="app-shell">{header}<article className="page-card ending-card"><p className="eyebrow">{displayPage === 'bankruptcy' ? ui.bankruptcyTitle : ui.endingTitle}</p><h2>{ending?.title}</h2><p>{ending?.content}</p><h3>{ui.endingEvaluation}</h3><p>{ending?.evaluation}</p><h3>{ui.endingShare}</h3><blockquote>{ending?.shareText}</blockquote><p className="asset-slot">{ui.assetPlaceholder}：{ending?.assetId}</p><button type="button" onClick={() => setDisplayPage('newGame')}>{ui.restart}</button></article></main>
+  if (displayPage === 'error' || error) return <ScreenFrame key="error" className="recovery-screen" labelledBy="error-title" surface="dark">
+    <p className="section-kicker">{ui.recoveryTitle}</p>
+    <h1 id="error-title">{ui.errorTitle}</h1>
+    <GuideCard name={ui.guideName} role={ui.guideRole} compact><p role="alert">{error}</p><p>{ui.recoveryLoss}</p></GuideCard>
+    <ActionGroup layout="split" surface="dark"><button type="button" className="secondary-action" onClick={() => { setError(undefined); setDisplayPage('landing') }}>{ui.retryLanding}</button><button type="button" className="primary-action" onClick={() => void resetProjectData()}>{ui.resetData}</button></ActionGroup>
+  </ScreenFrame>
+
+  if (displayPage === 'landing') return <ScreenFrame key={displayPage} className="cover-shell" labelledBy="landing-title" surface="dark">
+    <div className="cover-copy"><p className="section-kicker">{ui.coverEnglishLabel}</p><h1 id="landing-title">{ui.landingTitle}</h1><p className="cover-promise">{ui.coverPromise}</p><p>{ui.coverSubtitle}</p></div>
+    <ShopScene phase="cover" alt={ui.shopAltCover} caption={ui.morningSceneCaption}><span className="shop-banner">{ui.viewShop}</span></ShopScene>
+    {notice && <p className="notice" role="status">{notice}</p>}
+    <ActionGroup layout="stack" surface="dark">{game && <button className="primary-action" type="button" onClick={resumeGame}>{ui.continueGame}</button>}<button className={game ? 'secondary-action' : 'primary-action'} type="button" onClick={showNewGame}>{ui.newGame}</button></ActionGroup>
+    <p className="supporting-copy">{ui.localSaveLine}</p>
+    <button className="text-button" type="button" onClick={() => void resetProjectData()}>{ui.resetData}</button>
+  </ScreenFrame>
+
+  if (displayPage === 'newGame') return <ScreenFrame key={displayPage} className="intro-shell" labelledBy="new-game-title" surface="dark">
+    <p className="section-kicker">{ui.eyebrow}</p><h1 id="new-game-title">{ui.newGame}</h1><p>{ui.newShopWarning}</p>
+    <button className="primary-action" type="button" onClick={() => setDisplayPage('tutorial')}>{ui.beginIntroduction}</button>
+  </ScreenFrame>
+
+  if (displayPage === 'tutorial') {
+    const guideSteps = [ui.guideStepOne, ui.guideStepTwo, ui.guideStepThree]
+    return <ScreenFrame key={displayPage} className="guide-screen" labelledBy="tutorial-title" surface="dark">
+      <p className="section-kicker">{ui.tutorialTitle}</p><h1 id="tutorial-title">{ui.coverPromise}</h1>
+      <AyuanStage variant="tutorial" tone="neutral" name={ui.guideName} role={ui.guideRole} text={guideSteps[uiFlow.tutorialStep]}><div className="guide-dots" aria-hidden="true">{guideSteps.map((_, index) => <i key={index} className={index === uiFlow.tutorialStep ? 'active' : ''} />)}</div></AyuanStage>
+      <ActionGroup layout="split" surface="dark"><button type="button" className="secondary-action" onClick={beginNewGame}>{ui.guideSkip}</button><button type="button" className="primary-action" onClick={() => uiFlow.tutorialStep < 2 ? dispatchUi({ type: 'tutorial-next' }) : beginNewGame()}>{uiFlow.tutorialStep < 2 ? ui.guideNext : ui.beginBusiness}</button></ActionGroup>
+    </ScreenFrame>
   }
-  return <main className="app-shell"><p>{ui.noSave}</p></main>
+
+  if (!game || !view || !decision) return <ScreenFrame key="no-save" surface="dark"><p>{ui.noSave}</p></ScreenFrame>
+
+  if (displayPage === 'morning') return <ScreenFrame key={displayPage} className="game-screen morning-screen" labelledBy="morning-title" surface="dark">
+    <GameHeader view={view} timeLabel={ui.timeMorning} />
+    <ShopScene phase="morning" alt={ui.shopAltMorning} caption={ui.morningSceneCaption} weatherId={view.weather?.id} />
+    {view.morningIntel && <MorningIntel intel={view.morningIntel} name={ui.guideName} role={ui.guideRole} hint={ui.morningHint} copy={ui} onContinue={() => setDisplayPage('preparation')} />}
+  </ScreenFrame>
+
+  if (displayPage === 'preparation') return <ScreenFrame key={displayPage} className="game-screen" labelledBy="preparation-title" surface="dark">
+    <GameHeader view={view} timeLabel={ui.timeMorning} />
+    <div className="screen-heading"><p className="section-kicker">{ui.preparationBudget}</p><h1 id="preparation-title">{ui.preparationTitle}</h1></div>
+    <PreparationPanel
+      view={view}
+      decision={decision}
+      copy={ui}
+      onToggle={(productId, selected) => reviseDecision((current) => ({ ...current, menu: selected ? [...current.menu, { productId, prepare: 4, price: content.drinks.find((item) => item.productId === productId)?.basePrice ?? 1 }] : current.menu.filter((item) => item.productId !== productId) }))}
+      onPrepare={(productId, quantity) => reviseDecision((current) => ({ ...current, menu: current.menu.map((item) => item.productId === productId ? { ...item, prepare: quantity } : item) }))}
+      onPrice={(productId, price) => reviseDecision((current) => ({ ...current, menu: current.menu.map((item) => item.productId === productId ? { ...item, price } : item) }))}
+      onOperatingMode={(operatingMode) => reviseDecision((current) => changeOperatingMode(current, operatingMode, newDecision(game).menu))}
+      onReuse={reusableDecision ? () => { setDecision(reusableDecision); setRiskConfirmed(false) } : undefined}
+      onRecommend={() => {
+        if (game.dayForecast) { setDecision(recommendDecision(game, game.dayForecast, content)); setRiskConfirmed(false) }
+      }}
+      onSubmit={() => setDisplayPage('openingReview')}
+    />
+  </ScreenFrame>
+
+  if (displayPage === 'openingReview') return <ScreenFrame key={displayPage} className="game-screen" surface="dark">
+    <GameHeader view={view} timeLabel={ui.timeMorning} />
+    <OpeningSummary view={view} decision={decision} copy={ui} riskConfirmed={riskConfirmed} onRiskConfirmed={setRiskConfirmed} onBack={() => setDisplayPage('preparation')} onOpen={handleOpen} />
+    <p className="notice">{ui.openingLocked}</p>
+  </ScreenFrame>
+
+  if (displayPage === 'business' && (game.pendingOpening || lastResult)) {
+    const customers: Array<'market-worker' | 'merchant' | 'scholar'> = ['market-worker', 'merchant', 'scholar']
+    const eventTiming = pendingEventTiming(game, content)
+    const visitors = game.pendingOpening?.visitors ?? lastResult?.visitors ?? 0
+    const completeBusiness = () => {
+      const completion = businessCompletionAction(Boolean(lastResult), game.pendingOpening?.selectionKind ?? 'none')
+      if (completion === 'event') showPendingEvent()
+      else if (completion === 'resolve') handleResolve()
+      else setDisplayPage('settlement')
+    }
+    return <ScreenFrame key={displayPage} className="business-screen" surface="dark">
+      <GameHeader view={view} timeLabel={[ui.timeMorning, ui.timeNearNoon, ui.timeAfternoon, ui.timeDusk][uiFlow.businessStage]} />
+      <ShopScene phase="business" alt={ui.shopAltBusiness} caption={ui.businessSceneCaption} customer={customers[Math.min(2, uiFlow.businessStage)]} weatherId={view.weather?.id} />
+      <BusinessTicker
+        view={view}
+        stage={uiFlow.businessStage}
+        visitors={visitors}
+        copy={ui}
+        concealExactSales={!lastResult && eventTiming === 'business'}
+        onNext={() => {
+          if (!lastResult && eventTiming === 'business' && uiFlow.businessStage >= 1) showPendingEvent()
+          else dispatchUi({ type: 'business-next' })
+        }}
+        onSkip={completeBusiness}
+        onContinue={completeBusiness}
+      />
+    </ScreenFrame>
+  }
+
+  if (displayPage === 'event') {
+    const eventPanel = uiFlow.eventStage === 'result' && view.eventResolution
+      ? <EventResultPanel
+          resolution={view.eventResolution}
+          acknowledgeLabel={ui.acknowledgeEventResult}
+          onAcknowledge={() => {
+            dispatchUi({ type: 'event-acknowledge' })
+            setDisplayPage(lastResult?.operatingMode === 'rest' ? 'settlement' : nextDisplayAfterEvent(uiFlow.eventTiming ?? 'closing'))
+          }}
+        />
+      : view.event && uiFlow.eventStage === 'situation'
+        ? <EventSituation
+            event={view.event}
+            eyebrow={view.event.isChain ? ui.chainClue : ui.eventScene}
+            continueLabel={ui.considerEventChoices}
+            onContinue={() => dispatchUi({ type: 'event-show-choices' })}
+          />
+        : view.event
+          ? <EventChoicePanel event={view.event} selectedChoiceId={uiFlow.selectedChoiceId} isSubmitting={uiFlow.isSubmitting} selectedLabel={ui.selectedChoice} confirmLabel={ui.confirmChoice} onSelect={(choiceId) => dispatchUi({ type: 'select-choice', choiceId })} onConfirm={() => handleResolve(uiFlow.selectedChoiceId)} />
+          : undefined
+    if (eventPanel) return <ScreenFrame key={`${displayPage}-${uiFlow.eventStage}`} className="event-screen" surface="dark">
+      <GameHeader view={view} timeLabel={view.event?.scene.timingLabel ?? ui.timeDusk} />
+      <ShopScene phase="event" alt={ui.shopAltEvent} caption={ui.eventSceneCaption} weatherId={view.weather?.id} />
+      {eventPanel}
+    </ScreenFrame>
+  }
+
+  if (displayPage === 'settlement') return <ScreenFrame key={displayPage} className="settlement-screen" labelledBy={lastResult ? 'settlement-title' : undefined} surface="dark">
+    <GameHeader view={view} timeLabel={ui.timeNight} />
+    {!lastResult && <section className="paper-panel"><p>{ui.noEvent}</p><button className="primary-action" type="button" onClick={() => handleResolve()}>{ui.settleNoEvent}</button></section>}
+    {lastResult && <>
+      <div className="screen-heading"><p className="section-kicker">{ui.settlementTitle}</p><h1 id="settlement-title">{lastResult.moneyDelta >= 0 ? ui.settlementPositive : ui.settlementNegative}</h1><dl className="demand-funnel-summary"><div><dt>{ui.footTrafficLabel}</dt><dd>{view.demandSummary?.footTraffic ?? lastResult.visitors}</dd></div><div><dt>{ui.buyersLabel}</dt><dd>{view.demandSummary?.buyers ?? 0}</dd></div><div><dt>{ui.unservedLabel}</dt><dd>{view.demandSummary?.unserved ?? 0}</dd></div></dl></div>
+      {game.negativeProfitStreak >= 3 && <p className="notice">{ui.lossWarning}</p>}
+      {view.chainInterruptions.map((interruption) => <aside className="notice chain-interruption" role="status" key={interruption.chainId}>
+        <strong>{interruption.statusLabel} · {interruption.title}</strong>
+        <p>{interruption.text}</p>
+      </aside>)}
+      {view.eventResolution && <EventSettlementSummary resolution={view.eventResolution} title={ui.eventSettlementTitle} chainLabel={ui.chainProgressLabel} />}
+      <LedgerPanel view={view} netChange={lastResult.moneyDelta} expanded={uiFlow.ledgerExpanded} copy={ui} onToggle={() => dispatchUi({ type: 'toggle-ledger' })} />
+      {view.settlementInsight && <AyuanStage
+        variant="settlement"
+        tone={['profitable', 'rested'].includes(view.settlementInsight.reason) ? 'positive' : 'warning'}
+        name={view.settlementInsight.name}
+        role={view.settlementInsight.role}
+        text={view.settlementInsight.text}
+      />}
+      <details className="settlement-details paper-panel"><summary>{ui.settlementDetails}</summary>
+        {view.demandBreakdown && <section className="demand-loss-panel" aria-labelledby="loss-title"><h2 id="loss-title">{ui.settlementCauseLabel}</h2><dl className="loss-grid"><div><dt>{ui.buyersLabel}</dt><dd>{view.demandBreakdown.potentialBuyers}</dd></div><div><dt>{ui.servedCustomersLabel}</dt><dd>{view.demandBreakdown.servedCustomers}</dd></div>{view.demandBreakdown.losses.map((loss) => <div key={loss.id}><dt>{loss.label}</dt><dd>{loss.count}</dd></div>)}</dl></section>}
+        {lastResult.sales.length > 0 && <section className="sales-grid" aria-labelledby="sales-title"><h2 id="sales-title">{ui.salesSummary}</h2>{lastResult.sales.map((sale) => <article key={sale.productId}><strong>{content.drinks.find((item) => item.productId === sale.productId)?.name}</strong><dl><div><dt>{ui.prepared}</dt><dd>{sale.prepared}</dd></div><div><dt>{ui.demand}</dt><dd>{sale.demand}</dd></div><div><dt>{ui.sold}</dt><dd>{sale.sold}</dd></div><div><dt>{ui.stockoutLabel}</dt><dd>{sale.stockoutLost ?? Math.max(0, sale.demand - sale.sold)}</dd></div><div><dt>{ui.unsold}</dt><dd>{sale.unsold}</dd></div></dl></article>)}</section>}
+      </details>
+      <button className="primary-action" type="button" onClick={afterSettlement}>{game.page === 'bankruptcy' || game.page === 'finalEnding' ? ui.viewOutcome : ui.nextDay}</button>
+    </>}
+  </ScreenFrame>
+
+  if (displayPage === 'financialCrisis' && view.financialCrisis) return <ScreenFrame key={displayPage} className="crisis-screen" labelledBy={view.financialCrisis.pendingScene ? 'crisis-scene-title' : 'crisis-title'} surface="dark">
+    <GameHeader view={view} timeLabel={ui.timeMorning} />
+    <FinancialCrisis crisis={view.financialCrisis} copy={ui} isSubmitting={uiFlow.isSubmitting} onAccept={acceptContract} onAcknowledge={acknowledgeContractScene} />
+  </ScreenFrame>
+
+  if (displayPage === 'milestone') {
+    const completedOperatingDay = Math.max(1, game.operatingDay - 1)
+    const completedCalendarDay = calendarDayForOperatingDay(completedOperatingDay, content.balance.campaign)
+    const completedChapter = campaignChapter(completedOperatingDay, content.balance.campaign)
+    return <ScreenFrame key={displayPage} className="milestone-screen" labelledBy="milestone-title" surface="dark">
+      <GameHeader view={view} />
+      <section className="milestone-card"><p className="section-kicker">{ui.milestoneTitle} · {completedChapter?.title}</p><div className="milestone-day">{completedOperatingDay}<small> / {content.balance.campaign.operatingDays.length}</small></div><h1 id="milestone-title">{ui.completedOperatingDayPrefix}{completedOperatingDay}{ui.completedOperatingDaySuffix}</h1><p>{ui.milestoneCalendarPrefix}{completedCalendarDay}{ui.milestoneCalendarSuffix}</p><p>{ui.milestoneChapterLead}</p><button className="primary-action" type="button" onClick={() => { const next = { ...game, page: 'morning' as const }; setGame(next); setDecision(newDecision(next)); setDisplayPage('morning') }}>{ui.nextDay}</button></section>
+    </ScreenFrame>
+  }
+
+  if (displayPage === 'bankruptcy' || displayPage === 'finalEnding') return <ScreenFrame key={displayPage} className="outcome-screen" surface="dark">
+    <GameHeader view={view} />
+    <ShopScene phase="ending" alt={ui.shopAltEnding} caption={ui.endingSceneCaption} customer="merchant" />
+    <OutcomePanel view={view} label={displayPage === 'bankruptcy' ? ui.bankruptcyTitle : ui.endingTitle} copy={ui} onRestart={showNewGame} />
+  </ScreenFrame>
+
+  return <ScreenFrame key="fallback" surface="dark"><p>{ui.noSave}</p></ScreenFrame>
 }
 
 export default App

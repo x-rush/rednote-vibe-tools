@@ -3,17 +3,7 @@ dist/
 coverage/
 work/
 projects/*/src/assets/
-projects/*/public/
 
-# Approved production assets for the two active release projects. Keep every
-# other project public directory ignored; only manifest-whitelisted files are
-# copied into these explicit subtrees.
-!projects/01-sbti/public/
-projects/01-sbti/public/*
-!projects/01-sbti/public/assets/
-projects/01-sbti/public/assets/*
-!projects/01-sbti/public/assets/sbti/
-!projects/01-sbti/public/assets/sbti/**
 *.log
 .DS_Store
 Thumbs.db
@@ -29,9 +19,4 @@ projects/*/research/rejected/
 projects/*/research/source-masters/
 projects/*/research/generated/
 projects/*/research/alternatives/
-
-# Internal/legacy SBTI production files superseded by the reviewed manifest
-# and versioned release assets.
-projects/01-sbti/public/assets/sbti/PROMPTS.md
-projects/01-sbti/public/assets/sbti/beasts/luwu/placeholder.webp
-projects/01-sbti/public/assets/sbti/beasts/luwu/profile.webp
+playwright

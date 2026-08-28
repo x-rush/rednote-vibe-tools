@@ -1,0 +1,176 @@
+.hatchery-shell {
+  position: relative;
+  display: grid;
+  min-height: 100vh;
+  min-height: 100dvh;
+  place-items: center;
+  overflow: hidden;
+  padding: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) + 24px) 22px 28px;
+  background:
+    radial-gradient(circle at 50% 38%, rgb(12 155 211 / 34%), transparent 30%),
+    radial-gradient(circle at 18% 70%, rgb(66 35 186 / 22%), transparent 28%),
+    linear-gradient(180deg, #010716 0%, #03162d 55%, #020817 100%);
+  isolation: isolate;
+}
+
+.hatchery-ambient,
+.hatchery-ambient::before,
+.hatchery-ambient::after {
+  position: absolute;
+  border: 1px solid rgb(91 239 255 / 24%);
+  border-radius: 50%;
+  content: "";
+}
+
+.hatchery-ambient {
+  width: min(84vw, 420px);
+  aspect-ratio: 1;
+  box-shadow: 0 0 90px rgb(0 195 255 / 12%);
+  animation: ambient-drift 12s ease-in-out infinite alternate;
+}
+
+.hatchery-ambient::before {
+  inset: 12%;
+}
+
+.hatchery-ambient::after {
+  inset: 29%;
+  border-color: rgb(173 91 255 / 22%);
+}
+
+.hatchery-card {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(100%, 430px);
+  justify-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.hatchery-region {
+  margin: 0;
+  color: #83f7ff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.prototype-cell {
+  position: relative;
+  width: clamp(176px, 48vw, 218px);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 24px rgb(23 228 255 / 42%));
+  animation: cell-float 4.8s ease-in-out infinite;
+}
+
+.prototype-cell__membrane {
+  position: absolute;
+  inset: 5%;
+  border: 3px solid rgb(150 249 255 / 88%);
+  border-radius: 46% 54% 48% 52% / 55% 44% 56% 45%;
+  background:
+    radial-gradient(circle at 35% 32%, rgb(255 255 255 / 24%), transparent 12%),
+    radial-gradient(circle at 52% 52%, rgb(28 226 255 / 26%), rgb(33 78 175 / 20%) 58%, rgb(156 72 255 / 14%));
+  box-shadow:
+    inset 0 0 26px rgb(116 244 255 / 36%),
+    0 0 14px rgb(87 230 255 / 70%),
+    0 0 36px rgb(115 63 255 / 35%);
+  transform: rotate(-8deg);
+}
+
+.prototype-cell__core {
+  position: absolute;
+  inset: 34%;
+  border: 2px solid rgb(188 255 251 / 80%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #f2ffff, #3ce7ee 22%, #0875a8 64%, #2d1b83);
+  box-shadow: 0 0 20px rgb(45 231 255 / 75%);
+  animation: core-pulse 2.2s ease-in-out infinite alternate;
+}
+
+.prototype-cell__organelle {
+  position: absolute;
+  width: 18%;
+  height: 10%;
+  border: 2px solid rgb(216 152 255 / 90%);
+  border-radius: 50%;
+  background: rgb(130 49 222 / 55%);
+  box-shadow: 0 0 10px rgb(169 69 255 / 62%);
+}
+
+.prototype-cell__organelle--one {
+  top: 30%;
+  left: 24%;
+  transform: rotate(28deg);
+}
+
+.prototype-cell__organelle--two {
+  right: 22%;
+  bottom: 28%;
+  border-color: rgb(255 180 88 / 88%);
+  background: rgb(233 99 43 / 48%);
+  box-shadow: 0 0 10px rgb(255 128 64 / 62%);
+  transform: rotate(-22deg);
+}
+
+.hatchery-copy h1 {
+  margin: 0;
+  font-size: clamp(2rem, 9vw, 3.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  text-shadow: 0 0 28px rgb(52 209 255 / 36%);
+}
+
+.hatchery-copy p {
+  margin: 12px 0 0;
+  color: rgb(205 240 255 / 78%);
+  font-size: 0.92rem;
+}
+
+.hatchery-start {
+  width: min(100%, 290px);
+  min-height: 52px;
+  border: 1px solid rgb(175 255 255 / 85%);
+  border-radius: 999px;
+  color: #00152a;
+  background: linear-gradient(105deg, #7dffff, #77d5ff 58%, #b69aff);
+  box-shadow: 0 8px 32px rgb(39 215 255 / 32%);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.hatchery-start:focus-visible {
+  outline: 3px solid #fff7a8;
+  outline-offset: 4px;
+}
+
+.hatchery-card small {
+  max-width: 30rem;
+  color: rgb(180 211 225 / 54%);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+@keyframes cell-float {
+  from { transform: translate3d(-4px, 6px, 0) rotate(-1deg); }
+  to { transform: translate3d(5px, -7px, 0) rotate(2deg); }
+}
+
+@keyframes core-pulse {
+  from { transform: scale(0.94); opacity: 0.8; }
+  to { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes ambient-drift {
+  from { transform: translate3d(-8%, -5%, 0) scale(0.96); }
+  to { transform: translate3d(7%, 5%, 0) scale(1.04); }
+}
+
+@media (max-height: 680px) {
+  .hatchery-card { gap: 12px; }
+  .prototype-cell { width: 148px; }
+  .hatchery-copy h1 { font-size: 1.9rem; }
+}

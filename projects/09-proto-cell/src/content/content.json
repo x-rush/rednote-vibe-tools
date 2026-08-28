@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "0.1.0-m0",
+  "projectId": "proto-cell",
+  "meta": {
+    "title": "原生：一滴水的战争",
+    "locale": "zh-CN",
+    "tagline": "在一滴水里，决定谁能包裹谁。",
+    "fictionDisclaimer": "本作是显微生态幻想，不构成真实生物学说明。"
+  },
+  "ui": {
+    "actions": {
+      "start": "开始孵化"
+    },
+    "labels": {
+      "prototypeCell": "一枚正在脉动的原生细胞",
+      "openingRegion": "初生水滴"
+    }
+  }
+}

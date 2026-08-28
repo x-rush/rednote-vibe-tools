@@ -20,4 +20,17 @@ describe('ecosystem events', () => {
     expect(first.variantId).toBe(second.variantId)
     expect(first.variant).toEqual(second.variant)
   })
+
+  it.each([
+    ['event-nutrient-bloom', 'env-clear-drop', 'resource-attraction'],
+    ['event-acid-leak', 'env-acid-vesicle', 'moving-safe-geometry'],
+    ['event-antibody-sweep', 'env-antibody-storm', 'sweep-gap'],
+    ['event-giant-passage', 'env-abandoned-chamber', 'visibility-current-shift'],
+  ] as const)('%s changes the world through %s', (eventId, environmentId, effectType) => {
+    const world = startEvent(eventId, eventContext({ environmentId }))
+
+    expect(world.variant).toEqual(expect.objectContaining({ radius: expect.any(Number), resourceCount: expect.any(Number), attractionStrength: expect.any(Number), flow: expect.any(Number) }))
+    expect(world.telegraphs.length).toBeGreaterThan(0)
+    expect(world.worldEffects).toContainEqual(expect.objectContaining({ type: effectType }))
+  })
 })

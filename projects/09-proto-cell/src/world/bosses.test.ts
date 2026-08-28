@@ -1,8 +1,21 @@
 import { describe, expect, it } from 'vitest'
-import { m1BossState } from '../tests/fixtures'
-import { bossRamDamage, createBoss, resolveBossPath, stepBoss } from './bosses'
+import { getContent } from '../content'
+import { bossFixture, m1BossState } from '../tests/fixtures'
+import { bossRamDamage, canResolveBossPath, createBoss, resolveBossPath, stepBoss } from './bosses'
 
 describe('membrane queen validation boss', () => {
+  it.each(getContent().bosses.flatMap((boss) => boss.resolutionPaths.map((path) => [boss.id, path] as const)))(
+    '%s can reach its declared %s state through the state machine',
+    (bossId, path) => expect(canResolveBossPath(bossId, path)).toBe(true),
+  )
+  it.each([
+    ['boss-membrane-queen', 'environment'],
+    ['boss-antibody-crown', 'stealth'],
+    ['boss-abandoned-host', 'parasite'],
+  ] as const)('%s resolves through %s', (bossId, path) => {
+    expect(resolveBossPath(bossFixture(bossId, path))).toEqual({ complete: true, path })
+  })
+
   it.each(['combat', 'environment', 'stealth'] as const)('completes the M1 boss by %s', (path) => {
     expect(resolveBossPath(m1BossState(path))).toMatchObject({ complete: true, path })
   })
@@ -61,5 +74,18 @@ describe('membrane queen validation boss', () => {
     const resolved = stepBoss(active, { atMs: 5000, parasiteAttachedMs: 3000 })
 
     expect(resolveBossPath(resolved)).toEqual({ complete: true, path: 'parasite' })
+  })
+
+  it('never resolves a path that the boss did not declare', () => {
+    const host = createBoss('boss-abandoned-host', { seed: 727, atMs: 0 })
+    const resolved = stepBoss(host, {
+      atMs: host.telegraphEndsAtMs,
+      territoryCrossed: true,
+      playerEscaped: true,
+      lockRatio: 0.1,
+    })
+
+    expect(resolved.phase).not.toBe('resolved')
+    expect(resolved.resolutionCandidate).toBeUndefined()
   })
 })

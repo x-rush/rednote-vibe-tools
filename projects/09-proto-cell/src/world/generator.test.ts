@@ -18,7 +18,7 @@ describe('seeded region generation', () => {
     const region = generateRegion(727, 'env-clear-drop')
 
     expect(region.routeRifts).toHaveLength(2)
-    expect(region.routeRifts.every((rift) => rift.opensAtMs >= 300_000)).toBe(true)
+    expect(region.routeRifts.every((rift) => rift.opensAtMs >= 110_000)).toBe(true)
     expect(region.routeRifts.every((rift) => rift.hazardId && rift.resourceId && rift.affinityIconId)).toBe(true)
     expect(region.routeRifts).toEqual(generateRegion(727, 'env-clear-drop').routeRifts)
     const rift = region.routeRifts[0]

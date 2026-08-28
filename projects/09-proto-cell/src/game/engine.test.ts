@@ -5,6 +5,104 @@ import { bossTerminalEvent, contactDamageAt, contactDamageForPair, createGameEng
 import { installMutation, offerMutations } from '../evolution/mutation'
 
 describe('game engine lifecycle', () => {
+  it('loads the chosen destination inside the same run', () => {
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-acid-vesicle', initialElapsedMs: 130_000 })
+    engine.start()
+    const rift = engine.renderSnapshot().routeRifts[0]!
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    const organsBefore = engine.evolutionSnapshot().organelles
+    player.position = { ...rift.position }
+    player.body = circleBody(player.position, player.body.radius)
+
+    engine.advance(1000 / 60)
+
+    expect(engine.snapshot().environmentId).toBe(rift.destinationEnvironmentId)
+    expect(engine.renderSnapshot().environmentId).toBe(rift.destinationEnvironmentId)
+    expect(engine.evolutionSnapshot().organelles).toEqual(organsBefore)
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({
+      type: 'route-selected',
+      environmentId: rift.destinationEnvironmentId,
+    }))
+  })
+
+  it('applies active environment damage through the normal event feed', () => {
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-acid-vesicle', initialElapsedMs: 3000 })
+    engine.start()
+    const hazard = Object.values(engine.worldSnapshot().environmentField.hazardCenters)[0]!
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    player.position = { ...hazard }
+    player.body = circleBody(player.position, player.body.radius)
+    const membrane = player.membrane
+
+    engine.advance(1000 / 60)
+
+    expect(engine.renderSnapshot().entities.find((entity) => entity.id === 'player')?.membrane).toBeLessThan(membrane)
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'damaged', source: 'acid' }))
+  })
+
+  it('never lets split bodies fuse back after fatal environment damage', () => {
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-acid-vesicle', initialElapsedMs: 3000 })
+    engine.start()
+    const context = mutationContext({ organIds: ['organelle-division-ring'] })
+    engine.applyMutation({
+      installed: context.installed[0]!,
+      organelles: context.installed,
+      stability: context.stability,
+      capacity: context.capacity,
+      synergyIds: [],
+    })
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    player.mass = 320
+    player.membrane = 100
+    engine.advance(1000 / 60)
+    expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(2)
+
+    for (let index = 0; index < 70 && engine.renderSnapshot().entities.some((entity) => entity.faction === 'player' && entity.status === 'active'); index += 1) {
+      const hazard = Object.values(engine.worldSnapshot().environmentField.hazardCenters)[0]!
+      engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player').forEach((body) => {
+        body.membrane = 1
+        body.position = { ...hazard }
+        body.body = circleBody(body.position, body.body.radius)
+      })
+      engine.advance(1000 / 60)
+    }
+
+    expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toEqual([])
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'player-died', cause: 'environmental-rupture' }))
+    engine.advance(1000)
+    expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toEqual([])
+  })
+
+  it('starts authored secondary events when they are the valid environment event', () => {
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-algae-glow', initialElapsedMs: 64_500 })
+    engine.start()
+    engine.advance(1000 / 60)
+
+    expect(engine.worldSnapshot().activeEvent?.id).toBe('event-giant-passage')
+    expect(engine.worldSnapshot().environmentField.visibility).toBeLessThan(0.7)
+  })
+
+  it('counts boss environment progress only while the boss overlaps the hazard', () => {
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-antibody-storm', initialElapsedMs: 99_000 })
+    engine.start()
+    engine.advance(1000 / 60)
+    const bossState = engine.worldSnapshot().boss!
+    const boss = engine.renderSnapshot().entities.find((entity) => entity.id === bossState.id)!
+    Object.assign(bossState, { phase: 'feeding', hazardOverlapMs: 0 })
+    boss.position = { x: 40, y: 1000 }
+    boss.body = circleBody(boss.position, boss.body.radius)
+
+    engine.advance(1000 / 60)
+    expect(engine.worldSnapshot().boss?.hazardOverlapMs).toBe(0)
+
+    const hazard = Object.values(engine.worldSnapshot().environmentField.hazardCenters)[0]!
+    const movedBoss = engine.renderSnapshot().entities.find((entity) => entity.id === bossState.id)!
+    movedBoss.position = { ...hazard }
+    movedBoss.body = circleBody(movedBoss.position, movedBoss.body.radius)
+    engine.advance(1000 / 60)
+    expect(engine.worldSnapshot().boss?.hazardOverlapMs).toBeGreaterThan(0)
+  })
+
   it('uses the selected launch origin definition and its initial passive organ', () => {
     const ciliate = createGameEngine({ seed: 727, environmentId: 'env-clear-drop', originId: 'origin-ciliate-seed' })
     const armored = createGameEngine({ seed: 727, environmentId: 'env-clear-drop', originId: 'origin-armored-spore' })
@@ -159,7 +257,7 @@ describe('game engine lifecycle', () => {
   })
 
   it('keeps a ram-resolved mid-run boss inactive while the run continues', () => {
-    const engine = createGameEngine({ seed: 727, initialElapsedMs: 244_300 })
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-fiber-maze', initialElapsedMs: 244_300 })
     engine.start()
     const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
     player.mass = 2500
@@ -203,6 +301,35 @@ describe('game engine lifecycle', () => {
     engine.advance(500)
     expect(engine.snapshot().elapsedMs).toBeGreaterThan(resolvedElapsed)
     expect(engine.renderSnapshot().entities.some((entity) => entity.id === state.id)).toBe(false)
+  })
+
+  it('reaches the host-takeover ending through a live final-boss parasite route', () => {
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-abandoned-chamber', initialElapsedMs: 99_000 })
+    engine.start()
+    engine.advance(1000 / 60)
+    const context = mutationContext({ organIds: ['organelle-needle-mouth'] })
+    engine.applyMutation({
+      installed: context.installed[0]!,
+      organelles: context.installed,
+      stability: context.stability,
+      capacity: context.capacity,
+      synergyIds: [],
+    })
+    Object.assign(engine.worldSnapshot().boss!, { phase: 'exposed', outerMembrane: 0, parasiteAttachedMs: 0 })
+
+    for (let index = 0; index < 190 && engine.worldSnapshot().boss?.phase !== 'resolved'; index += 1) {
+      const bossState = engine.worldSnapshot().boss!
+      const boss = engine.renderSnapshot().entities.find((entity) => entity.id === bossState.id)!
+      const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+      boss.position = { x: 220, y: 820 }
+      boss.body = circleBody(boss.position, boss.body.radius)
+      player.position = { x: boss.position.x + boss.body.radius + player.body.radius - 1, y: boss.position.y }
+      player.body = circleBody(player.position, player.body.radius)
+      engine.advance(1000 / 60)
+    }
+
+    expect(engine.worldSnapshot().boss).toMatchObject({ phase: 'resolved', resolutionCandidate: 'parasite' })
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'ending-reached', endingId: 'ending-host-takeover' }))
   })
 
   it('does not award the stable-species ending below its content threshold', () => {

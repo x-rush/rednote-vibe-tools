@@ -1,11 +1,14 @@
 import content from '../content/content.json'
+import type { BossResolutionPath, CreatureDefinition, EnvironmentId } from '../content'
 import { createRng } from '../domain/rng'
 import { createEntity, type EntityDefinition, type SpawnedEntityState } from '../entities/factory'
+import { canResolveBossPath } from './bosses'
 
 type M0Environment = {
   id: string
   width: number
   height: number
+  playerDefinition: EntityDefinition & { stability: number; evolutionThreshold: number; evolutionThresholdGrowth: number }
   entityDefinitions: EntityDefinition[]
   spawnSchedule: Array<{ atMs: number; definitionId: string; count: number }>
 }
@@ -45,9 +48,7 @@ export function findEnteredRouteRift(
 }
 
 export function generateRegion(seed: number, environmentId: string): GeneratedRegion {
-  const environments = content.m0.environments as M0Environment[]
-  const environment = environments.find((item) => item.id === environmentId)
-  if (!environment) throw new RangeError(`Unknown environment id: ${environmentId}`)
+  const environment = getRegionDefinition(environmentId)
 
   const definitions = new Map(environment.entityDefinitions.map((definition) => [definition.id, definition]))
   const rng = createRng(seed).fork(environmentId)
@@ -79,13 +80,105 @@ export function generateRegion(seed: number, environmentId: string): GeneratedRe
     height: environment.height,
     entities,
     spawnSchedule,
-    routeRifts: content.m1.routeRifts.map((rift, index) => ({
+    routeRifts: routeDefinitions(environmentId as EnvironmentId).map((rift, index, all) => ({
       ...rift,
       radius: 26,
       position: {
-        x: index === 0 ? 72 + routeRng.next() * 84 : environment.width - 156 + routeRng.next() * 84,
+        x: all.length === 1 ? environment.width / 2 : index === 0 ? 72 + routeRng.next() * 84 : environment.width - 156 + routeRng.next() * 84,
         y: 72 + routeRng.next() * 130,
       },
     })),
+  }
+}
+
+export function getRegionDefinition(environmentId: string): M0Environment {
+  const m0 = (content.m0.environments as M0Environment[]).find((item) => item.id === environmentId)
+  if (m0) return m0
+  const environment = content.environments.find((item) => item.id === environmentId)
+  const spawnTable = content.spawnTables.find((item) => item.id === environment?.spawnTableId)
+  const playerDefinition = (content.m0.environments as M0Environment[])[0]?.playerDefinition
+  if (!environment || !spawnTable || !playerDefinition) throw new RangeError(`Unknown environment id: ${environmentId}`)
+  const definitions = spawnTable.entries.map((entry) => {
+    const creature = content.creatures.find((item) => item.id === entry.creatureId)
+    if (!creature) throw new RangeError(`Unknown creature id: ${entry.creatureId}`)
+    return creatureEntityDefinition(creature as CreatureDefinition)
+  })
+  return {
+    id: environment.id,
+    width: 640,
+    height: 1100,
+    playerDefinition,
+    entityDefinitions: definitions,
+    spawnSchedule: spawnTable.entries.map((entry) => ({
+      atMs: entry.minAtMs,
+      definitionId: entry.creatureId,
+      count: Math.max(2, Math.min(12, Math.round(entry.weight / 4))),
+    })),
+  }
+}
+
+export function generateRunRoute(seed: number): [EnvironmentId, EnvironmentId, EnvironmentId, EnvironmentId] {
+  const rng = createRng(seed).fork('launch-route')
+  return [
+    'env-clear-drop',
+    rng.next() < 0.5 ? 'env-algae-glow' : 'env-acid-vesicle',
+    rng.next() < 0.5 ? 'env-fiber-maze' : 'env-antibody-storm',
+    'env-abandoned-chamber',
+  ]
+}
+
+export function analyzeGeneratedRegion(seed: number, environmentId: EnvironmentId): { reachableExitCount: number; entityCount: number } {
+  const region = generateRegion(seed, environmentId)
+  const reachableExitCount = region.routeRifts.filter((rift) => (
+    rift.position.x >= rift.radius
+    && rift.position.x <= region.width - rift.radius
+    && rift.position.y >= rift.radius
+    && rift.position.y <= region.height - rift.radius
+  )).length
+  const terminalResolutionCount = content.bosses.some((boss) => (
+    boss.environmentId === environmentId
+    && boss.rewardIds.some((rewardId) => content.endings.some((ending) => ending.id === rewardId))
+    && boss.resolutionPaths.some((path) => canResolveBossPath(boss.id as `boss-${string}`, path as BossResolutionPath))
+  )) ? 1 : 0
+  return { reachableExitCount: reachableExitCount + terminalResolutionCount, entityCount: region.entities.length }
+}
+
+function routeDefinitions(environmentId: EnvironmentId): Array<Omit<RouteRift, 'position' | 'radius'>> {
+  const opensAtMs = (content.environments.find((item) => item.id === environmentId)?.durationTargetSec[0] ?? 120) * 1000
+  const route = (id: string, destinationEnvironmentId: EnvironmentId, hazardId: string, resourceId: string, affinityIconId: string) => ({
+    id, destinationEnvironmentId, opensAtMs, hazardId, resourceId, affinityIconId,
+  })
+  if (environmentId === 'env-clear-drop') return [
+    route('route-rift-algae', 'env-algae-glow', 'hazard-current-shear', 'resource-sugar-trail', 'affinity-growth'),
+    route('route-rift-acid', 'env-acid-vesicle', 'hazard-acid-fringe', 'resource-mineral-trail', 'affinity-armor'),
+  ]
+  if (environmentId === 'env-algae-glow' || environmentId === 'env-acid-vesicle') return [
+    route(`route-rift-${environmentId.slice(4)}-fiber`, 'env-fiber-maze', 'hazard-fiber-anchor', 'resource-protein-trail', 'affinity-small-body'),
+    route(`route-rift-${environmentId.slice(4)}-antibody`, 'env-antibody-storm', 'hazard-antibody-sweep', 'resource-lumen-trail', 'affinity-stealth'),
+  ]
+  if (environmentId === 'env-fiber-maze' || environmentId === 'env-antibody-storm') return [
+    route(`route-rift-${environmentId.slice(4)}-chamber`, 'env-abandoned-chamber', 'hazard-chamber-drain', 'resource-gene-trail', 'affinity-terminal'),
+  ]
+  return []
+}
+
+function creatureEntityDefinition(creature: CreatureDefinition): EntityDefinition {
+  const radius = (creature.sizeRange[0] + creature.sizeRange[1]) / 2
+  const hostile = creature.role === 'hunter' || creature.role === 'parasite' || creature.role === 'elite'
+  const role = creature.role === 'resource' ? 'nutrient'
+    : creature.role === 'swarm' ? 'competitor'
+    : creature.role === 'hunter' || creature.role === 'parasite' ? 'predator'
+    : creature.role
+  return {
+    id: creature.id,
+    role,
+    faction: hostile ? 'hostile' : 'neutral',
+    radius,
+    mass: Math.round(radius * radius),
+    membrane: hostile ? Math.round(radius * 3.2) : Math.max(1, Math.round(radius * 1.4)),
+    energy: Math.round(radius * 4),
+    maxSpeed: hostile ? 54 : creature.role === 'resource' ? 10 : 48,
+    visualRecipeId: creature.visualRecipeId,
+    contactDamage: hostile ? { source: creature.role === 'elite' ? 'ram' : 'spine', amount: creature.role === 'elite' ? 12 : 7, periodMs: 1800, activeMs: 260, phaseOffsetMs: 0 } : undefined,
   }
 }

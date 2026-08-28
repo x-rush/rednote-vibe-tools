@@ -2,7 +2,7 @@ import type { BodyShape, EntityState, Vec2 } from '../domain/types'
 import type { InteractionContext } from '../game/interactions'
 import { createGameEngine, type ProtoCellEngine } from '../game/engine'
 import type { ControllerDependencies } from '../app/controller'
-import { getContent, type ContentPack } from '../content'
+import { getContent, type BossId, type ContentPack } from '../content'
 import type { EvolvedEntityState, OrganPerception } from '../evolution/organs'
 import type { MutationContext } from '../evolution/mutation'
 import type { EventContext } from '../world/events'
@@ -226,4 +226,20 @@ export function m1BossState(path: BossPath): BossState {
   if (path === 'combat') return { ...state, phase: 'enraged', outerMembrane: 0, coreIntegrity: 0, resolutionCandidate: path }
   if (path === 'environment') return { ...state, phase: 'exposed', hazardOverlapMs: 2200, validationHazardId: 'hazard-acid-fringe', resolutionCandidate: path }
   return { ...state, phase: 'feeding', territoryCrossed: true, playerEscaped: true, lockRatio: 0.4, peakLockRatio: 0.4, resolutionCandidate: path }
+}
+
+export function bossFixture(bossId: BossId, path: BossPath): BossState {
+  const state = createBoss(bossId, { seed: 727, atMs: 0 })
+  const definition = getContent().bosses.find((item) => item.id === bossId)
+  if (!definition || !definition.resolutionPaths.includes(path)) throw new RangeError(`Unsupported boss path: ${bossId}:${path}`)
+  if (path === 'combat') return { ...state, phase: 'resolved', outerMembrane: 0, coreIntegrity: 0, resolutionCandidate: path }
+  if (path === 'environment') return {
+    ...state,
+    phase: 'resolved',
+    hazardOverlapMs: definition.rules.hazardHoldMs,
+    validationHazardId: definition.rules.environmentHazardIds[0],
+    resolutionCandidate: path,
+  }
+  if (path === 'parasite') return { ...state, phase: 'resolved', outerMembrane: 0, parasiteAttachedMs: definition.rules.parasiteHoldMs, resolutionCandidate: path }
+  return { ...state, phase: 'resolved', territoryCrossed: true, playerEscaped: true, peakLockRatio: definition.rules.stealthLockMax, resolutionCandidate: path }
 }

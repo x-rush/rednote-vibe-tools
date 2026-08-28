@@ -88,9 +88,11 @@ export function stepBoss(state: BossState, input: BossStepInput): BossState {
     if (next.coreIntegrity > 0 && next.coreIntegrity <= definition.rules.coreIntegrity * 0.5) next = { ...next, phase: 'enraged' }
   }
 
-  const environmentComplete = next.hazardOverlapMs >= definition.rules.hazardHoldMs && next.phase !== 'dormant'
-  const stealthComplete = next.phase !== 'dormant' && next.territoryCrossed && next.playerEscaped && next.peakLockRatio <= definition.rules.stealthLockMax
-  const combatComplete = next.outerMembrane === 0 && next.coreIntegrity === 0
+  const environmentComplete = definition.resolutionPaths.includes('environment')
+    && next.hazardOverlapMs >= definition.rules.hazardHoldMs && next.phase !== 'dormant'
+  const stealthComplete = definition.resolutionPaths.includes('stealth')
+    && next.phase !== 'dormant' && next.territoryCrossed && next.playerEscaped && next.peakLockRatio <= definition.rules.stealthLockMax
+  const combatComplete = definition.resolutionPaths.includes('combat') && next.outerMembrane === 0 && next.coreIntegrity === 0
   const parasiteComplete = definition.resolutionPaths.includes('parasite')
     && (next.phase === 'exposed' || next.phase === 'enraged')
     && next.outerMembrane === 0
@@ -115,6 +117,38 @@ export function resolveBossPath(state: BossState): { complete: boolean; path?: B
         ? state.outerMembrane === 0 && state.parasiteAttachedMs >= definition.rules.parasiteHoldMs
         : state.territoryCrossed && state.playerEscaped && state.peakLockRatio <= definition.rules.stealthLockMax
   return complete ? { complete: true, path } : { complete: false }
+}
+
+export function canResolveBossPath(bossId: BossId, path: BossPath): boolean {
+  const definition = getContent().bosses.find((item) => item.id === bossId)
+  if (!definition || !definition.resolutionPaths.includes(path)) return false
+  let state = createBoss(bossId, { seed: 1, atMs: 0 })
+  state = stepBoss(state, { atMs: state.telegraphEndsAtMs })
+  if (path === 'combat') {
+    state = stepBoss(state, { atMs: state.telegraphEndsAtMs + 1, outerDamage: state.outerMembraneMax, coreDamage: state.coreIntegrityMax })
+    state = stepBoss(state, { atMs: state.telegraphEndsAtMs + 2, coreDamage: state.coreIntegrityMax })
+  } else if (path === 'environment') {
+    state = stepBoss(state, {
+      atMs: state.telegraphEndsAtMs + definition.rules.hazardHoldMs,
+      hazardId: definition.rules.environmentHazardIds[0],
+      hazardOverlapMs: definition.rules.hazardHoldMs,
+    })
+  } else if (path === 'stealth') {
+    state = stepBoss(state, {
+      atMs: state.telegraphEndsAtMs + 1,
+      territoryCrossed: true,
+      playerEscaped: true,
+      lockRatio: definition.rules.stealthLockMax,
+    })
+  } else {
+    state = stepBoss(state, { atMs: state.telegraphEndsAtMs + 1, outerDamage: state.outerMembraneMax })
+    state = stepBoss(state, {
+      atMs: state.telegraphEndsAtMs + definition.rules.parasiteHoldMs,
+      parasiteAttachedMs: definition.rules.parasiteHoldMs,
+    })
+  }
+  const resolution = resolveBossPath(state)
+  return resolution.complete && resolution.path === path
 }
 
 export function bossRamDamage(

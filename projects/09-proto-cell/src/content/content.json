@@ -75,7 +75,6 @@
       "hazardTags": ["open-water", "current"],
       "spawnTableId": "spawn-clear-drop-m1",
       "eventIds": ["event-nutrient-bloom"],
-      "bossId": "boss-membrane-queen",
       "visualPalette": ["#073d66", "#72f5ff", "#ffbf69"],
       "ambientAudioId": "audio-clear-drop"
     },
@@ -115,6 +114,7 @@
       "hazardTags": ["fiber", "adhesion", "narrow-gap"],
       "spawnTableId": "spawn-fiber-maze",
       "eventIds": ["event-nutrient-bloom", "event-antibody-sweep"],
+      "bossId": "boss-membrane-queen",
       "visualPalette": ["#101d3d", "#8ae6ff", "#f6c176"],
       "ambientAudioId": "audio-fiber-maze"
     },
@@ -1080,7 +1080,7 @@
     {
       "id": "boss-membrane-queen",
       "name": "膜群母体",
-      "environmentId": "env-clear-drop",
+      "environmentId": "env-fiber-maze",
       "phases": [
         { "id": "dormant", "behaviorId": "queen-dormant" },
         { "id": "feeding", "behaviorId": "queen-feeding" },
@@ -1099,7 +1099,7 @@
         "hazardHoldMs": 2000,
         "parasiteHoldMs": 2400,
         "stealthLockMax": 0.65,
-        "environmentHazardIds": ["hazard-acid-fringe"],
+        "environmentHazardIds": ["hazard-acid-fringe", "hazard-fiber-anchor"],
         "ramOuterDamage": 24,
         "ramCoreDamage": 18,
         "ramCooldownMs": 650

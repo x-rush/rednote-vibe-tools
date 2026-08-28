@@ -39,6 +39,7 @@ export function createCanvasRenderer(
 
       context.clearRect(0, 0, width, height)
       drawLiquidField(context, width, height, snapshot.elapsedMs)
+      drawEnvironmentField(context, snapshot, camera, width, height, zoom)
       drawEventField(context, snapshot, camera, width, height, zoom)
 
       const drawables = snapshot.entities
@@ -61,6 +62,7 @@ export function createCanvasRenderer(
           drawBossPhase(context, item.x, item.y, item.radius, snapshot.boss, snapshot.elapsedMs)
         }
       }
+      drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height)
       numbers.draw(context, width, height, snapshot.elapsedMs)
     },
     setQuality(nextQuality) {
@@ -71,6 +73,96 @@ export function createCanvasRenderer(
       displayedRadii.clear()
     },
   }
+}
+
+function drawEnvironmentField(
+  context: CanvasRenderingContext2D,
+  snapshot: WorldRenderSnapshot,
+  camera: { x: number; y: number },
+  width: number,
+  height: number,
+  zoom: number,
+) {
+  const field = snapshot.environmentField
+  context.save()
+  for (const obstacle of field.obstacles) {
+    const from = {
+      x: width / 2 + (obstacle.from.x - camera.x) * zoom,
+      y: height / 2 + (obstacle.from.y - camera.y) * zoom,
+    }
+    const to = {
+      x: width / 2 + (obstacle.to.x - camera.x) * zoom,
+      y: height / 2 + (obstacle.to.y - camera.y) * zoom,
+    }
+    context.globalAlpha = 0.72
+    context.strokeStyle = obstacle.adhesive ? '#89e2c5' : '#87a3be'
+    context.lineWidth = obstacle.kind === 'chamber-wall' ? 8 : 5
+    context.setLineDash(obstacle.adhesive ? [4, 7] : [])
+    context.beginPath()
+    context.moveTo(from.x, from.y)
+    context.lineTo(to.x, to.y)
+    context.stroke()
+  }
+  if (field.environmentId === 'env-acid-vesicle' && field.safeCenters.length > 0) {
+    const safe = field.safeCenters[0]!
+    const safeX = width / 2 + (safe.x - camera.x) * zoom
+    const safeY = height / 2 + (safe.y - camera.y) * zoom
+    context.globalAlpha = field.activeHazardIds.includes('hazard-acid-discharge') ? 0.2 : 0.1
+    context.fillStyle = '#d94f68'
+    context.beginPath()
+    context.rect(0, 0, width, height)
+    context.arc(safeX, safeY, 92 * zoom, 0, Math.PI * 2, true)
+    context.fill('evenodd')
+  }
+  for (const cue of field.telegraphs) {
+    const center = field.hazardCenters[cue.hazardId] ?? cue.center
+    const x = width / 2 + (center.x - camera.x) * zoom
+    const y = height / 2 + (center.y - camera.y) * zoom
+    const radius = cue.radius * zoom
+    const active = field.activeHazardIds.includes(cue.hazardId)
+    const telegraphing = snapshot.elapsedMs >= cue.startsAtMs && snapshot.elapsedMs < cue.activatesAtMs
+    if (!active && !telegraphing) continue
+    if (field.environmentId === 'env-acid-vesicle' && cue.hazardId === 'hazard-acid-discharge') continue
+    const pulse = 0.95 + Math.sin(snapshot.elapsedMs / 170) * 0.05
+    context.globalAlpha = active ? 0.18 : 0.68
+    context.strokeStyle = active ? '#ff806c' : '#ffe595'
+    context.fillStyle = cue.hazardId.includes('acid') ? '#ce5d74' : '#7099d8'
+    context.lineWidth = active ? 2 : 4
+    context.setLineDash(active ? [] : [9, 8])
+    context.beginPath()
+    context.arc(x, y, radius * pulse, 0, Math.PI * 2)
+    if (active) context.fill()
+    context.stroke()
+  }
+  context.setLineDash([])
+  context.strokeStyle = '#9dffd1'
+  context.lineWidth = 3
+  context.globalAlpha = 0.76
+  for (const center of field.safeCenters) {
+    const x = width / 2 + (center.x - camera.x) * zoom
+    const y = height / 2 + (center.y - camera.y) * zoom
+    context.beginPath()
+    context.arc(x, y, 92 * zoom, 0, Math.PI * 2)
+    context.stroke()
+  }
+  context.restore()
+}
+
+function drawVisibilityVeil(
+  context: CanvasRenderingContext2D,
+  visibility: number,
+  width: number,
+  height: number,
+) {
+  const opacity = Math.max(0, Math.min(0.38, (1 - visibility) * 0.5))
+  if (opacity <= 0) return
+  const gradient = context.createRadialGradient(width / 2, height / 2, Math.min(width, height) * 0.12, width / 2, height / 2, Math.max(width, height) * 0.65)
+  gradient.addColorStop(0, 'rgba(4, 10, 20, 0)')
+  gradient.addColorStop(1, `rgba(4, 10, 20, ${opacity})`)
+  context.save()
+  context.fillStyle = gradient
+  context.fillRect(0, 0, width, height)
+  context.restore()
 }
 
 function drawBossArrivalTelegraph(

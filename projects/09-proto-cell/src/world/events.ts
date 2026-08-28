@@ -29,6 +29,12 @@ export type EcosystemEventState = {
   spawnRequests: Array<{ role: 'resource' | 'predator'; count: number; atMs: number; center: Vec2; radius: number }>
   aiSignals: Array<{ type: 'attraction-field'; audience: 'non-player'; center: Vec2; radius: number; strength: number; flow: Vec2 }>
   telegraphs: Array<{ cueId: string; startsAtMs: number; endsAtMs: number; center: Vec2; radius: number }>
+  worldEffects: Array<
+    | { type: 'resource-attraction'; radius: number; strength: number }
+    | { type: 'moving-safe-geometry'; radius: number; flow: number }
+    | { type: 'sweep-gap'; radius: number; flow: number }
+    | { type: 'visibility-current-shift'; visibilityMultiplier: number; flow: number }
+  >
 }
 
 export function startEvent(eventId: EventId, context: EventContext): EcosystemEventState {
@@ -70,10 +76,18 @@ export function startEvent(eventId: EventId, context: EventContext): EcosystemEv
       center: { ...context.center },
       radius: variant.radius,
     })),
+    worldEffects: eventEffects(event.id, variant),
   }
 }
 
 export function stepEvent(state: EcosystemEventState, atMs: number): EcosystemEventState {
   const phase = atMs >= state.endsAtMs ? 'expired' : atMs >= state.activatesAtMs ? 'active' : 'telegraph'
   return phase === state.phase ? state : { ...state, phase }
+}
+
+function eventEffects(eventId: EventId, variant: EventVariant): EcosystemEventState['worldEffects'] {
+  if (eventId === 'event-acid-leak') return [{ type: 'moving-safe-geometry', radius: variant.radius, flow: variant.flow }]
+  if (eventId === 'event-antibody-sweep') return [{ type: 'sweep-gap', radius: variant.radius, flow: variant.flow }]
+  if (eventId === 'event-giant-passage') return [{ type: 'visibility-current-shift', visibilityMultiplier: 0.62, flow: variant.flow }]
+  return [{ type: 'resource-attraction', radius: variant.radius, strength: variant.attractionStrength }]
 }

@@ -1,5 +1,5 @@
 import type { BodyShape, EntityState, Vec2 } from '../domain/types'
-import { fullyContains } from './containment'
+import { mostlyContains } from './containment'
 
 export type DamageSource = 'acid' | 'electric' | 'spine' | 'ram'
 
@@ -22,6 +22,8 @@ export type InteractionContext = {
   engulfLocks: Set<string>
   ruptureLossFraction: number
   containmentTolerance?: number
+  engulfCoverageThreshold?: number
+  engulfMassGainFraction?: number
   contactDamage?: {
     source: DamageSource
     amount: number
@@ -44,15 +46,16 @@ export function resolveInteraction(
   context: InteractionContext,
 ): InteractionResult {
   const massBefore = first.mass + second.mass
-  const containment = findContainment(first, second, context.containmentTolerance ?? 0.5)
+  const containment = findContainment(first, second, context.engulfCoverageThreshold ?? 0.7)
 
   if (containment) {
     const lockKey = `${containment.predator.id}\u0000${containment.prey.id}`
     if (!context.engulfLocks.has(lockKey)) {
       context.engulfLocks.add(lockKey)
+      const massGainFraction = Math.max(0, context.engulfMassGainFraction ?? 1)
       const predator = {
         ...containment.predator,
-        mass: containment.predator.mass + containment.prey.mass,
+        mass: containment.predator.mass + containment.prey.mass * massGainFraction,
       }
       const prey = {
         ...containment.prey,
@@ -136,11 +139,11 @@ export function resolveInteraction(
   }
 }
 
-function findContainment(first: EntityState, second: EntityState, tolerance: number) {
-  if (first.status === 'active' && second.status === 'active' && fullyContains(first.body, second.body, tolerance)) {
+function findContainment(first: EntityState, second: EntityState, minimumCoveredRatio: number) {
+  if (first.status === 'active' && second.status === 'active' && mostlyContains(first.body, second.body, minimumCoveredRatio)) {
     return { predator: first, prey: second }
   }
-  if (first.status === 'active' && second.status === 'active' && fullyContains(second.body, first.body, tolerance)) {
+  if (first.status === 'active' && second.status === 'active' && mostlyContains(second.body, first.body, minimumCoveredRatio)) {
     return { predator: second, prey: first }
   }
   return undefined

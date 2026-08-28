@@ -332,6 +332,14 @@ export function validateContent(input: unknown): ContentValidationResult {
     requireTuple(value.sliceTargetMs, '$.m1.sliceTargetMs')
     require(Array.isArray(value.sliceTargetMs) && Number(value.sliceTargetMs[0]) >= 300_000 && Number(value.sliceTargetMs[1]) <= 480_000, '$.m1.sliceTargetMs', 'M1 slice must target five to eight minutes')
     require(typeof value.bossSpawnAtMs === 'number' && Number.isFinite(value.bossSpawnAtMs) && value.bossSpawnAtMs > 0, '$.m1.bossSpawnAtMs', 'M1 boss spawn time is required')
+    if (!isRecord(value.ecologyReplenishment)) issues.push({ path: '$.m1.ecologyReplenishment', message: 'ecology replenishment configuration is required' })
+    else {
+      const ecology = value.ecologyReplenishment
+      for (const field of ['intervalMs', 'targetFoodCount', 'batchSize', 'localFoodTarget', 'localRadius', 'minPlayerDistance', 'minHostileDistance']) {
+        require(typeof ecology[field] === 'number' && Number.isFinite(ecology[field]) && Number(ecology[field]) > 0, `$.m1.ecologyReplenishment.${field}`, `${field} must be positive`)
+      }
+      require(Number(ecology.batchSize) <= Number(ecology.targetFoodCount), '$.m1.ecologyReplenishment.batchSize', 'food batch must not exceed its target')
+    }
     if (!Array.isArray(value.eventSchedule)) issues.push({ path: '$.m1.eventSchedule', message: 'M1 event schedule is required' })
     else value.eventSchedule.forEach((entry, index) => {
       const path = `$.m1.eventSchedule[${index}]`

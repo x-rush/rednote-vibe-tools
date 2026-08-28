@@ -777,6 +777,49 @@
   transition: width 180ms ease-out;
 }
 
+.game-hud__swarm {
+  grid-column: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 3px 8px;
+  padding: 7px 10px;
+  border: 1px solid rgb(114 245 255 / 24%);
+  border-radius: 12px;
+  color: #dcffff;
+  background: rgb(6 26 55 / 78%);
+  backdrop-filter: blur(12px);
+}
+
+.game-hud__swarm strong {
+  color: #7ff8ff;
+  font-size: 0.72rem;
+}
+
+.game-hud__swarm span {
+  overflow: hidden;
+  color: rgb(220 255 255 / 72%);
+  font-size: 0.64rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-hud__swarm i {
+  grid-column: 1 / -1;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(127 248 255 / 12%);
+}
+
+.game-hud__swarm b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #67efff, #b899ff);
+  box-shadow: 0 0 7px #7ff8ff;
+}
+
 .game-hud .game-hud__pause {
   position: relative;
   top: auto;

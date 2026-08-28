@@ -42,11 +42,14 @@ export type OrganEffect = {
 
 type OrganBehavior = (entity: EvolvedEntityState, organ: InstalledOrganelle, perception: OrganPerception) => Omit<OrganEffect, 'type' | 'entityId' | 'organId' | 'atMs'> | undefined
 
+export const CONTAINMENT_ESCAPE_COVERAGE = 0.55
+export const FATAL_SPLIT_COVERAGE = 0.62
+
 const behaviorRegistry: Record<string, OrganBehavior> = {
   'straight-line-boost': (_entity, organ, perception) => perception.sameDirectionMs >= 1200 && perception.speedRatio >= 0.7
     ? { effect: 'speed-boost', amount: organ.stage === 'mature' ? 1.4 : 1.25 }
     : undefined,
-  'containment-escape': (entity, organ, perception) => perception.containmentRatio >= 0.8 && entity.energy >= 18
+  'containment-escape': (entity, organ, perception) => perception.containmentRatio >= CONTAINMENT_ESCAPE_COVERAGE && entity.energy >= 18
     ? { effect: 'escape-impulse', amount: organ.stage === 'mature' ? 2.1 : 1.8, energyCost: 18, impulse: perception.threatEscapeDirection }
     : undefined,
   'collision-shell': (_entity, organ, perception) => perception.collisionStrength > 0
@@ -61,7 +64,7 @@ const behaviorRegistry: Record<string, OrganBehavior> = {
   'safe-energy-repair': (entity, organ, perception) => perception.msSinceDamage >= 3000 && entity.membrane < perception.membraneMax && entity.energy >= 8
     ? { effect: 'repair', amount: organ.stage === 'mature' ? 16 : 10, energyCost: 8 }
     : undefined,
-  'mass-or-fatal-split': (entity, organ, perception) => entity.mass >= 320 || perception.containmentRatio >= 0.96 || perception.incomingFatalDamage
+  'mass-or-fatal-split': (entity, organ, perception) => entity.mass >= 320 || perception.containmentRatio >= FATAL_SPLIT_COVERAGE || perception.incomingFatalDamage
     ? { effect: 'split', amount: organ.stage === 'mature' ? 3 : 2 }
     : undefined,
 }

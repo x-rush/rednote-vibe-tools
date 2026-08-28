@@ -107,6 +107,17 @@ describe('content integrity validation', () => {
     expect(validateContent(contentFixture()).issues).toEqual([])
   })
 
+  it('rejects an invalid ecology replenishment budget', () => {
+    const pack = contentFixture()
+    pack.m1.ecologyReplenishment.targetFoodCount = 0
+    pack.m1.ecologyReplenishment.localFoodTarget = 0
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.m1.ecologyReplenishment.targetFoodCount',
+      '$.m1.ecologyReplenishment.localFoodTarget',
+    ]))
+  })
+
   it('rejects incomplete event parameters, boss rules, and M1 route pacing', () => {
     const pack = contentFixture()
     pack.events[0].variants = []

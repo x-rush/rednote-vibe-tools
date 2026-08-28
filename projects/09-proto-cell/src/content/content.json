@@ -94,7 +94,12 @@
       "energy": "能量",
       "stability": "稳定",
       "biomass": "生物质",
-      "evolution": "进化"
+      "evolution": "进化",
+      "swarm": "群体",
+      "swarmHint": "游动保持，停下融合",
+      "swarmStabilizing": "分裂稳定中",
+      "splitPulse": "分裂 ×{count}",
+      "fusionPulse": "融合"
     },
     "screens": {
       "pauseTitle": "培养皿静止中",
@@ -281,8 +286,8 @@
       "tags": ["escape", "burst"],
       "conflicts": [],
       "environmentIds": ["env-clear-drop"],
-      "shortEffect": "即将被完整包裹时自动反冲。",
-      "triggerDescription": "包裹比例达到 80% 时启动。",
+      "shortEffect": "即将被大部分包裹时自动反冲。",
+      "triggerDescription": "包裹比例达到 55% 时启动。",
       "behaviorId": "containment-escape",
       "visualMutationId": "visual-organelle-jet-vacuole"
     },
@@ -342,7 +347,7 @@
       "conflicts": [],
       "environmentIds": ["env-clear-drop"],
       "shortEffect": "质量充足或遭遇致命包裹时自动分裂。",
-      "triggerDescription": "生物质达到 320 或即将被完整包裹时启动。",
+      "triggerDescription": "生物质达到 320 或包裹比例达到 62% 时启动。",
       "behaviorId": "mass-or-fatal-split",
       "visualMutationId": "visual-organelle-division-ring"
     },
@@ -416,7 +421,7 @@
       "tags": ["contain", "resource"],
       "conflicts": ["organelle-needle-mouth"],
       "environmentIds": ["env-clear-drop", "env-algae-glow"],
-      "shortEffect": "扩大对小型目标的完整包裹范围。",
+      "shortEffect": "扩大对小型目标的有效吞噬范围。",
       "triggerDescription": "追上更小目标时自动展开前膜。",
       "behaviorId": "wide-prey-containment",
       "visualMutationId": "visual-organelle-wide-mouth"
@@ -552,7 +557,7 @@
       "conflicts": [],
       "environmentIds": ["env-acid-vesicle", "env-abandoned-chamber"],
       "shortEffect": "吞噬带酸目标时转化腐蚀为能量。",
-      "triggerDescription": "完整包裹酸性目标后自动转化。",
+      "triggerDescription": "大部分包裹酸性目标后自动转化。",
       "behaviorId": "acid-digestion-energy",
       "visualMutationId": "visual-organelle-acid-gland"
     },
@@ -666,7 +671,7 @@
       "id": "synergy-acid-feeder",
       "name": "溶壳捕食",
       "requires": ["organelle-acid-gland", "organelle-wide-mouth"],
-      "shortEffect": "完整包裹后快速消化装甲目标。",
+      "shortEffect": "大部分包裹后快速消化装甲目标。",
       "behaviorId": "acid-wide-shell-digestion",
       "revealRule": "on-trigger",
       "visualMutationId": "visual-synergy-acid-feeder"
@@ -1369,7 +1374,7 @@
     {
       "id": "modifier-fragile-membrane",
       "name": "脆弱细胞膜",
-      "shortEffect": "碰撞伤害提高，但完整包裹判定不变。",
+      "shortEffect": "碰撞伤害提高，但 70% 覆盖吞噬判定不变。",
       "behaviorId": "increased-contact-damage",
       "difficultyWeight": 1.7,
       "rewardMultiplier": 1.4,
@@ -1584,6 +1589,15 @@
   ],
   "m1": {
     "sliceTargetMs": [300000, 480000],
+    "ecologyReplenishment": {
+      "intervalMs": 2500,
+      "targetFoodCount": 14,
+      "batchSize": 6,
+      "localFoodTarget": 6,
+      "localRadius": 75,
+      "minPlayerDistance": 25,
+      "minHostileDistance": 100
+    },
     "eventSchedule": [
       { "eventId": "event-nutrient-bloom", "atMs": 90000 }
     ],

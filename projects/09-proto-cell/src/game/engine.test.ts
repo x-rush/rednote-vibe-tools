@@ -4,6 +4,7 @@ import { createEntity } from '../entities/factory'
 import { bossTerminalEvent, contactDamageAt, contactDamageForPair, createGameEngine, endingForBossRewards, ensureSwarmPrimary, neutralizeResolvedBoss, runStableEntityPass, terminatePlayerEntities } from './engine'
 import { installMutation, offerMutations } from '../evolution/mutation'
 import { getContent } from '../content'
+import { coveredRatio } from './containment'
 
 describe('game engine lifecycle', () => {
   it('applies launch challenge rules to the live simulation', () => {
@@ -181,6 +182,76 @@ describe('game engine lifecycle', () => {
     expect(releasedVelocity).toBeGreaterThan(0)
     expect(releasedVelocity).toBeLessThan(movingVelocity)
     expect(turningVelocity).toBeGreaterThan(-96)
+  })
+
+  it('pushes edible cells out of corners far enough for the larger player to engulf', () => {
+    const engine = createTestEngine()
+    const entities = engine.renderSnapshot().entities
+    const player = entities.find((entity) => entity.id === 'player')!
+    const food = entities.find((entity) => entity.id !== 'player' && entity.body.radius < 10)!
+    player.mass = 400
+    player.body = circleBody(player.position, 20)
+    food.position = { x: food.body.radius, y: food.body.radius }
+    food.body = circleBody(food.position, food.body.radius)
+
+    engine.advance(1000 / 60)
+
+    const movedFood = engine.renderSnapshot().entities.find((entity) => entity.id === food.id)!
+    expect(movedFood.position.x).toBeGreaterThanOrEqual(20)
+    expect(movedFood.position.y).toBeGreaterThanOrEqual(20)
+  })
+
+  it('drops outward wall momentum instead of pinning the player against the boundary', () => {
+    const engine = createTestEngine()
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    player.position = { x: player.body.radius, y: 400 }
+    player.body = circleBody(player.position, player.body.radius)
+    player.velocity = { x: -80, y: 0 }
+    engine.input.move({ x: -120, y: 0 }, { x: 0, y: 0 })
+
+    engine.advance(1000 / 60)
+
+    const stoppedPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    expect(stoppedPlayer.position.x).toBe(stoppedPlayer.body.radius)
+    expect(stoppedPlayer.velocity.x).toBe(0)
+  })
+
+  it('replenishes a bounded food wave after the edible population is depleted', () => {
+    const engine = createTestEngine()
+    for (const entity of engine.renderSnapshot().entities) {
+      if (entity.role === 'nutrient' || entity.role === 'prey') entity.status = 'engulfed'
+    }
+
+    for (let index = 0; index < 160; index += 1) engine.advance(1000 / 60)
+
+    const replenished = engine.renderSnapshot().entities.filter((entity) => entity.id.startsWith('eco-food-'))
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    expect(replenished).toHaveLength(6)
+    expect(replenished.every((entity) => entity.role === 'nutrient' || entity.role === 'prey')).toBe(true)
+    expect(replenished.every((entity) => Math.hypot(entity.position.x - player.position.x, entity.position.y - player.position.y) >= 25)).toBe(true)
+    expect(replenished.every((entity) => Math.hypot(
+      entity.position.x - replenished[0]!.position.x,
+      entity.position.y - replenished[0]!.position.y,
+    ) <= 120)).toBe(true)
+  })
+
+  it('draws distant food into a local bloom when the player area becomes empty', () => {
+    const engine = createTestEngine()
+    const world = engine.renderSnapshot()
+    const player = world.entities.find((entity) => entity.id === 'player')!
+    for (const entity of world.entities) {
+      if (entity.role !== 'nutrient' && entity.role !== 'prey') continue
+      entity.position = { x: 40, y: 40 }
+      entity.body = circleBody(entity.position, entity.body.radius)
+    }
+
+    for (let index = 0; index < 160; index += 1) engine.advance(1000 / 60)
+
+    const nearbyFood = engine.renderSnapshot().entities.filter((entity) => (
+      (entity.role === 'nutrient' || entity.role === 'prey')
+      && Math.hypot(entity.position.x - player.position.x, entity.position.y - player.position.y) <= 75
+    ))
+    expect(nearbyFood.length).toBeGreaterThanOrEqual(6)
   })
 
   it('exposes configured contact damage only inside its pulse window', () => {
@@ -482,7 +553,7 @@ describe('game engine lifecycle', () => {
     }))
   })
 
-  it('automatically splits, shares movement, and fuses division-ring bodies', () => {
+  it('keeps automatic split visible while moving and fuses only after stopping', () => {
     const engine = createTestEngine()
     const context = mutationContext({ organIds: ['organelle-division-ring'] })
     engine.applyMutation({
@@ -504,11 +575,27 @@ describe('game engine lifecycle', () => {
     expect(Object.values(organellesByBody).flat()).toEqual(['organelle-division-ring'])
     expect(Object.values(organellesByBody).some((ids) => ids.length === 0)).toBe(true)
 
-    for (let index = 0; index < 60; index += 1) engine.advance(1000 / 60)
+    for (let index = 0; index < 360; index += 1) engine.advance(1000 / 60)
+    expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(2)
+    expect(engine.snapshot().swarm).toMatchObject({ bodyCount: 2, fusionProgress: 0 })
+
+    engine.input.end()
+    for (let index = 0; index < 65; index += 1) engine.advance(1000 / 60)
+    expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(2)
+    expect(engine.snapshot().swarm?.fusionProgress).toBeGreaterThan(0.8)
+
+    for (let index = 0; index < 10; index += 1) engine.advance(1000 / 60)
     expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(1)
+
+    for (let index = 0; index < 360; index += 1) engine.advance(1000 / 60)
+    expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(1)
+
+    engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!.mass = 340
+    engine.advance(1000 / 30)
+    expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(2)
   })
 
-  it('splits before a fatal full-containment interaction resolves', () => {
+  it('splits while approaching the 70% lethal coverage boundary', () => {
     const engine = createTestEngine()
     const context = mutationContext({ organIds: ['organelle-division-ring'] })
     engine.applyMutation({
@@ -522,15 +609,17 @@ describe('game engine lifecycle', () => {
     const player = entities.find((entity) => entity.id === 'player')!
     const threat = entities.find((entity) => entity.id !== 'player')!
     threat.faction = 'hostile'
-    threat.position = { ...player.position }
+    threat.position = { x: player.position.x + player.body.radius * 3.7, y: player.position.y }
     threat.body = {
-      center: { ...player.position },
-      radius: player.body.radius * 2,
+      center: { ...threat.position },
+      radius: player.body.radius * 4,
       contour: player.body.contour.map((point) => ({
-        x: player.position.x + (point.x - player.position.x) * 2,
-        y: player.position.y + (point.y - player.position.y) * 2,
+        x: threat.position.x + (point.x - player.position.x) * 4,
+        y: threat.position.y + (point.y - player.position.y) * 4,
       })),
     }
+    expect(coveredRatio(threat.body, player.body)).toBeGreaterThan(0.62)
+    expect(coveredRatio(threat.body, player.body)).toBeLessThan(0.7)
 
     engine.advance(1000 / 30)
 
@@ -539,6 +628,7 @@ describe('game engine lifecycle', () => {
       organId: 'organelle-division-ring',
     }))
     expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(2)
+    expect(engine.renderSnapshot().swarmTransition?.kind).toBe('split')
   })
 
   it('continues as the surviving child when the primary split body is lost', () => {
@@ -557,6 +647,7 @@ describe('game engine lifecycle', () => {
     engine.advance(1000 / 30)
 
     expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toMatchObject([{ id: 'player', status: 'active' }])
+    expect(engine.renderSnapshot().swarmTransition?.kind).not.toBe('fusion')
     expect(engine.drainEvents().some((event) => event.type === 'player-died')).toBe(false)
     expect(engine.evolutionSnapshot().organelles).toEqual([])
   })

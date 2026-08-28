@@ -32,4 +32,38 @@ describe('world-space camera feedback', () => {
 
     expect(tracker.update({ position: { x: 300, y: 1000 }, velocity: { x: 0, y: 0 } }, 1016)).toEqual({ x: 300, y: 1000 })
   })
+
+  it('smooths the abrupt radius change caused by splitting and fusion', () => {
+    expect('createZoomTracker' in renderer).toBe(true)
+    if (!('createZoomTracker' in renderer)) return
+    const tracker = renderer.createZoomTracker()
+    const whole = tracker.update(18, 0)
+    const split = tracker.update(12, 16)
+
+    expect(whole).toBeCloseTo(42 / 18)
+    expect(split).toBeGreaterThan(whole)
+    expect(split).toBeLessThan(3.4)
+  })
+
+  it('projects the finite ecology boundary into screen space', () => {
+    expect('worldBoundaryScreenRect' in renderer).toBe(true)
+    if (!('worldBoundaryScreenRect' in renderer)) return
+
+    expect(renderer.worldBoundaryScreenRect(
+      { x: 12, y: 550 },
+      { width: 640, height: 1100 },
+      { width: 390, height: 844 },
+      2,
+    )).toEqual({ x: 171, y: -678, width: 1280, height: 2200 })
+  })
+
+  it('turns split feedback into a static local accent when motion is reduced', () => {
+    expect(renderer.swarmTransitionPresentation(300, false)).toMatchObject({ radiusScale: 1.75, textOffset: 4 })
+    expect(renderer.swarmTransitionPresentation(300, true)).toEqual({ radiusScale: 1.2, textOffset: 0, alpha: 0.72 })
+  })
+
+  it('disables expanding food bloom when motion is reduced', () => {
+    expect(renderer.foodBloomPresentation(425, false)?.radiusScale).toBeCloseTo(2.4)
+    expect(renderer.foodBloomPresentation(425, true)).toEqual({ radiusScale: 1.25, alpha: 0.3 })
+  })
 })

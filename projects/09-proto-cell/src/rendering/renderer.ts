@@ -5,6 +5,7 @@ import { cellVisualProfile, drawCell } from './cell'
 import { drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type AmbientParticle, type RenderQuality } from './effects'
 import type { NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
+import rawContent from '../content/content.json'
 
 export type CanvasRenderer = {
   render(snapshot: WorldRenderSnapshot, numbers: NumberFeed): void
@@ -57,6 +58,53 @@ export function worldTextureOffset(
   }
 }
 
+export function createZoomTracker(): { update(radius: number, elapsedMs: number): number } {
+  let zoom: number | undefined
+  let previousElapsedMs = 0
+  return {
+    update(radius, elapsedMs) {
+      const target = Math.min(3.4, Math.max(1.6, 42 / Math.max(1, radius)))
+      if (zoom === undefined || elapsedMs < previousElapsedMs) {
+        zoom = target
+        previousElapsedMs = elapsedMs
+        return zoom
+      }
+      const deltaMs = Math.min(50, Math.max(1, elapsedMs - previousElapsedMs))
+      previousElapsedMs = elapsedMs
+      zoom += (target - zoom) * (1 - Math.exp(-deltaMs / 180))
+      return zoom
+    },
+  }
+}
+
+export function worldBoundaryScreenRect(
+  camera: { x: number; y: number },
+  world: { width: number; height: number },
+  viewport: { width: number; height: number },
+  zoom: number,
+): { x: number; y: number; width: number; height: number } {
+  return {
+    x: viewport.width / 2 - camera.x * zoom,
+    y: viewport.height / 2 - camera.y * zoom,
+    width: world.width * zoom,
+    height: world.height * zoom,
+  }
+}
+
+export function swarmTransitionPresentation(ageMs: number, reducedMotion: boolean): { radiusScale: number; textOffset: number; alpha: number } | undefined {
+  if (ageMs < 0 || ageMs > 900) return undefined
+  if (reducedMotion) return { radiusScale: 1.2, textOffset: 0, alpha: 0.72 }
+  const progress = ageMs / 900
+  return { radiusScale: 1.15 + progress * 1.8, textOffset: progress * 12, alpha: 1 - progress }
+}
+
+export function foodBloomPresentation(ageMs: number, reducedMotion: boolean): { radiusScale: number; alpha: number } | undefined {
+  if (ageMs < 0 || ageMs > 850) return undefined
+  if (reducedMotion) return { radiusScale: 1.25, alpha: 0.3 }
+  const progress = ageMs / 850
+  return { radiusScale: 1.2 + progress * 2.4, alpha: (1 - progress) * 0.55 }
+}
+
 export function createCanvasRenderer(
   canvas: HTMLCanvasElement,
   options: { quality?: RenderQuality; visualSeed?: number; reducedMotion?: boolean; reducedFlash?: boolean; lowParticles?: boolean } = {},
@@ -74,6 +122,7 @@ export function createCanvasRenderer(
   const displayedRadii = new Map<string, number>()
   const assetImages = new Map<string, HTMLImageElement>()
   const cameraTracker = createCameraTracker()
+  const zoomTracker = createZoomTracker()
   let currentPlayerScreenPosition = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 }
   let quality = options.quality ?? 'balanced'
   let destroyed = false
@@ -84,7 +133,7 @@ export function createCanvasRenderer(
       const { width, height } = resizeCanvas(canvas, context)
       const player = snapshot.entities.find((entity) => entity.id === snapshot.playerId)
       const camera = player ? cameraTracker.update(player, snapshot.elapsedMs) : { x: snapshot.width / 2, y: snapshot.height / 2 }
-      const zoom = player ? Math.min(3.4, Math.max(1.6, 42 / player.body.radius)) : 2.4
+      const zoom = player ? zoomTracker.update(player.body.radius, snapshot.elapsedMs) : 2.4
       currentPlayerScreenPosition = player ? {
         x: width / 2 + (player.position.x - camera.x) * zoom,
         y: height / 2 + (player.position.y - camera.y) * zoom,
@@ -99,6 +148,7 @@ export function createCanvasRenderer(
         drawBackdropAsset(context, loadAsset('environment-fibers'), width, height, camera, zoom, 0.11, 0.34)
       }
       drawEnvironmentField(context, snapshot, camera, width, height, zoom)
+      drawWorldBoundary(context, snapshot, camera, width, height, zoom, visualTime)
       drawEventField(context, snapshot, camera, width, height, zoom)
       if (snapshot.activeEvent && snapshot.activeEvent.phase !== 'expired') {
         const eventX = width / 2 + (snapshot.activeEvent.center.x - camera.x) * zoom
@@ -122,6 +172,7 @@ export function createCanvasRenderer(
       drawRouteRifts(context, snapshot, camera, width, height, zoom)
       for (const item of drawables) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
       for (const item of drawables) {
+        if (item.entity.id.startsWith('eco-food-')) drawFoodSpawnBloom(context, item.x, item.y, item.radius, item.entity, snapshot.elapsedMs, options.reducedMotion ?? false)
         drawCell(context, item.entity, item.x, item.y, item.radius, visualTime, {
           quality,
           organelleIds: item.entity.faction === 'player' ? snapshot.playerOrganelleIdsByEntity[item.entity.id] ?? [] : undefined,
@@ -134,6 +185,9 @@ export function createCanvasRenderer(
           drawAssetLayer(context, loadAsset(`${snapshot.boss.id}:mask`), item.x, item.y, item.radius * 2.8, 0.72)
           drawBossPhase(context, item.x, item.y, item.radius, snapshot.boss, snapshot.elapsedMs)
         }
+      }
+      if (snapshot.swarmTransition && player) {
+        drawSwarmTransition(context, currentPlayerScreenPosition, player.body.radius * zoom, snapshot.swarmTransition, snapshot.elapsedMs, options.reducedMotion ?? false)
       }
       drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height)
       numbers.draw(context, width, height, snapshot.elapsedMs)
@@ -162,6 +216,88 @@ export function createCanvasRenderer(
     assetImages.set(path, loaded)
     return loaded
   }
+}
+
+function drawSwarmTransition(
+  context: CanvasRenderingContext2D,
+  position: { x: number; y: number },
+  radius: number,
+  transition: NonNullable<WorldRenderSnapshot['swarmTransition']>,
+  elapsedMs: number,
+  reducedMotion: boolean,
+) {
+  const presentation = swarmTransitionPresentation(elapsedMs - transition.startedAtMs, reducedMotion)
+  if (!presentation) return
+  context.save()
+  context.globalAlpha = presentation.alpha
+  context.globalCompositeOperation = 'screen'
+  context.strokeStyle = transition.kind === 'split' ? '#72f5ff' : '#b899ff'
+  context.lineWidth = 2.5
+  context.shadowColor = context.strokeStyle
+  context.shadowBlur = 14
+  context.beginPath()
+  context.arc(position.x, position.y, radius * presentation.radiusScale, 0, Math.PI * 2)
+  context.stroke()
+  context.fillStyle = '#eaffff'
+  context.font = '800 16px Inter, sans-serif'
+  context.textAlign = 'center'
+  const template = transition.kind === 'split' ? rawContent.ui.hud.splitPulse : rawContent.ui.hud.fusionPulse
+  context.fillText(template.replace('{count}', String(transition.bodyCount)), position.x, position.y - radius - 20 - presentation.textOffset)
+  context.restore()
+}
+
+function drawFoodSpawnBloom(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  radius: number,
+  entity: EntityState,
+  elapsedMs: number,
+  reducedMotion: boolean,
+) {
+  const spawnedAtMs = 'spawnedAtMs' in entity ? Number(entity.spawnedAtMs) : Number.NEGATIVE_INFINITY
+  const presentation = foodBloomPresentation(elapsedMs - spawnedAtMs, reducedMotion)
+  if (!presentation) return
+  context.save()
+  context.globalCompositeOperation = 'screen'
+  context.globalAlpha = presentation.alpha
+  context.strokeStyle = '#91fff1'
+  context.lineWidth = 1.5
+  context.beginPath()
+  context.arc(x, y, radius * presentation.radiusScale, 0, Math.PI * 2)
+  context.stroke()
+  context.restore()
+}
+
+function drawWorldBoundary(
+  context: CanvasRenderingContext2D,
+  snapshot: Pick<WorldRenderSnapshot, 'width' | 'height'>,
+  camera: { x: number; y: number },
+  width: number,
+  height: number,
+  zoom: number,
+  elapsedMs: number,
+) {
+  const boundary = worldBoundaryScreenRect(camera, snapshot, { width, height }, zoom)
+  const edgeVisible = boundary.x >= -24 || boundary.y >= -24
+    || boundary.x + boundary.width <= width + 24
+    || boundary.y + boundary.height <= height + 24
+  if (!edgeVisible) return
+
+  context.save()
+  context.beginPath()
+  context.rect(-2, -2, width + 4, height + 4)
+  context.rect(boundary.x, boundary.y, boundary.width, boundary.height)
+  context.fillStyle = 'rgb(0 3 14 / 42%)'
+  context.fill('evenodd')
+  context.globalCompositeOperation = 'screen'
+  context.globalAlpha = 0.5 + Math.sin(elapsedMs / 680) * 0.08
+  context.strokeStyle = '#67efff'
+  context.lineWidth = 3
+  context.shadowColor = '#65f6ff'
+  context.shadowBlur = 16
+  context.strokeRect(boundary.x, boundary.y, boundary.width, boundary.height)
+  context.restore()
 }
 
 function usesFiberBackdrop(environmentId: string): boolean {

@@ -238,6 +238,15 @@ export type ContentPack = {
     sliceTargetMs: [number, number]
     eventSchedule: Array<{ eventId: EventId; atMs: number }>
     bossSpawnAtMs: number
+    ecologyReplenishment: {
+      intervalMs: number
+      targetFoodCount: number
+      batchSize: number
+      localFoodTarget: number
+      localRadius: number
+      minPlayerDistance: number
+      minHostileDistance: number
+    }
     routeRifts: Array<{
       id: `route-rift-${string}`
       destinationEnvironmentId: EnvironmentId

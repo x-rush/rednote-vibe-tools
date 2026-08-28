@@ -6,8 +6,8 @@ describe('passive organ behavior registry', () => {
   it('fires jet vacuole only on imminent containment', () => {
     const player = playerWith('organelle-jet-vacuole', { velocity: { x: 20, y: 0 } })
 
-    expect(evaluatePassiveOrgans(player, perception({ containmentRatio: 0.79 }))).toEqual([])
-    expect(evaluatePassiveOrgans(player, perception({ containmentRatio: 0.82, threatEscapeDirection: { x: 1, y: 0 } }))).toContainEqual(expect.objectContaining({
+    expect(evaluatePassiveOrgans(player, perception({ containmentRatio: 0.54 }))).toEqual([])
+    expect(evaluatePassiveOrgans(player, perception({ containmentRatio: 0.56, threatEscapeDirection: { x: 1, y: 0 } }))).toContainEqual(expect.objectContaining({
       type: 'organ-triggered',
       organId: 'organelle-jet-vacuole',
       effect: 'escape-impulse',
@@ -63,6 +63,15 @@ describe('passive organ behavior registry', () => {
     expect(evaluatePassiveOrgans(matureDivision, perception())).toContainEqual(expect.objectContaining({
       effect: 'split',
       amount: 3,
+    }))
+  })
+
+  it('splits before majority coverage becomes lethal', () => {
+    const player = playerWith('organelle-division-ring', { mass: 180 })
+
+    expect(evaluatePassiveOrgans(player, perception({ containmentRatio: 0.61 }))).toEqual([])
+    expect(evaluatePassiveOrgans(player, perception({ containmentRatio: 0.63 }))).toContainEqual(expect.objectContaining({
+      effect: 'split',
     }))
   })
 })

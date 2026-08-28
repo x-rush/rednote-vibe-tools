@@ -7,9 +7,10 @@ import { creatureEntityDefinition, findEnteredRouteRift, generateRegion, getRegi
 import { createFixedClock } from './clock'
 import { createPointerInput, type PointerInput } from './input'
 import { resolveInteraction, type DamageSource, type GameEvent } from './interactions'
+import { coveredRatio } from './containment'
 import { SpatialGrid } from './spatial-grid'
 import type { MutationInstallResult } from '../evolution/mutation'
-import { evaluatePassiveOrgans, type EvolvedEntityState, type InstalledOrganelle, type OrganEffect, type OrganPerception } from '../evolution/organs'
+import { evaluatePassiveOrgans, FATAL_SPLIT_COVERAGE, type EvolvedEntityState, type InstalledOrganelle, type OrganEffect, type OrganPerception } from '../evolution/organs'
 import { advanceFusionStability, splitBody, stepSwarm, tryFuse, type SwarmBody } from '../evolution/split'
 import { createRng } from '../domain/rng'
 import { bossRamDamage, createBoss, stepBoss, type BossState } from '../world/bosses'
@@ -17,6 +18,7 @@ import { startEvent, stepEvent, type EcosystemEventState } from '../world/events
 import { applyEventWorldEffects, createEnvironmentField, resolveEnvironmentMovement, sampleEnvironmentField, stepEnvironmentField, type EnvironmentField } from '../world/environments'
 import type { GeneratedRegion, RouteRift } from '../world/generator'
 import { applyModifiers } from '../progression/challenges'
+import { constrainWorldMotion, engulfAccessMargin } from './bounds'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
 
@@ -30,6 +32,7 @@ export type HudSnapshot = {
   elapsedMs: number
   environmentId: string
   paused: boolean
+  swarm?: { bodyCount: number; minimumRemainingMs: number; fusionProgress: number }
 }
 
 export type PlayerMorphologySnapshot = {
@@ -62,6 +65,7 @@ export type WorldRenderSnapshot = {
   playerStability: number
   playerSynergyIds: readonly string[]
   playerDamage?: { source: DamageSource; untilMs: number }
+  swarmTransition?: { kind: 'split' | 'fusion'; bodyCount: number; startedAtMs: number }
   routeRifts: readonly RouteRift[]
   activeEvent?: EcosystemEventState
   environmentField: EnvironmentField
@@ -95,6 +99,8 @@ const STEP_MS = 1000 / 60
 const PLAYER_ID = 'player'
 const ACCELERATION_RESPONSE_SECONDS = 0.18
 const DRIFT_RESPONSE_SECONDS = 0.32
+const SWARM_MINIMUM_DURATION_MS = 6000
+const SWARM_FUSION_STABLE_MS = 1200
 export const CONTACT_DAMAGE_ARM_MS = 420
 
 export function createGameEngine(options: {
@@ -154,6 +160,10 @@ export function createGameEngine(options: {
   let previousInputDirection: Vec2 = { x: 0, y: 0 }
   let activeSwarm: SwarmBody[] | undefined
   let swarmStableMs = 0
+  let swarmStartedAtMs: number | undefined
+  let massSplitArmed = true
+  let massSplitRearmMass = 320
+  let swarmTransition: WorldRenderSnapshot['swarmTransition']
   let activeEvent: EcosystemEventState | undefined
   let environmentField = createEnvironmentField(environmentId as `env-${string}`, options.seed)
   let eventStarted = false
@@ -165,6 +175,8 @@ export function createGameEngine(options: {
   let environmentEnteredAtMs = 0
   let routeEntryGuardUntilMs = 0
   let lastFieldDamageAt = Number.NEGATIVE_INFINITY
+  let lastFoodReplenishmentAt = elapsedMs
+  let foodSpawnSequence = 0
   let peakBiomass = player.mass
   let terminalReached = false
   let lastLiveMorphology: PlayerMorphologySnapshot = {
@@ -212,6 +224,11 @@ export function createGameEngine(options: {
         elapsedMs,
         environmentId,
         paused: pauseReasons.size > 0,
+        swarm: activeSwarm ? {
+          bodyCount: playerBodies.length,
+          minimumRemainingMs: Math.max(0, (swarmStartedAtMs ?? elapsedMs) + SWARM_MINIMUM_DURATION_MS - elapsedMs),
+          fusionProgress: clamp(swarmStableMs / SWARM_FUSION_STABLE_MS, 0, 1),
+        } : undefined,
       }
     },
     drainEvents() {
@@ -232,6 +249,7 @@ export function createGameEngine(options: {
         playerStability,
         playerSynergyIds: content.synergies.filter((synergy) => synergy.requires.every((id) => installedOrganelles.some((organ) => organ.id === id))).map((synergy) => synergy.id),
         playerDamage: lastDamageSource && elapsedMs - lastDamageAt <= 560 ? { source: lastDamageSource, untilMs: lastDamageAt + 560 } : undefined,
+        swarmTransition: swarmTransition && elapsedMs - swarmTransition.startedAtMs <= 900 ? swarmTransition : undefined,
         routeRifts: region.routeRifts,
         activeEvent,
         environmentField,
@@ -291,6 +309,7 @@ export function createGameEngine(options: {
       return
     }
     spawnDue(elapsedMs)
+    replenishFood()
     rebuildGrid()
     const passive = stepEvolution(stepMs)
     moveEntities(stepMs, passive.speedMultiplier)
@@ -307,6 +326,7 @@ export function createGameEngine(options: {
       return
     }
     syncActiveSwarm(true)
+    pruneInactiveEntities()
     captureLiveMorphology()
 
     const playerMass = [...entities.values()]
@@ -483,6 +503,115 @@ export function createGameEngine(options: {
     }
   }
 
+  function pruneInactiveEntities() {
+    for (const [id, entity] of entities) {
+      if (entity.faction !== 'player' && entity.status !== 'active') entities.delete(id)
+    }
+  }
+
+  function replenishFood() {
+    const config = content.m1.ecologyReplenishment
+    if (elapsedMs - lastFoodReplenishmentAt < config.intervalMs) return
+    lastFoodReplenishmentAt = elapsedMs
+    const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
+    const playerRadii = playerBodies.map((entity) => entity.body.radius)
+    const largestPlayerRadius = Math.max(0, ...playerRadii)
+    const localRadius = Math.max(config.localRadius, largestPlayerRadius * 2 + 40)
+    const activeFood = [...entities.values()].filter((entity) => (
+      entity.status === 'active'
+      && (entity.role === 'nutrient' || entity.role === 'prey')
+      && entity.body.radius < largestPlayerRadius
+    ))
+    const localFood = activeFood.filter((entity) => playerBodies.some((body) => (
+      Math.hypot(entity.position.x - body.position.x, entity.position.y - body.position.y) <= localRadius
+    )))
+    const globalDeficit = Math.max(0, config.targetFoodCount - activeFood.length)
+    const localDeficit = Math.max(0, config.localFoodTarget - localFood.length)
+    if (globalDeficit === 0 && localDeficit === 0) return
+
+    const foodDefinitions = environment.entityDefinitions.filter((definition) => (
+      (definition.role === 'nutrient' || definition.role === 'prey') && definition.radius < largestPlayerRadius
+    ))
+    const createAmount = globalDeficit > 0 ? Math.min(config.batchSize, globalDeficit) : 0
+    if (createAmount > 0 && foodDefinitions.length === 0) return
+    const relocateAmount = createAmount === 0 ? Math.min(config.batchSize, localDeficit) : 0
+    const relocating = relocateAmount > 0
+      ? activeFood
+        .filter((entity) => !localFood.some((local) => local.id === entity.id))
+        .sort((left, right) => distanceFromPlayers(right, playerBodies) - distanceFromPlayers(left, playerBodies))
+        .slice(0, relocateAmount)
+      : []
+    const waveDefinitions = Array.from({ length: createAmount }, (_, index) => foodDefinitions[(foodSpawnSequence + index) % foodDefinitions.length]!)
+    const waveRadii = [...waveDefinitions.map((definition) => definition.radius), ...relocating.map((entity) => entity.body.radius)]
+    const amount = waveRadii.length
+    if (amount === 0) return
+    const hostiles = [...entities.values()].filter((entity) => entity.faction === 'hostile' && entity.status === 'active')
+    const clusterRadius = 15
+    const clusterMargin = Math.max(...waveRadii.map((radius) => engulfAccessMargin(radius, playerRadii) + 8)) + clusterRadius
+    const clusterCenter = localFoodClusterCenter(
+      clusterMargin,
+      playerBodies,
+      hostiles,
+      Math.max(config.minPlayerDistance, largestPlayerRadius + 20) + clusterRadius,
+      config.minHostileDistance + clusterRadius,
+      localRadius - clusterRadius,
+    )
+
+    for (let index = 0; index < amount; index += 1) {
+      const definition = waveDefinitions[index]
+      const existing = relocating[index - createAmount]
+      const radius = definition?.radius ?? existing?.body.radius
+      if (radius === undefined) continue
+      const margin = engulfAccessMargin(radius, playerRadii) + 8
+      const angle = index / amount * Math.PI * 2 + worldRng.next() * 0.35
+      const distance = index === 0 ? 0 : clusterRadius * (0.45 + worldRng.next() * 0.55)
+      const position = constrainWorldMotion({
+        x: clusterCenter.x + Math.cos(angle) * distance,
+        y: clusterCenter.y + Math.sin(angle) * distance,
+      }, { x: 0, y: 0 }, { width: environment.width, height: environment.height, margin }).position
+      if (definition) {
+        const id = `eco-food-${environmentId}-${foodSpawnSequence}`
+        foodSpawnSequence += 1
+        entities.set(id, createEntity(definition, { id, position, spawnedAtMs: elapsedMs }))
+      } else if (existing) {
+        entities.set(existing.id, { ...moveEntity(existing, position, { x: 0, y: 0 }), spawnedAtMs: elapsedMs })
+      }
+    }
+  }
+
+  function localFoodClusterCenter(
+    margin: number,
+    playerBodies: readonly EntityState[],
+    hostiles: readonly EntityState[],
+    minPlayerDistance: number,
+    minHostileDistance: number,
+    maxPlayerDistance: number,
+  ): Vec2 {
+    const player = playerBodies[0]
+    if (!player) return { x: environment.width / 2, y: environment.height / 2 }
+    for (let attempt = 0; attempt < 18; attempt += 1) {
+      const angle = worldRng.next() * Math.PI * 2
+      const desiredDistance = minPlayerDistance + worldRng.next() * Math.max(0, maxPlayerDistance - minPlayerDistance)
+      const candidate = constrainWorldMotion({
+        x: player.position.x + Math.cos(angle) * desiredDistance,
+        y: player.position.y + Math.sin(angle) * desiredDistance,
+      }, { x: 0, y: 0 }, { width: environment.width, height: environment.height, margin }).position
+      const playerDistance = Math.hypot(candidate.x - player.position.x, candidate.y - player.position.y)
+      const awayFromPlayers = playerDistance >= minPlayerDistance && playerDistance <= maxPlayerDistance
+      const awayFromHostiles = hostiles.every((body) => Math.hypot(candidate.x - body.position.x, candidate.y - body.position.y) >= minHostileDistance)
+      if (awayFromPlayers && awayFromHostiles) return candidate
+    }
+    return constrainWorldMotion(
+      { x: player.position.x + maxPlayerDistance, y: player.position.y },
+      { x: 0, y: 0 },
+      { width: environment.width, height: environment.height, margin },
+    ).position
+  }
+
+  function distanceFromPlayers(entity: EntityState, playerBodies: readonly EntityState[]): number {
+    return Math.min(...playerBodies.map((body) => Math.hypot(entity.position.x - body.position.x, entity.position.y - body.position.y)))
+  }
+
   function rebuildGrid() {
     grid.clear()
     for (const entity of entities.values()) {
@@ -493,12 +622,17 @@ export function createGameEngine(options: {
   function moveEntities(stepMs: number, speedMultiplier: number) {
     const seconds = stepMs / 1000
     if (activeSwarm) moveActiveSwarm(stepMs, speedMultiplier)
+    const playerRadii = [...entities.values()]
+      .filter((entity) => entity.faction === 'player' && entity.status === 'active')
+      .map((entity) => entity.body.radius)
     for (const entity of entities.values()) {
       if (entity.status !== 'active') continue
       if (activeSwarm && entity.faction === 'player') continue
       const bossDormant = entity.id === bossState?.id && bossState.phase === 'dormant'
       const intent = bossDormant
         ? { direction: { x: 0, y: 0 }, strength: 0 }
+        : entity.role === 'nutrient'
+          ? { direction: { x: 0, y: 0 }, strength: 0 }
         : entity.id === PLAYER_ID
         ? input.snapshot()
         : decideIntent(entity, {
@@ -534,12 +668,20 @@ export function createGameEngine(options: {
         x: entity.velocity.x + (desiredVelocity.x - entity.velocity.x) * blend,
         y: entity.velocity.y + (desiredVelocity.y - entity.velocity.y) * blend,
       }
-      const unconstrainedPosition = {
-        x: clamp(entity.position.x + velocity.x * seconds, entity.body.radius, environment.width - entity.body.radius),
-        y: clamp(entity.position.y + velocity.y * seconds, entity.body.radius, environment.height - entity.body.radius),
+      const desiredPosition = {
+        x: entity.position.x + velocity.x * seconds,
+        y: entity.position.y + velocity.y * seconds,
       }
-      const position = resolveEnvironmentMovement(environmentField, entity.position, unconstrainedPosition, entity.body.radius)
-      entities.set(entity.id, moveEntity(entity, position, velocity))
+      const margin = entity.faction === 'player'
+        ? entity.body.radius
+        : engulfAccessMargin(entity.body.radius, playerRadii)
+      const constrained = constrainWorldMotion(desiredPosition, velocity, {
+        width: environment.width,
+        height: environment.height,
+        margin,
+      })
+      const position = resolveEnvironmentMovement(environmentField, entity.position, constrained.position, entity.body.radius)
+      entities.set(entity.id, moveEntity(entity, position, constrained.velocity))
     }
   }
 
@@ -590,6 +732,7 @@ export function createGameEngine(options: {
     bossResolutionEmitted = false
     lastBossRamAt = Number.NEGATIVE_INFINITY
     lastFieldDamageAt = Number.NEGATIVE_INFINITY
+    lastFoodReplenishmentAt = elapsedMs
     lastPlayerDefeaterDefinitionId = undefined
     lastDamageSource = undefined
     environmentField = createEnvironmentField(environmentId as `env-${string}`, options.seed, elapsedMs)
@@ -643,27 +786,33 @@ export function createGameEngine(options: {
   ): OrganPerception {
     const maxSpeed = 'maxSpeed' in currentPlayer ? Number(currentPlayer.maxSpeed) : 52
     const nearbyHostiles = [...entities.values()].filter((entity) => entity.status === 'active' && entity.faction === 'hostile')
-    const cooldownRemainingMs = Object.fromEntries(installedOrganelles.map((organ) => [
-      organ.id,
-      Math.max(0, (organReadyAt.get(organ.id) ?? 0) - elapsedMs),
-    ])) as OrganPerception['cooldownRemainingMs']
     const incomingDamage = overrides.incomingDamage ?? 0
     const containmentThreat = nearbyHostiles
-      .map((hostile) => ({ hostile, containment: containmentProgress(hostile, currentPlayer) }))
+      .map((hostile) => ({ hostile, containment: coveredRatio(hostile.body, currentPlayer.body) }))
       .sort((first, second) => second.containment - first.containment)[0]
+    const containmentRatio = overrides.containmentRatio ?? nearbyHostiles.reduce(
+      (maximum, hostile) => Math.max(maximum, coveredRatio(hostile.body, currentPlayer.body)),
+      0,
+    )
+    const incomingFatalDamage = overrides.incomingFatalDamage ?? incomingDamage >= currentPlayer.membrane
+    if (!massSplitArmed && currentPlayer.mass >= massSplitRearmMass) massSplitArmed = true
+    const emergencySplit = containmentRatio >= FATAL_SPLIT_COVERAGE || incomingFatalDamage
+    const cooldownRemainingMs = Object.fromEntries(installedOrganelles.map((organ) => [
+      organ.id,
+      organ.id === 'organelle-division-ring' && !massSplitArmed && !emergencySplit
+        ? Number.POSITIVE_INFINITY
+        : Math.max(0, (organReadyAt.get(organ.id) ?? 0) - elapsedMs),
+    ])) as OrganPerception['cooldownRemainingMs']
     return {
       atMs: elapsedMs,
-      containmentRatio: overrides.containmentRatio ?? nearbyHostiles.reduce(
-        (maximum, hostile) => Math.max(maximum, containmentProgress(hostile, currentPlayer)),
-        0,
-      ),
+      containmentRatio,
       hostileCount: nearbyHostiles.filter((hostile) => distanceBetween(hostile, currentPlayer) <= 240).length,
       speedRatio: Math.hypot(currentPlayer.velocity.x, currentPlayer.velocity.y) / Math.max(1, maxSpeed),
       sameDirectionMs: overrides.sameDirectionMs ?? sameDirectionMs,
       msSinceDamage: elapsedMs - lastDamageAt,
       membraneMax: playerDefinition.membrane,
       collisionStrength: overrides.collisionStrength ?? 0,
-      incomingFatalDamage: overrides.incomingFatalDamage ?? incomingDamage >= currentPlayer.membrane,
+      incomingFatalDamage,
       incomingDamage,
       threatEscapeDirection: containmentThreat
         ? directionFromThreat(containmentThreat.hostile, currentPlayer)
@@ -725,8 +874,8 @@ export function createGameEngine(options: {
     if (activeSwarm) return false
     const result = splitBody(evolvedPlayer(currentPlayer), { count, lossFraction: count >= 3 ? 0.03 : 0.05 })
     const fatalThreat = [...entities.values()]
-      .filter((entity) => entity.faction === 'hostile' && containmentProgress(entity, currentPlayer) >= 0.96)
-      .sort((first, second) => containmentProgress(second, currentPlayer) - containmentProgress(first, currentPlayer))[0]
+      .filter((entity) => entity.faction === 'hostile' && coveredRatio(entity.body, currentPlayer.body) >= FATAL_SPLIT_COVERAGE)
+      .sort((first, second) => coveredRatio(second.body, currentPlayer.body) - coveredRatio(first.body, currentPlayer.body))[0]
     entities.delete(PLAYER_ID)
     activeSwarm = result.children.map((child, index) => ({
       ...child,
@@ -747,6 +896,10 @@ export function createGameEngine(options: {
     }
     captureLiveMorphology()
     swarmStableMs = 0
+    swarmStartedAtMs = elapsedMs
+    massSplitArmed = false
+    massSplitRearmMass = Math.max(320, currentPlayer.mass + 16)
+    swarmTransition = { kind: 'split', bodyCount: activeSwarm.length, startedAtMs: elapsedMs }
     return true
   }
 
@@ -761,23 +914,35 @@ export function createGameEngine(options: {
       const entity = entities.get(body.id)
       if (!entity) return body
       const fieldSample = sampleEnvironmentField(environmentField, entity.position, entity.body.radius)
-      const velocity = body.velocity
-      const proposed = {
-        x: clamp(body.position.x + fieldSample.flow.x * 24 * seconds, entity.body.radius, environment.width - entity.body.radius),
-        y: clamp(body.position.y + fieldSample.flow.y * 24 * seconds, entity.body.radius, environment.height - entity.body.radius),
+      const desiredPosition = {
+        x: body.position.x + fieldSample.flow.x * 24 * seconds,
+        y: body.position.y + fieldSample.flow.y * 24 * seconds,
       }
-      const position = resolveEnvironmentMovement(environmentField, entity.position, proposed, entity.body.radius)
-      entities.set(body.id, moveEntity(entity, position, velocity))
-      return { ...body, position, velocity }
+      const constrained = constrainWorldMotion(desiredPosition, body.velocity, {
+        width: environment.width,
+        height: environment.height,
+        margin: entity.body.radius,
+      })
+      const position = resolveEnvironmentMovement(environmentField, entity.position, constrained.position, entity.body.radius)
+      entities.set(body.id, moveEntity(entity, position, constrained.velocity))
+      return { ...body, position, velocity: constrained.velocity }
     })
   }
 
   function stepFusion(stepMs: number) {
     if (!activeSwarm) return
     if (modifiers.rules['disable-swarm-fusion']) return
+    if (elapsedMs - (swarmStartedAtMs ?? elapsedMs) < SWARM_MINIMUM_DURATION_MS) {
+      swarmStableMs = 0
+      return
+    }
+    if (input.snapshot().strength >= 0.2) {
+      swarmStableMs = 0
+      return
+    }
     const proximity = 36
     swarmStableMs = advanceFusionStability(activeSwarm, swarmStableMs, stepMs, proximity)
-    const fused = tryFuse(activeSwarm, { proximity, stableForMs: swarmStableMs, requiredStableMs: 900 })
+    const fused = tryFuse(activeSwarm, { proximity, stableForMs: swarmStableMs, requiredStableMs: SWARM_FUSION_STABLE_MS })
     if (!fused) return
     const template = entities.get(PLAYER_ID) ?? entities.get(activeSwarm[0].id)
     if (!template) return
@@ -795,6 +960,8 @@ export function createGameEngine(options: {
     installedOrganelles = fused.organelles
     activeSwarm = undefined
     swarmStableMs = 0
+    swarmStartedAtMs = undefined
+    swarmTransition = { kind: 'fusion', bodyCount: 1, startedAtMs: elapsedMs }
   }
 
   function syncActiveSwarm(finalizeLosses: boolean) {
@@ -907,6 +1074,7 @@ export function createGameEngine(options: {
         let first = entities.get(entity.id)
         let second = entities.get(candidate.id)
         if (!first || !second || first.status !== 'active' || second.status !== 'active') continue
+        if (first.id.startsWith('eco-food-') && second.id.startsWith('eco-food-')) continue
         if (bossState?.phase === 'dormant' && (first.id === bossState.id || second.id === bossState.id)) continue
         const pairBoss = first.id === bossState?.id ? first : second.id === bossState?.id ? second : undefined
         const pairPlayerForRam = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
@@ -937,7 +1105,7 @@ export function createGameEngine(options: {
           const passive = applyOrganEffects(evaluatePassiveOrgans(
             evolvedPlayer(pairPlayer),
             perceptionFor(pairPlayer, {
-              containmentRatio: pairThreat.faction === 'hostile' ? containmentProgress(pairThreat, pairPlayer) : 0,
+              containmentRatio: pairThreat.faction === 'hostile' ? coveredRatio(pairThreat.body, pairPlayer.body) : 0,
               collisionStrength: incomingDamage,
               incomingDamage,
             }),
@@ -952,6 +1120,10 @@ export function createGameEngine(options: {
           atMs: elapsedMs,
           engulfLocks,
           ruptureLossFraction: 0.08,
+          engulfMassGainFraction: (first.id.startsWith('eco-food-') || second.id.startsWith('eco-food-'))
+            && first.faction !== 'player' && second.faction !== 'player'
+            ? 0
+            : 1,
           contactDamage: configuredDamage ? { ...configuredDamage.damage, blockedAmount } : undefined,
         })
         entities.set(result.entities[0].id, resizeForMass(result.entities[0]))
@@ -1253,12 +1425,6 @@ function directionFromThreat(threat: EntityState, player: EntityState): Vec2 {
 function directionFromVelocity(velocity: Vec2): Vec2 {
   const length = Math.hypot(velocity.x, velocity.y)
   return length > 0 ? { x: -velocity.x / length, y: -velocity.y / length } : { x: -1, y: 0 }
-}
-
-function containmentProgress(predator: EntityState, prey: EntityState): number {
-  if (predator.body.radius <= prey.body.radius) return 0
-  const uncoveredDistance = distanceBetween(predator, prey) + prey.body.radius - predator.body.radius
-  return clamp(1 - Math.max(0, uncoveredDistance) / Math.max(1, prey.body.radius * 2), 0, 1)
 }
 
 function splitEscapePosition(threat: EntityState, childMass: number, index: number, count: number): Vec2 {

@@ -1,5 +1,42 @@
 import type { BodyShape, Vec2 } from '../domain/types'
 
+export function mostlyContains(container: BodyShape, target: BodyShape, minimumCoveredRatio = 0.7): boolean {
+  if (container.radius <= target.radius) return false
+  return coveredRatio(container, target) >= Math.min(1, Math.max(0, minimumCoveredRatio))
+}
+
+export function coveredRatio(container: BodyShape, target: BodyShape): number {
+  const containerRadius = Math.max(0, container.radius)
+  const targetRadius = Math.max(0, target.radius)
+  if (targetRadius === 0) return 0
+  const centerDistance = Math.hypot(
+    target.center.x - container.center.x,
+    target.center.y - container.center.y,
+  )
+  if (centerDistance >= containerRadius + targetRadius) return 0
+  if (centerDistance <= Math.abs(containerRadius - targetRadius)) {
+    return containerRadius >= targetRadius ? 1 : (containerRadius * containerRadius) / (targetRadius * targetRadius)
+  }
+
+  const containerAngle = Math.acos(clampCosine(
+    (centerDistance * centerDistance + containerRadius * containerRadius - targetRadius * targetRadius)
+      / (2 * centerDistance * containerRadius),
+  ))
+  const targetAngle = Math.acos(clampCosine(
+    (centerDistance * centerDistance + targetRadius * targetRadius - containerRadius * containerRadius)
+      / (2 * centerDistance * targetRadius),
+  ))
+  const overlapArea = containerRadius * containerRadius * containerAngle
+    + targetRadius * targetRadius * targetAngle
+    - 0.5 * Math.sqrt(Math.max(0,
+      (-centerDistance + containerRadius + targetRadius)
+      * (centerDistance + containerRadius - targetRadius)
+      * (centerDistance - containerRadius + targetRadius)
+      * (centerDistance + containerRadius + targetRadius),
+    ))
+  return Math.min(1, Math.max(0, overlapArea / (Math.PI * targetRadius * targetRadius)))
+}
+
 export function fullyContains(container: BodyShape, target: BodyShape, tolerance = 0): boolean {
   const acceptedTolerance = Math.max(0, tolerance)
   const centerDistance = Math.hypot(
@@ -51,4 +88,8 @@ function distanceToSegment(point: Vec2, start: Vec2, end: Vec2): number {
   const nearestX = start.x + projection * segmentX
   const nearestY = start.y + projection * segmentY
   return Math.hypot(point.x - nearestX, point.y - nearestY)
+}
+
+function clampCosine(value: number): number {
+  return Math.min(1, Math.max(-1, value))
 }

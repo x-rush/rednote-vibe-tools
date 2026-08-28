@@ -1,5 +1,6 @@
 import type { BodyShape, EntityState, Vec2 } from '../domain/types'
 import type { InteractionContext } from '../game/interactions'
+import { createGameEngine, type ProtoCellEngine } from '../game/engine'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -45,4 +46,10 @@ export function testInteractionContext(overrides: Partial<InteractionContext> = 
     ruptureLossFraction: 0,
     ...overrides,
   }
+}
+
+export function createTestEngine(): ProtoCellEngine {
+  const engine = createGameEngine({ seed: 727, environmentId: 'env-clear-drop' })
+  engine.start()
+  return engine
 }

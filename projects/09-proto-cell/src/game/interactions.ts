@@ -8,6 +8,12 @@ export type GameEvent =
   | { type: 'damaged'; targetId: string; amount: number; source: DamageSource; atMs: number }
   | { type: 'blocked'; targetId: string; amount: number; atMs: number }
   | { type: 'ruptured'; targetId: string; fragmentMasses: readonly number[]; atMs: number }
+  | { type: 'organ-triggered'; entityId: string; organId: string; atMs: number }
+  | { type: 'mutation-ready'; entityId: string; atMs: number }
+  | { type: 'route-selected'; environmentId: string; atMs: number }
+  | { type: 'boss-resolved'; bossId: string; path: 'combat' | 'environment' | 'stealth' | 'parasite'; atMs: number }
+  | { type: 'player-died'; cause: string; atMs: number }
+  | { type: 'ending-reached'; endingId: string; atMs: number }
 
 export type InteractionContext = {
   atMs: number

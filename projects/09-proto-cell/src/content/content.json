@@ -10,11 +10,20 @@
   },
   "ui": {
     "actions": {
-      "start": "开始孵化"
+      "start": "开始孵化",
+      "pause": "暂停"
     },
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
-      "openingRegion": "初生水滴"
+      "openingRegion": "初生水滴",
+      "gameCanvas": "初生水滴生态区域"
+    },
+    "hud": {
+      "membrane": "膜",
+      "energy": "能量",
+      "stability": "稳定",
+      "biomass": "生物质",
+      "evolution": "进化"
     }
   },
   "m0": {
@@ -23,6 +32,19 @@
         "id": "env-clear-drop",
         "width": 1600,
         "height": 2400,
+        "playerDefinition": {
+          "id": "origin-primal-cell",
+          "role": "player",
+          "faction": "player",
+          "radius": 12,
+          "mass": 144,
+          "membrane": 100,
+          "energy": 100,
+          "stability": 100,
+          "evolutionThreshold": 240,
+          "maxSpeed": 96,
+          "visualRecipeId": "visual-origin-primal-cell"
+        },
         "entityDefinitions": [
           {
             "id": "nutrient-clear-speck",

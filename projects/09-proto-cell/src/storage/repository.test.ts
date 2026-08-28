@@ -1,8 +1,35 @@
 import { describe, expect, it } from 'vitest'
 import { failingIndexedDb, memoryIndexedDb, memorySettingsStorage, saveFixture } from '../tests/fixtures'
-import { createRepository } from './repository'
+import { createBrowserIndexedDb, createRepository } from './repository'
 
 describe('game save repository', () => {
+  it('upgrades pre-recovery databases before opening the recovery store', async () => {
+    let requestedVersion: number | undefined
+    const createdStores: string[] = []
+    const database = {
+      objectStoreNames: { contains: (name: string) => name === 'save' },
+      createObjectStore: (name: string) => { createdStores.push(name) },
+      close: () => undefined,
+      onversionchange: null,
+    }
+    const request = { result: database } as unknown as IDBOpenDBRequest
+    const factory = {
+      open: (_name: string, version?: number) => {
+        requestedVersion = version
+        queueMicrotask(() => {
+          request.onupgradeneeded?.(new Event('upgradeneeded') as IDBVersionChangeEvent)
+          request.onsuccess?.(new Event('success'))
+        })
+        return request
+      },
+    } as unknown as IDBFactory
+
+    await createBrowserIndexedDb(factory).open()
+
+    expect(requestedVersion).toBe(2)
+    expect(createdStores).toEqual(['recovery'])
+  })
+
   it('falls back to session mode without destroying the rejected payload', async () => {
     const repo = createRepository(failingIndexedDb())
 

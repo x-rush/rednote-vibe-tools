@@ -142,7 +142,9 @@ export function createBrowserIndexedDb(factory: IDBFactory | undefined, database
     if (database) return
     if (!factory) throw new DOMException('IndexedDB unavailable', 'UnavailableError')
     database = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = factory.open(databaseName, 1)
+      // Version 2 adds the recovery store for installations created before
+      // rejected-import recovery shipped.
+      const request = factory.open(databaseName, 2)
       let blocked = false
       request.onupgradeneeded = () => {
         const next = request.result

@@ -544,7 +544,7 @@ it('returns only entities in intersecting cells', () => {
   expect(grid.query({ x: 0, y: 0, width: 80, height: 80 }).map((e) => e.id)).toEqual(['near'])
 })
 
-it('repeats the clear-drop spawn schedule', () => {
+it('repeats the initial-drop spawn schedule', () => {
   expect(generateRegion(727, 'env-clear-drop')).toEqual(generateRegion(727, 'env-clear-drop'))
 })
 ```
@@ -616,7 +616,7 @@ Run: `pnpm test -- src/game/engine.test.ts src/rendering/numbers.test.ts`
 
 The engine owns mutable simulation state, runs fixed steps, rebuilds the spatial grid, resolves interactions once, and emits discrete events. `snapshot()` returns only player membrane, energy, stability, biomass, evolution threshold, elapsed time, environment ID, and pause state.
 
-Extend `fixtures.ts` with `createTestEngine()` after `GameEngine` exists; it uses seed `727`, a clear-drop region, and an empty decorative-effect sink.
+Extend `fixtures.ts` with `createTestEngine()` after `GameEngine` exists; it uses seed `727`, the `env-clear-drop` region displayed as `初生水滴`, and an empty decorative-effect sink.
 
 - [ ] **Step 4: Implement the seven-layer cell and effect pipeline**
 
@@ -736,7 +736,7 @@ Extend `fixtures.ts` with `contentFixture(): ContentPack`, returning a deep-clon
 
 - [ ] **Step 4: Implement validation and the M1 content slice**
 
-Populate clear drop, six organs spanning distinct categories, two achievable synergies, five ecosystem roles, one elite, one validation Boss, one ending, and required death templates. Validate references, unique IDs, legal slots, copy length, telegraphs, resolution paths, and content version.
+Populate `env-clear-drop` with display name `初生水滴`, six organs spanning distinct categories, two achievable synergies, five ecosystem roles, one elite, one validation Boss, one ending, and required death templates. Validate references, unique IDs, legal slots, copy length, telegraphs, resolution paths, and content version.
 
 - [ ] **Step 5: Make application startup fail closed on invalid content**
 
@@ -853,7 +853,7 @@ Use `dormant → feeding → exposed → enraged → resolved` states. Combat ru
 
 - [ ] **Step 5: Implement route rifts and five-to-eight-minute slice pacing**
 
-Generate two seeded exits with hazard, resource, and affinity icon IDs. Swimming into one records the route choice. Keep this M1 clear-drop slice longer than the final release tutorial region; Task 13 rebalances it to two minutes.
+Generate two seeded exits with hazard, resource, and affinity icon IDs. Swimming into one records the route choice. Keep this M1 `初生水滴` slice longer than the final release tutorial region; Task 13 rebalances it to two minutes.
 
 - [ ] **Step 6: Verify and commit**
 
@@ -1016,7 +1016,7 @@ Require every organ to have legal slots, cost, tags, conflict list, short effect
 
 - [ ] **Step 5: Rebalance final route durations**
 
-Set clear drop to approximately two minutes, each selected mid-region to two-to-three minutes, and final chamber to two-to-four minutes. The route generator visits clear drop, one of algae/acid, one of fiber/antibody, then abandoned chamber.
+Set `初生水滴` to approximately two minutes, each selected mid-region to two-to-three minutes, and final chamber to two-to-four minutes. The route generator visits `env-clear-drop`, one of algae/acid, one of fiber/antibody, then abandoned chamber.
 
 - [ ] **Step 6: Verify and commit**
 

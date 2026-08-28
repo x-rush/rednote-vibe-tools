@@ -15,11 +15,14 @@ describe('M0 headless playthrough', () => {
     }))
   }, 20_000)
 
-  it('repeats key events and morphology for the same seed', () => {
-    const first = runHeadless({ seed: 91, durationMs: 30_000 })
-    const second = runHeadless({ seed: 91, durationMs: 30_000 })
+  it('repeats the same full-route sequence and morphology for a seed', () => {
+    const input = { seed: 727, durationMs: 520_000, route: ['env-algae-glow', 'env-fiber-maze'], policy: 'balanced' as const }
+    const first = runHeadless(input)
+    const second = runHeadless(input)
 
     expect(first.keyEvents).toEqual(second.keyEvents)
     expect(first.morphologySignature).toBe(second.morphologySignature)
-  })
+    expect(first.routeSignature).toBe('env-algae-glow>env-fiber-maze>env-abandoned-chamber')
+    expect(first.endingId).toBe('ending-stable-species')
+  }, 20_000)
 })

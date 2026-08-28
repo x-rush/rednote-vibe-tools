@@ -13,6 +13,7 @@ import type { SaveDataV1 } from '../storage/codec'
 import type { IndexedDbDriver, SettingsStorage } from '../storage/repository'
 import { encodeDishCode } from '../progression/challenges'
 import type { AudioContextLike } from '../audio/audio'
+import type { OutcomeFixture } from './playthrough'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -176,6 +177,25 @@ export function fakeAudioContext(): AudioContextLike & { calls: string[] } {
     async close() { calls.push('close') },
   }
 }
+
+export function outcomeFixtures(): OutcomeFixture[] {
+  const content = getContent()
+  const endings: OutcomeFixture[] = content.endings.map((ending) => ({
+    expectedId: ending.id,
+    events: [{ sequence: 1, event: { type: 'ending-reached', endingId: ending.id, atMs: 1000 } }],
+  }))
+  const deaths: OutcomeFixture[] = content.deathTemplates.map((death) => ({
+    expectedId: death.id,
+    events: [{ sequence: 1, event: { type: 'player-died', cause: (death.requiredTags ?? []).join('-'), atMs: 1000 } }],
+  }))
+  return [...endings, ...deaths]
+}
+
+export const PERFORMANCE_BUDGET = {
+  fixedSteps: 18_000,
+  entityHardCap: 180,
+  averageUpdateMs: 0.8,
+} as const
 
 export function playerWith(
   organInput: string | string[],

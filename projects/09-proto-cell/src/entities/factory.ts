@@ -10,6 +10,15 @@ export type EntityDefinition = {
   energy: number
   maxSpeed: number
   visualRecipeId: string
+  contactDamage?: ContactDamageDefinition
+}
+
+export type ContactDamageDefinition = {
+  source: 'acid' | 'electric' | 'spine' | 'ram'
+  amount: number
+  periodMs: number
+  activeMs: number
+  phaseOffsetMs: number
 }
 
 export type EntitySpawn = {
@@ -22,6 +31,7 @@ export type SpawnedEntityState = EntityState & {
   definitionId: string
   visualRecipeId: string
   maxSpeed: number
+  contactDamage?: ContactDamageDefinition
 }
 
 export function createEntity(definition: EntityDefinition, spawn: EntitySpawn): SpawnedEntityState {
@@ -30,6 +40,7 @@ export function createEntity(definition: EntityDefinition, spawn: EntitySpawn): 
     definitionId: definition.id,
     visualRecipeId: definition.visualRecipeId,
     maxSpeed: definition.maxSpeed,
+    contactDamage: definition.contactDamage ? { ...definition.contactDamage } : undefined,
     body: circleBody(spawn.position, definition.radius),
     position: { ...spawn.position },
     velocity: spawn.velocity ? { ...spawn.velocity } : { x: 0, y: 0 },

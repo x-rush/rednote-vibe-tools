@@ -1,6 +1,7 @@
 import type { BodyShape, EntityState, Vec2 } from '../domain/types'
 import type { InteractionContext } from '../game/interactions'
 import { createGameEngine, type ProtoCellEngine } from '../game/engine'
+import type { ControllerDependencies } from '../app/controller'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -52,4 +53,12 @@ export function createTestEngine(): ProtoCellEngine {
   const engine = createGameEngine({ seed: 727, environmentId: 'env-clear-drop' })
   engine.start()
   return engine
+}
+
+export function testDependencies(): ControllerDependencies {
+  return {
+    createEngine: ({ seed }) => createGameEngine({ seed, environmentId: 'env-clear-drop' }),
+    nextSeed: (seed) => seed + 1,
+    recordResult: () => undefined,
+  }
 }

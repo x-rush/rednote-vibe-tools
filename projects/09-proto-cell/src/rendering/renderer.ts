@@ -35,12 +35,13 @@ export function createCanvasRenderer(
       const { width, height } = resizeCanvas(canvas, context)
       const player = snapshot.entities.find((entity) => entity.id === snapshot.playerId)
       const camera = player?.position ?? { x: snapshot.width / 2, y: snapshot.height / 2 }
+      const zoom = player ? Math.min(3.4, Math.max(1.6, 42 / player.body.radius)) : 2.4
 
       context.clearRect(0, 0, width, height)
       drawLiquidField(context, width, height, snapshot.elapsedMs)
 
       const drawables = snapshot.entities
-        .map((entity) => toDrawable(entity, camera, width, height, displayedRadii))
+        .map((entity) => toDrawable(entity, camera, width, height, zoom, displayedRadii))
         .filter((item) => item.x + item.radius * 2 > 0 && item.x - item.radius * 2 < width && item.y + item.radius * 2 > 0 && item.y - item.radius * 2 < height)
         .sort((left, right) => Number(left.entity.id === snapshot.playerId) - Number(right.entity.id === snapshot.playerId))
 
@@ -82,6 +83,7 @@ function toDrawable(
   camera: { x: number; y: number },
   width: number,
   height: number,
+  zoom: number,
   displayedRadii: Map<string, number>,
 ) {
   const previousRadius = displayedRadii.get(entity.id) ?? entity.body.radius
@@ -89,8 +91,8 @@ function toDrawable(
   displayedRadii.set(entity.id, radius)
   return {
     entity,
-    radius,
-    x: width / 2 + entity.position.x - camera.x,
-    y: height / 2 + entity.position.y - camera.y,
+    radius: radius * zoom,
+    x: width / 2 + (entity.position.x - camera.x) * zoom,
+    y: height / 2 + (entity.position.y - camera.y) * zoom,
   }
 }

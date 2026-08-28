@@ -1,7 +1,7 @@
 import content from '../content/content.json'
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideIntent } from '../entities/ai'
-import { createEntity, type EntityDefinition } from '../entities/factory'
+import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
 import { generateRegion } from '../world/generator'
 import { createFixedClock } from './clock'
 import { createPointerInput, type PointerInput } from './input'
@@ -80,6 +80,7 @@ export function createGameEngine(options: {
   const spawnedIds = new Set<string>()
   const pauseReasons = new Set<PauseReason>()
   const engulfLocks = new Set<string>()
+  const damagePeriods = new Map<string, number>()
   const events: GameEvent[] = []
   const grid = new SpatialGrid(96)
   const clock = createFixedClock({ stepMs: STEP_MS, maxSteps: 5 })
@@ -230,18 +231,77 @@ export function createGameEngine(options: {
         const first = entities.get(entity.id)
         const second = entities.get(candidate.id)
         if (!first || !second || first.status !== 'active' || second.status !== 'active') continue
+        const configuredDamage = contactDamageForPair(first, second, elapsedMs, damagePeriods)
         const result = resolveInteraction(first, second, {
           atMs: elapsedMs,
           engulfLocks,
           ruptureLossFraction: 0.08,
+          contactDamage: configuredDamage?.damage,
         })
         entities.set(result.entities[0].id, resizeForMass(result.entities[0]))
         entities.set(result.entities[1].id, resizeForMass(result.entities[1]))
         result.fragments.forEach((fragment) => entities.set(fragment.id, fragment))
         events.push(...result.events)
+        if (configuredDamage && result.events.some((event) => event.type === 'damaged' && event.targetId === configuredDamage.damage.targetId)) {
+          damagePeriods.set(configuredDamage.lockKey, configuredDamage.periodIndex)
+        }
+        if (result.events.some((event) => (
+          event.type === 'engulfed' && event.preyId === PLAYER_ID
+          || event.type === 'ruptured' && event.targetId === PLAYER_ID
+        ))) {
+          events.push({ type: 'player-died', cause: 'engulfed-or-ruptured', atMs: elapsedMs })
+        }
       }
     }
   }
+}
+
+export function contactDamageAt(entity: EntityState, atMs: number): {
+  source: ContactDamageDefinition['source']
+  amount: number
+  periodIndex: number
+} | undefined {
+  const definition = 'contactDamage' in entity ? entity.contactDamage as ContactDamageDefinition | undefined : undefined
+  if (!definition || definition.periodMs <= 0 || definition.activeMs <= 0 || definition.amount <= 0) return undefined
+
+  const shiftedTime = Math.max(0, atMs + definition.phaseOffsetMs)
+  const periodIndex = Math.floor(shiftedTime / definition.periodMs)
+  const phaseMs = shiftedTime - periodIndex * definition.periodMs
+  if (phaseMs >= definition.activeMs) return undefined
+  return { source: definition.source, amount: definition.amount, periodIndex }
+}
+
+export function contactDamageForPair(
+  first: EntityState,
+  second: EntityState,
+  atMs: number,
+  damagePeriods: ReadonlyMap<string, number>,
+) {
+  const options = [
+    { attacker: first, target: second, active: contactDamageAt(first, atMs) },
+    { attacker: second, target: first, active: contactDamageAt(second, atMs) },
+  ]
+
+  for (const option of options) {
+    if (
+      !option.active
+      || option.attacker.faction === option.target.faction
+      || option.target.role === 'fragment'
+      || option.target.role === 'nutrient'
+    ) continue
+    const lockKey = `${option.attacker.id}\u0000${option.target.id}`
+    if (damagePeriods.get(lockKey) === option.active.periodIndex) continue
+    return {
+      lockKey,
+      periodIndex: option.active.periodIndex,
+      damage: {
+        source: option.active.source,
+        amount: option.active.amount,
+        targetId: option.target.id,
+      },
+    }
+  }
+  return undefined
 }
 
 function getEnvironment(environmentId: string): EngineEnvironment {

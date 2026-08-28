@@ -11,7 +11,9 @@
   "ui": {
     "actions": {
       "start": "开始孵化",
-      "pause": "暂停"
+      "pause": "暂停",
+      "resume": "继续游动",
+      "restart": "重新孵化"
     },
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
@@ -24,14 +26,21 @@
       "stability": "稳定",
       "biomass": "生物质",
       "evolution": "进化"
+    },
+    "screens": {
+      "pauseTitle": "培养皿静止中",
+      "pauseDescription": "生态时间已经暂停，不会补算离开期间的变化。",
+      "resultTitle": "这一滴水记住了你",
+      "resultDescription": "体型不是护身符。换一条游动轨迹，再孵化一次。",
+      "survival": "存活"
     }
   },
   "m0": {
     "environments": [
       {
         "id": "env-clear-drop",
-        "width": 1600,
-        "height": 2400,
+        "width": 640,
+        "height": 1100,
         "playerDefinition": {
           "id": "origin-primal-cell",
           "role": "player",
@@ -99,15 +108,22 @@
             "membrane": 70,
             "energy": 80,
             "maxSpeed": 54,
-            "visualRecipeId": "visual-predator-azure-ring"
+            "visualRecipeId": "visual-predator-azure-ring",
+            "contactDamage": {
+              "source": "spine",
+              "amount": 8,
+              "periodMs": 1600,
+              "activeMs": 240,
+              "phaseOffsetMs": 0
+            }
           }
         ],
         "spawnSchedule": [
-          { "atMs": 0, "definitionId": "nutrient-clear-speck", "count": 42 },
-          { "atMs": 0, "definitionId": "prey-drifter", "count": 14 },
-          { "atMs": 15000, "definitionId": "competitor-spark", "count": 6 },
-          { "atMs": 30000, "definitionId": "scavenger-vesicle", "count": 4 },
-          { "atMs": 45000, "definitionId": "predator-azure-ring", "count": 2 }
+          { "atMs": 0, "definitionId": "nutrient-clear-speck", "count": 96 },
+          { "atMs": 0, "definitionId": "prey-drifter", "count": 28 },
+          { "atMs": 15000, "definitionId": "competitor-spark", "count": 12 },
+          { "atMs": 30000, "definitionId": "scavenger-vesicle", "count": 8 },
+          { "atMs": 45000, "definitionId": "predator-azure-ring", "count": 4 }
         ]
       }
     ]

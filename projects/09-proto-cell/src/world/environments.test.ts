@@ -112,4 +112,52 @@ describe('launch environments', () => {
     expect(resolveEnvironmentMovement(field, from, to, 12)).toEqual(from)
     expect(sampleEnvironmentField(field, { x: 320, y: 490 }, 12).speedMultiplier).toBeLessThan(1)
   })
+
+  it('lets a touching body move away from an adhesive fiber in a subpixel step', () => {
+    const field = {
+      ...createEnvironmentField('env-fiber-maze', 727),
+      obstacles: [{
+        id: 'horizontal-fiber',
+        kind: 'fiber' as const,
+        from: { x: 0, y: 100 },
+        to: { x: 200, y: 100 },
+        adhesive: true,
+      }],
+    }
+    const touching = { x: 80, y: 112 }
+    const separating = { x: 80, y: 112.6 }
+
+    expect(resolveEnvironmentMovement(field, touching, separating, 12)).toEqual(separating)
+  })
+
+  it('slides a touching body along a fiber instead of pinning it in place', () => {
+    const field = {
+      ...createEnvironmentField('env-fiber-maze', 727),
+      obstacles: [{
+        id: 'horizontal-fiber',
+        kind: 'fiber' as const,
+        from: { x: 0, y: 100 },
+        to: { x: 200, y: 100 },
+        adhesive: true,
+      }],
+    }
+    const touching = { x: 80, y: 112 }
+
+    expect(resolveEnvironmentMovement(field, touching, { x: 80.6, y: 111.7 }, 12)).toEqual({ x: 80.6, y: 112 })
+  })
+
+  it('slides around a fiber endpoint without entering its rounded cap', () => {
+    const field = {
+      ...createEnvironmentField('env-fiber-maze', 727),
+      obstacles: [{
+        id: 'horizontal-fiber',
+        kind: 'fiber' as const,
+        from: { x: 0, y: 100 },
+        to: { x: 200, y: 100 },
+        adhesive: true,
+      }],
+    }
+
+    expect(resolveEnvironmentMovement(field, { x: 212, y: 100 }, { x: 211.7, y: 100.6 }, 12)).toEqual({ x: 212, y: 100.6 })
+  })
 })

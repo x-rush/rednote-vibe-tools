@@ -9,7 +9,7 @@
     "fictionDisclaimer": "本作是显微生态幻想，不构成真实生物学说明。"
   },
   "assetCredits": [
-    { "scope": "本地 SVG 与程序化 Canvas 美术", "source": "项目原创生成", "license": "项目内专用" },
+    { "scope": "本地 SVG、AI 辅助生成 PNG 与程序化 Canvas 美术", "source": "项目原创生成（PNG 由 OpenAI 图像生成工具制作）", "license": "项目内专用" },
     { "scope": "音乐与音效", "source": "Web Audio 实时合成，无外部采样", "license": "项目内专用" }
   ],
   "ui": {

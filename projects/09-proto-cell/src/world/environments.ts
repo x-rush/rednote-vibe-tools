@@ -212,8 +212,14 @@ export function resolveEnvironmentMovement(
     if (obstacle.kind === 'fiber') {
       const fromSide = signedSide(from, obstacle.from, obstacle.to)
       const toSide = signedSide(to, obstacle.from, obstacle.to)
-      const nearSegment = distanceToSegment(to, obstacle.from, obstacle.to) <= radius + 2
-      if (nearSegment || fromSide * toSide < 0) return { ...from }
+      const fromDistance = distanceToSegment(from, obstacle.from, obstacle.to)
+      const toDistance = distanceToSegment(to, obstacle.from, obstacle.to)
+      const nearSegment = toDistance <= radius + 2
+      if (fromSide * toSide < 0) return { ...from }
+      if (nearSegment) {
+        if (toDistance > fromDistance) return { ...to }
+        return slideAlongCapsule(from, to, obstacle.from, obstacle.to)
+      }
       continue
     }
     if (obstacle.kind !== 'chamber-wall') continue
@@ -226,17 +232,36 @@ export function resolveEnvironmentMovement(
   return to
 }
 
+function slideAlongCapsule(from: Vec2, to: Vec2, segmentFrom: Vec2, segmentTo: Vec2): Vec2 {
+  const closest = closestPointOnSegment(from, segmentFrom, segmentTo)
+  const normalX = from.x - closest.x
+  const normalY = from.y - closest.y
+  const normalLength = Math.hypot(normalX, normalY)
+  if (normalLength === 0) return { ...from }
+  const normal = { x: normalX / normalLength, y: normalY / normalLength }
+  const travel = { x: to.x - from.x, y: to.y - from.y }
+  const inward = Math.min(0, travel.x * normal.x + travel.y * normal.y)
+  return {
+    x: from.x + travel.x - normal.x * inward,
+    y: from.y + travel.y - normal.y * inward,
+  }
+}
+
 function distance(first: Vec2, second: Vec2): number {
   return Math.hypot(first.x - second.x, first.y - second.y)
 }
 
 function distanceToSegment(point: Vec2, from: Vec2, to: Vec2): number {
+  return distance(point, closestPointOnSegment(point, from, to))
+}
+
+function closestPointOnSegment(point: Vec2, from: Vec2, to: Vec2): Vec2 {
   const dx = to.x - from.x
   const dy = to.y - from.y
   const lengthSquared = dx * dx + dy * dy
-  if (lengthSquared === 0) return distance(point, from)
+  if (lengthSquared === 0) return { ...from }
   const ratio = Math.max(0, Math.min(1, ((point.x - from.x) * dx + (point.y - from.y) * dy) / lengthSquared))
-  return distance(point, { x: from.x + dx * ratio, y: from.y + dy * ratio })
+  return { x: from.x + dx * ratio, y: from.y + dy * ratio }
 }
 
 function signedSide(point: Vec2, from: Vec2, to: Vec2): number {

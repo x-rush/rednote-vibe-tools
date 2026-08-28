@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { createEntity } from '../entities/factory'
-import { dangerPulseState } from './effects'
+import * as effects from './effects'
+
+const { dangerPulseState } = effects
 
 describe('danger telegraph timing', () => {
   it('shows an arming telegraph before a newly spawned pulse becomes active', () => {
@@ -20,5 +22,22 @@ describe('danger telegraph timing', () => {
     expect(dangerPulseState(predator, 45_000)).toMatchObject({ telegraph: true, active: false })
     expect(dangerPulseState(predator, 45_419)).toMatchObject({ telegraph: true, active: false })
     expect(dangerPulseState(predator, 45_420)).toMatchObject({ telegraph: true, active: true })
+  })
+})
+
+describe('ambient world particles', () => {
+  it('moves camera-relative particles against the direction of travel', () => {
+    expect('ambientParticlePosition' in effects).toBe(true)
+    if (!('ambientParticlePosition' in effects)) return
+    const position = effects.ambientParticlePosition(
+      { x: 0.5, y: 0.5, radius: 2, phase: 0 },
+      400,
+      800,
+      0,
+      { x: 100, y: 40 },
+      0.3,
+    )
+
+    expect(position).toEqual({ x: 170, y: 388 })
   })
 })

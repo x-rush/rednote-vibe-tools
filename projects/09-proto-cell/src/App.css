@@ -777,7 +777,7 @@
   transition: width 180ms ease-out;
 }
 
-.game-hud__pause {
+.game-hud .game-hud__pause {
   position: relative;
   top: auto;
   grid-column: 2;

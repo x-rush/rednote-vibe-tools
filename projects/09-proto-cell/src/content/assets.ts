@@ -24,6 +24,8 @@ export const assetRegistry: Readonly<Record<string, string>> = Object.freeze({
     [`boss-${name}:body`, `/assets/bosses/boss-${name}-body.svg`],
     [`boss-${name}:mask`, `/assets/bosses/boss-${name}-mask.svg`],
   ]))),
+  'environment-caustics': '/assets/environments/microscope-caustics-v2.png',
+  'environment-fibers': '/assets/environments/microscope-fibers-v2.png',
   'ui-lab-frame': '/assets/ui/lab-frame.svg',
   'ui-archive-frame': '/assets/ui/archive-frame.svg',
   'ui-gene-node': '/assets/ui/gene-node.svg',
@@ -39,6 +41,8 @@ export function collectAssetIds(content: ContentPack): string[] {
     ...content.modifiers.map((item) => item.id),
     ...content.environments.map((item) => item.id),
     ...content.bosses.flatMap((item) => [`${item.id}:body`, `${item.id}:mask`]),
+    'environment-caustics',
+    'environment-fibers',
     'ui-lab-frame', 'ui-archive-frame', 'ui-gene-node', 'ui-codex-frame',
   ]
 }

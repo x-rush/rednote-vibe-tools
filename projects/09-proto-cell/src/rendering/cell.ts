@@ -1,4 +1,5 @@
 import type { EntityState } from '../domain/types'
+import rawContent from '../content/content.json'
 import type { RenderQuality } from './effects'
 
 export type CellPalette = {
@@ -7,6 +8,51 @@ export type CellPalette = {
   core: string
   organ: string
   glow: string
+}
+
+export type CellVisualProfile = {
+  palette: CellPalette
+  silhouette: 'amoeba' | 'pearl' | 'swimmer' | 'spark' | 'vesicle' | 'hunter' | 'boss'
+  appendages: 'none' | 'flagellum' | 'fins' | 'cilia' | 'spines'
+}
+
+type DrawableVisualRecipe = { id: string; palette: string[] }
+
+export function buildVisualRecipeMap(value: unknown): Map<string, DrawableVisualRecipe> {
+  if (!Array.isArray(value)) return new Map()
+  const recipes = value.flatMap((candidate): DrawableVisualRecipe[] => {
+    if (!candidate || typeof candidate !== 'object') return []
+    const record = candidate as Record<string, unknown>
+    if (typeof record.id !== 'string' || !Array.isArray(record.palette) || !record.palette.every((color) => typeof color === 'string')) return []
+    return [{ id: record.id, palette: [...record.palette] as string[] }]
+  })
+  return new Map(recipes.map((recipe) => [recipe.id, recipe]))
+}
+
+const visualRecipes = buildVisualRecipeMap((rawContent as unknown as { visualRecipes?: unknown }).visualRecipes)
+
+export function cellVisualProfile(entity: EntityState): CellVisualProfile {
+  const visualRecipeId = 'visualRecipeId' in entity ? String(entity.visualRecipeId) : ''
+  const recipe = visualRecipes.get(visualRecipeId)
+  const fallback = fallbackPaletteFor(entity)
+  const membrane = recipe?.palette[0] ?? fallback.membrane
+  const core = recipe?.palette[1] ?? recipe?.palette[0] ?? fallback.core
+  const palette = {
+    membrane,
+    cytoplasm: hexWithAlpha(membrane, 0.24),
+    core,
+    organ: recipe?.palette[1] ?? fallback.organ,
+    glow: membrane,
+  }
+  if (entity.role === 'nutrient' || entity.role === 'fragment') return { palette, silhouette: 'pearl', appendages: 'none' }
+  if (entity.role === 'boss') return { palette, silhouette: 'boss', appendages: 'spines' }
+  if (entity.role === 'predator' || entity.role === 'elite') return { palette, silhouette: 'hunter', appendages: 'spines' }
+  if (entity.role === 'scavenger') return { palette, silhouette: 'vesicle', appendages: 'cilia' }
+  if (entity.role === 'competitor') return { palette, silhouette: 'spark', appendages: 'fins' }
+  if (entity.role === 'prey') return { palette, silhouette: 'swimmer', appendages: 'flagellum' }
+  if (visualRecipeId.includes('armored-spore')) return { palette, silhouette: 'vesicle', appendages: 'spines' }
+  if (visualRecipeId.includes('ciliate')) return { palette, silhouette: 'amoeba', appendages: 'cilia' }
+  return { palette, silhouette: 'amoeba', appendages: 'cilia' }
 }
 
 export function drawCell(
@@ -18,12 +64,16 @@ export function drawCell(
   elapsedMs: number,
   options: { quality?: RenderQuality; organelleIds?: readonly string[]; stability?: number; synergyIds?: readonly string[]; damageSource?: 'acid' | 'electric' | 'spine' | 'ram' } = {},
 ): void {
-  const palette = paletteFor(entity)
+  const profile = cellVisualProfile(entity)
+  const palette = profile.palette
   const pulse = 1 + Math.sin(elapsedMs / 520 + hashPhase(entity.id)) * 0.025
   const bodyRadius = radius * pulse
+  const speed = Math.hypot(entity.velocity.x, entity.velocity.y)
+  const heading = speed > 0.5 ? Math.atan2(entity.velocity.y, entity.velocity.x) : hashPhase(entity.id) * 0.08
 
   context.save()
   context.translate(screenX, screenY)
+  context.rotate(heading)
 
   // 1. Liquid shadow and refraction.
   context.fillStyle = 'rgb(0 4 18 / 42%)'
@@ -38,11 +88,17 @@ export function drawCell(
   context.shadowBlur = options.quality === 'low' ? 0 : entity.role === 'predator' || entity.role === 'boss' ? 16 : 10
   context.fillStyle = palette.cytoplasm
   context.strokeStyle = palette.membrane
-  context.lineWidth = Math.max(1.5, radius * 0.09)
-  context.beginPath()
-  context.ellipse(0, 0, bodyRadius, bodyRadius * 0.94, hashPhase(entity.id) * 0.08, 0, Math.PI * 2)
+  context.lineWidth = Math.max(1.4, radius * 0.075)
+  traceBody(context, profile.silhouette, bodyRadius, elapsedMs, entity.id)
   context.fill()
   context.stroke()
+
+  context.globalAlpha = 0.38
+  context.strokeStyle = '#ffffff'
+  context.lineWidth = Math.max(0.8, radius * 0.025)
+  traceBody(context, profile.silhouette, bodyRadius * 0.87, elapsedMs + 90, entity.id)
+  context.stroke()
+  context.globalAlpha = 1
 
   // 3. Cytoplasm highlight.
   const cytoplasm = context.createRadialGradient(-radius * 0.35, -radius * 0.4, 0, 0, 0, radius)
@@ -50,8 +106,7 @@ export function drawCell(
   cytoplasm.addColorStop(0.25, 'rgb(128 245 255 / 11%)')
   cytoplasm.addColorStop(1, 'rgb(0 18 68 / 8%)')
   context.fillStyle = cytoplasm
-  context.beginPath()
-  context.arc(0, 0, radius * 0.88, 0, Math.PI * 2)
+  traceBody(context, profile.silhouette, radius * 0.86, elapsedMs, entity.id)
   context.fill()
 
   // 4. Core.
@@ -59,8 +114,13 @@ export function drawCell(
   context.fillStyle = palette.core
   context.strokeStyle = 'rgb(222 255 255 / 72%)'
   context.lineWidth = Math.max(1, radius * 0.045)
+  const coreGradient = context.createRadialGradient(-radius * 0.08, -radius * 0.1, 0, 0, 0, radius * 0.38)
+  coreGradient.addColorStop(0, '#ffffff')
+  coreGradient.addColorStop(0.2, palette.core)
+  coreGradient.addColorStop(1, hexWithAlpha(palette.core, 0.28))
+  context.fillStyle = coreGradient
   context.beginPath()
-  context.arc(radius * 0.04, radius * 0.06, radius * 0.31, 0, Math.PI * 2)
+  context.ellipse(radius * 0.04, radius * 0.06, radius * 0.33, radius * 0.29, -0.2, 0, Math.PI * 2)
   context.fill()
   context.stroke()
 
@@ -86,22 +146,28 @@ export function drawCell(
   }
 
   // 6. Non-facial appendages.
-  if (entity.role !== 'nutrient') {
+  if (profile.appendages !== 'none') {
     context.strokeStyle = palette.membrane
     context.lineWidth = Math.max(1, radius * 0.045)
     context.globalAlpha = 0.72
-    const appendageCount = options.quality === 'low' ? 4 : options.quality === 'high' ? 9 : 7
+    const baseAppendageCount = profile.appendages === 'cilia' ? 11 : profile.appendages === 'spines' ? 8 : profile.appendages === 'fins' ? 5 : 2
+    const appendageCount = options.quality === 'low' ? Math.min(4, baseAppendageCount) : options.quality === 'high' ? baseAppendageCount + 2 : baseAppendageCount
     for (let index = 0; index < appendageCount; index += 1) {
       const angle = index / appendageCount * Math.PI * 2 + hashPhase(entity.id)
-      const length = radius * (entity.role === 'predator' ? 0.56 : 0.28)
+      const length = radius * (profile.appendages === 'spines' ? 0.48 : profile.appendages === 'flagellum' ? 0.72 : profile.appendages === 'fins' ? 0.38 : 0.24)
       context.beginPath()
       context.moveTo(Math.cos(angle) * radius * 0.94, Math.sin(angle) * radius * 0.9)
-      context.quadraticCurveTo(
-        Math.cos(angle + 0.22) * (radius + length * 0.5),
-        Math.sin(angle + 0.22) * (radius + length * 0.5),
-        Math.cos(angle) * (radius + length),
-        Math.sin(angle) * (radius + length),
-      )
+      if (profile.appendages === 'spines') {
+        context.lineTo(Math.cos(angle) * (radius + length), Math.sin(angle) * (radius + length))
+      } else {
+        const wave = Math.sin(elapsedMs / 180 + index * 1.7) * 0.18
+        context.quadraticCurveTo(
+          Math.cos(angle + 0.22 + wave) * (radius + length * 0.5),
+          Math.sin(angle + 0.22 + wave) * (radius + length * 0.5),
+          Math.cos(angle + wave * 0.35) * (radius + length),
+          Math.sin(angle + wave * 0.35) * (radius + length),
+        )
+      }
       context.stroke()
     }
   }
@@ -153,7 +219,7 @@ export function drawCell(
   context.restore()
 }
 
-function paletteFor(entity: EntityState): CellPalette {
+function fallbackPaletteFor(entity: EntityState): CellPalette {
   if (entity.id === 'player') {
     return {
       membrane: '#9dffff',
@@ -188,6 +254,63 @@ function paletteFor(entity: EntityState): CellPalette {
     organ: '#8c62ff',
     glow: '#477dff',
   }
+}
+
+function traceBody(
+  context: CanvasRenderingContext2D,
+  silhouette: CellVisualProfile['silhouette'],
+  radius: number,
+  elapsedMs: number,
+  id: string,
+) {
+  const count = silhouette === 'hunter' || silhouette === 'boss' ? 18 : 22
+  const points = Array.from({ length: count }, (_, index) => {
+    const angle = index / count * Math.PI * 2
+    const point = cellBodyPoint(silhouette, angle, elapsedMs, id)
+    return { x: point.x * radius, y: point.y * radius }
+  })
+  context.beginPath()
+  const first = points[0]!
+  const last = points.at(-1)!
+  context.moveTo((last.x + first.x) / 2, (last.y + first.y) / 2)
+  for (let index = 0; index < points.length; index += 1) {
+    const point = points[index]!
+    const next = points[(index + 1) % points.length]!
+    context.quadraticCurveTo(point.x, point.y, (point.x + next.x) / 2, (point.y + next.y) / 2)
+  }
+  context.closePath()
+}
+
+export function cellBodyPoint(
+  silhouette: CellVisualProfile['silhouette'],
+  angle: number,
+  elapsedMs: number,
+  id: string,
+): { x: number; y: number } {
+  if (silhouette === 'pearl') return { x: Math.cos(angle), y: Math.sin(angle) * 0.94 }
+
+  const phase = hashPhase(`${id}:${Math.round(angle * 1000)}`)
+  const organicWave = Math.sin(angle * 3 + elapsedMs / 420 + phase) * (silhouette === 'amoeba' ? 0.035 : 0.018)
+  const silhouetteWave = silhouette === 'spark'
+    ? Math.cos(angle * 6) * 0.055
+    : silhouette === 'vesicle'
+      ? Math.sin(angle - 0.7) * 0.045
+      : silhouette === 'hunter' || silhouette === 'boss'
+        ? Math.cos(angle * 4) * 0.035
+        : Math.cos(angle) * 0.025
+  const base = silhouette === 'spark' ? 0.92 : silhouette === 'swimmer' ? 0.96 : 0.94
+  const minimumRadius = silhouette === 'swimmer' ? 0.96 : 0.94
+  const localRadius = Math.max(minimumRadius, Math.min(1, base + organicWave + silhouetteWave))
+  const height = silhouette === 'swimmer' ? 0.94 : 0.97
+  return { x: Math.cos(angle) * localRadius, y: Math.sin(angle) * localRadius * height }
+}
+
+function hexWithAlpha(color: string, alpha: number): string {
+  if (!/^#[\da-f]{6}$/i.test(color)) return color
+  const red = Number.parseInt(color.slice(1, 3), 16)
+  const green = Number.parseInt(color.slice(3, 5), 16)
+  const blue = Number.parseInt(color.slice(5, 7), 16)
+  return `rgb(${red} ${green} ${blue} / ${alpha})`
 }
 
 function hashPhase(id: string): number {

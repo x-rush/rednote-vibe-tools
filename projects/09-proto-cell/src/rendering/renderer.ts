@@ -1,15 +1,60 @@
 import { createRng } from '../domain/rng'
 import type { EntityState } from '../domain/types'
 import type { WorldRenderSnapshot } from '../game/engine'
-import { drawCell } from './cell'
+import { cellVisualProfile, drawCell } from './cell'
 import { drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type AmbientParticle, type RenderQuality } from './effects'
 import type { NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
 
 export type CanvasRenderer = {
   render(snapshot: WorldRenderSnapshot, numbers: NumberFeed): void
+  playerScreenPosition(): { x: number; y: number }
   setQuality(quality: RenderQuality): void
   destroy(): void
+}
+
+export function createCameraTracker(): {
+  update(player: Pick<EntityState, 'position' | 'velocity'>, elapsedMs: number): { x: number; y: number }
+} {
+  let position: { x: number; y: number } | undefined
+  let previousPlayerPosition: { x: number; y: number } | undefined
+  let previousElapsedMs = 0
+  return {
+    update(player, elapsedMs) {
+      const teleported = previousPlayerPosition
+        ? Math.hypot(player.position.x - previousPlayerPosition.x, player.position.y - previousPlayerPosition.y) > 240
+        : false
+      previousPlayerPosition = { ...player.position }
+      if (!position || elapsedMs < previousElapsedMs || teleported) {
+        position = { ...player.position }
+        previousElapsedMs = elapsedMs
+        return { ...position }
+      }
+      const deltaMs = Math.min(50, Math.max(1, elapsedMs - previousElapsedMs))
+      previousElapsedMs = elapsedMs
+      const target = {
+        x: player.position.x + player.velocity.x * 0.2,
+        y: player.position.y + player.velocity.y * 0.2,
+      }
+      const blend = 1 - Math.exp(-deltaMs / 125)
+      position = {
+        x: position.x + (target.x - position.x) * blend,
+        y: position.y + (target.y - position.y) * blend,
+      }
+      return { ...position }
+    },
+  }
+}
+
+export function worldTextureOffset(
+  camera: { x: number; y: number },
+  _tile: { width: number; height: number },
+  parallax: number,
+): { x: number; y: number } {
+  return {
+    x: camera.x === 0 ? 0 : -camera.x * parallax,
+    y: camera.y === 0 ? 0 : -camera.y * parallax,
+  }
 }
 
 export function createCanvasRenderer(
@@ -28,6 +73,8 @@ export function createCanvasRenderer(
   }))
   const displayedRadii = new Map<string, number>()
   const assetImages = new Map<string, HTMLImageElement>()
+  const cameraTracker = createCameraTracker()
+  let currentPlayerScreenPosition = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 }
   let quality = options.quality ?? 'balanced'
   let destroyed = false
 
@@ -36,13 +83,21 @@ export function createCanvasRenderer(
       if (destroyed) return
       const { width, height } = resizeCanvas(canvas, context)
       const player = snapshot.entities.find((entity) => entity.id === snapshot.playerId)
-      const camera = player?.position ?? { x: snapshot.width / 2, y: snapshot.height / 2 }
+      const camera = player ? cameraTracker.update(player, snapshot.elapsedMs) : { x: snapshot.width / 2, y: snapshot.height / 2 }
       const zoom = player ? Math.min(3.4, Math.max(1.6, 42 / player.body.radius)) : 2.4
+      currentPlayerScreenPosition = player ? {
+        x: width / 2 + (player.position.x - camera.x) * zoom,
+        y: height / 2 + (player.position.y - camera.y) * zoom,
+      } : { x: width / 2, y: height / 2 }
 
       context.clearRect(0, 0, width, height)
       const visualTime = options.reducedMotion ? 0 : snapshot.elapsedMs
-      drawLiquidField(context, width, height, visualTime)
-      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height)
+      drawLiquidField(context, width, height, visualTime, camera)
+      drawBackdropAsset(context, loadAsset('environment-caustics'), width, height, camera, zoom, 0.52, 0.12)
+      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height, camera, zoom, 0.3, 0.2)
+      if (usesFiberBackdrop(snapshot.environmentId)) {
+        drawBackdropAsset(context, loadAsset('environment-fibers'), width, height, camera, zoom, 0.11, 0.34)
+      }
       drawEnvironmentField(context, snapshot, camera, width, height, zoom)
       drawEventField(context, snapshot, camera, width, height, zoom)
       if (snapshot.activeEvent && snapshot.activeEvent.phase !== 'expired') {
@@ -63,8 +118,9 @@ export function createCanvasRenderer(
           drawDangerTelegraph(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs, options.reducedFlash)
         }
       }
-      drawAmbientParticles(context, particles, width, height, visualTime, options.lowParticles ? 'low' : quality)
+      drawAmbientParticles(context, particles, width, height, visualTime, options.lowParticles ? 'low' : quality, camera)
       drawRouteRifts(context, snapshot, camera, width, height, zoom)
+      for (const item of drawables) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
       for (const item of drawables) {
         drawCell(context, item.entity, item.x, item.y, item.radius, visualTime, {
           quality,
@@ -81,6 +137,9 @@ export function createCanvasRenderer(
       }
       drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height)
       numbers.draw(context, width, height, snapshot.elapsedMs)
+    },
+    playerScreenPosition() {
+      return { ...currentPlayerScreenPosition }
     },
     setQuality(nextQuality) {
       quality = nextQuality
@@ -105,12 +164,83 @@ export function createCanvasRenderer(
   }
 }
 
-function drawBackdropAsset(context: CanvasRenderingContext2D, image: HTMLImageElement | undefined, width: number, height: number) {
+function usesFiberBackdrop(environmentId: string): boolean {
+  return environmentId === 'env-fiber-maze'
+    || environmentId === 'env-antibody-storm'
+    || environmentId === 'env-abandoned-chamber'
+}
+
+function drawBackdropAsset(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement | undefined,
+  width: number,
+  height: number,
+  camera: { x: number; y: number },
+  zoom: number,
+  opacity: number,
+  parallax: number,
+) {
   if (!image?.complete || image.naturalWidth === 0) return
+  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight) * 1.08
+  const tile = { width: image.naturalWidth * scale, height: image.naturalHeight * scale }
+  const rawOffset = worldTextureOffset({ x: camera.x * zoom, y: camera.y * zoom }, tile, parallax)
+  const offset = {
+    x: ((rawOffset.x % tile.width) + tile.width) % tile.width,
+    y: ((rawOffset.y % tile.height) + tile.height) % tile.height,
+  }
   context.save()
-  context.globalAlpha = 0.34
-  context.drawImage(image, 0, 0, width, height)
+  context.globalAlpha = opacity
+  for (let x = offset.x - tile.width; x < width + tile.width; x += tile.width) {
+    for (let y = offset.y - tile.height; y < height + tile.height; y += tile.height) {
+      context.drawImage(image, x, y, tile.width, tile.height)
+    }
+  }
   context.restore()
+}
+
+function drawMotionWake(
+  context: CanvasRenderingContext2D,
+  entity: EntityState,
+  x: number,
+  y: number,
+  radius: number,
+  quality: RenderQuality,
+) {
+  const speed = Math.hypot(entity.velocity.x, entity.velocity.y)
+  if (speed < 8 || entity.role === 'nutrient' || entity.role === 'fragment') return
+  const direction = { x: entity.velocity.x / speed, y: entity.velocity.y / speed }
+  const length = Math.min(radius * 3.6, speed * 0.72)
+  const palette = cellVisualProfile(entity).palette
+  const trails = quality === 'high' ? 4 : quality === 'balanced' ? 3 : 1
+  context.save()
+  context.lineCap = 'round'
+  context.globalCompositeOperation = 'screen'
+  for (let index = 0; index < trails; index += 1) {
+    const side = (index - (trails - 1) / 2) * radius * 0.28
+    const perpendicular = { x: -direction.y * side, y: direction.x * side }
+    const start = { x: x + perpendicular.x - direction.x * radius * 0.72, y: y + perpendicular.y - direction.y * radius * 0.72 }
+    const end = { x: start.x - direction.x * length, y: start.y - direction.y * length }
+    const gradient = context.createLinearGradient(start.x, start.y, end.x, end.y)
+    gradient.addColorStop(0, hexWithAlpha(palette.glow, 0.5))
+    gradient.addColorStop(1, hexWithAlpha(palette.glow, 0))
+    context.strokeStyle = gradient
+    context.lineWidth = Math.max(1, radius * (0.08 - index * 0.008))
+    context.beginPath()
+    context.moveTo(start.x, start.y)
+    context.quadraticCurveTo(
+      (start.x + end.x) / 2 - direction.y * Math.sin(index + speed) * radius * 0.18,
+      (start.y + end.y) / 2 + direction.x * Math.sin(index + speed) * radius * 0.18,
+      end.x,
+      end.y,
+    )
+    context.stroke()
+  }
+  context.restore()
+}
+
+function hexWithAlpha(color: string, alpha: number): string {
+  if (!/^#[\da-f]{6}$/i.test(color)) return color
+  return `rgb(${Number.parseInt(color.slice(1, 3), 16)} ${Number.parseInt(color.slice(3, 5), 16)} ${Number.parseInt(color.slice(5, 7), 16)} / ${alpha})`
 }
 
 function drawAssetLayer(context: CanvasRenderingContext2D, image: HTMLImageElement | undefined, x: number, y: number, size: number, opacity: number) {

@@ -15,6 +15,7 @@ export function drawLiquidField(
   width: number,
   height: number,
   elapsedMs: number,
+  camera: { x: number; y: number } = { x: 0, y: 0 },
 ): void {
   const field = context.createRadialGradient(width * 0.48, height * 0.42, 0, width * 0.5, height * 0.5, height * 0.72)
   field.addColorStop(0, '#073d66')
@@ -27,8 +28,9 @@ export function drawLiquidField(
   context.globalAlpha = 0.1
   context.strokeStyle = '#72f5ff'
   context.lineWidth = 1
-  const drift = elapsedMs / 110
-  for (let y = -80; y < height + 80; y += 92) {
+  const drift = elapsedMs / 110 - camera.x * 0.28
+  const verticalOffset = ((-camera.y * 0.2) % 92 + 92) % 92
+  for (let y = -172 + verticalOffset; y < height + 92; y += 92) {
     context.beginPath()
     for (let x = -40; x <= width + 40; x += 28) {
       const waveY = y + Math.sin((x + drift) / 90) * 12
@@ -100,6 +102,7 @@ export function drawAmbientParticles(
   height: number,
   elapsedMs: number,
   quality: RenderQuality,
+  camera: { x: number; y: number } = { x: 0, y: 0 },
 ): void {
   if (quality === 'low') return
   const count = quality === 'high' ? particles.length : Math.ceil(particles.length * 0.48)
@@ -107,8 +110,8 @@ export function drawAmbientParticles(
   context.save()
   for (let index = 0; index < count; index += 1) {
     const particle = particles[index]
-    const x = (particle.x * width + Math.sin(elapsedMs / 1700 + particle.phase) * 18 + width) % width
-    const y = (particle.y * height + elapsedMs * 0.005 * (0.6 + particle.radius) + height) % height
+    const depth = 0.18 + (index % 4) * 0.055
+    const { x, y } = ambientParticlePosition(particle, width, height, elapsedMs, camera, depth)
     context.globalAlpha = 0.1 + Math.sin(elapsedMs / 900 + particle.phase) * 0.04
     context.fillStyle = '#92f8ff'
     context.beginPath()
@@ -116,4 +119,20 @@ export function drawAmbientParticles(
     context.fill()
   }
   context.restore()
+}
+
+export function ambientParticlePosition(
+  particle: AmbientParticle,
+  width: number,
+  height: number,
+  elapsedMs: number,
+  camera: { x: number; y: number },
+  parallax: number,
+): { x: number; y: number } {
+  const rawX = particle.x * width + Math.sin(elapsedMs / 1700 + particle.phase) * 18 - camera.x * parallax
+  const rawY = particle.y * height + elapsedMs * 0.005 * (0.6 + particle.radius) - camera.y * parallax
+  return {
+    x: ((rawX % width) + width) % width,
+    y: ((rawY % height) + height) % height,
+  }
 }

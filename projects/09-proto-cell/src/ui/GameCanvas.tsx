@@ -30,6 +30,7 @@ export function GameCanvas({
   onCanvasError?: () => void
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const rendererRef = useRef<ReturnType<typeof createCanvasRenderer> | null>(null)
   const activePointerId = useRef<number | null>(null)
   const onEventsRef = useRef(onEvents)
   const onCanvasErrorRef = useRef(onCanvasError)
@@ -48,6 +49,7 @@ export function GameCanvas({
         reducedMotion: settings.reducedMotion,
         reducedFlash: settings.reducedFlash,
       })
+      rendererRef.current = renderer
     } catch {
       onCanvasErrorRef.current?.()
       return
@@ -104,11 +106,14 @@ export function GameCanvas({
       canvas.removeEventListener('contextlost', handleContextLost)
       clearMovement()
       renderer.destroy()
+      if (rendererRef.current === renderer) rendererRef.current = null
     }
   }, [engine, settings.graphics, settings.lowParticles, settings.reducedFlash, settings.reducedMotion])
 
   const playerScreenPosition = () => {
     const rect = canvasRef.current?.getBoundingClientRect()
+    const rendered = rendererRef.current?.playerScreenPosition()
+    if (rect && rendered) return { x: rect.left + rendered.x, y: rect.top + rendered.y }
     return rect
       ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
       : { x: 0, y: 0 }

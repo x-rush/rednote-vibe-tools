@@ -34,6 +34,10 @@ export function entity(id: string, radius: number, position: Vec2 = { x: 0, y: 0
   }
 }
 
+export function entityAt(id: string, x: number, y: number): EntityState {
+  return entity(id, 5, { x, y })
+}
+
 export function testInteractionContext(overrides: Partial<InteractionContext> = {}): InteractionContext {
   return {
     atMs: 100,

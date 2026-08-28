@@ -16,5 +16,78 @@
       "prototypeCell": "一枚正在脉动的原生细胞",
       "openingRegion": "初生水滴"
     }
+  },
+  "m0": {
+    "environments": [
+      {
+        "id": "env-clear-drop",
+        "width": 1600,
+        "height": 2400,
+        "entityDefinitions": [
+          {
+            "id": "nutrient-clear-speck",
+            "role": "nutrient",
+            "faction": "neutral",
+            "radius": 3,
+            "mass": 3,
+            "membrane": 1,
+            "energy": 4,
+            "maxSpeed": 0,
+            "visualRecipeId": "visual-nutrient-clear"
+          },
+          {
+            "id": "prey-drifter",
+            "role": "prey",
+            "faction": "neutral",
+            "radius": 6,
+            "mass": 30,
+            "membrane": 8,
+            "energy": 20,
+            "maxSpeed": 58,
+            "visualRecipeId": "visual-prey-drifter"
+          },
+          {
+            "id": "competitor-spark",
+            "role": "competitor",
+            "faction": "neutral",
+            "radius": 9,
+            "mass": 68,
+            "membrane": 14,
+            "energy": 28,
+            "maxSpeed": 66,
+            "visualRecipeId": "visual-competitor-spark"
+          },
+          {
+            "id": "scavenger-vesicle",
+            "role": "scavenger",
+            "faction": "neutral",
+            "radius": 11,
+            "mass": 92,
+            "membrane": 18,
+            "energy": 30,
+            "maxSpeed": 48,
+            "visualRecipeId": "visual-scavenger-vesicle"
+          },
+          {
+            "id": "predator-azure-ring",
+            "role": "predator",
+            "faction": "hostile",
+            "radius": 22,
+            "mass": 380,
+            "membrane": 70,
+            "energy": 80,
+            "maxSpeed": 54,
+            "visualRecipeId": "visual-predator-azure-ring"
+          }
+        ],
+        "spawnSchedule": [
+          { "atMs": 0, "definitionId": "nutrient-clear-speck", "count": 42 },
+          { "atMs": 0, "definitionId": "prey-drifter", "count": 14 },
+          { "atMs": 15000, "definitionId": "competitor-spark", "count": 6 },
+          { "atMs": 30000, "definitionId": "scavenger-vesicle", "count": 4 },
+          { "atMs": 45000, "definitionId": "predator-azure-ring", "count": 2 }
+        ]
+      }
+    ]
   }
 }

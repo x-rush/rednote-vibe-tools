@@ -14,7 +14,13 @@ export function length(vector: Vec2): number {
 
 export function normalize(vector: Vec2): Vec2 {
   const magnitude = length(vector)
-  return magnitude === 0 ? { x: 0, y: 0 } : scale(vector, 1 / magnitude)
+  if (magnitude === 0) return { x: 0, y: 0 }
+
+  const normalized = scale(vector, 1 / magnitude)
+  return {
+    x: normalized.x === 0 ? 0 : normalized.x,
+    y: normalized.y === 0 ? 0 : normalized.y,
+  }
 }
 
 export function lerp(from: Vec2, to: Vec2, amount: number): Vec2 {

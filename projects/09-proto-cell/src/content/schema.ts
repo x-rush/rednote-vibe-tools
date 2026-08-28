@@ -37,11 +37,17 @@ export type EntityDefinitionContent = {
   contactDamage?: ContactDamageContent
 }
 
+export type PlayerDefinitionContent = EntityDefinitionContent & {
+  stability: number
+  evolutionThreshold: number
+  evolutionThresholdGrowth: number
+}
+
 export type M0EnvironmentContent = {
   id: EnvironmentId
   width: number
   height: number
-  playerDefinition: EntityDefinitionContent & { stability: number; evolutionThreshold: number; evolutionThresholdGrowth: number }
+  playerDefinition: PlayerDefinitionContent
   entityDefinitions: EntityDefinitionContent[]
   spawnSchedule: Array<{ atMs: number; definitionId: string; count: number }>
 }
@@ -90,6 +96,7 @@ export type SynergyDefinition = {
   id: SynergyId
   name: string
   requires: OrganelleId[]
+  augments?: Array<{ organId: OrganelleId; effect: string }>
   excludes?: OrganelleId[]
   behaviorId: string
   revealRule: 'on-trigger' | 'on-install'
@@ -139,6 +146,7 @@ export type BossDefinition = {
     outerMembrane: number
     coreIntegrity: number
     hazardHoldMs: number
+    parasiteHoldMs: number
     stealthLockMax: number
     environmentHazardIds: string[]
     ramOuterDamage: number
@@ -224,7 +232,7 @@ export type ContentPack = {
   visualRecipes: VisualRecipeDefinition[]
   spawnTables: SpawnTableDefinition[]
   geneNodes: GeneNodeDefinition[]
-  m0: { environments: M0EnvironmentContent[] }
+  m0: { playerDefinitions: PlayerDefinitionContent[]; environments: M0EnvironmentContent[] }
   m1: {
     sliceTargetMs: [number, number]
     eventSchedule: Array<{ eventId: EventId; atMs: number }>

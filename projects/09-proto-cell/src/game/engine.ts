@@ -1,5 +1,5 @@
 import content from '../content/content.json'
-import type { BossId, EventId } from '../content'
+import type { AnchorSlot, BossId, BossResolutionPath, EventId, OrganelleId, OriginId } from '../content'
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideIntent } from '../entities/ai'
 import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
@@ -93,16 +93,21 @@ export const CONTACT_DAMAGE_ARM_MS = 420
 export function createGameEngine(options: {
   seed: number
   environmentId?: string
+  originId?: OriginId
   input?: PointerInput
   initialElapsedMs?: number
 }): ProtoCellEngine {
   const environmentId = options.environmentId ?? 'env-clear-drop'
   const environment = getEnvironment(environmentId)
+  const originId = options.originId ?? 'origin-primal-cell'
+  const origin = content.origins.find((item) => item.id === originId)
+  if (!origin) throw new RangeError(`Unknown origin id: ${originId}`)
+  const playerDefinition = getPlayerDefinition(originId, environment)
 
   const region = generateRegion(options.seed, environmentId)
   const scheduleAt = new Map(region.spawnSchedule.map((entry) => [entry.entityId, entry.atMs]))
   const regionById = new Map(region.entities.map((entity) => [entity.id, entity]))
-  const player = createEntity(environment.playerDefinition, {
+  const player = createEntity(playerDefinition, {
     id: PLAYER_ID,
     position: { x: environment.width / 2, y: environment.height / 2 },
   })
@@ -121,9 +126,13 @@ export function createGameEngine(options: {
   let started = false
   let destroyed = false
   let mutationPending = false
-  let evolutionThreshold = environment.playerDefinition.evolutionThreshold
-  let playerStability = environment.playerDefinition.stability
-  let installedOrganelles: InstalledOrganelle[] = []
+  let evolutionThreshold = playerDefinition.evolutionThreshold
+  let playerStability = playerDefinition.stability
+  let installedOrganelles: InstalledOrganelle[] = origin.initialOrganelleIds.map((id) => {
+    const definition = content.organelles.find((item) => item.id === id)
+    if (!definition) throw new RangeError(`Unknown initial organ id: ${id}`)
+    return { id: id as OrganelleId, stage: 'installed', anchor: definition.slots[0] as AnchorSlot }
+  })
   let organCapacity = 6
   const organReadyAt = new Map<string, number>()
   const organEventReadyAt = new Map<string, number>()
@@ -145,8 +154,8 @@ export function createGameEngine(options: {
     bodyCount: 1,
     totalMass: player.mass,
     radius: player.body.radius,
-    stability: environment.playerDefinition.stability,
-    organelles: [],
+    stability: playerDefinition.stability,
+    organelles: installedOrganelles.map((organ) => ({ ...organ })),
   }
 
   spawnDue(elapsedMs)
@@ -215,7 +224,7 @@ export function createGameEngine(options: {
         }))
       }
       organCapacity = result.capacity
-      evolutionThreshold = Math.ceil(evolutionThreshold * environment.playerDefinition.evolutionThresholdGrowth)
+      evolutionThreshold = Math.ceil(evolutionThreshold * playerDefinition.evolutionThresholdGrowth)
       mutationPending = false
       captureLiveMorphology()
     },
@@ -388,13 +397,18 @@ export function createGameEngine(options: {
     if (!bossResolutionEmitted) {
       events.push({ type: 'boss-resolved', bossId: bossState.id, path: bossState.resolutionCandidate, atMs: elapsedMs })
       const definition = content.bosses.find((item) => item.id === bossState?.id)
-      const terminalEvent = bossTerminalEvent(definition?.rewardIds ?? [], playerStability, elapsedMs)
-      if (terminalEvent.type === 'player-died') {
-        terminatePlayerEntities(entities)
-        activeSwarm = undefined
+      const terminalEvent = bossTerminalEvent(definition?.rewardIds ?? [], playerStability, elapsedMs, {
+        path: bossState.resolutionCandidate,
+        bodyCount: activeSwarm?.filter((body) => body.status === 'active').length ?? 1,
+      })
+      if (terminalEvent) {
+        if (terminalEvent.type === 'player-died') {
+          terminatePlayerEntities(entities)
+          activeSwarm = undefined
+        }
+        events.push(terminalEvent)
+        terminalReached = true
       }
-      events.push(terminalEvent)
-      terminalReached = true
       bossResolutionEmitted = true
     }
   }
@@ -515,7 +529,7 @@ export function createGameEngine(options: {
       speedRatio: Math.hypot(currentPlayer.velocity.x, currentPlayer.velocity.y) / Math.max(1, maxSpeed),
       sameDirectionMs: overrides.sameDirectionMs ?? sameDirectionMs,
       msSinceDamage: elapsedMs - lastDamageAt,
-      membraneMax: environment.playerDefinition.membrane,
+      membraneMax: playerDefinition.membrane,
       collisionStrength: overrides.collisionStrength ?? 0,
       incomingFatalDamage: overrides.incomingFatalDamage ?? incomingDamage >= currentPlayer.membrane,
       incomingDamage,
@@ -547,7 +561,7 @@ export function createGameEngine(options: {
       if (effect.effect === 'repair') {
         entities.set(effect.entityId, {
           ...currentPlayer,
-          membrane: Math.min(environment.playerDefinition.membrane, currentPlayer.membrane + (effect.amount ?? 0)),
+          membrane: Math.min(playerDefinition.membrane, currentPlayer.membrane + (effect.amount ?? 0)),
           energy: Math.max(0, currentPlayer.energy - (effect.energyCost ?? 0)),
         })
       }
@@ -857,19 +871,26 @@ export function neutralizeResolvedBoss(entity: EntityState, state: BossState): E
   return { ...entity, velocity: { x: 0, y: 0 }, status: 'engulfed' }
 }
 
-export function endingForBossRewards(rewardIds: readonly string[], stability: number): string | undefined {
-  const ending = content.endings.find((item) => rewardIds.includes(item.id))
-  if (!ending) return undefined
-  if (ending.conditionId === 'boss-resolved-and-stable' && stability < (ending.minimumStability ?? Infinity)) return undefined
-  return ending.id
+export function endingForBossRewards(
+  rewardIds: readonly string[],
+  stability: number,
+  context: { path?: BossResolutionPath; bodyCount?: number } = {},
+): string | undefined {
+  if (context.path === 'parasite' && rewardIds.includes('ending-host-takeover')) return 'ending-host-takeover'
+  if ((context.bodyCount ?? 1) > 1 && rewardIds.includes('ending-swarm-mind')) return 'ending-swarm-mind'
+  const stable = content.endings.find((item) => item.id === 'ending-stable-species' && rewardIds.includes(item.id))
+  return stable && stability >= (stable.minimumStability ?? Infinity) ? stable.id : undefined
 }
 
 export function bossTerminalEvent(
   rewardIds: readonly string[],
   stability: number,
   atMs: number,
-): Extract<GameEvent, { type: 'ending-reached' | 'player-died' }> {
-  const endingId = endingForBossRewards(rewardIds, stability)
+  context?: { path?: BossResolutionPath; bodyCount?: number },
+): Extract<GameEvent, { type: 'ending-reached' | 'player-died' }> | undefined {
+  const hasEndingReward = content.endings.some((ending) => rewardIds.includes(ending.id))
+  if (!hasEndingReward) return undefined
+  const endingId = endingForBossRewards(rewardIds, stability, context)
   return endingId
     ? { type: 'ending-reached', endingId, atMs }
     : { type: 'player-died', cause: 'organelle-instability', atMs }
@@ -956,6 +977,13 @@ function getEnvironment(environmentId: string): EngineEnvironment {
   const environment = (content.m0.environments as EngineEnvironment[]).find((item) => item.id === environmentId)
   if (!environment) throw new RangeError(`Unknown environment id: ${environmentId}`)
   return environment
+}
+
+function getPlayerDefinition(originId: string, environment: EngineEnvironment): PlayerDefinition {
+  if (environment.playerDefinition.id === originId) return environment.playerDefinition
+  const definition = (content.m0.playerDefinitions as PlayerDefinition[]).find((item) => item.id === originId)
+  if (!definition) throw new RangeError(`Unknown player definition id: ${originId}`)
+  return definition
 }
 
 function moveEntity(entity: EntityState, position: Vec2, velocity: Vec2): EntityState {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mutationContext } from '../tests/fixtures'
-import { continueMutationContext, installMutation, offerMutations } from './mutation'
+import { activeSynergyAugments, continueMutationContext, installMutation, offerMutations } from './mutation'
 
 describe('constrained mutation offers', () => {
   it('offers continuation, adaptation, and risk lanes', () => {
@@ -110,5 +110,17 @@ describe('constrained mutation offers', () => {
 
     expect(guard?.action).toBe('mature')
     expect(installMutation(context, guard!).installed).toMatchObject({ stage: 'mature', charges: 2 })
+  })
+
+  it('offers and activates an optional positive synergy augment without changing its frozen core', () => {
+    const context = mutationContext({
+      organIds: ['organelle-transparent-membrane', 'organelle-lure-symbiont'],
+      matureOrganIds: ['organelle-transparent-membrane', 'organelle-lure-symbiont'],
+    })
+    const eyeSpot = offerMutations(context).find((choice) => choice.organId === 'organelle-eye-spot')
+
+    expect(eyeSpot?.augmentedSynergyIds).toContain('synergy-invisible-lure')
+    expect(activeSynergyAugments(['organelle-transparent-membrane', 'organelle-lure-symbiont'])).toEqual([])
+    expect(activeSynergyAugments(['organelle-transparent-membrane', 'organelle-lure-symbiont', 'organelle-eye-spot'])).toContain('synergy-invisible-lure')
   })
 })

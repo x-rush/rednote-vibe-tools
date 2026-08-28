@@ -55,4 +55,11 @@ describe('membrane queen validation boss', () => {
     expect(escaped.peakLockRatio).toBe(0.9)
     expect(resolveBossPath(escaped)).toEqual({ complete: false })
   })
+
+  it('resolves the abandoned host by maintaining a passive parasite attachment', () => {
+    const active = { ...createBoss('boss-abandoned-host', { seed: 727, atMs: 0 }), phase: 'exposed' as const, outerMembrane: 0 }
+    const resolved = stepBoss(active, { atMs: 5000, parasiteAttachedMs: 3000 })
+
+    expect(resolveBossPath(resolved)).toEqual({ complete: true, path: 'parasite' })
+  })
 })

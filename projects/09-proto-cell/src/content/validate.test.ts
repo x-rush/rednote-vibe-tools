@@ -145,4 +145,29 @@ describe('content integrity validation', () => {
 
     expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.endings[0].minimumStability')
   })
+
+  it('rejects an organ with no synergy and an environment using another region spawn table', () => {
+    const pack = contentFixture()
+    const orphanId = pack.organelles[0].id
+    for (const synergy of pack.synergies) {
+      synergy.requires = synergy.requires.filter((id) => id !== orphanId)
+      synergy.augments = synergy.augments?.filter((augment) => augment.organId !== orphanId)
+      synergy.excludes = synergy.excludes?.filter((id) => id !== orphanId)
+    }
+    pack.environments[0].spawnTableId = 'spawn-algae-glow'
+    pack.spawnTables[1].entries[0].creatureId = 'creature-vesicle-scavenger'
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.organelles[0]',
+      '$.environments[0].spawnTableId',
+      '$.spawnTables[1].entries[0].creatureId',
+    ]))
+  })
+
+  it('rejects a creature warning that names only a color', () => {
+    const pack = contentFixture()
+    pack.creatures[0].warningCueId = 'cue-red'
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.creatures[0].warningCueId')
+  })
 })

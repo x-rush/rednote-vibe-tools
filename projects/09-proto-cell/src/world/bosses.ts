@@ -1,6 +1,6 @@
 import { getContent, type BossId, type BossResolutionPath } from '../content'
 
-export type BossPath = Exclude<BossResolutionPath, 'parasite'>
+export type BossPath = BossResolutionPath
 export type BossPhaseId = 'dormant' | 'feeding' | 'exposed' | 'enraged' | 'resolved'
 
 export type BossState = {
@@ -14,6 +14,7 @@ export type BossState = {
   coreIntegrity: number
   coreIntegrityMax: number
   hazardOverlapMs: number
+  parasiteAttachedMs: number
   validationHazardId?: string
   territoryCrossed: boolean
   playerEscaped: boolean
@@ -28,6 +29,7 @@ export type BossStepInput = {
   coreDamage?: number
   hazardOverlapMs?: number
   hazardId?: string
+  parasiteAttachedMs?: number
   territoryCrossed?: boolean
   playerEscaped?: boolean
   lockRatio?: number
@@ -47,6 +49,7 @@ export function createBoss(bossId: BossId, context: { seed: number; atMs: number
     coreIntegrity: boss.rules.coreIntegrity,
     coreIntegrityMax: boss.rules.coreIntegrity,
     hazardOverlapMs: 0,
+    parasiteAttachedMs: 0,
     territoryCrossed: false,
     playerEscaped: false,
     lockRatio: 0,
@@ -70,6 +73,9 @@ export function stepBoss(state: BossState, input: BossStepInput): BossState {
       : validHazard
       ? state.hazardOverlapMs + Math.max(0, input.hazardOverlapMs ?? 0)
       : 0,
+    parasiteAttachedMs: input.parasiteAttachedMs === undefined
+      ? state.parasiteAttachedMs
+      : Math.max(0, input.parasiteAttachedMs),
     validationHazardId: !hazardWasSampled ? state.validationHazardId : validHazard ? input.hazardId : undefined,
     territoryCrossed: state.territoryCrossed || Boolean(input.territoryCrossed),
     playerEscaped: state.playerEscaped || Boolean(input.playerEscaped),
@@ -85,9 +91,14 @@ export function stepBoss(state: BossState, input: BossStepInput): BossState {
   const environmentComplete = next.hazardOverlapMs >= definition.rules.hazardHoldMs && next.phase !== 'dormant'
   const stealthComplete = next.phase !== 'dormant' && next.territoryCrossed && next.playerEscaped && next.peakLockRatio <= definition.rules.stealthLockMax
   const combatComplete = next.outerMembrane === 0 && next.coreIntegrity === 0
+  const parasiteComplete = definition.resolutionPaths.includes('parasite')
+    && (next.phase === 'exposed' || next.phase === 'enraged')
+    && next.outerMembrane === 0
+    && next.parasiteAttachedMs >= definition.rules.parasiteHoldMs
   if (combatComplete && state.phase === 'enraged') return { ...next, phase: 'resolved', resolutionCandidate: 'combat' }
   if (combatComplete) return { ...next, phase: 'enraged' }
   if (environmentComplete) return { ...next, phase: 'resolved', resolutionCandidate: 'environment' }
+  if (parasiteComplete) return { ...next, phase: 'resolved', resolutionCandidate: 'parasite' }
   if (stealthComplete) return { ...next, phase: 'resolved', resolutionCandidate: 'stealth' }
   return next
 }
@@ -100,7 +111,9 @@ export function resolveBossPath(state: BossState): { complete: boolean; path?: B
     ? state.outerMembrane === 0 && state.coreIntegrity === 0
     : path === 'environment'
       ? state.hazardOverlapMs >= definition.rules.hazardHoldMs && definition.rules.environmentHazardIds.includes(state.validationHazardId ?? '')
-      : state.territoryCrossed && state.playerEscaped && state.peakLockRatio <= definition.rules.stealthLockMax
+      : path === 'parasite'
+        ? state.outerMembrane === 0 && state.parasiteAttachedMs >= definition.rules.parasiteHoldMs
+        : state.territoryCrossed && state.playerEscaped && state.peakLockRatio <= definition.rules.stealthLockMax
   return complete ? { complete: true, path } : { complete: false }
 }
 

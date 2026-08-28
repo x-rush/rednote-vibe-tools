@@ -13,6 +13,7 @@ export type MutationChoice = {
   resultingStability: number
   previewAnchor: AnchorSlot
   revealedSynergyIds: SynergyId[]
+  augmentedSynergyIds: SynergyId[]
   visualMutationId: string
 }
 
@@ -31,6 +32,7 @@ export type MutationInstallResult = {
   stability: number
   capacity: number
   synergyIds: SynergyId[]
+  augmentedSynergyIds?: SynergyId[]
 }
 
 export function createMutationContext(environmentId: EnvironmentId): MutationContext {
@@ -68,8 +70,8 @@ export function offerMutations(context: MutationContext): MutationChoice[] {
 
   const immatureInstalled = context.organIds.map((id) => byId.get(id)).find((definition) => definition && !mature.has(definition.id))
   const synergyCompleters = content.synergies
-    .filter((synergy) => synergy.requires.some((id) => installed.has(id)))
-    .flatMap((synergy) => synergy.requires)
+    .filter((synergy) => synergy.requires.some((id) => installed.has(id)) || synergy.requires.every((id) => installed.has(id)))
+    .flatMap((synergy) => [...synergy.requires, ...(synergy.augments ?? []).map((augment) => augment.organId)])
     .map((id) => byId.get(id))
     .filter((definition): definition is OrganelleDefinition => Boolean(definition) && !installed.has(definition!.id))
 
@@ -120,6 +122,7 @@ export function installMutation(context: MutationContext, choice: MutationChoice
     stability: choice.resultingStability,
     capacity: context.capacity + (choice.action === 'expand' ? 1 : 0),
     synergyIds: activeSynergies(organelles.map((organ) => organ.id)),
+    augmentedSynergyIds: activeSynergyAugments(organelles.map((organ) => organ.id)),
   }
 }
 
@@ -155,6 +158,7 @@ function toChoice(definition: OrganelleDefinition, lane: MutationLane, context: 
       ? context.installed.find((organ) => organ.id === definition.id)?.anchor ?? definition.slots[0]
       : chooseAnchor(definition.slots, context.installed.filter((organ) => organ.id !== replacedOrganId)),
     revealedSynergyIds: activeSynergies(resultingIds),
+    augmentedSynergyIds: activeSynergyAugments(resultingIds, definition.id),
     visualMutationId: definition.visualMutationId,
   }
 }
@@ -168,5 +172,15 @@ function activeSynergies(organIds: OrganelleId[]): SynergyId[] {
   const installed = new Set(organIds)
   return getContent().synergies
     .filter((synergy) => synergy.requires.every((id) => installed.has(id)))
+    .map((synergy) => synergy.id)
+}
+
+export function activeSynergyAugments(organIds: OrganelleId[], selectedAugmentId?: OrganelleId): SynergyId[] {
+  const installed = new Set(organIds)
+  return getContent().synergies
+    .filter((synergy) => (
+      synergy.requires.every((id) => installed.has(id))
+      && (synergy.augments ?? []).some((augment) => installed.has(augment.organId) && (!selectedAugmentId || augment.organId === selectedAugmentId))
+    ))
     .map((synergy) => synergy.id)
 }

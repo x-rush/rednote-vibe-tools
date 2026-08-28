@@ -5,6 +5,16 @@ import { bossTerminalEvent, contactDamageAt, contactDamageForPair, createGameEng
 import { installMutation, offerMutations } from '../evolution/mutation'
 
 describe('game engine lifecycle', () => {
+  it('uses the selected launch origin definition and its initial passive organ', () => {
+    const ciliate = createGameEngine({ seed: 727, environmentId: 'env-clear-drop', originId: 'origin-ciliate-seed' })
+    const armored = createGameEngine({ seed: 727, environmentId: 'env-clear-drop', originId: 'origin-armored-spore' })
+
+    expect(ciliate.snapshot().biomass).toBe(132)
+    expect(ciliate.evolutionSnapshot().organelles).toContainEqual(expect.objectContaining({ id: 'organelle-cilia-ring' }))
+    expect(armored.snapshot().biomass).toBe(156)
+    expect(armored.evolutionSnapshot().organelles).toContainEqual(expect.objectContaining({ id: 'organelle-shell-plate' }))
+  })
+
   it('does not advance while paused', () => {
     const engine = createTestEngine()
     engine.pause('visibility')
@@ -148,7 +158,7 @@ describe('game engine lifecycle', () => {
     })
   })
 
-  it('keeps a ram-resolved boss inactive after the same interaction pass', () => {
+  it('keeps a ram-resolved mid-run boss inactive while the run continues', () => {
     const engine = createGameEngine({ seed: 727, initialElapsedMs: 244_300 })
     engine.start()
     const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
@@ -186,21 +196,22 @@ describe('game engine lifecycle', () => {
 
     expect(engine.worldSnapshot().boss).toMatchObject({ phase: 'resolved', resolutionCandidate: 'combat' })
     expect(engine.renderSnapshot().entities.some((entity) => entity.id === state.id)).toBe(false)
-    expect(engine.drainEvents()).toEqual(expect.arrayContaining([
-      expect.objectContaining({ type: 'boss-resolved', path: 'combat' }),
-      expect.objectContaining({ type: 'ending-reached', endingId: 'ending-stable-species' }),
-    ]))
-    const terminalElapsed = engine.snapshot().elapsedMs
-    const terminalMorphology = engine.morphologySnapshot()
+    const resolutionEvents = engine.drainEvents()
+    expect(resolutionEvents).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'boss-resolved', path: 'combat' })]))
+    expect(resolutionEvents.some((event) => event.type === 'ending-reached' || event.type === 'player-died')).toBe(false)
+    const resolvedElapsed = engine.snapshot().elapsedMs
     engine.advance(500)
-    expect(engine.snapshot().elapsedMs).toBe(terminalElapsed)
-    expect(engine.morphologySnapshot()).toEqual(terminalMorphology)
-    expect(engine.drainEvents()).toEqual([])
+    expect(engine.snapshot().elapsedMs).toBeGreaterThan(resolvedElapsed)
+    expect(engine.renderSnapshot().entities.some((entity) => entity.id === state.id)).toBe(false)
   })
 
   it('does not award the stable-species ending below its content threshold', () => {
+    expect(bossTerminalEvent(['gene-origin-primal'], 100, 5000)).toBeUndefined()
     expect(endingForBossRewards(['ending-stable-species'], 69)).toBeUndefined()
     expect(endingForBossRewards(['ending-stable-species'], 70)).toBe('ending-stable-species')
+    const finalRewards = ['ending-stable-species', 'ending-swarm-mind', 'ending-host-takeover']
+    expect(endingForBossRewards(finalRewards, 100, { path: 'parasite', bodyCount: 1 })).toBe('ending-host-takeover')
+    expect(endingForBossRewards(finalRewards, 100, { path: 'combat', bodyCount: 2 })).toBe('ending-swarm-mind')
     expect(bossTerminalEvent(['ending-stable-species'], 69, 5000)).toEqual({
       type: 'player-died',
       cause: 'organelle-instability',

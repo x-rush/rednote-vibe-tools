@@ -36,7 +36,17 @@ const FROZEN_ORGAN_CATEGORIES: Record<string, string> = {
   'organelle-guard-symbiont': 'symbiosis',
 }
 const FROZEN_SYNERGY_REQUIREMENTS: Record<string, string[]> = {
+  'synergy-radar-grid': ['organelle-echo-sac', 'organelle-electric-sac'],
+  'synergy-invisible-lure': ['organelle-transparent-membrane', 'organelle-lure-symbiont'],
   'synergy-ram-jet': ['organelle-jet-vacuole', 'organelle-shell-plate'],
+  'synergy-acid-feeder': ['organelle-acid-gland', 'organelle-wide-mouth'],
+  'synergy-parasite-anchor': ['organelle-needle-mouth', 'organelle-mucus-coat'],
+  'synergy-solar-filter': ['organelle-photosome', 'organelle-filter-gill'],
+  'synergy-spore-cloud': ['organelle-bud-sac', 'organelle-toxin-spine'],
+  'synergy-echo-swarm': ['organelle-division-ring', 'organelle-echo-sac'],
+  'synergy-repair-shell': ['organelle-repair-vacuole', 'organelle-shell-plate'],
+  'synergy-clean-acid': ['organelle-cleaner-symbiont', 'organelle-acid-gland'],
+  'synergy-ghost-cilia': ['organelle-transparent-membrane', 'organelle-cilia-ring'],
   'synergy-guardian-division': ['organelle-division-ring', 'organelle-guard-symbiont'],
 }
 
@@ -79,11 +89,19 @@ export function validateContent(input: unknown): ContentValidationResult {
   const organelleIds = idsOf(collections, 'organelles')
   const synergyIds = idsOf(collections, 'synergies')
   const creatureIds = idsOf(collections, 'creatures')
+  const creatureEnvironmentIdsById = new Map((collections.get('creatures') ?? []).flatMap((item) => (
+    typeof item.id === 'string' && Array.isArray(item.environmentIds)
+      ? [[item.id, new Set(item.environmentIds.filter((id): id is string => typeof id === 'string'))] as const]
+      : []
+  )))
   const eventIds = idsOf(collections, 'events')
   const bossIds = idsOf(collections, 'bosses')
   const modifierIds = idsOf(collections, 'modifiers')
   const originIds = idsOf(collections, 'origins')
   const spawnTableIds = idsOf(collections, 'spawnTables')
+  const spawnTableEnvironmentById = new Map((collections.get('spawnTables') ?? []).flatMap((item) => (
+    typeof item.id === 'string' && typeof item.environmentId === 'string' ? [[item.id, item.environmentId] as const] : []
+  )))
   const geneIds = idsOf(collections, 'geneNodes')
   const unlockableIds = new Set([...environmentIds, ...organelleIds, ...synergyIds, ...originIds, ...modifierIds])
 
@@ -91,18 +109,23 @@ export function validateContent(input: unknown): ContentValidationResult {
   validateNutrients(collections.get('nutrients') ?? [], visualsByKind.cell)
   validateOrganelles(collections.get('organelles') ?? [], organelleIds, environmentIds, visualsByKind.organelle)
   validateSynergies(collections.get('synergies') ?? [], organelleIds, visualsByKind.synergy)
+  const synergyOrganelleIds = new Set((collections.get('synergies') ?? []).flatMap((item) => [
+    ...(Array.isArray(item.requires) ? item.requires.filter((id): id is string => typeof id === 'string') : []),
+    ...(Array.isArray(item.augments) ? item.augments.flatMap((augment) => isRecord(augment) && typeof augment.organId === 'string' ? [augment.organId] : []) : []),
+  ]))
+  ;(collections.get('organelles') ?? []).forEach((item, index) => require(typeof item.id === 'string' && synergyOrganelleIds.has(item.id), `$.organelles[${index}]`, 'organelle must participate in a synergy'))
   validateCreatures(collections.get('creatures') ?? [], environmentIds, visualsByKind.cell)
   validateEvents(collections.get('events') ?? [], environmentIds)
   validateBosses(collections.get('bosses') ?? [], environmentIds, visualsByKind.boss, globalIds)
   validateOrigins(collections.get('origins') ?? [], organelleIds, visualsByKind.cell)
   validateModifiers(collections.get('modifiers') ?? [], modifierIds)
   validateDeathTemplates(collections.get('deathTemplates') ?? [])
-  validateSpawnTables(collections.get('spawnTables') ?? [], environmentIds, creatureIds)
+  validateSpawnTables(collections.get('spawnTables') ?? [], environmentIds, creatureIds, creatureEnvironmentIdsById)
   validateEndings(collections.get('endings') ?? [])
   validateGeneNodes(collections.get('geneNodes') ?? [], geneIds, unlockableIds)
   const m0Entities = validateM0(input.m0, environmentIds, visualsByKind.cell)
   validateOriginsEntityReferences(collections.get('origins') ?? [], m0Entities.playerIds)
-  validateEnvironments(collections.get('environments') ?? [], spawnTableIds, eventIds, bossIds)
+  validateEnvironments(collections.get('environments') ?? [], spawnTableIds, spawnTableEnvironmentById, eventIds, bossIds)
   validateM1(input.m1, eventIds, environmentIds)
 
   require((collections.get('organelles') ?? []).length >= 6, '$.organelles', 'M1 requires six organs')
@@ -136,7 +159,7 @@ export function validateContent(input: unknown): ContentValidationResult {
     }
     const requiredCopy: Record<string, string[]> = {
       actions: ['start', 'pause', 'resume', 'restart', 'restartAfterLife'],
-      labels: ['prototypeCell', 'openingRegion', 'gameCanvas', 'archiveDishCode', 'archiveEnvironment', 'archivePeakBiomass', 'archiveKeyOrgans', 'archiveSynergies', 'archiveSpeciesSeed', 'archiveNoOrgans', 'archiveCell'],
+      labels: ['prototypeCell', 'openingRegion', 'gameCanvas', 'mutationSynergyAugment', 'archiveDishCode', 'archiveEnvironment', 'archivePeakBiomass', 'archiveKeyOrgans', 'archiveSynergies', 'archiveSpeciesSeed', 'archiveNoOrgans', 'archiveCell'],
       hud: ['membrane', 'energy', 'stability', 'biomass', 'evolution'],
       screens: ['pauseTitle', 'pauseDescription', 'resultTitle', 'resultDescription', 'survival', 'contentErrorTitle', 'contentErrorDescription', 'archiveTitle'],
     }
@@ -146,7 +169,7 @@ export function validateContent(input: unknown): ContentValidationResult {
     }
   }
 
-  function validateEnvironments(items: Record<string, unknown>[], spawnIds: Set<string>, events: Set<string>, bosses: Set<string>) {
+  function validateEnvironments(items: Record<string, unknown>[], spawnIds: Set<string>, spawnEnvironments: Map<string, string>, events: Set<string>, bosses: Set<string>) {
     items.forEach((item, index) => {
       const base = `$.environments[${index}]`
       requiredString(item.name, `${base}.name`)
@@ -156,6 +179,7 @@ export function validateContent(input: unknown): ContentValidationResult {
       finiteRange(item.viscosity, 0, 1, `${base}.viscosity`)
       requireStringArray(item.hazardTags, `${base}.hazardTags`, false)
       reference(item.spawnTableId, spawnIds, `${base}.spawnTableId`, 'spawn table')
+      require(typeof item.id === 'string' && typeof item.spawnTableId === 'string' && spawnEnvironments.get(item.spawnTableId) === item.id, `${base}.spawnTableId`, 'spawn table must belong to this environment')
       references(item.eventIds, events, `${base}.eventIds`, 'event')
       if (item.bossId !== undefined) reference(item.bossId, bosses, `${base}.bossId`, 'boss')
       requireStringArray(item.visualPalette, `${base}.visualPalette`, true)
@@ -199,6 +223,20 @@ export function validateContent(input: unknown): ContentValidationResult {
       requiredString(item.name, `${base}.name`)
       references(item.requires, organs, `${base}.requires`, 'organelle', true)
       require(Array.isArray(item.requires) && item.requires.length >= 2, `${base}.requires`, 'synergy requires two organs')
+      if (item.augments !== undefined) {
+        require(Array.isArray(item.augments) && item.augments.length > 0, `${base}.augments`, 'synergy augments must be a non-empty array')
+        const augmentIds = new Set<string>()
+        if (Array.isArray(item.augments)) item.augments.forEach((augment, augmentIndex) => {
+          const path = `${base}.augments[${augmentIndex}]`
+          if (!isRecord(augment)) issues.push({ path, message: 'synergy augment must be an object' })
+          else {
+            reference(augment.organId, organs, `${path}.organId`, 'organelle')
+            shortCopy(augment.effect, `${path}.effect`, 64)
+            require(typeof augment.organId === 'string' && !augmentIds.has(augment.organId), `${path}.organId`, 'synergy augment organ must be unique')
+            if (typeof augment.organId === 'string') augmentIds.add(augment.organId)
+          }
+        })
+      }
       if (item.excludes !== undefined) references(item.excludes, organs, `${base}.excludes`, 'organelle')
       require(item.revealRule === 'on-trigger' || item.revealRule === 'on-install', `${base}.revealRule`, 'reveal rule is invalid')
       requiredString(item.behaviorId, `${base}.behaviorId`)
@@ -220,6 +258,7 @@ export function validateContent(input: unknown): ContentValidationResult {
       requireStringArray(item.organelleTags, `${base}.organelleTags`, false)
       references(item.environmentIds, environments, `${base}.environmentIds`, 'environment', true)
       requiredString(item.warningCueId, `${base}.warningCueId`)
+      require(typeof item.warningCueId === 'string' && !/^cue-(?:color|red|green|blue|white|orange)(?:-|$)/i.test(item.warningCueId), `${base}.warningCueId`, 'warning cue cannot identify danger by color alone')
       requireStringArray(item.responseTags, `${base}.responseTags`, true)
       require(Array.isArray(item.responseTags) && item.responseTags.length >= 2, `${base}.responseTags`, 'two response tags are required')
       requiredString(item.dropTableId, `${base}.dropTableId`)
@@ -270,7 +309,7 @@ export function validateContent(input: unknown): ContentValidationResult {
       reference(item.visualRecipeId, visuals, `${base}.visualRecipeId`, 'visual recipe')
       if (!isRecord(item.rules)) issues.push({ path: `${base}.rules`, message: 'boss rules are required' })
       else {
-        for (const field of ['telegraphLeadMs', 'outerMembrane', 'coreIntegrity', 'hazardHoldMs', 'ramOuterDamage', 'ramCoreDamage', 'ramCooldownMs']) {
+        for (const field of ['telegraphLeadMs', 'outerMembrane', 'coreIntegrity', 'hazardHoldMs', 'parasiteHoldMs', 'ramOuterDamage', 'ramCoreDamage', 'ramCooldownMs']) {
           require(typeof item.rules[field] === 'number' && Number.isFinite(item.rules[field]) && Number(item.rules[field]) > 0, `${base}.rules.${field}`, 'boss rule must be positive')
         }
         require(typeof item.rules.stealthLockMax === 'number' && item.rules.stealthLockMax >= 0 && item.rules.stealthLockMax <= 1, `${base}.rules.stealthLockMax`, 'stealth lock maximum must be between zero and one')
@@ -380,7 +419,7 @@ export function validateContent(input: unknown): ContentValidationResult {
     return byKind
   }
 
-  function validateSpawnTables(items: Record<string, unknown>[], environments: Set<string>, creatures: Set<string>) {
+  function validateSpawnTables(items: Record<string, unknown>[], environments: Set<string>, creatures: Set<string>, creatureEnvironments: Map<string, Set<string>>) {
     items.forEach((item, index) => {
       const base = `$.spawnTables[${index}]`
       reference(item.environmentId, environments, `${base}.environmentId`, 'environment')
@@ -390,6 +429,7 @@ export function validateContent(input: unknown): ContentValidationResult {
         if (!isRecord(entry)) issues.push({ path, message: 'spawn entry must be an object' })
         else {
           reference(entry.creatureId, creatures, `${path}.creatureId`, 'creature')
+          require(typeof item.environmentId === 'string' && typeof entry.creatureId === 'string' && creatureEnvironments.get(entry.creatureId)?.has(item.environmentId) === true, `${path}.creatureId`, 'spawned creature must support this environment')
           require(typeof entry.weight === 'number' && Number.isFinite(entry.weight) && entry.weight > 0, `${path}.weight`, 'spawn weight must be positive')
           require(typeof entry.minAtMs === 'number' && Number.isFinite(entry.minAtMs) && entry.minAtMs >= 0, `${path}.minAtMs`, 'spawn time must be non-negative')
         }
@@ -413,6 +453,15 @@ export function validateContent(input: unknown): ContentValidationResult {
       issues.push({ path: '$.m0.environments', message: 'playable environments are required' })
       return { playerIds }
     }
+    if (!Array.isArray(value.playerDefinitions)) issues.push({ path: '$.m0.playerDefinitions', message: 'origin player definitions are required' })
+    else value.playerDefinitions.forEach((definition, index) => {
+      const path = `$.m0.playerDefinitions[${index}]`
+      if (!isRecord(definition)) {
+        issues.push({ path, message: 'player definition must be an object' })
+        return
+      }
+      validatePlayerDefinition(definition, path, visuals, playerIds)
+    })
     value.environments.forEach((environment, index) => {
       const base = `$.m0.environments[${index}]`
       if (!isRecord(environment)) {
@@ -423,13 +472,7 @@ export function validateContent(input: unknown): ContentValidationResult {
       require(typeof environment.width === 'number' && Number.isFinite(environment.width) && environment.width > 0, `${base}.width`, 'world width must be positive')
       require(typeof environment.height === 'number' && Number.isFinite(environment.height) && environment.height > 0, `${base}.height`, 'world height must be positive')
       if (isRecord(environment.playerDefinition)) {
-        validateEntityDefinition(environment.playerDefinition, `${base}.playerDefinition`, visuals)
-        require(environment.playerDefinition.role === 'player', `${base}.playerDefinition.role`, 'player role must be player')
-        require(environment.playerDefinition.faction === 'player', `${base}.playerDefinition.faction`, 'player faction must be player')
-        require(typeof environment.playerDefinition.stability === 'number' && Number.isFinite(environment.playerDefinition.stability), `${base}.playerDefinition.stability`, 'player stability is required')
-        require(typeof environment.playerDefinition.evolutionThreshold === 'number' && Number.isFinite(environment.playerDefinition.evolutionThreshold) && environment.playerDefinition.evolutionThreshold > 0, `${base}.playerDefinition.evolutionThreshold`, 'evolution threshold must be positive')
-        require(typeof environment.playerDefinition.evolutionThresholdGrowth === 'number' && Number.isFinite(environment.playerDefinition.evolutionThresholdGrowth) && environment.playerDefinition.evolutionThresholdGrowth > 1, `${base}.playerDefinition.evolutionThresholdGrowth`, 'evolution threshold growth must be greater than one')
-        if (typeof environment.playerDefinition.id === 'string') playerIds.add(environment.playerDefinition.id)
+        validatePlayerDefinition(environment.playerDefinition, `${base}.playerDefinition`, visuals, playerIds)
       }
       else issues.push({ path: `${base}.playerDefinition`, message: 'player definition is required' })
       const spawnableIds = new Set<string>()
@@ -456,6 +499,16 @@ export function validateContent(input: unknown): ContentValidationResult {
       })
     })
     return { playerIds }
+  }
+
+  function validatePlayerDefinition(definition: Record<string, unknown>, path: string, visuals: Set<string>, playerIds: Set<string>) {
+    validateEntityDefinition(definition, path, visuals)
+    require(definition.role === 'player', `${path}.role`, 'player role must be player')
+    require(definition.faction === 'player', `${path}.faction`, 'player faction must be player')
+    require(typeof definition.stability === 'number' && Number.isFinite(definition.stability), `${path}.stability`, 'player stability is required')
+    require(typeof definition.evolutionThreshold === 'number' && Number.isFinite(definition.evolutionThreshold) && definition.evolutionThreshold > 0, `${path}.evolutionThreshold`, 'evolution threshold must be positive')
+    require(typeof definition.evolutionThresholdGrowth === 'number' && Number.isFinite(definition.evolutionThresholdGrowth) && definition.evolutionThresholdGrowth > 1, `${path}.evolutionThresholdGrowth`, 'evolution threshold growth must be greater than one')
+    if (typeof definition.id === 'string') playerIds.add(definition.id)
   }
 
   function validateEntityDefinition(definition: Record<string, unknown>, path: string, visuals: Set<string>) {

@@ -77,7 +77,8 @@ export function EvolutionOverlay({ choices, onConfirm }: EvolutionOverlayProps) 
               )}
               {synergies.map((synergy) => (
                 <span className="evolution-choice__synergy" key={synergy.id}>
-                  {content.ui.labels.mutationSynergy} · {synergy.name}
+                  {choice.augmentedSynergyIds.includes(synergy.id) ? content.ui.labels.mutationSynergyAugment : content.ui.labels.mutationSynergy} · {synergy.name}
+                  {choice.augmentedSynergyIds.includes(synergy.id) ? ` · ${synergy.augments?.find((augment) => augment.organId === choice.organId)?.effect ?? ''}` : ''}
                 </span>
               ))}
               <span className="evolution-choice__stability">

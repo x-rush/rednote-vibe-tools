@@ -41,7 +41,7 @@ function GameApp({ content }: { content: ContentPack }) {
   const controllerRef = useRef<AppController | null>(null)
   if (controllerRef.current === null) {
     controllerRef.current = createController({
-      createEngine: ({ seed }) => createGameEngine({ seed, environmentId: 'env-clear-drop' }),
+      createEngine: ({ seed, originId }) => createGameEngine({ seed, originId: originId as `origin-${string}`, environmentId: 'env-clear-drop' }),
       nextSeed: (seed) => (seed + 1) >>> 0,
       recordResult: () => undefined,
     })

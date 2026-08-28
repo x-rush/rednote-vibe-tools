@@ -26,6 +26,11 @@ import { GeneGraph } from './ui/GeneGraph'
 import { Codex } from './ui/Codex'
 import { advanceCodex } from './progression/codex'
 import { createRepository, type GameRepository } from './storage/repository'
+import type { RepositoryMode } from './storage/repository'
+import type { SaveIssue } from './storage/codec'
+import { createBrowserAudioDirector, type AudioDirector } from './audio/audio'
+import { Settings } from './ui/Settings'
+import { ErrorPanel } from './ui/ErrorPanel'
 import './App.css'
 
 function App() {
@@ -34,13 +39,7 @@ function App() {
   } catch (error) {
     if (!(error instanceof ContentValidationError)) throw error
     return (
-      <main className="hatchery-shell">
-        <section className="hatchery-card" role="alert">
-          <h1>{rawContent.ui.screens.contentErrorTitle}</h1>
-          <p>{rawContent.ui.screens.contentErrorDescription}</p>
-          <small>{error.issues.length}</small>
-        </section>
-      </main>
+      <main className="hatchery-shell"><ErrorPanel title={rawContent.ui.screens.contentErrorTitle} description={rawContent.ui.screens.contentErrorDescription} detail={String(error.issues.length)} /></main>
     )
   }
 }
@@ -49,6 +48,8 @@ function GameApp({ content }: { content: ContentPack }) {
   const repositoryRef = useRef<GameRepository | null>(null)
   if (repositoryRef.current === null) repositoryRef.current = createRepository()
   const repository = repositoryRef.current
+  const audioRef = useRef<AudioDirector | null>(null)
+  if (audioRef.current === null) audioRef.current = createBrowserAudioDirector()
   const saveLoadedRef = useRef(false)
   const controllerRef = useRef<AppController | null>(null)
   if (controllerRef.current === null) {
@@ -70,10 +71,18 @@ function GameApp({ content }: { content: ContentPack }) {
   const [labPanel, setLabPanel] = useState<LabPanelId | null>(null)
   const [lastArchive, setLastArchive] = useState<ReturnType<typeof createViewModel>['archive']>()
   const [saveReady, setSaveReady] = useState(false)
+  const [storageMode, setStorageMode] = useState<RepositoryMode>('persistent')
+  const [storageIssues, setStorageIssues] = useState<SaveIssue[]>([])
+  const [canvasError, setCanvasError] = useState(false)
   const sync = useCallback(() => setView(controller.snapshot()), [controller])
+  const handleCanvasError = useCallback(() => {
+    controller.pause('user')
+    setCanvasError(true)
+    sync()
+  }, [controller, sync])
   const modalButtonRef = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => () => controller.destroy(), [controller])
+  useEffect(() => () => { controller.destroy(); audioRef.current?.destroy() }, [controller])
 
   useEffect(() => {
     let active = true
@@ -81,6 +90,8 @@ function GameApp({ content }: { content: ContentPack }) {
       if (!active) return
       saveLoadedRef.current = true
       setSave(result.value)
+      setStorageMode(result.mode)
+      setStorageIssues(result.issues)
       setHasArchive(result.value.lifeArchives.length > 0)
       const latestArchive = result.value.lifeArchives.at(-1)
       if (latestArchive) setLastArchive(createArchiveViewModelFromSummary(latestArchive, content))
@@ -93,7 +104,11 @@ function GameApp({ content }: { content: ContentPack }) {
 
   useEffect(() => {
     if (!saveLoadedRef.current) return
-    void repository.save(save)
+    audioRef.current?.setSettings(save.settings)
+    void repository.save(save).then((result) => {
+      setStorageMode(result.mode)
+      if (result.issues.length > 0) setStorageIssues(result.issues)
+    })
   }, [repository, save])
 
   useEffect(() => {
@@ -143,6 +158,7 @@ function GameApp({ content }: { content: ContentPack }) {
   }, [controller, sync])
 
   const handleEvents = useCallback((events: readonly GameEvent[]) => {
+    events.forEach((event) => audioRef.current?.handle(event))
     events.forEach((event) => controller.handle(event))
     setSave((current) => {
       let codex = current.codex
@@ -259,11 +275,12 @@ function GameApp({ content }: { content: ContentPack }) {
   const engine = controller.engine()
   const archiveModel = createViewModel(view, content).archive
   if (!saveReady) return <main className="hatchery-shell"><section className="hatchery-card" aria-live="polite"><p className="hatchery-region">{content.ui.labels.lab}</p><h1>{content.ui.screens.loadingSave}</h1></section></main>
+  if (canvasError) return <main className="hatchery-shell"><ErrorPanel title={content.ui.screens.canvasErrorTitle} description={content.ui.screens.canvasErrorDescription} actionLabel={content.ui.actions.retry} onAction={() => { controller.returnToLab(); setCanvasError(false); sync() }} /></main>
   if (view.screen !== 'lab' && engine) {
     return (
       <main className="game-shell">
         <div className="game-stage" inert={mutationChoices.length > 0} aria-hidden={mutationChoices.length > 0 || undefined}>
-          <GameCanvas engine={engine} label={content.ui.labels.gameCanvas} onEvents={handleEvents} />
+          <GameCanvas engine={engine} label={content.ui.labels.gameCanvas} settings={save.settings} onEvents={handleEvents} onCanvasError={handleCanvasError} />
           {view.hud && view.screen !== 'result' && (
             <Hud
               snapshot={view.hud}
@@ -330,9 +347,13 @@ function GameApp({ content }: { content: ContentPack }) {
 
   if (labPanel === 'gene') return <main className="hatchery-shell lab-detail"><GeneGraph content={content} progress={save.progression} onUnlock={(id) => setSave((current) => ({ ...current, progression: unlockNode(current.progression, id) }))} /><button className="game-overlay__secondary" type="button" onClick={() => setLabPanel(null)}>{content.ui.actions.backToLab}</button></main>
   if (labPanel === 'codex') return <main className="hatchery-shell lab-detail"><Codex content={content} progress={save.codex} /><button className="game-overlay__secondary" type="button" onClick={() => setLabPanel(null)}>{content.ui.actions.backToLab}</button></main>
-  if (labPanel === 'archive' && lastArchive) return <main className="game-shell"><Archive model={lastArchive} restartButtonRef={modalButtonRef} onRestart={() => { resetMutationRun(); controller.startRun({ seed: Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds }); setLabPanel(null); sync() }} onLab={() => setLabPanel(null)} labLabel={content.ui.actions.backToLab} onKeyDown={trapModalFocus} /></main>
+  if (labPanel === 'archive' && lastArchive) return <main className="game-shell"><Archive model={lastArchive} restartButtonRef={modalButtonRef} onRestart={() => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds }); setLabPanel(null); sync() }} onLab={() => setLabPanel(null)} labLabel={content.ui.actions.backToLab} onKeyDown={trapModalFocus} /></main>
+  if (labPanel === 'settings') {
+    const recoveryPayload = repository.recoveryPayload()
+    return <main className="hatchery-shell lab-detail"><Settings content={content} settings={save.settings} storageMode={storageMode} storageIssues={storageIssues} onChange={(settings) => setSave((current) => ({ ...current, settings }))} onExport={() => repository.exportJson()} onExportRecovery={recoveryPayload === undefined ? undefined : async () => JSON.stringify(recoveryPayload, null, 2)} onImport={async (raw) => { const result = await repository.importJson(raw); setStorageMode(result.mode); setStorageIssues(result.issues); if (result.issues.length === 0) { setSave(result.value); setHasArchive(result.value.lifeArchives.length > 0); const latest = result.value.lifeArchives.at(-1); setLastArchive(latest ? createArchiveViewModelFromSummary(latest, content) : undefined); const unlockedOrigin = content.origins.find((origin) => result.value.progression.unlockedIds.includes(origin.id)); setSelectedOriginId(unlockedOrigin?.id ?? 'origin-primal-cell'); setActiveModifierIds([]) } return { ok: result.issues.length === 0, issues: result.issues } }} onClear={async () => { await repository.clear(); const cleared = createDefaultSave(); setSave(cleared); setHasArchive(false); setLastArchive(undefined); setActiveModifierIds([]); setSelectedOriginId('origin-primal-cell'); controller.returnToLab(); sync() }} onClose={() => setLabPanel(null)} /></main>
+  }
 
-  return <Lab content={content} save={save} hasArchive={hasArchive} selectedOriginId={selectedOriginId} activeModifierIds={activeModifierIds} dailyRunSeed={dailySeed(new Date(), content.contentVersion)} onSelectOrigin={setSelectedOriginId} onToggleModifier={(id) => setActiveModifierIds((current) => applyModifiers(current.includes(id) ? current.filter((item) => item !== id) : [...current, id], { baseTelegraphLeadMs: 1400 }).activeIds)} onOpen={setLabPanel} onStart={(seed, route) => { resetMutationRun(); controller.startRun({ seed: seed ?? Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds, route }); sync() }} />
+  return <Lab content={content} save={save} hasArchive={hasArchive} selectedOriginId={selectedOriginId} activeModifierIds={activeModifierIds} dailyRunSeed={dailySeed(new Date(), content.contentVersion)} storageWarning={storageMode === 'session' || storageIssues.length > 0} onSelectOrigin={setSelectedOriginId} onToggleModifier={(id) => setActiveModifierIds((current) => applyModifiers(current.includes(id) ? current.filter((item) => item !== id) : [...current, id], { baseTelegraphLeadMs: 1400 }).activeIds)} onOpen={setLabPanel} onStart={(seed, route) => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: seed ?? Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds, route }); sync() }} />
 }
 
 function trapModalFocus(event: KeyboardEvent<HTMLElement>): void {

@@ -8,6 +8,10 @@
     "tagline": "在一滴水里，决定谁能包裹谁。",
     "fictionDisclaimer": "本作是显微生态幻想，不构成真实生物学说明。"
   },
+  "assetCredits": [
+    { "scope": "本地 SVG 与程序化 Canvas 美术", "source": "项目原创生成", "license": "项目内专用" },
+    { "scope": "音乐与音效", "source": "Web Audio 实时合成，无外部采样", "license": "项目内专用" }
+  ],
   "ui": {
     "actions": {
       "start": "开始孵化",
@@ -24,7 +28,15 @@
       "open_daily": "本地每日培养皿",
       "unlock": "解锁",
       "useCode": "孵化此培养皿码",
-      "backToLab": "返回培养舱"
+      "backToLab": "返回培养舱",
+      "open_settings": "设置与存档",
+      "exportSave": "导出结构化存档",
+      "exportRecovery": "导出待恢复原始数据",
+      "importSave": "导入存档",
+      "clearSave": "清除本机进度",
+      "confirmClear": "确认清除",
+      "cancel": "取消",
+      "retry": "返回培养舱"
     },
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
@@ -61,7 +73,21 @@
     "codex_complete": "完整记录",
     "localDaily": "由本机日期生成，不与全球同步",
     "dishCode": "培养皿码",
-    "dishCodePlaceholder": "粘贴 PC1 培养皿码"
+    "dishCodePlaceholder": "粘贴 PC1 培养皿码",
+    "comfortSettings": "声音与舒适度",
+    "setting_music": "音乐",
+    "setting_sfx": "音效",
+    "setting_reducedMotion": "减少动态",
+    "setting_reducedFlash": "减少闪烁",
+    "setting_lowParticles": "减少粒子",
+    "setting_reducedShake": "减少震动",
+    "graphicsQuality": "画质",
+    "graphicsHigh": "高",
+    "graphicsBalanced": "平衡",
+    "graphicsLow": "低",
+    "structuredSave": "结构化存档",
+    "exportedSave": "导出的存档文本",
+    "importedSave": "要导入的存档文本"
     },
     "hud": {
       "membrane": "膜",
@@ -89,7 +115,17 @@
       "dishCode_checksum": "培养皿码校验失败。",
       "dishCode_content-version": "培养皿码来自其他内容版本。",
       "dishCode_invalid-payload": "培养皿码内容不完整。",
-      "loadingSave": "正在唤醒培养皿"
+      "loadingSave": "正在唤醒培养皿",
+      "settingsTitle": "设置与存档",
+      "storageExplanation": "进度只保存在本机，存档只含数值与 ID，不包含图片、音视频或设备资料。",
+      "storageFallback": "持久存储不可用，本次将以临时会话继续；可先导出存档。",
+      "exportReady": "存档已生成，可复制保存。",
+      "recoveryReady": "待恢复数据已生成，可复制交给新版本或人工检查。",
+      "importSuccess": "存档导入成功。",
+      "importFailure": "存档不兼容或内容损坏。",
+      "clearConfirm": "此操作会清除本机生命档案、图鉴和基因进度，确定继续吗？",
+      "canvasErrorTitle": "显微视野无法建立",
+      "canvasErrorDescription": "当前浏览器未能启动 Canvas 2D。进度仍安全，可以返回培养舱调整画质或更换浏览器。"
     }
   },
   "environments": [

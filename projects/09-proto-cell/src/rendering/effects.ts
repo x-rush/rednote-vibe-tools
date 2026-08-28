@@ -47,13 +47,14 @@ export function drawDangerTelegraph(
   y: number,
   radius: number,
   elapsedMs: number,
+  reducedFlash = false,
 ): void {
   if (entity.role !== 'predator' && entity.role !== 'elite' && entity.role !== 'boss') return
 
   const state = dangerPulseState(entity, elapsedMs)
   const pulse = state.active ? 1.18 + Math.sin(elapsedMs / 55) * 0.05 : 1.18 + state.contraction * 0.32
   context.save()
-  context.globalAlpha = state.telegraph ? 1 : 0.22
+  context.globalAlpha = state.telegraph ? (reducedFlash ? 0.72 : 1) : 0.22
   context.strokeStyle = state.active ? '#fff09a' : 'rgb(255 139 105 / 78%)'
   context.lineWidth = state.active ? 3.5 : 2
   context.setLineDash([8, 8])

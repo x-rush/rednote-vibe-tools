@@ -1,4 +1,5 @@
 import type { EntityState } from '../domain/types'
+import type { RenderQuality } from './effects'
 
 export type CellPalette = {
   membrane: string
@@ -15,6 +16,7 @@ export function drawCell(
   screenY: number,
   radius: number,
   elapsedMs: number,
+  options: { quality?: RenderQuality; organelleIds?: readonly string[]; stability?: number; synergyIds?: readonly string[]; damageSource?: 'acid' | 'electric' | 'spine' | 'ram' } = {},
 ): void {
   const palette = paletteFor(entity)
   const pulse = 1 + Math.sin(elapsedMs / 520 + hashPhase(entity.id)) * 0.025
@@ -25,7 +27,7 @@ export function drawCell(
 
   // 1. Liquid shadow and refraction.
   context.fillStyle = 'rgb(0 4 18 / 42%)'
-  context.filter = 'blur(5px)'
+  context.filter = options.quality === 'low' ? 'none' : 'blur(5px)'
   context.beginPath()
   context.ellipse(3, radius * 0.42, bodyRadius * 0.92, bodyRadius * 0.48, 0, 0, Math.PI * 2)
   context.fill()
@@ -33,7 +35,7 @@ export function drawCell(
 
   // 2. Membrane outline.
   context.shadowColor = palette.glow
-  context.shadowBlur = entity.role === 'predator' || entity.role === 'boss' ? 16 : 10
+  context.shadowBlur = options.quality === 'low' ? 0 : entity.role === 'predator' || entity.role === 'boss' ? 16 : 10
   context.fillStyle = palette.cytoplasm
   context.strokeStyle = palette.membrane
   context.lineWidth = Math.max(1.5, radius * 0.09)
@@ -65,8 +67,11 @@ export function drawCell(
   // 5. Abstract installed organelles.
   context.fillStyle = palette.organ
   context.shadowBlur = 6
-  for (let index = 0; index < 3; index += 1) {
-    const angle = hashPhase(entity.id) + index * Math.PI * 2 / 3 + elapsedMs / 5600
+  const organelleIds = options.organelleIds
+  const organCount = organelleIds === undefined ? 3 : organelleIds.length
+  for (let index = 0; index < organCount; index += 1) {
+    const organId = organelleIds?.[index] ?? `${entity.id}:${index}`
+    const angle = hashPhase(organId) + index * Math.PI * 2 / organCount + elapsedMs / 5600
     context.beginPath()
     context.ellipse(
       Math.cos(angle) * radius * 0.53,
@@ -85,8 +90,9 @@ export function drawCell(
     context.strokeStyle = palette.membrane
     context.lineWidth = Math.max(1, radius * 0.045)
     context.globalAlpha = 0.72
-    for (let index = 0; index < 7; index += 1) {
-      const angle = index / 7 * Math.PI * 2 + hashPhase(entity.id)
+    const appendageCount = options.quality === 'low' ? 4 : options.quality === 'high' ? 9 : 7
+    for (let index = 0; index < appendageCount; index += 1) {
+      const angle = index / appendageCount * Math.PI * 2 + hashPhase(entity.id)
       const length = radius * (entity.role === 'predator' ? 0.56 : 0.28)
       context.beginPath()
       context.moveTo(Math.cos(angle) * radius * 0.94, Math.sin(angle) * radius * 0.9)
@@ -108,6 +114,39 @@ export function drawCell(
     context.setLineDash([radius * 0.22, radius * 0.14])
     context.beginPath()
     context.arc(0, 0, radius * 1.17, 0, Math.PI * 2)
+    context.stroke()
+  }
+
+  // 8. Authoritative player status layers; quality settings never remove these cues.
+  if (entity.faction === 'player' && options.damageSource) {
+    context.globalAlpha = 0.92
+    context.strokeStyle = options.damageSource === 'acid' ? '#dfff68' : options.damageSource === 'electric' ? '#fff39a' : '#ff927e'
+    context.lineWidth = Math.max(2, radius * 0.07)
+    context.setLineDash(options.damageSource === 'electric' ? [radius * 0.16, radius * 0.08] : [radius * 0.34, radius * 0.12])
+    context.beginPath()
+    context.arc(0, 0, radius * 1.08, 0, Math.PI * 2)
+    context.stroke()
+  }
+  if (entity.faction === 'player' && (options.stability ?? 100) < 70) {
+    context.globalAlpha = 0.75
+    context.strokeStyle = '#ffb68c'
+    context.lineWidth = Math.max(1.5, radius * 0.045)
+    context.setLineDash([])
+    for (let crack = 0; crack < 3; crack += 1) {
+      const angle = hashPhase(`stability:${crack}`)
+      context.beginPath()
+      context.moveTo(Math.cos(angle) * radius * 0.42, Math.sin(angle) * radius * 0.42)
+      context.lineTo(Math.cos(angle + 0.12) * radius * 0.78, Math.sin(angle + 0.12) * radius * 0.78)
+      context.stroke()
+    }
+  }
+  if (entity.faction === 'player' && (options.synergyIds?.length ?? 0) > 0) {
+    context.globalAlpha = 0.52
+    context.strokeStyle = '#cf9cff'
+    context.lineWidth = Math.max(1, radius * 0.035)
+    context.setLineDash([radius * 0.1, radius * 0.14])
+    context.beginPath()
+    context.arc(0, 0, radius * (1.24 + Math.min(3, options.synergyIds!.length) * 0.04), 0, Math.PI * 2)
     context.stroke()
   }
 

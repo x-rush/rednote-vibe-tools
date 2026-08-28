@@ -173,7 +173,7 @@ export function createDefaultSave(): SaveDataV1 {
   return {
     schemaVersion: 1,
     contentVersion: content.contentVersion,
-    settings: { music: true, sfx: true, reducedMotion: false, reducedFlash: false, lowParticles: false, reducedShake: false, graphics: 'balanced' },
+    settings: { music: true, sfx: true, reducedMotion: systemPrefersReducedMotion(), reducedFlash: false, lowParticles: false, reducedShake: false, graphics: 'balanced' },
     progression: { genePoints: 0, unlockedIds: [content.origins[0]?.id ?? 'origin-primal-cell'], discoveredSynergyIds: [], completedModifierIds: [], rewardCounts: {} },
     codex: {},
     records: { bestSurvivalMs: 0, bestEnvironmentOrder: 0, maxBiomass: 0, dailySeeds: {} },
@@ -349,3 +349,7 @@ function knownRewardKeys(content: ReturnType<typeof getContent>): Set<string> {
 }
 
 const ANCHORS = new Set<AnchorSlot>(['core', 'membrane', 'front', 'rear', 'left', 'right', 'internal', 'symbiont'])
+
+function systemPrefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}

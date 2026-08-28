@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties, type KeyboardEventHandler, type RefObject } from 'react'
 import type { ArchiveViewModel } from '../app/view-model'
+import { assetPath } from '../content/assets'
 
 export function Archive({
   model,
@@ -64,7 +65,7 @@ export function Archive({
               className={`archive-cell__organ archive-cell__organ--${organ.anchor}`}
               data-stage={organ.stage}
               title={organ.name}
-            />
+            ><img src={assetPath(organ.id)} alt="" /></span>
           ))}
         </div>
       )}

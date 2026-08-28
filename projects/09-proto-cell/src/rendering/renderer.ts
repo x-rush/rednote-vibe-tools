@@ -4,6 +4,7 @@ import type { WorldRenderSnapshot } from '../game/engine'
 import { drawCell } from './cell'
 import { drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type AmbientParticle, type RenderQuality } from './effects'
 import type { NumberFeed } from './numbers'
+import { assetPath } from '../content/assets'
 
 export type CanvasRenderer = {
   render(snapshot: WorldRenderSnapshot, numbers: NumberFeed): void
@@ -13,7 +14,7 @@ export type CanvasRenderer = {
 
 export function createCanvasRenderer(
   canvas: HTMLCanvasElement,
-  options: { quality?: RenderQuality; visualSeed?: number } = {},
+  options: { quality?: RenderQuality; visualSeed?: number; reducedMotion?: boolean; reducedFlash?: boolean; lowParticles?: boolean } = {},
 ): CanvasRenderer {
   const context = canvas.getContext('2d')
   if (!context) throw new Error('Canvas 2D context unavailable')
@@ -26,6 +27,7 @@ export function createCanvasRenderer(
     phase: visualRng.next() * Math.PI * 2,
   }))
   const displayedRadii = new Map<string, number>()
+  const assetImages = new Map<string, HTMLImageElement>()
   let quality = options.quality ?? 'balanced'
   let destroyed = false
 
@@ -38,9 +40,16 @@ export function createCanvasRenderer(
       const zoom = player ? Math.min(3.4, Math.max(1.6, 42 / player.body.radius)) : 2.4
 
       context.clearRect(0, 0, width, height)
-      drawLiquidField(context, width, height, snapshot.elapsedMs)
+      const visualTime = options.reducedMotion ? 0 : snapshot.elapsedMs
+      drawLiquidField(context, width, height, visualTime)
+      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height)
       drawEnvironmentField(context, snapshot, camera, width, height, zoom)
       drawEventField(context, snapshot, camera, width, height, zoom)
+      if (snapshot.activeEvent && snapshot.activeEvent.phase !== 'expired') {
+        const eventX = width / 2 + (snapshot.activeEvent.center.x - camera.x) * zoom
+        const eventY = height / 2 + (snapshot.activeEvent.center.y - camera.y) * zoom
+        drawAssetLayer(context, loadAsset(snapshot.activeEvent.id), eventX, eventY, 42, 0.72)
+      }
 
       const drawables = snapshot.entities
         .map((entity) => toDrawable(entity, camera, width, height, zoom, displayedRadii))
@@ -51,14 +60,22 @@ export function createCanvasRenderer(
         if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase === 'dormant') {
           drawBossArrivalTelegraph(context, item.x, item.y, item.radius, snapshot.elapsedMs)
         } else {
-          drawDangerTelegraph(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs)
+          drawDangerTelegraph(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs, options.reducedFlash)
         }
       }
-      drawAmbientParticles(context, particles, width, height, snapshot.elapsedMs, quality)
+      drawAmbientParticles(context, particles, width, height, visualTime, options.lowParticles ? 'low' : quality)
       drawRouteRifts(context, snapshot, camera, width, height, zoom)
       for (const item of drawables) {
-        drawCell(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs)
+        drawCell(context, item.entity, item.x, item.y, item.radius, visualTime, {
+          quality,
+          organelleIds: item.entity.faction === 'player' ? snapshot.playerOrganelleIdsByEntity[item.entity.id] ?? [] : undefined,
+          stability: item.entity.faction === 'player' ? snapshot.playerStability : undefined,
+          synergyIds: item.entity.faction === 'player' ? snapshot.playerSynergyIds : undefined,
+          damageSource: item.entity.faction === 'player' ? snapshot.playerDamage?.source : undefined,
+        })
         if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase !== 'dormant') {
+          drawAssetLayer(context, loadAsset(`${snapshot.boss.id}:body`), item.x, item.y, item.radius * 2.45, 0.48)
+          drawAssetLayer(context, loadAsset(`${snapshot.boss.id}:mask`), item.x, item.y, item.radius * 2.8, 0.72)
           drawBossPhase(context, item.x, item.y, item.radius, snapshot.boss, snapshot.elapsedMs)
         }
       }
@@ -71,8 +88,37 @@ export function createCanvasRenderer(
     destroy() {
       destroyed = true
       displayedRadii.clear()
+      assetImages.clear()
     },
   }
+
+  function loadAsset(id: string): HTMLImageElement | undefined {
+    const path = assetPath(id)
+    if (!path || typeof Image === 'undefined') return undefined
+    const existing = assetImages.get(path)
+    if (existing) return existing
+    const loaded = new Image()
+    loaded.decoding = 'async'
+    loaded.src = path
+    assetImages.set(path, loaded)
+    return loaded
+  }
+}
+
+function drawBackdropAsset(context: CanvasRenderingContext2D, image: HTMLImageElement | undefined, width: number, height: number) {
+  if (!image?.complete || image.naturalWidth === 0) return
+  context.save()
+  context.globalAlpha = 0.34
+  context.drawImage(image, 0, 0, width, height)
+  context.restore()
+}
+
+function drawAssetLayer(context: CanvasRenderingContext2D, image: HTMLImageElement | undefined, x: number, y: number, size: number, opacity: number) {
+  if (!image?.complete || image.naturalWidth === 0) return
+  context.save()
+  context.globalAlpha = opacity
+  context.drawImage(image, x - size / 2, y - size / 2, size, size)
+  context.restore()
 }
 
 function drawEnvironmentField(

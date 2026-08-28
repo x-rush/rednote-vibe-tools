@@ -1,5 +1,6 @@
 import type { ContentPack } from '../content'
 import type { GeneProgress } from '../progression/genes'
+import { assetPath } from '../content/assets'
 
 export function GeneGraph({ content, progress, onUnlock }: { content: ContentPack; progress: GeneProgress; onUnlock(id: string): void }) {
   return (
@@ -14,6 +15,7 @@ export function GeneGraph({ content, progress, onUnlock }: { content: ContentPac
           })
           return (
             <article key={node.id} className="gene-node" data-unlocked={unlocked || undefined}>
+              {assetPath(node.unlockIds[0]!) && <img className="content-icon" src={assetPath(node.unlockIds[0]!)} alt="" />}
               <h3>{node.name}</h3><p>{node.unlockIds.map((id) => content.origins.find((item) => item.id === id)?.name ?? content.organelles.find((item) => item.id === id)?.name ?? id).join(' · ')}</p>
               <button type="button" disabled={unlocked || !prerequisites || progress.genePoints < node.cost} onClick={() => onUnlock(node.id)}>
                 {unlocked ? content.ui.labels.unlocked : `${content.ui.actions.unlock} · ${node.cost}`}

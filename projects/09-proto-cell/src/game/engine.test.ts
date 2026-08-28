@@ -500,6 +500,9 @@ describe('game engine lifecycle', () => {
     const splitBodies = engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')
     expect(splitBodies).toHaveLength(2)
     expect(splitBodies.every((entity) => entity.velocity.x > 0)).toBe(true)
+    const organellesByBody = engine.renderSnapshot().playerOrganelleIdsByEntity
+    expect(Object.values(organellesByBody).flat()).toEqual(['organelle-division-ring'])
+    expect(Object.values(organellesByBody).some((ids) => ids.length === 0)).toBe(true)
 
     for (let index = 0; index < 60; index += 1) engine.advance(1000 / 60)
     expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(1)

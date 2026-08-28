@@ -32,4 +32,10 @@ describe('launch lab', () => {
     expect(html).toContain('培养皿码')
     expect(html).toContain('挑战词缀')
   })
+
+  it('exposes recovery settings even before the first archive when persistence fails', () => {
+    const html = renderToStaticMarkup(<Lab content={getContent()} save={createDefaultSave()} hasArchive={false} selectedOriginId="origin-primal-cell" activeModifierIds={[]} dailyRunSeed={727} storageWarning onSelectOrigin={() => undefined} onToggleModifier={() => undefined} onOpen={() => undefined} onStart={() => undefined} />)
+    expect(html).toContain('持久存储不可用')
+    expect(html).toContain('设置与存档')
+  })
 })

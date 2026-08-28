@@ -75,6 +75,7 @@ export function validateContent(input: unknown): ContentValidationResult {
   require(input.projectId === 'proto-cell', '$.projectId', 'projectId must identify proto-cell')
   require(typeof input.contentVersion === 'string' && /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(input.contentVersion), '$.contentVersion', 'contentVersion must be semantic')
   validateMeta(input.meta)
+  require(Array.isArray(input.assetCredits) && input.assetCredits.length > 0 && input.assetCredits.every((credit) => isRecord(credit) && ['scope', 'source', 'license'].every((key) => typeof credit[key] === 'string' && credit[key].length > 0)), '$.assetCredits', 'asset source and license metadata is required')
   validateUi(input.ui)
 
   const collections = new Map<string, Record<string, unknown>[]>()

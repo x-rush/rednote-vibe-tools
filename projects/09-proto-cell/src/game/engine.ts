@@ -6,7 +6,7 @@ import { createEntity, type ContactDamageDefinition, type EntityDefinition } fro
 import { creatureEntityDefinition, findEnteredRouteRift, generateRegion, getRegionDefinition } from '../world/generator'
 import { createFixedClock } from './clock'
 import { createPointerInput, type PointerInput } from './input'
-import { resolveInteraction, type GameEvent } from './interactions'
+import { resolveInteraction, type DamageSource, type GameEvent } from './interactions'
 import { SpatialGrid } from './spatial-grid'
 import type { MutationInstallResult } from '../evolution/mutation'
 import { evaluatePassiveOrgans, type EvolvedEntityState, type InstalledOrganelle, type OrganEffect, type OrganPerception } from '../evolution/organs'
@@ -58,6 +58,10 @@ export type WorldRenderSnapshot = {
   height: number
   playerId: string
   entities: readonly EntityState[]
+  playerOrganelleIdsByEntity: Readonly<Record<string, readonly OrganelleId[]>>
+  playerStability: number
+  playerSynergyIds: readonly string[]
+  playerDamage?: { source: DamageSource; untilMs: number }
   routeRifts: readonly RouteRift[]
   activeEvent?: EcosystemEventState
   environmentField: EnvironmentField
@@ -144,6 +148,7 @@ export function createGameEngine(options: {
   const organReadyAt = new Map<string, number>()
   const organEventReadyAt = new Map<string, number>()
   let lastDamageAt = Number.NEGATIVE_INFINITY
+  let lastDamageSource: DamageSource | undefined
   let lastPlayerDefeaterDefinitionId: string | undefined
   let sameDirectionMs = 0
   let previousInputDirection: Vec2 = { x: 0, y: 0 }
@@ -221,6 +226,12 @@ export function createGameEngine(options: {
         height: environment.height,
         playerId: PLAYER_ID,
         entities: [...entities.values()].filter((entity) => entity.status === 'active'),
+        playerOrganelleIdsByEntity: activeSwarm
+          ? Object.fromEntries(activeSwarm.map((body) => [body.id, body.organelles.map((organ) => organ.id)]))
+          : { [PLAYER_ID]: installedOrganelles.map((organ) => organ.id) },
+        playerStability,
+        playerSynergyIds: content.synergies.filter((synergy) => synergy.requires.every((id) => installedOrganelles.some((organ) => organ.id === id))).map((synergy) => synergy.id),
+        playerDamage: lastDamageSource && elapsedMs - lastDamageAt <= 560 ? { source: lastDamageSource, untilMs: lastDamageAt + 560 } : undefined,
         routeRifts: region.routeRifts,
         activeEvent,
         environmentField,
@@ -551,6 +562,7 @@ export function createGameEngine(options: {
         atMs: elapsedMs,
       })
       lastDamageAt = elapsedMs
+      lastDamageSource = environmentId === 'env-antibody-storm' ? 'electric' : 'acid'
     }
     if ([...entities.values()].every((entity) => entity.faction !== 'player' || entity.status !== 'active')) {
       events.push({ type: 'player-died', cause: 'environmental-rupture', atMs: elapsedMs })
@@ -579,6 +591,7 @@ export function createGameEngine(options: {
     lastBossRamAt = Number.NEGATIVE_INFINITY
     lastFieldDamageAt = Number.NEGATIVE_INFINITY
     lastPlayerDefeaterDefinitionId = undefined
+    lastDamageSource = undefined
     environmentField = createEnvironmentField(environmentId as `env-${string}`, options.seed, elapsedMs)
     const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
     for (const [index, body] of playerBodies.entries()) {
@@ -973,7 +986,13 @@ export function createGameEngine(options: {
             if (terminalReached) return
           }
         }
-        if (pairPlayer && result.events.some((event) => event.type === 'damaged' && event.targetId === pairPlayer.id)) lastDamageAt = elapsedMs
+        if (pairPlayer) {
+          const playerDamage = result.events.find((event) => event.type === 'damaged' && event.targetId === pairPlayer.id)
+          if (playerDamage?.type === 'damaged') {
+            lastDamageAt = elapsedMs
+            lastDamageSource = playerDamage.source
+          }
+        }
         if (configuredDamage && result.events.some((event) => event.type === 'damaged' && event.targetId === configuredDamage.damage.targetId)) {
           damagePeriods.set(configuredDamage.lockKey, configuredDamage.periodIndex)
         }

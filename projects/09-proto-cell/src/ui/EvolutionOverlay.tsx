@@ -1,6 +1,7 @@
 import { useState, type CSSProperties, type KeyboardEvent } from 'react'
 import { getContent } from '../content'
 import type { MutationAction, MutationChoice, MutationLane } from '../evolution/mutation'
+import { assetPath } from '../content/assets'
 
 type EvolutionOverlayProps = {
   choices: readonly MutationChoice[]
@@ -64,6 +65,7 @@ export function EvolutionOverlay({ choices, onConfirm }: EvolutionOverlayProps) 
                 data-anchor={choice.previewAnchor}
                 style={{ '--mutation-color': visual?.palette[0] ?? '#72f5ff' } as CSSProperties}
               >
+                <img src={assetPath(organ.id)} alt="" />
                 <span />
                 <i />
               </span>
@@ -77,6 +79,7 @@ export function EvolutionOverlay({ choices, onConfirm }: EvolutionOverlayProps) 
               )}
               {synergies.map((synergy) => (
                 <span className="evolution-choice__synergy" key={synergy.id}>
+                  <img src={assetPath(synergy.id)} alt="" />
                   {choice.augmentedSynergyIds.includes(synergy.id) ? content.ui.labels.mutationSynergyAugment : content.ui.labels.mutationSynergy} · {synergy.name}
                   {choice.augmentedSynergyIds.includes(synergy.id) ? ` · ${synergy.augments?.find((augment) => augment.organId === choice.organId)?.effect ?? ''}` : ''}
                 </span>

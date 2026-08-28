@@ -12,6 +12,7 @@ import type { LifeEventLogEntry } from '../progression/archive'
 import type { SaveDataV1 } from '../storage/codec'
 import type { IndexedDbDriver, SettingsStorage } from '../storage/repository'
 import { encodeDishCode } from '../progression/challenges'
+import type { AudioContextLike } from '../audio/audio'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -141,6 +142,38 @@ export function memorySettingsStorage(): SettingsStorage {
     getItem: (key) => values.get(key) ?? null,
     setItem: (key, value) => { values.set(key, value) },
     removeItem: (key) => { values.delete(key) },
+  }
+}
+
+export function fakeAudioContext(): AudioContextLike & { calls: string[] } {
+  const calls: string[] = []
+  const parameter = () => ({
+    value: 0,
+    setValueAtTime(value: number) { this.value = value; calls.push(`set:${value}`) },
+    exponentialRampToValueAtTime(value: number) { this.value = value; calls.push(`ramp:${value}`) },
+  })
+  return {
+    calls,
+    currentTime: 0,
+    state: 'suspended',
+    destination: {},
+    async resume() { calls.push('resume') },
+    createOscillator() {
+      return {
+        type: 'sine',
+        frequency: parameter(),
+        connect() { calls.push('oscillator-connect'); return undefined },
+        start() { calls.push('oscillator-start') },
+        stop() { calls.push('oscillator-stop') },
+      }
+    },
+    createGain() {
+      return {
+        gain: parameter(),
+        connect() { calls.push('gain-connect'); return undefined },
+      }
+    },
+    async close() { calls.push('close') },
   }
 }
 

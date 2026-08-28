@@ -3,6 +3,7 @@ import type { GameEvent } from '../game/interactions'
 import type { ProtoCellEngine } from '../game/engine'
 import { createCanvasRenderer } from '../rendering/renderer'
 import { createNumberFeed } from '../rendering/numbers'
+import type { SaveSettings } from '../storage/codec'
 
 export function clearPointerSession(
   input: ProtoCellEngine['input'],
@@ -18,55 +19,93 @@ export function clearPointerSession(
 export function GameCanvas({
   engine,
   label,
+  settings,
   onEvents,
+  onCanvasError,
 }: {
   engine: ProtoCellEngine
   label: string
+  settings: SaveSettings
   onEvents?: (events: readonly GameEvent[]) => void
+  onCanvasError?: () => void
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const activePointerId = useRef<number | null>(null)
+  const onEventsRef = useRef(onEvents)
+  const onCanvasErrorRef = useRef(onCanvasError)
+  onEventsRef.current = onEvents
+  onCanvasErrorRef.current = onCanvasError
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const renderer = createCanvasRenderer(canvas, { quality: 'balanced', visualSeed: 727 })
+    let renderer: ReturnType<typeof createCanvasRenderer>
+    try {
+      renderer = createCanvasRenderer(canvas, {
+        quality: settings.graphics,
+        lowParticles: settings.lowParticles,
+        visualSeed: 727,
+        reducedMotion: settings.reducedMotion,
+        reducedFlash: settings.reducedFlash,
+      })
+    } catch {
+      onCanvasErrorRef.current?.()
+      return
+    }
     const numbers = createNumberFeed({ aggregateMs: 180, maxVisible: 8 })
     let frameId = 0
+    let failed = false
     let previousTime = performance.now()
     const clearMovement = () => clearPointerSession(engine.input, activePointerId)
+    const failCanvas = () => {
+      if (failed) return
+      failed = true
+      cancelAnimationFrame(frameId)
+      clearMovement()
+      onCanvasErrorRef.current?.()
+    }
+    const handleContextLost = (event: Event) => {
+      event.preventDefault()
+      failCanvas()
+    }
 
     const frame = (now: number) => {
-      const elapsed = Math.min(250, Math.max(0, now - previousTime))
-      previousTime = now
-      engine.advance(elapsed)
-      const events = engine.drainEvents()
-      const bossId = engine.worldSnapshot().boss?.id
-      for (const event of events) {
-        if (event.type === 'engulfed' && event.predatorId === 'player') {
-          numbers.push({ kind: 'biomass', amount: event.biomass, entityId: 'player', atMs: event.atMs })
-        } else if (event.type === 'damaged' && event.targetId === 'player') {
-          numbers.push({ kind: 'damage', amount: event.amount, entityId: 'player', atMs: event.atMs })
-        } else if (event.type === 'damaged' && event.targetId === bossId) {
-          numbers.push({ kind: 'damage', amount: event.amount, entityId: event.targetId, atMs: event.atMs })
-        } else if (event.type === 'blocked' && event.targetId === 'player') {
-          numbers.push({ kind: 'block', amount: event.amount, entityId: 'player', atMs: event.atMs })
+      try {
+        const elapsed = Math.min(250, Math.max(0, now - previousTime))
+        previousTime = now
+        engine.advance(elapsed)
+        const events = engine.drainEvents()
+        const bossId = engine.worldSnapshot().boss?.id
+        for (const event of events) {
+          if (event.type === 'engulfed' && event.predatorId === 'player') {
+            numbers.push({ kind: 'biomass', amount: event.biomass, entityId: 'player', atMs: event.atMs })
+          } else if (event.type === 'damaged' && event.targetId === 'player') {
+            numbers.push({ kind: 'damage', amount: event.amount, entityId: 'player', atMs: event.atMs })
+          } else if (event.type === 'damaged' && event.targetId === bossId) {
+            numbers.push({ kind: 'damage', amount: event.amount, entityId: event.targetId, atMs: event.atMs })
+          } else if (event.type === 'blocked' && event.targetId === 'player') {
+            numbers.push({ kind: 'block', amount: event.amount, entityId: 'player', atMs: event.atMs })
+          }
         }
+        if (events.length > 0) onEventsRef.current?.(events)
+        renderer.render(engine.renderSnapshot(), numbers)
+        frameId = requestAnimationFrame(frame)
+      } catch {
+        failCanvas()
       }
-      if (events.length > 0) onEvents?.(events)
-      renderer.render(engine.renderSnapshot(), numbers)
-      frameId = requestAnimationFrame(frame)
     }
 
     frameId = requestAnimationFrame(frame)
     window.addEventListener('resize', clearMovement)
+    canvas.addEventListener('contextlost', handleContextLost)
     return () => {
       cancelAnimationFrame(frameId)
       window.removeEventListener('resize', clearMovement)
+      canvas.removeEventListener('contextlost', handleContextLost)
       clearMovement()
       renderer.destroy()
     }
-  }, [engine, onEvents])
+  }, [engine, settings.graphics, settings.lowParticles, settings.reducedFlash, settings.reducedMotion])
 
   const playerScreenPosition = () => {
     const rect = canvasRef.current?.getBoundingClientRect()

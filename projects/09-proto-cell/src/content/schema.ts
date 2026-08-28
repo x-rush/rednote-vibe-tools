@@ -212,6 +212,7 @@ export type ContentPack = {
   contentVersion: string
   projectId: 'proto-cell'
   meta: { title: string; locale: 'zh-CN'; tagline: string; fictionDisclaimer: string }
+  assetCredits: Array<{ scope: string; source: string; license: string }>
   ui: {
     actions: Record<string, string>
     labels: Record<string, string>

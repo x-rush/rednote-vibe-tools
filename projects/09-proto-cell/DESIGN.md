@@ -1,6 +1,6 @@
 # 《原生：一滴水的战争》完整首发设计
 
-状态：**CHAT DESIGN APPROVED / 待书面审阅**  
+状态：**DESIGN APPROVED / 实施计划已编写**
 项目 ID：`proto-cell`  
 项目目录：`projects/09-proto-cell`  
 设计确认日期：2026-08-28

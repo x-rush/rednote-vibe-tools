@@ -58,11 +58,10 @@ export function createController(dependencies: ControllerDependencies): AppContr
       screen = pauseReasons.size === 0 ? 'playing' : 'paused'
     },
     handle(event) {
-      const playerWasEngulfed = event.type === 'engulfed' && event.preyId === 'player'
-      if (event.type !== 'player-died' && !playerWasEngulfed) return
+      if (event.type !== 'player-died') return
       if (!activeEngine || seed === undefined || !originId || screen === 'result') return
 
-      cause = event.type === 'player-died' ? event.cause : 'engulfed'
+      cause = event.cause
       const survivalMs = activeEngine.snapshot().elapsedMs
       activeEngine.pause('user')
       dependencies.recordResult({ seed, originId, cause, survivalMs })

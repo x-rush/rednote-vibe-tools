@@ -10,6 +10,7 @@ export type GameEvent =
   | { type: 'ruptured'; targetId: string; fragmentMasses: readonly number[]; atMs: number }
   | { type: 'organ-triggered'; entityId: string; organId: string; atMs: number }
   | { type: 'mutation-ready'; entityId: string; atMs: number }
+  | { type: 'mutation-selected'; entityId: string; organId: string; action: string; atMs: number }
   | { type: 'route-selected'; environmentId: string; atMs: number }
   | { type: 'boss-resolved'; bossId: string; path: 'combat' | 'environment' | 'stealth' | 'parasite'; atMs: number }
   | { type: 'player-died'; cause: string; atMs: number }

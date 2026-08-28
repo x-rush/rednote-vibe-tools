@@ -21,7 +21,17 @@
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
       "openingRegion": "初生水滴",
-      "gameCanvas": "初生水滴生态区域"
+      "gameCanvas": "初生水滴生态区域",
+      "mutationContinuation": "延续",
+      "mutationAdaptation": "适应",
+      "mutationRisk": "冒险",
+      "mutationInstall": "安装",
+      "mutationMature": "成熟",
+      "mutationReplace": "替换",
+      "mutationRecombine": "重组",
+      "mutationExpand": "扩容",
+      "mutationReplaces": "将替换",
+      "mutationSynergy": "组合激活"
     },
     "hud": {
       "membrane": "膜",
@@ -125,7 +135,7 @@
       "tags": ["guard", "intercept"],
       "conflicts": [],
       "environmentIds": ["env-clear-drop"],
-      "shortEffect": "自动拦截一次攻击，补充营养后再生。",
+      "shortEffect": "消耗能量自动拦截一次致命攻击，补充营养后再生。",
       "triggerDescription": "即将受到致命伤时自动拦截。",
       "behaviorId": "fatal-hit-guard",
       "visualMutationId": "visual-organelle-guard-symbiont"
@@ -369,6 +379,7 @@
           "energy": 100,
           "stability": 100,
           "evolutionThreshold": 240,
+          "evolutionThresholdGrowth": 1.65,
           "maxSpeed": 96,
           "visualRecipeId": "visual-origin-primal-cell"
         },

@@ -359,6 +359,7 @@ export function validateContent(input: unknown): ContentValidationResult {
         require(environment.playerDefinition.faction === 'player', `${base}.playerDefinition.faction`, 'player faction must be player')
         require(typeof environment.playerDefinition.stability === 'number' && Number.isFinite(environment.playerDefinition.stability), `${base}.playerDefinition.stability`, 'player stability is required')
         require(typeof environment.playerDefinition.evolutionThreshold === 'number' && Number.isFinite(environment.playerDefinition.evolutionThreshold) && environment.playerDefinition.evolutionThreshold > 0, `${base}.playerDefinition.evolutionThreshold`, 'evolution threshold must be positive')
+        require(typeof environment.playerDefinition.evolutionThresholdGrowth === 'number' && Number.isFinite(environment.playerDefinition.evolutionThresholdGrowth) && environment.playerDefinition.evolutionThresholdGrowth > 1, `${base}.playerDefinition.evolutionThresholdGrowth`, 'evolution threshold growth must be greater than one')
         if (typeof environment.playerDefinition.id === 'string') playerIds.add(environment.playerDefinition.id)
       }
       else issues.push({ path: `${base}.playerDefinition`, message: 'player definition is required' })

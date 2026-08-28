@@ -27,4 +27,15 @@ describe('M0 app controller', () => {
     controller.resume('user')
     expect(controller.snapshot().screen).toBe('playing')
   })
+
+  it('waits for the authoritative player-died event instead of a single body engulf', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
+
+    controller.handle({ type: 'engulfed', predatorId: 'threat', preyId: 'player', biomass: 10, atMs: 1000 })
+    expect(controller.snapshot().screen).toBe('playing')
+
+    controller.handle({ type: 'player-died', cause: 'all-split-bodies-lost', atMs: 1001 })
+    expect(controller.snapshot().screen).toBe('result')
+  })
 })

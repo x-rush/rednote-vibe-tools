@@ -5,6 +5,15 @@ import rawContent from './content/content.json'
 import { ContentValidationError, getContent, type ContentPack } from './content'
 import { createGameEngine } from './game/engine'
 import type { GameEvent } from './game/interactions'
+import {
+  continueMutationContext,
+  createMutationContext,
+  installMutation,
+  offerMutations,
+  type MutationChoice,
+  type MutationContext,
+} from './evolution/mutation'
+import { EvolutionOverlay } from './ui/EvolutionOverlay'
 import { GameCanvas } from './ui/GameCanvas'
 import { Hud } from './ui/Hud'
 import './App.css'
@@ -37,6 +46,9 @@ function GameApp({ content }: { content: ContentPack }) {
   }
   const controller = controllerRef.current
   const [view, setView] = useState(() => controller.snapshot())
+  const mutationContextRef = useRef<MutationContext>(createMutationContext('env-clear-drop'))
+  const mutationChoicesRef = useRef<MutationChoice[]>([])
+  const [mutationChoices, setMutationChoices] = useState<MutationChoice[]>([])
   const sync = useCallback(() => setView(controller.snapshot()), [controller])
   const modalButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -74,24 +86,70 @@ function GameApp({ content }: { content: ContentPack }) {
 
   const handleEvents = useCallback((events: readonly GameEvent[]) => {
     events.forEach((event) => controller.handle(event))
+    const canEvolve = !['lab', 'result'].includes(controller.snapshot().screen)
+      && mutationChoicesRef.current.length === 0
+      && events.some((event) => event.type === 'mutation-ready')
+    if (canEvolve) {
+      const evolution = controller.engine()?.evolutionSnapshot()
+      if (evolution) {
+        mutationContextRef.current = {
+          ...mutationContextRef.current,
+          organIds: evolution.organelles.map((organ) => organ.id),
+          matureOrganIds: evolution.organelles.filter((organ) => organ.stage === 'mature').map((organ) => organ.id),
+          installed: [...evolution.organelles],
+          stability: evolution.stability,
+          capacity: evolution.capacity,
+        }
+      }
+      const choices = offerMutations(mutationContextRef.current)
+      if (choices.length > 0) {
+        controller.engine()?.pause('evolution')
+        mutationChoicesRef.current = choices
+        setMutationChoices(choices)
+      }
+    }
     sync()
   }, [controller, sync])
+
+  const confirmMutation = useCallback((choice: MutationChoice) => {
+    const result = installMutation(mutationContextRef.current, choice)
+    controller.engine()?.applyMutation(result)
+    mutationContextRef.current = continueMutationContext(mutationContextRef.current, result)
+    controller.handle({
+      type: 'mutation-selected',
+      entityId: 'player',
+      organId: choice.organId,
+      action: choice.action,
+      atMs: controller.engine()?.snapshot().elapsedMs ?? 0,
+    })
+    mutationChoicesRef.current = []
+    setMutationChoices([])
+    controller.engine()?.resume('evolution')
+    sync()
+  }, [controller, sync])
+
+  const resetMutationRun = useCallback(() => {
+    mutationContextRef.current = createMutationContext('env-clear-drop')
+    mutationChoicesRef.current = []
+    setMutationChoices([])
+  }, [])
 
   const engine = controller.engine()
   if (view.screen !== 'lab' && engine) {
     return (
       <main className="game-shell">
-        <GameCanvas engine={engine} label={content.ui.labels.gameCanvas} onEvents={handleEvents} />
-        {view.hud && view.screen !== 'result' && (
-          <Hud
-            snapshot={view.hud}
-            onPause={() => {
-              controller.pause('user')
-              sync()
-            }}
-          />
-        )}
-        {view.screen === 'paused' && (
+        <div className="game-stage" inert={mutationChoices.length > 0} aria-hidden={mutationChoices.length > 0 || undefined}>
+          <GameCanvas engine={engine} label={content.ui.labels.gameCanvas} onEvents={handleEvents} />
+          {view.hud && view.screen !== 'result' && (
+            <Hud
+              snapshot={view.hud}
+              onPause={() => {
+                controller.pause('user')
+                sync()
+              }}
+            />
+          )}
+          {view.screen === 'paused' && (
           <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title" onKeyDown={trapModalFocus}>
             <p className="hatchery-region">{content.ui.labels.openingRegion}</p>
             <h2 id="pause-title">{content.ui.screens.pauseTitle}</h2>
@@ -112,6 +170,7 @@ function GameApp({ content }: { content: ContentPack }) {
                 className="game-overlay__secondary"
                 type="button"
                 onClick={() => {
+                  resetMutationRun()
                   controller.restart()
                   sync()
                 }}
@@ -120,8 +179,8 @@ function GameApp({ content }: { content: ContentPack }) {
               </button>
             </div>
           </section>
-        )}
-        {view.screen === 'result' && (
+          )}
+          {view.screen === 'result' && (
           <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="result-title" onKeyDown={trapModalFocus}>
             <p className="hatchery-region">{content.ui.screens.survival} · {formatElapsed(view.hud?.elapsedMs ?? 0)}</p>
             <h2 id="result-title">{content.ui.screens.resultTitle}</h2>
@@ -131,6 +190,7 @@ function GameApp({ content }: { content: ContentPack }) {
               className="hatchery-start"
               type="button"
               onClick={() => {
+                resetMutationRun()
                 controller.restart()
                 sync()
               }}
@@ -138,7 +198,9 @@ function GameApp({ content }: { content: ContentPack }) {
               {content.ui.actions.restart}
             </button>
           </section>
-        )}
+          )}
+        </div>
+        {mutationChoices.length > 0 && <EvolutionOverlay choices={mutationChoices} onConfirm={confirmMutation} />}
       </main>
     )
   }
@@ -162,6 +224,7 @@ function GameApp({ content }: { content: ContentPack }) {
           className="hatchery-start"
           type="button"
           onClick={() => {
+            resetMutationRun()
             controller.startRun({ seed: Date.now() >>> 0, originId: 'origin-primal-cell' })
             sync()
           }}

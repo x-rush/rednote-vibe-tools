@@ -3,6 +3,8 @@ import type { InteractionContext } from '../game/interactions'
 import { createGameEngine, type ProtoCellEngine } from '../game/engine'
 import type { ControllerDependencies } from '../app/controller'
 import { getContent, type ContentPack } from '../content'
+import type { EvolvedEntityState, OrganPerception } from '../evolution/organs'
+import type { MutationContext } from '../evolution/mutation'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -66,4 +68,72 @@ export function testDependencies(): ControllerDependencies {
 
 export function contentFixture(): ContentPack {
   return structuredClone(getContent())
+}
+
+export function playerWith(
+  organInput: string | string[],
+  overrides: Partial<Omit<EvolvedEntityState, 'installedOrganelles'>> = {},
+): EvolvedEntityState {
+  const organIds = (Array.isArray(organInput) ? organInput : [organInput]) as Array<ContentPack['organelles'][number]['id']>
+  const base = entity('large', 12)
+  return {
+    ...base,
+    mass: 144,
+    membrane: 100,
+    energy: 100,
+    stability: 100,
+    installedOrganelles: organIds.map((id) => {
+      const definition = getContent().organelles.find((item) => item.id === id)
+      if (!definition) throw new RangeError(`Unknown organ id: ${id}`)
+      return {
+        id,
+        stage: 'installed' as const,
+        anchor: definition.slots[0],
+        charges: definition.behaviorId === 'fatal-hit-guard' ? 1 : undefined,
+      }
+    }),
+    ...overrides,
+  }
+}
+
+export function perception(overrides: Partial<OrganPerception> = {}): OrganPerception {
+  return {
+    atMs: 5000,
+    containmentRatio: 0,
+    hostileCount: 0,
+    speedRatio: 0,
+    sameDirectionMs: 0,
+    msSinceDamage: 5000,
+    membraneMax: 100,
+    collisionStrength: 0,
+    incomingFatalDamage: false,
+    incomingDamage: 0,
+    threatEscapeDirection: { x: -1, y: 0 },
+    cooldownRemainingMs: {},
+    ...overrides,
+  }
+}
+
+export function mutationContext(overrides: Partial<MutationContext> = {}): MutationContext {
+  const organIds = overrides.organIds ?? []
+  const matureOrganIds = overrides.matureOrganIds ?? []
+  const installed = overrides.installed ?? organIds.map((id) => {
+    const definition = getContent().organelles.find((item) => item.id === id)
+    if (!definition) throw new RangeError(`Unknown organ id: ${id}`)
+    return {
+      id,
+      stage: matureOrganIds.includes(id) ? 'mature' as const : 'installed' as const,
+      anchor: definition.slots[0],
+      charges: definition.behaviorId === 'fatal-hit-guard' ? matureOrganIds.includes(id) ? 2 : 1 : undefined,
+    }
+  })
+  return {
+    environmentId: 'env-clear-drop',
+    organIds,
+    matureOrganIds,
+    installed,
+    stability: 100,
+    capacity: 6,
+    ...overrides,
+  }
 }

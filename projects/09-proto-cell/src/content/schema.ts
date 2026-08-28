@@ -41,7 +41,7 @@ export type M0EnvironmentContent = {
   id: EnvironmentId
   width: number
   height: number
-  playerDefinition: EntityDefinitionContent & { stability: number; evolutionThreshold: number }
+  playerDefinition: EntityDefinitionContent & { stability: number; evolutionThreshold: number; evolutionThresholdGrowth: number }
   entityDefinitions: EntityDefinitionContent[]
   spawnSchedule: Array<{ atMs: number; definitionId: string; count: number }>
 }

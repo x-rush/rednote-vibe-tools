@@ -131,4 +131,18 @@ describe('content integrity validation', () => {
       '$.bosses[0].phases',
     ]))
   })
+
+  it('rejects a route whose destination environment is undeclared', () => {
+    const pack = contentFixture()
+    pack.m1.routeRifts[0].destinationEnvironmentId = 'env-missing'
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.m1.routeRifts[0].destinationEnvironmentId')
+  })
+
+  it('requires the stable ending threshold to be explicit', () => {
+    const pack = contentFixture()
+    delete pack.endings[0].minimumStability
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.endings[0].minimumStability')
+  })
 })

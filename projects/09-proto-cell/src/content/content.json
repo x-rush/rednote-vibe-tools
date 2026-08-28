@@ -13,7 +13,8 @@
       "start": "开始孵化",
       "pause": "暂停",
       "resume": "继续游动",
-      "restart": "重新孵化",
+    "restart": "重新孵化",
+    "restartAfterLife": "再次孵化",
       "confirmMutation": "确认进化",
       "cancelMutation": "再看看",
       "openArchive": "查看生命档案"
@@ -31,7 +32,15 @@
       "mutationRecombine": "重组",
       "mutationExpand": "扩容",
       "mutationReplaces": "将替换",
-      "mutationSynergy": "组合激活"
+    "mutationSynergy": "组合激活",
+    "archiveDishCode": "培养皿码",
+    "archiveEnvironment": "最远水域",
+    "archivePeakBiomass": "峰值生物质",
+    "archiveKeyOrgans": "关键器官",
+    "archiveSynergies": "形成组合",
+    "archiveSpeciesSeed": "物种种子",
+    "archiveNoOrgans": "未形成稳定器官",
+    "archiveCell": "本次生命留下的最终细胞形态"
     },
     "hud": {
       "membrane": "膜",
@@ -68,6 +77,32 @@
       "bossId": "boss-membrane-queen",
       "visualPalette": ["#073d66", "#72f5ff", "#ffbf69"],
       "ambientAudioId": "audio-clear-drop"
+    },
+    {
+      "id": "env-algae-glow",
+      "name": "藻光层",
+      "order": 1,
+      "durationTargetSec": [300, 480],
+      "visibility": 0.7,
+      "viscosity": 0.28,
+      "hazardTags": ["light-pulse", "algae-cover"],
+      "spawnTableId": "spawn-clear-drop-m1",
+      "eventIds": [],
+      "visualPalette": ["#062f35", "#63ffd1", "#c8ff62"],
+      "ambientAudioId": "audio-algae-glow"
+    },
+    {
+      "id": "env-acid-vesicle",
+      "name": "酸性囊泡",
+      "order": 2,
+      "durationTargetSec": [300, 480],
+      "visibility": 0.58,
+      "viscosity": 0.34,
+      "hazardTags": ["acid", "corrosion"],
+      "spawnTableId": "spawn-clear-drop-m1",
+      "eventIds": [],
+      "visualPalette": ["#32152f", "#ff765c", "#dfff68"],
+      "ambientAudioId": "audio-acid-vesicle"
     }
   ],
   "nutrients": [
@@ -347,14 +382,16 @@
     {
       "id": "ending-stable-species",
       "name": "稳定新种",
-      "conditionId": "boss-resolved-and-stable"
+      "conditionId": "boss-resolved-and-stable",
+      "minimumStability": 70
     }
   ],
   "deathTemplates": [
     { "id": "death-engulfed", "eventType": "player-died", "requiredTags": ["engulfed"], "priority": 100, "text": "轮廓在更大的膜内消失" },
     { "id": "death-ruptured", "eventType": "player-died", "requiredTags": ["ruptured"], "priority": 90, "text": "膜在压力脉冲中破裂" },
     { "id": "death-acid-corrosion", "eventType": "player-died", "requiredTags": ["acid"], "priority": 95, "text": "膜被酸性流场逐层腐蚀" },
-    { "id": "death-spine-pulse", "eventType": "player-died", "requiredTags": ["spine"], "priority": 80, "text": "棘刺脉冲击穿了最后一层膜" }
+    { "id": "death-spine-pulse", "eventType": "player-died", "requiredTags": ["spine"], "priority": 80, "text": "棘刺脉冲击穿了最后一层膜" },
+    { "id": "death-organelle-instability", "eventType": "player-died", "requiredTags": ["organelle", "instability"], "priority": 98, "text": "器官组合失去稳定，轮廓无法延续" }
   ],
   "visualRecipes": [
     { "id": "visual-origin-primal-cell", "kind": "cell", "palette": ["#72f5ff", "#ffbf69"] },

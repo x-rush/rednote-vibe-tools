@@ -16,6 +16,8 @@ import {
 import { EvolutionOverlay } from './ui/EvolutionOverlay'
 import { GameCanvas } from './ui/GameCanvas'
 import { Hud } from './ui/Hud'
+import { Archive } from './ui/Archive'
+import { createViewModel } from './app/view-model'
 import './App.css'
 
 function App() {
@@ -135,6 +137,7 @@ function GameApp({ content }: { content: ContentPack }) {
   }, [])
 
   const engine = controller.engine()
+  const archiveModel = createViewModel(view, content).archive
   if (view.screen !== 'lab' && engine) {
     return (
       <main className="game-shell">
@@ -180,24 +183,17 @@ function GameApp({ content }: { content: ContentPack }) {
             </div>
           </section>
           )}
-          {view.screen === 'result' && (
-          <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="result-title" onKeyDown={trapModalFocus}>
-            <p className="hatchery-region">{content.ui.screens.survival} · {formatElapsed(view.hud?.elapsedMs ?? 0)}</p>
-            <h2 id="result-title">{content.ui.screens.resultTitle}</h2>
-            <p>{content.ui.screens.resultDescription}</p>
-            <button
-              ref={modalButtonRef}
-              className="hatchery-start"
-              type="button"
-              onClick={() => {
+          {view.screen === 'result' && archiveModel && (
+            <Archive
+              model={archiveModel}
+              restartButtonRef={modalButtonRef}
+              onKeyDown={trapModalFocus}
+              onRestart={() => {
                 resetMutationRun()
                 controller.restart()
                 sync()
               }}
-            >
-              {content.ui.actions.restart}
-            </button>
-          </section>
+            />
           )}
         </div>
         {mutationChoices.length > 0 && <EvolutionOverlay choices={mutationChoices} onConfirm={confirmMutation} />}
@@ -244,13 +240,6 @@ function trapModalFocus(event: KeyboardEvent<HTMLElement>): void {
   if (targetIndex === undefined) return
   event.preventDefault()
   controls[targetIndex]?.focus()
-}
-
-function formatElapsed(elapsedMs: number): string {
-  const totalSeconds = Math.max(0, Math.floor(elapsedMs / 1000))
-  const minutes = Math.floor(totalSeconds / 60)
-  const seconds = String(totalSeconds % 60).padStart(2, '0')
-  return `${minutes}:${seconds}`
 }
 
 export default App

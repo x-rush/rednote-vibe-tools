@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { circleBody, createTestEngine, entityAt, m1BossState, mutationContext } from '../tests/fixtures'
 import { createEntity } from '../entities/factory'
-import { contactDamageAt, contactDamageForPair, createGameEngine, ensureSwarmPrimary, neutralizeResolvedBoss, runStableEntityPass } from './engine'
+import { bossTerminalEvent, contactDamageAt, contactDamageForPair, createGameEngine, endingForBossRewards, ensureSwarmPrimary, neutralizeResolvedBoss, runStableEntityPass, terminatePlayerEntities } from './engine'
 import { installMutation, offerMutations } from '../evolution/mutation'
 
 describe('game engine lifecycle', () => {
@@ -186,7 +186,41 @@ describe('game engine lifecycle', () => {
 
     expect(engine.worldSnapshot().boss).toMatchObject({ phase: 'resolved', resolutionCandidate: 'combat' })
     expect(engine.renderSnapshot().entities.some((entity) => entity.id === state.id)).toBe(false)
-    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'boss-resolved', path: 'combat' }))
+    expect(engine.drainEvents()).toEqual(expect.arrayContaining([
+      expect.objectContaining({ type: 'boss-resolved', path: 'combat' }),
+      expect.objectContaining({ type: 'ending-reached', endingId: 'ending-stable-species' }),
+    ]))
+    const terminalElapsed = engine.snapshot().elapsedMs
+    const terminalMorphology = engine.morphologySnapshot()
+    engine.advance(500)
+    expect(engine.snapshot().elapsedMs).toBe(terminalElapsed)
+    expect(engine.morphologySnapshot()).toEqual(terminalMorphology)
+    expect(engine.drainEvents()).toEqual([])
+  })
+
+  it('does not award the stable-species ending below its content threshold', () => {
+    expect(endingForBossRewards(['ending-stable-species'], 69)).toBeUndefined()
+    expect(endingForBossRewards(['ending-stable-species'], 70)).toBe('ending-stable-species')
+    expect(bossTerminalEvent(['ending-stable-species'], 69, 5000)).toEqual({
+      type: 'player-died',
+      cause: 'organelle-instability',
+      atMs: 5000,
+    })
+  })
+
+  it('makes an instability terminal event authoritative for every live player body', () => {
+    const primary = { ...entityAt('player', 0, 0), faction: 'player' as const }
+    const child = { ...entityAt('player-child-1', 10, 0), faction: 'player' as const }
+    const neutral = entityAt('nutrient', 20, 0)
+    const entities = new Map([[primary.id, primary], [child.id, child], [neutral.id, neutral]])
+
+    terminatePlayerEntities(entities)
+
+    expect([...entities.values()].filter((entity) => entity.faction === 'player')).toEqual([
+      expect.objectContaining({ id: 'player', status: 'ruptured', mass: 0, membrane: 0 }),
+      expect.objectContaining({ id: 'player-child-1', status: 'ruptured', mass: 0, membrane: 0 }),
+    ])
+    expect(entities.get('nutrient')?.status).toBe('active')
   })
 
   it('promotes a surviving split body when the original player body is lost', () => {
@@ -227,6 +261,10 @@ describe('game engine lifecycle', () => {
     expect(engine.snapshot().stability).toBe(97)
     expect(engine.evolutionSnapshot().organelles).toContainEqual(expect.objectContaining({
       id: 'organelle-jet-vacuole',
+    }))
+    expect(engine.morphologySnapshot().organelles).toContainEqual(expect.objectContaining({
+      id: 'organelle-jet-vacuole',
+      anchor: 'rear',
     }))
   })
 

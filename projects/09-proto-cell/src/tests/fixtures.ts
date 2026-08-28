@@ -7,6 +7,8 @@ import type { EvolvedEntityState, OrganPerception } from '../evolution/organs'
 import type { MutationContext } from '../evolution/mutation'
 import type { EventContext } from '../world/events'
 import { createBoss, type BossPath, type BossState } from '../world/bosses'
+import type { GameEvent } from '../game/interactions'
+import type { LifeEventLogEntry } from '../progression/archive'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -70,6 +72,14 @@ export function testDependencies(): ControllerDependencies {
 
 export function contentFixture(): ContentPack {
   return structuredClone(getContent())
+}
+
+export function testContent(): ContentPack {
+  return contentFixture()
+}
+
+export function eventLog(events: readonly GameEvent[]): LifeEventLogEntry[] {
+  return events.map((event, index) => ({ sequence: index + 1, event: { ...event } }))
 }
 
 export function playerWith(

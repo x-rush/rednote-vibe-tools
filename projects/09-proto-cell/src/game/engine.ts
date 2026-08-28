@@ -23,10 +23,19 @@ export type HudSnapshot = {
   energy: number
   stability: number
   biomass: number
+  peakBiomass: number
   evolutionThreshold: number
   elapsedMs: number
   environmentId: string
   paused: boolean
+}
+
+export type PlayerMorphologySnapshot = {
+  bodyCount: number
+  totalMass: number
+  radius: number
+  stability: number
+  organelles: InstalledOrganelle[]
 }
 
 export type GameEngine = {
@@ -57,6 +66,7 @@ export type ProtoCellEngine = GameEngine & {
   renderSnapshot(): WorldRenderSnapshot
   applyMutation(result: MutationInstallResult): void
   evolutionSnapshot(): { organelles: readonly InstalledOrganelle[]; capacity: number; stability: number }
+  morphologySnapshot(): PlayerMorphologySnapshot
   worldSnapshot(): { activeEvent?: EcosystemEventState; boss?: BossState; selectedRouteId?: string }
 }
 
@@ -129,6 +139,15 @@ export function createGameEngine(options: {
   let bossResolutionEmitted = false
   let lastBossRamAt = Number.NEGATIVE_INFINITY
   let selectedRouteId: string | undefined
+  let peakBiomass = player.mass
+  let terminalReached = false
+  let lastLiveMorphology: PlayerMorphologySnapshot = {
+    bodyCount: 1,
+    totalMass: player.mass,
+    radius: player.body.radius,
+    stability: environment.playerDefinition.stability,
+    organelles: [],
+  }
 
   spawnDue(elapsedMs)
 
@@ -154,11 +173,14 @@ export function createGameEngine(options: {
     snapshot() {
       const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
       const currentPlayer = entities.get(PLAYER_ID) ?? playerBodies[0] ?? player
+      const biomass = playerBodies.reduce((sum, body) => sum + body.mass, 0)
+      peakBiomass = Math.max(peakBiomass, biomass)
       return {
         membrane: activeSwarm ? playerBodies.reduce((sum, body) => sum + body.membrane, 0) : currentPlayer.membrane,
         energy: activeSwarm ? playerBodies.reduce((sum, body) => sum + body.energy, 0) : currentPlayer.energy,
         stability: playerStability,
-        biomass: playerBodies.reduce((sum, body) => sum + body.mass, 0),
+        biomass,
+        peakBiomass,
         evolutionThreshold,
         elapsedMs,
         environmentId,
@@ -195,12 +217,19 @@ export function createGameEngine(options: {
       organCapacity = result.capacity
       evolutionThreshold = Math.ceil(evolutionThreshold * environment.playerDefinition.evolutionThresholdGrowth)
       mutationPending = false
+      captureLiveMorphology()
     },
     evolutionSnapshot() {
       return {
         organelles: installedOrganelles,
         capacity: organCapacity,
         stability: playerStability,
+      }
+    },
+    morphologySnapshot() {
+      return {
+        ...lastLiveMorphology,
+        organelles: lastLiveMorphology.organelles.map((organ) => ({ ...organ })),
       }
     },
     worldSnapshot() {
@@ -220,6 +249,7 @@ export function createGameEngine(options: {
   return engine
 
   function simulateStep(stepMs: number) {
+    if (terminalReached) return
     elapsedMs += stepMs
     stepWorldFeatures(stepMs)
     spawnDue(elapsedMs)
@@ -228,9 +258,18 @@ export function createGameEngine(options: {
     moveEntities(stepMs, passive.speedMultiplier)
     stepFusion(stepMs)
     stepRouteRiftsAndBoss(stepMs)
+    if (terminalReached) {
+      captureLiveMorphology()
+      return
+    }
     rebuildGrid()
     resolveNearbyInteractions()
+    if (terminalReached) {
+      captureLiveMorphology()
+      return
+    }
     syncActiveSwarm(true)
+    captureLiveMorphology()
 
     const playerMass = [...entities.values()]
       .filter((entity) => entity.faction === 'player' && entity.status === 'active')
@@ -348,6 +387,14 @@ export function createGameEngine(options: {
     }
     if (!bossResolutionEmitted) {
       events.push({ type: 'boss-resolved', bossId: bossState.id, path: bossState.resolutionCandidate, atMs: elapsedMs })
+      const definition = content.bosses.find((item) => item.id === bossState?.id)
+      const terminalEvent = bossTerminalEvent(definition?.rewardIds ?? [], playerStability, elapsedMs)
+      if (terminalEvent.type === 'player-died') {
+        terminatePlayerEntities(entities)
+        activeSwarm = undefined
+      }
+      events.push(terminalEvent)
+      terminalReached = true
       bossResolutionEmitted = true
     }
   }
@@ -552,6 +599,7 @@ export function createGameEngine(options: {
         status: child.status,
       }))
     }
+    captureLiveMorphology()
     swarmStableMs = 0
     return true
   }
@@ -635,6 +683,19 @@ export function createGameEngine(options: {
     activeSwarm = undefined
   }
 
+  function captureLiveMorphology() {
+    const liveBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
+    if (liveBodies.length === 0) return
+    const liveIds = new Set(liveBodies.map((body) => body.id))
+    lastLiveMorphology = {
+      bodyCount: liveBodies.length,
+      totalMass: liveBodies.reduce((sum, body) => sum + body.mass, 0),
+      radius: liveBodies.reduce((maximum, body) => Math.max(maximum, body.body.radius), 0),
+      stability: playerStability,
+      organelles: (activeSwarm?.filter((body) => liveIds.has(body.id)).flatMap((body) => body.organelles) ?? installedOrganelles).map((organ) => ({ ...organ })),
+    }
+  }
+
   function consumeOrganCharge(entityId: string, organId: string) {
     updateBodyOrganelles(entityId, (organelles) => organelles.map((organ) => (
       organ.id === organId ? { ...organ, charges: Math.max(0, (organ.charges ?? 0) - 1) } : organ
@@ -672,6 +733,7 @@ export function createGameEngine(options: {
   function resolveNearbyInteractions() {
     const visited = new Set<string>()
     runStableEntityPass(entities, (entity, enqueueEntity) => {
+      if (terminalReached) return
       if (entity.status !== 'active') return
       const reach = entity.body.radius + 72
       const nearby = grid.query({
@@ -704,6 +766,7 @@ export function createGameEngine(options: {
             lastBossRamAt = elapsedMs
             events.push({ type: 'damaged', targetId: pairBoss.id, amount, source: 'ram', atMs: elapsedMs })
             emitBossResolution()
+            if (terminalReached) return
             if (bossState.phase === 'resolved') continue
           }
         }
@@ -735,6 +798,12 @@ export function createGameEngine(options: {
         })
         entities.set(result.entities[0].id, resizeForMass(result.entities[0]))
         entities.set(result.entities[1].id, resizeForMass(result.entities[1]))
+        if (first.faction === 'player' || second.faction === 'player') {
+          peakBiomass = Math.max(peakBiomass, [...entities.values()]
+            .filter((current) => current.faction === 'player' && current.status === 'active')
+            .reduce((sum, current) => sum + current.mass, 0))
+          captureLiveMorphology()
+        }
         result.fragments.forEach(enqueueEntity)
         events.push(...result.events)
         const engulfed = result.events.find((event) => event.type === 'engulfed')
@@ -749,6 +818,7 @@ export function createGameEngine(options: {
             })
             bossState = stepBoss(bossState, { atMs: elapsedMs })
             emitBossResolution()
+            if (terminalReached) return
           }
         }
         if (pairPlayer && result.events.some((event) => event.type === 'damaged' && event.targetId === pairPlayer.id)) lastDamageAt = elapsedMs
@@ -785,6 +855,31 @@ export function runStableEntityPass<T extends { id: string }>(
 export function neutralizeResolvedBoss(entity: EntityState, state: BossState): EntityState {
   if (entity.id !== state.id || state.phase !== 'resolved') return entity
   return { ...entity, velocity: { x: 0, y: 0 }, status: 'engulfed' }
+}
+
+export function endingForBossRewards(rewardIds: readonly string[], stability: number): string | undefined {
+  const ending = content.endings.find((item) => rewardIds.includes(item.id))
+  if (!ending) return undefined
+  if (ending.conditionId === 'boss-resolved-and-stable' && stability < (ending.minimumStability ?? Infinity)) return undefined
+  return ending.id
+}
+
+export function bossTerminalEvent(
+  rewardIds: readonly string[],
+  stability: number,
+  atMs: number,
+): Extract<GameEvent, { type: 'ending-reached' | 'player-died' }> {
+  const endingId = endingForBossRewards(rewardIds, stability)
+  return endingId
+    ? { type: 'ending-reached', endingId, atMs }
+    : { type: 'player-died', cause: 'organelle-instability', atMs }
+}
+
+export function terminatePlayerEntities(entities: Map<string, EntityState>): void {
+  for (const [id, entity] of entities) {
+    if (entity.faction !== 'player' || entity.status !== 'active') continue
+    entities.set(id, { ...entity, mass: 0, membrane: 0, energy: 0, velocity: { x: 0, y: 0 }, status: 'ruptured' })
+  }
 }
 
 export function ensureSwarmPrimary(

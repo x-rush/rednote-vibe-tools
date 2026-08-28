@@ -1,5 +1,6 @@
 import type { ProtoCellEngine, PauseReason } from '../game/engine'
 import type { GameEvent } from '../game/interactions'
+import type { LifeEventLogEntry } from '../progression/archive'
 
 export type ControllerDependencies = {
   createEngine(input: { seed: number; originId: string }): ProtoCellEngine
@@ -13,6 +14,7 @@ export type ControllerSnapshot = {
   originId?: string
   cause?: string
   hud?: ReturnType<ProtoCellEngine['snapshot']>
+  eventLog: readonly LifeEventLogEntry[]
 }
 
 export type AppController = {
@@ -33,6 +35,7 @@ export function createController(dependencies: ControllerDependencies): AppContr
   let seed: number | undefined
   let originId: string | undefined
   let cause: string | undefined
+  let eventLog: LifeEventLogEntry[] = []
 
   return {
     startRun(input) {
@@ -41,6 +44,7 @@ export function createController(dependencies: ControllerDependencies): AppContr
       seed = input.seed
       originId = input.originId
       cause = undefined
+      eventLog = []
       activeEngine = dependencies.createEngine(input)
       activeEngine.start()
       screen = 'playing'
@@ -58,11 +62,26 @@ export function createController(dependencies: ControllerDependencies): AppContr
       screen = pauseReasons.size === 0 ? 'playing' : 'paused'
     },
     handle(event) {
-      if (event.type !== 'player-died') return
       if (!activeEngine || seed === undefined || !originId || screen === 'result') return
 
-      cause = event.cause
-      const survivalMs = activeEngine.snapshot().elapsedMs
+      const hud = activeEngine.snapshot()
+      eventLog.push({
+        sequence: eventLog.length + 1,
+        event: { ...event },
+        snapshot: {
+          runSeed: seed,
+          elapsedMs: hud.elapsedMs,
+          environmentId: event.type === 'route-selected' ? event.environmentId : hud.environmentId,
+          biomass: hud.biomass,
+          peakBiomass: hud.peakBiomass,
+          organelleIds: activeEngine.evolutionSnapshot().organelles.map((organ) => organ.id),
+          morphology: activeEngine.morphologySnapshot(),
+        },
+      })
+      if (event.type !== 'player-died' && event.type !== 'ending-reached') return
+
+      cause = event.type === 'player-died' ? event.cause : event.endingId
+      const survivalMs = hud.elapsedMs
       activeEngine.pause('user')
       dependencies.recordResult({ seed, originId, cause, survivalMs })
       screen = 'result'
@@ -79,6 +98,17 @@ export function createController(dependencies: ControllerDependencies): AppContr
         originId,
         cause,
         hud: activeEngine?.snapshot(),
+        eventLog: eventLog.map((entry) => ({
+          ...entry,
+          snapshot: entry.snapshot ? {
+            ...entry.snapshot,
+            organelleIds: [...entry.snapshot.organelleIds],
+            morphology: entry.snapshot.morphology ? {
+              ...entry.snapshot.morphology,
+              organelles: entry.snapshot.morphology.organelles.map((organ) => ({ ...organ })),
+            } : undefined,
+          } : undefined,
+        })),
       }
     },
     engine() {
@@ -88,6 +118,7 @@ export function createController(dependencies: ControllerDependencies): AppContr
       activeEngine?.destroy()
       activeEngine = undefined
       pauseReasons.clear()
+      eventLog = []
       screen = 'lab'
     },
   }

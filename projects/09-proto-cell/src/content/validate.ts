@@ -103,7 +103,7 @@ export function validateContent(input: unknown): ContentValidationResult {
   const m0Entities = validateM0(input.m0, environmentIds, visualsByKind.cell)
   validateOriginsEntityReferences(collections.get('origins') ?? [], m0Entities.playerIds)
   validateEnvironments(collections.get('environments') ?? [], spawnTableIds, eventIds, bossIds)
-  validateM1(input.m1, eventIds)
+  validateM1(input.m1, eventIds, environmentIds)
 
   require((collections.get('organelles') ?? []).length >= 6, '$.organelles', 'M1 requires six organs')
   require((collections.get('synergies') ?? []).length >= 2, '$.synergies', 'M1 requires two synergies')
@@ -135,10 +135,10 @@ export function validateContent(input: unknown): ContentValidationResult {
       require(isRecord(value[key]) && Object.values(value[key]).every((copy) => typeof copy === 'string' && copy.length > 0), `$.ui.${key}`, 'UI copy group must contain non-empty strings')
     }
     const requiredCopy: Record<string, string[]> = {
-      actions: ['start', 'pause', 'resume', 'restart'],
-      labels: ['prototypeCell', 'openingRegion', 'gameCanvas'],
+      actions: ['start', 'pause', 'resume', 'restart', 'restartAfterLife'],
+      labels: ['prototypeCell', 'openingRegion', 'gameCanvas', 'archiveDishCode', 'archiveEnvironment', 'archivePeakBiomass', 'archiveKeyOrgans', 'archiveSynergies', 'archiveSpeciesSeed', 'archiveNoOrgans', 'archiveCell'],
       hud: ['membrane', 'energy', 'stability', 'biomass', 'evolution'],
-      screens: ['pauseTitle', 'pauseDescription', 'resultTitle', 'resultDescription', 'survival', 'contentErrorTitle', 'contentErrorDescription'],
+      screens: ['pauseTitle', 'pauseDescription', 'resultTitle', 'resultDescription', 'survival', 'contentErrorTitle', 'contentErrorDescription', 'archiveTitle'],
     }
     for (const [group, keys] of Object.entries(requiredCopy)) {
       const copyGroup = isRecord(value[group]) ? value[group] : {}
@@ -284,7 +284,7 @@ export function validateContent(input: unknown): ContentValidationResult {
     })
   }
 
-  function validateM1(value: unknown, events: Set<string>) {
+  function validateM1(value: unknown, events: Set<string>, environments: Set<string>) {
     if (!isRecord(value)) {
       issues.push({ path: '$.m1', message: 'M1 pacing configuration is required' })
       return
@@ -315,7 +315,7 @@ export function validateContent(input: unknown): ContentValidationResult {
       requiredString(rift.id, `${path}.id`)
       require(typeof rift.id === 'string' && rift.id.startsWith('route-rift-') && !ids.has(rift.id), `${path}.id`, 'route rift id must be unique')
       if (typeof rift.id === 'string') ids.add(rift.id)
-      require(typeof rift.destinationEnvironmentId === 'string' && rift.destinationEnvironmentId.startsWith('env-'), `${path}.destinationEnvironmentId`, 'route destination must be an environment id')
+      reference(rift.destinationEnvironmentId, environments, `${path}.destinationEnvironmentId`, 'route destination environment')
       require(typeof rift.opensAtMs === 'number' && Number.isFinite(rift.opensAtMs) && rift.opensAtMs >= 300_000, `${path}.opensAtMs`, 'route rift must open after five minutes')
       for (const field of ['hazardId', 'resourceId', 'affinityIconId']) requiredString(rift[field], `${path}.${field}`)
     })
@@ -363,6 +363,9 @@ export function validateContent(input: unknown): ContentValidationResult {
     items.forEach((item, index) => {
       requiredString(item.name, `$.endings[${index}].name`)
       requiredString(item.conditionId, `$.endings[${index}].conditionId`)
+      if (item.conditionId === 'boss-resolved-and-stable') {
+        require(typeof item.minimumStability === 'number' && Number.isFinite(item.minimumStability) && item.minimumStability >= 0 && item.minimumStability <= 100, `$.endings[${index}].minimumStability`, 'stable ending threshold must be between zero and one hundred')
+      }
     })
   }
 

@@ -168,7 +168,7 @@ export type ModifierDefinition = {
   accessibilityImpact: string
 }
 
-export type EndingDefinition = { id: EndingId; name: string; conditionId: string }
+export type EndingDefinition = { id: EndingId; name: string; conditionId: string; minimumStability?: number }
 
 export type DeathTemplateDefinition = {
   id: DeathTemplateId

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { testDependencies } from '../tests/fixtures'
 import { createController } from './controller'
 
@@ -37,5 +37,31 @@ describe('M0 app controller', () => {
 
     controller.handle({ type: 'player-died', cause: 'all-split-bodies-lost', atMs: 1001 })
     expect(controller.snapshot().screen).toBe('result')
+    expect(controller.snapshot().eventLog.map((entry) => entry.sequence)).toEqual([1, 2])
+  })
+
+  it('records structured run facts and ends on a real ending event', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
+    controller.handle({ type: 'route-selected', environmentId: 'env-acid-vesicle', atMs: 5000 })
+    controller.handle({ type: 'ending-reached', endingId: 'ending-stable-species', atMs: 6000 })
+
+    expect(controller.snapshot()).toMatchObject({ screen: 'result', cause: 'ending-stable-species' })
+    expect(controller.snapshot().eventLog[0]?.snapshot).toMatchObject({
+      runSeed: 727,
+      environmentId: 'env-acid-vesicle',
+      morphology: { bodyCount: 1, totalMass: 144, radius: 12, stability: 100 },
+    })
+  })
+
+  it('destroys the completed engine before an immediate restart', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
+    const destroy = vi.spyOn(controller.engine()!, 'destroy')
+
+    controller.restart()
+
+    expect(destroy).toHaveBeenCalledOnce()
+    expect(controller.snapshot()).toMatchObject({ screen: 'playing', seed: 728, eventLog: [] })
   })
 })

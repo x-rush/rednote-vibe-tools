@@ -60,6 +60,9 @@ type EngineEnvironment = {
 
 const STEP_MS = 1000 / 60
 const PLAYER_ID = 'player'
+const ACCELERATION_RESPONSE_SECONDS = 0.18
+const DRIFT_RESPONSE_SECONDS = 0.32
+export const CONTACT_DAMAGE_ARM_MS = 420
 
 export function createGameEngine(options: {
   seed: number
@@ -171,7 +174,7 @@ export function createGameEngine(options: {
     for (const [entityId, scheduledAt] of scheduleAt) {
       if (scheduledAt > atMs || spawnedIds.has(entityId)) continue
       const entity = regionById.get(entityId)
-      if (entity) entities.set(entityId, entity)
+      if (entity) entities.set(entityId, { ...entity, spawnedAtMs: atMs })
       spawnedIds.add(entityId)
     }
   }
@@ -198,9 +201,15 @@ export function createGameEngine(options: {
             }),
           })
       const maxSpeed = 'maxSpeed' in entity ? Number(entity.maxSpeed) : 52
-      const velocity = {
+      const desiredVelocity = {
         x: intent.direction.x * intent.strength * maxSpeed,
         y: intent.direction.y * intent.strength * maxSpeed,
+      }
+      const responseSeconds = intent.strength > 0 ? ACCELERATION_RESPONSE_SECONDS : DRIFT_RESPONSE_SECONDS
+      const blend = 1 - Math.exp(-seconds / responseSeconds)
+      const velocity = {
+        x: entity.velocity.x + (desiredVelocity.x - entity.velocity.x) * blend,
+        y: entity.velocity.y + (desiredVelocity.y - entity.velocity.y) * blend,
       }
       const position = {
         x: clamp(entity.position.x + velocity.x * seconds, entity.body.radius, environment.width - entity.body.radius),
@@ -212,8 +221,8 @@ export function createGameEngine(options: {
 
   function resolveNearbyInteractions() {
     const visited = new Set<string>()
-    for (const entity of entities.values()) {
-      if (entity.status !== 'active') continue
+    runStableEntityPass(entities, (entity, enqueueEntity) => {
+      if (entity.status !== 'active') return
       const reach = entity.body.radius + 72
       const nearby = grid.query({
         x: entity.position.x - reach,
@@ -240,7 +249,7 @@ export function createGameEngine(options: {
         })
         entities.set(result.entities[0].id, resizeForMass(result.entities[0]))
         entities.set(result.entities[1].id, resizeForMass(result.entities[1]))
-        result.fragments.forEach((fragment) => entities.set(fragment.id, fragment))
+        result.fragments.forEach(enqueueEntity)
         events.push(...result.events)
         if (configuredDamage && result.events.some((event) => event.type === 'damaged' && event.targetId === configuredDamage.damage.targetId)) {
           damagePeriods.set(configuredDamage.lockKey, configuredDamage.periodIndex)
@@ -252,8 +261,24 @@ export function createGameEngine(options: {
           events.push({ type: 'player-died', cause: 'engulfed-or-ruptured', atMs: elapsedMs })
         }
       }
-    }
+    })
   }
+}
+
+export function runStableEntityPass<T extends { id: string }>(
+  entities: Map<string, T>,
+  visit: (entity: T, enqueue: (entity: T) => void) => void,
+): void {
+  const ids = [...entities.keys()]
+  const pending: T[] = []
+  const enqueue = (entity: T) => pending.push(entity)
+
+  for (const id of ids) {
+    const entity = entities.get(id)
+    if (entity) visit(entity, enqueue)
+  }
+
+  for (const entity of pending) entities.set(entity.id, entity)
 }
 
 export function contactDamageAt(entity: EntityState, atMs: number): {
@@ -278,8 +303,8 @@ export function contactDamageForPair(
   damagePeriods: ReadonlyMap<string, number>,
 ) {
   const options = [
-    { attacker: first, target: second, active: contactDamageAt(first, atMs) },
-    { attacker: second, target: first, active: contactDamageAt(second, atMs) },
+    { attacker: first, target: second, active: armedContactDamageAt(first, atMs) },
+    { attacker: second, target: first, active: armedContactDamageAt(second, atMs) },
   ]
 
   for (const option of options) {
@@ -302,6 +327,13 @@ export function contactDamageForPair(
     }
   }
   return undefined
+}
+
+function armedContactDamageAt(entity: EntityState, atMs: number) {
+  const spawnedAtMs = 'spawnedAtMs' in entity ? Number(entity.spawnedAtMs) : 0
+  const armedElapsedMs = atMs - spawnedAtMs - CONTACT_DAMAGE_ARM_MS
+  if (!Number.isFinite(armedElapsedMs) || armedElapsedMs < 0) return undefined
+  return contactDamageAt(entity, armedElapsedMs)
 }
 
 function getEnvironment(environmentId: string): EngineEnvironment {

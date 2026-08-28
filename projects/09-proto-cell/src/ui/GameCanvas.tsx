@@ -4,6 +4,17 @@ import type { ProtoCellEngine } from '../game/engine'
 import { createCanvasRenderer } from '../rendering/renderer'
 import { createNumberFeed } from '../rendering/numbers'
 
+export function clearPointerSession(
+  input: ProtoCellEngine['input'],
+  activePointer: { current: number | null },
+  pointerId?: number,
+): boolean {
+  if (pointerId !== undefined && activePointer.current !== pointerId) return false
+  activePointer.current = null
+  input.cancel()
+  return true
+}
+
 export function GameCanvas({
   engine,
   label,
@@ -23,6 +34,7 @@ export function GameCanvas({
     const numbers = createNumberFeed({ aggregateMs: 180, maxVisible: 8 })
     let frameId = 0
     let previousTime = performance.now()
+    const clearMovement = () => clearPointerSession(engine.input, activePointerId)
 
     const frame = (now: number) => {
       const elapsed = Math.min(250, Math.max(0, now - previousTime))
@@ -44,8 +56,11 @@ export function GameCanvas({
     }
 
     frameId = requestAnimationFrame(frame)
+    window.addEventListener('resize', clearMovement)
     return () => {
       cancelAnimationFrame(frameId)
+      window.removeEventListener('resize', clearMovement)
+      clearMovement()
       renderer.destroy()
     }
   }, [engine, onEvents])
@@ -77,10 +92,9 @@ export function GameCanvas({
         engine.input.end()
       }}
       onPointerCancel={(event) => {
-        if (activePointerId.current !== event.pointerId) return
-        activePointerId.current = null
-        engine.input.cancel()
+        clearPointerSession(engine.input, activePointerId, event.pointerId)
       }}
+      onLostPointerCapture={(event) => clearPointerSession(engine.input, activePointerId, event.pointerId)}
     />
   )
 }

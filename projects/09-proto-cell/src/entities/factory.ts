@@ -25,12 +25,14 @@ export type EntitySpawn = {
   id: string
   position: Vec2
   velocity?: Vec2
+  spawnedAtMs?: number
 }
 
 export type SpawnedEntityState = EntityState & {
   definitionId: string
   visualRecipeId: string
   maxSpeed: number
+  spawnedAtMs: number
   contactDamage?: ContactDamageDefinition
 }
 
@@ -40,6 +42,7 @@ export function createEntity(definition: EntityDefinition, spawn: EntitySpawn): 
     definitionId: definition.id,
     visualRecipeId: definition.visualRecipeId,
     maxSpeed: definition.maxSpeed,
+    spawnedAtMs: spawn.spawnedAtMs ?? 0,
     contactDamage: definition.contactDamage ? { ...definition.contactDamage } : undefined,
     body: circleBody(spawn.position, definition.radius),
     position: { ...spawn.position },

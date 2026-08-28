@@ -10,6 +10,7 @@ export type HeadlessRunOptions = {
 
 export type HeadlessRunReport = {
   keyEvents: readonly GameEvent[]
+  simulatedMs: number
   maxEntities: number
   invalidNumbers: readonly string[]
   morphologySignature: string
@@ -30,11 +31,15 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   let simulatedMs = 0
 
   engine.start()
-  while (simulatedMs < durationMs) {
+  while (simulatedMs + 0.000_001 < durationMs) {
     setPolicyIntent(engine, simulatedMs, policy)
     const elapsed = Math.min(STEP_BATCH_MS, durationMs - simulatedMs)
     engine.advance(elapsed)
-    simulatedMs += elapsed
+    const advancedMs = engine.snapshot().elapsedMs
+    if (advancedMs <= simulatedMs && durationMs - simulatedMs > 0) {
+      engine.advance(1000 / 60)
+    }
+    simulatedMs = engine.snapshot().elapsedMs
 
     const events = engine.drainEvents()
     keyEvents.push(...events)
@@ -45,7 +50,6 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     const world = engine.renderSnapshot()
     maxEntities = Math.max(maxEntities, world.entities.length)
     inspectNumbers(engine.snapshot(), world.entities, invalidNumbers)
-    if (events.some((event) => event.type === 'player-died' || event.type === 'engulfed' && event.preyId === 'player')) break
   }
 
   const finalWorld = engine.renderSnapshot()
@@ -56,10 +60,12 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     consumed,
     policy,
   ].join(':')
+  const completedSimulationMs = Math.min(durationMs, engine.snapshot().elapsedMs)
   engine.destroy()
 
   return {
     keyEvents,
+    simulatedMs: completedSimulationMs,
     maxEntities,
     invalidNumbers: [...invalidNumbers],
     morphologySignature,

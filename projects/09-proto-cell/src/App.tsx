@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { createController, type AppController } from './app/controller'
+import { wrappedModalFocusIndex } from './app/focus'
 import content from './content/content.json'
 import { createGameEngine } from './game/engine'
 import type { GameEvent } from './game/interactions'
@@ -19,8 +20,23 @@ function App() {
   const controller = controllerRef.current
   const [view, setView] = useState(() => controller.snapshot())
   const sync = useCallback(() => setView(controller.snapshot()), [controller])
+  const modalButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => () => controller.destroy(), [controller])
+
+  useEffect(() => {
+    document.title = content.meta.title
+  }, [])
+
+  useEffect(() => {
+    if (view.screen !== 'paused' && view.screen !== 'result') return
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const frameId = window.requestAnimationFrame(() => modalButtonRef.current?.focus())
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      previousFocus?.focus()
+    }
+  }, [view.screen])
 
   useEffect(() => {
     if (view.screen === 'lab' || view.screen === 'result') return
@@ -58,12 +74,13 @@ function App() {
           />
         )}
         {view.screen === 'paused' && (
-          <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+          <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title" onKeyDown={trapModalFocus}>
             <p className="hatchery-region">{content.ui.labels.openingRegion}</p>
             <h2 id="pause-title">{content.ui.screens.pauseTitle}</h2>
             <p>{content.ui.screens.pauseDescription}</p>
             <div className="game-overlay__actions">
               <button
+                ref={modalButtonRef}
                 className="hatchery-start"
                 type="button"
                 onClick={() => {
@@ -87,11 +104,12 @@ function App() {
           </section>
         )}
         {view.screen === 'result' && (
-          <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="result-title">
+          <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="result-title" onKeyDown={trapModalFocus}>
             <p className="hatchery-region">{content.ui.screens.survival} · {formatElapsed(view.hud?.elapsedMs ?? 0)}</p>
             <h2 id="result-title">{content.ui.screens.resultTitle}</h2>
             <p>{content.ui.screens.resultDescription}</p>
             <button
+              ref={modalButtonRef}
               className="hatchery-start"
               type="button"
               onClick={() => {
@@ -136,6 +154,15 @@ function App() {
       </section>
     </main>
   )
+}
+
+function trapModalFocus(event: KeyboardEvent<HTMLElement>): void {
+  if (event.key !== 'Tab') return
+  const controls = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])')]
+  const targetIndex = wrappedModalFocusIndex(controls.indexOf(document.activeElement as HTMLElement), controls.length, event.shiftKey)
+  if (targetIndex === undefined) return
+  event.preventDefault()
+  controls[targetIndex]?.focus()
 }
 
 function formatElapsed(elapsedMs: number): string {

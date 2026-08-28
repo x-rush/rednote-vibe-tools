@@ -35,4 +35,5 @@ export type EntityState = {
   faction: EntityFaction
   role: EntityRole
   status: EntityStatus
+  spawnedAtMs?: number
 }

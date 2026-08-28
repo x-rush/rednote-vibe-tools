@@ -1,4 +1,5 @@
 import type { EntityState } from '../domain/types'
+import { CONTACT_DAMAGE_ARM_MS } from '../game/engine'
 
 export type RenderQuality = 'high' | 'balanced' | 'low'
 
@@ -49,26 +50,46 @@ export function drawDangerTelegraph(
 ): void {
   if (entity.role !== 'predator' && entity.role !== 'elite' && entity.role !== 'boss') return
 
-  const contactDamage = 'contactDamage' in entity
-    ? entity.contactDamage as { periodMs: number; activeMs: number; phaseOffsetMs: number } | undefined
-    : undefined
-  const periodMs = Math.max(1, contactDamage?.periodMs ?? 1600)
-  const phaseMs = (elapsedMs + (contactDamage?.phaseOffsetMs ?? 0)) % periodMs
-  const activeMs = contactDamage?.activeMs ?? 240
-  const untilPulse = periodMs - phaseMs
-  const active = phaseMs < activeMs
-  const telegraph = active || untilPulse <= 420
-  const contraction = active ? 0 : Math.max(0, Math.min(1, untilPulse / 420))
-  const pulse = active ? 1.18 + Math.sin(elapsedMs / 55) * 0.05 : 1.18 + contraction * 0.32
+  const state = dangerPulseState(entity, elapsedMs)
+  const pulse = state.active ? 1.18 + Math.sin(elapsedMs / 55) * 0.05 : 1.18 + state.contraction * 0.32
   context.save()
-  context.globalAlpha = telegraph ? 1 : 0.22
-  context.strokeStyle = active ? '#fff09a' : 'rgb(255 139 105 / 78%)'
-  context.lineWidth = active ? 3.5 : 2
+  context.globalAlpha = state.telegraph ? 1 : 0.22
+  context.strokeStyle = state.active ? '#fff09a' : 'rgb(255 139 105 / 78%)'
+  context.lineWidth = state.active ? 3.5 : 2
   context.setLineDash([8, 8])
   context.beginPath()
   context.arc(x, y, radius * pulse, 0, Math.PI * 2)
   context.stroke()
   context.restore()
+}
+
+export function dangerPulseState(entity: EntityState, elapsedMs: number): {
+  active: boolean
+  telegraph: boolean
+  contraction: number
+} {
+  const contactDamage = 'contactDamage' in entity
+    ? entity.contactDamage as { periodMs: number; activeMs: number; phaseOffsetMs: number } | undefined
+    : undefined
+  const periodMs = Math.max(1, contactDamage?.periodMs ?? 1600)
+  const activeMs = contactDamage?.activeMs ?? 240
+  const spawnedAtMs = 'spawnedAtMs' in entity ? Number(entity.spawnedAtMs) : 0
+  const ageMs = Math.max(0, elapsedMs - spawnedAtMs)
+  if (ageMs < CONTACT_DAMAGE_ARM_MS) {
+    return {
+      active: false,
+      telegraph: true,
+      contraction: 1 - ageMs / CONTACT_DAMAGE_ARM_MS,
+    }
+  }
+
+  const pulseElapsedMs = ageMs - CONTACT_DAMAGE_ARM_MS
+  const phaseMs = (pulseElapsedMs + (contactDamage?.phaseOffsetMs ?? 0)) % periodMs
+  const untilPulse = periodMs - phaseMs
+  const active = phaseMs < activeMs
+  const telegraph = active || untilPulse <= 420
+  const contraction = active ? 0 : Math.max(0, Math.min(1, untilPulse / 420))
+  return { active, telegraph, contraction }
 }
 
 export function drawAmbientParticles(

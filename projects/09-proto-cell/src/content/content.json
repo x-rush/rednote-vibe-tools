@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "0.1.0-m0",
+  "contentVersion": "0.2.0-m1",
   "projectId": "proto-cell",
   "meta": {
     "title": "原生：一滴水的战争",
@@ -13,7 +13,10 @@
       "start": "开始孵化",
       "pause": "暂停",
       "resume": "继续游动",
-      "restart": "重新孵化"
+      "restart": "重新孵化",
+      "confirmMutation": "确认进化",
+      "cancelMutation": "再看看",
+      "openArchive": "查看生命档案"
     },
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
@@ -32,9 +35,324 @@
       "pauseDescription": "生态时间已经暂停，不会补算离开期间的变化。",
       "resultTitle": "这一滴水记住了你",
       "resultDescription": "体型不是护身符。换一条游动轨迹，再孵化一次。",
-      "survival": "存活"
+      "survival": "存活",
+      "evolutionTitle": "膜正在重写自己",
+      "evolutionDescription": "选择一种被动器官。安装后由公开条件自动触发，不增加操作按钮。",
+      "contentErrorTitle": "培养液配置不完整",
+      "contentErrorDescription": "内容校验未通过，为避免错误生态，本局没有启动。",
+      "archiveTitle": "生命档案",
+      "archiveEmpty": "还没有被记录的生命。"
     }
   },
+  "environments": [
+    {
+      "id": "env-clear-drop",
+      "name": "清水滴",
+      "order": 0,
+      "durationTargetSec": [300, 480],
+      "visibility": 0.95,
+      "viscosity": 0.18,
+      "hazardTags": ["open-water", "current"],
+      "spawnTableId": "spawn-clear-drop-m1",
+      "eventIds": ["event-nutrient-bloom"],
+      "bossId": "boss-membrane-queen",
+      "visualPalette": ["#073d66", "#72f5ff", "#ffbf69"],
+      "ambientAudioId": "audio-clear-drop"
+    }
+  ],
+  "nutrients": [
+    {
+      "id": "nutrient-sugar",
+      "name": "糖滴",
+      "behaviorId": "restore-energy",
+      "riskTags": ["ambush-attractor"],
+      "visualRecipeId": "visual-nutrient-clear"
+    }
+  ],
+  "organelles": [
+    {
+      "id": "organelle-flagellum",
+      "name": "长鞭毛",
+      "category": "move",
+      "slots": ["rear"],
+      "rarity": "common",
+      "cost": { "biomass": 12 },
+      "tags": ["speed", "straight"],
+      "conflicts": [],
+      "environmentIds": ["env-clear-drop"],
+      "shortEffect": "持续直线游动后逐步加速。",
+      "triggerDescription": "同方向游动 1.2 秒后启动。",
+      "behaviorId": "straight-line-boost",
+      "visualMutationId": "visual-organelle-flagellum"
+    },
+    {
+      "id": "organelle-jet-vacuole",
+      "name": "喷射泡",
+      "category": "move",
+      "slots": ["rear", "left", "right"],
+      "rarity": "uncommon",
+      "cost": { "energy": 18, "stability": 3 },
+      "tags": ["escape", "burst"],
+      "conflicts": [],
+      "environmentIds": ["env-clear-drop"],
+      "shortEffect": "即将被完整包裹时自动反冲。",
+      "triggerDescription": "包裹比例达到 80% 时启动。",
+      "behaviorId": "containment-escape",
+      "visualMutationId": "visual-organelle-jet-vacuole"
+    },
+    {
+      "id": "organelle-shell-plate",
+      "name": "壳板",
+      "category": "defend",
+      "slots": ["membrane", "left", "right"],
+      "rarity": "common",
+      "cost": { "biomass": 16, "stability": 2 },
+      "tags": ["armor", "ram"],
+      "conflicts": [],
+      "environmentIds": ["env-clear-drop"],
+      "shortEffect": "降低碰撞伤害，但转向更慢。",
+      "triggerDescription": "受到碰撞时自动以外层壳板承伤。",
+      "behaviorId": "collision-shell",
+      "visualMutationId": "visual-organelle-shell-plate"
+    },
+    {
+      "id": "organelle-guard-symbiont",
+      "name": "护卫共生体",
+      "category": "symbiosis",
+      "slots": ["symbiont"],
+      "rarity": "rare",
+      "cost": { "energy": 14, "stability": 4 },
+      "tags": ["guard", "intercept"],
+      "conflicts": [],
+      "environmentIds": ["env-clear-drop"],
+      "shortEffect": "自动拦截一次攻击，补充营养后再生。",
+      "triggerDescription": "即将受到致命伤时自动拦截。",
+      "behaviorId": "fatal-hit-guard",
+      "visualMutationId": "visual-organelle-guard-symbiont"
+    },
+    {
+      "id": "organelle-repair-vacuole",
+      "name": "修复泡",
+      "category": "metabolism",
+      "slots": ["internal", "core"],
+      "rarity": "common",
+      "cost": { "biomass": 10, "energy": 8 },
+      "tags": ["repair", "energy"],
+      "conflicts": [],
+      "environmentIds": ["env-clear-drop"],
+      "shortEffect": "脱离危险后消耗能量修复膜。",
+      "triggerDescription": "3 秒未受伤且膜未满时启动。",
+      "behaviorId": "safe-energy-repair",
+      "visualMutationId": "visual-organelle-repair-vacuole"
+    },
+    {
+      "id": "organelle-division-ring",
+      "name": "分裂环",
+      "category": "reproduce",
+      "slots": ["core", "internal"],
+      "rarity": "rare",
+      "cost": { "biomass": 20, "stability": 8 },
+      "tags": ["split", "survival"],
+      "conflicts": [],
+      "environmentIds": ["env-clear-drop"],
+      "shortEffect": "质量充足或遭遇致命包裹时自动分裂。",
+      "triggerDescription": "生物质达到 320 或即将被完整包裹时启动。",
+      "behaviorId": "mass-or-fatal-split",
+      "visualMutationId": "visual-organelle-division-ring"
+    }
+  ],
+  "synergies": [
+    {
+      "id": "synergy-ram-jet",
+      "name": "喷射冲角",
+      "requires": ["organelle-jet-vacuole", "organelle-shell-plate"],
+      "shortEffect": "反冲转化为破甲撞击。",
+      "behaviorId": "jet-armor-ram",
+      "revealRule": "on-trigger",
+      "visualMutationId": "visual-synergy-ram-jet"
+    },
+    {
+      "id": "synergy-guardian-division",
+      "name": "留种",
+      "requires": ["organelle-division-ring", "organelle-guard-symbiont"],
+      "shortEffect": "致命伤时牺牲主体现存最小子体。",
+      "behaviorId": "sacrifice-smallest-body",
+      "revealRule": "on-trigger",
+      "visualMutationId": "visual-synergy-guardian-division"
+    }
+  ],
+  "creatures": [
+    {
+      "id": "creature-drifter",
+      "name": "漂游体",
+      "role": "prey",
+      "sizeRange": [5, 8],
+      "behaviorId": "forage-and-flee",
+      "organelleTags": ["soft-membrane"],
+      "environmentIds": ["env-clear-drop"],
+      "warningCueId": "cue-drifter-contract",
+      "responseTags": ["chase", "contain"],
+      "dropTableId": "drop-small-prey",
+      "visualRecipeId": "visual-prey-drifter"
+    },
+    {
+      "id": "creature-spark-swarm",
+      "name": "争食闪体",
+      "role": "swarm",
+      "sizeRange": [7, 11],
+      "behaviorId": "compete-and-flock",
+      "organelleTags": ["spark-core"],
+      "environmentIds": ["env-clear-drop"],
+      "warningCueId": "cue-spark-flash",
+      "responseTags": ["race", "ambush"],
+      "dropTableId": "drop-swarm-prey",
+      "visualRecipeId": "visual-competitor-spark"
+    },
+    {
+      "id": "creature-vesicle-scavenger",
+      "name": "拾荒泡",
+      "role": "scavenger",
+      "sizeRange": [9, 13],
+      "behaviorId": "follow-and-scavenge",
+      "organelleTags": ["fragment-sense"],
+      "environmentIds": ["env-clear-drop"],
+      "warningCueId": "cue-scavenger-thread",
+      "responseTags": ["bait", "intercept"],
+      "dropTableId": "drop-scavenger",
+      "visualRecipeId": "visual-scavenger-vesicle"
+    },
+    {
+      "id": "predator-azure-ring",
+      "name": "湛环捕食者",
+      "role": "hunter",
+      "sizeRange": [20, 25],
+      "behaviorId": "profitable-hunt",
+      "organelleTags": ["spine-pulse"],
+      "environmentIds": ["env-clear-drop"],
+      "warningCueId": "cue-spine-ring",
+      "responseTags": ["flee", "use-rival"],
+      "dropTableId": "drop-predator",
+      "visualRecipeId": "visual-predator-azure-ring"
+    },
+    {
+      "id": "predator-membrane-warden",
+      "name": "膜域守卫",
+      "role": "elite",
+      "sizeRange": [26, 31],
+      "behaviorId": "guard-territory-and-ram",
+      "organelleTags": ["double-membrane", "ram"],
+      "environmentIds": ["env-clear-drop"],
+      "warningCueId": "cue-double-membrane",
+      "responseTags": ["flank", "environment"],
+      "dropTableId": "drop-elite",
+      "visualRecipeId": "visual-elite-membrane-warden"
+    }
+  ],
+  "events": [
+    {
+      "id": "event-nutrient-bloom",
+      "name": "营养暴发",
+      "behaviorId": "nutrient-bloom-field",
+      "environmentIds": ["env-clear-drop"],
+      "durationSec": [24, 36],
+      "telegraphIds": ["cue-warm-flow-lines"],
+      "variantIds": ["bloom-wide", "bloom-dense", "bloom-drifting"]
+    }
+  ],
+  "bosses": [
+    {
+      "id": "boss-membrane-queen",
+      "name": "膜群母体",
+      "environmentId": "env-clear-drop",
+      "phases": [
+        { "id": "dormant", "behaviorId": "queen-dormant" },
+        { "id": "feeding", "behaviorId": "queen-feeding" },
+        { "id": "exposed", "behaviorId": "queen-exposed" },
+        { "id": "enraged", "behaviorId": "queen-enraged" },
+        { "id": "resolved", "behaviorId": "queen-resolved" }
+      ],
+      "telegraphIds": ["cue-giant-shadow", "cue-membrane-rings"],
+      "resolutionPaths": ["combat", "environment", "stealth"],
+      "rewardIds": ["ending-stable-species", "gene-origin-primal"],
+      "visualRecipeId": "visual-boss-membrane-queen"
+    }
+  ],
+  "origins": [
+    {
+      "id": "origin-primal-cell",
+      "name": "原始细胞",
+      "entityDefinitionId": "origin-primal-cell",
+      "initialOrganelleIds": [],
+      "visualRecipeId": "visual-origin-primal-cell"
+    }
+  ],
+  "modifiers": [
+    {
+      "id": "modifier-permanent-turbidity",
+      "name": "永久浑浊",
+      "shortEffect": "远处轮廓更晚显现，但危险环时长不缩短。",
+      "behaviorId": "persistent-turbidity",
+      "difficultyWeight": 1,
+      "rewardMultiplier": 1.15,
+      "excludes": [],
+      "accessibilityImpact": "不缩短危险预警，仅降低远景可见度。"
+    }
+  ],
+  "endings": [
+    {
+      "id": "ending-stable-species",
+      "name": "稳定新种",
+      "conditionId": "boss-resolved-and-stable"
+    }
+  ],
+  "deathTemplates": [
+    { "id": "death-engulfed", "eventType": "player-died", "requiredTags": ["engulfed"], "priority": 100, "text": "轮廓在更大的膜内消失" },
+    { "id": "death-ruptured", "eventType": "player-died", "requiredTags": ["ruptured"], "priority": 90, "text": "膜在压力脉冲中破裂" },
+    { "id": "death-acid-corrosion", "eventType": "player-died", "requiredTags": ["acid"], "priority": 95, "text": "膜被酸性流场逐层腐蚀" },
+    { "id": "death-spine-pulse", "eventType": "player-died", "requiredTags": ["spine"], "priority": 80, "text": "棘刺脉冲击穿了最后一层膜" }
+  ],
+  "visualRecipes": [
+    { "id": "visual-origin-primal-cell", "kind": "cell", "palette": ["#72f5ff", "#ffbf69"] },
+    { "id": "visual-nutrient-clear", "kind": "cell", "palette": ["#d8ff93", "#72f5ff"] },
+    { "id": "visual-prey-drifter", "kind": "cell", "palette": ["#74f4e8", "#458ee8"] },
+    { "id": "visual-competitor-spark", "kind": "cell", "palette": ["#ffd37a", "#ff7b70"] },
+    { "id": "visual-scavenger-vesicle", "kind": "cell", "palette": ["#b69cff", "#5ce1e6"] },
+    { "id": "visual-predator-azure-ring", "kind": "cell", "palette": ["#5aa9ff", "#ff8b69"] },
+    { "id": "visual-elite-membrane-warden", "kind": "cell", "palette": ["#8fe7ff", "#ff6f91"] },
+    { "id": "visual-organelle-flagellum", "kind": "organelle", "palette": ["#72f5ff"] },
+    { "id": "visual-organelle-jet-vacuole", "kind": "organelle", "palette": ["#8fffe0"] },
+    { "id": "visual-organelle-shell-plate", "kind": "organelle", "palette": ["#fff09a"] },
+    { "id": "visual-organelle-guard-symbiont", "kind": "organelle", "palette": ["#c6fbff"] },
+    { "id": "visual-organelle-repair-vacuole", "kind": "organelle", "palette": ["#9bffb0"] },
+    { "id": "visual-organelle-division-ring", "kind": "organelle", "palette": ["#ff9fd4"] },
+    { "id": "visual-synergy-ram-jet", "kind": "synergy", "palette": ["#72f5ff", "#fff09a"] },
+    { "id": "visual-synergy-guardian-division", "kind": "synergy", "palette": ["#9bffb0", "#ff9fd4"] },
+    { "id": "visual-boss-membrane-queen", "kind": "boss", "palette": ["#4a85ff", "#ff647c"] },
+    { "id": "visual-env-clear-drop", "kind": "environment", "palette": ["#073d66", "#010716"] },
+    { "id": "visual-event-nutrient-bloom", "kind": "event", "palette": ["#ffe38f", "#72f5ff"] }
+  ],
+  "spawnTables": [
+    {
+      "id": "spawn-clear-drop-m1",
+      "environmentId": "env-clear-drop",
+      "entries": [
+        { "creatureId": "creature-drifter", "weight": 40, "minAtMs": 0 },
+        { "creatureId": "creature-spark-swarm", "weight": 24, "minAtMs": 15000 },
+        { "creatureId": "creature-vesicle-scavenger", "weight": 18, "minAtMs": 30000 },
+        { "creatureId": "predator-azure-ring", "weight": 12, "minAtMs": 45000 },
+        { "creatureId": "predator-membrane-warden", "weight": 6, "minAtMs": 75000 }
+      ]
+    }
+  ],
+  "geneNodes": [
+    {
+      "id": "gene-origin-primal",
+      "name": "原始分支",
+      "requires": [],
+      "unlockIds": ["origin-primal-cell", "organelle-flagellum", "organelle-repair-vacuole"],
+      "cost": 0
+    }
+  ],
   "m0": {
     "environments": [
       {
@@ -116,6 +434,24 @@
               "activeMs": 240,
               "phaseOffsetMs": 0
             }
+          },
+          {
+            "id": "elite-membrane-warden",
+            "role": "elite",
+            "faction": "hostile",
+            "radius": 28,
+            "mass": 520,
+            "membrane": 110,
+            "energy": 120,
+            "maxSpeed": 46,
+            "visualRecipeId": "visual-elite-membrane-warden",
+            "contactDamage": {
+              "source": "ram",
+              "amount": 12,
+              "periodMs": 2200,
+              "activeMs": 280,
+              "phaseOffsetMs": 0
+            }
           }
         ],
         "spawnSchedule": [
@@ -123,7 +459,8 @@
           { "atMs": 0, "definitionId": "prey-drifter", "count": 28 },
           { "atMs": 15000, "definitionId": "competitor-spark", "count": 12 },
           { "atMs": 30000, "definitionId": "scavenger-vesicle", "count": 8 },
-          { "atMs": 45000, "definitionId": "predator-azure-ring", "count": 4 }
+          { "atMs": 45000, "definitionId": "predator-azure-ring", "count": 4 },
+          { "atMs": 75000, "definitionId": "elite-membrane-warden", "count": 2 }
         ]
       }
     ]

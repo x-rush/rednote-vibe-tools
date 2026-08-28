@@ -2,6 +2,7 @@ import type { BodyShape, EntityState, Vec2 } from '../domain/types'
 import type { InteractionContext } from '../game/interactions'
 import { createGameEngine, type ProtoCellEngine } from '../game/engine'
 import type { ControllerDependencies } from '../app/controller'
+import { getContent, type ContentPack } from '../content'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -61,4 +62,8 @@ export function testDependencies(): ControllerDependencies {
     nextSeed: (seed) => seed + 1,
     recordResult: () => undefined,
   }
+}
+
+export function contentFixture(): ContentPack {
+  return structuredClone(getContent())
 }

@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { createController, type AppController } from './app/controller'
 import { wrappedModalFocusIndex } from './app/focus'
-import content from './content/content.json'
+import rawContent from './content/content.json'
+import { ContentValidationError, getContent, type ContentPack } from './content'
 import { createGameEngine } from './game/engine'
 import type { GameEvent } from './game/interactions'
 import { GameCanvas } from './ui/GameCanvas'
@@ -9,6 +10,23 @@ import { Hud } from './ui/Hud'
 import './App.css'
 
 function App() {
+  try {
+    return <GameApp content={getContent()} />
+  } catch (error) {
+    if (!(error instanceof ContentValidationError)) throw error
+    return (
+      <main className="hatchery-shell">
+        <section className="hatchery-card" role="alert">
+          <h1>{rawContent.ui.screens.contentErrorTitle}</h1>
+          <p>{rawContent.ui.screens.contentErrorDescription}</p>
+          <small>{error.issues.length}</small>
+        </section>
+      </main>
+    )
+  }
+}
+
+function GameApp({ content }: { content: ContentPack }) {
   const controllerRef = useRef<AppController | null>(null)
   if (controllerRef.current === null) {
     controllerRef.current = createController({

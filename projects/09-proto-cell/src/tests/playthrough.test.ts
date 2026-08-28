@@ -8,6 +8,11 @@ describe('M0 headless playthrough', () => {
     expect(report.simulatedMs).toBeCloseTo(300_000, 4)
     expect(report.maxEntities).toBeLessThanOrEqual(180)
     expect(report.invalidNumbers).toEqual([])
+    expect(report.keyEvents).toContainEqual(expect.objectContaining({
+      type: 'event-phase',
+      eventId: 'event-nutrient-bloom',
+      phase: 'active',
+    }))
   }, 20_000)
 
   it('repeats key events and morphology for the same seed', () => {

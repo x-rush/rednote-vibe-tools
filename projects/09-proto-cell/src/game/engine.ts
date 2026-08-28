@@ -1,8 +1,9 @@
 import content from '../content/content.json'
+import type { BossId, EventId } from '../content'
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideIntent } from '../entities/ai'
 import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
-import { generateRegion } from '../world/generator'
+import { findEnteredRouteRift, generateRegion } from '../world/generator'
 import { createFixedClock } from './clock'
 import { createPointerInput, type PointerInput } from './input'
 import { resolveInteraction, type GameEvent } from './interactions'
@@ -10,6 +11,10 @@ import { SpatialGrid } from './spatial-grid'
 import type { MutationInstallResult } from '../evolution/mutation'
 import { evaluatePassiveOrgans, type EvolvedEntityState, type InstalledOrganelle, type OrganEffect, type OrganPerception } from '../evolution/organs'
 import { advanceFusionStability, splitBody, stepSwarm, tryFuse, type SwarmBody } from '../evolution/split'
+import { createRng } from '../domain/rng'
+import { bossRamDamage, createBoss, stepBoss, type BossState } from '../world/bosses'
+import { startEvent, stepEvent, type EcosystemEventState } from '../world/events'
+import type { RouteRift } from '../world/generator'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
 
@@ -42,6 +47,9 @@ export type WorldRenderSnapshot = {
   height: number
   playerId: string
   entities: readonly EntityState[]
+  routeRifts: readonly RouteRift[]
+  activeEvent?: EcosystemEventState
+  boss?: BossState
 }
 
 export type ProtoCellEngine = GameEngine & {
@@ -49,6 +57,7 @@ export type ProtoCellEngine = GameEngine & {
   renderSnapshot(): WorldRenderSnapshot
   applyMutation(result: MutationInstallResult): void
   evolutionSnapshot(): { organelles: readonly InstalledOrganelle[]; capacity: number; stability: number }
+  worldSnapshot(): { activeEvent?: EcosystemEventState; boss?: BossState; selectedRouteId?: string }
 }
 
 type PlayerDefinition = EntityDefinition & {
@@ -62,6 +71,7 @@ type EngineEnvironment = {
   width: number
   height: number
   playerDefinition: PlayerDefinition
+  entityDefinitions: EntityDefinition[]
 }
 
 const STEP_MS = 1000 / 60
@@ -74,6 +84,7 @@ export function createGameEngine(options: {
   seed: number
   environmentId?: string
   input?: PointerInput
+  initialElapsedMs?: number
 }): ProtoCellEngine {
   const environmentId = options.environmentId ?? 'env-clear-drop'
   const environment = getEnvironment(environmentId)
@@ -94,7 +105,8 @@ export function createGameEngine(options: {
   const grid = new SpatialGrid(96)
   const clock = createFixedClock({ stepMs: STEP_MS, maxSteps: 5 })
   const input = options.input ?? createPointerInput()
-  let elapsedMs = 0
+  const worldRng = createRng(options.seed).fork('m1-world')
+  let elapsedMs = Math.max(0, options.initialElapsedMs ?? 0)
   let interpolationAlpha = 0
   let started = false
   let destroyed = false
@@ -110,8 +122,15 @@ export function createGameEngine(options: {
   let previousInputDirection: Vec2 = { x: 0, y: 0 }
   let activeSwarm: SwarmBody[] | undefined
   let swarmStableMs = 0
+  let activeEvent: EcosystemEventState | undefined
+  let eventStarted = false
+  const eventSpawnedRequests = new Set<number>()
+  let bossState: BossState | undefined
+  let bossResolutionEmitted = false
+  let lastBossRamAt = Number.NEGATIVE_INFINITY
+  let selectedRouteId: string | undefined
 
-  spawnDue(0)
+  spawnDue(elapsedMs)
 
   const engine: ProtoCellEngine = {
     input,
@@ -158,6 +177,9 @@ export function createGameEngine(options: {
         height: environment.height,
         playerId: PLAYER_ID,
         entities: [...entities.values()].filter((entity) => entity.status === 'active'),
+        routeRifts: region.routeRifts,
+        activeEvent,
+        boss: bossState,
       }
     },
     applyMutation(result) {
@@ -181,6 +203,9 @@ export function createGameEngine(options: {
         stability: playerStability,
       }
     },
+    worldSnapshot() {
+      return { activeEvent, boss: bossState, selectedRouteId }
+    },
     destroy() {
       destroyed = true
       started = false
@@ -196,11 +221,13 @@ export function createGameEngine(options: {
 
   function simulateStep(stepMs: number) {
     elapsedMs += stepMs
+    stepWorldFeatures(stepMs)
     spawnDue(elapsedMs)
     rebuildGrid()
     const passive = stepEvolution(stepMs)
     moveEntities(stepMs, passive.speedMultiplier)
     stepFusion(stepMs)
+    stepRouteRiftsAndBoss(stepMs)
     rebuildGrid()
     resolveNearbyInteractions()
     syncActiveSwarm(true)
@@ -211,6 +238,117 @@ export function createGameEngine(options: {
     if (playerMass > 0 && !mutationPending && playerMass >= evolutionThreshold) {
       events.push({ type: 'mutation-ready', entityId: PLAYER_ID, atMs: elapsedMs })
       mutationPending = true
+    }
+  }
+
+  function stepWorldFeatures(_stepMs: number) {
+    const scheduledEvent = content.m1.eventSchedule[0]
+    if (!eventStarted && scheduledEvent && elapsedMs >= scheduledEvent.atMs) {
+      activeEvent = startEvent(scheduledEvent.eventId as EventId, {
+        seed: options.seed,
+        environmentId: environmentId as `env-${string}`,
+        atMs: scheduledEvent.atMs,
+        center: {
+          x: environment.width * (0.35 + worldRng.next() * 0.3),
+          y: environment.height * (0.32 + worldRng.next() * 0.25),
+        },
+      })
+      eventStarted = true
+      events.push({ type: 'event-phase', eventId: activeEvent.id, phase: activeEvent.phase, atMs: elapsedMs })
+    }
+    if (activeEvent) {
+      const previousPhase = activeEvent.phase
+      activeEvent = stepEvent(activeEvent, elapsedMs)
+      if (activeEvent.phase !== previousPhase) {
+        events.push({ type: 'event-phase', eventId: activeEvent.id, phase: activeEvent.phase, atMs: elapsedMs })
+      }
+      activeEvent.spawnRequests.forEach((request, index) => {
+        if (request.atMs <= elapsedMs && !eventSpawnedRequests.has(index)) {
+          spawnEventEntities(request, index)
+          eventSpawnedRequests.add(index)
+        }
+      })
+    }
+    if (!bossState && elapsedMs >= content.m1.bossSpawnAtMs) {
+      const definition = content.bosses[0]
+      bossState = createBoss(definition.id as BossId, { seed: options.seed, atMs: content.m1.bossSpawnAtMs })
+      const boss = createEntity(definition.entity as EntityDefinition, {
+        id: definition.id,
+        position: { x: environment.width / 2, y: 150 },
+        spawnedAtMs: elapsedMs,
+      })
+      entities.set(boss.id, boss)
+    }
+  }
+
+  function spawnEventEntities(request: EcosystemEventState['spawnRequests'][number], requestIndex: number) {
+    const wantedRole = request.role === 'resource' ? 'nutrient' : 'predator'
+    const definition = environment.entityDefinitions.find((item) => item.role === wantedRole)
+    if (!definition) return
+    for (let index = 0; index < request.count; index += 1) {
+      const angle = worldRng.next() * Math.PI * 2
+      const distance = Math.sqrt(worldRng.next()) * request.radius
+      const position = {
+        x: clamp(request.center.x + Math.cos(angle) * distance, definition.radius, environment.width - definition.radius),
+        y: clamp(request.center.y + Math.sin(angle) * distance, definition.radius, environment.height - definition.radius),
+      }
+      const id = `${activeEvent?.id ?? 'event'}-${requestIndex}-${index}`
+      entities.set(id, createEntity(definition, { id, position, spawnedAtMs: elapsedMs }))
+    }
+  }
+
+  function stepRouteRiftsAndBoss(stepMs: number) {
+    const playerBody = entities.get(PLAYER_ID)
+    if (!selectedRouteId && playerBody?.status === 'active') {
+      const entered = findEnteredRouteRift(region.routeRifts, {
+        position: playerBody.position,
+        radius: playerBody.body.radius,
+      }, elapsedMs, selectedRouteId)
+      if (entered) {
+        selectedRouteId = entered.id
+        events.push({ type: 'route-selected', environmentId: entered.destinationEnvironmentId, atMs: elapsedMs })
+      }
+    }
+    if (!bossState) return
+    if (bossState.phase === 'resolved') {
+      emitBossResolution()
+      return
+    }
+    const bossEntity = entities.get(bossState.id)
+    if (!bossEntity || playerBody?.status !== 'active') {
+      bossState = stepBoss(bossState, { atMs: elapsedMs })
+      return
+    }
+    const distance = Math.hypot(playerBody.position.x - bossEntity.position.x, playerBody.position.y - bossEntity.position.y)
+    const territoryCrossed = distance <= 170
+    const playerEscaped = bossState.territoryCrossed && distance >= 230
+    const lockDelta = distance <= 115 ? stepMs / 7000 : -stepMs / 9000
+    const definition = content.bosses.find((item) => item.id === bossState?.id)
+    const validationRift = region.routeRifts.find((rift) => (
+      elapsedMs >= rift.opensAtMs
+      && definition?.rules.environmentHazardIds.includes(rift.hazardId)
+      && Math.hypot(bossEntity.position.x - rift.position.x, bossEntity.position.y - rift.position.y) <= bossEntity.body.radius + rift.radius
+    ))
+    bossState = stepBoss(bossState, {
+      atMs: elapsedMs,
+      hazardId: validationRift?.hazardId,
+      hazardOverlapMs: validationRift ? stepMs : 0,
+      territoryCrossed,
+      playerEscaped,
+      lockRatio: clamp(bossState.lockRatio + lockDelta, 0, 1),
+    })
+    emitBossResolution()
+  }
+
+  function emitBossResolution() {
+    if (bossState?.phase !== 'resolved' || !bossState.resolutionCandidate) return
+    const bossEntity = entities.get(bossState.id)
+    if (bossEntity?.status === 'active') {
+      entities.set(bossEntity.id, neutralizeResolvedBoss(bossEntity, bossState))
+    }
+    if (!bossResolutionEmitted) {
+      events.push({ type: 'boss-resolved', bossId: bossState.id, path: bossState.resolutionCandidate, atMs: elapsedMs })
+      bossResolutionEmitted = true
     }
   }
 
@@ -236,7 +374,10 @@ export function createGameEngine(options: {
     for (const entity of entities.values()) {
       if (entity.status !== 'active') continue
       if (activeSwarm && entity.faction === 'player') continue
-      const intent = entity.id === PLAYER_ID
+      const bossDormant = entity.id === bossState?.id && bossState.phase === 'dormant'
+      const intent = bossDormant
+        ? { direction: { x: 0, y: 0 }, strength: 0 }
+        : entity.id === PLAYER_ID
         ? input.snapshot()
         : decideIntent(entity, {
             nearby: grid.query({
@@ -245,8 +386,19 @@ export function createGameEngine(options: {
               width: 480,
               height: 480,
             }),
+            attractionFields: activeEvent?.phase === 'active' ? activeEvent.aiSignals.map((signal) => ({
+              center: signal.center,
+              radius: signal.radius,
+              strength: signal.strength,
+              flow: signal.flow,
+            })) : [],
           })
-      const maxSpeed = ('maxSpeed' in entity ? Number(entity.maxSpeed) : 52) * (entity.id === PLAYER_ID ? speedMultiplier : 1)
+      const bossPhaseSpeed = entity.id !== bossState?.id ? 1
+        : bossState.phase === 'feeding' ? 0.58
+          : bossState.phase === 'exposed' ? 0.86
+            : bossState.phase === 'enraged' ? 1.35
+              : 1
+      const maxSpeed = ('maxSpeed' in entity ? Number(entity.maxSpeed) : 52) * (entity.id === PLAYER_ID ? speedMultiplier : bossPhaseSpeed)
       const desiredVelocity = {
         x: intent.direction.x * intent.strength * maxSpeed,
         y: intent.direction.y * intent.strength * maxSpeed,
@@ -463,8 +615,8 @@ export function createGameEngine(options: {
 
     const survivors = synced.filter((body) => body.status === 'active' && body.mass > 0)
     if (survivors.length >= 2) {
-      activeSwarm = survivors
-      installedOrganelles = survivors.flatMap((body) => body.organelles)
+      activeSwarm = ensureSwarmPrimary(survivors, entities)
+      installedOrganelles = activeSwarm.flatMap((body) => body.organelles)
       return
     }
     swarmStableMs = 0
@@ -538,6 +690,23 @@ export function createGameEngine(options: {
         let first = entities.get(entity.id)
         let second = entities.get(candidate.id)
         if (!first || !second || first.status !== 'active' || second.status !== 'active') continue
+        if (bossState?.phase === 'dormant' && (first.id === bossState.id || second.id === bossState.id)) continue
+        const pairBoss = first.id === bossState?.id ? first : second.id === bossState?.id ? second : undefined
+        const pairPlayerForRam = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
+        if (pairBoss && pairPlayerForRam && bossState && elapsedMs - lastBossRamAt >= (content.bosses.find((item) => item.id === bossState?.id)?.rules.ramCooldownMs ?? Infinity)) {
+          const overlaps = distanceBetween(pairBoss, pairPlayerForRam) <= pairBoss.body.radius + pairPlayerForRam.body.radius
+          const ramDamage = overlaps
+            ? bossRamDamage(bossState, evolvedPlayer(pairPlayerForRam).installedOrganelles.map((organ) => organ.id))
+            : undefined
+          const amount = ramDamage?.outerDamage ?? ramDamage?.coreDamage
+          if (ramDamage && amount) {
+            bossState = stepBoss(bossState, { atMs: elapsedMs, ...ramDamage })
+            lastBossRamAt = elapsedMs
+            events.push({ type: 'damaged', targetId: pairBoss.id, amount, source: 'ram', atMs: elapsedMs })
+            emitBossResolution()
+            if (bossState.phase === 'resolved') continue
+          }
+        }
         const configuredDamage = contactDamageForPair(first, second, elapsedMs, damagePeriods)
         let blockedAmount = 0
         const pairPlayer = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
@@ -572,6 +741,15 @@ export function createGameEngine(options: {
         if (engulfed) {
           const predator = engulfed.predatorId === first.id ? first : second
           if (predator.faction === 'player') rechargeGuard(predator.id)
+          if (engulfed.preyId === bossState?.id && predator.faction === 'player') {
+            bossState = stepBoss(bossState, {
+              atMs: elapsedMs,
+              outerDamage: bossState.outerMembraneMax,
+              coreDamage: bossState.coreIntegrityMax,
+            })
+            bossState = stepBoss(bossState, { atMs: elapsedMs })
+            emitBossResolution()
+          }
         }
         if (pairPlayer && result.events.some((event) => event.type === 'damaged' && event.targetId === pairPlayer.id)) lastDamageAt = elapsedMs
         if (configuredDamage && result.events.some((event) => event.type === 'damaged' && event.targetId === configuredDamage.damage.targetId)) {
@@ -602,6 +780,26 @@ export function runStableEntityPass<T extends { id: string }>(
   }
 
   for (const entity of pending) entities.set(entity.id, entity)
+}
+
+export function neutralizeResolvedBoss(entity: EntityState, state: BossState): EntityState {
+  if (entity.id !== state.id || state.phase !== 'resolved') return entity
+  return { ...entity, velocity: { x: 0, y: 0 }, status: 'engulfed' }
+}
+
+export function ensureSwarmPrimary(
+  survivors: readonly SwarmBody[],
+  entities: Map<string, EntityState>,
+): SwarmBody[] {
+  if (survivors.some((body) => body.id === PLAYER_ID)) return [...survivors]
+  const replacement = survivors[0]
+  const replacementEntity = replacement ? entities.get(replacement.id) : undefined
+  if (!replacement || !replacementEntity) return [...survivors]
+
+  entities.delete(PLAYER_ID)
+  entities.delete(replacement.id)
+  entities.set(PLAYER_ID, { ...replacementEntity, id: PLAYER_ID })
+  return survivors.map((body) => body.id === replacement.id ? { ...body, id: PLAYER_ID } : body)
 }
 
 export function contactDamageAt(entity: EntityState, atMs: number): {

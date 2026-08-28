@@ -4,6 +4,7 @@ import type { MovementIntent } from '../game/input'
 
 export type Perception = {
   nearby: readonly EntityState[]
+  attractionFields?: ReadonlyArray<{ center: Vec2; radius: number; strength: number; flow?: Vec2 }>
 }
 
 export function decideIntent(entity: EntityState, perception: Perception): MovementIntent {
@@ -15,6 +16,18 @@ export function decideIntent(entity: EntityState, perception: Perception): Movem
   const threat = nearest(entity, candidates.filter((item) => item.mass > entity.mass * 1.25 && item.role !== 'nutrient'))
   if (threat && entity.role !== 'predator' && entity.role !== 'elite' && entity.role !== 'boss') {
     return toward(entity.position, threat.position, -1)
+  }
+
+  if (entity.faction !== 'player') {
+    const field = perception.attractionFields?.find((item) => Math.sqrt(distanceSquared(entity.position, item.center)) <= item.radius)
+    if (field) {
+      const intent = toward(entity.position, field.center, 1)
+      const driftedDirection = normalize({
+        x: intent.direction.x + (field.flow?.x ?? 0),
+        y: intent.direction.y + (field.flow?.y ?? 0),
+      })
+      return { direction: driftedDirection, strength: Math.min(1, Math.max(0, field.strength)) }
+    }
   }
 
   if (entity.role === 'predator' || entity.role === 'elite' || entity.role === 'boss' || entity.role === 'competitor') {

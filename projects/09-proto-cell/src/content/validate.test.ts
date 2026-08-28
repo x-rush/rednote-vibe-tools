@@ -106,4 +106,29 @@ describe('content integrity validation', () => {
   it('accepts the complete M1 content pack', () => {
     expect(validateContent(contentFixture()).issues).toEqual([])
   })
+
+  it('rejects incomplete event parameters, boss rules, and M1 route pacing', () => {
+    const pack = contentFixture()
+    pack.events[0].variants = []
+    pack.bosses[0].rules.hazardHoldMs = -1
+    pack.m1.routeRifts = []
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.events[0].variants',
+      '$.bosses[0].rules.hazardHoldMs',
+      '$.m1.routeRifts',
+    ]))
+  })
+
+  it('rejects duplicate event variants and reordered validation boss phases', () => {
+    const pack = contentFixture()
+    pack.events[0].variantIds[2] = pack.events[0].variantIds[1]
+    pack.bosses[0].phases.reverse()
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.events[0].variantIds',
+      '$.events[0].variants',
+      '$.bosses[0].phases',
+    ]))
+  })
 })

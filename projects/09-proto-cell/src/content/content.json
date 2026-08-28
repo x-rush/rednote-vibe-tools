@@ -266,7 +266,13 @@
       "environmentIds": ["env-clear-drop"],
       "durationSec": [24, 36],
       "telegraphIds": ["cue-warm-flow-lines"],
-      "variantIds": ["bloom-wide", "bloom-dense", "bloom-drifting"]
+      "variantIds": ["bloom-wide", "bloom-dense", "bloom-drifting"],
+      "telegraphLeadMs": 2200,
+      "variants": [
+        { "id": "bloom-wide", "radius": 180, "resourceCount": 18, "attractionStrength": 0.72, "flow": 0.18 },
+        { "id": "bloom-dense", "radius": 110, "resourceCount": 26, "attractionStrength": 0.92, "flow": 0.08 },
+        { "id": "bloom-drifting", "radius": 145, "resourceCount": 20, "attractionStrength": 0.82, "flow": 0.42 }
+      ]
     }
   ],
   "bosses": [
@@ -284,7 +290,36 @@
       "telegraphIds": ["cue-giant-shadow", "cue-membrane-rings"],
       "resolutionPaths": ["combat", "environment", "stealth"],
       "rewardIds": ["ending-stable-species", "gene-origin-primal"],
-      "visualRecipeId": "visual-boss-membrane-queen"
+      "visualRecipeId": "visual-boss-membrane-queen",
+      "rules": {
+        "telegraphLeadMs": 4200,
+        "outerMembrane": 180,
+        "coreIntegrity": 120,
+        "hazardHoldMs": 2000,
+        "stealthLockMax": 0.65,
+        "environmentHazardIds": ["hazard-acid-fringe"],
+        "ramOuterDamage": 24,
+        "ramCoreDamage": 18,
+        "ramCooldownMs": 650
+      },
+      "entity": {
+        "id": "boss-membrane-queen-entity",
+        "role": "boss",
+        "faction": "hostile",
+        "radius": 42,
+        "mass": 1764,
+        "membrane": 180,
+        "energy": 240,
+        "maxSpeed": 22,
+        "visualRecipeId": "visual-boss-membrane-queen",
+        "contactDamage": {
+          "source": "ram",
+          "amount": 16,
+          "periodMs": 2600,
+          "activeMs": 320,
+          "phaseOffsetMs": 0
+        }
+      }
     }
   ],
   "origins": [
@@ -363,6 +398,31 @@
       "cost": 0
     }
   ],
+  "m1": {
+    "sliceTargetMs": [300000, 480000],
+    "eventSchedule": [
+      { "eventId": "event-nutrient-bloom", "atMs": 90000 }
+    ],
+    "bossSpawnAtMs": 240000,
+    "routeRifts": [
+      {
+        "id": "route-rift-algae",
+        "destinationEnvironmentId": "env-algae-glow",
+        "opensAtMs": 300000,
+        "hazardId": "hazard-current-shear",
+        "resourceId": "resource-sugar-trail",
+        "affinityIconId": "affinity-growth"
+      },
+      {
+        "id": "route-rift-acid",
+        "destinationEnvironmentId": "env-acid-vesicle",
+        "opensAtMs": 300000,
+        "hazardId": "hazard-acid-fringe",
+        "resourceId": "resource-mineral-trail",
+        "affinityIconId": "affinity-armor"
+      }
+    ]
+  },
   "m0": {
     "environments": [
       {

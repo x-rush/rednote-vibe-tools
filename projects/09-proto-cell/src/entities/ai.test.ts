@@ -23,4 +23,27 @@ describe('baseline ecology AI', () => {
       strength: 1,
     })
   })
+
+  it('pulls a non-player predator toward an active ecosystem attraction field', () => {
+    const predator = { ...entityAt('predator', 0, 0), role: 'predator' as const, mass: 100, faction: 'hostile' as const }
+
+    expect(decideIntent(predator, {
+      nearby: [],
+      attractionFields: [{ center: { x: 100, y: 0 }, radius: 200, strength: 0.8 }],
+    })).toMatchObject({ direction: { x: 1, y: 0 }, strength: 0.8 })
+  })
+
+  it('pulls prey and scavengers with the event flow instead of leaving ecology classes behind', () => {
+    for (const role of ['prey', 'scavenger'] as const) {
+      const entity = { ...entityAt(role, 0, 0), role, faction: 'neutral' as const }
+      const intent = decideIntent(entity, {
+        nearby: [],
+        attractionFields: [{ center: { x: 100, y: 0 }, radius: 200, strength: 0.7, flow: { x: 0, y: 0.5 } }],
+      })
+
+      expect(intent.strength).toBe(0.7)
+      expect(intent.direction.x).toBeGreaterThan(0)
+      expect(intent.direction.y).toBeGreaterThan(0)
+    }
+  })
 })

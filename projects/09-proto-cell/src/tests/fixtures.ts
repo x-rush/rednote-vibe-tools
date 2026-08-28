@@ -5,6 +5,8 @@ import type { ControllerDependencies } from '../app/controller'
 import { getContent, type ContentPack } from '../content'
 import type { EvolvedEntityState, OrganPerception } from '../evolution/organs'
 import type { MutationContext } from '../evolution/mutation'
+import type { EventContext } from '../world/events'
+import { createBoss, type BossPath, type BossState } from '../world/bosses'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -136,4 +138,21 @@ export function mutationContext(overrides: Partial<MutationContext> = {}): Mutat
     capacity: 6,
     ...overrides,
   }
+}
+
+export function eventContext(overrides: Partial<EventContext> = {}): EventContext {
+  return {
+    seed: 727,
+    environmentId: 'env-clear-drop',
+    atMs: 90_000,
+    center: { x: 320, y: 540 },
+    ...overrides,
+  }
+}
+
+export function m1BossState(path: BossPath): BossState {
+  const state = createBoss('boss-membrane-queen', { seed: 727, atMs: 240_000 })
+  if (path === 'combat') return { ...state, phase: 'enraged', outerMembrane: 0, coreIntegrity: 0, resolutionCandidate: path }
+  if (path === 'environment') return { ...state, phase: 'exposed', hazardOverlapMs: 2200, validationHazardId: 'hazard-acid-fringe', resolutionCandidate: path }
+  return { ...state, phase: 'feeding', territoryCrossed: true, playerEscaped: true, lockRatio: 0.4, peakLockRatio: 0.4, resolutionCandidate: path }
 }

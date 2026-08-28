@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { createTestEngine } from '../tests/fixtures'
+import { circleBody, createTestEngine, entityAt, m1BossState, mutationContext } from '../tests/fixtures'
 import { createEntity } from '../entities/factory'
-import { contactDamageAt, contactDamageForPair, runStableEntityPass } from './engine'
+import { contactDamageAt, contactDamageForPair, createGameEngine, ensureSwarmPrimary, neutralizeResolvedBoss, runStableEntityPass } from './engine'
 import { installMutation, offerMutations } from '../evolution/mutation'
-import { mutationContext } from '../tests/fixtures'
 
 describe('game engine lifecycle', () => {
   it('does not advance while paused', () => {
@@ -137,6 +136,85 @@ describe('game engine lifecycle', () => {
 
     expect(visited).toEqual(['a'])
     expect([...entities.keys()]).toEqual(['a', 'b'])
+  })
+
+  it('removes a resolved boss from movement and hostile interactions', () => {
+    const boss = { ...entityAt('boss-membrane-queen', 10, 20), role: 'boss' as const, faction: 'hostile' as const, velocity: { x: 12, y: -3 } }
+    const resolved = { ...m1BossState('combat'), phase: 'resolved' as const }
+
+    expect(neutralizeResolvedBoss(boss, resolved)).toMatchObject({
+      status: 'engulfed',
+      velocity: { x: 0, y: 0 },
+    })
+  })
+
+  it('keeps a ram-resolved boss inactive after the same interaction pass', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 244_300 })
+    engine.start()
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    player.mass = 2500
+    player.membrane = 1_000_000
+    player.body = circleBody(player.position, 50)
+    engine.advance(1000 / 60)
+
+    const build = mutationContext({ organIds: ['organelle-jet-vacuole', 'organelle-shell-plate'] })
+    engine.applyMutation({
+      installed: build.installed[0]!,
+      organelles: build.installed,
+      stability: build.stability,
+      capacity: build.capacity,
+      synergyIds: [],
+    })
+    const state = engine.worldSnapshot().boss!
+    Object.assign(state, { phase: 'enraged', outerMembrane: 0, coreIntegrity: 1, resolutionCandidate: undefined })
+    const currentPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    const boss = engine.renderSnapshot().entities.find((entity) => entity.id === state.id)!
+    const nextBossPosition = {
+      x: currentPlayer.position.x + currentPlayer.body.radius + boss.body.radius - 0.5,
+      y: currentPlayer.position.y,
+    }
+    const offset = { x: nextBossPosition.x - boss.position.x, y: nextBossPosition.y - boss.position.y }
+    boss.position = nextBossPosition
+    boss.velocity = { x: 0, y: 0 }
+    boss.body = {
+      ...boss.body,
+      center: nextBossPosition,
+      contour: boss.body.contour.map((point) => ({ x: point.x + offset.x, y: point.y + offset.y })),
+    }
+
+    engine.advance(1000 / 60)
+
+    expect(engine.worldSnapshot().boss).toMatchObject({ phase: 'resolved', resolutionCandidate: 'combat' })
+    expect(engine.renderSnapshot().entities.some((entity) => entity.id === state.id)).toBe(false)
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'boss-resolved', path: 'combat' }))
+  })
+
+  it('promotes a surviving split body when the original player body is lost', () => {
+    const lostPrimary = { ...entityAt('player', 0, 0), faction: 'player' as const, status: 'engulfed' as const }
+    const firstSurvivor = { ...entityAt('player-child-1', 10, 0), faction: 'player' as const }
+    const secondSurvivor = { ...entityAt('player-child-2', 20, 0), faction: 'player' as const }
+    const entities = new Map([
+      [lostPrimary.id, lostPrimary],
+      [firstSurvivor.id, firstSurvivor],
+      [secondSurvivor.id, secondSurvivor],
+    ])
+    const survivors = [firstSurvivor, secondSurvivor].map((entity) => ({
+      id: entity.id,
+      mass: entity.mass,
+      position: entity.position,
+      velocity: entity.velocity,
+      membrane: entity.membrane,
+      energy: entity.energy,
+      stability: 90,
+      status: entity.status,
+      organelles: [],
+    }))
+
+    const promoted = ensureSwarmPrimary(survivors, entities)
+
+    expect(promoted.map((body) => body.id)).toEqual(['player', 'player-child-2'])
+    expect(entities.get('player')).toMatchObject({ status: 'active', position: { x: 10, y: 0 } })
+    expect(entities.has('player-child-1')).toBe(false)
   })
 
   it('applies a confirmed evolution build to authoritative HUD state', () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { generateRegion } from './generator'
+import { findEnteredRouteRift, generateRegion } from './generator'
 
 describe('seeded region generation', () => {
   it('repeats the initial-drop spawn schedule', () => {
@@ -12,5 +12,17 @@ describe('seeded region generation', () => {
 
     expect(new Set(ids).size).toBe(ids.length)
     expect(ids[0]).toBe('env-clear-drop-727-0')
+  })
+
+  it('seeds two timed route rifts with hazard, resource, and affinity identities', () => {
+    const region = generateRegion(727, 'env-clear-drop')
+
+    expect(region.routeRifts).toHaveLength(2)
+    expect(region.routeRifts.every((rift) => rift.opensAtMs >= 300_000)).toBe(true)
+    expect(region.routeRifts.every((rift) => rift.hazardId && rift.resourceId && rift.affinityIconId)).toBe(true)
+    expect(region.routeRifts).toEqual(generateRegion(727, 'env-clear-drop').routeRifts)
+    const rift = region.routeRifts[0]
+    expect(findEnteredRouteRift(region.routeRifts, { position: rift.position, radius: 12 }, rift.opensAtMs - 1)).toBeUndefined()
+    expect(findEnteredRouteRift(region.routeRifts, { position: rift.position, radius: 12 }, rift.opensAtMs)?.id).toBe(rift.id)
   })
 })

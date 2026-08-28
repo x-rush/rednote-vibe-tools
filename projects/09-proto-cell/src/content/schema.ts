@@ -119,6 +119,8 @@ export type EventDefinition = {
   durationSec: [number, number]
   telegraphIds: string[]
   variantIds: string[]
+  telegraphLeadMs: number
+  variants: Array<{ id: string; radius: number; resourceCount: number; attractionStrength: number; flow: number }>
 }
 
 export type BossPhase = { id: string; behaviorId: string }
@@ -132,6 +134,18 @@ export type BossDefinition = {
   resolutionPaths: BossResolutionPath[]
   rewardIds: string[]
   visualRecipeId: string
+  rules: {
+    telegraphLeadMs: number
+    outerMembrane: number
+    coreIntegrity: number
+    hazardHoldMs: number
+    stealthLockMax: number
+    environmentHazardIds: string[]
+    ramOuterDamage: number
+    ramCoreDamage: number
+    ramCooldownMs: number
+  }
+  entity: EntityDefinitionContent
 }
 
 export type OriginDefinition = {
@@ -211,4 +225,17 @@ export type ContentPack = {
   spawnTables: SpawnTableDefinition[]
   geneNodes: GeneNodeDefinition[]
   m0: { environments: M0EnvironmentContent[] }
+  m1: {
+    sliceTargetMs: [number, number]
+    eventSchedule: Array<{ eventId: EventId; atMs: number }>
+    bossSpawnAtMs: number
+    routeRifts: Array<{
+      id: `route-rift-${string}`
+      destinationEnvironmentId: EnvironmentId
+      opensAtMs: number
+      hazardId: string
+      resourceId: string
+      affinityIconId: string
+    }>
+  }
 }

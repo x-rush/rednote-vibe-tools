@@ -17,6 +17,31 @@ export type GeneratedRegion = {
   height: number
   entities: readonly SpawnedEntityState[]
   spawnSchedule: ReadonlyArray<{ atMs: number; entityId: string }>
+  routeRifts: readonly RouteRift[]
+}
+
+export type RouteRift = {
+  id: string
+  destinationEnvironmentId: string
+  position: { x: number; y: number }
+  radius: number
+  opensAtMs: number
+  hazardId: string
+  resourceId: string
+  affinityIconId: string
+}
+
+export function findEnteredRouteRift(
+  routeRifts: readonly RouteRift[],
+  player: { position: { x: number; y: number }; radius: number },
+  elapsedMs: number,
+  selectedRouteId?: string,
+): RouteRift | undefined {
+  if (selectedRouteId) return undefined
+  return routeRifts.find((rift) => (
+    elapsedMs >= rift.opensAtMs
+    && Math.hypot(player.position.x - rift.position.x, player.position.y - rift.position.y) <= player.radius + rift.radius
+  ))
 }
 
 export function generateRegion(seed: number, environmentId: string): GeneratedRegion {
@@ -28,6 +53,7 @@ export function generateRegion(seed: number, environmentId: string): GeneratedRe
   const rng = createRng(seed).fork(environmentId)
   const entities: SpawnedEntityState[] = []
   const spawnSchedule: Array<{ atMs: number; entityId: string }> = []
+  const routeRng = rng.fork('route-rifts')
 
   for (const scheduled of environment.spawnSchedule) {
     const definition = definitions.get(scheduled.definitionId)
@@ -53,5 +79,13 @@ export function generateRegion(seed: number, environmentId: string): GeneratedRe
     height: environment.height,
     entities,
     spawnSchedule,
+    routeRifts: content.m1.routeRifts.map((rift, index) => ({
+      ...rift,
+      radius: 26,
+      position: {
+        x: index === 0 ? 72 + routeRng.next() * 84 : environment.width - 156 + routeRng.next() * 84,
+        y: 72 + routeRng.next() * 130,
+      },
+    })),
   }
 }

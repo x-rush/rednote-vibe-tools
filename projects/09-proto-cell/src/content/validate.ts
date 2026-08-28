@@ -103,6 +103,7 @@ export function validateContent(input: unknown): ContentValidationResult {
   const m0Entities = validateM0(input.m0, environmentIds, visualsByKind.cell)
   validateOriginsEntityReferences(collections.get('origins') ?? [], m0Entities.playerIds)
   validateEnvironments(collections.get('environments') ?? [], spawnTableIds, eventIds, bossIds)
+  validateM1(input.m1, eventIds)
 
   require((collections.get('organelles') ?? []).length >= 6, '$.organelles', 'M1 requires six organs')
   require((collections.get('synergies') ?? []).length >= 2, '$.synergies', 'M1 requires two synergies')
@@ -236,6 +237,15 @@ export function validateContent(input: unknown): ContentValidationResult {
       requireStringArray(item.telegraphIds, `${base}.telegraphIds`, true)
       requireStringArray(item.variantIds, `${base}.variantIds`, true)
       require(Array.isArray(item.variantIds) && item.variantIds.length >= 3, `${base}.variantIds`, 'three event variants are required')
+      require(typeof item.telegraphLeadMs === 'number' && Number.isFinite(item.telegraphLeadMs) && item.telegraphLeadMs >= 1000, `${base}.telegraphLeadMs`, 'event telegraph lead must be at least one second')
+      const variantIds = new Set(Array.isArray(item.variantIds) ? item.variantIds : [])
+      const structuredVariantIds = new Set(Array.isArray(item.variants) ? item.variants.map((variant) => isRecord(variant) ? variant.id : undefined) : [])
+      require(Array.isArray(item.variantIds) && variantIds.size === item.variantIds.length, `${base}.variantIds`, 'event variant ids must be unique')
+      require(Array.isArray(item.variants) && item.variants.length === variantIds.size && structuredVariantIds.size === item.variants.length && item.variants.every((variant) => (
+        isRecord(variant)
+        && variantIds.has(variant.id)
+        && ['radius', 'resourceCount', 'attractionStrength', 'flow'].every((field) => typeof variant[field] === 'number' && Number.isFinite(variant[field]) && Number(variant[field]) >= 0)
+      )), `${base}.variants`, 'event variants must provide finite parameters for every variant id')
     })
   }
 
@@ -244,7 +254,13 @@ export function validateContent(input: unknown): ContentValidationResult {
       const base = `$.bosses[${index}]`
       requiredString(item.name, `${base}.name`)
       reference(item.environmentId, environments, `${base}.environmentId`, 'environment')
-      require(Array.isArray(item.phases) && item.phases.length >= 3 && item.phases.every((phase) => isRecord(phase) && typeof phase.id === 'string' && phase.id.length > 0 && typeof phase.behaviorId === 'string' && phase.behaviorId.length > 0), `${base}.phases`, 'three structured phases are required')
+      const expectedPhases = ['dormant', 'feeding', 'exposed', 'enraged', 'resolved']
+      require(Array.isArray(item.phases) && item.phases.length === expectedPhases.length && item.phases.every((phase, phaseIndex) => (
+        isRecord(phase)
+        && phase.id === expectedPhases[phaseIndex]
+        && typeof phase.behaviorId === 'string'
+        && phase.behaviorId.length > 0
+      )), `${base}.phases`, 'boss phases must follow dormant, feeding, exposed, enraged, resolved')
       requireStringArray(item.telegraphIds, `${base}.telegraphIds`, true)
       if (!Array.isArray(item.resolutionPaths)) issues.push({ path: `${base}.resolutionPaths`, message: 'resolution paths are required' })
       else item.resolutionPaths.forEach((path, pathIndex) => require(typeof path === 'string' && LEGAL_BOSS_PATHS.has(path), `${base}.resolutionPaths[${pathIndex}]`, 'boss path is invalid'))
@@ -252,6 +268,56 @@ export function validateContent(input: unknown): ContentValidationResult {
       require(paths.length >= 3 && paths.includes('combat') && paths.some((path) => path !== 'combat'), `${base}.resolutionPaths`, 'three paths including non-combat are required')
       references(item.rewardIds, knownIds, `${base}.rewardIds`, 'reward', true)
       reference(item.visualRecipeId, visuals, `${base}.visualRecipeId`, 'visual recipe')
+      if (!isRecord(item.rules)) issues.push({ path: `${base}.rules`, message: 'boss rules are required' })
+      else {
+        for (const field of ['telegraphLeadMs', 'outerMembrane', 'coreIntegrity', 'hazardHoldMs', 'ramOuterDamage', 'ramCoreDamage', 'ramCooldownMs']) {
+          require(typeof item.rules[field] === 'number' && Number.isFinite(item.rules[field]) && Number(item.rules[field]) > 0, `${base}.rules.${field}`, 'boss rule must be positive')
+        }
+        require(typeof item.rules.stealthLockMax === 'number' && item.rules.stealthLockMax >= 0 && item.rules.stealthLockMax <= 1, `${base}.rules.stealthLockMax`, 'stealth lock maximum must be between zero and one')
+        requireStringArray(item.rules.environmentHazardIds, `${base}.rules.environmentHazardIds`, true)
+      }
+      if (!isRecord(item.entity)) issues.push({ path: `${base}.entity`, message: 'boss entity definition is required' })
+      else {
+        validateEntityDefinition(item.entity, `${base}.entity`, visuals)
+        require(item.entity.role === 'boss' && item.entity.faction === 'hostile', `${base}.entity`, 'boss entity must be a hostile boss')
+      }
+    })
+  }
+
+  function validateM1(value: unknown, events: Set<string>) {
+    if (!isRecord(value)) {
+      issues.push({ path: '$.m1', message: 'M1 pacing configuration is required' })
+      return
+    }
+    requireTuple(value.sliceTargetMs, '$.m1.sliceTargetMs')
+    require(Array.isArray(value.sliceTargetMs) && Number(value.sliceTargetMs[0]) >= 300_000 && Number(value.sliceTargetMs[1]) <= 480_000, '$.m1.sliceTargetMs', 'M1 slice must target five to eight minutes')
+    require(typeof value.bossSpawnAtMs === 'number' && Number.isFinite(value.bossSpawnAtMs) && value.bossSpawnAtMs > 0, '$.m1.bossSpawnAtMs', 'M1 boss spawn time is required')
+    if (!Array.isArray(value.eventSchedule)) issues.push({ path: '$.m1.eventSchedule', message: 'M1 event schedule is required' })
+    else value.eventSchedule.forEach((entry, index) => {
+      const path = `$.m1.eventSchedule[${index}]`
+      if (!isRecord(entry)) issues.push({ path, message: 'event schedule entry must be an object' })
+      else {
+        reference(entry.eventId, events, `${path}.eventId`, 'event')
+        require(typeof entry.atMs === 'number' && Number.isFinite(entry.atMs) && entry.atMs >= 0, `${path}.atMs`, 'event time must be non-negative')
+      }
+    })
+    if (!Array.isArray(value.routeRifts) || value.routeRifts.length < 2) {
+      issues.push({ path: '$.m1.routeRifts', message: 'two route rifts are required' })
+      return
+    }
+    const ids = new Set<string>()
+    value.routeRifts.forEach((rift, index) => {
+      const path = `$.m1.routeRifts[${index}]`
+      if (!isRecord(rift)) {
+        issues.push({ path, message: 'route rift must be an object' })
+        return
+      }
+      requiredString(rift.id, `${path}.id`)
+      require(typeof rift.id === 'string' && rift.id.startsWith('route-rift-') && !ids.has(rift.id), `${path}.id`, 'route rift id must be unique')
+      if (typeof rift.id === 'string') ids.add(rift.id)
+      require(typeof rift.destinationEnvironmentId === 'string' && rift.destinationEnvironmentId.startsWith('env-'), `${path}.destinationEnvironmentId`, 'route destination must be an environment id')
+      require(typeof rift.opensAtMs === 'number' && Number.isFinite(rift.opensAtMs) && rift.opensAtMs >= 300_000, `${path}.opensAtMs`, 'route rift must open after five minutes')
+      for (const field of ['hazardId', 'resourceId', 'affinityIconId']) requiredString(rift[field], `${path}.${field}`)
     })
   }
 

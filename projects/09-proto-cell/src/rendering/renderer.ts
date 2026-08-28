@@ -39,6 +39,7 @@ export function createCanvasRenderer(
 
       context.clearRect(0, 0, width, height)
       drawLiquidField(context, width, height, snapshot.elapsedMs)
+      drawEventField(context, snapshot, camera, width, height, zoom)
 
       const drawables = snapshot.entities
         .map((entity) => toDrawable(entity, camera, width, height, zoom, displayedRadii))
@@ -46,11 +47,19 @@ export function createCanvasRenderer(
         .sort((left, right) => Number(left.entity.id === snapshot.playerId) - Number(right.entity.id === snapshot.playerId))
 
       for (const item of drawables) {
-        drawDangerTelegraph(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs)
+        if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase === 'dormant') {
+          drawBossArrivalTelegraph(context, item.x, item.y, item.radius, snapshot.elapsedMs)
+        } else {
+          drawDangerTelegraph(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs)
+        }
       }
       drawAmbientParticles(context, particles, width, height, snapshot.elapsedMs, quality)
+      drawRouteRifts(context, snapshot, camera, width, height, zoom)
       for (const item of drawables) {
         drawCell(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs)
+        if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase !== 'dormant') {
+          drawBossPhase(context, item.x, item.y, item.radius, snapshot.boss, snapshot.elapsedMs)
+        }
       }
       numbers.draw(context, width, height, snapshot.elapsedMs)
     },
@@ -62,6 +71,226 @@ export function createCanvasRenderer(
       displayedRadii.clear()
     },
   }
+}
+
+function drawBossArrivalTelegraph(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  radius: number,
+  elapsedMs: number,
+) {
+  context.save()
+  context.globalAlpha = 0.62
+  context.strokeStyle = '#9acaff'
+  context.setLineDash([12, 9])
+  for (let ring = 1; ring <= 3; ring += 1) {
+    context.lineWidth = 4 - ring * 0.7
+    context.beginPath()
+    context.arc(x, y, radius * (1.25 + ring * 0.28 + Math.sin(elapsedMs / 240 + ring) * 0.04), 0, Math.PI * 2)
+    context.stroke()
+  }
+  context.restore()
+}
+
+function drawEventField(
+  context: CanvasRenderingContext2D,
+  snapshot: WorldRenderSnapshot,
+  camera: { x: number; y: number },
+  width: number,
+  height: number,
+  zoom: number,
+) {
+  const event = snapshot.activeEvent
+  if (!event || event.phase === 'expired') return
+  const x = width / 2 + (event.center.x - camera.x) * zoom
+  const y = height / 2 + (event.center.y - camera.y) * zoom
+  const radius = event.variant.radius * zoom
+  const pulse = 0.94 + Math.sin(snapshot.elapsedMs / 180) * 0.04
+  context.save()
+  context.globalAlpha = event.phase === 'telegraph' ? 0.5 : 0.22
+  context.strokeStyle = '#ffe08b'
+  context.fillStyle = '#ffd36a'
+  context.lineWidth = event.phase === 'telegraph' ? 3 : 1.5
+  context.setLineDash(event.phase === 'telegraph' ? [10, 9] : [])
+  context.beginPath()
+  context.arc(x, y, radius * pulse, 0, Math.PI * 2)
+  context.stroke()
+  if (event.phase === 'active') context.fill()
+  if (event.phase === 'active') {
+    const flow = event.aiSignals[0]?.flow ?? { x: 0, y: 0 }
+    const flowLength = Math.hypot(flow.x, flow.y)
+    if (flowLength > 0) {
+      const direction = { x: flow.x / flowLength, y: flow.y / flowLength }
+      context.globalAlpha = 0.46
+      context.strokeStyle = '#fff2b5'
+      context.setLineDash([5, 7])
+      for (let lane = -2; lane <= 2; lane += 1) {
+        const perpendicular = { x: -direction.y * lane * radius * 0.16, y: direction.x * lane * radius * 0.16 }
+        context.beginPath()
+        context.moveTo(x + perpendicular.x - direction.x * radius * 0.45, y + perpendicular.y - direction.y * radius * 0.45)
+        context.lineTo(x + perpendicular.x + direction.x * radius * 0.45, y + perpendicular.y + direction.y * radius * 0.45)
+        context.stroke()
+      }
+    }
+  }
+  context.restore()
+}
+
+function drawRouteRifts(
+  context: CanvasRenderingContext2D,
+  snapshot: WorldRenderSnapshot,
+  camera: { x: number; y: number },
+  width: number,
+  height: number,
+  zoom: number,
+) {
+  for (const [index, rift] of snapshot.routeRifts.entries()) {
+    if (snapshot.elapsedMs < rift.opensAtMs - 12_000) continue
+    const x = width / 2 + (rift.position.x - camera.x) * zoom
+    const y = height / 2 + (rift.position.y - camera.y) * zoom
+    const radius = rift.radius * zoom
+    const open = snapshot.elapsedMs >= rift.opensAtMs
+    const pulse = 0.82 + Math.sin(snapshot.elapsedMs / 340 + index) * 0.12
+    context.save()
+    context.globalAlpha = open ? 0.88 : 0.42
+    context.strokeStyle = index === 0 ? '#8dffcf' : '#ffca78'
+    context.lineWidth = open ? 3 : 1.5
+    context.setLineDash(open ? [] : [6, 8])
+    context.beginPath()
+    context.arc(x, y, radius * pulse, 0, Math.PI * 2)
+    context.stroke()
+    context.globalAlpha *= 0.3
+    context.beginPath()
+    context.arc(x, y, radius * 0.62, 0, Math.PI * 2)
+    context.fillStyle = context.strokeStyle
+    context.fill()
+    drawRiftIntel(context, x, y, radius, rift)
+    context.restore()
+  }
+}
+
+function drawRiftIntel(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  radius: number,
+  rift: WorldRenderSnapshot['routeRifts'][number],
+) {
+  const size = Math.max(7, Math.min(14, radius * 0.22))
+  const iconRadius = radius * 0.72
+
+  context.globalAlpha = 1
+  context.lineWidth = 2
+  context.setLineDash([])
+
+  const hazardX = x
+  const hazardY = y - iconRadius
+  context.strokeStyle = '#ff806c'
+  context.fillStyle = '#391a23'
+  context.beginPath()
+  context.moveTo(hazardX, hazardY - size)
+  context.lineTo(hazardX + size, hazardY + size * 0.8)
+  context.lineTo(hazardX - size, hazardY + size * 0.8)
+  context.closePath()
+  context.fill()
+  context.stroke()
+  context.beginPath()
+  if (rift.hazardId.includes('acid')) {
+    context.arc(hazardX, hazardY + size * 0.25, size * 0.23, 0, Math.PI * 2)
+  } else {
+    context.moveTo(hazardX - size * 0.18, hazardY - size * 0.45)
+    context.lineTo(hazardX + size * 0.12, hazardY)
+    context.lineTo(hazardX - size * 0.1, hazardY + size * 0.48)
+  }
+  context.stroke()
+
+  const resourceX = x - iconRadius * 0.82
+  const resourceY = y + iconRadius * 0.58
+  context.strokeStyle = '#91fff1'
+  context.fillStyle = '#123a3c'
+  if (rift.resourceId.includes('sugar')) {
+    for (const offset of [-0.42, 0.42]) {
+      context.beginPath()
+      context.arc(resourceX + offset * size, resourceY, size * 0.52, 0, Math.PI * 2)
+      context.fill()
+      context.stroke()
+    }
+  } else {
+    context.beginPath()
+    context.moveTo(resourceX, resourceY - size)
+    context.lineTo(resourceX + size * 0.72, resourceY)
+    context.lineTo(resourceX, resourceY + size)
+    context.lineTo(resourceX - size * 0.72, resourceY)
+    context.closePath()
+    context.fill()
+    context.stroke()
+  }
+
+  const affinityX = x + iconRadius * 0.82
+  const affinityY = resourceY
+  context.strokeStyle = '#c6a8ff'
+  context.fillStyle = '#2a2047'
+  if (rift.affinityIconId.includes('armor')) {
+    context.beginPath()
+    context.moveTo(affinityX, affinityY - size)
+    context.lineTo(affinityX + size * 0.78, affinityY - size * 0.55)
+    context.lineTo(affinityX + size * 0.55, affinityY + size * 0.45)
+    context.lineTo(affinityX, affinityY + size)
+    context.lineTo(affinityX - size * 0.55, affinityY + size * 0.45)
+    context.lineTo(affinityX - size * 0.78, affinityY - size * 0.55)
+    context.closePath()
+    context.fill()
+    context.stroke()
+  } else {
+    context.beginPath()
+    context.moveTo(affinityX, affinityY + size)
+    context.lineTo(affinityX, affinityY - size * 0.25)
+    context.quadraticCurveTo(affinityX - size, affinityY - size, affinityX - size * 0.78, affinityY + size * 0.08)
+    context.moveTo(affinityX, affinityY - size * 0.2)
+    context.quadraticCurveTo(affinityX + size, affinityY - size, affinityX + size * 0.78, affinityY + size * 0.08)
+    context.stroke()
+  }
+}
+
+function drawBossPhase(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  radius: number,
+  boss: NonNullable<WorldRenderSnapshot['boss']>,
+  elapsedMs: number,
+) {
+  context.save()
+  const pulse = 1 + Math.sin(elapsedMs / 130) * 0.045
+  if (boss.phase === 'feeding') {
+    const ratio = boss.outerMembrane / Math.max(1, boss.outerMembraneMax)
+    context.strokeStyle = '#88dcff'
+    context.globalAlpha = 0.42 + ratio * 0.42
+    context.lineWidth = 3 + ratio * 3
+    context.beginPath()
+    context.arc(x, y, radius * 1.18, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ratio)
+    context.stroke()
+  } else {
+    const ratio = boss.coreIntegrity / Math.max(1, boss.coreIntegrityMax)
+    context.strokeStyle = boss.phase === 'enraged' ? '#ff5e78' : '#ffe189'
+    context.globalAlpha = 0.82
+    context.lineWidth = boss.phase === 'enraged' ? 5 : 3
+    context.setLineDash(boss.phase === 'exposed' ? [5, 5] : [])
+    context.beginPath()
+    context.arc(x, y, radius * (0.52 * pulse), -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ratio)
+    context.stroke()
+    if (boss.phase === 'enraged') {
+      for (let index = 0; index < 8; index += 1) {
+        const angle = index / 8 * Math.PI * 2 + elapsedMs / 700
+        context.beginPath()
+        context.moveTo(x + Math.cos(angle) * radius * 1.06, y + Math.sin(angle) * radius * 1.06)
+        context.lineTo(x + Math.cos(angle) * radius * 1.34, y + Math.sin(angle) * radius * 1.34)
+        context.stroke()
+      }
+    }
+  }
+  context.restore()
 }
 
 function resizeCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {

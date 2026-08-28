@@ -41,11 +41,14 @@ export function GameCanvas({
       previousTime = now
       engine.advance(elapsed)
       const events = engine.drainEvents()
+      const bossId = engine.worldSnapshot().boss?.id
       for (const event of events) {
         if (event.type === 'engulfed' && event.predatorId === 'player') {
           numbers.push({ kind: 'biomass', amount: event.biomass, entityId: 'player', atMs: event.atMs })
         } else if (event.type === 'damaged' && event.targetId === 'player') {
           numbers.push({ kind: 'damage', amount: event.amount, entityId: 'player', atMs: event.atMs })
+        } else if (event.type === 'damaged' && event.targetId === bossId) {
+          numbers.push({ kind: 'damage', amount: event.amount, entityId: event.targetId, atMs: event.atMs })
         } else if (event.type === 'blocked' && event.targetId === 'player') {
           numbers.push({ kind: 'block', amount: event.amount, entityId: 'player', atMs: event.atMs })
         }

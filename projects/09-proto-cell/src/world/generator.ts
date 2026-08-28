@@ -93,7 +93,20 @@ export function generateRegion(seed: number, environmentId: string): GeneratedRe
 
 export function getRegionDefinition(environmentId: string): M0Environment {
   const m0 = (content.m0.environments as M0Environment[]).find((item) => item.id === environmentId)
-  if (m0) return m0
+  if (m0) {
+    const aliases: Record<string, string> = {
+      'nutrient-clear-speck': 'nutrient-sugar',
+      'prey-drifter': 'creature-drifter',
+      'competitor-spark': 'creature-spark-swarm',
+      'scavenger-vesicle': 'creature-vesicle-scavenger',
+      'elite-membrane-warden': 'predator-membrane-warden',
+    }
+    return {
+      ...m0,
+      entityDefinitions: m0.entityDefinitions.map((definition) => ({ ...definition, id: aliases[definition.id] ?? definition.id })),
+      spawnSchedule: m0.spawnSchedule.map((entry) => ({ ...entry, definitionId: aliases[entry.definitionId] ?? entry.definitionId })),
+    }
+  }
   const environment = content.environments.find((item) => item.id === environmentId)
   const spawnTable = content.spawnTables.find((item) => item.id === environment?.spawnTableId)
   const playerDefinition = (content.m0.environments as M0Environment[])[0]?.playerDefinition
@@ -103,17 +116,29 @@ export function getRegionDefinition(environmentId: string): M0Environment {
     if (!creature) throw new RangeError(`Unknown creature id: ${entry.creatureId}`)
     return creatureEntityDefinition(creature as CreatureDefinition)
   })
+  const nutrient = content.nutrients[environment.order]
+  const nutrientDefinition: EntityDefinition | undefined = nutrient ? {
+    id: nutrient.id,
+    role: 'nutrient',
+    faction: 'neutral',
+    radius: 6,
+    mass: 36,
+    membrane: 1,
+    energy: 12,
+    maxSpeed: 8,
+    visualRecipeId: nutrient.visualRecipeId,
+  } : undefined
   return {
     id: environment.id,
     width: 640,
     height: 1100,
     playerDefinition,
-    entityDefinitions: definitions,
-    spawnSchedule: spawnTable.entries.map((entry) => ({
+    entityDefinitions: nutrientDefinition ? [nutrientDefinition, ...definitions] : definitions,
+    spawnSchedule: [...(nutrientDefinition ? [{ atMs: 0, definitionId: nutrientDefinition.id, count: 4 }] : []), ...spawnTable.entries.map((entry) => ({
       atMs: entry.minAtMs,
       definitionId: entry.creatureId,
       count: Math.max(2, Math.min(12, Math.round(entry.weight / 4))),
-    })),
+    }))],
   }
 }
 
@@ -162,7 +187,7 @@ function routeDefinitions(environmentId: EnvironmentId): Array<Omit<RouteRift, '
   return []
 }
 
-function creatureEntityDefinition(creature: CreatureDefinition): EntityDefinition {
+export function creatureEntityDefinition(creature: CreatureDefinition): EntityDefinition {
   const radius = (creature.sizeRange[0] + creature.sizeRange[1]) / 2
   const hostile = creature.role === 'hunter' || creature.role === 'parasite' || creature.role === 'elite'
   const role = creature.role === 'resource' ? 'nutrient'

@@ -24,6 +24,7 @@ export type MutationContext = {
   installed: InstalledOrganelle[]
   stability: number
   capacity: number
+  availableOrganelleIds?: OrganelleId[]
 }
 
 export type MutationInstallResult = {
@@ -35,7 +36,7 @@ export type MutationInstallResult = {
   augmentedSynergyIds?: SynergyId[]
 }
 
-export function createMutationContext(environmentId: EnvironmentId): MutationContext {
+export function createMutationContext(environmentId: EnvironmentId, availableOrganelleIds?: readonly OrganelleId[]): MutationContext {
   return {
     environmentId,
     organIds: [],
@@ -43,6 +44,7 @@ export function createMutationContext(environmentId: EnvironmentId): MutationCon
     installed: [],
     stability: 100,
     capacity: 6,
+    availableOrganelleIds: availableOrganelleIds ? [...availableOrganelleIds] : undefined,
   }
 }
 
@@ -62,7 +64,9 @@ export function continueMutationContext(
 
 export function offerMutations(context: MutationContext): MutationChoice[] {
   const content = getContent()
-  const definitions = content.organelles
+  const definitions = context.availableOrganelleIds
+    ? content.organelles.filter((definition) => context.availableOrganelleIds!.includes(definition.id))
+    : content.organelles
   const byId = new Map(definitions.map((definition) => [definition.id, definition]))
   const mature = new Set(context.matureOrganIds)
   const installed = new Set(context.organIds)

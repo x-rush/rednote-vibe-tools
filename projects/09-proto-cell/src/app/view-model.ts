@@ -1,6 +1,7 @@
 import type { ContentPack } from '../content'
 import type { HudSnapshot } from '../game/engine'
 import { deriveLifeArchive, type LifeEventLogEntry } from '../progression/archive'
+import type { LifeArchiveSummary } from '../storage/codec'
 
 export type ArchiveViewModel = ReturnType<typeof createArchiveViewModel>
 
@@ -47,7 +48,13 @@ function createArchiveViewModel(
   eventLog: readonly LifeEventLogEntry[],
   content: ContentPack,
 ) {
-  const archive = deriveLifeArchive(eventLog, content)
+  return createArchiveViewModelFromSummary(deriveLifeArchive(eventLog, content), content)
+}
+
+export function createArchiveViewModelFromSummary(
+  archive: ReturnType<typeof deriveLifeArchive> | LifeArchiveSummary,
+  content: ContentPack,
+) {
   const environment = content.environments.find((item) => item.id === archive.farthestEnvironmentId) ?? content.environments[0]
   const deathTemplate = content.deathTemplates.find((item) => item.id === archive.deathTemplateId)
   const ending = content.endings.find((item) => item.id === archive.endingId)

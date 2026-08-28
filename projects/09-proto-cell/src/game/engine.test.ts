@@ -3,8 +3,37 @@ import { circleBody, createTestEngine, entityAt, m1BossState, mutationContext } 
 import { createEntity } from '../entities/factory'
 import { bossTerminalEvent, contactDamageAt, contactDamageForPair, createGameEngine, endingForBossRewards, ensureSwarmPrimary, neutralizeResolvedBoss, runStableEntityPass, terminatePlayerEntities } from './engine'
 import { installMutation, offerMutations } from '../evolution/mutation'
+import { getContent } from '../content'
 
 describe('game engine lifecycle', () => {
+  it('applies launch challenge rules to the live simulation', () => {
+    const constrained = createGameEngine({
+      seed: 727,
+      environmentId: 'env-acid-vesicle',
+      modifierIds: ['modifier-rising-acid', 'modifier-three-organs', 'modifier-elite-ecosystem'],
+      route: ['env-algae-glow', 'env-fiber-maze'],
+    })
+    constrained.start()
+    constrained.advance(1000 / 60)
+
+    expect(constrained.evolutionSnapshot().capacity).toBe(3)
+    expect(constrained.worldSnapshot().environmentField.safeRadius).toBeLessThan(92)
+
+    for (const environmentId of ['env-algae-glow', 'env-acid-vesicle', 'env-fiber-maze', 'env-antibody-storm'] as const) {
+      const eliteEcosystem = createGameEngine({ seed: 727, environmentId, modifierIds: ['modifier-elite-ecosystem'] })
+      const elite = eliteEcosystem.renderSnapshot().entities.find((entity) => entity.id.startsWith('modifier-elite-'))
+      expect(elite?.role, environmentId).toBe('elite')
+      const definitionId = elite && 'definitionId' in elite ? String(elite.definitionId) : ''
+      expect(getContent().creatures.find((creature) => creature.id === definitionId)?.environmentIds, environmentId).toContain(environmentId)
+    }
+
+    const routed = createGameEngine({ seed: 727, route: ['env-acid-vesicle', 'env-antibody-storm'] })
+    expect(routed.renderSnapshot().routeRifts.map((rift) => rift.destinationEnvironmentId)).toEqual(['env-acid-vesicle'])
+    const turbid = createGameEngine({ seed: 727, environmentId: 'env-algae-glow', modifierIds: ['modifier-permanent-turbidity'] })
+    turbid.start()
+    turbid.advance(1000 / 60)
+    expect(turbid.worldSnapshot().environmentField.visibility).toBeLessThan(0.7)
+  })
   it('loads the chosen destination inside the same run', () => {
     const engine = createGameEngine({ seed: 727, environmentId: 'env-acid-vesicle', initialElapsedMs: 130_000 })
     engine.start()
@@ -316,6 +345,10 @@ describe('game engine lifecycle', () => {
       synergyIds: [],
     })
     Object.assign(engine.worldSnapshot().boss!, { phase: 'exposed', outerMembrane: 0, parasiteAttachedMs: 0 })
+    const durablePlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    durablePlayer.membrane = 1_000_000
+    durablePlayer.mass = 2500
+    durablePlayer.body = circleBody(durablePlayer.position, 50)
 
     for (let index = 0; index < 190 && engine.worldSnapshot().boss?.phase !== 'resolved'; index += 1) {
       const bossState = engine.worldSnapshot().boss!

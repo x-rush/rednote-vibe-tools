@@ -64,4 +64,13 @@ describe('M0 app controller', () => {
     expect(destroy).toHaveBeenCalledOnce()
     expect(controller.snapshot()).toMatchObject({ screen: 'playing', seed: 728, eventLog: [] })
   })
+
+  it('returns a completed run to the lab without starting another engine', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
+    controller.handle({ type: 'player-died', cause: 'engulfed', atMs: 1000 })
+    controller.returnToLab()
+    expect(controller.snapshot().screen).toBe('lab')
+    expect(controller.engine()).toBeUndefined()
+  })
 })

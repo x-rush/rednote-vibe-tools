@@ -111,7 +111,7 @@ function drawEnvironmentField(
     context.fillStyle = '#d94f68'
     context.beginPath()
     context.rect(0, 0, width, height)
-    context.arc(safeX, safeY, 92 * zoom, 0, Math.PI * 2, true)
+    context.arc(safeX, safeY, field.safeRadius * zoom, 0, Math.PI * 2, true)
     context.fill('evenodd')
   }
   for (const cue of field.telegraphs) {
@@ -142,7 +142,7 @@ function drawEnvironmentField(
     const x = width / 2 + (center.x - camera.x) * zoom
     const y = height / 2 + (center.y - camera.y) * zoom
     context.beginPath()
-    context.arc(x, y, 92 * zoom, 0, Math.PI * 2)
+    context.arc(x, y, field.safeRadius * zoom, 0, Math.PI * 2)
     context.stroke()
   }
   context.restore()

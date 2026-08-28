@@ -1,9 +1,12 @@
 import type { ProtoCellEngine, PauseReason } from '../game/engine'
 import type { GameEvent } from '../game/interactions'
 import type { LifeEventLogEntry } from '../progression/archive'
+import type { EnvironmentId, ModifierId } from '../content'
+
+export type RunStartInput = { seed: number; originId: string; modifierIds?: readonly ModifierId[]; route?: readonly EnvironmentId[] }
 
 export type ControllerDependencies = {
-  createEngine(input: { seed: number; originId: string }): ProtoCellEngine
+  createEngine(input: RunStartInput): ProtoCellEngine
   nextSeed(seed: number): number
   recordResult(result: { seed: number; originId: string; cause: string; survivalMs: number }): void
 }
@@ -18,11 +21,12 @@ export type ControllerSnapshot = {
 }
 
 export type AppController = {
-  startRun(input: { seed: number; originId: string }): void
+  startRun(input: RunStartInput): void
   pause(reason: PauseReason): void
   resume(reason: PauseReason): void
   handle(event: GameEvent): void
   restart(): void
+  returnToLab(): void
   snapshot(): ControllerSnapshot
   engine(): ProtoCellEngine | undefined
   destroy(): void
@@ -36,6 +40,7 @@ export function createController(dependencies: ControllerDependencies): AppContr
   let originId: string | undefined
   let cause: string | undefined
   let eventLog: LifeEventLogEntry[] = []
+  let runOptions: Pick<RunStartInput, 'modifierIds' | 'route'> = {}
 
   return {
     startRun(input) {
@@ -45,6 +50,7 @@ export function createController(dependencies: ControllerDependencies): AppContr
       originId = input.originId
       cause = undefined
       eventLog = []
+      runOptions = { modifierIds: input.modifierIds, route: input.route }
       activeEngine = dependencies.createEngine(input)
       activeEngine.start()
       screen = 'playing'
@@ -89,7 +95,13 @@ export function createController(dependencies: ControllerDependencies): AppContr
     restart() {
       if (seed === undefined || !originId) return
       const nextSeed = dependencies.nextSeed(seed)
-      this.startRun({ seed: nextSeed, originId })
+      this.startRun({ seed: nextSeed, originId, ...runOptions })
+    },
+    returnToLab() {
+      activeEngine?.destroy()
+      activeEngine = undefined
+      pauseReasons.clear()
+      screen = 'lab'
     },
     snapshot() {
       return {

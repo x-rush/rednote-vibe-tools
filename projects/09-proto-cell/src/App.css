@@ -154,6 +154,42 @@
   line-height: 1.5;
 }
 
+.lab-shell { align-items: start; overflow-y: auto; }
+.lab-home { padding-bottom: 32px; }
+.lab-field { display: grid; width: min(100%, 290px); gap: 6px; color: #bfefff; font-size: .78rem; text-align: left; }
+.lab-field select,
+.lab-code input { min-height: 44px; border: 1px solid rgb(137 235 255 / 35%); border-radius: 12px; padding: 0 12px; color: #effeff; background: rgb(5 28 52 / 88%); }
+.lab-nav { display: grid; grid-template-columns: repeat(3, 1fr); width: min(100%, 390px); gap: 8px; }
+.lab-nav button,
+.lab-tools button,
+.gene-node button { min-height: 44px; border: 1px solid rgb(137 235 255 / 30%); border-radius: 14px; color: #eaffff; background: rgb(11 50 78 / 76%); }
+.lab-tools { display: grid; width: min(100%, 390px); gap: 10px; }
+.lab-tools > button { display: grid; gap: 3px; padding: 10px; }
+.lab-tools span,
+.modifier-list span { display: block; color: rgb(205 235 247 / 68%); font-size: .72rem; }
+.lab-code { display: grid; gap: 6px; color: #bfefff; font-size: .78rem; text-align: left; }
+.modifier-list { display: grid; width: min(100%, 390px); gap: 8px; text-align: left; }
+.modifier-list h2 { margin: 8px 0 0; font-size: 1.1rem; }
+.modifier-list label { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; padding: 10px; border: 1px solid rgb(137 235 255 / 18%); border-radius: 14px; background: rgb(3 22 43 / 70%); }
+.modifier-list span { grid-column: 2; }
+.lab-detail { align-content: start; overflow-y: auto; }
+.lab-detail > .game-overlay__secondary { width: min(100%, 320px); }
+.lab-panel { z-index: 1; display: grid; width: min(100%, 680px); gap: 16px; color: #effeff; }
+.lab-panel header { text-align: center; }
+.lab-panel header h2 { margin: 8px 0; font-size: clamp(1.8rem, 8vw, 2.8rem); }
+.lab-panel header p { color: rgb(205 235 247 / 72%); }
+.gene-grid,
+.codex-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.gene-node,
+.codex-grid article { display: grid; gap: 8px; padding: 14px; border: 1px solid rgb(137 235 255 / 22%); border-radius: 18px; background: rgb(3 22 43 / 78%); }
+.gene-node h3,
+.gene-node p { margin: 0; }
+.gene-node p,
+.codex-grid span { color: rgb(205 235 247 / 68%); font-size: .76rem; }
+.gene-node[data-unlocked] { border-color: rgb(128 255 206 / 55%); box-shadow: inset 0 0 24px rgb(82 231 194 / 10%); }
+.codex-grid article[data-state="unseen"] { opacity: .56; filter: saturate(.4); }
+.archive-panel__lab { max-width: 340px; }
+
 @keyframes cell-float {
   from { transform: translate3d(-4px, 6px, 0) rotate(-1deg); }
   to { transform: translate3d(5px, -7px, 0) rotate(2deg); }

@@ -3,7 +3,7 @@ import type { AnchorSlot, BossId, BossResolutionPath, EventId, OrganelleId, Orig
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideIntent } from '../entities/ai'
 import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
-import { findEnteredRouteRift, generateRegion, getRegionDefinition } from '../world/generator'
+import { creatureEntityDefinition, findEnteredRouteRift, generateRegion, getRegionDefinition } from '../world/generator'
 import { createFixedClock } from './clock'
 import { createPointerInput, type PointerInput } from './input'
 import { resolveInteraction, type GameEvent } from './interactions'
@@ -16,6 +16,7 @@ import { bossRamDamage, createBoss, stepBoss, type BossState } from '../world/bo
 import { startEvent, stepEvent, type EcosystemEventState } from '../world/events'
 import { applyEventWorldEffects, createEnvironmentField, resolveEnvironmentMovement, sampleEnvironmentField, stepEnvironmentField, type EnvironmentField } from '../world/environments'
 import type { GeneratedRegion, RouteRift } from '../world/generator'
+import { applyModifiers } from '../progression/challenges'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
 
@@ -98,7 +99,11 @@ export function createGameEngine(options: {
   originId?: OriginId
   input?: PointerInput
   initialElapsedMs?: number
+  modifierIds?: readonly string[]
+  route?: readonly string[]
 }): ProtoCellEngine {
+  const modifiers = applyModifiers(options.modifierIds ?? [], { baseTelegraphLeadMs: 1400 })
+  let routeStageIndex = 0
   let environmentId = options.environmentId ?? 'env-clear-drop'
   let environment = getEnvironment(environmentId)
   const originId = options.originId ?? 'origin-primal-cell'
@@ -106,7 +111,7 @@ export function createGameEngine(options: {
   if (!origin) throw new RangeError(`Unknown origin id: ${originId}`)
   const playerDefinition = getPlayerDefinition(originId, environment)
 
-  let region = generateRegion(options.seed, environmentId)
+  let region = filteredRegion(generateRegion(options.seed, environmentId), options.route?.[routeStageIndex])
   let scheduleAt = new Map(region.spawnSchedule.map((entry) => [entry.entityId, entry.atMs]))
   let regionById = new Map(region.entities.map((entity) => [entity.id, entity]))
   const player = createEntity(playerDefinition, {
@@ -135,10 +140,11 @@ export function createGameEngine(options: {
     if (!definition) throw new RangeError(`Unknown initial organ id: ${id}`)
     return { id: id as OrganelleId, stage: 'installed', anchor: definition.slots[0] as AnchorSlot }
   })
-  let organCapacity = 6
+  let organCapacity = modifiers.rules['three-standard-organs'] ? 3 : 6
   const organReadyAt = new Map<string, number>()
   const organEventReadyAt = new Map<string, number>()
   let lastDamageAt = Number.NEGATIVE_INFINITY
+  let lastPlayerDefeaterDefinitionId: string | undefined
   let sameDirectionMs = 0
   let previousInputDirection: Vec2 = { x: 0, y: 0 }
   let activeSwarm: SwarmBody[] | undefined
@@ -165,6 +171,7 @@ export function createGameEngine(options: {
   }
 
   spawnDue(elapsedMs)
+  spawnModifierElite()
 
   const engine: ProtoCellEngine = {
     input,
@@ -337,6 +344,11 @@ export function createGameEngine(options: {
       })
     }
     environmentField = applyEventWorldEffects(environmentField, activeEvent, elapsedMs)
+    if (modifiers.rules['persistent-turbidity']) environmentField = { ...environmentField, visibility: environmentField.visibility * 0.68 }
+    if (modifiers.rules['progressive-acid-coverage'] && environmentId === 'env-acid-vesicle') {
+      const environmentOrder = content.environments.find((item) => item.id === environmentId)?.order ?? routeStageIndex
+      environmentField = { ...environmentField, safeRadius: Math.max(48, 92 - environmentOrder * 12) }
+    }
     applyEnvironmentDamage()
     const bossDefinition = content.bosses.find((item) => item.id === launchEnvironment?.bossId)
     const bossSpawnAtMs = environmentEnteredAtMs + Math.max(30_000, ((launchEnvironment?.durationTargetSec[0] ?? 120) - 25) * 1000)
@@ -480,10 +492,10 @@ export function createGameEngine(options: {
         ? input.snapshot()
         : decideIntent(entity, {
             nearby: grid.query({
-              x: entity.position.x - 240,
-              y: entity.position.y - 240,
-              width: 480,
-              height: 480,
+              x: entity.position.x - (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 340 : 240),
+              y: entity.position.y - (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 340 : 240),
+              width: (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 680 : 480),
+              height: (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 680 : 480),
             }),
             attractionFields: activeEvent?.phase === 'active' ? activeEvent.aiSignals.map((signal) => ({
               center: signal.center,
@@ -528,12 +540,13 @@ export function createGameEngine(options: {
     lastFieldDamageAt = elapsedMs
     for (const entity of threatened) {
       const sample = sampleEnvironmentField(environmentField, entity.position, entity.body.radius)
-      const nextMembrane = Math.max(0, entity.membrane - sample.damage)
+      const damage = sample.damage
+      const nextMembrane = Math.max(0, entity.membrane - damage)
       entities.set(entity.id, { ...entity, membrane: nextMembrane, status: nextMembrane === 0 ? 'ruptured' : entity.status })
       events.push({
         type: 'damaged',
         targetId: entity.id,
-        amount: sample.damage,
+        amount: damage,
         source: environmentId === 'env-antibody-storm' ? 'electric' : 'acid',
         atMs: elapsedMs,
       })
@@ -550,8 +563,9 @@ export function createGameEngine(options: {
     environmentId = destinationEnvironmentId
     environment = getEnvironment(environmentId)
     environmentEnteredAtMs = elapsedMs
+    routeStageIndex += 1
     routeEntryGuardUntilMs = elapsedMs + 1000
-    region = offsetGeneratedRegion(generateRegion(options.seed, environmentId), environmentEnteredAtMs)
+    region = offsetGeneratedRegion(filteredRegion(generateRegion(options.seed, environmentId), options.route?.[routeStageIndex]), environmentEnteredAtMs)
     scheduleAt = new Map(region.spawnSchedule.map((entry) => [entry.entityId, entry.atMs]))
     regionById = new Map(region.entities.map((entity) => [entity.id, entity]))
     spawnedIds.clear()
@@ -564,6 +578,7 @@ export function createGameEngine(options: {
     bossResolutionEmitted = false
     lastBossRamAt = Number.NEGATIVE_INFINITY
     lastFieldDamageAt = Number.NEGATIVE_INFINITY
+    lastPlayerDefeaterDefinitionId = undefined
     environmentField = createEnvironmentField(environmentId as `env-${string}`, options.seed, elapsedMs)
     const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
     for (const [index, body] of playerBodies.entries()) {
@@ -579,6 +594,7 @@ export function createGameEngine(options: {
       if (entity.faction !== 'player') entities.delete(id)
     }
     spawnDue(elapsedMs)
+    spawnModifierElite()
   }
 
   function stepEvolution(stepMs: number): { speedMultiplier: number; blockedAmount: number; splitTriggered: boolean } {
@@ -745,6 +761,7 @@ export function createGameEngine(options: {
 
   function stepFusion(stepMs: number) {
     if (!activeSwarm) return
+    if (modifiers.rules['disable-swarm-fusion']) return
     const proximity = 36
     swarmStableMs = advanceFusionStability(activeSwarm, swarmStableMs, stepMs, proximity)
     const fused = tryFuse(activeSwarm, { proximity, stableForMs: swarmStableMs, requiredStableMs: 900 })
@@ -795,7 +812,7 @@ export function createGameEngine(options: {
     swarmStableMs = 0
     if (survivors.length === 0) {
       activeSwarm = undefined
-      events.push({ type: 'player-died', cause: 'all-split-bodies-lost', atMs: elapsedMs })
+      events.push({ type: 'player-died', cause: 'all-split-bodies-lost', defeatedByDefinitionId: lastPlayerDefeaterDefinitionId, atMs: elapsedMs })
       return
     }
 
@@ -895,7 +912,10 @@ export function createGameEngine(options: {
             if (bossState.phase === 'resolved') continue
           }
         }
-        const configuredDamage = contactDamageForPair(first, second, elapsedMs, damagePeriods)
+        const baseConfiguredDamage = contactDamageForPair(first, second, elapsedMs, damagePeriods)
+        const configuredDamage = baseConfiguredDamage && modifiers.rules['increased-contact-damage'] && baseConfiguredDamage.damage.targetId === (first.faction === 'player' ? first.id : second.faction === 'player' ? second.id : '')
+          ? { ...baseConfiguredDamage, damage: { ...baseConfiguredDamage.damage, amount: baseConfiguredDamage.damage.amount * 1.5 } }
+          : baseConfiguredDamage
         let blockedAmount = 0
         const pairPlayer = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
         const pairThreat = pairPlayer === first ? second : first
@@ -935,6 +955,13 @@ export function createGameEngine(options: {
         if (engulfed) {
           const predator = engulfed.predatorId === first.id ? first : second
           if (predator.faction === 'player') rechargeGuard(predator.id)
+          if (predator.faction === 'player') {
+            const currentPredator = entities.get(predator.id)
+            if (currentPredator) entities.set(predator.id, {
+              ...currentPredator,
+              energy: Math.min(playerDefinition.energy, currentPredator.energy + engulfed.biomass * (modifiers.rules['reduced-energy-yield'] ? 0.03 : 0.08)),
+            })
+          }
           if (engulfed.preyId === bossState?.id && predator.faction === 'player') {
             bossState = stepBoss(bossState, {
               atMs: elapsedMs,
@@ -950,14 +977,45 @@ export function createGameEngine(options: {
         if (configuredDamage && result.events.some((event) => event.type === 'damaged' && event.targetId === configuredDamage.damage.targetId)) {
           damagePeriods.set(configuredDamage.lockKey, configuredDamage.periodIndex)
         }
+        if (pairPlayer && pairThreat.faction === 'hostile' && result.events.some((event) => (
+          event.type === 'engulfed' && event.preyId === pairPlayer.id
+          || event.type === 'ruptured' && event.targetId === pairPlayer.id
+        ))) {
+          lastPlayerDefeaterDefinitionId = 'definitionId' in pairThreat ? String(pairThreat.definitionId) : undefined
+        }
         if (!activeSwarm && result.events.some((event) => (
           event.type === 'engulfed' && event.preyId === PLAYER_ID
           || event.type === 'ruptured' && event.targetId === PLAYER_ID
         ))) {
-          events.push({ type: 'player-died', cause: 'engulfed-or-ruptured', atMs: elapsedMs })
+          events.push({
+            type: 'player-died',
+            cause: 'engulfed-or-ruptured',
+            defeatedByDefinitionId: pairThreat.faction === 'hostile' && 'definitionId' in pairThreat ? String(pairThreat.definitionId) : undefined,
+            atMs: elapsedMs,
+          })
         }
       }
     })
+  }
+
+  function spawnModifierElite() {
+    if (!modifiers.rules['extra-elite-spawns'] || environmentId === 'env-clear-drop' || environmentId === 'env-abandoned-chamber') return
+    const localCreatures = content.creatures.filter((item) => item.environmentIds.includes(environmentId))
+    const candidate = localCreatures.find((item) => item.role === 'elite')
+      ?? localCreatures.find((item) => item.role === 'hunter')
+      ?? localCreatures.find((item) => item.role === 'parasite')
+      ?? localCreatures.find((item) => item.role === 'scavenger')
+    if (!candidate) return
+    const local = creatureEntityDefinition(candidate as import('../content').CreatureDefinition)
+    const definition = {
+      ...local,
+      role: 'elite' as const,
+      radius: local.radius * 1.18,
+      mass: local.mass * 1.45,
+      membrane: local.membrane * 1.35,
+    }
+    const id = `modifier-elite-${environmentId}-${routeStageIndex}`
+    entities.set(id, createEntity(definition, { id, position: { x: environment.width / 2, y: environment.height / 2 }, spawnedAtMs: elapsedMs }))
   }
 }
 
@@ -1094,6 +1152,12 @@ function offsetGeneratedRegion(region: GeneratedRegion, offsetMs: number): Gener
     spawnSchedule: region.spawnSchedule.map((entry) => ({ ...entry, atMs: entry.atMs + offsetMs })),
     routeRifts: region.routeRifts.map((rift) => ({ ...rift, opensAtMs: rift.opensAtMs + offsetMs })),
   }
+}
+
+function filteredRegion(region: GeneratedRegion, destinationEnvironmentId?: string): GeneratedRegion {
+  if (!destinationEnvironmentId) return region
+  const matching = region.routeRifts.filter((rift) => rift.destinationEnvironmentId === destinationEnvironmentId)
+  return matching.length > 0 ? { ...region, routeRifts: matching } : region
 }
 
 function getPlayerDefinition(originId: string, environment: EngineEnvironment): PlayerDefinition {

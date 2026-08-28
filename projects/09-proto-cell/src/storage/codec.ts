@@ -35,6 +35,7 @@ export type SaveDataV1 = {
     unlockedIds: string[]
     discoveredSynergyIds: string[]
     completedModifierIds: string[]
+    rewardCounts: Record<string, number>
   }
   codex: Record<string, 'seen' | 'defeated-by' | 'complete'>
   records: {
@@ -96,6 +97,7 @@ export function decodeSave(input: unknown): DecodeSaveResult {
     unlockedIds: knownStringArray(progressionInput.unlockedIds, '$.progression.unlockedIds', knownUnlockIds),
     discoveredSynergyIds: knownStringArray(progressionInput.discoveredSynergyIds, '$.progression.discoveredSynergyIds', new Set(content.synergies.map((item) => item.id))),
     completedModifierIds: knownStringArray(progressionInput.completedModifierIds, '$.progression.completedModifierIds', new Set(content.modifiers.map((item) => item.id))),
+    rewardCounts: optionalRewardCounts(progressionInput.rewardCounts),
   }
 
   const codex = sanitizeCodex(parsed.codex, issues, new Set<string>([
@@ -143,6 +145,21 @@ export function decodeSave(input: unknown): DecodeSaveResult {
     })
     return result
   }
+  function optionalRewardCounts(value: unknown): Record<string, number> {
+    if (value === undefined) return {}
+    if (!isRecord(value)) {
+      issue('$.progression.rewardCounts', 'invalid-type', 'reward counts must be an object')
+      return {}
+    }
+    const known = knownRewardKeys(content)
+    const counts: Record<string, number> = {}
+    for (const [key, count] of Object.entries(value)) {
+      if (!known.has(key)) issue(`$.progression.rewardCounts.${key}`, 'unknown-id', 'reward id is not part of this content version')
+      else if (!Number.isSafeInteger(count) || Number(count) < 0) issue(`$.progression.rewardCounts.${key}`, 'invalid-number', 'reward count must be a non-negative integer')
+      else counts[key] = Number(count)
+    }
+    return counts
+  }
 }
 
 export function encodeSave(value: SaveDataV1): string {
@@ -157,7 +174,7 @@ export function createDefaultSave(): SaveDataV1 {
     schemaVersion: 1,
     contentVersion: content.contentVersion,
     settings: { music: true, sfx: true, reducedMotion: false, reducedFlash: false, lowParticles: false, reducedShake: false, graphics: 'balanced' },
-    progression: { genePoints: 0, unlockedIds: [content.origins[0]?.id ?? 'origin-primal-cell'], discoveredSynergyIds: [], completedModifierIds: [] },
+    progression: { genePoints: 0, unlockedIds: [content.origins[0]?.id ?? 'origin-primal-cell'], discoveredSynergyIds: [], completedModifierIds: [], rewardCounts: {} },
     codex: {},
     records: { bestSurvivalMs: 0, bestEnvironmentOrder: 0, maxBiomass: 0, dailySeeds: {} },
     lifeArchives: [],
@@ -240,7 +257,7 @@ function sanitizeArchives(value: unknown, issues: SaveIssue[], content: ReturnTy
     const synergyIds = knownIds(entry.synergyIds, `${path}.synergyIds`, synergies, issues) as SynergyId[]
     const deathTemplateId = optionalKnownId(entry.deathTemplateId, `${path}.deathTemplateId`, deaths, issues)
     const endingId = optionalKnownId(entry.endingId, `${path}.endingId`, endings, issues)
-    if (typeof entry.dishCode !== 'string' || !/^PC-[A-F0-9]{6}$/.test(entry.dishCode)) issues.push({ path: `${path}.dishCode`, code: 'invalid-code', message: 'dish code is invalid' })
+    if (typeof entry.dishCode !== 'string' || !/^PC1\.[A-Za-z0-9_-]+\.[A-Z0-9]{7}$/.test(entry.dishCode)) issues.push({ path: `${path}.dishCode`, code: 'invalid-code', message: 'dish code is invalid' })
     const finalMorphology = sanitizeMorphology(entry.finalMorphology, `${path}.finalMorphology`, organs, issues)
     return [{
       speciesNameSeed: finite('speciesNameSeed'),
@@ -251,7 +268,7 @@ function sanitizeArchives(value: unknown, issues: SaveIssue[], content: ReturnTy
       synergyIds,
       deathTemplateId,
       endingId,
-      dishCode: typeof entry.dishCode === 'string' ? entry.dishCode : 'PC-000000',
+      dishCode: typeof entry.dishCode === 'string' ? entry.dishCode : 'PC1.e30.0000000',
       finalMorphology,
     }]
   })
@@ -317,6 +334,18 @@ function containsMediaString(value: unknown, seen = new Set<unknown>()): boolean
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function knownRewardKeys(content: ReturnType<typeof getContent>): Set<string> {
+  const codexIds = [...content.nutrients, ...content.creatures, ...content.events, ...content.bosses].map((item) => item.id)
+  return new Set([
+    ...content.synergies.map((item) => `synergy:${item.id}`),
+    ...content.environments.map((item) => `environment:${item.id}`),
+    ...content.bosses.flatMap((boss) => boss.resolutionPaths.map((path) => `boss-path:${boss.id}:${path}`)),
+    ...codexIds.map((id) => `codex-complete:${id}`),
+    ...content.modifiers.map((item) => `modifier:${item.id}`),
+    ...content.endings.map((item) => `ending:${item.id}`),
+  ])
 }
 
 const ANCHORS = new Set<AnchorSlot>(['core', 'membrane', 'front', 'rear', 'left', 'right', 'internal', 'symbiont'])

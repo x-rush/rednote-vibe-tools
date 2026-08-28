@@ -41,7 +41,7 @@ describe('life archive derivation', () => {
       synergyIds: ['synergy-ram-jet'],
       endingId: 'ending-stable-species',
     })
-    expect(first.dishCode).toMatch(/^PC-[A-F0-9]{6}$/)
+    expect(first.dishCode).toMatch(/^PC1\./)
     expect(first.dishCode).toBe(second.dishCode)
     expect(log.map((entry) => entry.sequence)).toEqual([1, 2, 3, 4, 5])
   })

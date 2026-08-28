@@ -22,6 +22,7 @@ export type EnvironmentField = {
   flow: Vec2
   baseFlow: Vec2
   safeCenters: Vec2[]
+  safeRadius: number
   obstacles: Array<{ id: string; kind: 'fiber' | 'chamber-wall'; from: Vec2; to: Vec2; adhesive: boolean }>
   telegraphs: EnvironmentTelegraph[]
   activeHazardIds: string[]
@@ -53,6 +54,7 @@ export function createEnvironmentField(environmentId: EnvironmentId, seed: numbe
     flow: { x: Math.cos(angle) * environment.viscosity, y: Math.sin(angle) * environment.viscosity },
     baseFlow: { x: Math.cos(angle) * environment.viscosity, y: Math.sin(angle) * environment.viscosity },
     safeCenters: [],
+    safeRadius: 92,
     obstacles: environmentId === 'env-fiber-maze'
       ? [{ id: 'fiber-main', kind: 'fiber', from: { x: 90, y: 220 }, to: { x: 550, y: 760 }, adhesive: true }]
       : environmentId === 'env-abandoned-chamber'
@@ -173,7 +175,7 @@ export function sampleEnvironmentField(
   position: Vec2,
   radius: number,
 ): EnvironmentSample {
-  const nearSafeCenter = state.safeCenters.some((center) => distance(center, position) <= 92 + radius)
+  const nearSafeCenter = state.safeCenters.some((center) => distance(center, position) <= state.safeRadius + radius)
   const activeHazard = state.activeHazardIds.find((hazardId) => {
     const center = state.hazardCenters[hazardId]
     const cue = state.telegraphs.find((item) => item.hazardId === hazardId)

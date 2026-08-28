@@ -11,6 +11,7 @@ import type { GameEvent } from '../game/interactions'
 import type { LifeEventLogEntry } from '../progression/archive'
 import type { SaveDataV1 } from '../storage/codec'
 import type { IndexedDbDriver, SettingsStorage } from '../storage/repository'
+import { encodeDishCode } from '../progression/challenges'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -90,7 +91,7 @@ export function saveFixture(overrides: { extra?: unknown; archiveCount?: number 
     schemaVersion: 1,
     contentVersion: getContent().contentVersion,
     settings: { music: true, sfx: true, reducedMotion: false, reducedFlash: false, lowParticles: false, reducedShake: false, graphics: 'balanced' },
-    progression: { genePoints: 0, unlockedIds: ['origin-primal-cell'], discoveredSynergyIds: [], completedModifierIds: [] },
+    progression: { genePoints: 0, unlockedIds: ['origin-primal-cell'], discoveredSynergyIds: [], completedModifierIds: [], rewardCounts: {} },
     codex: { 'creature-drifter': 'seen' },
     records: { bestSurvivalMs: 0, bestEnvironmentOrder: 0, maxBiomass: 144, dailySeeds: { '2026-08-28': 727 } },
     lifeArchives: Array.from({ length: archiveCount }, (_, index) => ({
@@ -101,7 +102,7 @@ export function saveFixture(overrides: { extra?: unknown; archiveCount?: number 
       keyOrganelleIds: [],
       synergyIds: [],
       deathTemplateId: 'death-engulfed',
-      dishCode: `PC-${index.toString(16).toUpperCase().padStart(6, '0')}`,
+      dishCode: encodeDishCode({ seed: index, contentVersion: getContent().contentVersion, route: ['env-algae-glow', 'env-fiber-maze'] }),
     })),
   }
   if ('extra' in overrides) value.extra = overrides.extra

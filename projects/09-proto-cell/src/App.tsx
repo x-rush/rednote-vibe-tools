@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 're
 import { createController, type AppController } from './app/controller'
 import { wrappedModalFocusIndex } from './app/focus'
 import rawContent from './content/content.json'
-import { ContentValidationError, getContent, type ContentPack } from './content'
+import { ContentValidationError, getContent, type ContentPack, type ModifierId, type OriginId } from './content'
 import { createGameEngine } from './game/engine'
 import type { GameEvent } from './game/interactions'
 import {
@@ -17,7 +17,15 @@ import { EvolutionOverlay } from './ui/EvolutionOverlay'
 import { GameCanvas } from './ui/GameCanvas'
 import { Hud } from './ui/Hud'
 import { Archive } from './ui/Archive'
-import { createViewModel } from './app/view-model'
+import { createArchiveViewModelFromSummary, createViewModel } from './app/view-model'
+import { createDefaultSave } from './storage/codec'
+import { awardGenes, unlockNode } from './progression/genes'
+import { applyModifiers, dailySeed } from './progression/challenges'
+import { Lab, type LabPanelId } from './ui/Lab'
+import { GeneGraph } from './ui/GeneGraph'
+import { Codex } from './ui/Codex'
+import { advanceCodex } from './progression/codex'
+import { createRepository, type GameRepository } from './storage/repository'
 import './App.css'
 
 function App() {
@@ -38,10 +46,14 @@ function App() {
 }
 
 function GameApp({ content }: { content: ContentPack }) {
+  const repositoryRef = useRef<GameRepository | null>(null)
+  if (repositoryRef.current === null) repositoryRef.current = createRepository()
+  const repository = repositoryRef.current
+  const saveLoadedRef = useRef(false)
   const controllerRef = useRef<AppController | null>(null)
   if (controllerRef.current === null) {
     controllerRef.current = createController({
-      createEngine: ({ seed, originId }) => createGameEngine({ seed, originId: originId as `origin-${string}`, environmentId: 'env-clear-drop' }),
+      createEngine: ({ seed, originId, modifierIds, route }) => createGameEngine({ seed, originId: originId as `origin-${string}`, environmentId: 'env-clear-drop', modifierIds, route }),
       nextSeed: (seed) => (seed + 1) >>> 0,
       recordResult: () => undefined,
     })
@@ -51,10 +63,38 @@ function GameApp({ content }: { content: ContentPack }) {
   const mutationContextRef = useRef<MutationContext>(createMutationContext('env-clear-drop'))
   const mutationChoicesRef = useRef<MutationChoice[]>([])
   const [mutationChoices, setMutationChoices] = useState<MutationChoice[]>([])
+  const [save, setSave] = useState(createDefaultSave)
+  const [hasArchive, setHasArchive] = useState(false)
+  const [selectedOriginId, setSelectedOriginId] = useState<OriginId>('origin-primal-cell')
+  const [activeModifierIds, setActiveModifierIds] = useState<ModifierId[]>([])
+  const [labPanel, setLabPanel] = useState<LabPanelId | null>(null)
+  const [lastArchive, setLastArchive] = useState<ReturnType<typeof createViewModel>['archive']>()
+  const [saveReady, setSaveReady] = useState(false)
   const sync = useCallback(() => setView(controller.snapshot()), [controller])
   const modalButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => () => controller.destroy(), [controller])
+
+  useEffect(() => {
+    let active = true
+    void repository.load().then((result) => {
+      if (!active) return
+      saveLoadedRef.current = true
+      setSave(result.value)
+      setHasArchive(result.value.lifeArchives.length > 0)
+      const latestArchive = result.value.lifeArchives.at(-1)
+      if (latestArchive) setLastArchive(createArchiveViewModelFromSummary(latestArchive, content))
+      const unlockedOrigin = content.origins.find((origin) => result.value.progression.unlockedIds.includes(origin.id))
+      if (unlockedOrigin) setSelectedOriginId(unlockedOrigin.id)
+      setSaveReady(true)
+    })
+    return () => { active = false }
+  }, [content, repository])
+
+  useEffect(() => {
+    if (!saveLoadedRef.current) return
+    void repository.save(save)
+  }, [repository, save])
 
   useEffect(() => {
     document.title = content.meta.title
@@ -72,9 +112,25 @@ function GameApp({ content }: { content: ContentPack }) {
 
   useEffect(() => {
     if (view.screen === 'lab' || view.screen === 'result') return
-    const timer = window.setInterval(sync, 100)
+    const timer = window.setInterval(() => {
+      const snapshot = controller.engine()?.renderSnapshot()
+      const playerBodies = snapshot?.entities.filter((entity) => entity.faction === 'player') ?? []
+      const sightRadius = 260 * (snapshot?.environmentField.visibility ?? 1)
+      const knownCodexIds = new Set<string>([...content.nutrients, ...content.creatures].map((item) => item.id))
+      const observed = snapshot?.entities.flatMap((entity) => {
+        const id = 'definitionId' in entity ? String(entity.definitionId) : ''
+        const visible = playerBodies.some((body) => Math.hypot(body.position.x - entity.position.x, body.position.y - entity.position.y) <= sightRadius)
+        return knownCodexIds.has(id) && visible ? [id] : []
+      }) ?? []
+      if (observed.length > 0) setSave((current) => {
+        let codex = current.codex
+        for (const id of observed) if (!codex[id]) codex = advanceCodex(codex, id, 'seen')
+        return codex === current.codex ? current : { ...current, codex }
+      })
+      sync()
+    }, 100)
     return () => window.clearInterval(timer)
-  }, [sync, view.screen])
+  }, [content, controller, sync, view.screen])
 
   useEffect(() => {
     const handleVisibility = () => {
@@ -88,6 +144,60 @@ function GameApp({ content }: { content: ContentPack }) {
 
   const handleEvents = useCallback((events: readonly GameEvent[]) => {
     events.forEach((event) => controller.handle(event))
+    setSave((current) => {
+      let codex = current.codex
+      const completedIds: string[] = []
+      const knownCodexIds = new Set<string>([...content.nutrients, ...content.creatures, ...content.events, ...content.bosses].map((item) => item.id))
+      const advance = (id: Parameters<typeof advanceCodex>[1], state: 'seen' | 'defeated-by' | 'complete') => {
+        if (!knownCodexIds.has(id)) return
+        if (state === 'complete' && codex[id] !== 'complete') completedIds.push(id)
+        codex = advanceCodex(codex, id, state)
+      }
+      for (const event of events) {
+        if (event.type === 'event-phase') advance(event.eventId, event.phase === 'expired' ? 'complete' : 'seen')
+        if (event.type === 'boss-resolved') advance(event.bossId, 'complete')
+        if (event.type === 'engulfed' && event.predatorId.startsWith('player') && event.preyDefinitionId) advance(event.preyDefinitionId as Parameters<typeof advanceCodex>[1], 'complete')
+        if (event.type === 'engulfed' && event.preyId.startsWith('player') && event.predatorDefinitionId) advance(event.predatorDefinitionId as Parameters<typeof advanceCodex>[1], 'defeated-by')
+        if (event.type === 'player-died' && event.defeatedByDefinitionId) advance(event.defeatedByDefinitionId as Parameters<typeof advanceCodex>[1], 'defeated-by')
+      }
+      const { awarded: _awarded, ...progression } = awardGenes(current.progression, completedIds.map((id) => ({ kind: 'codex-complete', id, first: (current.progression.rewardCounts[`codex-complete:${id}`] ?? 0) === 0 })))
+      return { ...current, codex, progression }
+    })
+    if (events.some((event) => event.type === 'player-died' || event.type === 'ending-reached')) {
+      setHasArchive(true)
+      const completedArchive = createViewModel(controller.snapshot(), content).archive
+      setLastArchive(completedArchive)
+      setSave((current) => {
+        const successful = events.some((event) => event.type === 'ending-reached')
+        const modifierRun = applyModifiers(activeModifierIds, { baseTelegraphLeadMs: 1400 })
+        const rewardCount = (kind: string, id: string) => current.progression.rewardCounts[`${kind}:${id}`] ?? 0
+        const rewardFact = <T extends 'environment' | 'boss-path' | 'modifier' | 'ending'>(kind: T, id: string) => ({ kind, id, first: rewardCount(kind, id) === 0, repeats: rewardCount(kind, id) })
+        const modifierRewards = successful ? activeModifierIds.map((id) => rewardFact('modifier', id)) : []
+        const visitedEnvironments = ['env-clear-drop', ...controller.snapshot().eventLog.flatMap((entry) => entry.event.type === 'route-selected' ? [entry.event.environmentId] : [])]
+        const routeRewards = [...new Set(visitedEnvironments)].map((id) => rewardFact('environment', id))
+        const bossRewards = controller.snapshot().eventLog.flatMap((entry) => entry.event.type === 'boss-resolved' ? [rewardFact('boss-path', `${entry.event.bossId}:${entry.event.path}`)] : [])
+        const outcomeId = controller.snapshot().cause ?? 'run'
+        const outcomeRewards = successful ? [rewardFact('ending', outcomeId)] : []
+        const { awarded: _awarded, ...progression } = awardGenes(current.progression, [...outcomeRewards, ...routeRewards, ...bossRewards, ...modifierRewards], { multiplier: successful ? modifierRun.rewardMultiplier : 1 })
+        const archive = completedArchive ? {
+          speciesNameSeed: completedArchive.speciesNameSeed,
+          survivalMs: completedArchive.survivalMs,
+          farthestEnvironmentId: completedArchive.farthestEnvironmentId,
+          maxBiomass: completedArchive.maxBiomass,
+          keyOrganelleIds: completedArchive.keyOrganelleIds,
+          synergyIds: completedArchive.synergyIds,
+          deathTemplateId: completedArchive.deathTemplateId,
+          endingId: completedArchive.endingId,
+          dishCode: completedArchive.dishCode,
+          finalMorphology: completedArchive.finalMorphology,
+        } : undefined
+        return {
+          ...current,
+          progression: { ...progression, completedModifierIds: successful ? [...new Set([...progression.completedModifierIds, ...activeModifierIds])] : progression.completedModifierIds },
+          lifeArchives: archive ? [...current.lifeArchives, archive].slice(-30) : current.lifeArchives,
+        }
+      })
+    }
     const canEvolve = !['lab', 'result'].includes(controller.snapshot().screen)
       && mutationChoicesRef.current.length === 0
       && events.some((event) => event.type === 'mutation-ready')
@@ -111,11 +221,19 @@ function GameApp({ content }: { content: ContentPack }) {
       }
     }
     sync()
-  }, [controller, sync])
+  }, [activeModifierIds, content, controller, sync])
 
   const confirmMutation = useCallback((choice: MutationChoice) => {
     const result = installMutation(mutationContextRef.current, choice)
     controller.engine()?.applyMutation(result)
+    setSave((current) => {
+      const synergyRewards = result.synergyIds.map((id) => {
+        const repeats = current.progression.rewardCounts[`synergy:${id}`] ?? 0
+        return { kind: 'synergy' as const, id, first: repeats === 0, repeats }
+      })
+      const { awarded: _awarded, ...progression } = awardGenes(current.progression, synergyRewards)
+      return { ...current, progression: { ...progression, discoveredSynergyIds: [...new Set([...progression.discoveredSynergyIds, ...result.synergyIds])] } }
+    })
     mutationContextRef.current = continueMutationContext(mutationContextRef.current, result)
     controller.handle({
       type: 'mutation-selected',
@@ -131,13 +249,16 @@ function GameApp({ content }: { content: ContentPack }) {
   }, [controller, sync])
 
   const resetMutationRun = useCallback(() => {
-    mutationContextRef.current = createMutationContext('env-clear-drop')
+    const geneLockedOrgans = new Set(content.geneNodes.flatMap((node) => node.unlockIds.filter((id) => id.startsWith('organelle-'))))
+    const availableOrgans = content.organelles.filter((organ) => !geneLockedOrgans.has(organ.id) || save.progression.unlockedIds.includes(organ.id)).map((organ) => organ.id)
+    mutationContextRef.current = createMutationContext('env-clear-drop', availableOrgans)
     mutationChoicesRef.current = []
     setMutationChoices([])
-  }, [])
+  }, [content, save.progression.unlockedIds])
 
   const engine = controller.engine()
   const archiveModel = createViewModel(view, content).archive
+  if (!saveReady) return <main className="hatchery-shell"><section className="hatchery-card" aria-live="polite"><p className="hatchery-region">{content.ui.labels.lab}</p><h1>{content.ui.screens.loadingSave}</h1></section></main>
   if (view.screen !== 'lab' && engine) {
     return (
       <main className="game-shell">
@@ -193,6 +314,12 @@ function GameApp({ content }: { content: ContentPack }) {
                 controller.restart()
                 sync()
               }}
+              onLab={() => {
+                controller.returnToLab()
+                setLabPanel(null)
+                sync()
+              }}
+              labLabel={content.ui.actions.backToLab}
             />
           )}
         </div>
@@ -201,36 +328,11 @@ function GameApp({ content }: { content: ContentPack }) {
     )
   }
 
-  return (
-    <main className="hatchery-shell">
-      <div className="hatchery-ambient" aria-hidden="true" />
-      <section className="hatchery-card" aria-labelledby="game-title">
-        <p className="hatchery-region">{content.ui.labels.openingRegion}</p>
-        <div className="prototype-cell" role="img" aria-label={content.ui.labels.prototypeCell}>
-          <span className="prototype-cell__membrane" />
-          <span className="prototype-cell__core" />
-          <span className="prototype-cell__organelle prototype-cell__organelle--one" />
-          <span className="prototype-cell__organelle prototype-cell__organelle--two" />
-        </div>
-        <div className="hatchery-copy">
-          <h1 id="game-title">{content.meta.title}</h1>
-          <p>{content.meta.tagline}</p>
-        </div>
-        <button
-          className="hatchery-start"
-          type="button"
-          onClick={() => {
-            resetMutationRun()
-            controller.startRun({ seed: Date.now() >>> 0, originId: 'origin-primal-cell' })
-            sync()
-          }}
-        >
-          {content.ui.actions.start}
-        </button>
-        <small>{content.meta.fictionDisclaimer}</small>
-      </section>
-    </main>
-  )
+  if (labPanel === 'gene') return <main className="hatchery-shell lab-detail"><GeneGraph content={content} progress={save.progression} onUnlock={(id) => setSave((current) => ({ ...current, progression: unlockNode(current.progression, id) }))} /><button className="game-overlay__secondary" type="button" onClick={() => setLabPanel(null)}>{content.ui.actions.backToLab}</button></main>
+  if (labPanel === 'codex') return <main className="hatchery-shell lab-detail"><Codex content={content} progress={save.codex} /><button className="game-overlay__secondary" type="button" onClick={() => setLabPanel(null)}>{content.ui.actions.backToLab}</button></main>
+  if (labPanel === 'archive' && lastArchive) return <main className="game-shell"><Archive model={lastArchive} restartButtonRef={modalButtonRef} onRestart={() => { resetMutationRun(); controller.startRun({ seed: Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds }); setLabPanel(null); sync() }} onLab={() => setLabPanel(null)} labLabel={content.ui.actions.backToLab} onKeyDown={trapModalFocus} /></main>
+
+  return <Lab content={content} save={save} hasArchive={hasArchive} selectedOriginId={selectedOriginId} activeModifierIds={activeModifierIds} dailyRunSeed={dailySeed(new Date(), content.contentVersion)} onSelectOrigin={setSelectedOriginId} onToggleModifier={(id) => setActiveModifierIds((current) => applyModifiers(current.includes(id) ? current.filter((item) => item !== id) : [...current, id], { baseTelegraphLeadMs: 1400 }).activeIds)} onOpen={setLabPanel} onStart={(seed, route) => { resetMutationRun(); controller.startRun({ seed: seed ?? Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds, route }); sync() }} />
 }
 
 function trapModalFocus(event: KeyboardEvent<HTMLElement>): void {

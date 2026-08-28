@@ -17,7 +17,14 @@
     "restartAfterLife": "再次孵化",
       "confirmMutation": "确认进化",
       "cancelMutation": "再看看",
-      "openArchive": "查看生命档案"
+      "openArchive": "查看生命档案",
+      "open_gene": "基因图谱",
+      "open_codex": "生态图鉴",
+      "open_archive": "生命档案",
+      "open_daily": "本地每日培养皿",
+      "unlock": "解锁",
+      "useCode": "孵化此培养皿码",
+      "backToLab": "返回培养舱"
     },
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
@@ -41,7 +48,20 @@
     "archiveSynergies": "形成组合",
     "archiveSpeciesSeed": "物种种子",
     "archiveNoOrgans": "未形成稳定器官",
-    "archiveCell": "本次生命留下的最终细胞形态"
+    "archiveCell": "本次生命留下的最终细胞形态",
+    "lab": "培养舱",
+    "labTools": "培养舱工具",
+    "geneSamples": "基因样本",
+    "birthForm": "出生形态",
+    "unlocked": "已解锁",
+    "unknownEntry": "未知轮廓",
+    "codex_unseen": "未见",
+    "codex_seen": "见过",
+    "codex_defeated-by": "曾被其击败",
+    "codex_complete": "完整记录",
+    "localDaily": "由本机日期生成，不与全球同步",
+    "dishCode": "培养皿码",
+    "dishCodePlaceholder": "粘贴 PC1 培养皿码"
     },
     "hud": {
       "membrane": "膜",
@@ -61,7 +81,15 @@
       "contentErrorTitle": "培养液配置不完整",
       "contentErrorDescription": "内容校验未通过，为避免错误生态，本局没有启动。",
       "archiveTitle": "生命档案",
-      "archiveEmpty": "还没有被记录的生命。"
+      "archiveEmpty": "还没有被记录的生命。",
+      "geneTitle": "基因图谱",
+      "codexTitle": "生态图鉴",
+      "modifierTitle": "挑战词缀",
+      "dishCode_format": "培养皿码格式不正确。",
+      "dishCode_checksum": "培养皿码校验失败。",
+      "dishCode_content-version": "培养皿码来自其他内容版本。",
+      "dishCode_invalid-payload": "培养皿码内容不完整。",
+      "loadingSave": "正在唤醒培养皿"
     }
   },
   "environments": [

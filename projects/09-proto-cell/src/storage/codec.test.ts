@@ -4,12 +4,13 @@ import { decodeSave, encodeSave } from './codec'
 
 describe('versioned save codec', () => {
   it('drops unknown fields and caps archives at thirty', () => {
-    const decoded = decodeSave(saveFixture({ extra: 'blocked', archiveCount: 35 }))
+    const save = saveFixture({ extra: 'blocked', archiveCount: 35 })
+    const decoded = decodeSave(save)
 
     expect(decoded.issues).toEqual([])
     expect(decoded.value && 'extra' in decoded.value).toBe(false)
     expect(decoded.value?.lifeArchives).toHaveLength(30)
-    expect(decoded.value?.lifeArchives[0]?.dishCode).toBe('PC-000005')
+    expect(decoded.value?.lifeArchives[0]?.dishCode).toBe(save.lifeArchives[5]?.dishCode)
   })
 
   it('rejects unknown content ids and media-shaped strings with structured issues', () => {
@@ -28,6 +29,7 @@ describe('versioned save codec', () => {
 
   it('round-trips only the whitelisted structured save shape', () => {
     const fixture = saveFixture()
+    fixture.progression.rewardCounts['environment:env-clear-drop'] = 900
     fixture.lifeArchives[0]!.finalMorphology = {
       bodyCount: 1,
       totalMass: 144,
@@ -40,6 +42,17 @@ describe('versioned save codec', () => {
     expect(decoded.issues).toEqual([])
     expect(decoded.value).toEqual(decodeSave(fixture).value)
     expect(decoded.value?.lifeArchives[0]?.finalMorphology?.organelles[0]?.charges).toBe(2)
+    expect(decoded.value?.progression.rewardCounts['environment:env-clear-drop']).toBe(900)
+  })
+
+  it('rejects unknown or invalid reward counters', () => {
+    const unknown = saveFixture()
+    unknown.progression.rewardCounts['environment:env-missing'] = 1
+    const fractional = saveFixture()
+    fractional.progression.rewardCounts['environment:env-clear-drop'] = 1.5
+
+    expect(decodeSave(unknown)).toMatchObject({ value: undefined, issues: [expect.objectContaining({ code: 'unknown-id' })] })
+    expect(decodeSave(fractional)).toMatchObject({ value: undefined, issues: [expect.objectContaining({ code: 'invalid-number' })] })
   })
 
   it('fails closed on malformed or oversized JSON without raw parser errors', () => {

@@ -5,11 +5,15 @@ export function Archive({
   model,
   restartButtonRef,
   onRestart,
+  onLab,
+  labLabel,
   onKeyDown,
 }: {
   model: ArchiveViewModel
   restartButtonRef: RefObject<HTMLButtonElement | null>
   onRestart(): void
+  onLab?(): void
+  labLabel?: string
   onKeyDown: KeyboardEventHandler<HTMLElement>
 }) {
   const paletteStyle = {
@@ -38,6 +42,7 @@ export function Archive({
       <button ref={restartButtonRef} className="archive-panel__restart" type="button" onClick={onRestart}>
         {model.restartLabel}
       </button>
+      {onLab && <button className="game-overlay__secondary archive-panel__lab" type="button" onClick={onLab}>{labLabel}</button>}
 
       {model.finalMorphology && (
         <div

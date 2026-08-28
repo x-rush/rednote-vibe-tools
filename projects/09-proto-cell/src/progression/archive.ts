@@ -1,6 +1,8 @@
 import type { ContentPack, EnvironmentId, OrganelleId, SynergyId } from '../content'
 import type { GameEvent } from '../game/interactions'
 import type { PlayerMorphologySnapshot } from '../game/engine'
+import { encodeDishCode } from './challenges'
+import { generateRunRoute } from '../world/generator'
 
 export type LifeEventSnapshot = {
   runSeed: number
@@ -75,6 +77,11 @@ export function deriveLifeArchive(
     ? selectDeathTemplateId(ordered, terminal, content)
     : undefined
   const runSeed = ordered.find((entry) => entry.snapshot)?.snapshot?.runSeed ?? 0
+  const fallbackRoute = generateRunRoute(runSeed).slice(1, 3)
+  const codedRoute: [EnvironmentId, EnvironmentId] = [
+    (selectedRoutes.find((id) => id === 'env-algae-glow' || id === 'env-acid-vesicle') ?? fallbackRoute[0]) as EnvironmentId,
+    (selectedRoutes.find((id) => id === 'env-fiber-maze' || id === 'env-antibody-storm') ?? fallbackRoute[1]) as EnvironmentId,
+  ]
   const speciesNameSeed = hash32([
     runSeed,
     farthestEnvironmentId,
@@ -96,7 +103,7 @@ export function deriveLifeArchive(
     deathTemplateId,
     endingId,
     finalMorphology,
-    dishCode: `PC-${(speciesNameSeed & 0xffffff).toString(16).toUpperCase().padStart(6, '0')}`,
+    dishCode: encodeDishCode({ seed: runSeed, contentVersion: content.contentVersion, route: codedRoute }),
   }
 }
 

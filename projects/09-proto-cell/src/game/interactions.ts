@@ -4,7 +4,7 @@ import { fullyContains } from './containment'
 export type DamageSource = 'acid' | 'electric' | 'spine' | 'ram'
 
 export type GameEvent =
-  | { type: 'engulfed'; predatorId: string; preyId: string; biomass: number; atMs: number }
+  | { type: 'engulfed'; predatorId: string; preyId: string; predatorDefinitionId?: string; preyDefinitionId?: string; biomass: number; atMs: number }
   | { type: 'damaged'; targetId: string; amount: number; source: DamageSource; atMs: number }
   | { type: 'blocked'; targetId: string; amount: number; atMs: number }
   | { type: 'ruptured'; targetId: string; fragmentMasses: readonly number[]; atMs: number }
@@ -14,7 +14,7 @@ export type GameEvent =
   | { type: 'event-phase'; eventId: string; phase: 'telegraph' | 'active' | 'expired'; atMs: number }
   | { type: 'route-selected'; environmentId: string; atMs: number }
   | { type: 'boss-resolved'; bossId: string; path: 'combat' | 'environment' | 'stealth' | 'parasite'; atMs: number }
-  | { type: 'player-died'; cause: string; atMs: number }
+  | { type: 'player-died'; cause: string; defeatedByDefinitionId?: string; atMs: number }
   | { type: 'ending-reached'; endingId: string; atMs: number }
 
 export type InteractionContext = {
@@ -72,6 +72,8 @@ export function resolveInteraction(
           type: 'engulfed',
           predatorId: containment.predator.id,
           preyId: containment.prey.id,
+          ...('definitionId' in containment.predator ? { predatorDefinitionId: String(containment.predator.definitionId) } : {}),
+          ...('definitionId' in containment.prey ? { preyDefinitionId: String(containment.prey.definitionId) } : {}),
           biomass: containment.prey.mass,
           atMs: context.atMs,
         }],

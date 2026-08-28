@@ -9,6 +9,8 @@ import type { EventContext } from '../world/events'
 import { createBoss, type BossPath, type BossState } from '../world/bosses'
 import type { GameEvent } from '../game/interactions'
 import type { LifeEventLogEntry } from '../progression/archive'
+import type { SaveDataV1 } from '../storage/codec'
+import type { IndexedDbDriver, SettingsStorage } from '../storage/repository'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -80,6 +82,65 @@ export function testContent(): ContentPack {
 
 export function eventLog(events: readonly GameEvent[]): LifeEventLogEntry[] {
   return events.map((event, index) => ({ sequence: index + 1, event: { ...event } }))
+}
+
+export function saveFixture(overrides: { extra?: unknown; archiveCount?: number } = {}): SaveDataV1 & Record<string, unknown> {
+  const archiveCount = overrides.archiveCount ?? 1
+  const value: SaveDataV1 & Record<string, unknown> = {
+    schemaVersion: 1,
+    contentVersion: getContent().contentVersion,
+    settings: { music: true, sfx: true, reducedMotion: false, reducedFlash: false, lowParticles: false, reducedShake: false, graphics: 'balanced' },
+    progression: { genePoints: 0, unlockedIds: ['origin-primal-cell'], discoveredSynergyIds: [], completedModifierIds: [] },
+    codex: { 'creature-drifter': 'seen' },
+    records: { bestSurvivalMs: 0, bestEnvironmentOrder: 0, maxBiomass: 144, dailySeeds: { '2026-08-28': 727 } },
+    lifeArchives: Array.from({ length: archiveCount }, (_, index) => ({
+      speciesNameSeed: index,
+      survivalMs: index * 1000,
+      farthestEnvironmentId: 'env-clear-drop',
+      maxBiomass: 144 + index,
+      keyOrganelleIds: [],
+      synergyIds: [],
+      deathTemplateId: 'death-engulfed',
+      dishCode: `PC-${index.toString(16).toUpperCase().padStart(6, '0')}`,
+    })),
+  }
+  if ('extra' in overrides) value.extra = overrides.extra
+  return value
+}
+
+export function failingIndexedDb(): IndexedDbDriver {
+  const unavailable = () => Promise.reject(Object.assign(new Error('storage unavailable'), {
+    name: 'UnavailableError',
+    recoveryPayload: saveFixture(),
+  }))
+  return { open: unavailable, read: unavailable, write: unavailable, clear: unavailable }
+}
+
+export function memoryIndexedDb(): IndexedDbDriver & { value(store: string, key: string): unknown } {
+  const stores = new Map<string, Map<string, unknown>>()
+  const store = (name: string) => {
+    const existing = stores.get(name)
+    if (existing) return existing
+    const created = new Map<string, unknown>()
+    stores.set(name, created)
+    return created
+  }
+  return {
+    open: async () => undefined,
+    read: async (storeName, key) => structuredClone(store(storeName).get(key)),
+    write: async (storeName, key, value) => { store(storeName).set(key, structuredClone(value)) },
+    clear: async (storeName) => { store(storeName).clear() },
+    value: (storeName, key) => store(storeName).get(key),
+  }
+}
+
+export function memorySettingsStorage(): SettingsStorage {
+  const values = new Map<string, string>()
+  return {
+    getItem: (key) => values.get(key) ?? null,
+    setItem: (key, value) => { values.set(key, value) },
+    removeItem: (key) => { values.delete(key) },
+  }
 }
 
 export function playerWith(

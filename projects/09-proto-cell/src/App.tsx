@@ -346,7 +346,7 @@ function GameApp({ content }: { content: ContentPack }) {
   }
 
   if (labPanel === 'gene') return <main className="hatchery-shell lab-detail"><GeneGraph content={content} progress={save.progression} onUnlock={(id) => setSave((current) => ({ ...current, progression: unlockNode(current.progression, id) }))} /><button className="game-overlay__secondary" type="button" onClick={() => setLabPanel(null)}>{content.ui.actions.backToLab}</button></main>
-  if (labPanel === 'codex') return <main className="hatchery-shell lab-detail"><Codex content={content} progress={save.codex} /><button className="game-overlay__secondary" type="button" onClick={() => setLabPanel(null)}>{content.ui.actions.backToLab}</button></main>
+  if (labPanel === 'codex') return <main className="hatchery-shell lab-detail"><Codex content={content} progress={save.codex} onClose={() => setLabPanel(null)} /></main>
   if (labPanel === 'archive' && lastArchive) return <main className="game-shell"><Archive model={lastArchive} restartButtonRef={modalButtonRef} onRestart={() => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds }); setLabPanel(null); sync() }} onLab={() => setLabPanel(null)} labLabel={content.ui.actions.backToLab} onKeyDown={trapModalFocus} /></main>
   if (labPanel === 'settings') {
     const recoveryPayload = repository.recoveryPayload()

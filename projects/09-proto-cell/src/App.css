@@ -183,8 +183,16 @@
 .modifier-list label { display: grid; grid-template-columns: auto 38px 1fr; align-items: center; gap: 2px 8px; padding: 10px; border: 1px solid rgb(137 235 255 / 18%); border-radius: 14px; background: rgb(3 22 43 / 70%); }
 .modifier-list img { width: 34px; height: 34px; }
 .modifier-list span { grid-column: 3; }
-.lab-detail { align-content: start; overflow-y: auto; }
+.lab-detail { height: 100vh; height: 100dvh; align-content: start; overflow-y: auto; }
 .lab-detail > .game-overlay__secondary { width: min(100%, 320px); }
+.lab-detail__back {
+  position: sticky;
+  z-index: 3;
+  top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) + 8px);
+  width: min(100%, 320px);
+  justify-self: center;
+  backdrop-filter: blur(14px);
+}
 .lab-panel { z-index: 1; display: grid; width: min(100%, 680px); gap: 16px; color: #effeff; }
 .lab-panel header { text-align: center; }
 .lab-panel header h2 { margin: 8px 0; font-size: clamp(1.8rem, 8vw, 2.8rem); }

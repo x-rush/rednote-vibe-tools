@@ -155,7 +155,7 @@
   line-height: 1.5;
 }
 
-.lab-shell { align-items: start; overflow-y: auto; }
+.lab-shell { height: 100vh; height: 100dvh; align-items: start; overflow-y: auto; }
 .lab-home { padding-bottom: 32px; }
 .lab-home::before {
   position: absolute;

@@ -36,4 +36,19 @@ describe('page view models', () => {
     expect(model.eyebrow).toBe(content.content.ui.pages.questOffer.eyebrow)
     expect(model.offerExplanation).toEqual(offerExplanation)
   })
+
+  it('resolves a retired active quest and marks it as classic', () => {
+    const retired = content.content.retiredTasks[0]
+    const guild = { ...createGuildState(preference, 1), activeQuest: { acceptanceId: 'legacy-active', questId: retired.questId, acceptedAt: '2026-08-28T08:00:00.000Z', questContentVersion: retired.contentVersion, preference } }
+    const model = createPageViewModel({ page: 'questAccepted', guild, lastAwardedXp: 0, newlyUnlockedBadgeIds: [] }, content)
+    expect(model.quest?.title).toBe(retired.title)
+    expect(model.questIsRetired).toBe(true)
+  })
+
+  it('keeps the title captured in history when current catalog copy changes', () => {
+    const quest = content.content.tasks[0]
+    const guild = { ...createGuildState(preference, 1), history: [{ acceptanceId: 'history-1', questId: quest.questId, questTitle: '接取时的标题', questContentVersion: '1.0.0', questCategory: quest.category, questDifficulty: quest.difficulty, status: 'completed' as const, occurredAt: '2026-08-28T08:00:00.000Z', completionDate: '2026-08-28', xpAwarded: quest.xp }] }
+    const model = createPageViewModel({ page: 'questHistory', guild, lastAwardedXp: 0, newlyUnlockedBadgeIds: [] }, content)
+    expect(model.history?.entries[0].title).toBe('接取时的标题')
+  })
 })

@@ -7,7 +7,7 @@ import { CheckIn } from './CheckIn'
 import { GuildFrame, GuildHall } from './GuildFrame'
 import { MiraGuide } from './MiraGuide'
 import { ActiveQuestView, MatchingRitual, QuestOffer } from './QuestFlow'
-import { AdventurerProfile, RecoveryPanel, XpReceipt } from './ArchiveViews'
+import { AdventureLog, AdventurerProfile, RecoveryPanel, XpReceipt } from './ArchiveViews'
 import { AbandonSheet, CompletionConfirm, MiraHelpSheet, UnsuitableSheet } from './FeedbackSheets'
 import { createProfileViewModel } from '../domain/progression'
 
@@ -90,7 +90,7 @@ describe('competition UI semantics', () => {
   })
 
   it('renders semantic shell navigation and prioritizes an active quest in the hall', () => {
-    const guild = { ...createGuildState(preference, 1), activeQuest: { acceptanceId: 'accept-1', questId: content.content.tasks[0].questId, acceptedAt: '2026-08-26T08:00:00.000Z', preference } }
+    const guild = { ...createGuildState(preference, 1), activeQuest: { acceptanceId: 'accept-1', questId: content.content.tasks[0].questId, acceptedAt: '2026-08-26T08:00:00.000Z', questContentVersion: content.content.tasks[0].contentVersion, preference } }
     const hall = <GuildHall ui={content.content.ui} guild={guild} activeQuest={content.content.tasks[0]} onStart={noop} onContinue={noop} />
     const html = renderToStaticMarkup(<GuildFrame ui={content.content.ui} page="guildHall" level={1} xp={0} onNavigate={noop} onHelp={noop}>{hall}</GuildFrame>)
     expect(html).toContain('<header')
@@ -101,16 +101,18 @@ describe('competition UI semantics', () => {
 
   it('renders real relaxed reasons and permanent safety boundaries before offer actions', () => {
     const quest = content.content.tasks[0]
-    const html = renderToStaticMarkup(<QuestOffer quest={quest} categoryName={content.content.categories[0].name} explanation={{ stage: 'goal-relaxed', score: 80, reasons: ['目标类型已放宽'], relaxed: ['目标类型'] }} ui={content.content.ui} onAccept={noop} onSwap={noop} onUnsuitable={noop} />)
+    const html = renderToStaticMarkup(<QuestOffer quest={quest} categoryName={content.content.categories[0].name} explanation={{ stage: 'goal-relaxed', score: 80, reasons: ['目标类型已放宽'], relaxed: ['目标类型'] }} ui={content.content.ui} onAccept={noop} onSwap={noop} onEditPreferences={noop} onUnsuitable={noop} />)
     expect(html.indexOf(content.content.ui.quest.labels.relaxed)).toBeLessThan(html.indexOf(quest.title))
     expect(html).toContain('目标类型已放宽')
     expect(html).toContain('目标类型')
     expect(html).toContain(quest.abandonRule)
     expect(html).toContain(content.content.ui.quest.neverRelaxed[0])
     expect(html).toContain(content.content.ui.checkIn.timeLabels[quest.timeCost])
+    expect(html).toContain(`${quest.xp} XP`)
     expect(html).toContain('quest-tone')
     expect(html).toContain(quest.guildBrief)
     expect(html).toContain('rpg-spark-field')
+    expect(html).toContain('返回修改条件')
   })
 
   it('renders matching from actual selected labels and an active quest without proof collection', () => {
@@ -122,6 +124,21 @@ describe('competition UI semantics', () => {
     const active = renderToStaticMarkup(<ActiveQuestView quest={quest} categoryName={content.content.categories[0].name} ui={content.content.ui} onComplete={noop} onAbandon={noop} onUnsuitable={noop} />)
     expect(active).toContain(content.content.ui.notices.noProof)
     expect(active).toContain(quest.steps[0])
+    expect(active).toContain(`${quest.xp} XP`)
+  })
+
+  it('labels a retired active quest as classic', () => {
+    const quest = content.content.retiredTasks[0]
+    const html = renderToStaticMarkup(<ActiveQuestView quest={quest} categoryName="恢复精力" classic ui={content.content.ui} onComplete={noop} onAbandon={noop} onUnsuitable={noop} />)
+    expect(html).toContain('经典任务')
+    expect(html).toContain(quest.title)
+  })
+
+  it('renders immutable history titles without looking up current tasks', () => {
+    const quest = content.content.tasks[0]
+    const history = [{ acceptanceId: 'history-1', questId: quest.questId, questTitle: '接取时的旧版标题', questContentVersion: '1.0.0', questCategory: quest.category, questDifficulty: quest.difficulty, status: 'completed' as const, occurredAt: '2026-08-28T08:00:00.000Z', completionDate: '2026-08-28', xpAwarded: 20 }]
+    const html = renderToStaticMarkup(<AdventureLog history={history} categories={content.content.categories} filter="all" ui={content.content.ui} onFilter={noop} />)
+    expect(html).toContain('接取时的旧版标题')
   })
 
   it('renders confirmation sheets with bounded reasons and no proof request', () => {

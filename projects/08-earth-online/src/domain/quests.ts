@@ -1,4 +1,5 @@
 import type { ActiveQuest, BadgeDefinition, GuildSettings, Quest, QuestCategory, QuestHistoryEntry, QuestMatch, QuestPreference, StreakState } from '../content/schema'
+import { snapshotQuest } from '../content/catalog'
 import { levelFromXp, unlockedBadges, updateStreak } from './progression'
 import { createRandomSeed } from './random'
 
@@ -42,29 +43,30 @@ export function offerQuest(state: GuildDomainState, match: QuestMatch, offeredAt
   return { ...state, offeredQuestId: match.quest.questId, offeredAt, rngState: match.nextSeed, recentQuestIds: [...state.recentQuestIds, match.quest.questId].slice(-10) }
 }
 
-export function acceptQuest(state: GuildDomainState, acceptedAt: string): GuildDomainState {
-  if (state.activeQuest || !state.offeredQuestId) return state
-  const activeQuest = { acceptanceId: `${state.offeredQuestId}:${acceptedAt}:${state.rngState}`, questId: state.offeredQuestId, acceptedAt, preference: state.preference }
+export function acceptQuest(state: GuildDomainState, quest: Quest, acceptedAt: string): GuildDomainState {
+  if (state.activeQuest || state.offeredQuestId !== quest.questId) return state
+  const activeQuest: ActiveQuest = { acceptanceId: `${quest.questId}:${acceptedAt}:${state.rngState}`, questId: quest.questId, acceptedAt, questContentVersion: quest.contentVersion, preference: state.preference }
   return { ...state, activeQuest, offeredQuestId: undefined, offeredAt: undefined }
 }
 
-export function swapQuest(state: GuildDomainState, match: QuestMatch, swappedAt: string): GuildDomainState {
+export function swapQuest(state: GuildDomainState, offeredQuest: Quest, match: QuestMatch, swappedAt: string): GuildDomainState {
   if (!state.offeredQuestId) return offerQuest(state, match, swappedAt)
-  const history = appendHistory(state.history, { acceptanceId: `offer:${state.offeredQuestId}:${swappedAt}`, questId: state.offeredQuestId, status: 'swapped', occurredAt: swappedAt, xpAwarded: 0 })
+  if (state.offeredQuestId !== offeredQuest.questId) return state
+  const history = appendHistory(state.history, historyEntry(offeredQuest, { acceptanceId: `offer:${state.offeredQuestId}:${swappedAt}`, status: 'swapped', occurredAt: swappedAt, xpAwarded: 0 }))
   return offerQuest({ ...state, history, offeredQuestId: undefined, offeredAt: undefined }, match, swappedAt)
 }
 
-export function abandonQuest(state: GuildDomainState, abandonedAt: string): GuildDomainState {
-  if (!state.activeQuest) return state
-  const entry: QuestHistoryEntry = { acceptanceId: state.activeQuest.acceptanceId, questId: state.activeQuest.questId, status: 'abandoned', occurredAt: abandonedAt, xpAwarded: 0 }
+export function abandonQuest(state: GuildDomainState, quest: Quest, abandonedAt: string): GuildDomainState {
+  if (!state.activeQuest || state.activeQuest.questId !== quest.questId || state.activeQuest.questContentVersion !== quest.contentVersion) return state
+  const entry = historyEntry(quest, { acceptanceId: state.activeQuest.acceptanceId, status: 'abandoned', occurredAt: abandonedAt, xpAwarded: 0 })
   return { ...state, activeQuest: undefined, history: appendHistory(state.history, entry) }
 }
 
 export function completeQuest(state: GuildDomainState, quest: Quest, badges: BadgeDefinition[], completedAt: string, completionDate: string): CompletionResult {
-  if (!state.activeQuest || state.activeQuest.questId !== quest.questId || state.history.some(({ acceptanceId, status }) => acceptanceId === state.activeQuest?.acceptanceId && status === 'completed')) {
+  if (!state.activeQuest || state.activeQuest.questId !== quest.questId || state.activeQuest.questContentVersion !== quest.contentVersion || state.history.some(({ acceptanceId, status }) => acceptanceId === state.activeQuest?.acceptanceId && status === 'completed')) {
     return { state, awardedXp: 0, newlyUnlockedBadgeIds: [], alreadyCompleted: true }
   }
-  const entry: QuestHistoryEntry = { acceptanceId: state.activeQuest.acceptanceId, questId: quest.questId, status: 'completed', occurredAt: completedAt, completionDate, xpAwarded: quest.xp, category: quest.category }
+  const entry = historyEntry(quest, { acceptanceId: state.activeQuest.acceptanceId, status: 'completed', occurredAt: completedAt, completionDate, xpAwarded: quest.xp })
   const history = appendHistory(state.history, entry)
   const xp = state.xp + quest.xp
   const streak = updateStreak(state.streak, completionDate)
@@ -75,15 +77,17 @@ export function completeQuest(state: GuildDomainState, quest: Quest, badges: Bad
   return { state: { ...state, activeQuest: undefined, history, xp, streak, unlockedBadgeIds: nextBadgeIds, completedQuestIds, categoryCompletionCounts }, awardedXp: quest.xp, newlyUnlockedBadgeIds, alreadyCompleted: false }
 }
 
-export function summarizeHistory(history: QuestHistoryEntry[], questsById: ReadonlyMap<string, Quest>, removedQuestTitle: string): QuestHistorySummary {
+export function summarizeHistory(history: QuestHistoryEntry[]): QuestHistorySummary {
   return {
     total: history.length,
     completed: history.filter(({ status }) => status === 'completed').length,
     abandoned: history.filter(({ status }) => status === 'abandoned').length,
     swapped: history.filter(({ status }) => status === 'swapped').length,
     earnedXp: history.reduce((sum, { xpAwarded }) => sum + xpAwarded, 0),
-    entries: history.map((entry) => ({ questId: entry.questId, title: questsById.get(entry.questId)?.title ?? removedQuestTitle, status: entry.status, occurredAt: entry.occurredAt })),
+    entries: history.map((entry) => ({ questId: entry.questId, title: entry.questTitle, status: entry.status, occurredAt: entry.occurredAt })),
   }
 }
 
+type HistoryFields = { acceptanceId: string; status: QuestHistoryEntry['status']; occurredAt: string; xpAwarded: number; completionDate?: string }
+function historyEntry(quest: Quest, fields: HistoryFields): QuestHistoryEntry { return { questId: quest.questId, ...snapshotQuest(quest), ...fields } }
 function appendHistory(history: QuestHistoryEntry[], entry: QuestHistoryEntry): QuestHistoryEntry[] { return [...history, entry].slice(-100) }

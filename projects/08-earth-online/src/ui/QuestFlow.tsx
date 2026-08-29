@@ -27,10 +27,11 @@ type QuestOfferProps = {
   busy?: boolean
   onAccept: () => void
   onSwap: () => void
+  onEditPreferences: () => void
   onUnsuitable: () => void
 }
 
-export function QuestOffer({ quest, categoryName, explanation, ui, busy = false, onAccept, onSwap, onUnsuitable }: QuestOfferProps) {
+export function QuestOffer({ quest, categoryName, explanation, ui, busy = false, onAccept, onSwap, onEditPreferences, onUnsuitable }: QuestOfferProps) {
   return (
     <section className="quest-offer">
       {explanation.stage !== 'exact' && <aside className="match-explanation match-explanation--relaxed">
@@ -41,6 +42,7 @@ export function QuestOffer({ quest, categoryName, explanation, ui, busy = false,
       <div className="quest-actions">
         <button className="button button--primary button--large" type="button" disabled={busy} onClick={onAccept}>{ui.actions.accept}</button>
         <button className="button button--secondary" type="button" disabled={busy} onClick={onSwap}>{ui.actions.swap}</button>
+        <button className="button button--ghost" type="button" disabled={busy} onClick={onEditPreferences}>{ui.actions.editPreferences}</button>
         <button className="text-button" type="button" disabled={busy} onClick={onUnsuitable}>{ui.actions.unsuitable}</button>
       </div>
     </section>
@@ -51,15 +53,16 @@ type ActiveQuestViewProps = {
   quest: Quest
   categoryName: string
   ui: UiContent
+  classic?: boolean
   onComplete: () => void
   onAbandon: () => void
   onUnsuitable: () => void
 }
 
-export function ActiveQuestView({ quest, categoryName, ui, onComplete, onAbandon, onUnsuitable }: ActiveQuestViewProps) {
+export function ActiveQuestView({ quest, categoryName, ui, classic = false, onComplete, onAbandon, onUnsuitable }: ActiveQuestViewProps) {
   return (
     <section className="active-quest-view">
-      <QuestSheet quest={quest} categoryName={categoryName} ui={ui} compact />
+      <QuestSheet quest={quest} categoryName={categoryName} ui={ui} compact classic={classic} />
       <p className="no-proof"><img src={assets.status('active')} alt="" />{ui.notices.noProof}</p>
       <div className="quest-actions quest-actions--stack">
         <button className="button button--primary button--large" type="button" onClick={onComplete}>{ui.actions.complete}</button>
@@ -70,7 +73,7 @@ export function ActiveQuestView({ quest, categoryName, ui, onComplete, onAbandon
   )
 }
 
-function QuestSheet({ quest, categoryName, ui, reasons = [], compact = false }: { quest: Quest; categoryName: string; ui: UiContent; reasons?: string[]; compact?: boolean }) {
+function QuestSheet({ quest, categoryName, ui, reasons = [], compact = false, classic = false }: { quest: Quest; categoryName: string; ui: UiContent; reasons?: string[]; compact?: boolean; classic?: boolean }) {
   const environments = quest.environments.map((value) => ui.quest.values.environment[value]).join(' / ')
   return (
     <article className={`quest-sheet${compact ? ' quest-sheet--active' : ''}`} aria-labelledby="quest-title">
@@ -81,6 +84,7 @@ function QuestSheet({ quest, categoryName, ui, reasons = [], compact = false }: 
         <span className={`quest-tone quest-tone--${quest.tone}`}>{ui.quest.tones[quest.tone]}</span>
       </div>
       <p className="guild-brief">{quest.guildBrief}</p>
+      {classic && <span className="classic-quest-label">{ui.quest.labels.classic}</span>}
       <h2 id="quest-title">{quest.title}</h2>
       <p className="quest-description">{quest.description}</p>
       <dl className="quest-facts">
@@ -89,6 +93,7 @@ function QuestSheet({ quest, categoryName, ui, reasons = [], compact = false }: 
         <Fact label={ui.quest.labels.environment} value={environments} />
         <Fact label={ui.quest.labels.social} value={ui.quest.values.social[quest.socialLevel]} />
         <Fact label={ui.quest.labels.budget} value={ui.quest.values.free} />
+        <Fact label={ui.quest.labels.xp} value={`${quest.xp} XP`} />
       </dl>
       {reasons.length > 0 && <aside className="recommendation"><strong>{ui.quest.labels.why}</strong><ul>{reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul></aside>}
       <section className="quest-steps"><h3>{ui.quest.labels.steps}</h3><ol>{quest.steps.map((step) => <li key={step}>{step}</li>)}</ol></section>

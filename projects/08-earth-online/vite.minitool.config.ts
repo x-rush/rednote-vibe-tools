@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url'
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
+import { createEarthContentPlugin } from './vite.content-plugin.ts'
 
 const projectRoot = fileURLToPath(new URL('.', import.meta.url))
 
@@ -54,7 +55,7 @@ export default defineConfig({
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
   },
-  plugins: [removeUnavailableReactConnectionProbe(), react(), emitMinitoolHtml()],
+  plugins: [createEarthContentPlugin({ archiveMode: 'eager' }), removeUnavailableReactConnectionProbe(), react(), emitMinitoolHtml()],
   build: {
     outDir: 'dist-minitool',
     emptyOutDir: true,

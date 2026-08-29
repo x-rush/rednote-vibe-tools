@@ -7,7 +7,7 @@ export type PersistDecision =
   | { kind: 'temporary-required'; reason: 'forbidden-data' | 'quota-or-unavailable' }
 
 export function createStorageEnvelope(guild: GuildDomainState, contentVersion: string, updatedAt: string): StorageEnvelope {
-  return { schemaVersion: 1, contentVersion, updatedAt, data: toStoragePayload(guild) }
+  return { schemaVersion: 2, contentVersion, updatedAt, data: toStoragePayload(guild) }
 }
 
 export function persistBeforeTransition(storage: Pick<Storage, 'setItem'>, envelope: StorageEnvelope): PersistDecision {

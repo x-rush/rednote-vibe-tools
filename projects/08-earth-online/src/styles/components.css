@@ -112,6 +112,7 @@
 .quest-tone--kindness { color: #2d6654; background: rgb(45 102 84 / 9%); }
 .quest-tone--growth { color: #8a5b20; background: rgb(184 135 78 / 10%); }
 .guild-brief { margin: 17px 0 0; padding: 11px 13px; border: 1px dashed rgb(111 82 45 / 34%); border-radius: 9px; color: #5e4a35; background: rgb(255 255 255 / 22%); font: 700 13px/1.6 Georgia, "Songti SC", serif; }
+.classic-quest-label { display: inline-flex; margin-top: 14px; padding: 4px 9px; border: 1px solid rgb(111 82 45 / 42%); border-radius: 999px; color: var(--wine-dark); background: rgb(255 255 255 / 26%); font-size: 11px; font-weight: 850; letter-spacing: .1em; }
 .rpg-spark-field { position: absolute; z-index: 0; inset: 0; pointer-events: none; }
 .rpg-spark-field i { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--brass); box-shadow: 0 0 13px currentColor; opacity: .42; }
 .rpg-spark-field i:nth-child(1) { top: 9%; left: 8%; }

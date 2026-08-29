@@ -8,7 +8,7 @@ export const LOCATIONS = ['any-safe-place', 'familiar-indoor', 'familiar-public-
 export const DIFFICULTIES = ['tiny', 'light', 'standard', 'brave'] as const
 export const QUEST_TONES = ['absurd', 'courage', 'kindness', 'growth'] as const
 export const PAGE_COPY_IDS = ['guildHall', 'preferenceSelect', 'matching', 'questOffer', 'questAccepted', 'questComplete', 'questAbandoned', 'adventurerProfile', 'questHistory', 'badgeList', 'error'] as const
-export const ACTION_COPY_IDS = ['start', 'continueQuest', 'openCheckIn', 'useLastState', 'match', 'skipMatching', 'accept', 'swap', 'unsuitable', 'complete', 'confirmComplete', 'abandon', 'confirmAbandon', 'logQuest', 'again', 'backHall', 'retry', 'temporary', 'reset', 'nextGuide', 'skipGuide', 'close', 'undo', 'saveFeedback'] as const
+export const ACTION_COPY_IDS = ['start', 'continueQuest', 'openCheckIn', 'useLastState', 'match', 'skipMatching', 'accept', 'swap', 'editPreferences', 'unsuitable', 'complete', 'confirmComplete', 'abandon', 'confirmAbandon', 'logQuest', 'again', 'backHall', 'retry', 'temporary', 'reset', 'nextGuide', 'skipGuide', 'close', 'undo', 'saveFeedback'] as const
 export const UNSUITABLE_REASONS = ['too-tiring', 'environment', 'no-time', 'changed-mind', 'unsafe-now'] as const
 
 export type QuestCategory = typeof QUEST_CATEGORIES[number]
@@ -72,6 +72,13 @@ export type Quest = {
   contentVersion: string
 }
 
+export type QuestSnapshot = {
+  questTitle: string
+  questContentVersion: string
+  questCategory: QuestCategory
+  questDifficulty: QuestDifficulty
+}
+
 export type BadgeRule =
   | { type: 'completed-count'; count: number }
   | { type: 'streak'; days: number }
@@ -102,7 +109,7 @@ export type UiContent = {
     dayPartLabels: Record<TimeOfDay, string>
   }
   quest: {
-    labels: { rank: string; time: string; energy: string; environment: string; social: string; budget: string; why: string; relaxed: string; kept: string; steps: string; exit: string }
+    labels: { rank: string; time: string; energy: string; environment: string; social: string; budget: string; xp: string; why: string; relaxed: string; kept: string; steps: string; exit: string; classic: string }
     tones: Record<QuestTone, string>
     values: {
       ranks: Record<QuestDifficulty, string>
@@ -115,7 +122,7 @@ export type UiContent = {
   }
   matching: {
     stages: Record<MatchStage, { reason: string; relaxed: string[] }>
-    positive: { goal: string; time: string; solo: string; optional: string }
+    positive: { goal: string; time: string; solo: string; optional: string; fresh: string; variety: string }
     noMatch: { reason: string; neverRelaxed: [string, string, string, string, string] }
   }
   sheets: {
@@ -174,6 +181,8 @@ export type EarthOnlineContent = {
     goals: GoalDefinition[]
     badges: BadgeDefinition[]
     tasks: Quest[]
+    retiredTasks: Quest[]
+    legacyTasks: Quest[]
     filters: { id: string; values: string[] }[]
     cooldown: { recentOfferLimit: number; historyLimit: number }
     fallback: { categoryIds: QuestCategory[] }
@@ -182,13 +191,15 @@ export type EarthOnlineContent = {
   }
 }
 
+export type QuestArchiveContent = Pick<EarthOnlineContent['content'], 'retiredTasks' | 'legacyTasks'>
+
 export type ValidationIssue = { path: string; message: string }
 export type ValidationResult = { ok: boolean; issues: ValidationIssue[] }
 
 export type StreakState = { current: number; best: number; lastCompletionDate?: string }
-export type ActiveQuest = { acceptanceId: string; questId: string; acceptedAt: string; preference: QuestPreference }
+export type ActiveQuest = { acceptanceId: string; questId: string; acceptedAt: string; questContentVersion: string; preference: QuestPreference }
 export type CompletedQuest = { acceptanceId: string; questId: string; acceptedAt: string; completedAt: string; completionDate: string; xpAwarded: number }
-export type QuestHistoryEntry = { acceptanceId: string; questId: string; status: 'completed' | 'abandoned' | 'swapped'; occurredAt: string; xpAwarded: number; completionDate?: string; category?: QuestCategory }
+export type QuestHistoryEntry = QuestSnapshot & { acceptanceId: string; questId: string; status: 'completed' | 'abandoned' | 'swapped'; occurredAt: string; xpAwarded: number; completionDate?: string }
 export type AdventurerProfile = { xp: number; streak: StreakState; unlockedBadgeIds: string[] }
 export type StoragePayload = { preference: QuestPreference; offeredQuestId?: string; activeQuest?: ActiveQuest; recentQuestIds: string[]; completedQuestIds: string[]; history: QuestHistoryEntry[]; xp: number; streak: StreakState; unlockedBadgeIds: string[]; rngState: number; settings: GuildSettings }
 export type QuestMatch = { kind: 'match'; quest: Quest; score: number; stage: MatchStage; reasons: string[]; relaxed: string[]; nextSeed: number }

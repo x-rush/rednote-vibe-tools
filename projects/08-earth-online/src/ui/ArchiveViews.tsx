@@ -1,4 +1,4 @@
-import type { BadgeDefinition, Quest, QuestCategoryDefinition, QuestHistoryEntry, UiContent } from '../content/schema'
+import type { BadgeDefinition, QuestCategoryDefinition, QuestHistoryEntry, UiContent } from '../content/schema'
 import type { AdventurerProfileViewModel } from '../domain/progression'
 import type { LogFilter } from './state'
 import { assets } from './asset-paths'
@@ -39,7 +39,6 @@ export function XpReceipt({ awardedXp, completionText, profile, newBadges, ui, t
 
 type AdventureLogProps = {
   history: QuestHistoryEntry[]
-  quests: Quest[]
   categories: QuestCategoryDefinition[]
   filter: LogFilter
   ui: UiContent
@@ -47,8 +46,7 @@ type AdventureLogProps = {
   onFilter: (filter: LogFilter) => void
 }
 
-export function AdventureLog({ history, quests, categories, filter, ui, degraded = false, onFilter }: AdventureLogProps) {
-  const questMap = new Map(quests.map((quest) => [quest.questId, quest]))
+export function AdventureLog({ history, categories, filter, ui, degraded = false, onFilter }: AdventureLogProps) {
   const categoryMap = new Map(categories.map((category) => [category.id, category.name]))
   const entries = [...history].reverse().filter((entry) => filter === 'all' || entry.status === filter)
   return (
@@ -58,10 +56,9 @@ export function AdventureLog({ history, quests, categories, filter, ui, degraded
         {(Object.keys(ui.archive.filters) as LogFilter[]).map((value) => <button type="button" key={value} aria-pressed={filter === value} onClick={() => onFilter(value)}>{ui.archive.filters[value]}</button>)}
       </div>
       {entries.length === 0 ? <div className="paper-panel empty-state"><img src={assets.prop('ticket-stub')} alt="" /><p>{ui.archive.empty}</p></div> : <ol className="adventure-log">{entries.map((entry) => {
-        const quest = questMap.get(entry.questId)
         return <li key={`${entry.acceptanceId}-${entry.status}`}>
           <img src={entry.status === 'swapped' ? assets.prop('route-slip') : assets.status(entry.status)} alt="" />
-          <div><span>{entry.category ? categoryMap.get(entry.category) : ui.archive.statuses[entry.status]} · {entry.occurredAt.slice(0, 10)}</span><strong>{quest?.title ?? ui.archive.removedQuest}</strong><small>{ui.archive.statuses[entry.status]} · {entry.xpAwarded} XP</small></div>
+          <div><span>{categoryMap.get(entry.questCategory) ?? entry.questCategory} · {entry.occurredAt.slice(0, 10)}</span><strong>{entry.questTitle}</strong><small>{ui.archive.statuses[entry.status]} · {entry.xpAwarded} XP</small></div>
         </li>
       })}</ol>}
     </section>

@@ -53,11 +53,11 @@ export function restorePage(payload: StoragePayload): PageState {
   return 'guildHall'
 }
 
-export function shouldPersistAppState(state: AppState): boolean { return state.error?.code !== 'storage-recovery' }
+export function shouldPersistAppState(state: AppState): boolean { return state.error?.code !== 'storage-recovery' && state.error?.code !== 'storage-write' && state.error?.code !== 'content' }
 
 function guildFromPayload(payload: StoragePayload): GuildDomainState {
   const categoryCompletionCounts: GuildDomainState['categoryCompletionCounts'] = {}
-  for (const entry of payload.history) if (entry.status === 'completed' && entry.category) categoryCompletionCounts[entry.category] = (categoryCompletionCounts[entry.category] ?? 0) + 1
+  for (const entry of payload.history) if (entry.status === 'completed') categoryCompletionCounts[entry.questCategory] = (categoryCompletionCounts[entry.questCategory] ?? 0) + 1
   return { ...payload, categoryCompletionCounts }
 }
 

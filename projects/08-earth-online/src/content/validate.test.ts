@@ -54,4 +54,63 @@ describe('content validation', () => {
     delete missingHud.content.ui.hud
     expect(validateContent(missingHud, 'production').issues).toContainEqual({ path: '$.content.ui.hud', message: '顶栏身份文案不完整' })
   })
+
+  it('rejects an ID reused across active and retired catalogs', () => {
+    const duplicate = structuredClone(rawContent)
+    const duplicateIndex = duplicate.content.retiredTasks.length
+    duplicate.content.retiredTasks.push(structuredClone(duplicate.content.tasks[0]))
+    expect(validateContent(duplicate, 'production').issues).toContainEqual({ path: `$.content.retiredTasks[${duplicateIndex}].questId`, message: '任务 ID 重复' })
+  })
+
+  it('allows multiple archived versions of one ID but rejects duplicate ID-version pairs', () => {
+    const versioned = structuredClone(rawContent)
+    const older = { ...structuredClone(versioned.content.legacyTasks[0]), contentVersion: '0.9.0' }
+    versioned.content.legacyTasks.push(older)
+    expect(validateContent(versioned, 'production').issues.some(({ message }) => message === '旧版本任务 ID 与内容版本重复')).toBe(false)
+    versioned.content.legacyTasks.push(structuredClone(older))
+    expect(validateContent(versioned, 'production').issues).toContainEqual({ path: `$.content.legacyTasks[${versioned.content.legacyTasks.length - 1}].contentVersion`, message: '旧版本任务 ID 与内容版本重复' })
+  })
+
+  it('rejects stale templates, mismatched XP, and unsupported cooldowns in active content', () => {
+    const invalid = structuredClone(rawContent)
+    invalid.content.tasks[0].description = '认真演完这段荒唐，普通日常就会短暂获得剧情。'
+    invalid.content.tasks[0].xp = 99
+    invalid.content.tasks[0].cooldownDays = 99
+    const issues = validateContent(invalid, 'production').issues
+    expect(issues).toContainEqual({ path: '$.content.tasks[0].description', message: '活跃任务不得使用旧通用文案模板' })
+    expect(issues).toContainEqual({ path: '$.content.tasks[0].xp', message: 'XP 必须与难度档位一致' })
+    expect(issues).toContainEqual({ path: '$.content.tasks[0].cooldownDays', message: '冷却只能为 3、7 或 14 天' })
+  })
+
+  it('rejects unapproved or stale-version active quests', () => {
+    const invalid = structuredClone(rawContent)
+    invalid.content.tasks[0].approved = false
+    invalid.content.tasks[1].contentVersion = '1.0.0'
+    const issues = validateContent(invalid, 'production').issues
+    expect(issues).toContainEqual({ path: '$.content.tasks[0].approved', message: '活跃任务必须通过审核' })
+    expect(issues).toContainEqual({ path: '$.content.tasks[1].contentVersion', message: '活跃任务内容版本必须与内容包一致' })
+  })
+
+  it('rejects a release whose active challenge distribution drifts', () => {
+    const drifted = structuredClone(rawContent)
+    const fiveMinuteQuests = drifted.content.tasks.filter((quest) => quest.timeCost === 5).slice(0, 9)
+    if (fiveMinuteQuests.length !== 9) throw new Error('fixture requires nine five-minute quests')
+    for (const quest of fiveMinuteQuests) quest.timeCost = 20
+    expect(validateContent(drifted, 'production').issues).toContainEqual({ path: '$.content.tasks', message: '活跃任务时间、精力或难度分布不符合内容版本契约' })
+  })
+
+  it('allows expansion beyond 100 quests but rejects shrinking below the release floor', () => {
+    expect(validateContent(rawContent, 'production').issues).not.toContainEqual({ path: '$.content.tasks', message: '活跃任务不得少于 100 条' })
+    const undersized = structuredClone(rawContent)
+    undersized.content.tasks = undersized.content.tasks.slice(0, 99)
+    expect(validateContent(undersized, 'production').issues).toContainEqual({ path: '$.content.tasks', message: '活跃任务不得少于 100 条' })
+  })
+
+  it('rejects a nighttime outdoor quest when a visibility boundary is removed', () => {
+    const unsafe = structuredClone(rawContent)
+    const nightQuest = unsafe.content.tasks.find(({ questId }) => questId === 'quest-night-lamppost-shadow-boss')
+    if (!nightQuest) throw new Error('fixture requires a nighttime quest')
+    nightQuest.safetyTags = nightQuest.safetyTags.filter((tag) => tag !== 'well-lit-only')
+    expect(validateContent(unsafe, 'production').issues).toContainEqual({ path: `$.content.tasks[${unsafe.content.tasks.indexOf(nightQuest)}].safetyTags`, message: '夜间户外任务缺少 well-lit-only' })
+  })
 })

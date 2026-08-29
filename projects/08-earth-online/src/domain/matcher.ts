@@ -13,13 +13,20 @@ export type MatchContext = {
 }
 
 const requiredSafety = ['no-purchase', 'no-photo-required', 'no-personal-data']
-const qualityBand = 15
+const qualityBand = 25
+const recentWindow = 8
+const categoryWindow = 4
 
-export function matchQuest(quests: Quest[], preference: QuestPreference, context: MatchContext): QuestMatch | NoMatch {
+export function matchQuest(quests: readonly Quest[], preference: QuestPreference, context: MatchContext): QuestMatch | NoMatch {
   const hardPool = quests.filter((quest) => passesHardConditions(quest, preference))
   if (hardPool.length === 0) return noMatch(context.copy)
 
-  const recent = new Set(context.recentQuestIds.slice(-3))
+  const recentQuestIds = context.recentQuestIds.slice(-recentWindow)
+  const recent = new Set(recentQuestIds)
+  const questsById = new Map(quests.map((quest) => [quest.questId, quest]))
+  const recentCategoryIds = recentQuestIds
+    .slice(-categoryWindow)
+    .flatMap((questId) => questsById.get(questId)?.category ?? [])
   const abandoned = new Set(context.abandoned.filter((entry) => daysBetween(entry.occurredAt.slice(0, 10), context.nowDate) <= 7).map((entry) => entry.questId))
   const cooling = new Set(context.completed.filter((entry) => {
     const quest = quests.find(({ questId }) => questId === entry.questId)
@@ -37,12 +44,12 @@ export function matchQuest(quests: Quest[], preference: QuestPreference, context
   const selectedStage = stages.find(({ candidates }) => candidates.length > 0)
   if (!selectedStage) return noMatch(context.copy)
 
-  const ranked = selectedStage.candidates.map((quest) => ({ quest, score: scoreQuest(quest, preference, context, recent, abandoned, cooling) }))
+  const ranked = selectedStage.candidates.map((quest) => ({ quest, score: scoreQuest(quest, preference, context, recentQuestIds, recentCategoryIds, abandoned, cooling) }))
   const bestScore = Math.max(...ranked.map(({ score }) => score))
   const qualityPool = ranked.filter(({ score }) => score >= bestScore - qualityBand).sort((left, right) => left.quest.questId.localeCompare(right.quest.questId))
   const random = nextRandom(hashSeed(context.seed))
   const chosen = chooseWeighted(qualityPool, bestScore, random.value)
-  return { kind: 'match', quest: chosen.quest, score: chosen.score, stage: selectedStage.stage, reasons: [...selectedStage.reasons, ...positiveReasons(chosen.quest, preference, context.copy)], relaxed: selectedStage.relaxed, nextSeed: random.state }
+  return { kind: 'match', quest: chosen.quest, score: chosen.score, stage: selectedStage.stage, reasons: [...selectedStage.reasons, ...positiveReasons(chosen.quest, preference, context.copy, recent, recentCategoryIds)], relaxed: selectedStage.relaxed, nextSeed: random.state }
 }
 
 function chooseWeighted<T extends { score: number }>(candidates: T[], bestScore: number, randomValue: number): T {
@@ -69,22 +76,27 @@ function passesHardConditions(quest: Quest, preference: QuestPreference): boolea
   return true
 }
 
-function scoreQuest(quest: Quest, preference: QuestPreference, context: MatchContext, recent: Set<string>, abandoned: Set<string>, cooling: Set<string>): number {
+function scoreQuest(quest: Quest, preference: QuestPreference, context: MatchContext, recentQuestIds: string[], recentCategoryIds: Quest['category'][], abandoned: Set<string>, cooling: Set<string>): number {
   let score = 0
   if (quest.goalIds.includes(preference.goalId)) score += 40
   if (quest.energyLevel === preference.energy) score += 20
-  if (quest.timeCost === preference.minutes) score += 10
-  if (!recent.has(quest.questId)) score += 30
+  if (quest.timeCost === preference.minutes) score += 20
+  const recentIndex = recentQuestIds.lastIndexOf(quest.questId)
+  const recentAge = recentQuestIds.length - 1 - recentIndex
+  score += recentIndex === -1 ? 30 : -220 + recentAge * 30
+  score -= recentCategoryIds.filter((category) => category === quest.category).length * 15
   if (abandoned.has(quest.questId)) score -= 25
   if (cooling.has(quest.questId)) score -= 35
   if (context.previousCategoryIds.at(-1) === quest.category) score -= 10
-  if (context.softAvoidCategoryIds.includes(quest.category)) score -= 15
+  if (context.softAvoidCategoryIds.includes(quest.category)) score -= 30
   return score
 }
 
-function positiveReasons(quest: Quest, preference: QuestPreference, copy: UiContent['matching']): string[] {
+function positiveReasons(quest: Quest, preference: QuestPreference, copy: UiContent['matching'], recent: Set<string>, recentCategoryIds: Quest['category'][]): string[] {
   const reasons = [copy.positive.time.replace('{minutes}', String(quest.timeCost)), quest.socialLevel === 'solo' ? copy.positive.solo : copy.positive.optional]
   if (quest.goalIds.includes(preference.goalId)) reasons.unshift(copy.positive.goal)
+  if (!recent.has(quest.questId)) reasons.push(copy.positive.fresh)
+  if (recentCategoryIds.length > 0 && !recentCategoryIds.includes(quest.category)) reasons.push(copy.positive.variety)
   return reasons
 }
 

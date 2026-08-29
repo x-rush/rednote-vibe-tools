@@ -37,6 +37,16 @@ describe('application state machine', () => {
     expect(failed.error?.message).toBe('存储损坏')
   })
 
+  it('returns from an offer to edit the same preferences without consuming the offer RNG state', () => {
+    const offeredGuild = { ...guild, offeredQuestId: 'quest-rest-window-color', rngState: 2468, recentQuestIds: ['quest-rest-window-color'] }
+    const offered = appReducer(createInitialAppState(guild), { type: 'OFFER_CREATED', state: offeredGuild, explanation: { stage: 'exact', score: 100, reasons: ['正合适'], relaxed: [] } })
+    const editing = appReducer(offered, { type: 'OPEN_PREFERENCES' })
+    expect(editing.page).toBe('preferenceSelect')
+    expect(editing.guild).toBe(offeredGuild)
+    expect(editing.guild.rngState).toBe(2468)
+    expect(editing.guild.recentQuestIds).toEqual(['quest-rest-window-color'])
+  })
+
   it('restores active quests before offers and otherwise returns to the hall', () => {
     const payload = { preference, recentQuestIds: [], completedQuestIds: [], history: [], xp: 0, streak: { current: 0, best: 0 }, unlockedBadgeIds: [], rngState: 1, settings: { hasSeenGuide: false, softAvoidCategoryIds: [] } }
     expect(restorePage(payload)).toBe('guildHall')
@@ -56,6 +66,7 @@ describe('application state machine', () => {
   it('preserves corrupted source data until the user actively recovers', () => {
     const initial = createInitialAppState(guild)
     expect(shouldPersistAppState({ ...initial, page: 'error', error: { code: 'storage-recovery', message: '存储损坏', recoverable: true } })).toBe(false)
+    expect(shouldPersistAppState({ ...initial, page: 'error', error: { code: 'content', message: '档案加载失败', recoverable: true } })).toBe(false)
     expect(shouldPersistAppState({ ...initial, page: 'error', error: { code: 'no-match', message: '无匹配', recoverable: true } })).toBe(true)
     expect(shouldPersistAppState({ ...initial, page: 'preferenceSelect' })).toBe(true)
   })
@@ -75,9 +86,10 @@ describe('application state machine', () => {
   it('keeps a storage-write failure distinct for temporary-mode recovery', () => {
     const next = appReducer(createInitialAppState(guild), { type: 'FAIL', code: 'storage-write', message: 'temporary', recoverable: true })
     expect(next.error?.code).toBe('storage-write')
+    expect(shouldPersistAppState(next)).toBe(false)
   })
 })
 
 function activeGuild(): GuildDomainState {
-  return { ...guild, activeQuest: { acceptanceId: 'accept-1', questId: 'quest-rest-window-color', acceptedAt: '2026-08-24T08:00:00.000Z', preference } }
+  return { ...guild, activeQuest: { acceptanceId: 'accept-1', questId: 'quest-rest-window-color', acceptedAt: '2026-08-24T08:00:00.000Z', questContentVersion: '1.0.0', preference } }
 }

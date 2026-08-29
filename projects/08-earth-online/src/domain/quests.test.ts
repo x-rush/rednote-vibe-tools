@@ -27,40 +27,50 @@ describe('quest lifecycle', () => {
     const offered = offerQuest(createGuildState(preference, 1), match(), '2026-08-24T08:00:00.000Z')
     expect(offered.xp).toBe(0)
     expect(offered.offeredQuestId).toBe(quest.questId)
-    const accepted = acceptQuest(offered, '2026-08-24T08:01:00.000Z')
-    expect(accepted.activeQuest?.questId).toBe(quest.questId)
-    expect(acceptQuest(accepted, '2026-08-24T08:02:00.000Z')).toEqual(accepted)
+    const accepted = acceptQuest(offered, quest, '2026-08-24T08:01:00.000Z')
+    expect(accepted.activeQuest).toMatchObject({ questId: quest.questId, questContentVersion: quest.contentVersion })
+    expect(acceptQuest(accepted, quest, '2026-08-24T08:02:00.000Z')).toEqual(accepted)
   })
 
   it('records swaps and abandonment without penalties', () => {
     const offered = offerQuest(createGuildState(preference, 1), match(), '2026-08-24T08:00:00.000Z')
-    const swapped = swapQuest(offered, match(otherQuest), '2026-08-24T08:01:00.000Z')
-    expect(swapped.history[0]).toMatchObject({ questId: quest.questId, status: 'swapped', xpAwarded: 0 })
-    const abandoned = abandonQuest(acceptQuest(swapped, '2026-08-24T08:02:00.000Z'), '2026-08-24T08:03:00.000Z')
+    const swapped = swapQuest(offered, quest, match(otherQuest), '2026-08-24T08:01:00.000Z')
+    expect(swapped.history[0]).toMatchObject({ questId: quest.questId, questTitle: quest.title, questContentVersion: quest.contentVersion, questCategory: quest.category, questDifficulty: quest.difficulty, status: 'swapped', xpAwarded: 0 })
+    const accepted = acceptQuest(swapped, otherQuest, '2026-08-24T08:02:00.000Z')
+    const abandoned = abandonQuest(accepted, otherQuest, '2026-08-24T08:03:00.000Z')
     expect(abandoned.xp).toBe(0)
     expect(abandoned.streak.current).toBe(0)
-    expect(abandoned.history.at(-1)).toMatchObject({ questId: otherQuest.questId, status: 'abandoned' })
+    expect(abandoned.history.at(-1)).toMatchObject({ questId: otherQuest.questId, questTitle: otherQuest.title, status: 'abandoned' })
   })
 
   it('awards completion XP exactly once per acceptance', () => {
-    const active = acceptQuest(offerQuest(createGuildState(preference, 1), match(), '2026-08-24T08:00:00.000Z'), '2026-08-24T08:01:00.000Z')
+    const active = acceptQuest(offerQuest(createGuildState(preference, 1), match(), '2026-08-24T08:00:00.000Z'), quest, '2026-08-24T08:01:00.000Z')
     const first = completeQuest(active, quest, content.content.badges, '2026-08-24T08:06:00.000Z', '2026-08-24')
     expect(first.awardedXp).toBe(quest.xp)
     expect(first.state.xp).toBe(quest.xp)
     expect(first.state.history.filter(({ status }) => status === 'completed')).toHaveLength(1)
+    expect(first.state.history.at(-1)).toMatchObject({ questTitle: quest.title, questContentVersion: quest.contentVersion, questCategory: quest.category, questDifficulty: quest.difficulty })
     const repeated = completeQuest(first.state, quest, content.content.badges, '2026-08-24T08:07:00.000Z', '2026-08-24')
     expect(repeated.awardedXp).toBe(0)
     expect(repeated.state.xp).toBe(quest.xp)
     expect(repeated.state.history.filter(({ status }) => status === 'completed')).toHaveLength(1)
   })
 
-  it('builds a finite history summary while tolerating removed content IDs', () => {
+  it('rejects completion with a different quest content version', () => {
+    const active = acceptQuest(offerQuest(createGuildState(preference, 1), match(), '2026-08-24T08:00:00.000Z'), quest, '2026-08-24T08:01:00.000Z')
+    const mismatched = { ...quest, contentVersion: '9.0.0', xp: 80 }
+    const result = completeQuest(active, mismatched, content.content.badges, '2026-08-24T08:06:00.000Z', '2026-08-24')
+    expect(result).toMatchObject({ awardedXp: 0, alreadyCompleted: true })
+    expect(result.state.xp).toBe(0)
+  })
+
+  it('builds a finite history summary from immutable task titles', () => {
     const summary = summarizeHistory([
-      { acceptanceId: 'one', questId: quest.questId, status: 'completed', occurredAt: '2026-08-24T08:00:00.000Z', completionDate: '2026-08-24', xpAwarded: 20 },
-      { acceptanceId: 'two', questId: 'quest-retired', status: 'abandoned', occurredAt: '2026-08-23T08:00:00.000Z', xpAwarded: 0 },
-    ], new Map([[quest.questId, quest]]), content.content.ui.archive.removedQuest)
+      { acceptanceId: 'one', questId: quest.questId, questTitle: '接取时的旧标题', questContentVersion: '1.0.0', questCategory: 'rest', questDifficulty: 'tiny', status: 'completed', occurredAt: '2026-08-24T08:00:00.000Z', completionDate: '2026-08-24', xpAwarded: 20 },
+      { acceptanceId: 'two', questId: 'quest-retired', questTitle: '已经退役的任务', questContentVersion: '1.0.0', questCategory: 'rest', questDifficulty: 'tiny', status: 'abandoned', occurredAt: '2026-08-23T08:00:00.000Z', xpAwarded: 0 },
+    ])
     expect(summary).toMatchObject({ total: 2, completed: 1, abandoned: 1, earnedXp: 20 })
-    expect(summary.entries[1].title).toBe('已下线任务')
+    expect(summary.entries.map(({ title }) => title)).toEqual(['接取时的旧标题', '已经退役的任务'])
   })
 
   it('stores guide completion and reversible category avoidance as structured settings', () => {

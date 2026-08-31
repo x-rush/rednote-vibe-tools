@@ -31,7 +31,7 @@ export type Leaf = Point & {
 }
 
 type IndexedFish = Fish & { index: number }
-type StepOptions = { leafGrid?: SpatialGrid<Leaf> }
+type StepOptions = { leafGrid?: SpatialGrid<Leaf>; maxLeafCollisionRadius?: number }
 type Avoidance = Point & { side: -1 | 1; threat: number }
 
 const TAU = Math.PI * 2
@@ -41,7 +41,7 @@ function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value))
 }
 
-function collisionRadius(leaf: Leaf) {
+export function getLeafCollisionRadius(leaf: Leaf) {
   return leaf.collisionRadius ?? leaf.radius * 0.64
 }
 
@@ -134,7 +134,7 @@ export function resolveLeafCollision(fish: Fish, leaf: Leaf, padding = 2): Fish 
   const dx = fish.x - leaf.x
   const dy = fish.y - leaf.y
   const distance = Math.hypot(dx, dy)
-  const limit = collisionRadius(leaf) + fish.size * 0.7 + padding
+  const limit = getLeafCollisionRadius(leaf) + fish.size * 0.7 + padding
   if (distance >= limit) return fish
 
   const fallbackAngle = fish.heading ?? Math.atan2(fish.vy, fish.vx) + Math.PI
@@ -161,7 +161,7 @@ export function findSafeTarget(target: Point, from: Point, leaves: readonly Leaf
   for (let pass = 0; pass < 3; pass += 1) {
     let changed = false
     for (const leaf of leaves) {
-      const radius = collisionRadius(leaf) + 7
+      const radius = getLeafCollisionRadius(leaf) + 7
       const dx = x - leaf.x
       const dy = y - leaf.y
       const distance = Math.hypot(dx, dy)
@@ -190,7 +190,7 @@ function pointerTrail(pointer: Point | PointerState) {
   return 'trail' in pointer && pointer.trail.length > 0 ? pointer.trail : [pointer]
 }
 
-export function computeLeafAvoidance(fish: Fish, leaves: readonly Leaf[], preferredSide: -1 | 1): Avoidance {
+export function computeLeafAvoidance(fish: Fish, leaves: readonly Leaf[], preferredSide: -1 | 1, sideLocked = false): Avoidance {
   const speed = Math.max(18, Math.hypot(fish.vx, fish.vy))
   const directionX = fish.vx / speed
   const directionY = fish.vy / speed
@@ -206,13 +206,13 @@ export function computeLeafAvoidance(fish: Fish, leaves: readonly Leaf[], prefer
     const forward = dx * directionX + dy * directionY
     if (forward < -4 || forward > lookAhead) continue
     const cross = directionX * dy - directionY * dx
-    const clearance = collisionRadius(leaf) + fish.size + 8
+    const clearance = getLeafCollisionRadius(leaf) + fish.size + 8
     const lateral = Math.abs(cross)
     if (lateral >= clearance) continue
 
     const threat = (1 - clamp(forward / (lookAhead + clearance), 0, 1)) * (1 - lateral / clearance)
     if (threat <= 0) continue
-    const awaySide: -1 | 1 = Math.abs(cross) > 1.5 ? (cross > 0 ? -1 : 1) : preferredSide
+    const awaySide: -1 | 1 = sideLocked ? preferredSide : Math.abs(cross) > 1.5 ? (cross > 0 ? -1 : 1) : preferredSide
     if (threat > strongest) {
       strongest = threat
       selectedSide = awaySide
@@ -244,6 +244,7 @@ function advanceFish(
   pointer: Point | PointerState | null,
   dt: number,
   speedScale: number,
+  maxLeafCollisionRadius: number,
 ): Fish {
   const currentSpeed = Math.hypot(item.vx, item.vy)
   const currentAngle = currentSpeed > EPSILON ? Math.atan2(item.vy, item.vx) : item.heading ?? item.wander ?? 0
@@ -282,7 +283,7 @@ function advanceFish(
       x: point.x + Math.cos(orbitAngle) * orbitRadius,
       y: point.y + Math.sin(orbitAngle) * orbitRadius,
     }
-    const localLeaves = leafGrid.query(roughTarget.x, roughTarget.y, 52)
+    const localLeaves = leafGrid.query(roughTarget.x, roughTarget.y, maxLeafCollisionRadius + 8)
     const target = findSafeTarget(roughTarget, item, localLeaves)
     const dx = target.x - item.x
     const dy = target.y - item.y
@@ -305,10 +306,11 @@ function advanceFish(
   if (item.y < edgeMargin) ay += (edgeMargin - item.y) * 5.2
   if (item.y > bounds.height - edgeMargin) ay -= (item.y - bounds.height + edgeMargin) * 5.2
 
-  const obstacleRange = clamp(currentSpeed * 1.2 + 48, 76, 138)
+  const obstacleRange = Math.max(clamp(currentSpeed * 1.2 + 48, 76, 138), maxLeafCollisionRadius + item.size + 8)
   const nearbyLeaves = leafGrid.query(item.x, item.y, obstacleRange)
-  const lockedSide = (item.avoidLock ?? 0) > 0 ? item.avoidSide ?? 1 : item.avoidSide ?? (index % 2 ? -1 : 1)
-  const avoidance = computeLeafAvoidance(item, nearbyLeaves, lockedSide)
+  const sideLocked = (item.avoidLock ?? 0) > 0
+  const lockedSide = sideLocked ? item.avoidSide ?? 1 : item.avoidSide ?? (index % 2 ? -1 : 1)
+  const avoidance = computeLeafAvoidance(item, nearbyLeaves, lockedSide, sideLocked)
   ax += avoidance.x
   ay += avoidance.y
 
@@ -341,7 +343,7 @@ function advanceFish(
     follow: influence,
   }
 
-  const collisionCandidates = leafGrid.query(next.x, next.y, 58)
+  const collisionCandidates = leafGrid.query(next.x, next.y, maxLeafCollisionRadius + item.size + 3)
   for (let pass = 0; pass < 2; pass += 1) {
     for (const leaf of collisionCandidates) next = resolveLeafCollision(next, leaf)
   }
@@ -363,13 +365,25 @@ export function stepFish(
   const substep = safeDt / steps
   const leafGrid = options.leafGrid ?? new SpatialGrid<Leaf>(64)
   if (!options.leafGrid) leafGrid.insertAll(leaves)
+  const maxLeafCollisionRadius = options.maxLeafCollisionRadius
+    ?? leaves.reduce((maximum, leaf) => Math.max(maximum, getLeafCollisionRadius(leaf)), 0)
   let current = fish.map((item) => ({ ...item }))
 
   for (let step = 0; step < steps; step += 1) {
     const indexedFish: IndexedFish[] = current.map((item, index) => ({ ...item, index }))
     const fishGrid = new SpatialGrid<IndexedFish>(32)
     fishGrid.insertAll(indexedFish)
-    current = current.map((item, index) => advanceFish(item, index, fishGrid, leafGrid, bounds, pointer, substep, speedScale))
+    current = current.map((item, index) => advanceFish(
+      item,
+      index,
+      fishGrid,
+      leafGrid,
+      bounds,
+      pointer,
+      substep,
+      speedScale,
+      maxLeafCollisionRadius,
+    ))
   }
 
   return current

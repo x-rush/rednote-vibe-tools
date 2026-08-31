@@ -77,6 +77,23 @@ describe('pond simulation', () => {
     expect(Math.hypot(next.vx, next.vy)).toBeLessThanOrEqual(108)
   })
 
+  it('keeps the chosen avoidance side while its lock is active', () => {
+    const fish = makeFish({ avoidSide: 1, avoidLock: 0.4 })
+    const leaf = makeLeaf({ x: 110, y: 310 })
+    const next = stepFish([fish], [leaf], bounds, null, 0.05, 1)[0]
+
+    expect(next.avoidSide).toBe(1)
+    expect(next.avoidLock).toBeGreaterThan(0)
+  })
+
+  it('corrects penetration when a large leaf center is outside the old query radius', () => {
+    const leaf = makeLeaf({ x: 120, y: 300, radius: 90, collisionRadius: 70 })
+    const fish = makeFish({ x: 180, y: 300, vx: 0, vy: 0, size: 4 })
+    const next = stepFish([fish], [leaf], bounds, null, 1 / 60, 1)[0]
+
+    expect(Math.hypot(next.x - leaf.x, next.y - leaf.y)).toBeGreaterThanOrEqual(74.7)
+  })
+
   it('does not pull a fish into a leaf when the pointer is inside it', () => {
     const leaf = makeLeaf({ x: 170, y: 320, radius: 30, collisionRadius: 18 })
     const pointer = { x: leaf.x, y: leaf.y, active: true, strength: 1, trail: [{ x: leaf.x, y: leaf.y }] }

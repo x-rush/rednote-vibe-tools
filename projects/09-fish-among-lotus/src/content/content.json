@@ -1,0 +1,14 @@
+{
+  "eyebrow": "江南可采莲 · 互动水景",
+  "title": "鱼戏莲叶间",
+  "subtitle": "指尖入水，锦鳞便循着涟漪而来。",
+  "hintIdle": "按住水面，引鱼随行",
+  "hintActive": "鱼群正在追随你的指尖",
+  "lotusLabel": "荷叶",
+  "fishLabel": "游鱼",
+  "speedLabel": "水流",
+  "resetLabel": "重置池塘",
+  "hideLabel": "收起",
+  "showLabel": "设置",
+  "speedNames": ["缓", "柔", "欢"]
+}

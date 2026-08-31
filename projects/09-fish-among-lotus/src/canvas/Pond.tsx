@@ -5,7 +5,7 @@ import { SpatialGrid } from '../spatial-grid.ts'
 import { drawFish, drawLeaf, drawRipple, drawTrail, drawWater } from './draw.ts'
 import { ParticleField } from './particles.ts'
 
-const FISH_COUNTS = [16, 27, 40]
+const FISH_COUNTS = [28, 44, 64]
 const LEAF_COUNTS = [58, 112, 188]
 const SPEEDS = [0.72, 1, 1.26]
 

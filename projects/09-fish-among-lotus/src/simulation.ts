@@ -247,9 +247,10 @@ function advanceFish(
   maxLeafCollisionRadius: number,
 ): Fish {
   const currentSpeed = Math.hypot(item.vx, item.vy)
-  const currentAngle = currentSpeed > EPSILON ? Math.atan2(item.vy, item.vx) : item.heading ?? item.wander ?? 0
+  const velocityAngle = currentSpeed > EPSILON ? Math.atan2(item.vy, item.vx) : item.heading ?? item.wander ?? 0
+  const currentHeading = item.heading ?? velocityAngle
   const turnBias = item.turnBias ?? Math.sin(index * 5.17) * 0.7
-  const nextWander = (item.wander ?? currentAngle) + (Math.sin(item.phase * 0.19 + index * 1.73) * 0.3 + turnBias * 0.075) * dt
+  const nextWander = (item.wander ?? velocityAngle) + (Math.sin(item.phase * 0.19 + index * 1.73) * 0.3 + turnBias * 0.075) * dt
   const cruiseSpeed = (28 + (index % 5) * 2.8) * speedScale
   let ax = (Math.cos(nextWander) * cruiseSpeed - item.vx) * 0.72
   let ay = (Math.sin(nextWander) * cruiseSpeed - item.vy) * 0.72
@@ -328,6 +329,9 @@ function advanceFish(
     vx = (vx / speed) * maxSpeed
     vy = (vy / speed) * maxSpeed
   }
+  const targetHeading = Math.atan2(vy, vx)
+  const headingDelta = Math.atan2(Math.sin(targetHeading - currentHeading), Math.cos(targetHeading - currentHeading))
+  const maxHeadingTurn = dt * (influence > 0.05 ? 4.6 : 3.2)
 
   let next: Fish = {
     ...item,
@@ -339,7 +343,7 @@ function advanceFish(
     wander: nextWander,
     avoidSide: avoidance.threat > 0.05 ? avoidance.side : item.avoidSide,
     avoidLock: avoidance.threat > 0.05 ? 0.42 : Math.max(0, (item.avoidLock ?? 0) - dt),
-    heading: currentAngle + Math.atan2(Math.sin(Math.atan2(vy, vx) - currentAngle), Math.cos(Math.atan2(vy, vx) - currentAngle)) * Math.min(1, dt * 7),
+    heading: currentHeading + clamp(headingDelta, -maxHeadingTurn, maxHeadingTurn),
     follow: influence,
   }
 

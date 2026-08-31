@@ -6,6 +6,13 @@ const LEAF_COLORS = ['#176b4c', '#1f7953', '#2a8659', '#357f54', '#126244']
 const LEAF_LIGHTS = ['#4f9d68', '#67aa72', '#7ab47b', '#549763', '#3c8b5a']
 const FISH_COLORS = ['#c83d32', '#dc4937', '#b93432', '#e05c46', '#c63f3c', '#dc7668', '#bc514b']
 
+export function getFishBend(fish: Fish) {
+  const velocityAngle = Math.atan2(fish.vy, fish.vx)
+  const angle = fish.heading ?? velocityAngle
+  const difference = Math.atan2(Math.sin(velocityAngle - angle), Math.cos(velocityAngle - angle))
+  return Math.max(-0.52, Math.min(0.52, difference))
+}
+
 export function drawWater(ctx: CanvasRenderingContext2D, bounds: Bounds, time: number, reducedMotion: boolean) {
   ctx.fillStyle = '#e9eee6'
   ctx.fillRect(0, 0, bounds.width, bounds.height)
@@ -56,7 +63,7 @@ export function drawTrail(ctx: CanvasRenderingContext2D, particle: TrailParticle
 export function drawFish(ctx: CanvasRenderingContext2D, fish: Fish) {
   const velocityAngle = Math.atan2(fish.vy, fish.vx)
   const angle = fish.heading ?? velocityAngle
-  const bend = Math.atan2(Math.sin(velocityAngle - angle), Math.cos(velocityAngle - angle))
+  const bend = getFishBend(fish)
   const wag = Math.sin(fish.phase) * fish.size * (0.48 + Math.min(0.45, Math.hypot(fish.vx, fish.vy) / 120)) + bend * fish.size * 1.8
   const color = FISH_COLORS[fish.tone % FISH_COLORS.length]
   const pale = fish.tone > 4

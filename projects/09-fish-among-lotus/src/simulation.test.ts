@@ -128,6 +128,27 @@ describe('pond simulation', () => {
     expect(Math.hypot(fish[0].x - fish[1].x, fish[0].y - fish[1].y)).toBeGreaterThan(4)
   })
 
+  it('limits visible turning while following through a dense leaf cluster', () => {
+    const random = seededRandom(9182)
+    const leaves = createLeaves(112, bounds, random)
+    let fish = createFish(27, bounds, random)
+    const pointer = { x: 195, y: 422, active: true, strength: 1, trail: [{ x: 195, y: 422 }] }
+    let largestTurn = 0
+
+    for (let frame = 0; frame < 240; frame += 1) {
+      const previous = fish
+      fish = stepFish(fish, leaves, bounds, pointer, 1 / 60, 1)
+      fish.forEach((item, index) => {
+        const before = previous[index].heading ?? Math.atan2(previous[index].vy, previous[index].vx)
+        const after = item.heading ?? Math.atan2(item.vy, item.vx)
+        const turn = Math.abs(Math.atan2(Math.sin(after - before), Math.cos(after - before)))
+        largestTurn = Math.max(largestTurn, turn)
+      })
+    }
+
+    expect(largestTurn).toBeLessThan(0.13)
+  })
+
   it('turns before reaching a hard canvas edge', () => {
     const fish = makeFish({ x: 34, y: 420, vx: -34, vy: 0 })
     const next = stepFish([fish], [], bounds, null, 0.2, 1)[0]

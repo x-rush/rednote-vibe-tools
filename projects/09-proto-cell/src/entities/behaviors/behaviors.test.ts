@@ -60,6 +60,23 @@ describe('role-specific ecology behaviors', () => {
     expect(result.decision.targetId).toBeUndefined()
   })
 
+  it('forces a hunter into recovery even while its prey remains nearby', () => {
+    const fixture = behaviorFixture('hunter')
+    const profile = Object.assign({}, fixture.context.profile, {
+      pursuitBurstMs: 1200,
+      recoveryMs: 800,
+      turnResponseMs: 460,
+    })
+    const result = decideBehavior(
+      fixture.entity,
+      { state: 'pursue', targetId: 'prey', stateStartedAtMs: 0 },
+      { ...fixture.context, atMs: 1201, profile },
+    )
+
+    expect(result.memory.state).toBe('recover')
+    expect(result.decision.movement.strength).toBeLessThan(0.3)
+  })
+
   it('uses seeded identity wander rather than ambient randomness', () => {
     const fixture = behaviorFixture('apex')
     expect(decideBehavior(fixture.entity, fixture.memory, fixture.context)).toEqual(

@@ -424,6 +424,11 @@ export function validateContent(input: unknown): ContentValidationResult {
       requiredString(profile.weaknessId, `${base}.weaknessId`)
       require(typeof profile.perceptionRadius === 'number' && Number.isFinite(profile.perceptionRadius) && profile.perceptionRadius > 0, `${base}.perceptionRadius`, 'perception radius must be positive')
       require(typeof profile.abandonAfterMs === 'number' && Number.isFinite(profile.abandonAfterMs) && profile.abandonAfterMs >= 0, `${base}.abandonAfterMs`, 'abandon timer must be non-negative')
+      if (profile.family === 'hunter') {
+        require(typeof profile.pursuitBurstMs === 'number' && Number.isFinite(profile.pursuitBurstMs) && profile.pursuitBurstMs >= 600, `${base}.pursuitBurstMs`, 'hunter pursuit bursts must stay readable')
+        require(typeof profile.recoveryMs === 'number' && Number.isFinite(profile.recoveryMs) && profile.recoveryMs >= 400, `${base}.recoveryMs`, 'hunter recovery must leave an escape window')
+        require(typeof profile.turnResponseMs === 'number' && Number.isFinite(profile.turnResponseMs) && profile.turnResponseMs >= 250, `${base}.turnResponseMs`, 'hunter turning must remain readable')
+      }
     })
   }
 

@@ -24,4 +24,17 @@ describe('movement response', () => {
 
     expect(velocity.x).toBeLessThan(0)
   })
+
+  it('keeps a pursuing hunter committed to its old heading during a sharp juke', () => {
+    const velocity = advanceVelocity(
+      { x: 0, y: -120 },
+      { direction: { x: 1, y: 0 }, strength: 1 },
+      120,
+      180,
+      { responseMs: 460 },
+    )
+
+    expect(velocity.y).toBeLessThan(-75)
+    expect(velocity.x).toBeLessThan(40)
+  })
 })

@@ -13,6 +13,7 @@ export type BehaviorState =
   | 'hide'
   | 'ambush'
   | 'pursue'
+  | 'recover'
   | 'search'
   | 'harvest'
   | 'patrol'

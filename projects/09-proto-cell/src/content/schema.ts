@@ -275,6 +275,9 @@ export type BehaviorProfileDefinition = {
   weaknessId: string
   perceptionRadius: number
   abandonAfterMs: number
+  pursuitBurstMs?: number
+  recoveryMs?: number
+  turnResponseMs?: number
 }
 
 export type ContentPack = {

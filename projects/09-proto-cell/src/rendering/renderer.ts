@@ -240,6 +240,15 @@ function drawBehaviorStateCue(
     context.lineTo(radius * 1.08, radius * 0.2)
     context.closePath()
     context.fill()
+  } else if (entity.behaviorState === 'recover') {
+    context.globalAlpha = 0.64
+    context.strokeStyle = '#8ff8ff'
+    context.lineWidth = 1.5
+    for (let index = 0; index < 3; index += 1) {
+      context.beginPath()
+      context.arc(-radius * (0.7 + index * 0.28), -radius * (0.45 + index * 0.18), radius * (0.11 + index * 0.03), 0, Math.PI * 2)
+      context.stroke()
+    }
   }
   context.restore()
 }

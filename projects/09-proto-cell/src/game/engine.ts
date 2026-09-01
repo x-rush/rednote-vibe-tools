@@ -22,6 +22,7 @@ import type { GeneratedRegion, RouteRift } from '../world/generator'
 import { applyModifiers } from '../progression/challenges'
 import { applySoftBoundary, constrainWorldMotion, engulfAccessMargin } from './bounds'
 import { advanceVelocity } from './motion'
+import { escapeContactRelief } from './escape'
 import { createRunDirector, stepRunDirector, type RunDirectorState, type RunPhase } from '../world/run-director'
 import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type EcologyRole, type EcologySummary } from '../world/ecology-director'
 import { createBuildState, type BuildState } from '../evolution/build'
@@ -808,12 +809,15 @@ export function createGameEngine(options: {
       const pursuitSpeed = entity.faction === 'hostile' && ['ambush', 'charge', 'pursue'].includes(movingEntity.behaviorState ?? '')
         ? currentThreatProfile().pursuitSpeedMultiplier
         : 1
+      const turnResponseMs = pursuitSpeed > 1 && entity.behaviorProfileId
+        ? getBehaviorProfile(entity.behaviorProfileId).turnResponseMs
+        : undefined
       const fieldSample = sampleEnvironmentField(environmentField, entity.position, entity.body.radius)
       const maxSpeed = ('maxSpeed' in entity ? Number(entity.maxSpeed) : 52)
         * (entity.id === PLAYER_ID ? speedMultiplier : bossPhaseSpeed)
         * pursuitSpeed
         * fieldSample.speedMultiplier
-      const responsiveVelocity = advanceVelocity(entity.velocity, intent, maxSpeed, stepMs)
+      const responsiveVelocity = advanceVelocity(entity.velocity, intent, maxSpeed, stepMs, { responseMs: turnResponseMs })
       const flowVelocity = {
         x: fieldSample.flow.x * 24,
         y: fieldSample.flow.y * 24,
@@ -1506,6 +1510,22 @@ export function createGameEngine(options: {
           first = entities.get(first.id)
           second = entities.get(second.id)
           if (!first || !second) continue
+        }
+        const livePlayer = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
+        const liveThreat = livePlayer === first ? second : first
+        if (livePlayer && liveThreat.faction === 'hostile') {
+          const relief = escapeContactRelief(livePlayer, liveThreat, input.snapshot(), engulfCoverageThreshold)
+          if (relief) {
+            const inset = collapseSafeInset()
+            const position = {
+              x: clamp(relief.position.x, livePlayer.body.radius + inset, environment.width - livePlayer.body.radius - inset),
+              y: clamp(relief.position.y, livePlayer.body.radius + inset, environment.height - livePlayer.body.radius - inset),
+            }
+            const relievedPlayer = moveEntity(livePlayer, position, relief.velocity)
+            entities.set(relievedPlayer.id, relievedPlayer)
+            if (first.id === relievedPlayer.id) first = relievedPlayer
+            else second = relievedPlayer
+          }
         }
         const result = resolveInteraction(first, second, {
           atMs: elapsedMs,

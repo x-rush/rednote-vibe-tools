@@ -111,7 +111,7 @@ describe('game engine lifecycle', () => {
     })
     engine.input.start({ x: 0, y: 0 })
     engine.input.move({ x: 0, y: -120 })
-    for (let frame = 0; frame < 75; frame += 1) engine.advance(1000 / 60)
+    for (let frame = 0; frame < 45; frame += 1) engine.advance(1000 / 60)
 
     const pursued = engine.renderSnapshot().entities.find((entity) => entity.id === hunter.id)!
     const playerMaxSpeed = 'maxSpeed' in player ? Number(player.maxSpeed) : 0
@@ -120,6 +120,44 @@ describe('game engine lifecycle', () => {
     expect(pursued.body.radius).toBeGreaterThanOrEqual(player.body.radius * 1.25)
     expect(Math.hypot(pursued.velocity.x, pursued.velocity.y)).toBeGreaterThan(playerMaxSpeed)
     expect(Number(contactDamage?.amount ?? 0)).toBeGreaterThanOrEqual(11)
+  })
+
+  it('lets a full-speed player escape contact during the hunter recovery window', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    const growingPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    growingPlayer.body = circleBody(growingPlayer.position, 24)
+    engine.start()
+    for (let step = 0; step < 60 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
+      engine.advance(1000 / 60)
+    }
+
+    const entities = engine.renderSnapshot().entities
+    const player = entities.find((entity) => entity.id === 'player')!
+    const hunter = entities.find((entity) => entity.faction === 'hostile')!
+    player.membrane = 10_000
+    player.position = { x: 320, y: 520 }
+    player.body = circleBody(player.position, player.body.radius)
+    player.velocity = { x: 0, y: 0 }
+    hunter.position = { x: 320, y: 580 }
+    hunter.body = circleBody(hunter.position, hunter.body.radius)
+    hunter.velocity = { x: 0, y: 0 }
+    entities.filter((entity) => entity.faction !== 'player' && entity.id !== hunter.id).forEach((entity) => {
+      entity.status = 'engulfed'
+    })
+
+    const initialGap = Math.hypot(hunter.position.x - player.position.x, hunter.position.y - player.position.y)
+    engine.input.start({ x: 0, y: 0 })
+    engine.input.move({ x: 0, y: -48 })
+    for (let frame = 0; frame < 180; frame += 1) engine.advance(1000 / 60)
+
+    const currentEntities = engine.renderSnapshot().entities
+    const escapedPlayer = currentEntities.find((entity) => entity.id === player.id)
+    const currentHunter = currentEntities.find((entity) => entity.id === hunter.id)!
+    const finalGap = escapedPlayer
+      ? Math.hypot(currentHunter.position.x - escapedPlayer.position.x, currentHunter.position.y - escapedPlayer.position.y)
+      : 0
+    expect(escapedPlayer?.status).toBe('active')
+    expect(finalGap).toBeGreaterThan(initialGap + 48)
   })
 
   it('allows an explicit migration while the collapse clock keeps running', () => {

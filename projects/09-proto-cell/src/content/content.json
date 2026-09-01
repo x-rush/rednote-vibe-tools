@@ -1931,7 +1931,7 @@
     { "id": "behavior-school", "family": "school", "movementPattern": "orbit-flock", "weaknessId": "weakness-isolated", "perceptionRadius": 220, "abandonAfterMs": 2400 },
     { "id": "behavior-competitor", "family": "competitor", "movementPattern": "contest-food", "weaknessId": "weakness-baited", "perceptionRadius": 240, "abandonAfterMs": 3200 },
     { "id": "behavior-ambusher", "family": "ambusher", "movementPattern": "hide-lunge-reset", "weaknessId": "weakness-missed-lunge", "perceptionRadius": 210, "abandonAfterMs": 2600 },
-    { "id": "behavior-hunter", "family": "hunter", "movementPattern": "telegraph-chase-abandon", "weaknessId": "weakness-turn-radius", "perceptionRadius": 320, "abandonAfterMs": 4200 },
+    { "id": "behavior-hunter", "family": "hunter", "movementPattern": "telegraph-chase-recover", "weaknessId": "weakness-turn-radius", "perceptionRadius": 320, "abandonAfterMs": 4200, "pursuitBurstMs": 1200, "recoveryMs": 900, "turnResponseMs": 460 },
     { "id": "behavior-scavenger", "family": "scavenger", "movementPattern": "circle-wounded", "weaknessId": "weakness-greedy", "perceptionRadius": 280, "abandonAfterMs": 3600 },
     { "id": "behavior-apex", "family": "apex", "movementPattern": "claim-zone-pursue", "weaknessId": "weakness-telegraphed-charge", "perceptionRadius": 420, "abandonAfterMs": 6000 }
   ],

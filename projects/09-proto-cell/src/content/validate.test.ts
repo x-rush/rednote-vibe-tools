@@ -222,6 +222,22 @@ describe('content integrity validation', () => {
     expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.behaviorProfiles[0].weaknessId')
   })
 
+  it('requires a readable pursuit, recovery, and turn cadence for hunters', () => {
+    const pack = contentFixture()
+    const hunterIndex = pack.behaviorProfiles.findIndex((profile) => profile.family === 'hunter')
+    Object.assign(pack.behaviorProfiles[hunterIndex]!, {
+      pursuitBurstMs: 0,
+      recoveryMs: 0,
+      turnResponseMs: 0,
+    })
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      `$.behaviorProfiles[${hunterIndex}].pursuitBurstMs`,
+      `$.behaviorProfiles[${hunterIndex}].recoveryMs`,
+      `$.behaviorProfiles[${hunterIndex}].turnResponseMs`,
+    ]))
+  })
+
   it('requires every evolution to declare a route, trigger, morphology, and visible cost', () => {
     const pack = contentFixture()
     delete (pack.organelles[0] as Partial<typeof pack.organelles[0]>).evolutionRoute

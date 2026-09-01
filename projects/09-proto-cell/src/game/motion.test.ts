@@ -1,0 +1,27 @@
+import { describe, expect, it } from 'vitest'
+import { advanceVelocity } from './motion'
+
+describe('movement response', () => {
+  it('reaches at least 60% speed within 180ms', () => {
+    const velocity = advanceVelocity(
+      { x: 0, y: 0 },
+      { direction: { x: 1, y: 0 }, strength: 1 },
+      100,
+      180,
+    )
+
+    expect(velocity.x).toBeGreaterThanOrEqual(60)
+    expect(velocity.y).toBe(0)
+  })
+
+  it('reverses without retaining a forward lock', () => {
+    const velocity = advanceVelocity(
+      { x: 80, y: 0 },
+      { direction: { x: -1, y: 0 }, strength: 1 },
+      100,
+      260,
+    )
+
+    expect(velocity.x).toBeLessThan(0)
+  })
+})

@@ -18,7 +18,8 @@ import { startEvent, stepEvent, type EcosystemEventState } from '../world/events
 import { applyEventWorldEffects, createEnvironmentField, resolveEnvironmentMovement, sampleEnvironmentField, stepEnvironmentField, type EnvironmentField } from '../world/environments'
 import type { GeneratedRegion, RouteRift } from '../world/generator'
 import { applyModifiers } from '../progression/challenges'
-import { constrainWorldMotion, engulfAccessMargin } from './bounds'
+import { applySoftBoundary, constrainWorldMotion, engulfAccessMargin } from './bounds'
+import { advanceVelocity } from './motion'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
 
@@ -97,8 +98,6 @@ type EngineEnvironment = {
 
 const STEP_MS = 1000 / 60
 const PLAYER_ID = 'player'
-const ACCELERATION_RESPONSE_SECONDS = 0.18
-const DRIFT_RESPONSE_SECONDS = 0.32
 const SWARM_MINIMUM_DURATION_MS = 6000
 const SWARM_FUSION_STABLE_MS = 1200
 export const CONTACT_DAMAGE_ARM_MS = 420
@@ -658,15 +657,14 @@ export function createGameEngine(options: {
       const maxSpeed = ('maxSpeed' in entity ? Number(entity.maxSpeed) : 52)
         * (entity.id === PLAYER_ID ? speedMultiplier : bossPhaseSpeed)
         * fieldSample.speedMultiplier
-      const desiredVelocity = {
-        x: intent.direction.x * intent.strength * maxSpeed + fieldSample.flow.x * 24,
-        y: intent.direction.y * intent.strength * maxSpeed + fieldSample.flow.y * 24,
+      const responsiveVelocity = advanceVelocity(entity.velocity, intent, maxSpeed, stepMs)
+      const flowVelocity = {
+        x: fieldSample.flow.x * 24,
+        y: fieldSample.flow.y * 24,
       }
-      const responseSeconds = intent.strength > 0 ? ACCELERATION_RESPONSE_SECONDS : DRIFT_RESPONSE_SECONDS
-      const blend = 1 - Math.exp(-seconds / responseSeconds)
       const velocity = {
-        x: entity.velocity.x + (desiredVelocity.x - entity.velocity.x) * blend,
-        y: entity.velocity.y + (desiredVelocity.y - entity.velocity.y) * blend,
+        x: responsiveVelocity.x + flowVelocity.x,
+        y: responsiveVelocity.y + flowVelocity.y,
       }
       const desiredPosition = {
         x: entity.position.x + velocity.x * seconds,
@@ -675,13 +673,16 @@ export function createGameEngine(options: {
       const margin = entity.faction === 'player'
         ? entity.body.radius
         : engulfAccessMargin(entity.body.radius, playerRadii)
-      const constrained = constrainWorldMotion(desiredPosition, velocity, {
+      const constrained = applySoftBoundary(desiredPosition, velocity, {
         width: environment.width,
         height: environment.height,
-        margin,
-      })
+        softZone: 72,
+      }, margin)
       const position = resolveEnvironmentMovement(environmentField, entity.position, constrained.position, entity.body.radius)
-      entities.set(entity.id, moveEntity(entity, position, constrained.velocity))
+      entities.set(entity.id, moveEntity(entity, position, {
+        x: constrained.velocity.x - flowVelocity.x,
+        y: constrained.velocity.y - flowVelocity.y,
+      }))
     }
   }
 

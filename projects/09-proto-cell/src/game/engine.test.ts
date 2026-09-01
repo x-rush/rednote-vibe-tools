@@ -203,20 +203,35 @@ describe('game engine lifecycle', () => {
     expect(movedFood.position.y).toBeGreaterThanOrEqual(20)
   })
 
-  it('drops outward wall momentum instead of pinning the player against the boundary', () => {
-    const engine = createTestEngine()
-    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
-    player.position = { x: player.body.radius, y: 400 }
-    player.body = circleBody(player.position, player.body.radius)
-    player.velocity = { x: -80, y: 0 }
-    engine.input.start({ x: 0, y: 0 })
-    engine.input.move({ x: -120, y: 0 })
+  it('keeps every corner finite and gives the player an escape velocity', () => {
+    const directions = [
+      { x: -1, y: -1 },
+      { x: 1, y: -1 },
+      { x: -1, y: 1 },
+      { x: 1, y: 1 },
+    ]
 
-    engine.advance(1000 / 60)
+    for (const direction of directions) {
+      const engine = createTestEngine()
+      const snapshot = engine.renderSnapshot()
+      const player = snapshot.entities.find((entity) => entity.id === 'player')!
+      player.position = {
+        x: direction.x < 0 ? player.body.radius : snapshot.width - player.body.radius,
+        y: direction.y < 0 ? player.body.radius : snapshot.height - player.body.radius,
+      }
+      player.body = circleBody(player.position, player.body.radius)
+      player.velocity = { x: direction.x * 80, y: direction.y * 80 }
+      engine.input.start({ x: 0, y: 0 })
+      engine.input.move({ x: direction.x * 120, y: direction.y * 120 })
 
-    const stoppedPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
-    expect(stoppedPlayer.position.x).toBe(stoppedPlayer.body.radius)
-    expect(stoppedPlayer.velocity.x).toBe(0)
+      for (let step = 0; step < 300; step += 1) engine.advance(1000 / 60)
+
+      const movedPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+      expect(Number.isFinite(movedPlayer.position.x)).toBe(true)
+      expect(Number.isFinite(movedPlayer.position.y)).toBe(true)
+      expect(Math.abs(movedPlayer.velocity.x)).toBeGreaterThan(0)
+      expect(Math.abs(movedPlayer.velocity.y)).toBeGreaterThan(0)
+    }
   })
 
   it('replenishes a bounded food wave after the edible population is depleted', () => {

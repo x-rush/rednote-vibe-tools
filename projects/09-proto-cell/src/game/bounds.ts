@@ -26,6 +26,56 @@ export function constrainWorldMotion(
   }
 }
 
+export function applySoftBoundary(
+  desiredPosition: Vec2,
+  velocity: Vec2,
+  world: { width: number; height: number; softZone?: number },
+  radius: number,
+): { position: Vec2; velocity: Vec2; steering: Vec2 } {
+  const safeRadius = Math.max(0, radius)
+  const softZone = Math.max(1, world.softZone ?? 72)
+  const position = {
+    x: Number.isFinite(desiredPosition.x) ? desiredPosition.x : world.width / 2,
+    y: Number.isFinite(desiredPosition.y) ? desiredPosition.y : world.height / 2,
+  }
+  const safeVelocity = {
+    x: Number.isFinite(velocity.x) ? velocity.x : 0,
+    y: Number.isFinite(velocity.y) ? velocity.y : 0,
+  }
+  const steering = {
+    x: edgeSteering(position.x - safeRadius, world.width - safeRadius - position.x, safeVelocity.x, softZone),
+    y: edgeSteering(position.y - safeRadius, world.height - safeRadius - position.y, safeVelocity.y, softZone),
+  }
+  const steeredVelocity = {
+    x: safeVelocity.x + steering.x,
+    y: safeVelocity.y + steering.y,
+  }
+  const constrained = constrainWorldMotion(position, steeredVelocity, {
+    width: world.width,
+    height: world.height,
+    margin: safeRadius,
+  })
+
+  return { ...constrained, steering }
+}
+
+function edgeSteering(
+  distanceFromLowEdge: number,
+  distanceFromHighEdge: number,
+  velocity: number,
+  softZone: number,
+): number {
+  const lowInfluence = easeOut(clamp(1 - distanceFromLowEdge / softZone, 0, 1))
+  const highInfluence = easeOut(clamp(1 - distanceFromHighEdge / softZone, 0, 1))
+  const inwardStrength = Math.max(24, Math.abs(velocity) * 1.25)
+
+  return (lowInfluence - highInfluence) * inwardStrength
+}
+
+function easeOut(value: number): number {
+  return 1 - (1 - value) ** 2
+}
+
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value))
 }

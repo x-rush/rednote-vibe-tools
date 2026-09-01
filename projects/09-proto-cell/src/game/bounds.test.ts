@@ -20,4 +20,19 @@ describe('accessible world bounds', () => {
       { width: 640, height: 1100, margin: 20 },
     )).toEqual({ position: { x: 20, y: 300 }, velocity: { x: 0, y: 12 } })
   })
+
+  it('steers inward before the hard world edge', () => {
+    expect('applySoftBoundary' in bounds).toBe(true)
+    if (!('applySoftBoundary' in bounds)) return
+
+    const result = bounds.applySoftBoundary(
+      { x: 28, y: 400 },
+      { x: -80, y: 0 },
+      { width: 640, height: 1100, softZone: 72 },
+      18,
+    )
+
+    expect(result.steering.x).toBeGreaterThan(0)
+    expect(result.position.x).toBeGreaterThanOrEqual(18)
+  })
 })

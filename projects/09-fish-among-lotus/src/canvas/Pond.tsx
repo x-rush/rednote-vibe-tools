@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { createFish, createLeaves, getLeafCollisionRadius, seededRandom, stepFish } from '../simulation.ts'
+import { createFish, createLeaves, getLeafCollisionRadius, seededRandom, stepFish, stepLeaves } from '../simulation.ts'
 import type { Bounds, Fish, Leaf, Point, PointerState } from '../simulation.ts'
 import { SpatialGrid } from '../spatial-grid.ts'
 import { drawFish, drawLeaf, drawRipple, drawTrail, drawWater } from './draw.ts'
+import type { PosterBackground } from './draw.ts'
 import { ParticleField } from './particles.ts'
 
 const FISH_COUNTS = [28, 44, 64]
@@ -16,11 +17,12 @@ type PondProps = {
   resetKey: number
   ariaLabel: string
   keyboardHint: string
+  background: PosterBackground | null
   onFollowing: (value: boolean) => void
   onHintUsed: () => void
 }
 
-export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, keyboardHint, onFollowing, onHintUsed }: PondProps) {
+export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, keyboardHint, background, onFollowing, onHintUsed }: PondProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fishRef = useRef<Fish[]>([])
   const leavesRef = useRef<Leaf[]>([])
@@ -34,6 +36,7 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
   const resizeFrameRef = useRef(0)
   const lastRef = useRef(0)
   const rippleTimeRef = useRef(0)
+  const leafAccumulatorRef = useRef(0)
   const [reducedMotion, setReducedMotion] = useState(false)
 
   const rebuildScene = useCallback(() => {
@@ -61,6 +64,7 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
       pointer.y = Math.max(0, Math.min(rect.height, pointer.y))
     }
     particlesRef.current.clear()
+    leafAccumulatorRef.current = 0
   }, [fishLevel, leafLevel, resetKey])
 
   useEffect(() => {
@@ -120,11 +124,23 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
           maxLeafCollisionRadius: maxLeafCollisionRadiusRef.current,
         },
       )
+      leafAccumulatorRef.current += dt
+      if (leafAccumulatorRef.current >= 1 / 30) {
+        leavesRef.current = stepLeaves(
+          leavesRef.current,
+          fishRef.current,
+          bounds,
+          Math.min(leafAccumulatorRef.current, 1 / 15),
+        )
+        leafAccumulatorRef.current = 0
+        leafGridRef.current.clear()
+        leafGridRef.current.insertAll(leavesRef.current)
+      }
       if (!reducedMotion) particlesRef.current.emitTrails(fishRef.current, (pointerRef.current?.strength ?? 0) > 0.2, false)
       particlesRef.current.update(dt)
 
       context.setTransform(dpr, 0, 0, dpr, 0, 0)
-      drawWater(context, bounds, time, reducedMotion)
+      drawWater(context, bounds, time, reducedMotion, background)
       for (const trail of particlesRef.current.trails) drawTrail(context, trail, reducedMotion)
       for (const fish of fishRef.current) drawFish(context, fish)
       for (const leaf of leavesRef.current) drawLeaf(context, leaf, time, reducedMotion)
@@ -148,7 +164,7 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
       cancelAnimationFrame(frameRef.current)
       frameRef.current = 0
     }
-  }, [reducedMotion, speedLevel])
+  }, [background, reducedMotion, speedLevel])
 
   const readPointer = (event: React.PointerEvent<HTMLCanvasElement>): Point => {
     const rect = event.currentTarget.getBoundingClientRect()

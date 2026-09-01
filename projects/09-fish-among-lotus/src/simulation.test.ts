@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createFish, createLeaves, resolveLeafCollision, seededRandom, stepFish } from './simulation.ts'
+import { createFish, createLeaves, resolveLeafCollision, seededRandom, stepFish, stepLeaves } from './simulation.ts'
 import type { Fish, Leaf } from './simulation.ts'
 
 const bounds = { width: 390, height: 844 }
@@ -57,6 +57,104 @@ describe('pond simulation', () => {
     expect(result.vx).toBeGreaterThan(fish.vx)
   })
 
+  it('moves a lotus leaf away when a fish strikes it', () => {
+    const leaf = makeLeaf({ x: 120, y: 300, homeX: 120, homeY: 300, collisionRadius: 16 })
+    const fish = makeFish({ x: 99, y: 300, vx: 64, vy: 0, follow: 1 })
+    const next = stepLeaves([leaf], [fish], bounds, 1 / 30)[0]
+
+    expect(next.x).toBeGreaterThan(120)
+    expect(next.vx).toBeGreaterThan(0)
+  })
+
+  it('moves a small leaf more than a large leaf under the same impact', () => {
+    const fish = makeFish({ x: 99, y: 300, vx: 64, vy: 0, follow: 1 })
+    const small = makeLeaf({ x: 120, y: 300, homeX: 120, homeY: 300, radius: 14, collisionRadius: 16 })
+    const large = makeLeaf({ x: 120, y: 300, homeX: 120, homeY: 300, radius: 42, collisionRadius: 16 })
+
+    const movedSmall = stepLeaves([small], [fish], bounds, 1 / 30)[0]
+    const movedLarge = stepLeaves([large], [fish], bounds, 1 / 30)[0]
+
+    expect(movedSmall.x - small.x).toBeGreaterThan((movedLarge.x - large.x) * 1.5)
+  })
+
+  it('drifts a displaced leaf back toward its original cluster position', () => {
+    let leaf = makeLeaf({ x: 150, y: 300, homeX: 120, homeY: 300, vx: 0, vy: 0 })
+
+    for (let frame = 0; frame < 120; frame += 1) {
+      leaf = stepLeaves([leaf], [], bounds, 1 / 60)[0]
+    }
+
+    expect(leaf.x).toBeLessThan(145)
+    expect(leaf.x).toBeGreaterThan(115)
+  })
+
+  it('gives an off-center fish impact a subtle leaf rotation', () => {
+    const leaf = makeLeaf({ x: 120, y: 300, homeX: 120, homeY: 300, collisionRadius: 16 })
+    const fish = makeFish({ x: 99, y: 294, vx: 64, vy: 0, follow: 1 })
+    const next = stepLeaves([leaf], [fish], bounds, 1 / 30)[0]
+
+    expect(Math.abs(next.rotation - leaf.rotation)).toBeGreaterThan(0)
+    expect(Math.abs(next.angularVelocity ?? 0)).toBeGreaterThan(0)
+    expect(Math.abs(next.angularVelocity ?? 0)).toBeLessThan(0.7)
+  })
+
+  it('keeps a strongly pushed leaf finite and inside the water field', () => {
+    const leaf = makeLeaf({
+      x: 382,
+      y: 770,
+      homeX: 320,
+      homeY: 700,
+      vx: 2400,
+      vy: 1800,
+      angularVelocity: 20,
+    })
+    const next = stepLeaves([leaf], [], bounds, 1)[0]
+
+    expect(Number.isFinite(next.x)).toBe(true)
+    expect(Number.isFinite(next.y)).toBe(true)
+    expect(Number.isFinite(next.vx)).toBe(true)
+    expect(Number.isFinite(next.vy)).toBe(true)
+    expect(next.x).toBeLessThanOrEqual(bounds.width + leaf.radius * 0.2)
+    expect(next.y).toBeLessThanOrEqual(bounds.height * 0.92)
+    expect(Math.hypot(next.vx ?? 0, next.vy ?? 0)).toBeLessThanOrEqual(120)
+  })
+
+  it('opens a visible passage under sustained pointer-follow pressure', () => {
+    const pointer = { x: 220, y: 300, active: true, strength: 1, trail: [{ x: 220, y: 300 }] }
+    let fish = Array.from({ length: 4 }, (_, index) => makeFish({
+      x: 55 - index * 6,
+      y: 287 + index * 8,
+      vx: 44,
+      vy: 0,
+      heading: 0,
+      wander: 0,
+      responsiveness: 1.2,
+      phase: 1 + index * 0.7,
+      tone: index,
+      avoidSide: index % 2 ? -1 : 1,
+    }))
+    let leaves = [makeLeaf({
+      x: 130,
+      y: 300,
+      homeX: 130,
+      homeY: 300,
+      vx: 0,
+      vy: 0,
+      angularVelocity: 0,
+      radius: 28,
+      collisionRadius: 19,
+    })]
+    let farthestLeafX = leaves[0].x
+
+    for (let frame = 0; frame < 180; frame += 1) {
+      fish = stepFish(fish, leaves, bounds, pointer, 1 / 60, 1)
+      leaves = stepLeaves(leaves, fish, bounds, 1 / 60)
+      farthestLeafX = Math.max(farthestLeafX, leaves[0].x)
+    }
+
+    expect(farthestLeafX - 130).toBeGreaterThan(10)
+  })
+
   it('adds a lateral component before an approaching fish reaches a leaf', () => {
     const fish = makeFish()
     const next = stepFish([fish], [makeLeaf()], bounds, null, 0.12, 1)
@@ -75,6 +173,27 @@ describe('pond simulation', () => {
     expect(Number.isFinite(next.vx)).toBe(true)
     expect(Number.isFinite(next.vy)).toBe(true)
     expect(Math.hypot(next.vx, next.vy)).toBeLessThanOrEqual(108)
+  })
+
+  it('does not leave any fish stalled in a dense moving lotus cluster', () => {
+    const random = seededRandom(9182)
+    let leaves = createLeaves(112, bounds, random)
+    let fish = createFish(44, bounds, random)
+    const stalledFrames = fish.map(() => 0)
+    let longestStall = 0
+
+    for (let frame = 0; frame < 300; frame += 1) {
+      const previous = fish
+      fish = stepFish(fish, leaves, bounds, null, 1 / 60, 1)
+      leaves = stepLeaves(leaves, fish, bounds, 1 / 60)
+      fish.forEach((item, index) => {
+        const movement = Math.hypot(item.x - previous[index].x, item.y - previous[index].y)
+        stalledFrames[index] = movement < 0.12 ? stalledFrames[index] + 1 : 0
+        longestStall = Math.max(longestStall, stalledFrames[index])
+      })
+    }
+
+    expect(longestStall).toBeLessThan(120)
   })
 
   it('keeps the chosen avoidance side while its lock is active', () => {

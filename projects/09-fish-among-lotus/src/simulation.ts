@@ -16,8 +16,16 @@ export type Fish = Point & {
   avoidLock?: number
   heading?: number
   follow?: number
+  stall?: number
+  escapeTime?: number
+  escapeAngle?: number
 }
 export type Leaf = Point & {
+  homeX?: number
+  homeY?: number
+  vx?: number
+  vy?: number
+  angularVelocity?: number
   radius: number
   collisionRadius?: number
   aspect?: number
@@ -76,6 +84,9 @@ export function createFish(count: number, bounds: Bounds, random = Math.random):
       avoidLock: 0,
       heading: angle,
       follow: 0,
+      stall: 0,
+      escapeTime: 0,
+      escapeAngle: angle,
     }
   })
 }
@@ -114,6 +125,11 @@ export function createLeaves(count: number, bounds: Bounds, random = Math.random
     leaves.push({
       x: safeX,
       y: safeY,
+      homeX: safeX,
+      homeY: safeY,
+      vx: 0,
+      vy: 0,
+      angularVelocity: 0,
       radius,
       collisionRadius: radius * (0.5 + random() * 0.13),
       aspect,
@@ -128,6 +144,76 @@ export function createLeaves(count: number, bounds: Bounds, random = Math.random
   }
 
   return leaves
+}
+
+export function stepLeaves(leaves: Leaf[], fish: readonly Fish[], bounds: Bounds, dt: number): Leaf[] {
+  const safeDt = clamp(Number.isFinite(dt) ? dt : 0, 0.001, 0.1)
+  const fishGrid = new SpatialGrid<Fish>(32)
+  fishGrid.insertAll(fish)
+  const nearbyFish: Fish[] = []
+
+  return leaves.map((leaf) => {
+    const homeX = leaf.homeX ?? leaf.x
+    const homeY = leaf.homeY ?? leaf.y
+    let vx = (leaf.vx ?? 0) + (homeX - leaf.x) * 0.55 * safeDt
+    let vy = (leaf.vy ?? 0) + (homeY - leaf.y) * 0.55 * safeDt
+    let angularVelocity = leaf.angularVelocity ?? 0
+    const range = getLeafCollisionRadius(leaf) + 12
+    fishGrid.query(leaf.x, leaf.y, range, nearbyFish)
+
+    for (const swimmer of nearbyFish) {
+      const dx = leaf.x - swimmer.x
+      const dy = leaf.y - swimmer.y
+      const distance = Math.hypot(dx, dy)
+      const contactRange = getLeafCollisionRadius(leaf) + swimmer.size + 6
+      if (distance >= contactRange) continue
+      const heading = swimmer.heading ?? Math.atan2(swimmer.vy, swimmer.vx)
+      const nx = distance > EPSILON ? dx / distance : Math.cos(heading)
+      const ny = distance > EPSILON ? dy / distance : Math.sin(heading)
+      const incomingSpeed = (swimmer.vx - vx) * nx + (swimmer.vy - vy) * ny
+      if (incomingSpeed <= 0) continue
+      const proximity = 1 - distance / contactRange
+      const mass = 0.7 + leaf.radius / 24
+      const followPressure = (swimmer.follow ?? 0) * 18
+      const impulse = (incomingSpeed + followPressure) * proximity * 0.45 / mass
+      vx += nx * impulse
+      vy += ny * impulse
+      const tangentSpeed = swimmer.vx * -ny + swimmer.vy * nx
+      angularVelocity += tangentSpeed * proximity * 0.018 / mass
+    }
+
+    const damping = Math.exp(-1.45 * safeDt)
+    vx *= damping
+    vy *= damping
+    angularVelocity = clamp(angularVelocity * Math.exp(-2.2 * safeDt), -0.6, 0.6)
+    const speed = Math.hypot(vx, vy)
+    if (speed > 72) {
+      vx = vx / speed * 72
+      vy = vy / speed * 72
+    }
+    const minX = -leaf.radius * 0.2
+    const maxX = bounds.width + leaf.radius * 0.2
+    const minY = bounds.height * 0.08
+    const maxY = bounds.height * 0.92
+    const proposedX = leaf.x + vx * safeDt
+    const proposedY = leaf.y + vy * safeDt
+    const x = clamp(proposedX, minX, maxX)
+    const y = clamp(proposedY, minY, maxY)
+    if (x !== proposedX) vx *= -0.18
+    if (y !== proposedY) vy *= -0.18
+
+    return {
+      ...leaf,
+      homeX,
+      homeY,
+      x,
+      y,
+      vx,
+      vy,
+      rotation: leaf.rotation + angularVelocity * safeDt,
+      angularVelocity,
+    }
+  })
 }
 
 export function resolveLeafCollision(fish: Fish, leaf: Leaf, padding = 2): Fish {
@@ -254,6 +340,13 @@ function advanceFish(
   const cruiseSpeed = (28 + (index % 5) * 2.8) * speedScale
   let ax = (Math.cos(nextWander) * cruiseSpeed - item.vx) * 0.72
   let ay = (Math.sin(nextWander) * cruiseSpeed - item.vy) * 0.72
+  const escaping = (item.escapeTime ?? 0) > 0
+  if (escaping) {
+    const escapeAngle = item.escapeAngle ?? currentHeading
+    const escapeSpeed = 38 * speedScale
+    ax += (Math.cos(escapeAngle) * escapeSpeed - item.vx) * 5.2
+    ay += (Math.sin(escapeAngle) * escapeSpeed - item.vy) * 5.2
+  }
 
   const nearbyFish = fishGrid.query(item.x, item.y, 28)
   for (const other of nearbyFish) {
@@ -312,8 +405,9 @@ function advanceFish(
   const sideLocked = (item.avoidLock ?? 0) > 0
   const lockedSide = sideLocked ? item.avoidSide ?? 1 : item.avoidSide ?? (index % 2 ? -1 : 1)
   const avoidance = computeLeafAvoidance(item, nearbyLeaves, lockedSide, sideLocked)
-  ax += avoidance.x
-  ay += avoidance.y
+  const avoidanceScale = escaping ? 0.24 : 1
+  ax += avoidance.x * avoidanceScale
+  ay += avoidance.y * avoidanceScale
 
   const acceleration = Math.hypot(ax, ay)
   if (acceleration > 210) {
@@ -351,6 +445,32 @@ function advanceFish(
   for (let pass = 0; pass < 2; pass += 1) {
     for (const leaf of collisionCandidates) next = resolveLeafCollision(next, leaf)
   }
+  const movement = Math.hypot(next.x - item.x, next.y - item.y)
+  const obstructed = nearbyLeaves.length > 0 && movement < Math.max(0.12, cruiseSpeed * dt * 0.2)
+  let stall = obstructed ? (item.stall ?? 0) + dt : Math.max(0, (item.stall ?? 0) - dt * 2)
+  let escapeTime = Math.max(0, (item.escapeTime ?? 0) - dt)
+  let escapeAngle = item.escapeAngle ?? currentHeading
+  if (escapeTime <= 0 && stall > 0.52) {
+    let closestLeaf: Leaf | undefined
+    let closestDistance = Number.POSITIVE_INFINITY
+    for (const leaf of nearbyLeaves) {
+      const distance = Math.hypot(item.x - leaf.x, item.y - leaf.y) - getLeafCollisionRadius(leaf)
+      if (distance < closestDistance) {
+        closestDistance = distance
+        closestLeaf = leaf
+      }
+    }
+    const side = item.avoidSide ?? (index % 2 ? -1 : 1)
+    const normalAngle = closestLeaf
+      ? Math.atan2(item.y - closestLeaf.y, item.x - closestLeaf.x)
+      : currentHeading
+    escapeAngle = normalAngle + side * Math.PI * 0.5
+    escapeTime = 1.15
+    stall = 0
+  }
+  next.stall = stall
+  next.escapeTime = escapeTime
+  next.escapeAngle = escapeAngle
   return next
 }
 

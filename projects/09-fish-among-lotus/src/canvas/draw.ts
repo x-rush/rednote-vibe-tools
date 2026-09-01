@@ -6,6 +6,23 @@ const LEAF_COLORS = ['#176b4c', '#1f7953', '#2a8659', '#357f54', '#126244']
 const LEAF_LIGHTS = ['#4f9d68', '#67aa72', '#7ab47b', '#549763', '#3c8b5a']
 const FISH_COLORS = ['#c83d32', '#dc4937', '#b93432', '#e05c46', '#c63f3c', '#dc7668', '#bc514b']
 
+export type PosterBackground = {
+  image: CanvasImageSource
+  width: number
+  height: number
+}
+
+export function getCoverCrop(imageWidth: number, imageHeight: number, bounds: Bounds) {
+  const sourceAspect = imageWidth / imageHeight
+  const targetAspect = bounds.width / bounds.height
+  if (sourceAspect > targetAspect) {
+    const width = imageHeight * targetAspect
+    return { x: (imageWidth - width) * 0.5, y: 0, width, height: imageHeight }
+  }
+  const height = imageWidth / targetAspect
+  return { x: 0, y: (imageHeight - height) * 0.5, width: imageWidth, height }
+}
+
 export function getFishBend(fish: Fish) {
   const velocityAngle = Math.atan2(fish.vy, fish.vx)
   const angle = fish.heading ?? velocityAngle
@@ -13,8 +30,18 @@ export function getFishBend(fish: Fish) {
   return Math.max(-0.52, Math.min(0.52, difference))
 }
 
-export function drawWater(ctx: CanvasRenderingContext2D, bounds: Bounds, time: number, reducedMotion: boolean) {
-  ctx.fillStyle = '#e9eee6'
+export function drawWater(
+  ctx: CanvasRenderingContext2D,
+  bounds: Bounds,
+  time: number,
+  reducedMotion: boolean,
+  background?: PosterBackground | null,
+) {
+  if (background) {
+    const crop = getCoverCrop(background.width, background.height, bounds)
+    ctx.drawImage(background.image, crop.x, crop.y, crop.width, crop.height, 0, 0, bounds.width, bounds.height)
+  }
+  ctx.fillStyle = background ? 'rgba(233,238,230,.58)' : '#e9eee6'
   ctx.fillRect(0, 0, bounds.width, bounds.height)
 
   ctx.save()

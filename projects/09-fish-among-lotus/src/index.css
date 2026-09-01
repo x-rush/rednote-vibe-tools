@@ -245,25 +245,43 @@ h1 {
 
 .segments button.active { color: #fff; background: #286f4e; box-shadow: 0 2px 8px rgba(32,105,70,.2); }
 
-.reset {
+.poster-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 7px;
+}
+
+.reset,
+.background-button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
   min-height: 44px;
-  margin-top: 7px;
+  min-width: 0;
+  flex: 1;
+  padding: 0 7px;
   border: 1px solid rgba(42,84,66,.14);
   border-radius: 11px;
   color: #3c6252;
   background: rgba(255,255,255,.3);
   font-size: 9px;
-  letter-spacing: .18em;
+  letter-spacing: .1em;
   cursor: pointer;
 }
 
-.reset:active, .segments button:active { transform: scale(.97); }
+.background-button { color: #9d443b; border-color: rgba(157,68,59,.16); }
+.reset:active, .background-button:active, .segments button:active { transform: scale(.97); }
 .reset span { font-family: ui-sans-serif, sans-serif; font-size: 14px; }
+
+.background-error {
+  margin: 6px 2px 0;
+  color: #a84037;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-align: center;
+}
 
 @keyframes hint-arrive {
   from { opacity: 0; transform: translate(-50%, 4px); }

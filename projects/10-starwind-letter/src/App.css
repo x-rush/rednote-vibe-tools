@@ -166,13 +166,75 @@ button { font: inherit; }
 .phrase-row[data-offset="1"] { opacity: 0.1; filter: blur(2.8px); transform: translateY(5px) scale(0.93); }
 .phrase-row[data-offset="0"] { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
 
+.phrase-carousel[data-phrase-mode="chance"] {
+  mask-image: linear-gradient(to bottom, transparent 2%, #000 24%, #000 76%, transparent 98%);
+}
+
+.phrase-carousel[data-state="spinning"] .phrase-reel {
+  animation: chance-wheel-drift 430ms linear infinite;
+}
+
+.phrase-carousel[data-state="spinning"] .phrase-row {
+  width: min(90vw, 19em);
+  color: rgb(228 237 255 / 68%);
+  text-shadow:
+    0 -9px 10px rgb(142 171 255 / 14%),
+    0 9px 10px rgb(142 171 255 / 16%),
+    0 0 22px rgb(151 180 255 / 36%);
+  transition: none;
+}
+
+.phrase-carousel[data-state="slowing"] .phrase-row { width: min(90vw, 19em); }
+
+.phrase-carousel[data-state="spinning"] .phrase-row[data-offset="0"] {
+  opacity: 0.68;
+  filter: blur(4.2px);
+  transform: translateY(0) scale(1.025, 1.16) skewX(-1.4deg);
+}
+
+.phrase-carousel[data-state="spinning"] .phrase-row[data-offset="-1"],
+.phrase-carousel[data-state="spinning"] .phrase-row[data-offset="1"] {
+  opacity: 0.15;
+  filter: blur(5.4px);
+}
+
+.phrase-carousel[data-state="slowing"] .phrase-row { transition-duration: 160ms; }
+
+.phrase-carousel[data-state="slowing"] .phrase-row[data-offset="0"] {
+  opacity: 0.75;
+  filter: blur(5.6px);
+  transform: translateY(0) scale(1, 1.13);
+  text-shadow:
+    0 -7px 10px rgb(142 171 255 / 14%),
+    0 7px 10px rgb(142 171 255 / 14%),
+    0 0 20px rgb(151 180 255 / 28%);
+}
+
+.phrase-streak {
+  display: block;
+  width: var(--phrase-width);
+  height: 8px;
+  margin: 13px auto;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at center, rgb(171 196 255 / 30%), transparent 72%),
+    repeating-linear-gradient(90deg, transparent 0 4%, rgb(225 235 255 / 72%) 5.5% 7.5%, transparent 9% 12%);
+  box-shadow: 0 0 18px rgb(118 151 236 / 22%);
+  filter: blur(2.1px);
+}
+
+.phrase-carousel[data-phrase-mode="chance"] .phrase-row::after {
+  opacity: 0;
+  animation: none;
+}
+
 .phrase-char {
   display: inline-block;
   opacity: 0;
   filter: blur(7px);
   transform: translateY(8px) scale(0.92);
-  animation: phrase-char-arrive 1120ms cubic-bezier(0.16, 0.72, 0.24, 1) forwards;
-  animation-delay: calc(var(--char-index) * 38ms);
+  animation: phrase-char-arrive var(--phrase-reveal-duration) cubic-bezier(0.16, 0.72, 0.24, 1) forwards;
+  animation-delay: calc(var(--char-index) * var(--phrase-char-stagger));
 }
 
 .phrase-row[data-offset="0"]::after {
@@ -257,11 +319,18 @@ button { font: inherit; }
   100% { opacity: 0; transform: scaleX(1); }
 }
 
+@keyframes chance-wheel-drift {
+  0% { transform: translateY(-2px); }
+  50% { transform: translateY(2px); }
+  100% { transform: translateY(-2px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .phrase-row,
   .phrase-carousel { transition-duration: 120ms; }
   .phrase-char { animation-duration: 180ms; animation-delay: 0ms; }
   .phrase-row[data-offset="0"]::after { animation: none; }
+  .phrase-carousel[data-state="spinning"] .phrase-reel { animation: none; }
 }
 
 @media (orientation: landscape) {

@@ -2,13 +2,14 @@ import { describe, expect, it } from 'vitest'
 import { WINDOW_PORTAL, crossesPortal, pointInConvexQuad, projectSash } from './geometry'
 
 describe('perspective window geometry', () => {
-  it('keeps the right hinge edge fixed while the sash opens toward the viewer', () => {
+  it('keeps the hinge fixed and turns the fully open sash nearly edge-on', () => {
     const closed = projectSash(0)
     const open = projectSash(1)
     expect(open.topRight).toEqual(closed.topRight)
     expect(open.bottomRight).toEqual(closed.bottomRight)
-    expect(open.topLeft.x).toBeLessThan(closed.topLeft.x)
     expect(open.bottomLeft.y).toBeGreaterThan(closed.bottomLeft.y)
+    expect(open.topRight.x - open.topLeft.x).toBeLessThan(20)
+    expect(open.bottomRight.x - open.bottomLeft.x).toBeLessThan(20)
   })
 
   it('recognizes points in the slanted portal', () => {

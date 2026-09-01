@@ -37,7 +37,8 @@ describe('strand curtain motion', () => {
     const starts = gathered.map(({ start }) => start.x)
     const ends = gathered.map(({ end }) => end.x)
 
-    expect(Math.max(...starts) - Math.min(...starts)).toBeLessThan(34)
-    expect(Math.max(...ends)).toBeLessThan(210)
+    expect(Math.max(...starts)).toBeLessThan(202)
+    expect(Math.max(...starts) - Math.min(...starts)).toBeLessThan(28)
+    expect(Math.max(...ends)).toBeLessThan(192)
   })
 })

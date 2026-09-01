@@ -1,99 +1,108 @@
 import { useId } from 'react'
-import { WINDOW_PORTAL, projectSash, quadPoints } from './geometry'
+import { splitMoonlightPolygons, WINDOW_PORTAL, quadPoints } from './geometry'
 
-interface WindowLayerProps { readonly openProgress: number; readonly shakeProgress: number }
+interface WindowLayerProps { readonly revealProgress: number }
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
-const smoothstep = (value: number) => {
-  const amount = clamp(value)
-  return amount * amount * (3 - 2 * amount)
-}
+const smoothstep = (value: number) => value * value * (3 - 2 * value)
 
 const exteriorStars = [
-  [242, 205, 1.2], [288, 190, 0.8], [324, 232, 1.1], [266, 276, 0.7],
-  [314, 319, 1.4], [238, 350, 0.9], [296, 397, 0.8], [332, 444, 1.2],
+  [232, 190, 0.7], [257, 214, 1.1], [298, 185, 0.65], [327, 224, 1],
+  [239, 264, 0.8], [314, 292, 1.25], [270, 327, 0.65], [334, 362, 0.9],
+  [244, 390, 1.1], [304, 426, 0.7], [329, 458, 1.2],
 ] as const
-function crossbarPoints(openProgress: number, ratio: number) {
-  const sash = projectSash(openProgress)
-  const left = { x: sash.topLeft.x + (sash.bottomLeft.x - sash.topLeft.x) * ratio, y: sash.topLeft.y + (sash.bottomLeft.y - sash.topLeft.y) * ratio }
-  const right = { x: sash.topRight.x + (sash.bottomRight.x - sash.topRight.x) * ratio, y: sash.topRight.y + (sash.bottomRight.y - sash.topRight.y) * ratio }
-  return `${left.x},${left.y} ${right.x},${right.y}`
-}
 
-function sashSlicePoints(openProgress: number, upperRatio: number, lowerRatio: number) {
-  const sash = projectSash(openProgress)
-  const pointAt = (from: typeof sash.topLeft, to: typeof sash.bottomLeft, ratio: number) => ({
-    x: from.x + (to.x - from.x) * ratio,
-    y: from.y + (to.y - from.y) * ratio,
-  })
-  const upperLeft = pointAt(sash.topLeft, sash.bottomLeft, upperRatio)
-  const upperRight = pointAt(sash.topRight, sash.bottomRight, upperRatio)
-  const lowerRight = pointAt(sash.topRight, sash.bottomRight, lowerRatio)
-  const lowerLeft = pointAt(sash.topLeft, sash.bottomLeft, lowerRatio)
-  return `${upperLeft.x},${upperLeft.y} ${upperRight.x},${upperRight.y} ${lowerRight.x},${lowerRight.y} ${lowerLeft.x},${lowerLeft.y}`
-}
-
-export function WindowLayer({ openProgress, shakeProgress }: WindowLayerProps) {
+export function WindowLayer({ revealProgress }: WindowLayerProps) {
   const ids = useId().replaceAll(':', '')
-  const sash = projectSash(openProgress)
-  const light = smoothstep(openProgress)
-  const shakeX = Math.sin(shakeProgress * Math.PI * 6) * (1 - shakeProgress) * 2.2
-  const isOpen = openProgress >= 0.55
+  const light = smoothstep(clamp(revealProgress))
+  const [nearMoonlight, farMoonlight] = splitMoonlightPolygons(light)
+
   return (
     <svg
       className="window-layer"
       viewBox="0 0 390 844"
       aria-hidden="true"
-      data-window-state={isOpen ? 'open' : 'closed'}
-      data-interior-light={openProgress >= 0.65 ? 'bright' : 'dark'}
+      data-window-state="fixed"
+      data-interior-light={revealProgress >= 0.65 ? 'bright' : 'dark'}
     >
       <defs>
-        <linearGradient id={`${ids}-room`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#02091d" /><stop offset="0.48" stopColor="#030b24" /><stop offset="1" stopColor="#010416" /></linearGradient>
-        <linearGradient id={`${ids}-floor`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#020718" /><stop offset="0.56" stopColor="#050d2b" /><stop offset="1" stopColor="#010315" /></linearGradient>
-        <radialGradient id={`${ids}-sky`} cx="55%" cy="24%" r="92%"><stop stopColor="#53638c" /><stop offset="0.32" stopColor="#171d3d" /><stop offset="1" stopColor="#010413" /></radialGradient>
-        <linearGradient id={`${ids}-glass`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#111834" /><stop offset="0.55" stopColor="#05091a" /><stop offset="1" stopColor="#0c1638" /></linearGradient>
-        <linearGradient id={`${ids}-sash-glass`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#a9bae5" stopOpacity="0.32" /><stop offset="0.34" stopColor="#435783" stopOpacity="0.2" /><stop offset="0.62" stopColor="#111a38" stopOpacity="0.36" /><stop offset="1" stopColor="#304574" stopOpacity="0.22" /></linearGradient>
-        <linearGradient id={`${ids}-frame`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#d9e4ff" /><stop offset="0.3" stopColor="#8293df" /><stop offset="0.72" stopColor="#4654af" /><stop offset="1" stopColor="#17205e" /></linearGradient>
-        <linearGradient id={`${ids}-beam`} x1="1" y1="0" x2="0" y2="1"><stop stopColor="#eff6ff" stopOpacity="0.86" /><stop offset="0.42" stopColor="#a8c1ff" stopOpacity="0.34" /><stop offset="1" stopColor="#5d79e8" stopOpacity="0" /></linearGradient>
-        <radialGradient id={`${ids}-floor-light`} cx="58%" cy="12%" r="88%"><stop stopColor="#a7c0ff" stopOpacity="0.56" /><stop offset="0.52" stopColor="#4968c9" stopOpacity="0.16" /><stop offset="1" stopColor="#14235f" stopOpacity="0" /></radialGradient>
-        <filter id={`${ids}-glow`} x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="2.6" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-        <filter id={`${ids}-bloom`} x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="13" /></filter>
-        <mask id={`${ids}-crescent`}><rect width="390" height="844" fill="black" /><circle cx="278" cy="235" r="27" fill="white" /><circle cx="289" cy="225" r="25" fill="black" /></mask>
+        <linearGradient id={`${ids}-room`} x1="0" y1="0" x2="1" y2="1">
+          <stop stopColor="#020716" />
+          <stop offset="0.5" stopColor="#050b24" />
+          <stop offset="1" stopColor="#010311" />
+        </linearGradient>
+        <linearGradient id={`${ids}-floor`} x1="0" y1="0" x2="1" y2="1">
+          <stop stopColor="#020717" />
+          <stop offset="0.56" stopColor="#081234" />
+          <stop offset="1" stopColor="#010314" />
+        </linearGradient>
+        <radialGradient id={`${ids}-sky`} cx="52%" cy="22%" r="92%">
+          <stop stopColor="#8194c8" />
+          <stop offset="0.27" stopColor="#303961" />
+          <stop offset="0.62" stopColor="#111631" />
+          <stop offset="1" stopColor="#020515" />
+        </radialGradient>
+        <linearGradient id={`${ids}-frame`} x1="0" y1="0" x2="1" y2="1">
+          <stop stopColor="#dae4ff" />
+          <stop offset="0.3" stopColor="#8fa0dc" />
+          <stop offset="0.72" stopColor="#4b5eaa" />
+          <stop offset="1" stopColor="#192450" />
+        </linearGradient>
+        <linearGradient id={`${ids}-beam-near`} x1="1" y1="0" x2="0" y2="1">
+          <stop stopColor="#f2f6ff" stopOpacity="0.72" />
+          <stop offset="0.42" stopColor="#b6caff" stopOpacity="0.36" />
+          <stop offset="1" stopColor="#7892ed" stopOpacity="0.03" />
+        </linearGradient>
+        <linearGradient id={`${ids}-beam-far`} x1="1" y1="0" x2="0" y2="1">
+          <stop stopColor="#eef4ff" stopOpacity="0.58" />
+          <stop offset="1" stopColor="#768fdf" stopOpacity="0.02" />
+        </linearGradient>
+        <radialGradient id={`${ids}-moon`} cx="37%" cy="36%" r="70%">
+          <stop stopColor="#ffffff" />
+          <stop offset="0.52" stopColor="#f5f7ff" />
+          <stop offset="1" stopColor="#bdcaf3" />
+        </radialGradient>
+        <filter id={`${ids}-moon-glow`} x="-150%" y="-150%" width="400%" height="400%">
+          <feGaussianBlur stdDeviation="7" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <filter id={`${ids}-soft`} x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="10" />
+        </filter>
+        <mask id={`${ids}-crescent`}>
+          <rect width="390" height="844" fill="black" />
+          <circle cx="279" cy="231" r="30" fill="white" />
+          <circle cx="291" cy="219" r="28" fill="black" />
+        </mask>
       </defs>
+
       <rect width="390" height="844" fill={`url(#${ids}-room)`} />
       <path d="M0 604 L390 488 L390 844 L0 844Z" fill={`url(#${ids}-floor)`} />
-      <g data-layer="interior-light" opacity={light}>
-        <polygon points="348,180 348,486 48,750 0,660" fill={`url(#${ids}-beam)`} opacity="0.76" />
-        <ellipse cx="174" cy="638" rx="170" ry="116" fill="#7897f2" opacity="0.27" filter={`url(#${ids}-bloom)`} />
-        <path d="M0 604 L348 486 L390 550 L390 844 L0 844Z" fill={`url(#${ids}-floor-light)`} opacity="0.86" />
+
+      <g data-layer="moonlight" opacity={light}>
+        <polygon data-layer="moonlight-plane" points={quadPoints(farMoonlight)} fill={`url(#${ids}-beam-far)`} />
+        <polygon data-layer="moonlight-plane" points={quadPoints(nearMoonlight)} fill={`url(#${ids}-beam-near)`} />
+        <ellipse cx="181" cy="655" rx="162" ry="105" fill="#91aaf5" opacity="0.14" filter={`url(#${ids}-soft)`} />
       </g>
-      <g transform={`translate(${shakeX} 0)`}>
-        <polygon points={quadPoints(WINDOW_PORTAL)} fill={`url(#${ids}-sky)`} opacity={0.28 + light * 0.72} />
-        {exteriorStars.map(([x, y, radius], index) => <circle key={index} cx={x} cy={y} r={radius} fill="#eaf1ff" opacity={(0.08 + (index % 3) * 0.04) + light * 0.7} />)}
-        <circle cx="278" cy="235" r="28" fill="#fbfdff" opacity={0.36 + light * 0.64} mask={`url(#${ids}-crescent)`} filter={light > 0.1 ? `url(#${ids}-glow)` : undefined} />
-        <polygon points={quadPoints(WINDOW_PORTAL)} fill={`url(#${ids}-glass)`} opacity={(1 - light) * 0.64} />
-        <g opacity={(1 - light) * 0.2}>
-          <line x1="231" y1="157" x2="231" y2="444" stroke="#8da3d8" />
-          <line x1="260" y1="163" x2="260" y2="454" stroke="#758abb" />
-          <line x1="321" y1="173" x2="321" y2="476" stroke="#8298cf" />
-        </g>
-        <g data-layer="window-frame" filter={light > 0.24 ? `url(#${ids}-glow)` : undefined} opacity={0.56 + light * 0.34}>
-          <polyline points="202,138 360,168 360,505 202,452 202,138" fill="none" stroke={`url(#${ids}-frame)`} strokeWidth="8.5" strokeLinejoin="round" />
-          <polyline points="202,138 214,152 348,178 360,168" fill="#c3d0fb" opacity="0.48" />
-          <polyline points="360,168 348,178 348,486 360,505" fill="#111b57" opacity="0.94" />
-          <polyline points="202,452 214,438 348,486 360,505" fill="#263577" opacity="0.78" />
-          <line x1="208" y1="286" x2="354" y2="322" stroke="#7789d3" strokeWidth="5.5" />
-        </g>
-        {openProgress > 0.04 && <polygon points={`${sash.topLeft.x + 8},${sash.topLeft.y + 13} ${sash.topRight.x + 5},${sash.topRight.y + 8} ${sash.bottomRight.x + 6},${sash.bottomRight.y + 12} ${sash.bottomLeft.x + 9},${sash.bottomLeft.y + 16}`} fill="#00020d" opacity={light * 0.48} filter={`url(#${ids}-bloom)`} />}
-        <g data-layer="window-sash" filter={light > 0.28 ? `url(#${ids}-glow)` : undefined}>
-          <polygon points={quadPoints(sash)} fill={`url(#${ids}-sash-glass)`} fillOpacity={0.58 - light * 0.1} stroke={`url(#${ids}-frame)`} strokeWidth={5.6 - light * 1.25} strokeLinejoin="round" />
-          <polygon points={sashSlicePoints(openProgress, 0.14, 0.22)} fill="#eef4ff" opacity={0.025 + light * 0.07} />
-          <polyline points={crossbarPoints(openProgress, 0.48)} stroke="#8998d5" strokeWidth={5.2 - light * 0.8} />
-          <polyline points={crossbarPoints(openProgress, 0.78)} stroke="#5f70b8" strokeWidth={4.4 - light * 0.6} opacity="0.76" />
-          {openProgress > 0.08 && <polyline points={`${sash.topLeft.x},${sash.topLeft.y} ${sash.topLeft.x + 8},${sash.topLeft.y + 5} ${sash.bottomLeft.x + 9},${sash.bottomLeft.y + 8} ${sash.bottomLeft.x},${sash.bottomLeft.y}`} fill="#111942" stroke="#a4b3eb" strokeWidth="2" opacity="0.88" />}
-          {openProgress > 0.16 && <circle cx={sash.topLeft.x + (sash.bottomLeft.x - sash.topLeft.x) * 0.56 + 6} cy={sash.topLeft.y + (sash.bottomLeft.y - sash.topLeft.y) * 0.56} r="3.2" fill="#dce6ff" opacity={0.35 + light * 0.36} />}
-        </g>
-        {openProgress > 0.08 && <g fill="#c8d5ff" opacity={0.44 + light * 0.5}><circle cx="349" cy="241" r="2.5" /><circle cx="349" cy="416" r="2.5" /></g>}
+
+      <polygon points={quadPoints(WINDOW_PORTAL)} fill={`url(#${ids}-sky)`} opacity={0.18 + light * 0.82} />
+      <g opacity={0.06 + light * 0.9}>
+        {exteriorStars.map(([x, y, radius], index) => (
+          <circle key={index} cx={x} cy={y} r={radius} fill="#f5f7ff" opacity={0.54 + (index % 3) * 0.18} />
+        ))}
+      </g>
+      <g data-layer="moon-crescent" opacity={0.14 + light * 0.86} filter={`url(#${ids}-moon-glow)`}>
+        <circle cx="279" cy="231" r="31" fill={`url(#${ids}-moon)`} mask={`url(#${ids}-crescent)`} />
+        <circle cx="268" cy="244" r="2" fill="#dbe4ff" opacity="0.42" />
+      </g>
+
+      <g data-layer="fixed-window-frame" opacity={0.38 + light * 0.56}>
+        <polyline points="202,138 360,168 360,505 202,452 202,138" fill="none" stroke={`url(#${ids}-frame)`} strokeWidth="8.5" strokeLinejoin="round" />
+        <polyline points="202,138 214,152 348,178 360,168" fill="#d5defa" opacity="0.52" />
+        <polyline points="360,168 348,178 348,486 360,505" fill="#14204f" opacity="0.95" />
+        <polyline points="202,452 214,438 348,486 360,505" fill="#35477d" opacity="0.82" />
+        <line x1="208" y1="286" x2="354" y2="322" stroke="#8999ce" strokeWidth="6.5" />
+        <line x1="211" y1="288" x2="351" y2="322" stroke="#d8e1ff" strokeWidth="1.3" opacity="0.52" />
       </g>
     </svg>
   )

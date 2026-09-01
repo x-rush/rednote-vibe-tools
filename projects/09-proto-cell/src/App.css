@@ -274,6 +274,78 @@
   touch-action: none;
 }
 
+.floating-joystick {
+  --joystick-x: -200px;
+  --joystick-y: -200px;
+  --joystick-knob-x: 0px;
+  --joystick-knob-y: 0px;
+  position: fixed;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  width: 108px;
+  height: 108px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(calc(var(--joystick-x) - 50%), calc(var(--joystick-y) - 50%), 0);
+  transition: opacity 90ms ease-out;
+  will-change: transform, opacity;
+}
+
+.floating-joystick[data-active="true"] { opacity: 1; }
+
+.floating-joystick > span {
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgb(145 250 255 / 72%);
+  border-radius: 46% 54% 49% 51% / 53% 47% 55% 45%;
+  background:
+    radial-gradient(circle, transparent 0 29%, rgb(120 248 255 / 9%) 30% 32%, transparent 33%),
+    radial-gradient(circle, rgb(19 79 108 / 23%), rgb(2 18 43 / 45%) 66%, rgb(87 226 239 / 12%));
+  box-shadow:
+    inset 0 0 0 5px rgb(69 222 235 / 7%),
+    inset 0 0 28px rgb(89 236 244 / 12%),
+    0 0 18px rgb(50 220 238 / 16%);
+}
+
+.floating-joystick > span::before,
+.floating-joystick > span::after {
+  position: absolute;
+  border-radius: 50%;
+  content: '';
+}
+
+.floating-joystick > span::before {
+  inset: 45%;
+  background: #d9ffff;
+  box-shadow: 0 0 12px #6ff7ff;
+}
+
+.floating-joystick > span::after {
+  inset: 12px;
+  border: 1px dashed rgb(150 248 255 / 18%);
+}
+
+.floating-joystick i {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 42px;
+  height: 42px;
+  border: 2px solid rgb(219 255 255 / 88%);
+  border-radius: 44% 56% 48% 52% / 57% 43% 55% 45%;
+  background:
+    radial-gradient(circle at 36% 32%, #f4ffff 0 7%, #76f4f0 10% 25%, #287fa2 48%, #09233f 78%);
+  box-shadow:
+    inset -5px -7px 12px rgb(2 14 39 / 42%),
+    inset 5px 5px 11px rgb(197 255 255 / 28%),
+    0 0 16px rgb(101 244 249 / 62%),
+    0 5px 14px rgb(0 4 18 / 42%);
+  transform: translate3d(calc(-50% + var(--joystick-knob-x)), calc(-50% + var(--joystick-knob-y)), 0);
+  will-change: transform;
+}
+
 .game-shell {
   min-height: 100vh;
   min-height: 100dvh;

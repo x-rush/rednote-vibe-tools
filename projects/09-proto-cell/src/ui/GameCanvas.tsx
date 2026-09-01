@@ -5,6 +5,7 @@ import { createCanvasRenderer } from '../rendering/renderer'
 import { createNumberFeed } from '../rendering/numbers'
 import type { SaveSettings } from '../storage/codec'
 import { getContent } from '../content'
+import { resolveFloatingJoystick } from './joystick'
 
 const namedEngulfables = (() => {
   const content = getContent()
@@ -29,6 +30,23 @@ export function clearPointerSession(
   return true
 }
 
+function paintFloatingJoystick(element: HTMLDivElement | null, origin: { x: number; y: number }, pointer = origin) {
+  if (!element) return
+  const visual = resolveFloatingJoystick(origin, pointer)
+  element.style.setProperty('--joystick-x', `${visual.origin.x}px`)
+  element.style.setProperty('--joystick-y', `${visual.origin.y}px`)
+  element.style.setProperty('--joystick-knob-x', `${visual.knobOffset.x}px`)
+  element.style.setProperty('--joystick-knob-y', `${visual.knobOffset.y}px`)
+  element.dataset.active = 'true'
+}
+
+function hideFloatingJoystick(element: HTMLDivElement | null) {
+  if (!element) return
+  element.dataset.active = 'false'
+  element.style.setProperty('--joystick-knob-x', '0px')
+  element.style.setProperty('--joystick-knob-y', '0px')
+}
+
 export function GameCanvas({
   engine,
   label,
@@ -45,6 +63,8 @@ export function GameCanvas({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rendererRef = useRef<ReturnType<typeof createCanvasRenderer> | null>(null)
   const activePointerId = useRef<number | null>(null)
+  const joystickOrigin = useRef<{ x: number; y: number } | null>(null)
+  const joystickRef = useRef<HTMLDivElement>(null)
   const onEventsRef = useRef(onEvents)
   const onCanvasErrorRef = useRef(onCanvasError)
   onEventsRef.current = onEvents
@@ -71,7 +91,11 @@ export function GameCanvas({
     let frameId = 0
     let failed = false
     let previousTime = performance.now()
-    const clearMovement = () => clearPointerSession(engine.input, activePointerId)
+    const clearMovement = () => {
+      clearPointerSession(engine.input, activePointerId)
+      joystickOrigin.current = null
+      hideFloatingJoystick(joystickRef.current)
+    }
     const failCanvas = () => {
       if (failed) return
       failed = true
@@ -130,29 +154,42 @@ export function GameCanvas({
     }
   }, [engine, settings.graphics, settings.lowParticles, settings.reducedFlash, settings.reducedMotion])
 
+  const clearGesture = (pointerId?: number) => {
+    const cleared = clearPointerSession(engine.input, activePointerId, pointerId)
+    if (cleared) {
+      joystickOrigin.current = null
+      hideFloatingJoystick(joystickRef.current)
+    }
+  }
+
   return (
-    <canvas
-      ref={canvasRef}
-      className="game-canvas"
-      aria-label={label}
-      onPointerDown={(event) => {
-        activePointerId.current = event.pointerId
-        event.currentTarget.setPointerCapture(event.pointerId)
-        engine.input.start({ x: event.clientX, y: event.clientY })
-      }}
-      onPointerMove={(event) => {
-        if (activePointerId.current !== event.pointerId) return
-        engine.input.move({ x: event.clientX, y: event.clientY })
-      }}
-      onPointerUp={(event) => {
-        if (activePointerId.current !== event.pointerId) return
-        activePointerId.current = null
-        engine.input.end()
-      }}
-      onPointerCancel={(event) => {
-        clearPointerSession(engine.input, activePointerId, event.pointerId)
-      }}
-      onLostPointerCapture={(event) => clearPointerSession(engine.input, activePointerId, event.pointerId)}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        className="game-canvas"
+        aria-label={label}
+        onPointerDown={(event) => {
+          if (activePointerId.current !== null) return
+          const pointer = { x: event.clientX, y: event.clientY }
+          activePointerId.current = event.pointerId
+          joystickOrigin.current = pointer
+          event.currentTarget.setPointerCapture(event.pointerId)
+          engine.input.start(pointer)
+          paintFloatingJoystick(joystickRef.current, pointer)
+        }}
+        onPointerMove={(event) => {
+          if (activePointerId.current !== event.pointerId || !joystickOrigin.current) return
+          const pointer = { x: event.clientX, y: event.clientY }
+          engine.input.move(pointer)
+          paintFloatingJoystick(joystickRef.current, joystickOrigin.current, pointer)
+        }}
+        onPointerUp={(event) => clearGesture(event.pointerId)}
+        onPointerCancel={(event) => clearGesture(event.pointerId)}
+        onLostPointerCapture={(event) => clearGesture(event.pointerId)}
+      />
+      <div ref={joystickRef} className="floating-joystick" data-active="false" aria-hidden="true">
+        <span><i /></span>
+      </div>
+    </>
   )
 }

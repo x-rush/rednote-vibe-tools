@@ -1,9 +1,11 @@
-export function ErrorPanel({ title, description, detail, actionLabel, onAction }: {
+export function ErrorPanel({ title, description, detail, actionLabel, onAction, secondaryActionLabel, onSecondaryAction }: {
   title: string
   description: string
   detail?: string
   actionLabel?: string
   onAction?: () => void
+  secondaryActionLabel?: string
+  onSecondaryAction?: () => void
 }) {
   return (
     <section className="error-panel" role="alert" aria-live="assertive">
@@ -12,6 +14,7 @@ export function ErrorPanel({ title, description, detail, actionLabel, onAction }
       <p>{description}</p>
       {detail && <small>{detail}</small>}
       {actionLabel && onAction && <button className="hatchery-start" type="button" onClick={onAction}>{actionLabel}</button>}
+      {secondaryActionLabel && onSecondaryAction && <button className="game-overlay__secondary" type="button" onClick={onSecondaryAction}>{secondaryActionLabel}</button>}
     </section>
   )
 }

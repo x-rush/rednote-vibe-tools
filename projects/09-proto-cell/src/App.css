@@ -239,6 +239,8 @@
 .error-panel h1,
 .error-panel p { margin: 0; }
 .error-panel p { color: rgb(214 239 247 / 76%); line-height: 1.65; }
+.error-panel small { max-width: 390px; color: rgb(255 210 175 / 72%); overflow-wrap: anywhere; }
+.error-panel > .game-overlay__secondary { width: min(100%, 290px); }
 
 @keyframes cell-float {
   from { transform: translate3d(-4px, 6px, 0) rotate(-1deg); }

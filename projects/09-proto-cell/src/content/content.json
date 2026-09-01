@@ -36,7 +36,7 @@
       "clearSave": "清除本机进度",
       "confirmClear": "确认清除",
       "cancel": "取消",
-      "retry": "返回培养舱"
+      "retry": "重建当前视野"
     },
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
@@ -189,8 +189,8 @@
       "importSuccess": "存档导入成功。",
       "importFailure": "存档不兼容或内容损坏。",
       "clearConfirm": "此操作会清除本机生命档案、图鉴和基因进度，确定继续吗？",
-      "canvasErrorTitle": "显微视野无法建立",
-      "canvasErrorDescription": "当前浏览器未能启动 Canvas 2D。进度仍安全，可以返回培养舱调整画质或更换浏览器。"
+      "canvasErrorTitle": "显微视野暂时中断",
+      "canvasErrorDescription": "本局已经暂停且状态仍然保留。可以原地重建画面；如果问题持续，再返回培养舱调整画质。"
     }
   },
   "environments": [
@@ -1950,7 +1950,10 @@
     "spawnPresentation": {
       "foodMaterializeMs": 450,
       "neutralMaterializeMs": 700,
-      "threatMaterializeMs": 1200
+      "threatApproachSpeedRatio": 0.35,
+      "threatSpawnDistance": 220,
+      "threatDiscoveryDistance": 105,
+      "threatAlertMs": 650
     },
     "stageEntryEcology": [
       { "stageIndex": 1, "groups": [{ "role": "resource", "count": 5, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }] },

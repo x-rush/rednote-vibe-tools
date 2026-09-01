@@ -27,9 +27,9 @@ import { createRunDirector, stepRunDirector, type RunDirectorState, type RunPhas
 import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type EcologyRole, type EcologySummary } from '../world/ecology-director'
 import { createBuildState, type BuildState } from '../evolution/build'
 import { evaluateTriggers, type TriggerFrame, type TriggerOutcome } from '../evolution/triggers'
-import { isMaterializing, materializeSpawn } from './materialization'
+import { isMaterializing, isThreatArrivalInactive, materializeSpawn, stepThreatArrival } from './materialization'
 
-export type PauseReason = 'user' | 'visibility' | 'evolution'
+export type PauseReason = 'user' | 'visibility' | 'evolution' | 'canvas'
 
 export type HudSnapshot = {
   membrane: number
@@ -796,9 +796,9 @@ export function createGameEngine(options: {
   function moveEntities(stepMs: number, speedMultiplier: number) {
     const seconds = stepMs / 1000
     if (activeSwarm) moveActiveSwarm(stepMs, speedMultiplier)
-    const playerRadii = [...entities.values()]
+    const playerBodies = [...entities.values()]
       .filter((entity) => entity.faction === 'player' && entity.status === 'active')
-      .map((entity) => entity.body.radius)
+    const playerRadii = playerBodies.map((entity) => entity.body.radius)
     for (const entity of entities.values()) {
       if (entity.status !== 'active') continue
       if (activeSwarm && entity.faction === 'player') continue
@@ -806,8 +806,19 @@ export function createGameEngine(options: {
         if (entity.velocity.x !== 0 || entity.velocity.y !== 0) entities.set(entity.id, moveEntity(entity, entity.position, { x: 0, y: 0 }))
         continue
       }
-      const bossDormant = entity.id === bossState?.id && bossState.phase === 'dormant'
-      const movement = movementDecision(entity, bossDormant)
+      const nearestPlayer = playerBodies.reduce<EntityState | undefined>((nearest, body) => (
+        !nearest || distanceBetween(entity, body) < distanceBetween(entity, nearest) ? body : nearest
+      ), undefined)
+      const arrival = stepThreatArrival(entity, nearestPlayer?.position, elapsedMs, content.m1.spawnPresentation)
+      if (arrival?.stationary) {
+        entities.set(entity.id, moveEntity(arrival.entity, entity.position, { x: 0, y: 0 }))
+        continue
+      }
+      const enteringEntity = arrival?.entity ?? entity
+      const bossDormant = enteringEntity.id === bossState?.id && bossState.phase === 'dormant'
+      const movement = arrival?.intent
+        ? { entity: enteringEntity, intent: arrival.intent }
+        : movementDecision(enteringEntity, bossDormant)
       const intent = movement.intent
       const movingEntity = movement.entity
       const bossPhaseSpeed = entity.id !== bossState?.id ? 1
@@ -825,9 +836,10 @@ export function createGameEngine(options: {
       const maxSpeed = ('maxSpeed' in entity ? Number(entity.maxSpeed) : 52)
         * (entity.id === PLAYER_ID ? speedMultiplier : bossPhaseSpeed)
         * pursuitSpeed
+        * (arrival?.speedRatio ?? 1)
         * fieldSample.speedMultiplier
       const responsiveVelocity = advanceVelocity(entity.velocity, intent, maxSpeed, stepMs, { responseMs: turnResponseMs })
-      const flowVelocity = {
+      const flowVelocity = arrival?.intent ? { x: 0, y: 0 } : {
         x: fieldSample.flow.x * 24,
         y: fieldSample.flow.y * 24,
       }
@@ -1469,6 +1481,7 @@ export function createGameEngine(options: {
         let second = entities.get(candidate.id)
         if (!first || !second || first.status !== 'active' || second.status !== 'active') continue
         if (isMaterializing(first, elapsedMs) || isMaterializing(second, elapsedMs)) continue
+        if (isThreatArrivalInactive(first) || isThreatArrivalInactive(second)) continue
         if (first.id.startsWith('eco-food-') && second.id.startsWith('eco-food-')) continue
         if (first.faction === 'hostile' && second.faction === 'hostile') continue
         if (bossState?.phase === 'dormant' && (first.id === bossState.id || second.id === bossState.id)) continue
@@ -1681,7 +1694,10 @@ export function createGameEngine(options: {
       } : undefined,
     }
     const currentDistance = distanceBetween(tuned, playerBody)
-    const safeDistance = tuned.body.radius + playerBody.body.radius + profile.spawnClearance
+    const safeDistance = Math.max(
+      tuned.body.radius + playerBody.body.radius + profile.spawnClearance,
+      content.m1.spawnPresentation.threatSpawnDistance,
+    )
     if (currentDistance >= safeDistance) return tuned
     const fallbackAngle = createRng(options.seed).fork(`threat-clearance-${entity.id}`).next() * Math.PI * 2
     const angle = currentDistance > 0

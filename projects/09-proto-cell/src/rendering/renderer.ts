@@ -301,6 +301,17 @@ function drawBehaviorStateCue(
       context.arc(-radius * (0.7 + index * 0.28), -radius * (0.45 + index * 0.18), radius * (0.11 + index * 0.03), 0, Math.PI * 2)
       context.stroke()
     }
+  } else if (entity.behaviorState === 'alert') {
+    context.globalAlpha = 0.84
+    context.strokeStyle = '#ff9f68'
+    context.fillStyle = '#fff3cb'
+    context.lineWidth = 2.2
+    context.beginPath()
+    context.arc(0, 0, radius * 1.38, 0, Math.PI * 2)
+    context.stroke()
+    context.font = `800 ${Math.max(12, radius * 0.62)}px Inter, sans-serif`
+    context.textAlign = 'center'
+    context.fillText('!', 0, -radius * 1.5)
   }
   context.restore()
 }

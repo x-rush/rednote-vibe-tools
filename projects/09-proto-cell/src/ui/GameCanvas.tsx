@@ -7,6 +7,17 @@ import type { SaveSettings } from '../storage/codec'
 import { getContent } from '../content'
 import { resolveFloatingJoystick } from './joystick'
 
+export type CanvasFailurePhase = 'initialization' | 'frame' | 'context-lost'
+export type CanvasFailure = { phase: CanvasFailurePhase; message: string }
+
+export function canvasFailureFrom(error: unknown, phase: CanvasFailurePhase): CanvasFailure {
+  const fallback = phase === 'context-lost' ? 'Canvas context lost' : 'Unknown canvas failure'
+  return {
+    phase,
+    message: error instanceof Error && error.message ? error.message : fallback,
+  }
+}
+
 const namedEngulfables = (() => {
   const content = getContent()
   return new Map<string, string>(
@@ -58,7 +69,7 @@ export function GameCanvas({
   label: string
   settings: SaveSettings
   onEvents?: (events: readonly GameEvent[]) => void
-  onCanvasError?: () => void
+  onCanvasError?: (failure: CanvasFailure) => void
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rendererRef = useRef<ReturnType<typeof createCanvasRenderer> | null>(null)
@@ -83,8 +94,10 @@ export function GameCanvas({
         reducedFlash: settings.reducedFlash,
       })
       rendererRef.current = renderer
-    } catch {
-      onCanvasErrorRef.current?.()
+    } catch (error) {
+      const failure = canvasFailureFrom(error, 'initialization')
+      console.error('[proto-cell] canvas initialization failed', error)
+      onCanvasErrorRef.current?.(failure)
       return
     }
     const numbers = createNumberFeed({ aggregateMs: 180, maxVisible: 8, chainWindowMs: 1400 })
@@ -96,16 +109,17 @@ export function GameCanvas({
       joystickOrigin.current = null
       hideFloatingJoystick(joystickRef.current)
     }
-    const failCanvas = () => {
+    const failCanvas = (failure: CanvasFailure, error?: unknown) => {
       if (failed) return
       failed = true
       cancelAnimationFrame(frameId)
       clearMovement()
-      onCanvasErrorRef.current?.()
+      console.error(`[proto-cell] canvas ${failure.phase} failed`, error ?? failure.message)
+      onCanvasErrorRef.current?.(failure)
     }
     const handleContextLost = (event: Event) => {
       event.preventDefault()
-      failCanvas()
+      failCanvas(canvasFailureFrom(undefined, 'context-lost'))
     }
 
     const frame = (now: number) => {
@@ -136,8 +150,8 @@ export function GameCanvas({
         if (events.length > 0) onEventsRef.current?.(events)
         renderer.render(engine.renderSnapshot(), numbers)
         frameId = requestAnimationFrame(frame)
-      } catch {
-        failCanvas()
+      } catch (error) {
+        failCanvas(canvasFailureFrom(error, 'frame'), error)
       }
     }
 

@@ -328,7 +328,10 @@ export type ContentPack = {
     spawnPresentation: {
       foodMaterializeMs: number
       neutralMaterializeMs: number
-      threatMaterializeMs: number
+      threatApproachSpeedRatio: number
+      threatSpawnDistance: number
+      threatDiscoveryDistance: number
+      threatAlertMs: number
     }
     stageEntryEcology: StageEntryEcologyDefinition[]
     stageThreatProfiles: StageThreatProfileDefinition[]

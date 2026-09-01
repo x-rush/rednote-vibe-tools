@@ -503,7 +503,10 @@ export function validateContent(input: unknown): ContentValidationResult {
       const presentation = value.spawnPresentation
       require(typeof presentation.foodMaterializeMs === 'number' && Number.isFinite(presentation.foodMaterializeMs) && presentation.foodMaterializeMs >= 400, '$.m1.spawnPresentation.foodMaterializeMs', 'food needs a readable materialization window')
       require(typeof presentation.neutralMaterializeMs === 'number' && Number.isFinite(presentation.neutralMaterializeMs) && presentation.neutralMaterializeMs >= 400, '$.m1.spawnPresentation.neutralMaterializeMs', 'neutral creatures need a readable materialization window')
-      require(typeof presentation.threatMaterializeMs === 'number' && Number.isFinite(presentation.threatMaterializeMs) && presentation.threatMaterializeMs >= 1000, '$.m1.spawnPresentation.threatMaterializeMs', 'threats need a full warning window')
+      require(typeof presentation.threatApproachSpeedRatio === 'number' && Number.isFinite(presentation.threatApproachSpeedRatio) && presentation.threatApproachSpeedRatio > 0 && presentation.threatApproachSpeedRatio <= 0.4, '$.m1.spawnPresentation.threatApproachSpeedRatio', 'unaware threats must approach below forty percent speed')
+      require(typeof presentation.threatSpawnDistance === 'number' && Number.isFinite(presentation.threatSpawnDistance) && presentation.threatSpawnDistance >= 180, '$.m1.spawnPresentation.threatSpawnDistance', 'threats must spawn outside the mobile view')
+      require(typeof presentation.threatDiscoveryDistance === 'number' && Number.isFinite(presentation.threatDiscoveryDistance) && presentation.threatDiscoveryDistance >= 70 && presentation.threatDiscoveryDistance <= Number(presentation.threatSpawnDistance) - 40, '$.m1.spawnPresentation.threatDiscoveryDistance', 'threat discovery must happen after a readable approach')
+      require(typeof presentation.threatAlertMs === 'number' && Number.isFinite(presentation.threatAlertMs) && presentation.threatAlertMs >= 500, '$.m1.spawnPresentation.threatAlertMs', 'discovered threats need a readable alert beat')
     }
     if (!Array.isArray(value.stageEntryEcology) || value.stageEntryEcology.length !== 6) {
       issues.push({ path: '$.m1.stageEntryEcology', message: 'one entry ecology profile is required for each journey stage' })

@@ -7,7 +7,7 @@ import { createGameEngine } from './game/engine'
 import type { GameEvent } from './game/interactions'
 import { applyEvolution, createBuildState, offerEvolution, type BuildState, type EvolutionOffer } from './evolution/build'
 import { EvolutionOverlay } from './ui/EvolutionOverlay'
-import { GameCanvas } from './ui/GameCanvas'
+import { GameCanvas, type CanvasFailure } from './ui/GameCanvas'
 import { Hud } from './ui/Hud'
 import { Archive } from './ui/Archive'
 import { createArchiveViewModelFromSummary, createResultViewModel, createViewModel } from './app/view-model'
@@ -73,11 +73,18 @@ function GameApp({ content }: { content: ContentPack }) {
   const [saveReady, setSaveReady] = useState(false)
   const [storageMode, setStorageMode] = useState<RepositoryMode>('persistent')
   const [storageIssues, setStorageIssues] = useState<SaveIssue[]>([])
-  const [canvasError, setCanvasError] = useState(false)
+  const [canvasFailure, setCanvasFailure] = useState<CanvasFailure>()
+  const [canvasGeneration, setCanvasGeneration] = useState(0)
+  const canvasAutoRetryUsedRef = useRef(false)
   const sync = useCallback(() => setView(controller.snapshot()), [controller])
-  const handleCanvasError = useCallback(() => {
-    controller.pause('user')
-    setCanvasError(true)
+  const handleCanvasError = useCallback((failure: CanvasFailure) => {
+    if (!canvasAutoRetryUsedRef.current) {
+      canvasAutoRetryUsedRef.current = true
+      setCanvasGeneration((current) => current + 1)
+      return
+    }
+    controller.pause('canvas')
+    setCanvasFailure(failure)
     sync()
   }, [controller, sync])
   const modalButtonRef = useRef<HTMLButtonElement>(null)
@@ -118,6 +125,11 @@ function GameApp({ content }: { content: ContentPack }) {
   useEffect(() => {
     document.title = content.meta.title
   }, [])
+
+  useEffect(() => {
+    canvasAutoRetryUsedRef.current = false
+    setCanvasFailure(undefined)
+  }, [view.seed])
 
   useEffect(() => {
     if (view.screen !== 'paused' && view.screen !== 'result') return
@@ -315,12 +327,29 @@ function GameApp({ content }: { content: ContentPack }) {
     seed: view.seed ?? 0,
   }, content) : undefined
   if (!saveReady) return <main className="hatchery-shell"><section className="hatchery-card" aria-live="polite"><p className="hatchery-region">{content.ui.labels.lab}</p><h1>{content.ui.screens.loadingSave}</h1></section></main>
-  if (canvasError) return <main className="hatchery-shell"><ErrorPanel title={content.ui.screens.canvasErrorTitle} description={content.ui.screens.canvasErrorDescription} actionLabel={content.ui.actions.retry} onAction={() => { controller.returnToLab(); setCanvasError(false); sync() }} /></main>
+  if (canvasFailure) return <main className="hatchery-shell"><ErrorPanel
+    title={content.ui.screens.canvasErrorTitle}
+    description={content.ui.screens.canvasErrorDescription}
+    detail={`${canvasFailure.phase}: ${canvasFailure.message}`}
+    actionLabel={content.ui.actions.retry}
+    onAction={() => {
+      setCanvasFailure(undefined)
+      setCanvasGeneration((current) => current + 1)
+      controller.resume('canvas')
+      sync()
+    }}
+    secondaryActionLabel={content.ui.actions.backToLab}
+    onSecondaryAction={() => {
+      controller.returnToLab()
+      setCanvasFailure(undefined)
+      sync()
+    }}
+  /></main>
   if (view.screen !== 'lab' && engine) {
     return (
       <main className="game-shell">
         <div className="game-stage" inert={mutationChoices.length > 0} aria-hidden={mutationChoices.length > 0 || undefined}>
-          <GameCanvas engine={engine} label={content.ui.labels.gameCanvas} settings={save.settings} onEvents={handleEvents} onCanvasError={handleCanvasError} />
+          <GameCanvas key={canvasGeneration} engine={engine} label={content.ui.labels.gameCanvas} settings={save.settings} onEvents={handleEvents} onCanvasError={handleCanvasError} />
           {view.hud && view.screen !== 'result' && (
             <Hud
               snapshot={view.hud}

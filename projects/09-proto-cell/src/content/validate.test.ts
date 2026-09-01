@@ -141,14 +141,16 @@ describe('content integrity validation', () => {
     expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.m1.stageThreatProfiles[1].pursuitSpeedMultiplier')
   })
 
-  it('requires readable food and threat materialization windows', () => {
+  it('requires readable food materialization and restrained hunter arrival tuning', () => {
     const pack = contentFixture()
     pack.m1.spawnPresentation.foodMaterializeMs = 0
-    pack.m1.spawnPresentation.threatMaterializeMs = 300
+    pack.m1.spawnPresentation.threatApproachSpeedRatio = 1
+    pack.m1.spawnPresentation.threatAlertMs = 300
 
     expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
       '$.m1.spawnPresentation.foodMaterializeMs',
-      '$.m1.spawnPresentation.threatMaterializeMs',
+      '$.m1.spawnPresentation.threatApproachSpeedRatio',
+      '$.m1.spawnPresentation.threatAlertMs',
     ]))
   })
 

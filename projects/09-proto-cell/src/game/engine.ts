@@ -259,9 +259,9 @@ export function createGameEngine(options: {
         environmentId,
         paused: pauseReasons.size > 0,
         engulfScore,
-        journeyIndex: Math.min(6, routeStageIndex + 1),
-        journeyTotal: 6,
-        bodyStage: provisionalBodyStage(routeStageIndex),
+        journeyIndex: journeyEnabled ? runDirectorState.stageIndex + 1 : Math.min(6, routeStageIndex + 1),
+        journeyTotal: (content.journey as JourneyDefinition).stages.length,
+        bodyStage: currentBodyStage(),
         bodyStageProgress: clamp(biomass / Math.max(1, evolutionThreshold), 0, 1),
         membraneRatio: clamp(membrane / Math.max(1, playerDefinition.membrane), 0, 1),
         swarm: activeSwarm ? {
@@ -286,7 +286,7 @@ export function createGameEngine(options: {
         width: environment.width,
         height: environment.height,
         playerId: PLAYER_ID,
-        bodyStage: provisionalBodyStage(routeStageIndex),
+        bodyStage: currentBodyStage(),
         entities: [...entities.values()].filter((entity) => entity.status === 'active'),
         playerOrganelleIdsByEntity: activeSwarm
           ? Object.fromEntries(activeSwarm.map((body) => [body.id, body.organelles.map((organ) => organ.id)]))
@@ -370,6 +370,10 @@ export function createGameEngine(options: {
     if (terminalReached) return
     elapsedMs += stepMs
     stepJourney()
+    if (terminalReached) {
+      activeSwarm = undefined
+      return
+    }
     stepWorldFeatures(stepMs)
     if (terminalReached) {
       activeSwarm = undefined
@@ -407,6 +411,7 @@ export function createGameEngine(options: {
 
   function stepJourney() {
     if (!journeyEnabled) return
+    const previousPhase = runDirectorState.phase
     const result = stepRunDirector(runDirectorState, {
       atMs: elapsedMs,
       selectedRouteId: pendingMigrationRouteId,
@@ -414,6 +419,18 @@ export function createGameEngine(options: {
     pendingMigrationRouteId = undefined
     runDirectorState = result.state
     events.push(...result.events)
+    if (previousPhase !== 'complete' && runDirectorState.phase === 'complete') {
+      const survivingBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
+      if (survivingBodies.length > 1) {
+        events.push({ type: 'ending-reached', endingId: 'ending-swarm-mind', atMs: elapsedMs })
+      } else if (playerStability >= 70) {
+        events.push({ type: 'ending-reached', endingId: 'ending-stable-species', atMs: elapsedMs })
+      } else {
+        events.push({ type: 'player-died', cause: 'finale-instability', atMs: elapsedMs })
+      }
+      terminalReached = true
+      return
+    }
     const route = result.events.find((event): event is Extract<GameEvent, { type: 'route-selected' }> => event.type === 'route-selected')
     if (!route) return
     selectedRouteId = route.routeId
@@ -464,7 +481,9 @@ export function createGameEngine(options: {
     }
     applyEnvironmentDamage()
     const bossDefinition = content.bosses.find((item) => item.id === launchEnvironment?.bossId)
-    const bossSpawnAtMs = environmentEnteredAtMs + Math.max(30_000, ((launchEnvironment?.durationTargetSec[0] ?? 120) - 25) * 1000)
+    const bossSpawnAtMs = runDirectorState.phase === 'finale'
+      ? environmentEnteredAtMs + 45_000
+      : environmentEnteredAtMs + Math.max(30_000, ((launchEnvironment?.durationTargetSec[0] ?? 120) - 25) * 1000)
     if (!bossState && bossDefinition && elapsedMs >= bossSpawnAtMs) {
       const definition = bossDefinition
       bossState = createBoss(definition.id as BossId, { seed: options.seed, atMs: bossSpawnAtMs })
@@ -923,6 +942,11 @@ export function createGameEngine(options: {
       resourceId: route.rewardId,
       affinityIconId: route.entryModifierId,
     }))
+  }
+
+  function currentBodyStage(): BodyStage {
+    if (!journeyEnabled) return provisionalBodyStage(routeStageIndex)
+    return (content.journey as JourneyDefinition).stages[runDirectorState.stageIndex]?.bodyStage ?? 'ascendant'
   }
 
   function currentCollapseProgress(): number {

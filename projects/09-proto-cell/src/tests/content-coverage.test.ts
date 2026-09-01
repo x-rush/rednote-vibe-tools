@@ -20,12 +20,12 @@ describe('launch outcome and build coverage', () => {
     }
   })
 
-  it('produces diverse builds and at least four successful terminal runs', () => {
+  it('produces diverse builds and successful six-stage terminal runs', () => {
     const routes = [
-      ['env-algae-glow', 'env-fiber-maze'],
-      ['env-algae-glow', 'env-antibody-storm'],
-      ['env-acid-vesicle', 'env-fiber-maze'],
-      ['env-acid-vesicle', 'env-antibody-storm'],
+      ['journey-route-algae-feast', 'journey-route-fiber-cover', 'journey-route-acid-pressure', 'journey-route-fiber-ambush', 'journey-route-chamber-wreckage'],
+      ['journey-route-algae-feast', 'journey-route-antibody-current', 'journey-route-algae-blackout', 'journey-route-antibody-hunt', 'journey-route-chamber-gauntlet'],
+      ['journey-route-acid-mutation', 'journey-route-fiber-cover', 'journey-route-acid-pressure', 'journey-route-antibody-hunt', 'journey-route-chamber-wreckage'],
+      ['journey-route-acid-mutation', 'journey-route-antibody-current', 'journey-route-algae-blackout', 'journey-route-fiber-ambush', 'journey-route-chamber-gauntlet'],
     ] as const
     const policies = ['speed', 'armor', 'stealth', 'parasite', 'swarm'] as const
     const reports = Array.from({ length: 10 }, (_, index) => runHeadless({
@@ -37,6 +37,7 @@ describe('launch outcome and build coverage', () => {
 
     expect(new Set(reports.map((report) => report.morphologySignature)).size).toBeGreaterThanOrEqual(6)
     expect(reports.filter((report) => report.endingId).length).toBeGreaterThanOrEqual(4)
+    expect(reports.every((report) => report.stageSignature === '1>2>3>4>5>6')).toBe(true)
     expect(reports.flatMap((report) => report.invalidNumbers)).toEqual([])
   }, 60_000)
 })

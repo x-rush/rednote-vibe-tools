@@ -8,21 +8,29 @@ describe('M0 headless playthrough', () => {
     expect(report.simulatedMs).toBeCloseTo(300_000, 4)
     expect(report.maxEntities).toBeLessThanOrEqual(180)
     expect(report.invalidNumbers).toEqual([])
-    expect(report.keyEvents).toContainEqual(expect.objectContaining({
-      type: 'event-phase',
-      eventId: 'event-nutrient-bloom',
-      phase: 'active',
-    }))
+    expect(report.keyEvents).toContainEqual(expect.objectContaining({ type: 'ecology-opportunity' }))
   }, 20_000)
 
-  it('repeats the same full-route sequence and morphology for a seed', () => {
-    const input = { seed: 727, durationMs: 520_000, route: ['env-algae-glow', 'env-fiber-maze'], policy: 'balanced' as const }
+  it('finishes a deterministic six-stage journey without route-driving cheats', () => {
+    const input = { seed: 727, durationMs: 520_000, policy: 'balanced' as const }
     const first = runHeadless(input)
     const second = runHeadless(input)
 
     expect(first.keyEvents).toEqual(second.keyEvents)
     expect(first.morphologySignature).toBe(second.morphologySignature)
-    expect(first.routeSignature).toBe('env-algae-glow>env-fiber-maze>env-abandoned-chamber')
-    expect(first.endingId).toBe('ending-stable-species')
-  }, 20_000)
+    expect(first.stageSignature).toBe('1>2>3>4>5>6')
+    expect(first.routeSignature.split('>')).toHaveLength(5)
+    expect(new Set(first.opportunitySignature.split('>')).size).toBeGreaterThanOrEqual(4)
+    expect(first.maxActionableGapMs).toBeLessThanOrEqual(8000)
+  }, 30_000)
+
+  it('shows all eight visible behavior families during a ten-seed audit', () => {
+    const families = new Set<string>()
+    for (let seed = 0; seed < 10; seed += 1) {
+      const report = runHeadless({ seed, durationMs: 520_000 })
+      Object.keys(report.behaviorStateCounts).forEach((family) => families.add(family))
+    }
+
+    expect([...families].sort()).toEqual(['ambusher', 'apex', 'competitor', 'hunter', 'resource', 'scavenger', 'school', 'skittish'])
+  }, 60_000)
 })

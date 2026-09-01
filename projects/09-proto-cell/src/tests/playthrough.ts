@@ -4,7 +4,7 @@ import { continueMutationContext, createMutationContext, installMutation, offerM
 import { getContent, type ContentPack, type EnvironmentId } from '../content'
 import type { LifeEventLogEntry } from '../progression/archive'
 import { deriveLifeArchive } from '../progression/archive'
-import { resolveBossPath, stepBoss, type BossState } from '../world/bosses'
+import { stepBoss, type BossState } from '../world/bosses'
 
 export type HeadlessRunOptions = {
   seed: number
@@ -21,6 +21,10 @@ export type HeadlessRunReport = {
   morphologySignature: string
   endingId?: string
   routeSignature: string
+  stageSignature: string
+  opportunitySignature: string
+  behaviorStateCounts: Record<string, number>
+  maxActionableGapMs: number
 }
 
 export type OutcomeFixture = { expectedId: string; events: readonly LifeEventLogEntry[] }
@@ -31,7 +35,7 @@ const STEP_BATCH_MS = 5 * 1000 / 60
 export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   const durationMs = options.durationMs ?? 600_000
   const policy = options.policy ?? 'balanced'
-  const engine = createGameEngine({ seed: options.seed, environmentId: 'env-clear-drop', route: options.route })
+  const engine = createGameEngine({ seed: options.seed, environmentId: 'env-clear-drop', runOrdinal: 3 })
   const keyEvents: GameEvent[] = []
   const invalidNumbers = new Set<string>()
   let maxEntities = 0
@@ -41,18 +45,21 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   let terminal = false
   let mutationCount = 0
   let mutationContext = createMutationContext('env-clear-drop')
-  const resolvedBossIds = new Set<string>()
-  const acceleratedRiftIds = new Set<string>()
+  const visitedStages = new Set<number>([1])
+  const opportunityIds: string[] = []
+  const behaviorStateCounts: Record<string, number> = {}
+  let opportunityCueUntilMs = 0
+  let lastActionableAtMs = 0
+  let maxActionableGapMs = 0
 
   engine.start()
   engine.input.start({ x: 0, y: 0 })
   while (simulatedMs + 0.000_001 < durationMs) {
     keepAuditPlayerAlive(engine)
-    if (options.route) driveRoute(engine, acceleratedRiftIds)
-    if (options.route) resolveVisibleBoss(engine, policy, resolvedBossIds)
-    if (options.route && mutationCount < 5 && simulatedMs >= (mutationCount + 1) * 45_000) {
-      const player = engine.renderSnapshot().entities.find((entity) => entity.id === engine.renderSnapshot().playerId)
-      if (player) player.mass = Math.max(player.mass, engine.snapshot().evolutionThreshold + 1)
+    const run = engine.runSnapshot()
+    if (options.route && (run.phase === 'choosing' || run.phase === 'collapsing')) {
+      const routeId = options.route[run.stageIndex]
+      if (routeId) engine.selectMigration(routeId)
     }
     setPolicyIntent(engine, simulatedMs, policy)
     const elapsed = Math.min(STEP_BATCH_MS, durationMs - simulatedMs)
@@ -89,6 +96,10 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
           mutationCount += 1
         }
       }
+      if (event.type === 'ecology-opportunity') {
+        opportunityIds.push(event.opportunityId)
+        opportunityCueUntilMs = Math.max(opportunityCueUntilMs, event.atMs + 8000)
+      }
     }
     consumed += events.filter((event) => event.type === 'engulfed' && event.predatorId === 'player').length
     const ending = events.find((event) => event.type === 'ending-reached')
@@ -96,6 +107,22 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     terminal = events.some((event) => event.type === 'ending-reached' || event.type === 'player-died')
 
     const world = engine.renderSnapshot()
+    visitedStages.add(engine.runSnapshot().stageIndex + 1)
+    for (const entity of world.entities) {
+      if (!entity.behaviorProfileId || !entity.behaviorState) continue
+      const family = getContent().behaviorProfiles.find((profile) => profile.id === entity.behaviorProfileId)?.family
+      if (family) behaviorStateCounts[family] = (behaviorStateCounts[family] ?? 0) + 1
+    }
+    const auditPlayer = world.entities.find((entity) => entity.id === world.playerId)
+    const actionable = Boolean(auditPlayer && world.entities.some((entity) => {
+      if (entity.id === auditPlayer.id || entity.status !== 'active') return false
+      const distance = Math.hypot(entity.position.x - auditPlayer.position.x, entity.position.y - auditPlayer.position.y)
+      const edible = entity.body.radius < auditPlayer.body.radius && distance <= 320
+      const dangerous = entity.faction === 'hostile' && distance <= 360
+      return edible || dangerous
+    })) || simulatedMs <= opportunityCueUntilMs
+    if (actionable) lastActionableAtMs = simulatedMs
+    else maxActionableGapMs = Math.max(maxActionableGapMs, simulatedMs - lastActionableAtMs)
     maxEntities = Math.max(maxEntities, world.entities.length)
     inspectNumbers(hud, world.entities, invalidNumbers)
     if (terminal) break
@@ -118,7 +145,11 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     invalidNumbers: [...invalidNumbers],
     morphologySignature,
     endingId,
-    routeSignature: keyEvents.filter((event) => event.type === 'route-selected').map((event) => event.type === 'route-selected' ? event.environmentId : '').join('>'),
+    routeSignature: keyEvents.filter((event) => event.type === 'route-selected').map((event) => event.type === 'route-selected' ? event.routeId : '').join('>'),
+    stageSignature: [...visitedStages].sort((left, right) => left - right).join('>'),
+    opportunitySignature: opportunityIds.join('>'),
+    behaviorStateCounts,
+    maxActionableGapMs,
   }
 }
 
@@ -148,52 +179,6 @@ function keepAuditPlayerAlive(engine: ReturnType<typeof createGameEngine>) {
       }
     }
   }
-}
-
-function driveRoute(engine: ReturnType<typeof createGameEngine>, acceleratedIds: Set<string>) {
-  const world = engine.renderSnapshot()
-  const environment = getContent().environments.find((item) => item.id === world.environmentId)
-  const boss = engine.worldSnapshot().boss
-  const canAccelerateExit = !environment?.bossId || boss?.phase === 'resolved'
-  if (canAccelerateExit) {
-    for (const candidate of world.routeRifts) {
-      const key = `${world.environmentId}:${candidate.id}`
-      if (acceleratedIds.has(key)) continue
-      Object.assign(candidate, { opensAtMs: Math.min(candidate.opensAtMs, world.elapsedMs + 5000) })
-      acceleratedIds.add(key)
-    }
-  }
-  const rift = world.routeRifts.find((candidate) => candidate.opensAtMs <= world.elapsedMs)
-  const player = world.entities.find((entity) => entity.id === world.playerId)
-  if (!rift || !player) return
-  const dx = rift.position.x - player.position.x
-  const dy = rift.position.y - player.position.y
-  player.position = { ...rift.position }
-  player.body = {
-    ...player.body,
-    center: { ...rift.position },
-    contour: player.body.contour.map((point) => ({ x: point.x + dx, y: point.y + dy })),
-  }
-}
-
-function resolveVisibleBoss(
-  engine: ReturnType<typeof createGameEngine>,
-  policy: NonNullable<HeadlessRunOptions['policy']>,
-  resolvedIds: Set<string>,
-) {
-  const boss = engine.worldSnapshot().boss
-  if (!boss || boss.phase === 'dormant' || boss.phase === 'resolved' || resolvedIds.has(boss.id)) return
-  const definition = getContent().bosses.find((item) => item.id === boss.id)
-  if (!definition) return
-  const preferred = policy === 'parasite' && definition.resolutionPaths.includes('parasite')
-    ? 'parasite'
-    : policy === 'stealth' && definition.resolutionPaths.includes('stealth')
-      ? 'stealth'
-      : definition.resolutionPaths.includes('combat') ? 'combat' : definition.resolutionPaths[0]
-  const resolved = resolveBossThroughStateMachine(boss, preferred, definition)
-  if (!resolveBossPath(resolved).complete) throw new Error(`Boss path did not resolve: ${boss.id}:${preferred}`)
-  Object.assign(boss, resolved)
-  resolvedIds.add(boss.id)
 }
 
 export function resolveBossThroughStateMachine(

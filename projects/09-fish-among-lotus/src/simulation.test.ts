@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { createFish, createLeaves, resolveLeafCollision, seededRandom, stepFish, stepLeaves } from './simulation.ts'
+import {
+  createEnteringFish,
+  createFish,
+  createLeaves,
+  resolveLeafCollision,
+  seededRandom,
+  stepFish,
+  stepLeaves,
+} from './simulation.ts'
 import type { Fish, Leaf } from './simulation.ts'
 
 const bounds = { width: 390, height: 844 }
@@ -280,5 +288,59 @@ describe('pond simulation', () => {
     const first = createFish(8, bounds, seededRandom(12))
     const second = createFish(8, bounds, seededRandom(12))
     expect(first).toEqual(second)
+  })
+
+  it('stages a deterministic school fully outside the left edge before entering', () => {
+    const first = createEnteringFish(18, bounds, seededRandom(42))
+    const second = createEnteringFish(18, bounds, seededRandom(42))
+
+    expect(first).toEqual(second)
+    expect(first).toHaveLength(18)
+    expect(first.every((fish) => fish.x + fish.size * 4 < 0)).toBe(true)
+    expect(first.every((fish) => (fish.entryDelay ?? 0) >= 0.55)).toBe(true)
+    expect(first.every((fish) => fish.vx > 50 && fish.entering)).toBe(true)
+    expect(new Set(first.map((fish) => Math.round((fish.entryDelay ?? 0) * 10))).size).toBeGreaterThan(2)
+  })
+
+  it('keeps the staged school offscreen during the opening leaf-only beat', () => {
+    let fish = createEnteringFish(18, bounds, seededRandom(17))
+
+    for (let frame = 0; frame < 27; frame += 1) {
+      fish = stepFish(fish, [], bounds, null, 1 / 60, 1)
+    }
+
+    expect(fish.every((item) => item.x + item.size * 4 < 0)).toBe(true)
+  })
+
+  it('moves an entering school through dense leaves without prolonged stalls or spinning', () => {
+    const random = seededRandom(9182)
+    let leaves = createLeaves(112, bounds, random)
+    let fish = createEnteringFish(44, bounds, random)
+    const stalledFrames = fish.map(() => 0)
+    let longestStall = 0
+    let largestTurn = 0
+
+    for (let frame = 0; frame < 540; frame += 1) {
+      const previous = fish
+      fish = stepFish(fish, leaves, bounds, null, 1 / 60, 1)
+      leaves = stepLeaves(leaves, fish, bounds, 1 / 60)
+      fish.forEach((item, index) => {
+        const movement = Math.hypot(item.x - previous[index].x, item.y - previous[index].y)
+        stalledFrames[index] = movement < 0.1 ? stalledFrames[index] + 1 : 0
+        longestStall = Math.max(longestStall, stalledFrames[index])
+        if ((item.entryDelay ?? 0) <= 0) {
+          const before = previous[index].heading ?? Math.atan2(previous[index].vy, previous[index].vx)
+          const after = item.heading ?? Math.atan2(item.vy, item.vx)
+          const turn = Math.abs(Math.atan2(Math.sin(after - before), Math.cos(after - before)))
+          largestTurn = Math.max(largestTurn, turn)
+        }
+      })
+    }
+
+    expect(fish.every((item) => Number.isFinite(item.x + item.y + item.vx + item.vy))).toBe(true)
+    expect(fish.filter((item) => item.x > bounds.width * 0.34).length).toBeGreaterThanOrEqual(40)
+    expect(fish.filter((item) => item.entering).length).toBe(0)
+    expect(longestStall).toBeLessThan(95)
+    expect(largestTurn).toBeLessThan(0.14)
   })
 })

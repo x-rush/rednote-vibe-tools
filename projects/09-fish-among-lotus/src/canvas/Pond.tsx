@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { createFish, createLeaves, getLeafCollisionRadius, seededRandom, stepFish, stepLeaves } from '../simulation.ts'
+import { createEnteringFish, createLeaves, getLeafCollisionRadius, seededRandom, stepFish, stepLeaves } from '../simulation.ts'
 import type { Bounds, Fish, Leaf, Point, PointerState } from '../simulation.ts'
 import { SpatialGrid } from '../spatial-grid.ts'
 import { drawFish, drawLeaf, drawRipple, drawTrail, drawWater } from './draw.ts'
@@ -30,6 +30,7 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
   const activePointerIdRef = useRef<number | null>(null)
   const particlesRef = useRef(new ParticleField())
   const boundsRef = useRef<Bounds>({ width: 390, height: 844 })
+  const sceneKeyRef = useRef('')
   const frameRef = useRef(0)
   const resizeFrameRef = useRef(0)
   const lastRef = useRef(0)
@@ -45,11 +46,34 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
     canvas.width = Math.round(rect.width * dpr)
     canvas.height = Math.round(rect.height * dpr)
+    const previousBounds = boundsRef.current
     boundsRef.current = { width: rect.width, height: rect.height }
     const areaScale = Math.max(1, Math.min(1.08, (rect.width * rect.height) / (390 * 844)))
-    const random = seededRandom(9182 + resetKey * 37)
-    leavesRef.current = createLeaves(Math.round(LEAF_COUNTS[leafLevel] * areaScale), boundsRef.current, random)
-    fishRef.current = createFish(FISH_COUNTS[fishLevel], boundsRef.current, random)
+    const sceneKey = `${leafLevel}:${fishLevel}:${resetKey}`
+    if (sceneKeyRef.current !== sceneKey || fishRef.current.length === 0 || leavesRef.current.length === 0) {
+      const random = seededRandom(9182 + resetKey * 37)
+      leavesRef.current = createLeaves(Math.round(LEAF_COUNTS[leafLevel] * areaScale), boundsRef.current, random)
+      fishRef.current = createEnteringFish(FISH_COUNTS[fishLevel], boundsRef.current, random)
+      sceneKeyRef.current = sceneKey
+      particlesRef.current.clear()
+      leafAccumulatorRef.current = 0
+    } else if (previousBounds.width > 0 && previousBounds.height > 0) {
+      const scaleX = rect.width / previousBounds.width
+      const scaleY = rect.height / previousBounds.height
+      fishRef.current = fishRef.current.map((fish) => ({
+        ...fish,
+        x: fish.x * scaleX,
+        y: fish.y * scaleY,
+        entryLaneY: fish.entryLaneY === undefined ? undefined : fish.entryLaneY * scaleY,
+      }))
+      leavesRef.current = leavesRef.current.map((leaf) => ({
+        ...leaf,
+        x: leaf.x * scaleX,
+        y: leaf.y * scaleY,
+        homeX: leaf.homeX === undefined ? undefined : leaf.homeX * scaleX,
+        homeY: leaf.homeY === undefined ? undefined : leaf.homeY * scaleY,
+      }))
+    }
     maxLeafCollisionRadiusRef.current = leavesRef.current.reduce(
       (maximum, leaf) => Math.max(maximum, getLeafCollisionRadius(leaf)),
       0,
@@ -61,8 +85,6 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
       pointer.x = Math.max(0, Math.min(rect.width, pointer.x))
       pointer.y = Math.max(0, Math.min(rect.height, pointer.y))
     }
-    particlesRef.current.clear()
-    leafAccumulatorRef.current = 0
   }, [fishLevel, leafLevel, resetKey])
 
   useEffect(() => {

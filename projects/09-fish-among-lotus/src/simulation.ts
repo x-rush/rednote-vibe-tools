@@ -19,6 +19,10 @@ export type Fish = Point & {
   stall?: number
   escapeTime?: number
   escapeAngle?: number
+  entering?: boolean
+  entryDelay?: number
+  entryTime?: number
+  entryLaneY?: number
 }
 export type Leaf = Point & {
   homeX?: number
@@ -87,6 +91,31 @@ export function createFish(count: number, bounds: Bounds, random = Math.random):
       stall: 0,
       escapeTime: 0,
       escapeAngle: angle,
+    }
+  })
+}
+
+export function createEnteringFish(count: number, bounds: Bounds, random = Math.random): Fish[] {
+  return createFish(count, bounds, random).map((fish, index) => {
+    const wave = index % 3
+    const rank = Math.floor(index / 3)
+    const entryLaneY = bounds.height * (0.2 + random() * 0.58)
+    const speed = 62 + random() * 20
+    return {
+      ...fish,
+      x: -fish.size * 4 - 18 - wave * 24 - random() * 24,
+      y: entryLaneY,
+      vx: speed,
+      vy: (random() - 0.5) * 8,
+      wander: 0,
+      heading: 0,
+      entryLaneY,
+      entryDelay: 0.58 + wave * 0.2 + rank * 0.012 + random() * 0.07,
+      entryTime: 0,
+      entering: true,
+      stall: 0,
+      escapeTime: 0,
+      escapeAngle: 0,
     }
   })
 }
@@ -332,6 +361,16 @@ function advanceFish(
   speedScale: number,
   maxLeafCollisionRadius: number,
 ): Fish {
+  const influence = pointerStrength(pointer)
+  if (item.entering && (item.entryDelay ?? 0) > 0) {
+    return {
+      ...item,
+      entryDelay: Math.max(0, (item.entryDelay ?? 0) - dt),
+      phase: item.phase + dt * 1.2,
+      follow: influence,
+    }
+  }
+
   const currentSpeed = Math.hypot(item.vx, item.vy)
   const velocityAngle = currentSpeed > EPSILON ? Math.atan2(item.vy, item.vx) : item.heading ?? item.wander ?? 0
   const currentHeading = item.heading ?? velocityAngle
@@ -340,6 +379,13 @@ function advanceFish(
   const cruiseSpeed = (28 + (index % 5) * 2.8) * speedScale
   let ax = (Math.cos(nextWander) * cruiseSpeed - item.vx) * 0.72
   let ay = (Math.sin(nextWander) * cruiseSpeed - item.vy) * 0.72
+  const entering = item.entering === true
+  if (entering) {
+    const entrySpeed = (70 + (index % 5) * 2.6) * speedScale
+    const laneY = item.entryLaneY ?? item.y
+    ax += (entrySpeed - item.vx) * 3.4
+    ay += (laneY - item.y) * 0.34 - item.vy * 0.72
+  }
   const escaping = (item.escapeTime ?? 0) > 0
   if (escaping) {
     const escapeAngle = item.escapeAngle ?? currentHeading
@@ -366,7 +412,6 @@ function advanceFish(
     ay += (dy / distance) * force
   }
 
-  const influence = pointerStrength(pointer)
   if (pointer && influence > 0.001) {
     const trail = pointerTrail(pointer)
     const lag = Math.min(trail.length - 1, (index * 3) % Math.max(1, trail.length))
@@ -395,7 +440,7 @@ function advanceFish(
   }
 
   const edgeMargin = clamp(Math.min(bounds.width, bounds.height) * 0.15, 54, 76)
-  if (item.x < edgeMargin) ax += (edgeMargin - item.x) * 5.2
+  if (item.x < edgeMargin) ax += (edgeMargin - item.x) * (entering ? 2.2 : 5.2)
   if (item.x > bounds.width - edgeMargin) ax -= (item.x - bounds.width + edgeMargin) * 5.2
   if (item.y < edgeMargin) ay += (edgeMargin - item.y) * 5.2
   if (item.y > bounds.height - edgeMargin) ay -= (item.y - bounds.height + edgeMargin) * 5.2
@@ -405,7 +450,7 @@ function advanceFish(
   const sideLocked = (item.avoidLock ?? 0) > 0
   const lockedSide = sideLocked ? item.avoidSide ?? 1 : item.avoidSide ?? (index % 2 ? -1 : 1)
   const avoidance = computeLeafAvoidance(item, nearbyLeaves, lockedSide, sideLocked)
-  const avoidanceScale = escaping ? 0.24 : 1
+  const avoidanceScale = escaping ? 0.24 : entering ? 0.78 : 1
   ax += avoidance.x * avoidanceScale
   ay += avoidance.y * avoidanceScale
 
@@ -417,7 +462,7 @@ function advanceFish(
 
   let vx = item.vx + ax * dt
   let vy = item.vy + ay * dt
-  const maxSpeed = (influence > 0.05 ? 82 : 48) * speedScale
+  const maxSpeed = (entering ? 92 : influence > 0.05 ? 82 : 48) * speedScale
   const speed = Math.hypot(vx, vy)
   if (speed > maxSpeed) {
     vx = (vx / speed) * maxSpeed
@@ -425,11 +470,13 @@ function advanceFish(
   }
   const targetHeading = Math.atan2(vy, vx)
   const headingDelta = Math.atan2(Math.sin(targetHeading - currentHeading), Math.cos(targetHeading - currentHeading))
-  const maxHeadingTurn = dt * (influence > 0.05 ? 4.6 : 3.2)
+  const maxHeadingTurn = dt * (entering ? 3.6 : influence > 0.05 ? 4.6 : 3.2)
+  const entryTime = entering ? (item.entryTime ?? 0) + dt : item.entryTime ?? 0
+  const finishedEntering = entering && item.x >= bounds.width * 0.43
 
   let next: Fish = {
     ...item,
-    x: clamp(item.x + vx * dt, 2, bounds.width - 2),
+    x: clamp(item.x + vx * dt, entering ? -bounds.width * 0.45 : 2, bounds.width - 2),
     y: clamp(item.y + vy * dt, 2, bounds.height - 2),
     vx,
     vy,
@@ -439,6 +486,9 @@ function advanceFish(
     avoidLock: avoidance.threat > 0.05 ? 0.42 : Math.max(0, (item.avoidLock ?? 0) - dt),
     heading: currentHeading + clamp(headingDelta, -maxHeadingTurn, maxHeadingTurn),
     follow: influence,
+    entering: finishedEntering ? false : entering,
+    entryDelay: 0,
+    entryTime,
   }
 
   const collisionCandidates = leafGrid.query(next.x, next.y, maxLeafCollisionRadius + item.size + 3)
@@ -450,7 +500,7 @@ function advanceFish(
   let stall = obstructed ? (item.stall ?? 0) + dt : Math.max(0, (item.stall ?? 0) - dt * 2)
   let escapeTime = Math.max(0, (item.escapeTime ?? 0) - dt)
   let escapeAngle = item.escapeAngle ?? currentHeading
-  if (escapeTime <= 0 && stall > 0.52) {
+  if (escapeTime <= 0 && stall > (entering ? 0.34 : 0.52)) {
     let closestLeaf: Leaf | undefined
     let closestDistance = Number.POSITIVE_INFINITY
     for (const leaf of nearbyLeaves) {
@@ -465,7 +515,7 @@ function advanceFish(
       ? Math.atan2(item.y - closestLeaf.y, item.x - closestLeaf.x)
       : currentHeading
     escapeAngle = normalAngle + side * Math.PI * 0.5
-    escapeTime = 1.15
+    escapeTime = entering ? 0.82 : 1.15
     stall = 0
   }
   next.stall = stall

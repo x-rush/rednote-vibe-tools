@@ -38,4 +38,5 @@ export type EntityState = {
   spawnedAtMs?: number
   behaviorProfileId?: `behavior-${string}`
   behaviorState?: string
+  ecologyGroupId?: string
 }

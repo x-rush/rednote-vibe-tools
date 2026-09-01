@@ -1,11 +1,11 @@
 import content from '../content/content.json'
 import { getBehaviorProfile } from '../content'
-import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EventId, FirstRunAssistDefinition, JourneyDefinition, OrganelleId, OriginId } from '../content'
+import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EcologyBudgetDefinition, EventId, FirstRunAssistDefinition, JourneyDefinition, OrganelleId, OriginId } from '../content'
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideBehavior, decideIntent } from '../entities/ai'
 import type { BehaviorMemory } from '../entities/behaviors/types'
 import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
-import { creatureEntityDefinition, findEnteredRouteRift, generateRegion, getRegionDefinition } from '../world/generator'
+import { creatureEntityDefinition, ecologyGroupPositions, findEnteredRouteRift, generateRegion, getRegionDefinition } from '../world/generator'
 import { createFixedClock } from './clock'
 import { createPointerInput, type MovementIntent, type PointerInput } from './input'
 import { resolveInteraction, type DamageSource, type GameEvent } from './interactions'
@@ -23,6 +23,7 @@ import { applyModifiers } from '../progression/challenges'
 import { applySoftBoundary, constrainWorldMotion, engulfAccessMargin } from './bounds'
 import { advanceVelocity } from './motion'
 import { createRunDirector, stepRunDirector, type RunDirectorState, type RunPhase } from '../world/run-director'
+import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type EcologyRole, type EcologySummary } from '../world/ecology-director'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
 
@@ -95,6 +96,7 @@ export type ProtoCellEngine = GameEngine & {
   worldSnapshot(): { activeEvent?: EcosystemEventState; environmentField: EnvironmentField; boss?: BossState; selectedRouteId?: string }
   selectMigration(routeId: string): void
   runSnapshot(): RunDirectorState
+  ecologySnapshot(): EcologySummary
 }
 
 type PlayerDefinition = EntityDefinition & {
@@ -162,6 +164,13 @@ export function createGameEngine(options: {
     options.runOrdinal ?? 0,
     content.firstRunAssist as FirstRunAssistDefinition,
   )
+  let ecologyDirectorState = createEcologyDirector(
+    ecologyBudget(environmentId),
+    options.seed,
+    options.runOrdinal ?? 0,
+    content.firstRunAssist as FirstRunAssistDefinition,
+    elapsedMs,
+  )
   let pendingMigrationRouteId: string | undefined
   let interpolationAlpha = 0
   let started = false
@@ -199,7 +208,6 @@ export function createGameEngine(options: {
   let environmentEnteredAtMs = 0
   let routeEntryGuardUntilMs = 0
   let lastFieldDamageAt = Number.NEGATIVE_INFINITY
-  let lastFoodReplenishmentAt = elapsedMs
   let foodSpawnSequence = 0
   let peakBiomass = player.mass
   let engulfScore = 0
@@ -337,6 +345,13 @@ export function createGameEngine(options: {
     runSnapshot() {
       return { ...runDirectorState, offeredRoutes: runDirectorState.offeredRoutes.map((route) => ({ ...route })) }
     },
+    ecologySnapshot() {
+      return {
+        ...ecologyDirectorState.summary,
+        population: { ...ecologyDirectorState.summary.population },
+        opportunityHistory: [...ecologyDirectorState.summary.opportunityHistory],
+      }
+    },
     destroy() {
       destroyed = true
       started = false
@@ -361,7 +376,7 @@ export function createGameEngine(options: {
       return
     }
     spawnDue(elapsedMs)
-    replenishFood()
+    stepEcology()
     rebuildGrid()
     const passive = stepEvolution(stepMs)
     moveEntities(stepMs, passive.speedMultiplier)
@@ -572,11 +587,22 @@ export function createGameEngine(options: {
   }
 
   function spawnDue(atMs: number) {
+    const playerBody = [...entities.values()].find((entity) => entity.faction === 'player' && entity.status === 'active')
+    const activeByRole = new Map<string, number>()
+    for (const entity of entities.values()) {
+      if (entity.faction === 'player' || entity.status !== 'active') continue
+      activeByRole.set(entity.role, (activeByRole.get(entity.role) ?? 0) + 1)
+    }
     for (const [entityId, scheduledAt] of scheduleAt) {
       if (scheduledAt > atMs || spawnedIds.has(entityId)) continue
       const entity = regionById.get(entityId)
-      if (entity) entities.set(entityId, { ...entity, spawnedAtMs: atMs })
       spawnedIds.add(entityId)
+      if (!entity || !playerBody) continue
+      const roleCount = activeByRole.get(entity.role) ?? 0
+      if (roleCount >= spawnCapForRole(entity.role)) continue
+      if (distanceBetween(entity, playerBody) > 420) continue
+      entities.set(entityId, { ...entity, spawnedAtMs: atMs })
+      activeByRole.set(entity.role, roleCount + 1)
     }
   }
 
@@ -589,107 +615,101 @@ export function createGameEngine(options: {
     }
   }
 
-  function replenishFood() {
-    const config = content.m1.ecologyReplenishment
-    if (elapsedMs - lastFoodReplenishmentAt < config.intervalMs) return
-    lastFoodReplenishmentAt = elapsedMs
+  function stepEcology() {
     const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
-    const playerRadii = playerBodies.map((entity) => entity.body.radius)
-    const largestPlayerRadius = Math.max(0, ...playerRadii)
-    const localRadius = Math.max(config.localRadius, largestPlayerRadius * 2 + 40)
-    const activeFood = [...entities.values()].filter((entity) => (
+    const playerBody = playerBodies[0]
+    if (!playerBody) return
+    const nearbyEdibleCount = [...entities.values()].filter((entity) => (
       entity.status === 'active'
       && (entity.role === 'nutrient' || entity.role === 'prey')
-      && entity.body.radius < largestPlayerRadius
-    ))
-    const localFood = activeFood.filter((entity) => playerBodies.some((body) => (
-      Math.hypot(entity.position.x - body.position.x, entity.position.y - body.position.y) <= localRadius
-    )))
-    const globalDeficit = Math.max(0, config.targetFoodCount - activeFood.length)
-    const localDeficit = Math.max(0, config.localFoodTarget - localFood.length)
-    if (globalDeficit === 0 && localDeficit === 0) return
+      && entity.body.radius < playerBody.body.radius
+      && distanceBetween(entity, playerBody) <= 160
+    )).length
+    const visibleEntities = [...entities.values()].flatMap((entity) => {
+      const role = entity.ecologyGroupId ? ecologyRoleFor(entity) : undefined
+      return role ? [{
+        id: entity.id,
+        role,
+        distance: distanceBetween(entity, playerBody),
+        biomass: entity.mass,
+        isBoss: entity.role === 'boss',
+      }] : []
+    })
+    const result = stepEcologyDirector(ecologyDirectorState, {
+      atMs: elapsedMs,
+      playerPosition: playerBody.position,
+      viewportRadius: 320,
+      nearbyEdibleCount,
+      visibleEntities,
+    })
+    ecologyDirectorState = result.state
+    result.commands.forEach((command) => applyEcologyCommand(command, playerBody))
+  }
 
-    const foodDefinitions = environment.entityDefinitions.filter((definition) => (
-      (definition.role === 'nutrient' || definition.role === 'prey') && definition.radius < largestPlayerRadius
-    ))
-    const createAmount = globalDeficit > 0 ? Math.min(config.batchSize, globalDeficit) : 0
-    if (createAmount > 0 && foodDefinitions.length === 0) return
-    const relocateAmount = createAmount === 0 ? Math.min(config.batchSize, localDeficit) : 0
-    const relocating = relocateAmount > 0
-      ? activeFood
-        .filter((entity) => !localFood.some((local) => local.id === entity.id))
-        .sort((left, right) => distanceFromPlayers(right, playerBodies) - distanceFromPlayers(left, playerBodies))
-        .slice(0, relocateAmount)
-      : []
-    const waveDefinitions = Array.from({ length: createAmount }, (_, index) => foodDefinitions[(foodSpawnSequence + index) % foodDefinitions.length]!)
-    const waveRadii = [...waveDefinitions.map((definition) => definition.radius), ...relocating.map((entity) => entity.body.radius)]
-    const amount = waveRadii.length
-    if (amount === 0) return
-    const hostiles = [...entities.values()].filter((entity) => entity.faction === 'hostile' && entity.status === 'active')
-    const clusterRadius = 15
-    const clusterMargin = Math.max(...waveRadii.map((radius) => engulfAccessMargin(radius, playerRadii) + 8)) + clusterRadius
-    const clusterCenter = localFoodClusterCenter(
-      clusterMargin,
-      playerBodies,
-      hostiles,
-      Math.max(config.minPlayerDistance, largestPlayerRadius + 20) + clusterRadius,
-      config.minHostileDistance + clusterRadius,
-      localRadius - clusterRadius,
-    )
-
-    for (let index = 0; index < amount; index += 1) {
-      const definition = waveDefinitions[index]
-      const existing = relocating[index - createAmount]
-      const radius = definition?.radius ?? existing?.body.radius
-      if (radius === undefined) continue
-      const margin = engulfAccessMargin(radius, playerRadii) + 8
-      const angle = index / amount * Math.PI * 2 + worldRng.next() * 0.35
-      const distance = index === 0 ? 0 : clusterRadius * (0.45 + worldRng.next() * 0.55)
-      const position = constrainWorldMotion({
-        x: clusterCenter.x + Math.cos(angle) * distance,
-        y: clusterCenter.y + Math.sin(angle) * distance,
-      }, { x: 0, y: 0 }, { width: environment.width, height: environment.height, margin }).position
-      if (definition) {
-        const id = `eco-food-${environmentId}-${foodSpawnSequence}`
-        foodSpawnSequence += 1
-        entities.set(id, createEntity(definition, { id, position, spawnedAtMs: elapsedMs }))
-      } else if (existing) {
-        entities.set(existing.id, { ...moveEntity(existing, position, { x: 0, y: 0 }), spawnedAtMs: elapsedMs })
+  function applyEcologyCommand(command: EcologyCommand, playerBody: EntityState) {
+    if (command.type === 'start-opportunity') {
+      events.push({ type: 'ecology-opportunity', opportunityId: command.opportunityId, environmentId, atMs: command.atMs })
+      return
+    }
+    if (command.type === 'dematerialize-group') {
+      for (const id of command.entityIds) {
+        entities.delete(id)
+        behaviorMemories.delete(id)
       }
+      return
     }
+    if (command.type !== 'materialize-group') return
+
+    const activeNonPlayers = [...entities.values()].filter((entity) => entity.faction !== 'player' && entity.status === 'active').length
+    const count = Math.min(command.count, Math.max(0, 58 - activeNonPlayers))
+    const definition = ecologyDefinition(command.role)
+    if (!definition || count === 0) return
+    const positions = ecologyGroupPositions({
+      seed: options.seed,
+      groupId: `${environmentId}-${command.groupId}`,
+      center: playerBody.position,
+      distance: command.distance,
+      angle: command.angle,
+      count,
+      width: environment.width,
+      height: environment.height,
+      margin: definition.radius + 8,
+    })
+    positions.forEach((position) => {
+      const food = command.role === 'resource' || command.role === 'prey'
+      const id = `${food ? 'eco-food' : `eco-${command.role}`}-${environmentId}-${foodSpawnSequence}`
+      foodSpawnSequence += 1
+      entities.set(id, {
+        ...createEntity(definition, { id, position, spawnedAtMs: elapsedMs }),
+        ecologyGroupId: command.groupId,
+      })
+    })
   }
 
-  function localFoodClusterCenter(
-    margin: number,
-    playerBodies: readonly EntityState[],
-    hostiles: readonly EntityState[],
-    minPlayerDistance: number,
-    minHostileDistance: number,
-    maxPlayerDistance: number,
-  ): Vec2 {
-    const player = playerBodies[0]
-    if (!player) return { x: environment.width / 2, y: environment.height / 2 }
-    for (let attempt = 0; attempt < 18; attempt += 1) {
-      const angle = worldRng.next() * Math.PI * 2
-      const desiredDistance = minPlayerDistance + worldRng.next() * Math.max(0, maxPlayerDistance - minPlayerDistance)
-      const candidate = constrainWorldMotion({
-        x: player.position.x + Math.cos(angle) * desiredDistance,
-        y: player.position.y + Math.sin(angle) * desiredDistance,
-      }, { x: 0, y: 0 }, { width: environment.width, height: environment.height, margin }).position
-      const playerDistance = Math.hypot(candidate.x - player.position.x, candidate.y - player.position.y)
-      const awayFromPlayers = playerDistance >= minPlayerDistance && playerDistance <= maxPlayerDistance
-      const awayFromHostiles = hostiles.every((body) => Math.hypot(candidate.x - body.position.x, candidate.y - body.position.y) >= minHostileDistance)
-      if (awayFromPlayers && awayFromHostiles) return candidate
-    }
-    return constrainWorldMotion(
-      { x: player.position.x + maxPlayerDistance, y: player.position.y },
-      { x: 0, y: 0 },
-      { width: environment.width, height: environment.height, margin },
-    ).position
+  function ecologyDefinition(role: EcologyRole): EntityDefinition | undefined {
+    const matching = environment.entityDefinitions.filter((definition) => {
+      if (!definition.behaviorProfileId) return role === 'resource' && definition.role === 'nutrient'
+      const family = getBehaviorProfile(definition.behaviorProfileId).family
+      if (role === 'resource') return family === 'resource'
+      if (role === 'prey') return family === 'skittish'
+      if (role === 'competitor') return family === 'school' || family === 'competitor'
+      if (role === 'scavenger') return family === 'scavenger'
+      if (role === 'hunter') return family === 'hunter' || family === 'ambusher'
+      return family === 'apex'
+    })
+    return matching[foodSpawnSequence % Math.max(1, matching.length)]
   }
 
-  function distanceFromPlayers(entity: EntityState, playerBodies: readonly EntityState[]): number {
-    return Math.min(...playerBodies.map((body) => Math.hypot(entity.position.x - body.position.x, entity.position.y - body.position.y)))
+  function ecologyRoleFor(entity: EntityState): EcologyRole | undefined {
+    if (!entity.behaviorProfileId) return undefined
+    const family = getBehaviorProfile(entity.behaviorProfileId).family
+    if (family === 'resource') return 'resource'
+    if (family === 'skittish') return 'prey'
+    if (family === 'school' || family === 'competitor') return 'competitor'
+    if (family === 'scavenger') return 'scavenger'
+    if (family === 'hunter' || family === 'ambusher') return 'hunter'
+    if (family === 'apex') return 'apex'
+    return undefined
   }
 
   function rebuildGrid() {
@@ -854,7 +874,13 @@ export function createGameEngine(options: {
     bossResolutionEmitted = false
     lastBossRamAt = Number.NEGATIVE_INFINITY
     lastFieldDamageAt = Number.NEGATIVE_INFINITY
-    lastFoodReplenishmentAt = elapsedMs
+    ecologyDirectorState = createEcologyDirector(
+      ecologyBudget(environmentId),
+      options.seed,
+      options.runOrdinal ?? 0,
+      content.firstRunAssist as FirstRunAssistDefinition,
+      elapsedMs,
+    )
     lastPlayerDefeaterDefinitionId = undefined
     lastDamageSource = undefined
     environmentField = createEnvironmentField(environmentId as `env-${string}`, options.seed, elapsedMs)
@@ -1522,6 +1548,22 @@ function getPlayerDefinition(originId: string, environment: EngineEnvironment): 
 function provisionalBodyStage(routeIndex: number): BodyStage {
   const stages: readonly BodyStage[] = ['microbe', 'hunter', 'specialist', 'dominant', 'ascendant']
   return stages[Math.min(stages.length - 1, Math.max(0, routeIndex))]!
+}
+
+function ecologyBudget(environmentId: string): EcologyBudgetDefinition {
+  const budget = (content.ecologyBudgets as EcologyBudgetDefinition[]).find((item) => item.environmentId === environmentId)
+  if (!budget) throw new RangeError(`Unknown ecology budget environment: ${environmentId}`)
+  return budget
+}
+
+function spawnCapForRole(role: EntityState['role']): number {
+  if (role === 'nutrient') return 18
+  if (role === 'prey') return 12
+  if (role === 'competitor') return 6
+  if (role === 'scavenger') return 4
+  if (role === 'predator') return 5
+  if (role === 'elite') return 2
+  return 4
 }
 
 function moveEntity(entity: EntityState, position: Vec2, velocity: Vec2): EntityState {

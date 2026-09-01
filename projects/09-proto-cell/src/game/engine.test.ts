@@ -43,6 +43,24 @@ describe('game engine lifecycle', () => {
     expect(autonomous.every((entity) => entity.behaviorState)).toBe(true)
   })
 
+  it('keeps autonomous ecology bounded while scheduling visible opportunities', () => {
+    const engine = createGameEngine({ seed: 727, runOrdinal: 3 })
+    const ecologyEvents = []
+    let maximumEntities = 0
+    engine.start()
+    for (let frame = 0; frame < 260; frame += 1) {
+      const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')
+      if (player) player.membrane = 10_000
+      engine.advance(1000 / 12)
+      maximumEntities = Math.max(maximumEntities, engine.renderSnapshot().entities.length)
+      ecologyEvents.push(...engine.drainEvents().filter((event) => event.type === 'ecology-opportunity'))
+    }
+
+    expect(maximumEntities).toBeLessThanOrEqual(60)
+    expect(ecologyEvents.length).toBeGreaterThan(0)
+    expect(engine.ecologySnapshot().population.resource).toBeGreaterThan(engine.ecologySnapshot().population.hunter)
+  })
+
   it('applies launch challenge rules to the live simulation', () => {
     const constrained = createGameEngine({
       seed: 727,

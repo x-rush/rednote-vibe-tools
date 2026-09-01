@@ -14,6 +14,17 @@ describe('entity interactions', () => {
     expect(event).toMatchObject({ routeId: 'journey-route-algae-feast', environmentId: 'env-algae-glow' })
   })
 
+  it('keeps ecology opportunities structured for run audits', () => {
+    const event: GameEvent = {
+      type: 'ecology-opportunity',
+      opportunityId: 'predator-conflict',
+      environmentId: 'env-clear-drop',
+      atMs: 14_000,
+    }
+
+    expect(event).toMatchObject({ opportunityId: 'predator-conflict', environmentId: 'env-clear-drop' })
+  })
+
   it('engulfs once when a larger cell covers most of its prey', () => {
     const context = testInteractionContext()
     const predator = entity('large', 20)

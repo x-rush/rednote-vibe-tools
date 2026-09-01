@@ -1,6 +1,7 @@
 import content from '../content/content.json'
 import type { BossResolutionPath, CreatureDefinition, EnvironmentId } from '../content'
 import { createRng } from '../domain/rng'
+import type { Vec2 } from '../domain/types'
 import { createEntity, type EntityDefinition, type SpawnedEntityState } from '../entities/factory'
 import { canResolveBossPath } from './bosses'
 
@@ -32,6 +33,29 @@ export type RouteRift = {
   hazardId: string
   resourceId: string
   affinityIconId: string
+}
+
+export function ecologyGroupPositions(input: {
+  seed: number
+  groupId: string
+  center: { x: number; y: number }
+  distance: number
+  count: number
+  width: number
+  height: number
+  margin: number
+  angle?: number
+}): Vec2[] {
+  const rng = createRng(input.seed).fork(input.groupId)
+  const baseAngle = input.angle ?? rng.next() * Math.PI * 2
+  return Array.from({ length: input.count }, (_, index) => {
+    const spread = (index - (input.count - 1) / 2) * 0.14 + (rng.next() - 0.5) * 0.08
+    const distance = input.distance * (0.88 + rng.next() * 0.18)
+    return {
+      x: Math.min(input.width - input.margin, Math.max(input.margin, input.center.x + Math.cos(baseAngle + spread) * distance)),
+      y: Math.min(input.height - input.margin, Math.max(input.margin, input.center.y + Math.sin(baseAngle + spread) * distance)),
+    }
+  })
 }
 
 export function findEnteredRouteRift(

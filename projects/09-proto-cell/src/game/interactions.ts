@@ -17,6 +17,7 @@ export type GameEvent =
   | { type: 'migration-ready'; stageIndex: number; routes: JourneyStageDefinition['routeOffers']; atMs: number }
   | { type: 'migration-forced'; stageIndex: number; routeId: string; destinationEnvironmentId: string; atMs: number }
   | { type: 'route-selected'; routeId: string; environmentId: string; atMs: number }
+  | { type: 'ecology-opportunity'; opportunityId: string; environmentId: string; atMs: number }
   | { type: 'boss-resolved'; bossId: string; path: 'combat' | 'environment' | 'stealth' | 'parasite'; atMs: number }
   | { type: 'player-died'; cause: string; defeatedByDefinitionId?: string; atMs: number }
   | { type: 'ending-reached'; endingId: string; atMs: number }

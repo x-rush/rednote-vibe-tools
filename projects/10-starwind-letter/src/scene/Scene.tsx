@@ -14,20 +14,22 @@ interface SceneProps {
   readonly children?: ReactNode
 }
 
-function windowMotion(sample: TimelineSample) {
-  if (sample.stage === 'window-opening') return sample.stageProgress
+const smoothstep = (value: number) => value * value * (3 - 2 * value)
+
+function lightReveal(sample: TimelineSample) {
+  if (sample.stage === 'wind') return sample.stageProgress * 0.08
+  if (sample.stage === 'curtain-opening') return smoothstep(sample.stageProgress)
   if (sample.stage === 'resetting') return 1 - sample.stageProgress
-  return ['stars-entering', 'settling', 'result'].includes(sample.stage) ? 1 : 0
+  return sample.stage === 'stars-and-letters' || sample.stage === 'result' ? 1 : 0
 }
 
 export function Scene({ sample, mood = 'dream', run = 0, reducedMotion = false, particlesEnabled = true, children }: SceneProps) {
-  const shake = sample.stage === 'window-opening' ? Math.min(1, sample.stageProgress * 4.5) : 0
-  const sashOpen = windowMotion(sample)
+  const reveal = lightReveal(sample)
   return (
     <section className="scene" data-stage={sample.stage} aria-label="深蓝房间与月光夜窗">
-      <WindowLayer openProgress={sashOpen} shakeProgress={shake} />
-      <ParticleCanvases sample={sample} sashOpen={sashOpen} mood={mood} run={run} reducedMotion={reducedMotion} enabled={particlesEnabled} />
-      <CurtainLayer sample={sample} />
+      <WindowLayer revealProgress={reveal} />
+      <ParticleCanvases sample={sample} entryProgress={reveal} mood={mood} run={run} reducedMotion={reducedMotion} enabled={particlesEnabled} />
+      <CurtainLayer sample={sample} reducedMotion={reducedMotion} />
       <div className="scene-content">{children}</div>
     </section>
   )

@@ -1,26 +1,22 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createAudioController } from './audio/controller'
 import { messages, type StarMessage } from './content/messages'
 import { chooseNextMessage } from './domain/random'
 import { transition, type ExperienceState } from './experience/machine'
-import { createTimelineClock, resetSceneSample, sampleTimeline, type TimelineStage } from './experience/timeline'
+import { createTimelineClock, RESET_DURATION_MS, sampleResetTimeline, sampleTimeline, type TimelineStage } from './experience/timeline'
 import { Scene } from './scene/Scene'
-import { PhraseCarousel } from './ui/PhraseCarousel'
+import { StarbornePhrase } from './ui/StarbornePhrase'
 import { ReplayControl } from './ui/ReplayControl'
 import { SoundToggle } from './ui/SoundToggle'
 
 const stageOrder: readonly TimelineStage[] = [
-  'slowing', 'selected', 'wind', 'window-opening', 'stars-entering', 'settling', 'result',
+  'wind', 'curtain-opening', 'stars-and-letters', 'result',
 ]
 
-function targetTag(stage: TimelineStage) {
-  return stage === 'settling' ? 'stars-entering' : stage
-}
-
 function advanceToStage(state: ExperienceState, stage: TimelineStage) {
-  const desired = targetTag(stage)
+  if (stage === 'resetting') return state
   let next = state
-  for (let guard = 0; guard < stageOrder.length && next.tag !== desired; guard += 1) {
+  for (let guard = 0; guard < stageOrder.length && next.tag !== stage; guard += 1) {
     const advanced = transition(next, { type: 'advance' })
     if (advanced === next) break
     next = advanced
@@ -28,19 +24,15 @@ function advanceToStage(state: ExperienceState, stage: TimelineStage) {
   return next
 }
 
-function centeredMessages(center: number): readonly StarMessage[] {
-  return Array.from({ length: 5 }, (_, offset) => messages[(center + offset - 2 + messages.length) % messages.length] as StarMessage)
-}
-
 export function App() {
-  const [state, setState] = useState<ExperienceState>({ tag: 'spinning', run: 0 })
-  const [spinIndex, setSpinIndex] = useState(2)
+  const [state, setState] = useState<ExperienceState>({ tag: 'idle', run: 0 })
   const [selected, setSelected] = useState<StarMessage>()
   const [sample, setSample] = useState(() => sampleTimeline(0, false))
   const [reducedMotion, setReducedMotion] = useState(false)
   const [muted, setMuted] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('starwind-muted') === 'true')
   const recentIds = useRef<string[]>([])
   const clock = useRef(createTimelineClock())
+  const resetClock = useRef(createTimelineClock())
   const audio = useRef(createAudioController(() => new AudioContext()))
   const lastCueStage = useRef<TimelineStage | undefined>(undefined)
   const resetFrame = useRef<number | undefined>(undefined)
@@ -63,8 +55,12 @@ export function App() {
     const handleVisibility = () => {
       if (document.hidden) {
         clock.current.pause()
+        resetClock.current.pause()
         audio.current.pause()
-      } else if (selected && state.tag !== 'result' && state.tag !== 'resetting') {
+      } else if (state.tag === 'resetting') {
+        resetClock.current.resume()
+        audio.current.resume()
+      } else if (selected) {
         clock.current.resume()
         audio.current.resume()
       }
@@ -76,52 +72,32 @@ export function App() {
   useEffect(() => {
     if (lastCueStage.current === sample.stage) return
     lastCueStage.current = sample.stage
-    if (sample.stage === 'wind') audio.current.cue('wind')
-    if (sample.stage === 'window-opening') audio.current.cue('frame')
-    if (sample.stage === 'stars-entering') audio.current.cue('stars')
+    if (sample.stage === 'stars-and-letters') audio.current.cue('stars')
   }, [sample.stage])
 
   useEffect(() => {
-    if (state.tag !== 'spinning') return
-    const timer = window.setInterval(
-      () => setSpinIndex((index) => (index + 1) % messages.length),
-      reducedMotion ? 180 : 72,
-    )
-    return () => window.clearInterval(timer)
-  }, [reducedMotion, state.tag])
-
-  useEffect(() => {
-    if (!selected) return
+    if (!selected || state.tag === 'resetting') return
     let frame = 0
     const update = () => {
       const nextSample = sampleTimeline(clock.current.elapsed(), reducedMotion)
       setSample(nextSample)
       setState((current) => advanceToStage(current, nextSample.stage))
-      if (nextSample.stage !== 'result') frame = requestAnimationFrame(update)
+      frame = requestAnimationFrame(update)
     }
     frame = requestAnimationFrame(update)
     return () => cancelAnimationFrame(frame)
-  }, [reducedMotion, selected, state.run])
+  }, [reducedMotion, selected, state.run, state.tag])
 
-  const visibleMessages = useMemo(() => {
-    if (selected && state.tag !== 'spinning') {
-      const finalIndex = messages.findIndex(({ id }) => id === selected.id)
-      const centerIndex = state.tag === 'slowing' ? finalIndex + sample.selectionOffset : finalIndex
-      return centeredMessages(centerIndex)
-    }
-    return centeredMessages(spinIndex)
-  }, [sample.selectionOffset, selected, spinIndex, state.tag])
-
-  const selectPhrase = () => {
-    if (state.tag !== 'spinning') return
+  const beginExperience = () => {
+    if (state.tag !== 'idle') return
     const next = chooseNextMessage(messages, recentIds.current, Math.random)
     recentIds.current = [...recentIds.current, next.id].slice(-8)
     setSelected(next)
-    setState((current) => transition(current, { type: 'select', messageId: next.id }))
+    setState((current) => transition(current, { type: 'begin', messageId: next.id }))
     setSample(sampleTimeline(0, reducedMotion))
     clock.current.start()
     audio.current.activate()
-    audio.current.cue('select')
+    audio.current.cue('wind')
   }
 
   const toggleSound = () => {
@@ -136,15 +112,16 @@ export function App() {
     if (state.tag !== 'result') return
     if (resetFrame.current !== undefined) cancelAnimationFrame(resetFrame.current)
     setState((current) => transition(current, { type: 'replay' }))
-    const startedAt = performance.now()
-    const reset = (now: number) => {
-      const progress = Math.min(1, (now - startedAt) / 1500)
-      setSample(resetSceneSample(progress))
-      if (progress < 1) {
+    resetClock.current.start()
+    const reset = () => {
+      const elapsedMs = resetClock.current.elapsed()
+      setSample(sampleResetTimeline(elapsedMs))
+      if (elapsedMs < RESET_DURATION_MS) {
         resetFrame.current = requestAnimationFrame(reset)
         return
       }
       resetFrame.current = undefined
+      resetClock.current.reset()
       clock.current.reset()
       lastCueStage.current = undefined
       setSelected(undefined)
@@ -157,16 +134,18 @@ export function App() {
   return (
     <main className="app-shell">
       <Scene sample={sample} mood={selected?.mood} run={state.run} reducedMotion={reducedMotion} particlesEnabled={state.tag !== 'resetting'}>
-        {state.tag === 'spinning' && <button className="scene-trigger" type="button" onClick={selectPhrase}>让星空停下一句话</button>}
+        {state.tag === 'idle' && <button className="scene-trigger" type="button" aria-label="让星风捎来一句话" onClick={beginExperience} />}
         <SoundToggle muted={muted} onToggle={toggleSound} />
         <p className="scene-title">星风来信</p>
-        <PhraseCarousel
-          state={state}
-          selected={selected}
-          visibleMessages={visibleMessages}
-          progress={sample.stageProgress}
-        />
-        {state.tag === 'spinning' && <p className="intro-hint">点击，让星空为你留下一句话</p>}
+        {selected && state.tag !== 'resetting' && (
+          <StarbornePhrase
+            message={selected}
+            progress={state.tag === 'stars-and-letters' ? sample.stageProgress : state.tag === 'result' ? 1 : 0}
+            complete={state.tag === 'result'}
+            reducedMotion={reducedMotion}
+          />
+        )}
+        {state.tag === 'idle' && <p className="intro-hint">点击，让星风捎来一句话</p>}
         {state.tag === 'result' && <ReplayControl onReplay={replay} />}
       </Scene>
     </main>

@@ -40,56 +40,45 @@ export function createCurtainStrands(count: number, random: RandomSource): reado
   })
 }
 
-export function sampleCurtainPath(strand: CurtainStrand, windProgress: number, timeMs: number, gatherProgress = 0): CurtainPath {
-  const delayed = clamp((windProgress - strand.delay) / Math.max(0.01, 1 - strand.delay))
-  const gust = easeInOut(delayed)
-  const gather = easeInOut(clamp(gatherProgress))
+function curtainSegmentProgress(openingProgress: number, delay: number) {
+  return easeInOut(clamp((openingProgress - delay) / Math.max(0.01, 1 - delay)))
+}
+
+export function sampleCurtainPath(strand: CurtainStrand, openingProgress: number, timeMs: number, ambientStrength = 0): CurtainPath {
   const strandRatio = strand.id / 63
-  const breath = Math.sin(timeMs / 760 + strand.phase) * 1.35
-  const recoil = Math.sin(delayed * Math.PI * 2.4) * (1 - delayed) * 10
-  const windStart = strand.anchor
-  const gatheredStart = {
-    x: 176 + strandRatio * 22,
-    y: 114 + strandRatio * 5,
-  }
+  const topProgress = curtainSegmentProgress(openingProgress, 0)
+  const shoulderProgress = curtainSegmentProgress(openingProgress, 0.1)
+  const bodyProgress = curtainSegmentProgress(openingProgress, 0.24)
+  const tailProgress = curtainSegmentProgress(openingProgress, 0.42)
+  const wave = Math.sin(timeMs / 720 + strand.phase) * ambientStrength * (18 + strand.response * 9)
+  const verticalWave = Math.cos(timeMs / 930 + strand.phase) * ambientStrength * 2
+
+  const closedStart = strand.anchor
+  const openedStart = { x: 176 + strandRatio * 22, y: 114 + strandRatio * 5 }
+  const closedControl1 = { x: strand.anchor.x, y: strand.anchor.y + strand.length * 0.31 }
+  const openedControl1 = { x: 163 + strandRatio * 28, y: 255 + strandRatio * 14 }
+  const closedControl2 = { x: strand.anchor.x, y: strand.anchor.y + strand.length * 0.7 }
+  const openedControl2 = { x: 124 + strandRatio * 56, y: 438 + strandRatio * 18 }
+  const closedEnd = { x: strand.anchor.x, y: strand.anchor.y + strand.length }
+  const openedEnd = { x: 126 + strandRatio * 57, y: 565 + strandRatio * 44 + (strand.id % 4) * 7 }
+
   const start = {
-    x: mix(windStart.x, gatheredStart.x, gather),
-    y: mix(windStart.y, gatheredStart.y, gather),
-  }
-  const stillEnd = { x: windStart.x + breath, y: windStart.y + strand.length }
-  const windPath = {
-    control1: {
-      x: windStart.x - gust * (16 + strand.response * 21),
-      y: windStart.y + strand.length * 0.31 + gust * 8,
-    },
-    control2: {
-      x: windStart.x - gust * (58 + strand.response * 56) + recoil * 0.35,
-      y: windStart.y + strand.length * 0.7 + gust * (24 + strand.response * 18),
-    },
-    end: {
-      x: stillEnd.x - gust * (105 + strand.response * 84) + recoil,
-      y: stillEnd.y + gust * (42 + strand.response * 54),
-    },
-  }
-  const gatheredWave = Math.sin(strand.phase + timeMs / 1050) * 5
-  const gatheredPath = {
-    control1: { x: 163 + strandRatio * 28, y: 255 + strandRatio * 14 },
-    control2: { x: 124 + strandRatio * 56 + gatheredWave * 0.24, y: 438 + strandRatio * 18 },
-    end: { x: 126 + strandRatio * 57 + gatheredWave * 0.6, y: 565 + strandRatio * 44 + (strand.id % 4) * 7 },
+    x: mix(closedStart.x, openedStart.x, topProgress) + wave * 0.05,
+    y: mix(closedStart.y, openedStart.y, topProgress) + verticalWave * 0.03,
   }
   return {
     start,
     control1: {
-      x: mix(windPath.control1.x, gatheredPath.control1.x, gather),
-      y: mix(windPath.control1.y, gatheredPath.control1.y, gather),
+      x: mix(closedControl1.x, openedControl1.x, shoulderProgress) + wave * 0.16,
+      y: mix(closedControl1.y, openedControl1.y, shoulderProgress) + verticalWave * 0.08,
     },
     control2: {
-      x: mix(windPath.control2.x, gatheredPath.control2.x, gather),
-      y: mix(windPath.control2.y, gatheredPath.control2.y, gather),
+      x: mix(closedControl2.x, openedControl2.x, bodyProgress) + wave * 0.45,
+      y: mix(closedControl2.y, openedControl2.y, bodyProgress) + verticalWave * 0.22,
     },
     end: {
-      x: mix(windPath.end.x, gatheredPath.end.x, gather),
-      y: mix(windPath.end.y, gatheredPath.end.y, gather),
+      x: mix(closedEnd.x, openedEnd.x, tailProgress) + wave,
+      y: mix(closedEnd.y, openedEnd.y, tailProgress) + verticalWave,
     },
   }
 }

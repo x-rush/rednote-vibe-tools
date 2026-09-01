@@ -3,39 +3,35 @@ import { createMulberry32 } from '../domain/random'
 import type { TimelineSample } from '../experience/timeline'
 import { createCurtainStrands, curtainPathData, sampleCurtainPath } from './curtain'
 
-interface CurtainLayerProps { readonly sample: TimelineSample }
+interface CurtainLayerProps {
+  readonly sample: TimelineSample
+  readonly reducedMotion?: boolean
+}
 
-function windStrength(sample: TimelineSample) {
+function curtainMotion(sample: TimelineSample) {
   switch (sample.stage) {
-    case 'slowing': return 0
-    case 'selected': return sample.stageProgress * 0.04
-    case 'wind': return sample.stageProgress
-    case 'window-opening': return 1 - sample.stageProgress * 0.12
-    case 'stars-entering': return 0.88 - sample.stageProgress * 0.2
-    case 'settling': return 0.68 - sample.stageProgress * 0.3
-    case 'resetting': return 0.36 * (1 - sample.stageProgress)
-    case 'result': return 0.36
+    case 'wind': return { opening: sample.stageProgress * 0.12, ambient: 0.08 }
+    case 'curtain-opening': return {
+      opening: 0.12 + sample.stageProgress * 0.88,
+      ambient: 0.18 + sample.stageProgress * 0.28,
+    }
+    case 'stars-and-letters': return { opening: 1, ambient: 0.42 }
+    case 'result': return {
+      opening: 1,
+      ambient: 0.32 + Math.sin(sample.resultElapsedMs / 1700) * 0.1,
+    }
+    case 'resetting': return {
+      opening: 1 - sample.stageProgress,
+      ambient: 0.24 * (1 - sample.stageProgress),
+    }
   }
 }
 
-function gatherStrength(sample: TimelineSample) {
-  switch (sample.stage) {
-    case 'slowing':
-    case 'selected': return 0
-    case 'wind': return sample.stageProgress
-    case 'window-opening':
-    case 'stars-entering': return 1
-    case 'settling': return 1
-    case 'resetting': return 1 - sample.stageProgress
-    case 'result': return 1
-  }
-}
-
-export function CurtainLayer({ sample }: CurtainLayerProps) {
+export function CurtainLayer({ sample, reducedMotion = false }: CurtainLayerProps) {
   const id = useId().replaceAll(':', '')
   const strands = useMemo(() => createCurtainStrands(64, createMulberry32(0x51a7)), [])
-  const strength = windStrength(sample)
-  const gather = gatherStrength(sample)
+  const motion = curtainMotion(sample)
+  const ambient = motion.ambient * (reducedMotion ? 0.42 : 1)
   return (
     <svg className="curtain-layer" viewBox="0 0 390 844" aria-hidden="true" data-layer="curtain">
       <defs>
@@ -54,11 +50,11 @@ export function CurtainLayer({ sample }: CurtainLayerProps) {
         {strands.map((strand) => (
           <path
             key={strand.id}
-            d={curtainPathData(sampleCurtainPath(strand, strength, sample.elapsedMs, gather))}
+            d={curtainPathData(sampleCurtainPath(strand, motion.opening, sample.elapsedMs, ambient))}
             fill="none"
             stroke={`url(#${id}-strand)`}
             strokeWidth={strand.id % 9 === 0 ? 0.9 : 0.46}
-            opacity={strand.brightness * (0.72 - gather * 0.39)}
+            opacity={strand.brightness * (0.72 - motion.opening * 0.28)}
           />
         ))}
       </g>

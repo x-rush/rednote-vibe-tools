@@ -10,17 +10,23 @@ export const WINDOW_PORTAL: Quad = {
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const smoothstep = (value: number) => value * value * (3 - 2 * value)
 
-export function projectSash(openProgress: number): Quad {
-  const angle = smoothstep(clamp(openProgress)) * Math.PI / 2
-  const depth = Math.sin(angle)
-  const topWidth = 134 * Math.cos(angle) + 10 * depth
-  const bottomWidth = 134 * Math.cos(angle) + 14 * depth
-  return {
-    topLeft: { x: WINDOW_PORTAL.topRight.x - topWidth, y: WINDOW_PORTAL.topLeft.y + 50 * depth },
-    topRight: WINDOW_PORTAL.topRight,
-    bottomRight: WINDOW_PORTAL.bottomRight,
-    bottomLeft: { x: WINDOW_PORTAL.bottomRight.x - bottomWidth, y: WINDOW_PORTAL.bottomLeft.y + 90 * depth },
-  }
+export function splitMoonlightPolygons(revealProgress: number): readonly [Quad, Quad] {
+  const amount = smoothstep(clamp(revealProgress))
+  const railGap = 12 + amount * 8
+  return [
+    {
+      topLeft: { x: 176, y: 548 + railGap },
+      topRight: { x: 348, y: 486 },
+      bottomRight: { x: 374, y: 596 },
+      bottomLeft: { x: 28, y: 758 },
+    },
+    {
+      topLeft: { x: 214, y: 438 },
+      topRight: { x: 348, y: 486 },
+      bottomRight: { x: 312, y: 540 },
+      bottomLeft: { x: 188, y: 552 - railGap },
+    },
+  ]
 }
 
 function cross(origin: Point, first: Point, second: Point) {

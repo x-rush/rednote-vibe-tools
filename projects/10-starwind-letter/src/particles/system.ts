@@ -84,9 +84,10 @@ export function createParticleWorld(seed: number, quality: ParticleQuality, mood
 export function stepParticleWorld(world: ParticleWorld, input: ParticleStepInput): ParticleWorld {
   const seconds = Math.min(48, Math.max(0, input.deltaMs)) / 1000
   const motionScale = input.reducedMotion ? 0.58 : 1
-  const settlingAt = input.reducedMotion ? 3300 : 6200
+  const narrativeElapsed = input.reducedMotion ? input.elapsedMs * (7500 / 4300) : input.elapsedMs
+  const settlingAt = 6200
   const particles = world.particles.map((particle) => {
-    const ageMs = input.elapsedMs - particle.spawnAtMs
+    const ageMs = narrativeElapsed - particle.spawnAtMs
     if (ageMs < 0 || ageMs > particle.lifetimeMs) return { ...particle, ageMs }
     const previous = particle.position
     let position = {
@@ -97,7 +98,7 @@ export function stepParticleWorld(world: ParticleWorld, input: ParticleStepInput
     if (space === 'outside' && input.sashOpen >= 0.55 && crossesPortal(previous, position, WINDOW_PORTAL)) {
       space = 'inside'
     }
-    if ((space === 'inside' || space === 'settling') && input.elapsedMs >= settlingAt && particle.kind === 'hero') {
+    if ((space === 'inside' || space === 'settling') && narrativeElapsed >= settlingAt && particle.kind === 'hero') {
       space = 'settling'
       const settleAmount = 1 - Math.exp(-input.deltaMs / 520)
       position = {

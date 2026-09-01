@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { WINDOW_PORTAL, pointInConvexQuad } from '../scene/geometry'
-import { emptyParticleWorld, resetParticleWorld, stepParticleWorld, type Particle, type ParticleWorld } from './system'
+import { createParticleWorld, emptyParticleWorld, resetParticleWorld, stepParticleWorld, type Particle, type ParticleWorld } from './system'
 
 function hero(position = { x: 308, y: 215 }, velocity = { x: -80, y: 110 }): Particle {
   return {
@@ -47,5 +47,15 @@ describe('particle spatial narrative', () => {
 
   it('clears all particles and generation counters on reset', () => {
     expect(resetParticleWorld(worldWith(hero()))).toEqual(emptyParticleWorld('full', 'dream'))
+  })
+
+  it('keeps visible hero-star entry in the shortened reduced-motion timeline', () => {
+    let world = createParticleWorld(42, 'fallback', 'dream')
+    for (let elapsedMs = 0; elapsedMs <= 4300; elapsedMs += 20) {
+      world = stepParticleWorld(world, {
+        elapsedMs, deltaMs: 20, sashOpen: elapsedMs >= 2100 ? 1 : 0, reducedMotion: true,
+      })
+    }
+    expect(world.particles.some(({ kind, space }) => kind === 'hero' && (space === 'inside' || space === 'settling'))).toBe(true)
   })
 })

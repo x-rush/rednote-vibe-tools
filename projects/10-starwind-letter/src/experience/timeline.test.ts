@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createTimelineClock, sampleTimeline } from './timeline'
+import { createTimelineClock, resetSceneSample, sampleTimeline } from './timeline'
 
 describe('scene timeline', () => {
   it.each([
@@ -29,6 +29,14 @@ describe('scene timeline', () => {
     expect(new Set(stages)).toEqual(new Set([
       'slowing', 'selected', 'wind', 'window-opening', 'stars-entering', 'settling', 'result',
     ]))
+  })
+})
+
+describe('reset scene sample', () => {
+  it('closes the window and returns to a stable first frame', () => {
+    expect(resetSceneSample(0).stage).toBe('result')
+    expect(resetSceneSample(0.5)).toMatchObject({ stage: 'window-opening', stageProgress: 0.5 })
+    expect(resetSceneSample(1)).toMatchObject({ stage: 'slowing', stageProgress: 0, elapsedMs: 0 })
   })
 })
 

@@ -59,6 +59,18 @@ export function sampleTimeline(elapsedMs: number, reducedMotion: boolean): Timel
   return { stage: 'result', stageProgress: 1, totalProgress: 1, elapsedMs: total }
 }
 
+export function resetSceneSample(progress: number): TimelineSample {
+  const amount = clamp(progress)
+  if (amount <= 0) return { stage: 'result', stageProgress: 1, totalProgress: 1, elapsedMs: 7500 }
+  if (amount >= 1) return { stage: 'slowing', stageProgress: 0, totalProgress: 0, elapsedMs: 0 }
+  return {
+    stage: 'window-opening',
+    stageProgress: 1 - amount,
+    totalProgress: 1 - amount,
+    elapsedMs: 7500 * (1 - amount),
+  }
+}
+
 export interface TimelineClock {
   start(): void
   pause(): void

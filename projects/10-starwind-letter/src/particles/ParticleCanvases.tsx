@@ -10,6 +10,7 @@ interface ParticleCanvasesProps {
   readonly mood: Mood
   readonly run: number
   readonly reducedMotion: boolean
+  readonly enabled?: boolean
 }
 
 function prepareCanvas(canvas: HTMLCanvasElement) {
@@ -29,7 +30,7 @@ function prepareCanvas(canvas: HTMLCanvasElement) {
   return context
 }
 
-export function ParticleCanvases({ sample, sashOpen, mood, run, reducedMotion }: ParticleCanvasesProps) {
+export function ParticleCanvases({ sample, sashOpen, mood, run, reducedMotion, enabled = true }: ParticleCanvasesProps) {
   const exterior = useRef<HTMLCanvasElement>(null)
   const interior = useRef<HTMLCanvasElement>(null)
   const world = useRef<ParticleWorld>(createParticleWorld(run + 0x91a7, reducedMotion ? 'fallback' : 'full', mood))
@@ -41,6 +42,11 @@ export function ParticleCanvases({ sample, sashOpen, mood, run, reducedMotion }:
   }, [mood, reducedMotion, run])
 
   useEffect(() => {
+    if (!enabled) {
+      if (exterior.current) prepareCanvas(exterior.current)
+      if (interior.current) prepareCanvas(interior.current)
+      return
+    }
     const deltaMs = Math.max(0, sample.elapsedMs - lastElapsed.current)
     lastElapsed.current = sample.elapsedMs
     world.current = stepParticleWorld(world.current, {
@@ -50,7 +56,7 @@ export function ParticleCanvases({ sample, sashOpen, mood, run, reducedMotion }:
     const interiorContext = interior.current ? prepareCanvas(interior.current) : undefined
     if (exteriorContext) drawExterior(exteriorContext, world.current)
     if (interiorContext) drawInterior(interiorContext, world.current)
-  }, [reducedMotion, sample, sashOpen])
+  }, [enabled, reducedMotion, sample, sashOpen])
 
   return (
     <>

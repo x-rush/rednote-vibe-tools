@@ -17,6 +17,8 @@ describe('app result view model', () => {
 
     expect(result.cause).toContain('吞噬')
     expect(result.stageLabel).toBe('统治体')
+    expect(result.route).toBe('uncommitted')
+    expect(result.routeLabel).toBe('尚未定型')
     expect(result.keyTraitIds).toContain('organelle-flagellum')
   })
 

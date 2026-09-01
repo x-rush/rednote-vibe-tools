@@ -564,6 +564,7 @@
 .result-overlay--predation { --result-accent: #ff9d78; }
 .result-overlay--survival { --result-accent: #75f6ff; }
 .result-overlay--colony { --result-accent: #d49cff; }
+.result-overlay--uncommitted { --result-accent: #a8c8d8; }
 .result-overlay header { display: grid; gap: 5px; }
 .result-overlay h2 { margin: 0; max-width: 22rem; font-size: clamp(1.4rem, 6vw, 2.3rem); }
 .result-morphology {
@@ -600,8 +601,8 @@
 .result-traits p { margin: 0; }
 .result-traits h3 { color: var(--result-accent); font-size: .72rem; letter-spacing: .14em; }
 .result-traits p { margin-top: 5px; font-weight: 800; }
-.result-actions { display: grid; width: min(100%, 390px); gap: 8px; }
-.result-actions > button { min-height: 48px; }
+.result-actions { display: grid; justify-items: center; width: min(100%, 390px); gap: 8px; }
+.result-actions > button { width: min(100%, 290px); min-height: 48px; }
 .result-overlay details { width: min(100%, 390px); color: rgb(206 233 244 / 66%); font-size: .75rem; }
 .result-overlay details button { min-width: 96px; min-height: 44px; margin-top: 8px; border: 1px solid rgb(149 238 255 / 30%); border-radius: 10px; color: #eaffff; background: rgb(12 35 66 / 80%); }
 
@@ -645,9 +646,13 @@
 
 .evolution-choices {
   display: grid;
+  box-sizing: border-box;
   width: min(100%, 720px);
-  margin: auto;
-  align-content: center;
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+  overflow-y: auto;
+  align-content: start;
   gap: 10px;
 }
 

@@ -450,7 +450,8 @@ export function createGameEngine(options: {
     const playerMass = [...entities.values()]
       .filter((entity) => entity.faction === 'player' && entity.status === 'active')
       .reduce((sum, entity) => sum + entity.mass, 0)
-    if (playerMass > 0 && !mutationPending && playerMass >= evolutionThreshold) {
+    const firstEvolutionDeadlineReached = buildState.evolutionCount === 0 && elapsedMs >= content.m1.firstEvolutionAtMs
+    if (playerMass > 0 && !mutationPending && (playerMass >= evolutionThreshold || firstEvolutionDeadlineReached)) {
       events.push({ type: 'mutation-ready', entityId: PLAYER_ID, atMs: elapsedMs })
       mutationPending = true
     }

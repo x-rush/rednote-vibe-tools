@@ -18,9 +18,11 @@ export type ResultInput = {
 
 export function createResultViewModel(input: ResultInput, content: ContentPack) {
   const terminal = [...input.events].reverse().find((event) => event.type === 'player-died' || event.type === 'ending-reached')
-  const route = (['predation', 'survival', 'colony'] as const).reduce((best, candidate) => (
+  const dominantRoute = (['predation', 'survival', 'colony'] as const).reduce((best, candidate) => (
     input.finalBuild.routeCounts[candidate] > input.finalBuild.routeCounts[best] ? candidate : best
   ), 'predation' as EvolutionRoute)
+  const hasCommittedRoute = Object.values(input.finalBuild.routeCounts).some((count) => count > 0)
+  const route: EvolutionRoute | 'uncommitted' = hasCommittedRoute ? dominantRoute : 'uncommitted'
   const cause = terminal?.type === 'ending-reached'
     ? content.endings.find((ending) => ending.id === terminal.endingId)?.name ?? terminal.endingId
     : deathCause(terminal?.type === 'player-died' ? terminal.cause : '', content)
@@ -30,7 +32,9 @@ export function createResultViewModel(input: ResultInput, content: ContentPack) 
     bodyStage: input.finalBuild.bodyStage,
     stageLabel: content.ui.hud[`bodyStage_${input.finalBuild.bodyStage}`] ?? input.finalBuild.bodyStage,
     route,
-    routeLabel: content.ui.hud[`resultRoute${route[0].toUpperCase()}${route.slice(1)}`],
+    routeLabel: hasCommittedRoute
+      ? content.ui.hud[`resultRoute${dominantRoute[0].toUpperCase()}${dominantRoute.slice(1)}`]
+      : content.ui.hud.resultRouteUncommitted,
     keyTraitIds,
     keyTraits: keyTraitIds.flatMap((id) => {
       const organ = content.organelles.find((candidate) => candidate.id === id)

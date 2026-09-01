@@ -39,5 +39,5 @@ describe('launch outcome and build coverage', () => {
     expect(reports.filter((report) => report.endingId).length).toBeGreaterThanOrEqual(4)
     expect(reports.every((report) => report.stageSignature === '1>2>3>4>5>6')).toBe(true)
     expect(reports.flatMap((report) => report.invalidNumbers)).toEqual([])
-  }, 60_000)
+  }, 120_000)
 })

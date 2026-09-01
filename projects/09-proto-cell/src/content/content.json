@@ -152,6 +152,7 @@
     "resultRoutePredation": "捕食路线",
     "resultRouteSurvival": "生存路线",
     "resultRouteColony": "群落路线",
+    "resultRouteUncommitted": "尚未定型",
     "resultStage": "最终形态",
     "resultScore": "吞噬分",
     "resultTraits": "关键进化",
@@ -1926,6 +1927,7 @@
     { "id": "behavior-apex", "family": "apex", "movementPattern": "claim-zone-pursue", "weaknessId": "weakness-telegraphed-charge", "perceptionRadius": 420, "abandonAfterMs": 6000 }
   ],
   "m1": {
+    "firstEvolutionAtMs": 45000,
     "sliceTargetMs": [300000, 480000],
     "ecologyReplenishment": {
       "intervalMs": 2500,

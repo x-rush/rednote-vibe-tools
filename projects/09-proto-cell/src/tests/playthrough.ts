@@ -1,10 +1,11 @@
 import type { GameEvent } from '../game/interactions'
 import { createGameEngine } from '../game/engine'
-import { continueMutationContext, createMutationContext, installMutation, offerMutations, type MutationChoice } from '../evolution/mutation'
 import { getContent, type ContentPack, type EnvironmentId } from '../content'
 import type { LifeEventLogEntry } from '../progression/archive'
 import { deriveLifeArchive } from '../progression/archive'
 import { stepBoss, type BossState } from '../world/bosses'
+import { applyEvolution, createBuildState, offerEvolution, type EvolutionOffer } from '../evolution/build'
+import { morphologyFor } from '../rendering/morphology'
 
 export type HeadlessRunOptions = {
   seed: number
@@ -20,6 +21,7 @@ export type HeadlessRunReport = {
   invalidNumbers: readonly string[]
   morphologySignature: string
   endingId?: string
+  deathId?: string
   routeSignature: string
   stageSignature: string
   opportunitySignature: string
@@ -43,8 +45,8 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   let consumed = 0
   let simulatedMs = 0
   let terminal = false
-  let mutationCount = 0
-  let mutationContext = createMutationContext('env-clear-drop')
+  let buildState = createBuildState()
+  let recentTraitIds: BuildStateTraitIds = []
   const visitedStages = new Set<number>([1])
   const opportunityIds: string[] = []
   const behaviorStateCounts: Record<string, number> = {}
@@ -78,22 +80,24 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     keyEvents.push(...events)
     for (const event of events) {
       if (event.type === 'mutation-ready') {
-        const evolution = engine.evolutionSnapshot()
-        mutationContext = {
-          ...mutationContext,
+        const stageIndex = engine.runSnapshot().stageIndex
+        const remainingEnvironmentIds = getContent().journey.stages
+          .slice(stageIndex + 1)
+          .flatMap((stage) => stage.routeOffers.map((route) => route.destinationEnvironmentId))
+        const offered = offerEvolution(buildState, {
+          seed: options.seed,
           environmentId: hud.environmentId as EnvironmentId,
-          organIds: evolution.organelles.map((organ) => organ.id),
-          matureOrganIds: evolution.organelles.filter((organ) => organ.stage === 'mature').map((organ) => organ.id),
-          installed: [...evolution.organelles],
-          stability: evolution.stability,
-          capacity: evolution.capacity,
-        }
-        const choice = chooseMutation(offerMutations(mutationContext), policy)
+          stageIndex,
+          remainingEnvironmentIds,
+          unlockedTraitIds: getContent().organelles.map((organ) => organ.id),
+          recentTraitIds,
+        })
+        const choice = chooseEvolution(offered, policy)
         if (choice) {
-          const result = installMutation(mutationContext, choice)
-          engine.applyMutation(result)
-          mutationContext = continueMutationContext(mutationContext, result)
-          mutationCount += 1
+          buildState = applyEvolution(buildState, choice)
+          engine.applyEvolution(buildState)
+          recentTraitIds = offered.map((offer) => offer.traitId)
+          keyEvents.push({ type: 'mutation-selected', entityId: 'player', organId: choice.traitId, action: 'install', atMs: event.atMs })
         }
       }
       if (event.type === 'ecology-opportunity') {
@@ -129,13 +133,19 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   }
 
   const morphology = engine.morphologySnapshot()
+  const profile = morphologyFor(buildState)
   const morphologySignature = [
+    buildState.bodyStage,
+    profile.silhouette,
+    profile.dominantRoute,
+    profile.parts.join(','),
     morphology.bodyCount,
     morphology.organelles.map((organ) => `${organ.id}:${organ.stage}`).sort().join(','),
     Math.round(morphology.stability / 5) * 5,
     Math.round(morphology.totalMass / 25) * 25,
   ].join(':')
   const completedSimulationMs = Math.min(durationMs, engine.snapshot().elapsedMs)
+  const deathId = deriveLifeArchive(keyEvents.map((event, index) => ({ sequence: index + 1, event })), getContent()).deathTemplateId
   engine.destroy()
 
   return {
@@ -145,6 +155,7 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     invalidNumbers: [...invalidNumbers],
     morphologySignature,
     endingId,
+    deathId,
     routeSignature: keyEvents.filter((event) => event.type === 'route-selected').map((event) => event.type === 'route-selected' ? event.routeId : '').join('>'),
     stageSignature: [...visitedStages].sort((left, right) => left - right).join('>'),
     opportunitySignature: opportunityIds.join('>'),
@@ -201,7 +212,9 @@ export function resolveBossThroughStateMachine(
   return stepBoss(exposed, { atMs: atMs + 1, parasiteAttachedMs: definition.rules.parasiteHoldMs })
 }
 
-function chooseMutation(choices: readonly MutationChoice[], policy: NonNullable<HeadlessRunOptions['policy']>): MutationChoice | undefined {
+type BuildStateTraitIds = ReturnType<typeof createBuildState>['traitIds']
+
+function chooseEvolution(choices: readonly EvolutionOffer[], policy: NonNullable<HeadlessRunOptions['policy']>): EvolutionOffer | undefined {
   const content = getContent()
   const desired = policy === 'speed' ? ['move']
     : policy === 'armor' ? ['defend', 'metabolism']
@@ -210,11 +223,11 @@ function chooseMutation(choices: readonly MutationChoice[], policy: NonNullable<
           : policy === 'swarm' ? ['reproduce', 'symbiosis']
             : ['metabolism', 'move', 'feed']
   return [...choices].sort((left, right) => {
-    const leftOrgan = content.organelles.find((item) => item.id === left.organId)
-    const rightOrgan = content.organelles.find((item) => item.id === right.organId)
+    const leftOrgan = content.organelles.find((item) => item.id === left.traitId)
+    const rightOrgan = content.organelles.find((item) => item.id === right.traitId)
     const leftScore = leftOrgan ? desired.indexOf(leftOrgan.category) : -1
     const rightScore = rightOrgan ? desired.indexOf(rightOrgan.category) : -1
-    return (leftScore < 0 ? 99 : leftScore) - (rightScore < 0 ? 99 : rightScore) || right.resultingStability - left.resultingStability
+    return (leftScore < 0 ? 99 : leftScore) - (rightScore < 0 ? 99 : rightScore)
   })[0]
 }
 

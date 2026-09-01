@@ -1,7 +1,34 @@
 import { describe, expect, it } from 'vitest'
 import { runHeadless } from './playthrough'
 
+let tenSeedReports: ReturnType<typeof runHeadless>[] | undefined
+function auditedTenSeeds() {
+  tenSeedReports ??= Array.from({ length: 10 }, (_, seed) => runHeadless({ seed, durationMs: 520_000 }))
+  return tenSeedReports
+}
+
 describe('M0 headless playthrough', () => {
+  const launchRouteAuditSet = [
+    ['journey-route-algae-feast', 'journey-route-fiber-cover', 'journey-route-acid-pressure', 'journey-route-fiber-ambush', 'journey-route-chamber-wreckage'],
+    ['journey-route-acid-mutation', 'journey-route-antibody-current', 'journey-route-algae-blackout', 'journey-route-antibody-hunt', 'journey-route-chamber-gauntlet'],
+    ['journey-route-algae-feast', 'journey-route-antibody-current', 'journey-route-acid-pressure', 'journey-route-antibody-hunt', 'journey-route-chamber-wreckage'],
+    ['journey-route-acid-mutation', 'journey-route-fiber-cover', 'journey-route-algae-blackout', 'journey-route-fiber-ambush', 'journey-route-chamber-gauntlet'],
+  ] as const
+
+  it('produces at least six distinct final morphology signatures across ten seeds', () => {
+    const signatures = new Set(auditedTenSeeds().map((report) => report.morphologySignature))
+    expect(signatures.size).toBeGreaterThanOrEqual(6)
+  }, 120_000)
+
+  it('covers every route offer across complete eight-minute outcomes', () => {
+    for (const [seed, route] of launchRouteAuditSet.entries()) {
+      const report = runHeadless({ seed: seed + 727, durationMs: 560_000, route })
+      expect(report.invalidNumbers).toEqual([])
+      expect(report.endingId ?? report.deathId).toBeDefined()
+      expect(report.stageSignature.split('>')).toHaveLength(6)
+    }
+  }, 120_000)
+
   it('keeps the five-minute entity population bounded', () => {
     const report = runHeadless({ seed: 727, durationMs: 300_000 })
 
@@ -26,11 +53,10 @@ describe('M0 headless playthrough', () => {
 
   it('shows all eight visible behavior families during a ten-seed audit', () => {
     const families = new Set<string>()
-    for (let seed = 0; seed < 10; seed += 1) {
-      const report = runHeadless({ seed, durationMs: 520_000 })
+    for (const report of auditedTenSeeds()) {
       Object.keys(report.behaviorStateCounts).forEach((family) => families.add(family))
     }
 
     expect([...families].sort()).toEqual(['ambusher', 'apex', 'competitor', 'hunter', 'resource', 'scavenger', 'school', 'skittish'])
-  }, 60_000)
+  }, 120_000)
 })

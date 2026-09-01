@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createCameraTracker } from './camera'
-import { foodBloomPresentation, swarmTransitionPresentation, worldBoundaryScreenRect, worldTextureOffset } from './renderer'
+import { backdropTileOrigins, foodBloomPresentation, renderPixelRatio, swarmTransitionPresentation, worldBoundaryScreenRect, worldTextureOffset } from './renderer'
 
 describe('stage camera', () => {
   it('uses a lower player anchor and looks ahead along velocity', () => {
@@ -73,6 +73,24 @@ describe('world-space camera feedback', () => {
   it('anchors parallax texture tiles to world movement instead of the viewport', () => {
     expect(worldTextureOffset({ x: 0, y: 0 }, { width: 640, height: 360 }, 0.24)).toEqual({ x: 0, y: 0 })
     expect(worldTextureOffset({ x: 100, y: 50 }, { width: 640, height: 360 }, 0.24)).toEqual({ x: -24, y: -12 })
+  })
+
+  it('does not submit backdrop tiles that sit entirely outside the canvas', () => {
+    const origins = backdropTileOrigins(
+      { width: 390, height: 844 },
+      { width: 904, height: 904 },
+      { x: 100, y: 150 },
+    )
+
+    expect(origins).toHaveLength(4)
+    expect(origins.every(({ x, y }) => x < 390 && y < 844 && x + 904 > 0 && y + 904 > 0)).toBe(true)
+  })
+
+  it('uses a mobile performance ratio for the default balanced canvas', () => {
+    expect(renderPixelRatio('balanced', 1)).toBe(0.8)
+    expect(renderPixelRatio('balanced', 2)).toBe(1.25)
+    expect(renderPixelRatio('high', 2.5)).toBe(2)
+    expect(renderPixelRatio('low', 1)).toBe(0.7)
   })
 
   it('projects the finite ecology boundary from the lower player anchor', () => {

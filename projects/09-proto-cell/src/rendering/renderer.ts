@@ -27,6 +27,22 @@ export function worldTextureOffset(
   }
 }
 
+export function backdropTileOrigins(
+  viewport: { width: number; height: number },
+  tile: { width: number; height: number },
+  offset: { x: number; y: number },
+): Array<{ x: number; y: number }> {
+  const origins: Array<{ x: number; y: number }> = []
+  for (let x = offset.x - tile.width; x < viewport.width; x += tile.width) {
+    if (x + tile.width <= 0) continue
+    for (let y = offset.y - tile.height; y < viewport.height; y += tile.height) {
+      if (y + tile.height <= 0) continue
+      origins.push({ x, y })
+    }
+  }
+  return origins
+}
+
 export function worldBoundaryScreenRect(
   camera: CameraFrame,
   world: { width: number; height: number },
@@ -77,7 +93,7 @@ export function createCanvasRenderer(
   return {
     render(snapshot, numbers) {
       if (destroyed) return
-      const { width, height } = resizeCanvas(canvas, context)
+      const { width, height } = resizeCanvas(canvas, context, quality)
       const player = snapshot.entities.find((entity) => entity.id === snapshot.playerId)
       const viewport = { width, height }
       const cameraFrame = player
@@ -418,10 +434,8 @@ function drawBackdropAsset(
   }
   context.save()
   context.globalAlpha = opacity
-  for (let x = offset.x - tile.width; x < width + tile.width; x += tile.width) {
-    for (let y = offset.y - tile.height; y < height + tile.height; y += tile.height) {
-      context.drawImage(image, x, y, tile.width, tile.height)
-    }
+  for (const origin of backdropTileOrigins({ width, height }, tile, offset)) {
+    context.drawImage(image, origin.x, origin.y, tile.width, tile.height)
   }
   context.restore()
 }
@@ -784,10 +798,17 @@ function drawBossPhase(
   context.restore()
 }
 
-function resizeCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
+export function renderPixelRatio(quality: RenderQuality, devicePixelRatio: number): number {
+  const dpr = Math.max(1, devicePixelRatio || 1)
+  if (quality === 'high') return Math.min(2, dpr)
+  if (quality === 'low') return Math.min(1, Math.max(0.7, dpr * 0.6))
+  return Math.min(1.25, Math.max(0.8, dpr * 0.75))
+}
+
+function resizeCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, quality: RenderQuality) {
   const width = Math.max(1, canvas.clientWidth)
   const height = Math.max(1, canvas.clientHeight)
-  const ratio = Math.min(2, Math.max(1, window.devicePixelRatio || 1))
+  const ratio = renderPixelRatio(quality, window.devicePixelRatio || 1)
   const pixelWidth = Math.round(width * ratio)
   const pixelHeight = Math.round(height * ratio)
   if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {

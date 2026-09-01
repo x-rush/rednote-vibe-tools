@@ -292,6 +292,7 @@ export type ContentPack = {
   m0: { playerDefinitions: PlayerDefinitionContent[]; environments: M0EnvironmentContent[] }
   m1: {
     sliceTargetMs: [number, number]
+    firstEvolutionAtMs: number
     eventSchedule: Array<{ eventId: EventId; atMs: number }>
     bossSpawnAtMs: number
     ecologyReplenishment: {

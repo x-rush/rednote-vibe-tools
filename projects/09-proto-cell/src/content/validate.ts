@@ -424,6 +424,7 @@ export function validateContent(input: unknown): ContentValidationResult {
       issues.push({ path: '$.m1', message: 'M1 pacing configuration is required' })
       return
     }
+    require(typeof value.firstEvolutionAtMs === 'number' && Number.isFinite(value.firstEvolutionAtMs) && value.firstEvolutionAtMs > 0 && value.firstEvolutionAtMs <= 45_000, '$.m1.firstEvolutionAtMs', 'first evolution must occur by 45 seconds')
     requireTuple(value.sliceTargetMs, '$.m1.sliceTargetMs')
     require(Array.isArray(value.sliceTargetMs) && Number(value.sliceTargetMs[0]) >= 300_000 && Number(value.sliceTargetMs[1]) <= 480_000, '$.m1.sliceTargetMs', 'M1 slice must target five to eight minutes')
     require(typeof value.bossSpawnAtMs === 'number' && Number.isFinite(value.bossSpawnAtMs) && value.bossSpawnAtMs > 0, '$.m1.bossSpawnAtMs', 'M1 boss spawn time is required')

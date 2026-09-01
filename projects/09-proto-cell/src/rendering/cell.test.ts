@@ -64,4 +64,13 @@ describe('cell visual grammar', () => {
       glow: '#74f4e8',
     })).size).toBe(3)
   })
+
+  it('reserves per-cell blur for explicit high quality mode', () => {
+    expect(cell.cellShadowFilter('high')).toBe('blur(3px)')
+    expect(cell.cellShadowFilter('balanced')).toBe('none')
+    expect(cell.cellShadowFilter('low')).toBe('none')
+    expect(cell.cellShadowBlur('balanced', 'core')).toBe(0)
+    expect(cell.cellShadowBlur('high', 'membrane', true)).toBe(16)
+    expect(cell.cellShadowBlur('high', 'core')).toBe(12)
+  })
 })

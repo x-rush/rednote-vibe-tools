@@ -30,6 +30,20 @@ export function cellToneBands(palette: CellPalette): [string, string, string] {
   ]
 }
 
+export function cellShadowFilter(quality: RenderQuality | undefined): 'blur(3px)' | 'none' {
+  return quality === 'high' ? 'blur(3px)' : 'none'
+}
+
+export function cellShadowBlur(
+  quality: RenderQuality | undefined,
+  layer: 'membrane' | 'core' | 'organ',
+  dangerous = false,
+): number {
+  if (quality !== 'high') return 0
+  if (layer === 'membrane') return dangerous ? 16 : 10
+  return layer === 'core' ? 12 : 6
+}
+
 type DrawableVisualRecipe = { id: string; palette: string[] }
 
 export function buildVisualRecipeMap(value: unknown): Map<string, DrawableVisualRecipe> {
@@ -96,7 +110,7 @@ export function drawCell(
 
   // 1. Liquid shadow and refraction.
   context.fillStyle = 'rgb(0 3 16 / 68%)'
-  context.filter = options.quality === 'low' ? 'none' : 'blur(3px)'
+  context.filter = cellShadowFilter(options.quality)
   context.beginPath()
   context.ellipse(4, radius * 0.34, bodyRadius * 0.96, bodyRadius * 0.62, 0, 0, Math.PI * 2)
   context.fill()
@@ -104,7 +118,7 @@ export function drawCell(
 
   // 2. Membrane outline.
   context.shadowColor = palette.glow
-  context.shadowBlur = options.quality === 'low' ? 0 : entity.role === 'predator' || entity.role === 'boss' ? 16 : 10
+  context.shadowBlur = cellShadowBlur(options.quality, 'membrane', entity.role === 'predator' || entity.role === 'boss')
   context.fillStyle = toneBands[0]
   context.strokeStyle = palette.membrane
   context.lineWidth = cellStrokeWidth(radius)
@@ -122,7 +136,7 @@ export function drawCell(
   context.fill()
 
   // 4. Core.
-  context.shadowBlur = 12
+  context.shadowBlur = cellShadowBlur(options.quality, 'core')
   context.fillStyle = palette.core
   context.strokeStyle = 'rgb(222 255 255 / 72%)'
   context.lineWidth = Math.max(1, radius * 0.045)
@@ -138,7 +152,7 @@ export function drawCell(
 
   // 5. Installed traits become authored exterior morphology on the player.
   context.fillStyle = palette.organ
-  context.shadowBlur = 6
+  context.shadowBlur = cellShadowBlur(options.quality, 'organ')
   const organelleIds = options.organelleIds
   if (playerMorphology) drawMorphologyParts(context, playerMorphology.parts, radius, elapsedMs, palette)
   else {

@@ -8,6 +8,14 @@ import { coveredRatio } from './containment'
 import { createBuildState } from '../evolution/build'
 
 describe('game engine lifecycle', () => {
+  it('guarantees the first evolution by the authored 45-second deadline', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 44_950 })
+    engine.start()
+    engine.advance(100)
+
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'mutation-ready' }))
+  })
+
   it('accepts an authoritative build without adding an ability input', () => {
     const engine = createGameEngine({ seed: 727 })
     engine.applyEvolution(createBuildState({

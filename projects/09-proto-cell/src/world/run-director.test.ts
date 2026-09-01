@@ -13,6 +13,22 @@ function forceFirstMigration(seed: number) {
 }
 
 describe('deterministic run director', () => {
+  it('advances a scale tier only after pressure and its encounter resolve', () => {
+    const content = getContent()
+    const state = createRunDirector(content.scaleTiers, 727, 0, content.firstRunAssist)
+    const waiting = stepRunDirector(state, { atMs: 150_000, pressureReady: true, encounterResolved: false })
+    expect(waiting.state.tierIndex).toBe(0)
+    const ready = stepRunDirector(state, { atMs: 150_000, pressureReady: true, encounterResolved: true })
+    expect(ready.state).toMatchObject({ tierIndex: 0, phase: 'transition' })
+    expect(ready.events).toContainEqual(expect.objectContaining({ type: 'tier-encounter-resolved', tierIndex: 0 }))
+  })
+
+  it('finishes after the ciliate encounter instead of entering a fourth stage', () => {
+    const content = getContent()
+    const final = { ...createRunDirector(content.scaleTiers, 727, 0, content.firstRunAssist), tierIndex: 2, stageIndex: 2, phase: 'encounter' as const }
+    expect(stepRunDirector(final, { atMs: 600_000, pressureReady: true, encounterResolved: true }).state.phase).toBe('complete')
+  })
+
   it('warns, offers migration, and forces a route by the collapse deadline', () => {
     const content = getContent()
     let state = createRunDirector(content.journey, 727, 3, content.firstRunAssist)

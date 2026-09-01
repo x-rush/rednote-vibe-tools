@@ -15,6 +15,7 @@ export type GameEvent =
   | { type: 'mutation-selected'; entityId: string; organId: string; action: string; atMs: number }
   | { type: 'form-transition-ready'; fromFormId: FormId; toFormId: FormId; atMs: number }
   | { type: 'form-transitioned'; fromFormId: FormId; toFormId: FormId; atMs: number }
+  | { type: 'tier-encounter-resolved'; tierIndex: number; encounterId: string; atMs: number }
   | { type: 'event-phase'; eventId: string; phase: 'telegraph' | 'active' | 'expired'; atMs: number }
   | { type: 'collapse-warning'; stageIndex: number; atMs: number }
   | { type: 'migration-ready'; stageIndex: number; routes: JourneyStageDefinition['routeOffers']; atMs: number }

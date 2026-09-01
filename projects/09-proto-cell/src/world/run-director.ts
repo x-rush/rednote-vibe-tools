@@ -3,11 +3,12 @@ import type {
   FirstRunAssistDefinition,
   JourneyDefinition,
   JourneyStageDefinition,
+  ScaleTierDefinition,
 } from '../content'
 import { getContent } from '../content'
 import type { GameEvent } from '../game/interactions'
 
-export type RunPhase = 'active' | 'warning' | 'choosing' | 'collapsing' | 'finale' | 'complete'
+export type RunPhase = 'active' | 'feeding' | 'warning' | 'encounter' | 'choosing' | 'collapsing' | 'transition' | 'finale' | 'complete'
 
 export type RunDirectorState = {
   seed: number
@@ -18,16 +19,20 @@ export type RunDirectorState = {
   stageStartedAtMs: number
   offeredRoutes: JourneyStageDefinition['routeOffers']
   warningLeadMultiplier: number
+  mode?: 'legacy' | 'scale'
+  tiers?: readonly ScaleTierDefinition[]
+  tierIndex?: number
 }
 
 export type RunDirectorStep = { state: RunDirectorState; events: GameEvent[] }
 
 export function createRunDirector(
-  journey: JourneyDefinition,
+  journey: JourneyDefinition | readonly ScaleTierDefinition[],
   seed: number,
   runOrdinal: number,
   assist: FirstRunAssistDefinition,
 ): RunDirectorState {
+  if (!('stages' in journey)) return createScaleDirector(journey, seed, runOrdinal, assist)
   const firstStage = journey.stages[0]
   if (!firstStage) throw new RangeError('Journey requires at least one stage')
 
@@ -45,8 +50,9 @@ export function createRunDirector(
 
 export function stepRunDirector(
   state: RunDirectorState,
-  input: { atMs: number; selectedRouteId?: string },
+  input: { atMs: number; selectedRouteId?: string; pressureReady?: boolean; encounterResolved?: boolean },
 ): RunDirectorStep {
+  if (state.mode === 'scale') return stepScaleDirector(state, input)
   if (state.phase === 'complete') return unchanged(state)
 
   const journey = getContent().journey
@@ -94,6 +100,58 @@ export function stepRunDirector(
   }
 
   if (state.phase === 'choosing') return { state: { ...state, phase: 'collapsing' }, events: [] }
+  return unchanged(state)
+}
+
+function createScaleDirector(tiers: readonly ScaleTierDefinition[], seed: number, runOrdinal: number, assist: FirstRunAssistDefinition): RunDirectorState {
+  const first = tiers[0]
+  if (!first) throw new RangeError('Scale journey requires at least one tier')
+  return {
+    seed,
+    runOrdinal,
+    stageIndex: 0,
+    tierIndex: 0,
+    environmentId: first.environmentId,
+    phase: 'feeding',
+    stageStartedAtMs: 0,
+    offeredRoutes: [],
+    warningLeadMultiplier: runOrdinal <= assist.throughRunOrdinal ? assist.warningLeadMultiplier : 1,
+    mode: 'scale',
+    tiers,
+  }
+}
+
+function stepScaleDirector(
+  state: RunDirectorState,
+  input: { atMs: number; pressureReady?: boolean; encounterResolved?: boolean },
+): RunDirectorStep {
+  if (state.phase === 'complete') return unchanged(state)
+  const tiers = state.tiers ?? []
+  const tierIndex = state.tierIndex ?? state.stageIndex
+  const tier = tiers[tierIndex]
+  if (!tier) return { state: { ...state, phase: 'complete' }, events: [] }
+  const pressureReady = input.pressureReady === true
+  const encounterResolved = input.encounterResolved === true
+  if (state.phase === 'feeding' && pressureReady) {
+    if (encounterResolved) {
+      if (tierIndex >= tiers.length - 1) return { state: { ...state, phase: 'complete' }, events: [] }
+      return {
+        state: { ...state, phase: 'transition' },
+        events: [{ type: 'tier-encounter-resolved', tierIndex, encounterId: tier.encounterId, atMs: input.atMs }],
+      }
+    }
+    return { state: { ...state, phase: 'warning' }, events: [{ type: 'collapse-warning', stageIndex: tierIndex + 1, atMs: input.atMs }] }
+  }
+  if (state.phase === 'warning' && pressureReady) {
+    return { state: { ...state, phase: 'encounter' }, events: [] }
+  }
+  if (state.phase === 'encounter' && pressureReady && encounterResolved) {
+    if (tierIndex >= tiers.length - 1) return { state: { ...state, phase: 'complete' }, events: [] }
+    return {
+      state: { ...state, phase: 'transition' },
+      events: [{ type: 'tier-encounter-resolved', tierIndex, encounterId: tier.encounterId, atMs: input.atMs }],
+    }
+  }
   return unchanged(state)
 }
 

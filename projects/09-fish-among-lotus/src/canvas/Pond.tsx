@@ -18,11 +18,9 @@ type PondProps = {
   ariaLabel: string
   keyboardHint: string
   background: PosterBackground | null
-  onFollowing: (value: boolean) => void
-  onHintUsed: () => void
 }
 
-export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, keyboardHint, background, onFollowing, onHintUsed }: PondProps) {
+export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, keyboardHint, background }: PondProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fishRef = useRef<Fish[]>([])
   const leavesRef = useRef<Leaf[]>([])
@@ -178,8 +176,6 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
     pointerRef.current = { ...point, active: true, strength: 1, trail: [point] }
     particlesRef.current.addRipple(point, 1)
     rippleTimeRef.current = performance.now()
-    onFollowing(true)
-    onHintUsed()
   }
   const move = (event: React.PointerEvent<HTMLCanvasElement>) => {
     if (activePointerIdRef.current !== event.pointerId) return
@@ -205,7 +201,6 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId)
     activePointerIdRef.current = null
     if (pointerRef.current) pointerRef.current.active = false
-    onFollowing(false)
   }
 
   const moveKeyboardTarget = (event: React.KeyboardEvent<HTMLCanvasElement>) => {
@@ -218,7 +213,6 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
     if (!movement) {
       if (event.key === 'Escape' && pointerRef.current) {
         pointerRef.current.active = false
-        onFollowing(false)
       }
       return
     }
@@ -234,20 +228,16 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
     if (trail.length > 18) trail.shift()
     pointerRef.current = { ...point, active: true, strength: 1, trail }
     particlesRef.current.addRipple(point, 0.65)
-    onFollowing(true)
-    onHintUsed()
   }
 
   const stopKeyboardTarget = (event: React.KeyboardEvent<HTMLCanvasElement>) => {
     if (!event.key.startsWith('Arrow') || activePointerIdRef.current !== null) return
     if (pointerRef.current) pointerRef.current.active = false
-    onFollowing(false)
   }
 
   const blurKeyboardTarget = () => {
     if (activePointerIdRef.current !== null) return
     if (pointerRef.current) pointerRef.current.active = false
-    onFollowing(false)
   }
 
   return (

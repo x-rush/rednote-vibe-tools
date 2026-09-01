@@ -10,8 +10,6 @@
   "editionNote": "观察群游路径 · 触水以改变流向",
   "canvasLabel": "可按住和拖动、引导红鱼穿行莲叶的互动水景",
   "keyboardHint": "聚焦水景后，可按方向键引导鱼群，松开按键后鱼群会缓缓散开。",
-  "hintIdle": "按住水面 · 引鱼随行",
-  "hintActive": "松开水面 · 鱼群将缓缓散开",
   "settingsLabel": "水景设置",
   "settingsTitle": "水 景 调 律",
   "lotusLabel": "荷叶",

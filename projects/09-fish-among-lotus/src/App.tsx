@@ -3,6 +3,7 @@ import { Pond } from './canvas/Pond.tsx'
 import { validateBackgroundFile } from './canvas/background.ts'
 import type { PosterBackground } from './canvas/draw.ts'
 import content from './content/content.json'
+import { getPresentationState } from './presentation.ts'
 
 type SegmentedControlProps = {
   label: string
@@ -37,9 +38,7 @@ function App() {
   const [fishLevel, setFishLevel] = useState(1)
   const [speedLevel, setSpeedLevel] = useState(1)
   const [resetKey, setResetKey] = useState(0)
-  const [following, setFollowing] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
-  const [hintDismissed, setHintDismissed] = useState(false)
   const [background, setBackground] = useState<PosterBackground | null>(null)
   const [backgroundError, setBackgroundError] = useState<string | null>(null)
   const backgroundRef = useRef<ImageBitmap | null>(null)
@@ -49,8 +48,6 @@ function App() {
 
   useEffect(() => {
     document.title = content.title
-    const timer = window.setTimeout(() => setHintDismissed(true), 4600)
-    return () => window.clearTimeout(timer)
   }, [])
 
   useEffect(() => {
@@ -86,6 +83,7 @@ function App() {
       backgroundRef.current = image
       setBackground({ image, width: image.width, height: image.height })
       setBackgroundError(null)
+      setPanelOpen(false)
     } catch {
       if (sequence === uploadSequenceRef.current) setBackgroundError(content.backgroundDecodeError)
     }
@@ -99,10 +97,11 @@ function App() {
     setBackgroundError(null)
   }
 
-  const hintVisible = following || !hintDismissed
+  const presentation = getPresentationState(background !== null)
+  const compactSettingsToggle = presentation.compactSettingsToggle && !panelOpen
 
   return (
-    <main className={`app-shell ${panelOpen ? 'panel-open' : ''}`}>
+    <main className={`app-shell ${panelOpen ? 'panel-open' : ''} ${background ? 'custom-poster' : ''}`}>
       <Pond
         leafLevel={leafLevel}
         fishLevel={fishLevel}
@@ -111,44 +110,46 @@ function App() {
         ariaLabel={content.canvasLabel}
         keyboardHint={content.keyboardHint}
         background={background}
-        onFollowing={setFollowing}
-        onHintUsed={() => setHintDismissed(true)}
       />
 
-      <header className="masthead">
-        <p className="eyebrow">{content.eyebrow}</p>
-        <h1 aria-label={content.title}>
-          <span className="title-lead" aria-hidden="true">{content.titleLead}</span>
-          <span className="title-tail" aria-hidden="true">{content.titleTail}</span>
-        </h1>
-        <p className="subtitle">{content.subtitle}</p>
-      </header>
+      {presentation.showDecorativeCopy && (
+        <>
+          <header className="masthead">
+            <p className="eyebrow">{content.eyebrow}</p>
+            <h1 aria-label={content.title}>
+              <span className="title-lead" aria-hidden="true">{content.titleLead}</span>
+              <span className="title-tail" aria-hidden="true">{content.titleTail}</span>
+            </h1>
+            <p className="subtitle">{content.subtitle}</p>
+          </header>
 
-      <aside className="poster-note" aria-label={content.posterNoteLabel}>
-        <span>{content.posterEnglish}</span>
-        <i aria-hidden="true" />
-        <span>{content.posterSeries}</span>
-      </aside>
+          <aside className="poster-note" aria-label={content.posterNoteLabel}>
+            <span>{content.posterEnglish}</span>
+            <i aria-hidden="true" />
+            <span>{content.posterSeries}</span>
+          </aside>
 
-      <p className="edition-note">{content.editionNote}</p>
-
-      {hintVisible && (
-        <div className={`touch-hint ${following ? 'following' : ''}`} aria-live="polite">
-          <span className="ripple-icon" aria-hidden="true" />
-          {following ? content.hintActive : content.hintIdle}
-        </div>
+          <p className="edition-note">{content.editionNote}</p>
+        </>
       )}
 
-      <section className={`settings ${panelOpen ? 'open' : 'closed'}`} aria-label={content.settingsLabel}>
+      <section className={`settings ${panelOpen ? 'open' : 'closed'} ${compactSettingsToggle ? 'compact-entry' : ''}`} aria-label={content.settingsLabel}>
         <button
           className="panel-toggle"
           type="button"
           onClick={() => setPanelOpen((value) => !value)}
           aria-expanded={panelOpen}
           aria-controls="pond-settings"
+          aria-label={compactSettingsToggle ? content.showLabel : undefined}
         >
-          <span>{panelOpen ? content.hideLabel : content.showLabel}</span>
-          <b aria-hidden="true">{panelOpen ? '↓' : '↑'}</b>
+          {compactSettingsToggle ? (
+            <span className="tune-mark" aria-hidden="true"><i /><i /><i /></span>
+          ) : (
+            <>
+              <span>{panelOpen ? content.hideLabel : content.showLabel}</span>
+              <b aria-hidden="true">{panelOpen ? '↓' : '↑'}</b>
+            </>
+          )}
         </button>
         <div className="settings-body" id="pond-settings" hidden={!panelOpen}>
           <div className="settings-title"><span>{content.settingsTitle}</span><i aria-hidden="true" /></div>

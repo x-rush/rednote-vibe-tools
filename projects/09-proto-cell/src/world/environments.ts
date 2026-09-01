@@ -56,9 +56,17 @@ export function createEnvironmentField(environmentId: EnvironmentId, seed: numbe
     safeCenters: [],
     safeRadius: 92,
     obstacles: environmentId === 'env-fiber-maze'
-      ? [{ id: 'fiber-main', kind: 'fiber', from: { x: 90, y: 220 }, to: { x: 550, y: 760 }, adhesive: true }]
+      ? [
+          { id: 'fiber-main', kind: 'fiber', from: { x: 90, y: 220 }, to: { x: 550, y: 760 }, adhesive: true },
+          { id: 'fiber-upper', kind: 'fiber', from: { x: 620, y: 180 }, to: { x: 1160, y: 640 }, adhesive: true },
+          { id: 'fiber-lower', kind: 'fiber', from: { x: 260, y: 980 }, to: { x: 880, y: 1420 }, adhesive: true },
+        ]
       : environmentId === 'env-abandoned-chamber'
-        ? [{ id: 'chamber-gate', kind: 'chamber-wall', from: { x: 80, y: 520 }, to: { x: 560, y: 520 }, adhesive: false }]
+        ? [
+            { id: 'chamber-gate', kind: 'chamber-wall', from: { x: 80, y: 520 }, to: { x: 560, y: 520 }, adhesive: false },
+            { id: 'chamber-lane-upper', kind: 'chamber-wall', from: { x: 180, y: 940 }, to: { x: 820, y: 940 }, adhesive: false },
+            { id: 'chamber-lane-lower', kind: 'chamber-wall', from: { x: 720, y: 1520 }, to: { x: 1420, y: 1520 }, adhesive: false },
+          ]
         : [],
     telegraphs: [{ cueId: rule.cueId, hazardId: rule.hazardId, shape: rule.shape, startsAtMs: atMs, activatesAtMs: atMs + rule.leadMs, center, radius: 90 + rng.int(0, 80) }],
     activeHazardIds: [],

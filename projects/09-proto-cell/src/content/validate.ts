@@ -3,6 +3,19 @@ import type { ContentPack } from './schema'
 export type ContentIssue = { path: string; message: string }
 export type ContentValidationResult = { issues: ContentIssue[]; value?: ContentPack }
 
+export function adjacentTierReplacementRatio(
+  firstTier: { environmentId: string },
+  secondTier: { environmentId: string },
+  creatures: readonly { id: string; environmentIds: readonly string[] }[],
+): number {
+  const ordinary = creatures.filter((creature) => !creature.id.startsWith('predator-'))
+  const first = new Set(ordinary.filter((creature) => creature.environmentIds.includes(firstTier.environmentId)).map((creature) => creature.id))
+  const second = new Set(ordinary.filter((creature) => creature.environmentIds.includes(secondTier.environmentId)).map((creature) => creature.id))
+  const overlap = [...first].filter((id) => second.has(id)).length
+  const denominator = Math.max(first.size, second.size)
+  return denominator === 0 ? 1 : 1 - overlap / denominator
+}
+
 const LEGAL_ANCHOR_SLOTS = new Set(['core', 'membrane', 'front', 'rear', 'left', 'right', 'internal', 'symbiont'])
 const LEGAL_ORGAN_CATEGORIES = new Set(['sense', 'move', 'feed', 'defend', 'attack', 'metabolism', 'reproduce', 'symbiosis'])
 const LEGAL_RARITIES = new Set(['common', 'uncommon', 'rare'])

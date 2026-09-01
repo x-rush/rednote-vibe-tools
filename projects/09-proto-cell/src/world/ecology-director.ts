@@ -98,7 +98,7 @@ export function stepEcologyDirector(
   }
 
   if (input.nearbyEdibleCount === 0 && input.atMs >= next.nextFoodSupportAtMs) {
-    commands.push(materialize(next, 'resource', 6, Math.min(56, input.viewportRadius * 0.18), undefined))
+    commands.push(materialize(next, 'resource', 6, Math.max(24, input.viewportRadius * 0.3), undefined))
     next.firstFoodProvided = true
     next.nextFoodSupportAtMs = input.atMs + 6000
   } else if (input.nearbyEdibleCount > 0) {
@@ -109,7 +109,7 @@ export function stepEcologyDirector(
   if (input.atMs >= next.nextOpportunityAtMs) {
     const opportunityId = chooseOpportunity(next)
     commands.push({ type: 'start-opportunity', opportunityId, atMs: input.atMs })
-    const scene = opportunityScene(opportunityId, input.viewportRadius)
+    const scene = ecologyOpportunityScene(opportunityId, input.viewportRadius)
     commands.push(materialize(next, scene.role, scene.count, scene.distance, opportunityId))
     next.recentOpportunities = [...next.recentOpportunities, opportunityId].slice(-3)
     next.opportunitySequence += 1
@@ -160,13 +160,13 @@ function chooseOpportunity(state: EcologyDirectorState): EcologyOpportunityId {
   return choices[Math.floor(hashUnit(state.seed, state.opportunitySequence + 41) * choices.length)] ?? 'food-bloom'
 }
 
-function opportunityScene(id: EcologyOpportunityId, viewportRadius: number): { role: EcologyRole; count: number; distance: number } {
+export function ecologyOpportunityScene(id: EcologyOpportunityId, viewportRadius: number): { role: EcologyRole; count: number; distance: number } {
   if (id === 'food-bloom') return { role: 'resource', count: 7, distance: Math.min(150, viewportRadius * 0.45) }
   if (id === 'school-migration') return { role: 'competitor', count: 5, distance: viewportRadius * 1.18 }
-  if (id === 'predator-conflict') return { role: 'hunter', count: 2, distance: viewportRadius * 0.86 }
+  if (id === 'predator-conflict') return { role: 'hunter', count: 2, distance: viewportRadius * 1.24 }
   if (id === 'carcass-rush') return { role: 'scavenger', count: 4, distance: viewportRadius * 0.62 }
   if (id === 'giant-passage') return { role: 'apex', count: 1, distance: viewportRadius * 1.2 }
-  return { role: 'hunter', count: 3, distance: viewportRadius * 1.05 }
+  return { role: 'hunter', count: 3, distance: viewportRadius * 1.3 }
 }
 
 function materialize(

@@ -23,6 +23,7 @@ export type GeneratedRegion = {
   entities: readonly SpawnedEntityState[]
   spawnSchedule: ReadonlyArray<{ atMs: number; entityId: string }>
   routeRifts: readonly RouteRift[]
+  minimumCorridorWidth: number
 }
 
 export type RouteRift = {
@@ -137,7 +138,20 @@ export function generateRegion(seed: number, environmentId: string): GeneratedRe
         y: 72 + routeRng.next() * 130,
       },
     })),
+    minimumCorridorWidth: minimumCorridorWidthFor(environmentId, environment.width, environment.height),
   }
+}
+
+export function generateTierRegion(seed: number, tier: { environmentId: string; radiusRange: readonly number[] }): GeneratedRegion {
+  const region = generateRegion(seed, tier.environmentId)
+  const maximumRadius = Number.isFinite(tier.radiusRange[1]) ? Number(tier.radiusRange[1]) : 1
+  return { ...region, minimumCorridorWidth: Math.max(region.minimumCorridorWidth, maximumRadius * 2.4) }
+}
+
+function minimumCorridorWidthFor(environmentId: string, width: number, height: number): number {
+  const tier = (content.scaleTiers as unknown as Array<{ environmentId: string; radiusRange: readonly number[] }>).find((item) => item.environmentId === environmentId)
+  const radius = tier && Number.isFinite(tier.radiusRange[1]) ? Number(tier.radiusRange[1]) : 1
+  return Math.max(radius * 2.4, Math.min(width, height) * 0.5)
 }
 
 export function getRegionDefinition(environmentId: string): M0Environment {

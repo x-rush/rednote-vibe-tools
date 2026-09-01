@@ -94,6 +94,7 @@ export type NutrientDefinition = {
   behaviorId: string
   riskTags: string[]
   visualRecipeId: string
+  scaleTierIds?: ScaleTierId[]
 }
 
 export type OrganelleDefinition = {
@@ -142,6 +143,7 @@ export type CreatureDefinition = {
   responseTags: string[]
   dropTableId: string
   visualRecipeId: string
+  scaleTierIds?: ScaleTierId[]
 }
 
 export type EventDefinition = {

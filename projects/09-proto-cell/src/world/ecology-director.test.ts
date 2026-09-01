@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { getContent } from '../content'
-import { createEcologyDirector, stepEcologyDirector } from './ecology-director'
+import { createEcologyDirector, ecologyOpportunityScene, stepEcologyDirector } from './ecology-director'
 
 function simulateEcology(options: { seed: number; durationMs: number; runOrdinal?: number }) {
   const content = getContent()
@@ -37,6 +37,10 @@ function simulateEcology(options: { seed: number; durationMs: number; runOrdinal
 }
 
 describe('population ecology director', () => {
+  it('scales opportunity distance from the real visible radius', () => {
+    expect(ecologyOpportunityScene('school-migration', 120).distance).toBeCloseTo(141.6)
+  })
+
   it('maintains a food-chain pyramid without spawning every entity near the player', () => {
     const result = simulateEcology({ seed: 727, durationMs: 180_000 })
 

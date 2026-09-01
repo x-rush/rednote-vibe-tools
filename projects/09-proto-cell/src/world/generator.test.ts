@@ -1,7 +1,21 @@
 import { describe, expect, it } from 'vitest'
-import { ecologyGroupPositions, findEnteredRouteRift, generateRegion } from './generator'
+import content from '../content/content.json'
+import { ecologyGroupPositions, findEnteredRouteRift, generateRegion, generateTierRegion } from './generator'
+import { adjacentTierReplacementRatio } from '../content/validate'
 
 describe('seeded region generation', () => {
+  it('replaces at least sixty percent of ordinary species between adjacent tiers', () => {
+    expect(adjacentTierReplacementRatio(content.scaleTiers[0], content.scaleTiers[1], content.creatures)).toBeGreaterThanOrEqual(0.6)
+    expect(adjacentTierReplacementRatio(content.scaleTiers[1], content.scaleTiers[2], content.creatures)).toBeGreaterThanOrEqual(0.6)
+  })
+
+  it('keeps every generated tier corridor wider than the largest tier body', () => {
+    for (let seed = 0; seed < 20; seed += 1) {
+      const region = generateTierRegion(seed, content.scaleTiers[1])
+      expect(region.minimumCorridorWidth).toBeGreaterThanOrEqual(content.scaleTiers[1].radiusRange[1] * 2.4)
+    }
+  })
+
   it('repeats the initial-drop spawn schedule', () => {
     expect(generateRegion(727, 'env-clear-drop')).toEqual(generateRegion(727, 'env-clear-drop'))
   })

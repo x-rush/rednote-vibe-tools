@@ -82,6 +82,9 @@ export function createController(dependencies: ControllerDependencies): AppContr
           peakBiomass: hud.peakBiomass,
           organelleIds: activeEngine.evolutionSnapshot().organelles.map((organ) => organ.id),
           morphology: activeEngine.morphologySnapshot(),
+          bodyStage: hud.bodyStage,
+          buildRouteCounts: activeEngine.renderSnapshot().playerBuild?.routeCounts,
+          journeyStageIndex: Math.max(0, hud.journeyIndex - 1),
         },
       })
       if (event.type !== 'player-died' && event.type !== 'ending-reached') return

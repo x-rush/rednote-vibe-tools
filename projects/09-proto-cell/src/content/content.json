@@ -144,8 +144,21 @@
       "bodyStage_microbe": "微生体",
       "bodyStage_hunter": "猎食体",
       "bodyStage_specialist": "特化体",
-      "bodyStage_dominant": "优势体",
-      "bodyStage_ascendant": "超升体"
+    "bodyStage_dominant": "统治体",
+    "bodyStage_ascendant": "升华体",
+    "resultCauseEngulf": "被更大的生命吞噬",
+    "resultCauseRupture": "细胞膜破裂",
+    "resultCauseInstability": "终局稳定性崩解",
+    "resultRoutePredation": "捕食路线",
+    "resultRouteSurvival": "生存路线",
+    "resultRouteColony": "群落路线",
+    "resultStage": "最终形态",
+    "resultScore": "吞噬分",
+    "resultTraits": "关键进化",
+    "resultJourney": "抵达生态阶段",
+    "resultSameSeed": "重玩本次培养皿",
+    "resultImmediateRestart": "立即重生",
+    "resultBackDish": "返回培养皿"
     },
     "screens": {
       "pauseTitle": "培养皿静止中",

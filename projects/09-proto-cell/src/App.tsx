@@ -10,7 +10,7 @@ import { EvolutionOverlay } from './ui/EvolutionOverlay'
 import { GameCanvas } from './ui/GameCanvas'
 import { Hud } from './ui/Hud'
 import { Archive } from './ui/Archive'
-import { createArchiveViewModelFromSummary, createViewModel } from './app/view-model'
+import { createArchiveViewModelFromSummary, createResultViewModel, createViewModel } from './app/view-model'
 import { createDefaultSave } from './storage/codec'
 import { awardGenes, unlockNode } from './progression/genes'
 import { applyModifiers, dailySeed } from './progression/challenges'
@@ -25,6 +25,7 @@ import { createBrowserAudioDirector, type AudioDirector } from './audio/audio'
 import { Settings } from './ui/Settings'
 import { ErrorPanel } from './ui/ErrorPanel'
 import { MigrationOverlay } from './ui/MigrationOverlay'
+import { ResultOverlay } from './ui/ResultOverlay'
 import './App.css'
 
 function App() {
@@ -212,6 +213,9 @@ function GameApp({ content }: { content: ContentPack }) {
           endingId: completedArchive.endingId,
           dishCode: completedArchive.dishCode,
           finalMorphology: completedArchive.finalMorphology,
+          finalBodyStage: completedArchive.finalBodyStage,
+          buildRouteCounts: completedArchive.buildRouteCounts,
+          journeyStageIndex: completedArchive.journeyStageIndex,
         } : undefined
         return {
           ...current,
@@ -301,7 +305,15 @@ function GameApp({ content }: { content: ContentPack }) {
   }, [content, save.progression.unlockedIds, selectedOriginId])
 
   const engine = controller.engine()
-  const archiveModel = createViewModel(view, content).archive
+  const resultModel = view.screen === 'result' && view.hud ? createResultViewModel({
+    events: view.eventLog.map((entry) => entry.event),
+    finalBuild: buildStateRef.current,
+    journeyStageIndex: Math.max(0, view.hud.journeyIndex - 1),
+    environmentIds: [...new Set(view.eventLog.flatMap((entry) => entry.event.type === 'route-selected' ? [entry.event.environmentId] : []))] as ContentPack['environments'][number]['id'][],
+    engulfScore: view.hud.engulfScore,
+    survivalMs: view.hud.elapsedMs,
+    seed: view.seed ?? 0,
+  }, content) : undefined
   if (!saveReady) return <main className="hatchery-shell"><section className="hatchery-card" aria-live="polite"><p className="hatchery-region">{content.ui.labels.lab}</p><h1>{content.ui.screens.loadingSave}</h1></section></main>
   if (canvasError) return <main className="hatchery-shell"><ErrorPanel title={content.ui.screens.canvasErrorTitle} description={content.ui.screens.canvasErrorDescription} actionLabel={content.ui.actions.retry} onAction={() => { controller.returnToLab(); setCanvasError(false); sync() }} /></main>
   if (view.screen !== 'lab' && engine) {
@@ -365,9 +377,9 @@ function GameApp({ content }: { content: ContentPack }) {
             </div>
           </section>
           )}
-          {view.screen === 'result' && archiveModel && (
-            <Archive
-              model={archiveModel}
+          {view.screen === 'result' && resultModel && (
+            <ResultOverlay
+              model={resultModel}
               restartButtonRef={modalButtonRef}
               onKeyDown={trapModalFocus}
               onRestart={() => {
@@ -380,7 +392,12 @@ function GameApp({ content }: { content: ContentPack }) {
                 setLabPanel(null)
                 sync()
               }}
-              labLabel={content.ui.actions.backToLab}
+              onReplaySeed={() => {
+                const seed = view.seed ?? 727
+                resetMutationRun()
+                controller.startRun({ seed, originId: selectedOriginId, modifierIds: activeModifierIds, runOrdinal: save.lifeArchives.length })
+                sync()
+              }}
             />
           )}
         </div>

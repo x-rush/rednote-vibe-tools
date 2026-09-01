@@ -2,6 +2,56 @@ import type { ContentPack } from '../content'
 import type { HudSnapshot } from '../game/engine'
 import { deriveLifeArchive, type LifeEventLogEntry } from '../progression/archive'
 import type { LifeArchiveSummary } from '../storage/codec'
+import type { EnvironmentId } from '../content'
+import type { BuildState, EvolutionRoute } from '../evolution/build'
+import type { GameEvent } from '../game/interactions'
+
+export type ResultInput = {
+  events: readonly GameEvent[]
+  finalBuild: BuildState
+  journeyStageIndex: number
+  environmentIds: readonly EnvironmentId[]
+  engulfScore: number
+  survivalMs: number
+  seed: number
+}
+
+export function createResultViewModel(input: ResultInput, content: ContentPack) {
+  const terminal = [...input.events].reverse().find((event) => event.type === 'player-died' || event.type === 'ending-reached')
+  const route = (['predation', 'survival', 'colony'] as const).reduce((best, candidate) => (
+    input.finalBuild.routeCounts[candidate] > input.finalBuild.routeCounts[best] ? candidate : best
+  ), 'predation' as EvolutionRoute)
+  const cause = terminal?.type === 'ending-reached'
+    ? content.endings.find((ending) => ending.id === terminal.endingId)?.name ?? terminal.endingId
+    : deathCause(terminal?.type === 'player-died' ? terminal.cause : '', content)
+  const keyTraitIds = input.finalBuild.traitIds.slice(-3)
+  return {
+    cause,
+    bodyStage: input.finalBuild.bodyStage,
+    stageLabel: content.ui.hud[`bodyStage_${input.finalBuild.bodyStage}`] ?? input.finalBuild.bodyStage,
+    route,
+    routeLabel: content.ui.hud[`resultRoute${route[0].toUpperCase()}${route.slice(1)}`],
+    keyTraitIds,
+    keyTraits: keyTraitIds.flatMap((id) => {
+      const organ = content.organelles.find((candidate) => candidate.id === id)
+      return organ ? [{ id, name: organ.name, morphologyPartId: organ.morphologyPartId }] : []
+    }),
+    journeyStage: Math.max(1, Math.min(content.journey.stages.length, input.journeyStageIndex + 1)),
+    journeyTotal: content.journey.stages.length,
+    environmentIds: [...input.environmentIds],
+    engulfScore: Math.max(0, Math.round(input.engulfScore)),
+    survivalMs: Math.max(0, input.survivalMs),
+    seed: input.seed >>> 0,
+    nextSeed: (input.seed + 1) >>> 0,
+  }
+}
+
+function deathCause(cause: string, content: ContentPack): string {
+  if (/engulf|predator/.test(cause)) return content.ui.hud.resultCauseEngulf
+  if (/rupture|acid|electric|spine|ram/.test(cause)) return content.ui.hud.resultCauseRupture
+  if (/instability/.test(cause)) return content.ui.hud.resultCauseInstability
+  return content.ui.screens.resultDescription
+}
 
 export type ArchiveViewModel = ReturnType<typeof createArchiveViewModel>
 

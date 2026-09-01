@@ -45,6 +45,19 @@ describe('versioned save codec', () => {
     expect(decoded.value?.progression.rewardCounts['environment:env-clear-drop']).toBe(900)
   })
 
+  it('migrates a v1 archive without inventing a completed body stage', () => {
+    const fixture = saveFixture()
+    delete (fixture.lifeArchives[0] as Partial<typeof fixture.lifeArchives[0]>).finalBodyStage
+    delete (fixture.lifeArchives[0] as Partial<typeof fixture.lifeArchives[0]>).buildRouteCounts
+    delete (fixture.lifeArchives[0] as Partial<typeof fixture.lifeArchives[0]>).journeyStageIndex
+
+    const migrated = decodeSave(fixture)
+
+    expect(migrated.value?.lifeArchives[0]?.finalBodyStage).toBe('microbe')
+    expect(migrated.value?.lifeArchives[0]?.buildRouteCounts).toEqual({ predation: 0, survival: 0, colony: 0 })
+    expect(migrated.issues).toEqual([])
+  })
+
   it('rejects unknown or invalid reward counters', () => {
     const unknown = saveFixture()
     unknown.progression.rewardCounts['environment:env-missing'] = 1

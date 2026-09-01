@@ -1,4 +1,5 @@
-import type { ContentPack, EnvironmentId, OrganelleId, SynergyId } from '../content'
+import type { BodyStage, ContentPack, EnvironmentId, OrganelleId, SynergyId } from '../content'
+import type { EvolutionRoute } from '../evolution/build'
 import type { GameEvent } from '../game/interactions'
 import type { PlayerMorphologySnapshot } from '../game/engine'
 import { encodeDishCode } from './challenges'
@@ -12,6 +13,9 @@ export type LifeEventSnapshot = {
   peakBiomass?: number
   organelleIds: readonly OrganelleId[]
   morphology?: PlayerMorphologySnapshot
+  bodyStage?: BodyStage
+  buildRouteCounts?: Record<EvolutionRoute, number>
+  journeyStageIndex?: number
 }
 
 export type LifeEventLogEntry = {
@@ -31,6 +35,9 @@ export type LifeArchive = {
   endingId?: ContentPack['endings'][number]['id']
   dishCode: string
   finalMorphology?: PlayerMorphologySnapshot
+  finalBodyStage: BodyStage
+  buildRouteCounts: Record<EvolutionRoute, number>
+  journeyStageIndex: number
 }
 
 export function deriveLifeArchive(
@@ -92,6 +99,10 @@ export function deriveLifeArchive(
   const finalMorphology: PlayerMorphologySnapshot | undefined = finalSnapshot?.morphology
     ? { ...finalSnapshot.morphology, organelles: finalSnapshot.morphology.organelles.map((organ) => ({ ...organ })) }
     : undefined
+  const finalBodyStage = finalSnapshot?.bodyStage ?? 'microbe'
+  const buildRouteCounts = { predation: 0, survival: 0, colony: 0, ...finalSnapshot?.buildRouteCounts }
+  const journeyStageIndex = finalSnapshot?.journeyStageIndex
+    ?? Math.max(0, ...visitedEnvironmentIds.map((id) => content.environments.find((environment) => environment.id === id)?.order ?? 0))
 
   return {
     speciesNameSeed,
@@ -103,6 +114,9 @@ export function deriveLifeArchive(
     deathTemplateId,
     endingId,
     finalMorphology,
+    finalBodyStage,
+    buildRouteCounts,
+    journeyStageIndex,
     dishCode: encodeDishCode({ seed: runSeed, contentVersion: content.contentVersion, route: codedRoute }),
   }
 }

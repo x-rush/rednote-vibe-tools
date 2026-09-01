@@ -105,6 +105,9 @@ export function saveFixture(overrides: { extra?: unknown; archiveCount?: number 
       synergyIds: [],
       deathTemplateId: 'death-engulfed',
       dishCode: encodeDishCode({ seed: index, contentVersion: getContent().contentVersion, route: ['env-algae-glow', 'env-fiber-maze'] }),
+      finalBodyStage: 'microbe',
+      buildRouteCounts: { predation: 0, survival: 0, colony: 0 },
+      journeyStageIndex: 0,
     })),
   }
   if ('extra' in overrides) value.extra = overrides.extra

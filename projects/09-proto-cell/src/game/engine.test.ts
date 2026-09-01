@@ -33,6 +33,16 @@ describe('game engine lifecycle', () => {
     }))
   })
 
+  it('publishes autonomous behavior states for player-readable ecology', () => {
+    const engine = createGameEngine({ seed: 727 })
+    engine.start()
+    engine.advance(1000 / 60)
+
+    const autonomous = engine.renderSnapshot().entities.filter((entity) => entity.behaviorProfileId)
+    expect(autonomous.length).toBeGreaterThan(0)
+    expect(autonomous.every((entity) => entity.behaviorState)).toBe(true)
+  })
+
   it('applies launch challenge rules to the live simulation', () => {
     const constrained = createGameEngine({
       seed: 727,

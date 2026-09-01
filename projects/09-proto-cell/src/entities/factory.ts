@@ -11,6 +11,7 @@ export type EntityDefinition = {
   maxSpeed: number
   visualRecipeId: string
   contactDamage?: ContactDamageDefinition
+  behaviorProfileId?: `behavior-${string}`
 }
 
 export type ContactDamageDefinition = {
@@ -44,6 +45,7 @@ export function createEntity(definition: EntityDefinition, spawn: EntitySpawn): 
     maxSpeed: definition.maxSpeed,
     spawnedAtMs: spawn.spawnedAtMs ?? 0,
     contactDamage: definition.contactDamage ? { ...definition.contactDamage } : undefined,
+    behaviorProfileId: definition.behaviorProfileId,
     body: circleBody(spawn.position, definition.radius),
     position: { ...spawn.position },
     velocity: spawn.velocity ? { ...spawn.velocity } : { x: 0, y: 0 },

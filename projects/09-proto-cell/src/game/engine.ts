@@ -1,11 +1,13 @@
 import content from '../content/content.json'
+import { getBehaviorProfile } from '../content'
 import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EventId, FirstRunAssistDefinition, JourneyDefinition, OrganelleId, OriginId } from '../content'
 import type { EntityState, Vec2 } from '../domain/types'
-import { decideIntent } from '../entities/ai'
+import { decideBehavior, decideIntent } from '../entities/ai'
+import type { BehaviorMemory } from '../entities/behaviors/types'
 import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
 import { creatureEntityDefinition, findEnteredRouteRift, generateRegion, getRegionDefinition } from '../world/generator'
 import { createFixedClock } from './clock'
-import { createPointerInput, type PointerInput } from './input'
+import { createPointerInput, type MovementIntent, type PointerInput } from './input'
 import { resolveInteraction, type DamageSource, type GameEvent } from './interactions'
 import { coveredRatio } from './containment'
 import { SpatialGrid } from './spatial-grid'
@@ -146,6 +148,7 @@ export function createGameEngine(options: {
   const pauseReasons = new Set<PauseReason>()
   const engulfLocks = new Set<string>()
   const damagePeriods = new Map<string, number>()
+  const behaviorMemories = new Map<string, BehaviorMemory>()
   const events: GameEvent[] = []
   const grid = new SpatialGrid(96)
   const clock = createFixedClock({ stepMs: STEP_MS, maxSteps: 5 })
@@ -339,6 +342,7 @@ export function createGameEngine(options: {
       started = false
       pauseReasons.clear()
       entities.clear()
+      behaviorMemories.clear()
       events.length = 0
       clock.reset()
       input.cancel()
@@ -578,7 +582,10 @@ export function createGameEngine(options: {
 
   function pruneInactiveEntities() {
     for (const [id, entity] of entities) {
-      if (entity.faction !== 'player' && entity.status !== 'active') entities.delete(id)
+      if (entity.faction !== 'player' && entity.status !== 'active') {
+        entities.delete(id)
+        behaviorMemories.delete(id)
+      }
     }
   }
 
@@ -702,26 +709,9 @@ export function createGameEngine(options: {
       if (entity.status !== 'active') continue
       if (activeSwarm && entity.faction === 'player') continue
       const bossDormant = entity.id === bossState?.id && bossState.phase === 'dormant'
-      const intent = bossDormant
-        ? { direction: { x: 0, y: 0 }, strength: 0 }
-        : entity.role === 'nutrient'
-          ? { direction: { x: 0, y: 0 }, strength: 0 }
-        : entity.id === PLAYER_ID
-        ? input.snapshot()
-        : decideIntent(entity, {
-            nearby: grid.query({
-              x: entity.position.x - (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 340 : 240),
-              y: entity.position.y - (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 340 : 240),
-              width: (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 680 : 480),
-              height: (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 680 : 480),
-            }),
-            attractionFields: activeEvent?.phase === 'active' ? activeEvent.aiSignals.map((signal) => ({
-              center: signal.center,
-              radius: signal.radius,
-              strength: signal.strength,
-              flow: signal.flow,
-            })) : [],
-          })
+      const movement = movementDecision(entity, bossDormant)
+      const intent = movement.intent
+      const movingEntity = movement.entity
       const bossPhaseSpeed = entity.id !== bossState?.id ? 1
         : bossState.phase === 'feeding' ? 0.58
           : bossState.phase === 'exposed' ? 0.86
@@ -761,10 +751,59 @@ export function createGameEngine(options: {
         velocity: constrainedLocal.velocity,
       }
       const position = resolveEnvironmentMovement(environmentField, entity.position, constrained.position, entity.body.radius)
-      entities.set(entity.id, moveEntity(entity, position, {
+      entities.set(entity.id, moveEntity(movingEntity, position, {
         x: constrained.velocity.x - flowVelocity.x,
         y: constrained.velocity.y - flowVelocity.y,
       }))
+    }
+  }
+
+  function movementDecision(entity: EntityState, bossDormant: boolean): { entity: EntityState; intent: MovementIntent } {
+    if (bossDormant) return { entity, intent: { direction: { x: 0, y: 0 }, strength: 0 } }
+    if (entity.id === PLAYER_ID) return { entity, intent: input.snapshot() }
+
+    const attractionFields = activeEvent?.phase === 'active' ? activeEvent.aiSignals.map((signal) => ({
+      center: signal.center,
+      radius: signal.radius,
+      strength: signal.strength,
+      flow: signal.flow,
+    })) : []
+    if (entity.behaviorProfileId) {
+      const profile = getBehaviorProfile(entity.behaviorProfileId)
+      const perceptionRadius = profile.perceptionRadius * (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 1.4 : 1)
+      const behavior = decideBehavior(
+        entity,
+        behaviorMemories.get(entity.id) ?? { state: 'idle', stateStartedAtMs: elapsedMs },
+        {
+          atMs: elapsedMs,
+          nearby: grid.query({
+            x: entity.position.x - perceptionRadius,
+            y: entity.position.y - perceptionRadius,
+            width: perceptionRadius * 2,
+            height: perceptionRadius * 2,
+          }),
+          profile,
+          attractionFields,
+        },
+      )
+      behaviorMemories.set(entity.id, behavior.memory)
+      return {
+        entity: { ...entity, behaviorState: behavior.decision.presentationState },
+        intent: behavior.decision.movement,
+      }
+    }
+
+    return {
+      entity,
+      intent: decideIntent(entity, {
+        nearby: grid.query({
+          x: entity.position.x - 240,
+          y: entity.position.y - 240,
+          width: 480,
+          height: 480,
+        }),
+        attractionFields,
+      }),
     }
   }
 
@@ -830,7 +869,10 @@ export function createGameEngine(options: {
     }
     syncActiveSwarm(false)
     for (const [id, entity] of entities) {
-      if (entity.faction !== 'player') entities.delete(id)
+      if (entity.faction !== 'player') {
+        entities.delete(id)
+        behaviorMemories.delete(id)
+      }
     }
     spawnDue(elapsedMs)
     spawnModifierElite()

@@ -1,10 +1,53 @@
 import { length, normalize } from '../domain/math'
 import type { EntityState, Vec2 } from '../domain/types'
 import type { MovementIntent } from '../game/input'
+import { decideAmbusher } from './behaviors/ambusher'
+import { decideApex } from './behaviors/apex'
+import { decideCompetitor } from './behaviors/competitor'
+import { decideHunter } from './behaviors/hunter'
+import { decideScavenger } from './behaviors/scavenger'
+import { decideSchool } from './behaviors/school'
+import { decideSkittish } from './behaviors/skittish'
+import {
+  deterministicWander,
+  result,
+  transition,
+  type BehaviorContext,
+  type BehaviorHandler,
+  type BehaviorMemory,
+  type BehaviorResult,
+} from './behaviors/types'
+
+const behaviorHandlers: Partial<Record<BehaviorContext['profile']['family'], BehaviorHandler>> = {
+  skittish: decideSkittish,
+  school: decideSchool,
+  competitor: decideCompetitor,
+  ambusher: decideAmbusher,
+  hunter: decideHunter,
+  scavenger: decideScavenger,
+  apex: decideApex,
+}
 
 export type Perception = {
   nearby: readonly EntityState[]
   attractionFields?: ReadonlyArray<{ center: Vec2; radius: number; strength: number; flow?: Vec2 }>
+}
+
+export function decideBehavior(
+  entity: EntityState,
+  memory: BehaviorMemory,
+  context: BehaviorContext,
+): BehaviorResult {
+  if (entity.status !== 'active' || entity.role === 'player') {
+    return result(transition(memory, 'idle', context.atMs), still())
+  }
+  if (context.profile.family === 'resource') {
+    return result(transition(memory, 'forage', context.atMs), deterministicWander(entity.id, context.atMs, 0.12))
+  }
+  const handler = behaviorHandlers[context.profile.family]
+  return handler
+    ? handler(entity, memory, context)
+    : result(transition(memory, 'idle', context.atMs), deterministicWander(entity.id, context.atMs, 0.18))
 }
 
 export function decideIntent(entity: EntityState, perception: Perception): MovementIntent {

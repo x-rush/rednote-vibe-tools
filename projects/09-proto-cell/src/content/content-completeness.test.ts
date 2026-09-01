@@ -26,6 +26,7 @@ describe('launch content completeness', () => {
     expect(pack.behaviorProfiles.map((profile) => profile.family).sort()).toEqual([
       'ambusher', 'apex', 'competitor', 'hunter', 'resource', 'scavenger', 'school', 'skittish',
     ])
+    expect(pack.creatures.every((creature) => pack.behaviorProfiles.some((profile) => profile.id === creature.behaviorProfileId))).toBe(true)
   })
 
   it('freezes every launch stable id', () => {

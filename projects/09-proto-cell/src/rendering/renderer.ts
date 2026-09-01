@@ -138,6 +138,9 @@ export function createCanvasRenderer(
       }
       for (const item of drawables) {
         if (item.entity.id.startsWith('eco-food-')) drawFoodSpawnBloom(context, item.x, item.y, item.radius, item.entity, snapshot.elapsedMs, options.reducedMotion ?? false)
+        drawBehaviorStateCue(context, item.entity, item.x, item.y, item.radius)
+        context.save()
+        if (item.entity.behaviorState === 'hide') context.globalAlpha = 0.38
         drawCell(context, item.entity, item.x, item.y, item.radius, visualTime, {
           quality,
           organelleIds: item.entity.faction === 'player' ? snapshot.playerOrganelleIdsByEntity[item.entity.id] ?? [] : undefined,
@@ -145,6 +148,7 @@ export function createCanvasRenderer(
           synergyIds: item.entity.faction === 'player' ? snapshot.playerSynergyIds : undefined,
           damageSource: item.entity.faction === 'player' ? snapshot.playerDamage?.source : undefined,
         })
+        context.restore()
         if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase !== 'dormant') {
           drawAssetLayer(context, loadAsset(`${snapshot.boss.id}:body`), item.x, item.y, item.radius * 2.45, 0.48)
           drawAssetLayer(context, loadAsset(`${snapshot.boss.id}:mask`), item.x, item.y, item.radius * 2.8, 0.72)
@@ -182,6 +186,44 @@ export function createCanvasRenderer(
     assetImages.set(path, loaded)
     return loaded
   }
+}
+
+function drawBehaviorStateCue(
+  context: CanvasRenderingContext2D,
+  entity: EntityState,
+  x: number,
+  y: number,
+  radius: number,
+) {
+  if (!entity.behaviorState || entity.faction === 'player') return
+  context.save()
+  context.translate(x, y)
+  if (entity.behaviorState === 'steal' || entity.behaviorState === 'harvest') {
+    context.globalAlpha = 0.72
+    context.strokeStyle = '#ffdc85'
+    context.lineWidth = 2
+    context.beginPath()
+    context.arc(0, 0, radius * 1.28, -Math.PI * 0.15, Math.PI * 0.55)
+    context.stroke()
+  } else if (entity.behaviorState === 'regroup') {
+    context.globalAlpha = 0.48
+    context.strokeStyle = '#8ff8ff'
+    context.lineWidth = 1.5
+    context.setLineDash([3, 5])
+    context.beginPath()
+    context.arc(0, 0, radius * 1.22, 0, Math.PI * 2)
+    context.stroke()
+  } else if (entity.behaviorState === 'charge' || entity.behaviorState === 'ambush') {
+    context.globalAlpha = 0.82
+    context.fillStyle = '#fff1a4'
+    context.beginPath()
+    context.moveTo(radius * 1.42, 0)
+    context.lineTo(radius * 1.08, -radius * 0.2)
+    context.lineTo(radius * 1.08, radius * 0.2)
+    context.closePath()
+    context.fill()
+  }
+  context.restore()
 }
 
 function drawEcologyCollapse(

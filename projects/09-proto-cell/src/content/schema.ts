@@ -112,6 +112,7 @@ export type CreatureDefinition = {
   role: 'resource' | 'prey' | 'scavenger' | 'hunter' | 'parasite' | 'swarm' | 'elite'
   sizeRange: [number, number]
   behaviorId: string
+  behaviorProfileId: BehaviorProfileId
   organelleTags: string[]
   environmentIds: EnvironmentId[]
   warningCueId?: string

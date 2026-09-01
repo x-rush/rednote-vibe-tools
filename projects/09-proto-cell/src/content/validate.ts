@@ -93,6 +93,7 @@ export function validateContent(input: unknown): ContentValidationResult {
   const organelleIds = idsOf(collections, 'organelles')
   const synergyIds = idsOf(collections, 'synergies')
   const creatureIds = idsOf(collections, 'creatures')
+  const behaviorProfileIds = idsOf(collections, 'behaviorProfiles')
   const creatureEnvironmentIdsById = new Map((collections.get('creatures') ?? []).flatMap((item) => (
     typeof item.id === 'string' && Array.isArray(item.environmentIds)
       ? [[item.id, new Set(item.environmentIds.filter((id): id is string => typeof id === 'string'))] as const]
@@ -118,7 +119,7 @@ export function validateContent(input: unknown): ContentValidationResult {
     ...(Array.isArray(item.augments) ? item.augments.flatMap((augment) => isRecord(augment) && typeof augment.organId === 'string' ? [augment.organId] : []) : []),
   ]))
   ;(collections.get('organelles') ?? []).forEach((item, index) => require(typeof item.id === 'string' && synergyOrganelleIds.has(item.id), `$.organelles[${index}]`, 'organelle must participate in a synergy'))
-  validateCreatures(collections.get('creatures') ?? [], environmentIds, visualsByKind.cell)
+  validateCreatures(collections.get('creatures') ?? [], environmentIds, visualsByKind.cell, behaviorProfileIds)
   validateEvents(collections.get('events') ?? [], environmentIds)
   validateBosses(collections.get('bosses') ?? [], environmentIds, visualsByKind.boss, globalIds)
   validateOrigins(collections.get('origins') ?? [], organelleIds, visualsByKind.cell)
@@ -256,13 +257,14 @@ export function validateContent(input: unknown): ContentValidationResult {
     })
   }
 
-  function validateCreatures(items: Record<string, unknown>[], environments: Set<string>, visuals: Set<string>) {
+  function validateCreatures(items: Record<string, unknown>[], environments: Set<string>, visuals: Set<string>, behaviorProfiles: Set<string>) {
     items.forEach((item, index) => {
       const base = `$.creatures[${index}]`
       requiredString(item.name, `${base}.name`)
       require(typeof item.role === 'string' && LEGAL_CREATURE_ROLES.has(item.role), `${base}.role`, 'creature role is invalid')
       requireTuple(item.sizeRange, `${base}.sizeRange`)
       requiredString(item.behaviorId, `${base}.behaviorId`)
+      reference(item.behaviorProfileId, behaviorProfiles, `${base}.behaviorProfileId`, 'behavior profile')
       requireStringArray(item.organelleTags, `${base}.organelleTags`, false)
       references(item.environmentIds, environments, `${base}.environmentIds`, 'environment', true)
       requiredString(item.warningCueId, `${base}.warningCueId`)

@@ -103,7 +103,15 @@ export function getRegionDefinition(environmentId: string): M0Environment {
     }
     return {
       ...m0,
-      entityDefinitions: m0.entityDefinitions.map((definition) => ({ ...definition, id: aliases[definition.id] ?? definition.id })),
+      entityDefinitions: m0.entityDefinitions.map((definition) => {
+        const id = aliases[definition.id] ?? definition.id
+        const creature = content.creatures.find((item) => item.id === id)
+        return {
+          ...definition,
+          id,
+          behaviorProfileId: (creature?.behaviorProfileId ?? (definition.role === 'nutrient' ? 'behavior-resource' : undefined)) as EntityDefinition['behaviorProfileId'],
+        }
+      }),
       spawnSchedule: m0.spawnSchedule.map((entry) => ({ ...entry, definitionId: aliases[entry.definitionId] ?? entry.definitionId })),
     }
   }
@@ -205,5 +213,6 @@ export function creatureEntityDefinition(creature: CreatureDefinition): EntityDe
     maxSpeed: hostile ? 54 : creature.role === 'resource' ? 10 : 48,
     visualRecipeId: creature.visualRecipeId,
     contactDamage: hostile ? { source: creature.role === 'elite' ? 'ram' : 'spine', amount: creature.role === 'elite' ? 12 : 7, periodMs: 1800, activeMs: 260, phaseOffsetMs: 0 } : undefined,
+    behaviorProfileId: creature.behaviorProfileId,
   }
 }

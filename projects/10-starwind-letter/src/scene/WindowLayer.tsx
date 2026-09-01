@@ -49,12 +49,12 @@ export function WindowLayer({ revealProgress }: WindowLayerProps) {
           <stop offset="1" stopColor="#192450" />
         </linearGradient>
         <linearGradient id={`${ids}-beam-near`} x1="1" y1="0" x2="0" y2="1">
-          <stop stopColor="#f2f6ff" stopOpacity="0.72" />
-          <stop offset="0.42" stopColor="#b6caff" stopOpacity="0.36" />
-          <stop offset="1" stopColor="#7892ed" stopOpacity="0.03" />
+          <stop stopColor="#f2f6ff" stopOpacity="0.48" />
+          <stop offset="0.42" stopColor="#b6caff" stopOpacity="0.22" />
+          <stop offset="1" stopColor="#7892ed" stopOpacity="0.02" />
         </linearGradient>
         <linearGradient id={`${ids}-beam-far`} x1="1" y1="0" x2="0" y2="1">
-          <stop stopColor="#eef4ff" stopOpacity="0.58" />
+          <stop stopColor="#eef4ff" stopOpacity="0.3" />
           <stop offset="1" stopColor="#768fdf" stopOpacity="0.02" />
         </linearGradient>
         <radialGradient id={`${ids}-moon`} cx="37%" cy="36%" r="70%">

@@ -4,8 +4,8 @@ import { describe, expect, it } from 'vitest'
 import { resetSceneSample, sampleTimeline } from '../experience/timeline'
 import { CurtainLayer } from './CurtainLayer'
 
-function firstPathNumbers(sample: ReturnType<typeof sampleTimeline>) {
-  const html = renderToStaticMarkup(createElement(CurtainLayer, { sample }))
+function firstPathNumbers(sample: ReturnType<typeof sampleTimeline>, reducedMotion = false) {
+  const html = renderToStaticMarkup(createElement(CurtainLayer, { sample, reducedMotion }))
   const path = html.match(/<path d="([^"]+)"/)?.[1]
   if (!path) throw new Error('Expected a curtain path')
   return Array.from(path.matchAll(/-?\d+(?:\.\d+)?/g), ([number]) => Number(number))
@@ -24,6 +24,20 @@ describe('curtain opening and reset motion', () => {
     const first = firstPathNumbers(sampleTimeline(7000, false))
     const later = firstPathNumbers(sampleTimeline(8200, false))
     expect(later).not.toEqual(first)
+  })
+
+  it('reduces persistent curtain travel when reduced motion is requested', () => {
+    const first = sampleTimeline(7000, false)
+    const later = sampleTimeline(8200, false)
+    const normalStart = firstPathNumbers(first)
+    const normalEnd = firstPathNumbers(later)
+    const reducedStart = firstPathNumbers(first, true)
+    const reducedEnd = firstPathNumbers(later, true)
+    const travel = (start: readonly number[], end: readonly number[]) => (
+      Math.max(...start.map((value, index) => Math.abs(value - (end[index] ?? value))))
+    )
+
+    expect(travel(reducedStart, reducedEnd)).toBeLessThan(travel(normalStart, normalEnd) * 0.6)
   })
 
   it('approaches the resting strand geometry before reset completes', () => {

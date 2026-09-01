@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createTimelineClock, resetSceneSample, sampleTimeline } from './timeline'
+import { createTimelineClock, resetSceneSample, sampleResetTimeline, sampleTimeline } from './timeline'
 
 describe('scene timeline', () => {
   it.each([
@@ -53,5 +53,18 @@ describe('timeline clock', () => {
     expect(clock.elapsed()).toBe(400)
     clock.reset()
     expect(clock.elapsed()).toBe(0)
+  })
+
+  it('keeps reset sampling frozen while its clock is paused', () => {
+    let now = 1000
+    const clock = createTimelineClock(() => now)
+    clock.start(); now = 1450; clock.pause(); now = 9450
+    expect(sampleResetTimeline(clock.elapsed())).toMatchObject({
+      stage: 'resetting', stageProgress: 0.3,
+    })
+    clock.resume(); now = 9900
+    expect(sampleResetTimeline(clock.elapsed())).toMatchObject({
+      stage: 'resetting', stageProgress: 0.6,
+    })
   })
 })

@@ -29,7 +29,7 @@ export function Scene({ sample, mood = 'dream', run = 0, reducedMotion = false, 
     <section className="scene" data-stage={sample.stage} aria-label="深蓝房间与月光夜窗">
       <WindowLayer revealProgress={reveal} />
       <ParticleCanvases sample={sample} entryProgress={reveal} mood={mood} run={run} reducedMotion={reducedMotion} enabled={particlesEnabled} />
-      <CurtainLayer sample={sample} />
+      <CurtainLayer sample={sample} reducedMotion={reducedMotion} />
       <div className="scene-content">{children}</div>
     </section>
   )

@@ -50,7 +50,7 @@ export function sampleCurtainPath(strand: CurtainStrand, openingProgress: number
   const shoulderProgress = curtainSegmentProgress(openingProgress, 0.1)
   const bodyProgress = curtainSegmentProgress(openingProgress, 0.24)
   const tailProgress = curtainSegmentProgress(openingProgress, 0.42)
-  const wave = Math.sin(timeMs / 720 + strand.phase) * ambientStrength * (10 + strand.response * 5)
+  const wave = Math.sin(timeMs / 720 + strand.phase) * ambientStrength * (18 + strand.response * 9)
   const verticalWave = Math.cos(timeMs / 930 + strand.phase) * ambientStrength * 2
 
   const closedStart = strand.anchor

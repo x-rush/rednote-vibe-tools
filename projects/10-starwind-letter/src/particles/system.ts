@@ -76,11 +76,8 @@ export function createParticleWorld(seed: number, quality: ParticleQuality, mood
       const y = 184 + random() * 226
       const baseSpawnAtMs = 1500
       const kindOffset = kind === 'dust' ? 0 : kind === 'trail' ? 220 : 360
-      const interval = kind === 'dust'
-        ? 12
-        : kind === 'trail'
-          ? 42
-          : (5000 - baseSpawnAtMs - kindOffset) / Math.max(1, count - 1)
+      const lastSpawnAtMs = kind === 'dust' ? 5700 : kind === 'trail' ? 5600 : 5000
+      const interval = (lastSpawnAtMs - baseSpawnAtMs - kindOffset) / Math.max(1, count - 1)
       const speed = kind === 'dust' ? 0.72 : kind === 'trail' ? 1.55 : 1
       particles.push({
         id,

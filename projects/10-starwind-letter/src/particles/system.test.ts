@@ -108,6 +108,15 @@ describe('particle spatial narrative', () => {
     expect(heroSpaces.some((space) => space === 'settling' || space === 'landed')).toBe(true)
   })
 
+  it('spreads the opening star stream across the full letter-forming scene', () => {
+    const world = createParticleWorld(42, 'full', 'dream')
+    const dustSpawns = world.particles.filter(({ kind }) => kind === 'dust').map(({ spawnAtMs }) => spawnAtMs)
+    const trailSpawns = world.particles.filter(({ kind }) => kind === 'trail').map(({ spawnAtMs }) => spawnAtMs)
+
+    expect(Math.max(...dustSpawns)).toBeGreaterThan(5000)
+    expect(Math.max(...trailSpawns)).toBeGreaterThan(5000)
+  })
+
   it('continues emitting stars for 60 seconds without exceeding the particle cap', () => {
     let world = createParticleWorld(42, 'full', 'hope')
     let latestSpawn = 0

@@ -3,7 +3,10 @@ import { createMulberry32 } from '../domain/random'
 import type { TimelineSample } from '../experience/timeline'
 import { createCurtainStrands, curtainPathData, sampleCurtainPath } from './curtain'
 
-interface CurtainLayerProps { readonly sample: TimelineSample }
+interface CurtainLayerProps {
+  readonly sample: TimelineSample
+  readonly reducedMotion?: boolean
+}
 
 function curtainMotion(sample: TimelineSample) {
   switch (sample.stage) {
@@ -24,10 +27,11 @@ function curtainMotion(sample: TimelineSample) {
   }
 }
 
-export function CurtainLayer({ sample }: CurtainLayerProps) {
+export function CurtainLayer({ sample, reducedMotion = false }: CurtainLayerProps) {
   const id = useId().replaceAll(':', '')
   const strands = useMemo(() => createCurtainStrands(64, createMulberry32(0x51a7)), [])
   const motion = curtainMotion(sample)
+  const ambient = motion.ambient * (reducedMotion ? 0.42 : 1)
   return (
     <svg className="curtain-layer" viewBox="0 0 390 844" aria-hidden="true" data-layer="curtain">
       <defs>
@@ -46,7 +50,7 @@ export function CurtainLayer({ sample }: CurtainLayerProps) {
         {strands.map((strand) => (
           <path
             key={strand.id}
-            d={curtainPathData(sampleCurtainPath(strand, motion.opening, sample.elapsedMs, motion.ambient))}
+            d={curtainPathData(sampleCurtainPath(strand, motion.opening, sample.elapsedMs, ambient))}
             fill="none"
             stroke={`url(#${id}-strand)`}
             strokeWidth={strand.id % 9 === 0 ? 0.9 : 0.46}

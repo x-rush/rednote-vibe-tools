@@ -3,7 +3,7 @@ import { createAudioController } from './audio/controller'
 import { messages, type StarMessage } from './content/messages'
 import { chooseNextMessage } from './domain/random'
 import { transition, type ExperienceState } from './experience/machine'
-import { createTimelineClock, resetSceneSample, sampleTimeline, type TimelineStage } from './experience/timeline'
+import { createTimelineClock, RESET_DURATION_MS, sampleResetTimeline, sampleTimeline, type TimelineStage } from './experience/timeline'
 import { Scene } from './scene/Scene'
 import { StarbornePhrase } from './ui/StarbornePhrase'
 import { ReplayControl } from './ui/ReplayControl'
@@ -32,6 +32,7 @@ export function App() {
   const [muted, setMuted] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('starwind-muted') === 'true')
   const recentIds = useRef<string[]>([])
   const clock = useRef(createTimelineClock())
+  const resetClock = useRef(createTimelineClock())
   const audio = useRef(createAudioController(() => new AudioContext()))
   const lastCueStage = useRef<TimelineStage | undefined>(undefined)
   const resetFrame = useRef<number | undefined>(undefined)
@@ -54,8 +55,12 @@ export function App() {
     const handleVisibility = () => {
       if (document.hidden) {
         clock.current.pause()
+        resetClock.current.pause()
         audio.current.pause()
-      } else if (selected && state.tag !== 'resetting') {
+      } else if (state.tag === 'resetting') {
+        resetClock.current.resume()
+        audio.current.resume()
+      } else if (selected) {
         clock.current.resume()
         audio.current.resume()
       }
@@ -107,15 +112,16 @@ export function App() {
     if (state.tag !== 'result') return
     if (resetFrame.current !== undefined) cancelAnimationFrame(resetFrame.current)
     setState((current) => transition(current, { type: 'replay' }))
-    const startedAt = performance.now()
-    const reset = (now: number) => {
-      const progress = Math.min(1, (now - startedAt) / 1500)
-      setSample(resetSceneSample(progress))
-      if (progress < 1) {
+    resetClock.current.start()
+    const reset = () => {
+      const elapsedMs = resetClock.current.elapsed()
+      setSample(sampleResetTimeline(elapsedMs))
+      if (elapsedMs < RESET_DURATION_MS) {
         resetFrame.current = requestAnimationFrame(reset)
         return
       }
       resetFrame.current = undefined
+      resetClock.current.reset()
       clock.current.reset()
       lastCueStage.current = undefined
       setSelected(undefined)

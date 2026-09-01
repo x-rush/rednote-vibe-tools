@@ -55,6 +55,12 @@ export function resetSceneSample(progress: number): TimelineSample {
   return { stage: 'resetting', stageProgress: amount, totalProgress: 1 - amount, elapsedMs: narrativeElapsedMs, narrativeElapsedMs, resultElapsedMs: 0 }
 }
 
+export const RESET_DURATION_MS = 1500
+
+export function sampleResetTimeline(elapsedMs: number): TimelineSample {
+  return resetSceneSample(elapsedMs / RESET_DURATION_MS)
+}
+
 export interface TimelineClock {
   start(): void; pause(): void; resume(): void; reset(): void; elapsed(): number; isRunning(): boolean
 }

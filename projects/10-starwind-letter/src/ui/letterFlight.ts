@@ -4,6 +4,7 @@ export interface LetterFlightSample {
   readonly character: string
   readonly index: number
   readonly source: Point
+  readonly target: Point
   readonly progress: number
   readonly translateX: number
   readonly translateY: number
@@ -13,7 +14,7 @@ export interface LetterFlightSample {
 }
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
-const easeOutCubic = (value: number) => 1 - (1 - value) ** 3
+const smoothstep = (value: number) => value * value * (3 - 2 * value)
 
 export function sampleLetterFlight(
   text: string,
@@ -33,16 +34,18 @@ export function sampleLetterFlight(
     }
     const delay = (index / Math.max(1, count - 1)) * 0.24
     const local = clamp((overall - delay) / Math.max(0.01, 1 - delay))
-    const eased = easeOutCubic(local)
+    const eased = smoothstep(local)
+    const target = {
+      x: 195 + (index - (count - 1) / 2) * Math.min(23.5, 292 / Math.max(1, count)),
+      y: 714,
+    }
     if (local >= 1) {
       return {
-        character, index, source, progress: 1,
+        character, index, source, target, progress: 1,
         translateX: 0, translateY: 0, rotationDeg: 0, blurPx: 0, opacity: 1,
       }
     }
 
-    const finalX = 195 + (index - (count - 1) / 2) * Math.min(23.5, 292 / Math.max(1, count))
-    const finalY = 714
     const remaining = 1 - eased
     const direction = index % 2 === 0 ? 1 : -1
     const arc = Math.sin(eased * Math.PI)
@@ -50,9 +53,10 @@ export function sampleLetterFlight(
       character,
       index,
       source,
+      target,
       progress: eased,
-      translateX: (source.x - finalX) * remaining * travelScale + direction * arc * 22 * travelScale,
-      translateY: (source.y - finalY) * remaining * travelScale - arc * (24 + index % 3 * 7) * travelScale,
+      translateX: (source.x - target.x) * remaining + direction * arc * 22 * travelScale,
+      translateY: (source.y - target.y) * remaining - arc * (24 + index % 3 * 7) * travelScale,
       rotationDeg: (direction * (18 + index % 5 * 7) * remaining + direction * arc * 9) * rotationScale,
       blurPx: Math.max(0, 8 * remaining),
       opacity: Math.min(1, 0.08 + eased * 0.92),

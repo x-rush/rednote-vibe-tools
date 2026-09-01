@@ -5,14 +5,7 @@ import rawContent from './content/content.json'
 import { ContentValidationError, getContent, type ContentPack, type ModifierId, type OriginId } from './content'
 import { createGameEngine } from './game/engine'
 import type { GameEvent } from './game/interactions'
-import {
-  continueMutationContext,
-  createMutationContext,
-  installMutation,
-  offerMutations,
-  type MutationChoice,
-  type MutationContext,
-} from './evolution/mutation'
+import { applyEvolution, createBuildState, offerEvolution, type BuildState, type EvolutionOffer } from './evolution/build'
 import { EvolutionOverlay } from './ui/EvolutionOverlay'
 import { GameCanvas } from './ui/GameCanvas'
 import { Hud } from './ui/Hud'
@@ -62,9 +55,13 @@ function GameApp({ content }: { content: ContentPack }) {
   }
   const controller = controllerRef.current
   const [view, setView] = useState(() => controller.snapshot())
-  const mutationContextRef = useRef<MutationContext>(createMutationContext('env-clear-drop'))
-  const mutationChoicesRef = useRef<MutationChoice[]>([])
-  const [mutationChoices, setMutationChoices] = useState<MutationChoice[]>([])
+  const buildStateRef = useRef<BuildState>(createBuildState())
+  const mutationChoicesRef = useRef<EvolutionOffer[]>([])
+  const recentTraitIdsRef = useRef<BuildState['traitIds']>([])
+  const unlockedTraitIdsRef = useRef<BuildState['traitIds']>(content.organelles.map((organ) => organ.id))
+  const metamorphTimerRef = useRef<number | undefined>(undefined)
+  const [mutationChoices, setMutationChoices] = useState<EvolutionOffer[]>([])
+  const [metamorphosis, setMetamorphosis] = useState<{ bodyStage: BuildState['bodyStage']; route: EvolutionOffer['route'] }>()
   const [migrationRoutes, setMigrationRoutes] = useState<ContentPack['journey']['stages'][number]['routeOffers']>([])
   const [save, setSave] = useState(createDefaultSave)
   const [hasArchive, setHasArchive] = useState(false)
@@ -84,7 +81,11 @@ function GameApp({ content }: { content: ContentPack }) {
   }, [controller, sync])
   const modalButtonRef = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => () => { controller.destroy(); audioRef.current?.destroy() }, [controller])
+  useEffect(() => () => {
+    controller.destroy()
+    audioRef.current?.destroy()
+    if (metamorphTimerRef.current !== undefined) window.clearTimeout(metamorphTimerRef.current)
+  }, [controller])
 
   useEffect(() => {
     let active = true
@@ -223,20 +224,24 @@ function GameApp({ content }: { content: ContentPack }) {
       && mutationChoicesRef.current.length === 0
       && events.some((event) => event.type === 'mutation-ready')
     if (canEvolve) {
-      const evolution = controller.engine()?.evolutionSnapshot()
-      if (evolution) {
-        mutationContextRef.current = {
-          ...mutationContextRef.current,
-          organIds: evolution.organelles.map((organ) => organ.id),
-          matureOrganIds: evolution.organelles.filter((organ) => organ.stage === 'mature').map((organ) => organ.id),
-          installed: [...evolution.organelles],
-          stability: evolution.stability,
-          capacity: evolution.capacity,
-        }
-      }
-      const choices = offerMutations(mutationContextRef.current)
+      const activeEngine = controller.engine()
+      const run = activeEngine?.runSnapshot()
+      const stageIndex = run?.stageIndex ?? 0
+      const environmentId = (activeEngine?.snapshot().environmentId ?? 'env-clear-drop') as ContentPack['environments'][number]['id']
+      const remainingEnvironmentIds = content.journey.stages
+        .slice(stageIndex + 1)
+        .flatMap((stage) => stage.routeOffers.map((route) => route.destinationEnvironmentId))
+      const choices = offerEvolution(buildStateRef.current, {
+        seed: controller.snapshot().seed ?? 727,
+        environmentId,
+        stageIndex,
+        remainingEnvironmentIds,
+        unlockedTraitIds: unlockedTraitIdsRef.current,
+        recentTraitIds: recentTraitIdsRef.current,
+      })
       if (choices.length > 0) {
-        controller.engine()?.pause('evolution')
+        activeEngine?.pause('evolution')
+        recentTraitIdsRef.current = choices.map((choice) => choice.traitId)
         mutationChoicesRef.current = choices
         setMutationChoices(choices)
       }
@@ -244,39 +249,56 @@ function GameApp({ content }: { content: ContentPack }) {
     sync()
   }, [activeModifierIds, content, controller, sync])
 
-  const confirmMutation = useCallback((choice: MutationChoice) => {
-    const result = installMutation(mutationContextRef.current, choice)
-    controller.engine()?.applyMutation(result)
+  const confirmMutation = useCallback((choice: EvolutionOffer) => {
+    const nextBuild = applyEvolution(buildStateRef.current, choice)
+    buildStateRef.current = nextBuild
+    setMetamorphosis({ bodyStage: nextBuild.bodyStage, route: choice.route })
+    controller.engine()?.applyEvolution(nextBuild)
     setSave((current) => {
-      const synergyRewards = result.synergyIds.map((id) => {
+      const synergyRewards = nextBuild.synergyIds.map((id) => {
         const repeats = current.progression.rewardCounts[`synergy:${id}`] ?? 0
         return { kind: 'synergy' as const, id, first: repeats === 0, repeats }
       })
       const { awarded: _awarded, ...progression } = awardGenes(current.progression, synergyRewards)
-      return { ...current, progression: { ...progression, discoveredSynergyIds: [...new Set([...progression.discoveredSynergyIds, ...result.synergyIds])] } }
+      return { ...current, progression: { ...progression, discoveredSynergyIds: [...new Set([...progression.discoveredSynergyIds, ...nextBuild.synergyIds])] } }
     })
-    mutationContextRef.current = continueMutationContext(mutationContextRef.current, result)
     controller.handle({
       type: 'mutation-selected',
       entityId: 'player',
-      organId: choice.organId,
-      action: choice.action,
+      organId: choice.traitId,
+      action: 'install',
       atMs: controller.engine()?.snapshot().elapsedMs ?? 0,
     })
     mutationChoicesRef.current = []
     setMutationChoices([])
     setMigrationRoutes([])
-    controller.engine()?.resume('evolution')
+    if (metamorphTimerRef.current !== undefined) window.clearTimeout(metamorphTimerRef.current)
+    metamorphTimerRef.current = window.setTimeout(() => {
+      controller.engine()?.resume('evolution')
+      setMetamorphosis(undefined)
+      metamorphTimerRef.current = undefined
+    }, save.settings.reducedMotion ? 180 : 900)
     sync()
-  }, [controller, sync])
+  }, [controller, save.settings.reducedMotion, sync])
 
   const resetMutationRun = useCallback(() => {
     const geneLockedOrgans = new Set(content.geneNodes.flatMap((node) => node.unlockIds.filter((id) => id.startsWith('organelle-'))))
     const availableOrgans = content.organelles.filter((organ) => !geneLockedOrgans.has(organ.id) || save.progression.unlockedIds.includes(organ.id)).map((organ) => organ.id)
-    mutationContextRef.current = createMutationContext('env-clear-drop', availableOrgans)
+    const origin = content.origins.find((candidate) => candidate.id === selectedOriginId)
+    const initialTraitIds = origin?.initialOrganelleIds.filter((id) => availableOrgans.includes(id)) ?? []
+    const routeCounts = initialTraitIds.reduce<BuildState['routeCounts']>((counts, id) => {
+      const route = content.organelles.find((organ) => organ.id === id)?.evolutionRoute
+      if (route) counts[route] += 1
+      return counts
+    }, { predation: 0, survival: 0, colony: 0 })
+    buildStateRef.current = createBuildState({ traitIds: initialTraitIds, routeCounts })
+    unlockedTraitIdsRef.current = availableOrgans
+    recentTraitIdsRef.current = []
+    setMetamorphosis(undefined)
     mutationChoicesRef.current = []
     setMutationChoices([])
-  }, [content, save.progression.unlockedIds])
+    if (metamorphTimerRef.current !== undefined) window.clearTimeout(metamorphTimerRef.current)
+  }, [content, save.progression.unlockedIds, selectedOriginId])
 
   const engine = controller.engine()
   const archiveModel = createViewModel(view, content).archive
@@ -304,6 +326,13 @@ function GameApp({ content }: { content: ContentPack }) {
                 setMigrationRoutes([])
               }}
             />
+          )}
+          {metamorphosis && (
+            <div className={`metamorphosis metamorphosis--${metamorphosis.route}`} role="status" aria-live="polite">
+              <span data-stage={metamorphosis.bodyStage} aria-hidden="true"><i /><b /><em /></span>
+              <strong>{content.ui.labels.metamorphosisComplete}</strong>
+              <small>{content.ui.labels[`bodyStage${metamorphosis.bodyStage[0].toUpperCase()}${metamorphosis.bodyStage.slice(1)}`]}</small>
+            </div>
           )}
           {view.screen === 'paused' && (
           <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title" onKeyDown={trapModalFocus}>
@@ -355,7 +384,7 @@ function GameApp({ content }: { content: ContentPack }) {
             />
           )}
         </div>
-        {mutationChoices.length > 0 && <EvolutionOverlay choices={mutationChoices} onConfirm={confirmMutation} />}
+        {mutationChoices.length > 0 && <EvolutionOverlay choices={mutationChoices} currentBuild={buildStateRef.current} onConfirm={confirmMutation} />}
       </main>
     )
   }

@@ -74,6 +74,7 @@ export type WorldRenderSnapshot = {
   height: number
   playerId: string
   bodyStage: BodyStage
+  playerBuild?: BuildState
   entities: readonly EntityState[]
   playerOrganelleIdsByEntity: Readonly<Record<string, readonly OrganelleId[]>>
   playerStability: number
@@ -280,6 +281,7 @@ export function createGameEngine(options: {
         journeyIndex: journeyEnabled ? runDirectorState.stageIndex + 1 : Math.min(6, routeStageIndex + 1),
         journeyTotal: (content.journey as JourneyDefinition).stages.length,
         bodyStage: currentBodyStage(),
+        playerBuild: createBuildState(buildState),
         bodyStageProgress: clamp(biomass / Math.max(1, evolutionThreshold), 0, 1),
         membraneRatio: clamp(membrane / Math.max(1, playerDefinition.membrane), 0, 1),
         swarm: activeSwarm ? {

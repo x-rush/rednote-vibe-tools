@@ -1,6 +1,8 @@
 import type { EntityState } from '../domain/types'
 import rawContent from '../content/content.json'
 import type { RenderQuality } from './effects'
+import { createBuildState, type BuildState } from '../evolution/build'
+import { morphologyFor } from './morphology'
 
 export type CellPalette = {
   membrane: string
@@ -74,13 +76,17 @@ export function drawCell(
   screenY: number,
   radius: number,
   elapsedMs: number,
-  options: { quality?: RenderQuality; organelleIds?: readonly string[]; stability?: number; synergyIds?: readonly string[]; damageSource?: 'acid' | 'electric' | 'spine' | 'ram' } = {},
+  options: { quality?: RenderQuality; build?: BuildState; organelleIds?: readonly string[]; stability?: number; synergyIds?: readonly string[]; damageSource?: 'acid' | 'electric' | 'spine' | 'ram' } = {},
 ): void {
-  const profile = cellVisualProfile(entity)
+  const baseProfile = cellVisualProfile(entity)
+  const playerMorphology = entity.faction === 'player'
+    ? morphologyFor(options.build ?? createBuildState({ traitIds: (options.organelleIds ?? []) as BuildState['traitIds'] }))
+    : undefined
+  const profile = playerMorphology ? { ...baseProfile, silhouette: playerMorphology.silhouette } : baseProfile
   const palette = profile.palette
   const toneBands = cellToneBands(palette)
   const pulse = 1 + Math.sin(elapsedMs / 520 + hashPhase(entity.id)) * 0.025
-  const bodyRadius = radius * pulse
+  const bodyRadius = radius * pulse * (playerMorphology?.membraneScale ?? 1)
   const speed = Math.hypot(entity.velocity.x, entity.velocity.y)
   const heading = speed > 0.5 ? Math.atan2(entity.velocity.y, entity.velocity.x) : hashPhase(entity.id) * 0.08
 
@@ -130,24 +136,27 @@ export function drawCell(
   context.fill()
   context.stroke()
 
-  // 5. Abstract installed organelles.
+  // 5. Installed traits become authored exterior morphology on the player.
   context.fillStyle = palette.organ
   context.shadowBlur = 6
   const organelleIds = options.organelleIds
-  const organCount = organelleIds === undefined ? 3 : organelleIds.length
-  for (let index = 0; index < organCount; index += 1) {
-    const organId = organelleIds?.[index] ?? `${entity.id}:${index}`
-    const angle = hashPhase(organId) + index * Math.PI * 2 / organCount + elapsedMs / 5600
+  if (playerMorphology) drawMorphologyParts(context, playerMorphology.parts, radius, elapsedMs, palette)
+  else {
+    const organCount = organelleIds === undefined ? 3 : organelleIds.length
+    for (let index = 0; index < organCount; index += 1) {
+      const organId = organelleIds?.[index] ?? `${entity.id}:${index}`
+      const angle = hashPhase(organId) + index * Math.PI * 2 / organCount + elapsedMs / 5600
+      context.beginPath()
+      context.ellipse(Math.cos(angle) * radius * 0.53, Math.sin(angle) * radius * 0.48, radius * 0.17, radius * 0.09, angle, 0, Math.PI * 2)
+      context.fill()
+    }
+  }
+
+  if ((playerMorphology?.coreCount ?? 1) > 1) {
+    context.globalAlpha = 0.82
+    context.fillStyle = palette.core
     context.beginPath()
-    context.ellipse(
-      Math.cos(angle) * radius * 0.53,
-      Math.sin(angle) * radius * 0.48,
-      radius * 0.17,
-      radius * 0.09,
-      angle,
-      0,
-      Math.PI * 2,
-    )
+    context.arc(-radius * 0.28, radius * 0.2, radius * 0.16, 0, Math.PI * 2)
     context.fill()
   }
 
@@ -222,6 +231,58 @@ export function drawCell(
     context.stroke()
   }
 
+  context.restore()
+}
+
+function drawMorphologyParts(
+  context: CanvasRenderingContext2D,
+  parts: readonly string[],
+  radius: number,
+  elapsedMs: number,
+  palette: CellPalette,
+) {
+  context.save()
+  context.strokeStyle = palette.organ
+  context.fillStyle = palette.organ
+  context.lineWidth = Math.max(1.5, radius * 0.06)
+  parts.forEach((part, index) => {
+    const lane = (index - (parts.length - 1) / 2) * radius * 0.24
+    if (part.includes('tail') || part.includes('jet')) {
+      context.beginPath()
+      context.moveTo(-radius * 0.72, lane * 0.5)
+      context.bezierCurveTo(-radius * 1.15, lane - radius * 0.2, -radius * 1.35, lane + Math.sin(elapsedMs / 130 + index) * radius * 0.28, -radius * 1.65, lane)
+      context.stroke()
+      return
+    }
+    if (part.includes('maw') || part.includes('proboscis')) {
+      context.beginPath()
+      context.moveTo(radius * 0.65, lane - radius * 0.16)
+      context.quadraticCurveTo(radius * 1.25, lane, radius * 0.65, lane + radius * 0.16)
+      context.stroke()
+      return
+    }
+    if (part.includes('plate') || part.includes('membrane') || part.includes('rim')) {
+      context.globalAlpha = 0.72
+      context.beginPath()
+      context.arc(0, 0, radius * (0.82 + index * 0.025), -1.2 + index * 0.35, -0.35 + index * 0.35)
+      context.stroke()
+      context.globalAlpha = 1
+      return
+    }
+    if (part.includes('spine')) {
+      const angle = -0.9 + index * 0.42
+      context.beginPath()
+      context.moveTo(Math.cos(angle) * radius * 0.78, Math.sin(angle) * radius * 0.78)
+      context.lineTo(Math.cos(angle) * radius * 1.3, Math.sin(angle) * radius * 1.3)
+      context.stroke()
+      return
+    }
+    const angle = -1.2 + index * (Math.PI * 2 / Math.max(1, parts.length)) + elapsedMs / 7000
+    const distance = part.includes('orbit') ? radius * 1.08 : radius * 0.6
+    context.beginPath()
+    context.ellipse(Math.cos(angle) * distance, Math.sin(angle) * distance, radius * 0.16, radius * 0.1, angle, 0, Math.PI * 2)
+    context.fill()
+  })
   context.restore()
 }
 

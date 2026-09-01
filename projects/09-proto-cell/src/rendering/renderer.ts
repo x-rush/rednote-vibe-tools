@@ -143,6 +143,7 @@ export function createCanvasRenderer(
         if (item.entity.behaviorState === 'hide') context.globalAlpha = 0.38
         drawCell(context, item.entity, item.x, item.y, item.radius, visualTime, {
           quality,
+          build: item.entity.faction === 'player' ? snapshot.playerBuild : undefined,
           organelleIds: item.entity.faction === 'player' ? snapshot.playerOrganelleIdsByEntity[item.entity.id] ?? [] : undefined,
           stability: item.entity.faction === 'player' ? snapshot.playerStability : undefined,
           synergyIds: item.entity.faction === 'player' ? snapshot.playerSynergyIds : undefined,

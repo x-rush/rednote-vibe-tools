@@ -6,6 +6,7 @@ export type ContentValidationResult = { issues: ContentIssue[]; value?: ContentP
 const LEGAL_ANCHOR_SLOTS = new Set(['core', 'membrane', 'front', 'rear', 'left', 'right', 'internal', 'symbiont'])
 const LEGAL_ORGAN_CATEGORIES = new Set(['sense', 'move', 'feed', 'defend', 'attack', 'metabolism', 'reproduce', 'symbiosis'])
 const LEGAL_RARITIES = new Set(['common', 'uncommon', 'rare'])
+const LEGAL_EVOLUTION_ROUTES = new Set(['predation', 'survival', 'colony'])
 const LEGAL_CREATURE_ROLES = new Set(['resource', 'prey', 'scavenger', 'hunter', 'parasite', 'swarm', 'elite'])
 const LEGAL_BOSS_PATHS = new Set(['combat', 'environment', 'stealth', 'parasite'])
 const LEGAL_VISUAL_KINDS = new Set(['cell', 'organelle', 'synergy', 'environment', 'event', 'boss', 'ui'])
@@ -223,6 +224,10 @@ export function validateContent(input: unknown): ContentValidationResult {
       shortCopy(item.triggerDescription, `${base}.triggerDescription`, 72)
       requiredString(item.behaviorId, `${base}.behaviorId`)
       reference(item.visualMutationId, visuals, `${base}.visualMutationId`, 'visual recipe')
+      require(typeof item.evolutionRoute === 'string' && LEGAL_EVOLUTION_ROUTES.has(item.evolutionRoute), `${base}.evolutionRoute`, 'evolution route is invalid')
+      require(typeof item.evolutionTriggerId === 'string' && /^trigger-[a-z0-9-]+$/.test(item.evolutionTriggerId), `${base}.evolutionTriggerId`, 'behavior trigger is required')
+      requiredString(item.morphologyPartId, `${base}.morphologyPartId`)
+      shortCopy(item.costText, `${base}.costText`, 48)
     })
   }
 

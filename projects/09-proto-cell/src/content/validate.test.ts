@@ -198,4 +198,19 @@ describe('content integrity validation', () => {
 
     expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.behaviorProfiles[0].weaknessId')
   })
+
+  it('requires every evolution to declare a route, trigger, morphology, and visible cost', () => {
+    const pack = contentFixture()
+    delete (pack.organelles[0] as Partial<typeof pack.organelles[0]>).evolutionRoute
+    ;(pack.organelles[1] as typeof pack.organelles[1]).evolutionTriggerId = ''
+    ;(pack.organelles[2] as typeof pack.organelles[2]).morphologyPartId = ''
+    ;(pack.organelles[3] as typeof pack.organelles[3]).costText = ''
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.organelles[0].evolutionRoute',
+      '$.organelles[1].evolutionTriggerId',
+      '$.organelles[2].morphologyPartId',
+      '$.organelles[3].costText',
+    ]))
+  })
 })

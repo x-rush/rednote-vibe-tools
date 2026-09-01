@@ -90,6 +90,10 @@ export type OrganelleDefinition = {
   triggerDescription: string
   behaviorId: string
   visualMutationId: string
+  evolutionRoute: 'predation' | 'survival' | 'colony'
+  evolutionTriggerId: `trigger-${string}`
+  morphologyPartId: string
+  costText: string
   environmentIds: EnvironmentId[]
   unlockId?: string
 }

@@ -1,10 +1,11 @@
 import { getContent, type AnchorSlot, type EnvironmentId, type OrganelleDefinition, type OrganelleId, type SynergyId } from '../content'
 import type { InstalledOrganelle } from './organs'
+import { bodyStageAfterOffer, createBuildState, type EvolutionOffer } from './build'
 
 export type MutationLane = 'continuation' | 'adaptation' | 'risk'
 export type MutationAction = 'install' | 'mature' | 'replace' | 'recombine' | 'expand'
 
-export type MutationChoice = {
+export type MutationChoice = Omit<EvolutionOffer, 'traitId'> & {
   organId: OrganelleId
   lane: MutationLane
   action: MutationAction
@@ -154,6 +155,15 @@ function toChoice(definition: OrganelleDefinition, lane: MutationLane, context: 
   return {
     organId: definition.id,
     lane,
+    route: definition.evolutionRoute,
+    resultingBodyStage: bodyStageAfterOffer(createBuildState({
+      evolutionCount: context.organIds.length,
+      traitIds: context.organIds,
+      stability: context.stability,
+    }), { stageIndex: context.organIds.length === 0 ? 0 : -1, evolutionCount: context.organIds.length }),
+    behaviorText: definition.shortEffect,
+    costText: definition.costText,
+    triggerAvailable: definition.environmentIds.includes(context.environmentId),
     action,
     replacedOrganId,
     currentStability: context.stability,

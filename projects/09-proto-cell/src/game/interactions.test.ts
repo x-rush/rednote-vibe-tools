@@ -1,8 +1,19 @@
 import { describe, expect, it } from 'vitest'
 import { entity, testInteractionContext } from '../tests/fixtures'
-import { resolveInteraction } from './interactions'
+import { resolveInteraction, type GameEvent } from './interactions'
 
 describe('entity interactions', () => {
+  it('keeps migration events structured for deterministic replay', () => {
+    const event: GameEvent = {
+      type: 'route-selected',
+      routeId: 'journey-route-algae-feast',
+      environmentId: 'env-algae-glow',
+      atMs: 60_000,
+    } as const
+
+    expect(event).toMatchObject({ routeId: 'journey-route-algae-feast', environmentId: 'env-algae-glow' })
+  })
+
   it('engulfs once when a larger cell covers most of its prey', () => {
     const context = testInteractionContext()
     const predator = entity('large', 20)

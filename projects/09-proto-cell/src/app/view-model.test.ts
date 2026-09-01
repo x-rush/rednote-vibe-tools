@@ -64,7 +64,7 @@ describe('app result view model', () => {
     const model = createViewModel({
       screen: 'result',
       eventLog: eventLog([
-        { type: 'route-selected', environmentId: 'env-acid-vesicle', atMs: 4000 },
+        { type: 'route-selected', routeId: 'journey-route-acid-mutation', environmentId: 'env-acid-vesicle', atMs: 4000 },
         { type: 'player-died', cause: 'acid', atMs: 8000 },
       ]),
     }, content).archive!

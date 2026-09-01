@@ -1,3 +1,4 @@
+import type { JourneyStageDefinition } from '../content'
 import type { BodyShape, EntityState, Vec2 } from '../domain/types'
 import { mostlyContains } from './containment'
 
@@ -12,7 +13,10 @@ export type GameEvent =
   | { type: 'mutation-ready'; entityId: string; atMs: number }
   | { type: 'mutation-selected'; entityId: string; organId: string; action: string; atMs: number }
   | { type: 'event-phase'; eventId: string; phase: 'telegraph' | 'active' | 'expired'; atMs: number }
-  | { type: 'route-selected'; environmentId: string; atMs: number }
+  | { type: 'collapse-warning'; stageIndex: number; atMs: number }
+  | { type: 'migration-ready'; stageIndex: number; routes: JourneyStageDefinition['routeOffers']; atMs: number }
+  | { type: 'migration-forced'; stageIndex: number; routeId: string; destinationEnvironmentId: string; atMs: number }
+  | { type: 'route-selected'; routeId: string; environmentId: string; atMs: number }
   | { type: 'boss-resolved'; bossId: string; path: 'combat' | 'environment' | 'stealth' | 'parasite'; atMs: number }
   | { type: 'player-died'; cause: string; defeatedByDefinitionId?: string; atMs: number }
   | { type: 'ending-reached'; endingId: string; atMs: number }

@@ -43,7 +43,7 @@ describe('M0 app controller', () => {
   it('records structured run facts and ends on a real ending event', () => {
     const controller = createController(testDependencies())
     controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
-    controller.handle({ type: 'route-selected', environmentId: 'env-acid-vesicle', atMs: 5000 })
+    controller.handle({ type: 'route-selected', routeId: 'journey-route-acid-mutation', environmentId: 'env-acid-vesicle', atMs: 5000 })
     controller.handle({ type: 'ending-reached', endingId: 'ending-stable-species', atMs: 6000 })
 
     expect(controller.snapshot()).toMatchObject({ screen: 'result', cause: 'ending-stable-species' })

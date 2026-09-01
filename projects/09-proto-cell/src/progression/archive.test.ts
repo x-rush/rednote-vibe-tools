@@ -18,7 +18,7 @@ describe('life archive derivation', () => {
       { type: 'engulfed', predatorId: 'player', preyId: 'prey', biomass: 48, atMs: 1000 },
       { type: 'mutation-selected', entityId: 'player', organId: 'organelle-jet-vacuole', action: 'install', atMs: 2000 },
       { type: 'mutation-selected', entityId: 'player', organId: 'organelle-shell-plate', action: 'install', atMs: 3000 },
-      { type: 'route-selected', environmentId: 'env-acid-vesicle', atMs: 4000 },
+      { type: 'route-selected', routeId: 'journey-route-acid-mutation', environmentId: 'env-acid-vesicle', atMs: 4000 },
       { type: 'ending-reached', endingId: 'ending-stable-species', atMs: 5000 },
     ])
     log[0]!.snapshot = { runSeed: 727, elapsedMs: 1000, environmentId: 'env-clear-drop', biomass: 192, organelleIds: [] }
@@ -98,8 +98,8 @@ describe('life archive derivation', () => {
 
   it('uses content progression order rather than whichever environment event was logged last', () => {
     const archive = deriveLifeArchive(eventLog([
-      { type: 'route-selected', environmentId: 'env-acid-vesicle', atMs: 4000 },
-      { type: 'route-selected', environmentId: 'env-algae-glow', atMs: 5000 },
+      { type: 'route-selected', routeId: 'journey-route-acid-mutation', environmentId: 'env-acid-vesicle', atMs: 4000 },
+      { type: 'route-selected', routeId: 'journey-route-algae-blackout', environmentId: 'env-algae-glow', atMs: 5000 },
       { type: 'player-died', cause: 'engulfed', atMs: 6000 },
     ]), testContent())
 

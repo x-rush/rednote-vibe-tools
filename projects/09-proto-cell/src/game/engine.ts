@@ -436,7 +436,7 @@ export function createGameEngine(options: {
       }, elapsedMs)
       if (entered) {
         selectedRouteId = entered.id
-        events.push({ type: 'route-selected', environmentId: entered.destinationEnvironmentId, atMs: elapsedMs })
+        events.push({ type: 'route-selected', routeId: entered.id, environmentId: entered.destinationEnvironmentId, atMs: elapsedMs })
         enterEnvironment(entered.destinationEnvironmentId)
         return
       }

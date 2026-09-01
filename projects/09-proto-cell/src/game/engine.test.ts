@@ -9,6 +9,61 @@ import { createBuildState } from '../evolution/build'
 import { generateRegion } from '../world/generator'
 
 describe('game engine lifecycle', () => {
+  it('turns engulf biomass into lifecycle pressure without exceeding the tier radius', () => {
+    const engine = createGameEngine({ seed: 727 })
+    const entities = engine.renderSnapshot().entities
+    const player = entities.find((entity) => entity.id === 'player')!
+    const food = entities.find((entity) => entity.faction !== 'player' && entity.body.radius < player.body.radius)!
+    player.mass = 10_000
+    player.body = circleBody(player.position, 22)
+    food.position = { ...player.position }
+    food.body = circleBody(food.position, food.body.radius)
+    food.materializingUntilMs = -1
+
+    engine.start()
+    engine.advance(1000 / 60)
+
+    expect(engine.renderSnapshot().entities.find((entity) => entity.id === 'player')?.body.radius).toBeLessThanOrEqual(22)
+    expect(engine.snapshot()).toMatchObject({
+      formId: 'form-primal-cell',
+      tierIndex: 0,
+    })
+    expect(engine.snapshot().biomass).toBeGreaterThan(144)
+    expect(engine.renderSnapshot().lifecycle.bodyRadius).toBeLessThanOrEqual(22)
+  })
+
+  it('emits transition readiness once and advances only through the explicit engine command', () => {
+    const engine = createTestEngine({
+      seed: 727,
+      lifecycle: { tierBiomass: 260, evolutionPressure: 1, encounterResolved: true },
+    })
+    engine.advance(1000 / 60)
+
+    expect(engine.drainEvents().filter((event) => event.type === 'form-transition-ready')).toHaveLength(1)
+    engine.advance(1000 / 60)
+    expect(engine.drainEvents().filter((event) => event.type === 'form-transition-ready')).toHaveLength(0)
+
+    engine.advanceForm()
+    expect(engine.snapshot()).toMatchObject({
+      formId: 'form-colony-body',
+      tierIndex: 1,
+      tierProgress: 0,
+    })
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({
+      type: 'form-transitioned',
+      fromFormId: 'form-primal-cell',
+      toFormId: 'form-colony-body',
+    }))
+  })
+
+  it('fails closed before rendering a non-finite player body', () => {
+    const engine = createGameEngine({ seed: 727 })
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    player.position.x = Number.NaN
+
+    expect(() => engine.renderSnapshot()).toThrowError(expect.objectContaining({ name: 'LifecycleInvariantError' }))
+  })
+
   it('guarantees the first evolution by the authored 45-second deadline', () => {
     const engine = createGameEngine({ seed: 727, initialElapsedMs: 44_950 })
     engine.start()

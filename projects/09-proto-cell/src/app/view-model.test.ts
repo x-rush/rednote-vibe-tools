@@ -63,6 +63,9 @@ describe('app result view model', () => {
         journeyTotal: 6,
         bodyStage: 'microbe',
         bodyStageProgress: 0.78,
+        formId: 'form-primal-cell',
+        tierIndex: 0,
+        tierProgress: 0.78,
         membraneRatio: 0,
       },
     }, content)
@@ -110,6 +113,9 @@ describe('combat HUD view model', () => {
       journeyTotal: 6,
       bodyStage: 'microbe',
       bodyStageProgress: 0.32,
+      formId: 'form-primal-cell',
+      tierIndex: 0,
+      tierProgress: 0.32,
       membraneRatio: 0.82,
     }, testContent())
 

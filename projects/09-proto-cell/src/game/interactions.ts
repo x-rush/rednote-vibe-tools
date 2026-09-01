@@ -1,4 +1,4 @@
-import type { JourneyStageDefinition } from '../content'
+import type { FormId, JourneyStageDefinition } from '../content'
 import type { BodyShape, EntityState, Vec2 } from '../domain/types'
 import { mostlyContains } from './containment'
 
@@ -13,6 +13,8 @@ export type GameEvent =
   | { type: 'trait-triggered'; entityId: string; traitId: string; effectId: string; durationMs?: number; atMs: number }
   | { type: 'mutation-ready'; entityId: string; atMs: number }
   | { type: 'mutation-selected'; entityId: string; organId: string; action: string; atMs: number }
+  | { type: 'form-transition-ready'; fromFormId: FormId; toFormId: FormId; atMs: number }
+  | { type: 'form-transitioned'; fromFormId: FormId; toFormId: FormId; atMs: number }
   | { type: 'event-phase'; eventId: string; phase: 'telegraph' | 'active' | 'expired'; atMs: number }
   | { type: 'collapse-warning'; stageIndex: number; atMs: number }
   | { type: 'migration-ready'; stageIndex: number; routes: JourneyStageDefinition['routeOffers']; atMs: number }

@@ -1,6 +1,6 @@
 import content from '../content/content.json'
 import { getBehaviorProfile } from '../content'
-import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EcologyBudgetDefinition, EventId, FirstRunAssistDefinition, JourneyDefinition, OrganelleId, OriginId, StageThreatProfileDefinition } from '../content'
+import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EcologyBudgetDefinition, EventId, FirstRunAssistDefinition, FormId, JourneyDefinition, OrganelleId, OriginId, ScaleTierDefinition, StageThreatProfileDefinition } from '../content'
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideBehavior, decideIntent } from '../entities/ai'
 import type { BehaviorMemory } from '../entities/behaviors/types'
@@ -28,6 +28,7 @@ import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type E
 import { createBuildState, type BuildState } from '../evolution/build'
 import { evaluateTriggers, type TriggerFrame, type TriggerOutcome } from '../evolution/triggers'
 import { isMaterializing, isThreatArrivalInactive, materializeSpawn, stepThreatArrival } from './materialization'
+import { advanceLifecycle, applyLifecycleBiomass, canAdvanceLifecycle, createLifecycle, radiusForTierProgress, type LifecycleState } from '../evolution/lifecycle'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution' | 'canvas'
 
@@ -46,6 +47,9 @@ export type HudSnapshot = {
   journeyTotal: number
   bodyStage: BodyStage
   bodyStageProgress: number
+  formId: FormId
+  tierIndex: number
+  tierProgress: number
   membraneRatio: number
   swarm?: { bodyCount: number; minimumRemainingMs: number; fusionProgress: number }
 }
@@ -90,6 +94,7 @@ export type WorldRenderSnapshot = {
   collapsePhase: RunPhase
   collapseProgress: number
   migrationDirection?: Vec2
+  lifecycle: LifecycleState
 }
 
 export type ProtoCellEngine = GameEngine & {
@@ -103,6 +108,7 @@ export type ProtoCellEngine = GameEngine & {
   selectMigration(routeId: string): void
   runSnapshot(): RunDirectorState
   ecologySnapshot(): EcologySummary
+  advanceForm(): void
 }
 
 type PlayerDefinition = EntityDefinition & {
@@ -125,6 +131,13 @@ const SWARM_MINIMUM_DURATION_MS = 6000
 const SWARM_FUSION_STABLE_MS = 1200
 export const CONTACT_DAMAGE_ARM_MS = 420
 
+export class LifecycleInvariantError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'LifecycleInvariantError'
+  }
+}
+
 export function createGameEngine(options: {
   seed: number
   environmentId?: string
@@ -134,6 +147,7 @@ export function createGameEngine(options: {
   modifierIds?: readonly string[]
   route?: readonly string[]
   runOrdinal?: number
+  initialLifecycle?: Partial<LifecycleState>
 }): ProtoCellEngine {
   const modifiers = applyModifiers(options.modifierIds ?? [], { baseTelegraphLeadMs: 1400 })
   let routeStageIndex = 0
@@ -147,10 +161,13 @@ export function createGameEngine(options: {
   let region = filteredRegion(generateRegion(options.seed, environmentId), options.route?.[routeStageIndex])
   let scheduleAt = new Map(region.spawnSchedule.map((entry) => [entry.entityId, entry.atMs]))
   let regionById = new Map(region.entities.map((entity) => [entity.id, entity]))
-  const player = createEntity(playerDefinition, {
+  const scaleTiers = content.scaleTiers as unknown as readonly ScaleTierDefinition[]
+  const initialPlayer = createEntity(playerDefinition, {
     id: PLAYER_ID,
     position: { x: environment.width / 2, y: environment.height / 2 },
   })
+  let lifecycle = initialLifecycleState(createLifecycle(scaleTiers, initialPlayer.mass), options.initialLifecycle, scaleTiers)
+  const player = resizeBodyToRadius(initialPlayer, lifecycle.bodyRadius)
   const entities = new Map<string, EntityState>([[player.id, player]])
   const spawnedIds = new Set<string>()
   const pauseReasons = new Set<PauseReason>()
@@ -182,6 +199,7 @@ export function createGameEngine(options: {
   let started = false
   let destroyed = false
   let mutationPending = false
+  let formTransitionPending = false
   let evolutionThreshold = playerDefinition.evolutionThreshold
   let playerStability = playerDefinition.stability
   let installedOrganelles: InstalledOrganelle[] = origin.initialOrganelleIds.map((id) => {
@@ -266,7 +284,7 @@ export function createGameEngine(options: {
     snapshot() {
       const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
       const currentPlayer = entities.get(PLAYER_ID) ?? playerBodies[0] ?? player
-      const biomass = playerBodies.reduce((sum, body) => sum + body.mass, 0)
+      const biomass = lifecycle.totalBiomass
       const membrane = activeSwarm ? playerBodies.reduce((sum, body) => sum + body.membrane, 0) : currentPlayer.membrane
       peakBiomass = Math.max(peakBiomass, biomass)
       return {
@@ -285,6 +303,9 @@ export function createGameEngine(options: {
         bodyStage: currentBodyStage(),
         playerBuild: createBuildState(buildState),
         bodyStageProgress: clamp(biomass / Math.max(1, evolutionThreshold), 0, 1),
+        formId: lifecycle.formId,
+        tierIndex: lifecycle.tierIndex,
+        tierProgress: lifecycle.evolutionPressure,
         membraneRatio: clamp(membrane / Math.max(1, playerDefinition.membrane), 0, 1),
         swarm: activeSwarm ? {
           bodyCount: playerBodies.length,
@@ -297,6 +318,7 @@ export function createGameEngine(options: {
       return events.splice(0, events.length)
     },
     renderSnapshot() {
+      assertFinitePlayerState(entities, activeSwarm?.map((body) => body.id) ?? [PLAYER_ID])
       const routeRifts = activeRouteRifts()
       const collapseProgress = currentCollapseProgress()
       const playerBody = entities.get(PLAYER_ID)
@@ -326,6 +348,7 @@ export function createGameEngine(options: {
         migrationDirection: playerBody && targetRift && runDirectorState.phase !== 'active'
           ? normalizedDirection(playerBody.position, targetRift.position)
           : undefined,
+        lifecycle: { ...lifecycle },
       }
     },
     applyMutation(result) {
@@ -400,6 +423,20 @@ export function createGameEngine(options: {
         opportunityHistory: [...ecologyDirectorState.summary.opportunityHistory],
       }
     },
+    advanceForm() {
+      if (!formTransitionPending) throw new RangeError('No form transition is pending')
+      const fromFormId = lifecycle.formId
+      lifecycle = advanceLifecycle(lifecycle, scaleTiers)
+      formTransitionPending = false
+      resizeActivePlayerBodies()
+      events.push({
+        type: 'form-transitioned',
+        fromFormId,
+        toFormId: lifecycle.formId,
+        atMs: elapsedMs,
+      })
+      captureLiveMorphology()
+    },
     destroy() {
       destroyed = true
       started = false
@@ -457,6 +494,20 @@ export function createGameEngine(options: {
       events.push({ type: 'mutation-ready', entityId: PLAYER_ID, atMs: elapsedMs })
       mutationPending = true
     }
+    emitFormTransitionReady()
+  }
+
+  function emitFormTransitionReady() {
+    if (formTransitionPending || !canAdvanceLifecycle(lifecycle, scaleTiers)) return
+    const nextTier = scaleTiers[lifecycle.tierIndex + 1]
+    if (!nextTier) return
+    formTransitionPending = true
+    events.push({
+      type: 'form-transition-ready',
+      fromFormId: lifecycle.formId,
+      toFormId: nextTier.formId,
+      atMs: elapsedMs,
+    })
   }
 
   function stepJourney() {
@@ -1186,6 +1237,25 @@ export function createGameEngine(options: {
     traitReadyAt.clear()
   }
 
+  function resizePlayerEntity(entity: EntityState): EntityState {
+    if (entity.status !== 'active') return entity
+    if (!activeSwarm) return resizeBodyToRadius(entity, lifecycle.bodyRadius)
+    const totalActiveMass = [...entities.values()]
+      .filter((body) => body.faction === 'player' && body.status === 'active')
+      .reduce((sum, body) => sum + body.mass, 0)
+    const share = clamp(entity.mass / Math.max(entity.mass, totalActiveMass), 0, 1)
+    return resizeBodyToRadius(entity, Math.max(2, lifecycle.bodyRadius * Math.sqrt(share)))
+  }
+
+  function resizeActivePlayerBodies() {
+    const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
+    const totalMass = playerBodies.reduce((sum, entity) => sum + entity.mass, 0)
+    for (const body of playerBodies) {
+      const share = playerBodies.length === 1 ? 1 : clamp(body.mass / Math.max(body.mass, totalMass), 0, 1)
+      entities.set(body.id, resizeBodyToRadius(body, Math.max(2, lifecycle.bodyRadius * Math.sqrt(share))))
+    }
+  }
+
   function perceptionFor(
     currentPlayer: EntityState,
     overrides: Partial<Pick<OrganPerception, 'sameDirectionMs' | 'collisionStrength' | 'incomingDamage' | 'incomingFatalDamage' | 'containmentRatio'>>,
@@ -1289,7 +1359,8 @@ export function createGameEngine(options: {
       position: fatalThreat ? splitEscapePosition(fatalThreat, child.mass, index, result.children.length) : child.position,
     }))
     for (const child of activeSwarm) {
-      entities.set(child.id, resizeBodyToMass({
+      const totalChildMass = result.children.reduce((sum, item) => sum + item.mass, 0)
+      entities.set(child.id, resizeBodyToRadius({
         ...currentPlayer,
         id: child.id,
         position: { ...child.position },
@@ -1298,7 +1369,7 @@ export function createGameEngine(options: {
         membrane: child.membrane,
         energy: child.energy,
         status: child.status,
-      }))
+      }, Math.max(2, lifecycle.bodyRadius * Math.sqrt(child.mass / Math.max(child.mass, totalChildMass)))))
     }
     captureLiveMorphology()
     swarmStableMs = 0
@@ -1353,7 +1424,7 @@ export function createGameEngine(options: {
     const template = entities.get(PLAYER_ID) ?? entities.get(activeSwarm[0].id)
     if (!template) return
     for (const body of activeSwarm) entities.delete(body.id)
-    entities.set(PLAYER_ID, resizeBodyToMass({
+    entities.set(PLAYER_ID, resizeBodyToRadius({
       ...template,
       id: PLAYER_ID,
       position: fused.position,
@@ -1362,7 +1433,7 @@ export function createGameEngine(options: {
       membrane: fused.membrane,
       energy: fused.energy,
       status: fused.status,
-    }))
+    }, lifecycle.bodyRadius))
     installedOrganelles = fused.organelles
     activeSwarm = undefined
     swarmStableMs = 0
@@ -1562,17 +1633,26 @@ export function createGameEngine(options: {
           engulfChain: pairPlayer && elapsedMs - lastPlayerEngulfAt <= 1400 ? playerEngulfChain + 1 : 1,
           contactDamage: configuredDamage ? { ...configuredDamage.damage, blockedAmount } : undefined,
         })
-        entities.set(result.entities[0].id, resizeForMass(result.entities[0]))
-        entities.set(result.entities[1].id, resizeForMass(result.entities[1]))
+        const engulfed = result.events.find((event) => event.type === 'engulfed')
+        const playerEngulf = engulfed && (
+          (engulfed.predatorId === first.id && first.faction === 'player')
+          || (engulfed.predatorId === second.id && second.faction === 'player')
+        )
+        if (engulfed && playerEngulf) lifecycle = applyLifecycleBiomass(lifecycle, engulfed.biomass, scaleTiers)
+        for (const resolvedEntity of result.entities) {
+          entities.set(
+            resolvedEntity.id,
+            resolvedEntity.faction === 'player'
+              ? resizePlayerEntity(resolvedEntity)
+              : resizeForMass(resolvedEntity),
+          )
+        }
         if (first.faction === 'player' || second.faction === 'player') {
-          peakBiomass = Math.max(peakBiomass, [...entities.values()]
-            .filter((current) => current.faction === 'player' && current.status === 'active')
-            .reduce((sum, current) => sum + current.mass, 0))
+          peakBiomass = Math.max(peakBiomass, lifecycle.totalBiomass)
           captureLiveMorphology()
         }
         result.fragments.forEach(enqueueEntity)
         events.push(...result.events)
-        const engulfed = result.events.find((event) => event.type === 'engulfed')
         if (engulfed) {
           const predator = engulfed.predatorId === first.id ? first : second
           if (predator.faction === 'player') {
@@ -1904,6 +1984,75 @@ function moveEntity(entity: EntityState, position: Vec2, velocity: Vec2): Entity
       center: { ...position },
       contour: entity.body.contour.map((point) => ({ x: point.x + offset.x, y: point.y + offset.y })),
     },
+  }
+}
+
+function initialLifecycleState(
+  base: LifecycleState,
+  overrides: Partial<LifecycleState> | undefined,
+  tiers: readonly ScaleTierDefinition[],
+): LifecycleState {
+  if (!overrides) return base
+  const tierIndex = Number.isInteger(overrides.tierIndex) && Number(overrides.tierIndex) >= 0 && Number(overrides.tierIndex) < tiers.length
+    ? Number(overrides.tierIndex)
+    : base.tierIndex
+  const tier = tiers[tierIndex]!
+  const tierBiomass = Number.isFinite(overrides.tierBiomass) && Number(overrides.tierBiomass) >= 0
+    ? Number(overrides.tierBiomass)
+    : base.tierBiomass
+  const derivedPressure = tierBiomass / tier.evolutionPressureTarget
+  const evolutionPressure = clamp(
+    Number.isFinite(overrides.evolutionPressure) ? Number(overrides.evolutionPressure) : derivedPressure,
+    0,
+    1,
+  )
+  return {
+    tierIndex,
+    formId: tier.formId,
+    totalBiomass: Number.isFinite(overrides.totalBiomass) && Number(overrides.totalBiomass) >= 0
+      ? Number(overrides.totalBiomass)
+      : base.totalBiomass,
+    tierBiomass,
+    evolutionPressure,
+    bodyRadius: radiusForTierProgress(tier, evolutionPressure),
+    encounterResolved: overrides.encounterResolved === true,
+  }
+}
+
+export function resizeBodyToRadius(entity: EntityState, radius: number): EntityState {
+  if (!Number.isFinite(radius) || radius <= 0) throw new RangeError('Body radius must be finite and positive')
+  if (entity.body.radius === radius) return entity
+  return {
+    ...entity,
+    body: {
+      center: { ...entity.position },
+      radius,
+      contour: Array.from({ length: 16 }, (_, index) => {
+        const angle = index / 16 * Math.PI * 2
+        return {
+          x: entity.position.x + Math.cos(angle) * radius,
+          y: entity.position.y + Math.sin(angle) * radius,
+        }
+      }),
+    },
+  }
+}
+
+function assertFinitePlayerState(entities: ReadonlyMap<string, EntityState>, playerIds: readonly string[]) {
+  for (const playerId of playerIds) {
+    const entity = entities.get(playerId)
+    if (!entity || entity.faction !== 'player' || entity.status !== 'active') continue
+    const values = [
+      entity.mass,
+      entity.body.radius,
+      entity.position.x,
+      entity.position.y,
+      entity.velocity.x,
+      entity.velocity.y,
+    ]
+    if (values.some((value) => !Number.isFinite(value))) {
+      throw new LifecycleInvariantError(`Player ${entity.id} contains non-finite lifecycle geometry`)
+    }
   }
 }
 

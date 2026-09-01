@@ -14,6 +14,7 @@ import type { IndexedDbDriver, SettingsStorage } from '../storage/repository'
 import { encodeDishCode } from '../progression/challenges'
 import type { AudioContextLike } from '../audio/audio'
 import type { OutcomeFixture } from './playthrough'
+import type { LifecycleState } from '../evolution/lifecycle'
 
 export function vec(x: number, y: number): Vec2 {
   return { x, y }
@@ -61,8 +62,12 @@ export function testInteractionContext(overrides: Partial<InteractionContext> = 
   }
 }
 
-export function createTestEngine(): ProtoCellEngine {
-  const engine = createGameEngine({ seed: 727, environmentId: 'env-clear-drop' })
+export function createTestEngine(options: { seed?: number; lifecycle?: Partial<LifecycleState> } = {}): ProtoCellEngine {
+  const engine = createGameEngine({
+    seed: options.seed ?? 727,
+    environmentId: 'env-clear-drop',
+    initialLifecycle: options.lifecycle,
+  })
   engine.start()
   return engine
 }

@@ -5,8 +5,23 @@ import { bossTerminalEvent, contactDamageAt, contactDamageForPair, createGameEng
 import { installMutation, offerMutations } from '../evolution/mutation'
 import { getContent } from '../content'
 import { coveredRatio } from './containment'
+import { createBuildState } from '../evolution/build'
 
 describe('game engine lifecycle', () => {
+  it('accepts an authoritative build without adding an ability input', () => {
+    const engine = createGameEngine({ seed: 727 })
+    engine.applyEvolution(createBuildState({
+      bodyStage: 'hunter',
+      evolutionCount: 1,
+      traitIds: ['organelle-flagellum'],
+      routeCounts: { predation: 1, survival: 0, colony: 0 },
+    }))
+
+    expect(engine.renderSnapshot().bodyStage).toBe('hunter')
+    expect(engine.evolutionSnapshot().organelles.map((organ) => organ.id)).toEqual(['organelle-flagellum'])
+    expect(Object.keys(engine.input)).toEqual(expect.arrayContaining(['start', 'move', 'end', 'cancel', 'snapshot']))
+  })
+
   it('advances out of clear drop when the player never enters a rift', () => {
     const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
     engine.start()

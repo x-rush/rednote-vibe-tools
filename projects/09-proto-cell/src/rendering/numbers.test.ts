@@ -28,4 +28,11 @@ describe('arcade number feed', () => {
     feed.push({ kind: 'biomass', amount: 5, entityId: 'player', label: '蛋白颗粒', atMs: 2500 })
     expect(feed.visible().at(-1)).toMatchObject({ chain: 1, label: '蛋白颗粒' })
   })
+
+  it('uses the authoritative engine chain when supplied', () => {
+    const feed = createNumberFeed({ aggregateMs: 180, maxVisible: 8 })
+    feed.push({ kind: 'biomass', amount: 6, entityId: 'player', atMs: 100, chain: 5 })
+
+    expect(feed.visible()).toMatchObject([{ chain: 5 }])
+  })
 })

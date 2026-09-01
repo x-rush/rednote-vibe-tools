@@ -24,6 +24,8 @@ import { applySoftBoundary, constrainWorldMotion, engulfAccessMargin } from './b
 import { advanceVelocity } from './motion'
 import { createRunDirector, stepRunDirector, type RunDirectorState, type RunPhase } from '../world/run-director'
 import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type EcologyRole, type EcologySummary } from '../world/ecology-director'
+import { createBuildState, type BuildState } from '../evolution/build'
+import { evaluateTriggers, type TriggerFrame, type TriggerOutcome } from '../evolution/triggers'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
 
@@ -91,6 +93,7 @@ export type ProtoCellEngine = GameEngine & {
   input: PointerInput
   renderSnapshot(): WorldRenderSnapshot
   applyMutation(result: MutationInstallResult): void
+  applyEvolution(build: BuildState): void
   evolutionSnapshot(): { organelles: readonly InstalledOrganelle[]; capacity: number; stability: number }
   morphologySnapshot(): PlayerMorphologySnapshot
   worldSnapshot(): { activeEvent?: EcosystemEventState; environmentField: EnvironmentField; boss?: BossState; selectedRouteId?: string }
@@ -183,6 +186,14 @@ export function createGameEngine(options: {
     if (!definition) throw new RangeError(`Unknown initial organ id: ${id}`)
     return { id: id as OrganelleId, stage: 'installed', anchor: definition.slots[0] as AnchorSlot }
   })
+  let buildState = createBuildState({
+    traitIds: origin.initialOrganelleIds as OrganelleId[],
+    routeCounts: origin.initialOrganelleIds.reduce<BuildState['routeCounts']>((counts, id) => {
+      const route = content.organelles.find((organ) => organ.id === id)?.evolutionRoute as keyof BuildState['routeCounts'] | undefined
+      if (route) counts[route] += 1
+      return counts
+    }, { predation: 0, survival: 0, colony: 0 }),
+  })
   let organCapacity = modifiers.rules['three-standard-organs'] ? 3 : 6
   const organReadyAt = new Map<string, number>()
   const organEventReadyAt = new Map<string, number>()
@@ -190,6 +201,12 @@ export function createGameEngine(options: {
   let lastDamageSource: DamageSource | undefined
   let lastPlayerDefeaterDefinitionId: string | undefined
   let sameDirectionMs = 0
+  let pursuitMs = 0
+  let previousPursuitTargetId: string | undefined
+  let previousPursuitDistance = Number.POSITIVE_INFINITY
+  const traitReadyAt = new Map<OrganelleId, number>()
+  let playerEngulfChain = 0
+  let lastPlayerEngulfAt = Number.NEGATIVE_INFINITY
   let previousInputDirection: Vec2 = { x: 0, y: 0 }
   let activeSwarm: SwarmBody[] | undefined
   let swarmStableMs = 0
@@ -237,6 +254,7 @@ export function createGameEngine(options: {
       pauseReasons.add(reason)
       clock.reset()
       input.cancel()
+      resetTriggerTracking()
     },
     resume(reason) {
       pauseReasons.delete(reason)
@@ -309,6 +327,11 @@ export function createGameEngine(options: {
     applyMutation(result) {
       playerStability = result.stability
       installedOrganelles = [...result.organelles]
+      buildState = createBuildState({
+        ...buildState,
+        traitIds: result.organelles.map((organ) => organ.id),
+        stability: result.stability,
+      })
       if (activeSwarm) {
         activeSwarm = activeSwarm.map((body, bodyIndex) => ({
           ...body,
@@ -319,6 +342,27 @@ export function createGameEngine(options: {
       organCapacity = result.capacity
       evolutionThreshold = Math.ceil(evolutionThreshold * playerDefinition.evolutionThresholdGrowth)
       mutationPending = false
+      captureLiveMorphology()
+    },
+    applyEvolution(build) {
+      buildState = createBuildState(build)
+      playerStability = buildState.stability
+      const occupied = new Set<AnchorSlot>()
+      installedOrganelles = buildState.traitIds.map((id) => {
+        const existing = installedOrganelles.find((organ) => organ.id === id)
+        if (existing) {
+          occupied.add(existing.anchor)
+          return existing
+        }
+        const definition = content.organelles.find((organ) => organ.id === id)
+        if (!definition) throw new RangeError(`Unknown evolution trait: ${id}`)
+        const anchor = (definition.slots.find((slot) => !occupied.has(slot as AnchorSlot)) ?? definition.slots[0]) as AnchorSlot
+        occupied.add(anchor)
+        return { id, stage: 'installed', anchor }
+      })
+      evolutionThreshold = Math.ceil(evolutionThreshold * playerDefinition.evolutionThresholdGrowth)
+      mutationPending = false
+      resetTriggerTracking()
       captureLiveMorphology()
     },
     evolutionSnapshot() {
@@ -361,6 +405,7 @@ export function createGameEngine(options: {
       events.length = 0
       clock.reset()
       input.cancel()
+      resetTriggerTracking()
     },
   }
 
@@ -902,6 +947,7 @@ export function createGameEngine(options: {
     )
     lastPlayerDefeaterDefinitionId = undefined
     lastDamageSource = undefined
+    resetTriggerTracking()
     environmentField = createEnvironmentField(environmentId as `env-${string}`, options.seed, elapsedMs)
     const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
     for (const [index, body] of playerBodies.entries()) {
@@ -945,8 +991,9 @@ export function createGameEngine(options: {
   }
 
   function currentBodyStage(): BodyStage {
+    if (buildState.evolutionCount > 0 || buildState.bodyStage !== 'microbe') return buildState.bodyStage
     if (!journeyEnabled) return provisionalBodyStage(routeStageIndex)
-    return (content.journey as JourneyDefinition).stages[runDirectorState.stageIndex]?.bodyStage ?? 'ascendant'
+    return 'microbe'
   }
 
   function currentCollapseProgress(): number {
@@ -975,6 +1022,9 @@ export function createGameEngine(options: {
     previousInputDirection = { ...intent.direction }
 
     const aggregate = { speedMultiplier: 1, blockedAmount: 0, splitTriggered: false }
+    const triggered = applyTriggerOutcomes(playerBodies[0], evaluateTriggers(buildState, movementTriggerFrame(playerBodies[0], stepMs)))
+    aggregate.speedMultiplier = Math.max(aggregate.speedMultiplier, triggered.speedMultiplier)
+    aggregate.splitTriggered ||= triggered.splitTriggered
     for (const playerBody of playerBodies) {
       const effects = evaluatePassiveOrgans(evolvedPlayer(playerBody), perceptionFor(playerBody, {
         sameDirectionMs,
@@ -988,6 +1038,100 @@ export function createGameEngine(options: {
     }
     syncActiveSwarm(false)
     return aggregate
+  }
+
+  function movementTriggerFrame(currentPlayer: EntityState, stepMs: number): TriggerFrame {
+    const edible = [...entities.values()]
+      .filter((entity) => entity.faction !== 'player' && entity.status === 'active' && entity.body.radius < currentPlayer.body.radius)
+      .map((entity) => ({ entity, distance: distanceBetween(entity, currentPlayer) }))
+      .sort((left, right) => left.distance - right.distance)[0]
+    const closingSpeed = edible && edible.entity.id === previousPursuitTargetId
+      ? Math.max(0, (previousPursuitDistance - edible.distance) / Math.max(STEP_MS / 1000, stepMs / 1000))
+      : 0
+    pursuitMs = edible && edible.entity.id === previousPursuitTargetId && closingSpeed > 2 && input.snapshot().strength >= 0.45
+      ? pursuitMs + stepMs
+      : 0
+    previousPursuitTargetId = edible?.entity.id
+    previousPursuitDistance = edible?.distance ?? Number.POSITIVE_INFINITY
+    const nearMiss = [...entities.values()]
+      .filter((entity) => entity.faction === 'hostile' && entity.status === 'active')
+      .map((threat) => ({ threat, clearance: distanceBetween(threat, currentPlayer) - threat.body.radius - currentPlayer.body.radius }))
+      .filter((sample) => sample.clearance >= 0 && sample.clearance <= 6)
+      .sort((left, right) => left.clearance - right.clearance)[0]
+    const field = sampleEnvironmentField(environmentField, currentPlayer.position, currentPlayer.body.radius)
+    const flowStrength = Math.hypot(field.flow.x, field.flow.y)
+    const intent = input.snapshot()
+    const alignment = flowStrength > 0 && intent.strength > 0
+      ? (field.flow.x * intent.direction.x + field.flow.y * intent.direction.y) / flowStrength
+      : 0
+
+    return triggerFrame(currentPlayer, {
+      movement: {
+        speed: Math.hypot(currentPlayer.velocity.x, currentPlayer.velocity.y),
+        directionHeldMs: sameDirectionMs,
+        pursuitMs,
+        closingSpeed,
+      },
+      proximity: {
+        nearestEdibleId: edible?.entity.id,
+        nearestThreatId: nearMiss?.threat.id,
+        schoolCount: Math.max(0, [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active').length - 1),
+      },
+      nearMiss: nearMiss ? { threatId: nearMiss.threat.id, clearance: nearMiss.clearance } : undefined,
+      current: { strength: flowStrength, alignment },
+    })
+  }
+
+  function triggerFrame(currentPlayer: EntityState, overrides: Partial<TriggerFrame>): TriggerFrame {
+    return {
+      atMs: elapsedMs,
+      elapsedMs: STEP_MS,
+      movement: {
+        speed: Math.hypot(currentPlayer.velocity.x, currentPlayer.velocity.y),
+        directionHeldMs: sameDirectionMs,
+        pursuitMs,
+        closingSpeed: 0,
+      },
+      environmentId: environmentId as `env-${string}`,
+      ...overrides,
+    }
+  }
+
+  function applyTriggerOutcomes(currentPlayer: EntityState, outcomes: readonly TriggerOutcome[]) {
+    let speedMultiplier = 1
+    let splitTriggered = false
+    for (const outcome of outcomes) {
+      if ((traitReadyAt.get(outcome.traitId) ?? 0) > elapsedMs) continue
+      if (outcome.effectId === 'pursuit-burst' || outcome.effectId === 'current-assisted-acceleration' || outcome.effectId === 'engulf-vortex') {
+        speedMultiplier = Math.max(speedMultiplier, outcome.magnitude ?? 1)
+      }
+      if (outcome.effectId === 'low-membrane-molt' || outcome.effectId === 'school-proximity-heal') {
+        const live = entities.get(currentPlayer.id)
+        if (live) entities.set(live.id, { ...live, membrane: Math.min(playerDefinition.membrane, live.membrane + (outcome.magnitude ?? 0)) })
+      }
+      if (outcome.effectId === 'damage-split') splitTriggered = activateSplit(currentPlayer, 2) || splitTriggered
+      traitReadyAt.set(outcome.traitId, elapsedMs + outcome.cooldownMs)
+      events.push({
+        type: 'trait-triggered',
+        entityId: currentPlayer.id,
+        traitId: outcome.traitId,
+        effectId: outcome.effectId,
+        durationMs: outcome.durationMs,
+        atMs: elapsedMs,
+      })
+    }
+    return { speedMultiplier, splitTriggered }
+  }
+
+  function resetTriggerTracking() {
+    pursuitMs = 0
+    previousPursuitTargetId = undefined
+    previousPursuitDistance = Number.POSITIVE_INFINITY
+    sameDirectionMs = 0
+    previousInputDirection = { x: 0, y: 0 }
+    playerEngulfChain = 0
+    lastPlayerEngulfAt = Number.NEGATIVE_INFINITY
+    traitReadyAt.clear()
   }
 
   function perceptionFor(
@@ -1308,6 +1452,7 @@ export function createGameEngine(options: {
           ? { ...baseConfiguredDamage, damage: { ...baseConfiguredDamage.damage, amount: baseConfiguredDamage.damage.amount * 1.5 } }
           : baseConfiguredDamage
         let blockedAmount = 0
+        let engulfCoverageThreshold = 0.7
         const pairPlayer = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
         const pairThreat = pairPlayer === first ? second : first
         if (pairPlayer && installedOrganelles.length > 0) {
@@ -1322,6 +1467,14 @@ export function createGameEngine(options: {
           ))
           blockedAmount = passive.blockedAmount
           if (passive.splitTriggered) continue
+          if (pairPlayer.body.radius > pairThreat.body.radius) {
+            const approach = approachFor(pairPlayer, pairThreat)
+            const containmentOutcomes = evaluateTriggers(buildState, triggerFrame(pairPlayer, {
+              containment: { coveredRatio: coveredRatio(pairPlayer.body, pairThreat.body), approach },
+            }))
+            if (containmentOutcomes.some((outcome) => outcome.effectId === 'rear-containment-bonus')) engulfCoverageThreshold = 0.62
+            applyTriggerOutcomes(pairPlayer, containmentOutcomes)
+          }
           first = entities.get(first.id)
           second = entities.get(second.id)
           if (!first || !second) continue
@@ -1334,6 +1487,8 @@ export function createGameEngine(options: {
             && first.faction !== 'player' && second.faction !== 'player'
             ? 0
             : 1,
+          engulfCoverageThreshold,
+          engulfChain: pairPlayer && elapsedMs - lastPlayerEngulfAt <= 1400 ? playerEngulfChain + 1 : 1,
           contactDamage: configuredDamage ? { ...configuredDamage.damage, blockedAmount } : undefined,
         })
         entities.set(result.entities[0].id, resizeForMass(result.entities[0]))
@@ -1349,7 +1504,15 @@ export function createGameEngine(options: {
         const engulfed = result.events.find((event) => event.type === 'engulfed')
         if (engulfed) {
           const predator = engulfed.predatorId === first.id ? first : second
-          if (predator.faction === 'player') engulfScore += engulfed.biomass
+          if (predator.faction === 'player') {
+            playerEngulfChain = engulfed.chain ?? (elapsedMs - lastPlayerEngulfAt <= 1400 ? playerEngulfChain + 1 : 1)
+            lastPlayerEngulfAt = elapsedMs
+            engulfScore += engulfed.biomass
+            const currentPredator = entities.get(predator.id)
+            if (currentPredator) applyTriggerOutcomes(currentPredator, evaluateTriggers(buildState, triggerFrame(currentPredator, {
+              engulf: { preyId: engulfed.preyId, chain: playerEngulfChain, approach: approachFor(predator, engulfed.preyId === first.id ? first : second) },
+            })))
+          }
           if (predator.faction === 'player') rechargeGuard(predator.id)
           if (predator.faction === 'player') {
             const currentPredator = entities.get(predator.id)
@@ -1374,6 +1537,14 @@ export function createGameEngine(options: {
           if (playerDamage?.type === 'damaged') {
             lastDamageAt = elapsedMs
             lastDamageSource = playerDamage.source
+            const damagedPlayer = entities.get(pairPlayer.id)
+            if (damagedPlayer?.status === 'active') applyTriggerOutcomes(damagedPlayer, evaluateTriggers(buildState, triggerFrame(damagedPlayer, {
+              damage: {
+                source: playerDamage.source,
+                remainingMembraneRatio: damagedPlayer.membrane / Math.max(1, playerDefinition.membrane),
+              },
+              collision: { sourceId: pairThreat.id, strength: playerDamage.amount },
+            })))
           }
         }
         if (configuredDamage && result.events.some((event) => event.type === 'damaged' && event.targetId === configuredDamage.damage.targetId)) {
@@ -1645,6 +1816,15 @@ function resizeBodyToMass(entity: EntityState): EntityState {
 
 function distanceBetween(first: EntityState, second: EntityState): number {
   return Math.hypot(first.position.x - second.position.x, first.position.y - second.position.y)
+}
+
+function approachFor(player: EntityState, target: EntityState): 'front' | 'side' | 'rear' {
+  const speed = Math.hypot(player.velocity.x, player.velocity.y)
+  const distance = Math.max(1, distanceBetween(player, target))
+  const dot = speed > 0
+    ? (player.velocity.x * (target.position.x - player.position.x) + player.velocity.y * (target.position.y - player.position.y)) / (speed * distance)
+    : 0
+  return dot >= 0.45 ? 'front' : dot <= -0.45 ? 'rear' : 'side'
 }
 
 function directionFromThreat(threat: EntityState, player: EntityState): Vec2 {

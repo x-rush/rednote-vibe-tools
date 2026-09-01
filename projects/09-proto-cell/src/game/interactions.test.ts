@@ -38,6 +38,15 @@ describe('entity interactions', () => {
     expect(repeated.events.filter((event) => event.type === 'engulfed')).toHaveLength(0)
   })
 
+  it('carries the engine-authored engulf chain on the structured event', () => {
+    const result = resolveInteraction(entity('large', 20), entity('small', 5, { x: 18, y: 0 }), {
+      ...testInteractionContext(),
+      engulfChain: 4,
+    })
+
+    expect(result.events).toContainEqual(expect.objectContaining({ type: 'engulfed', chain: 4 }))
+  })
+
   it('emits no damage or engulf below the majority threshold', () => {
     const predator = entity('large', 20)
     const prey = entity('small', 5, { x: 19, y: 0 })

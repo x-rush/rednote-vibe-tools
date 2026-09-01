@@ -5,11 +5,12 @@ import { mostlyContains } from './containment'
 export type DamageSource = 'acid' | 'electric' | 'spine' | 'ram'
 
 export type GameEvent =
-  | { type: 'engulfed'; predatorId: string; preyId: string; predatorDefinitionId?: string; preyDefinitionId?: string; biomass: number; atMs: number }
+  | { type: 'engulfed'; predatorId: string; preyId: string; predatorDefinitionId?: string; preyDefinitionId?: string; biomass: number; chain?: number; atMs: number }
   | { type: 'damaged'; targetId: string; amount: number; source: DamageSource; atMs: number }
   | { type: 'blocked'; targetId: string; amount: number; atMs: number }
   | { type: 'ruptured'; targetId: string; fragmentMasses: readonly number[]; atMs: number }
   | { type: 'organ-triggered'; entityId: string; organId: string; atMs: number }
+  | { type: 'trait-triggered'; entityId: string; traitId: string; effectId: string; durationMs?: number; atMs: number }
   | { type: 'mutation-ready'; entityId: string; atMs: number }
   | { type: 'mutation-selected'; entityId: string; organId: string; action: string; atMs: number }
   | { type: 'event-phase'; eventId: string; phase: 'telegraph' | 'active' | 'expired'; atMs: number }
@@ -29,6 +30,7 @@ export type InteractionContext = {
   containmentTolerance?: number
   engulfCoverageThreshold?: number
   engulfMassGainFraction?: number
+  engulfChain?: number
   contactDamage?: {
     source: DamageSource
     amount: number
@@ -83,6 +85,7 @@ export function resolveInteraction(
           ...('definitionId' in containment.predator ? { predatorDefinitionId: String(containment.predator.definitionId) } : {}),
           ...('definitionId' in containment.prey ? { preyDefinitionId: String(containment.prey.definitionId) } : {}),
           biomass: containment.prey.mass,
+          chain: Math.max(1, Math.floor(context.engulfChain ?? 1)),
           atMs: context.atMs,
         }],
         massBefore,

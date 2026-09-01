@@ -44,17 +44,15 @@ export type EvolutionOfferContext = {
 const ROUTES: readonly EvolutionRoute[] = ['predation', 'survival', 'colony']
 
 export function createBuildState(overrides: Partial<BuildState> = {}): BuildState {
+  const { routeCounts, traitIds, synergyIds, ...scalars } = overrides
   return {
     bodyStage: 'microbe',
     evolutionCount: 0,
-    traitIds: [],
-    routeCounts: { predation: 0, survival: 0, colony: 0 },
-    synergyIds: [],
     stability: 100,
-    ...overrides,
-    routeCounts: { predation: 0, survival: 0, colony: 0, ...overrides.routeCounts },
-    traitIds: [...(overrides.traitIds ?? [])],
-    synergyIds: [...(overrides.synergyIds ?? [])],
+    ...scalars,
+    routeCounts: { predation: 0, survival: 0, colony: 0, ...routeCounts },
+    traitIds: [...(traitIds ?? [])],
+    synergyIds: [...(synergyIds ?? [])],
   }
 }
 

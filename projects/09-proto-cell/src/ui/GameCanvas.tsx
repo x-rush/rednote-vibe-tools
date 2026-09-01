@@ -99,6 +99,7 @@ export function GameCanvas({
               entityId: 'player',
               label: engulfPreyName(event.preyDefinitionId),
               atMs: event.atMs,
+              chain: event.chain,
             })
           } else if (event.type === 'damaged' && event.targetId === 'player') {
             numbers.push({ kind: 'damage', amount: event.amount, entityId: 'player', atMs: event.atMs })

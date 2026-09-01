@@ -1947,6 +1947,11 @@
       "minPlayerDistance": 25,
       "minHostileDistance": 100
     },
+    "spawnPresentation": {
+      "foodMaterializeMs": 450,
+      "neutralMaterializeMs": 700,
+      "threatMaterializeMs": 1200
+    },
     "stageEntryEcology": [
       { "stageIndex": 1, "groups": [{ "role": "resource", "count": 5, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }] },
       { "stageIndex": 2, "groups": [{ "role": "resource", "count": 4, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }, { "role": "competitor", "count": 2, "distance": 185 }, { "role": "hunter", "count": 1, "distance": 250 }] },

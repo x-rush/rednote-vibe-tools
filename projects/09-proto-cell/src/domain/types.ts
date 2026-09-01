@@ -36,6 +36,7 @@ export type EntityState = {
   role: EntityRole
   status: EntityStatus
   spawnedAtMs?: number
+  materializingUntilMs?: number
   behaviorProfileId?: `behavior-${string}`
   behaviorState?: string
   ecologyGroupId?: string

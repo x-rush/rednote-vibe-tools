@@ -325,6 +325,11 @@ export type ContentPack = {
       minPlayerDistance: number
       minHostileDistance: number
     }
+    spawnPresentation: {
+      foodMaterializeMs: number
+      neutralMaterializeMs: number
+      threatMaterializeMs: number
+    }
     stageEntryEcology: StageEntryEcologyDefinition[]
     stageThreatProfiles: StageThreatProfileDefinition[]
     routeRifts: Array<{

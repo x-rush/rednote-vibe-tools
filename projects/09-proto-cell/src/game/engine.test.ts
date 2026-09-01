@@ -88,6 +88,31 @@ describe('game engine lifecycle', () => {
     expect(readableRoles).toEqual(expect.arrayContaining(['prey', 'competitor', 'hostile']))
   })
 
+  it('holds new food and threats harmless while their arrival is telegraphed', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    engine.start()
+    for (let step = 0; step < 60 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
+      engine.advance(1000 / 60)
+    }
+
+    const snapshot = engine.renderSnapshot()
+    const player = snapshot.entities.find((entity) => entity.id === 'player')!
+    const food = snapshot.entities.find((entity) => entity.id.startsWith('eco-food-'))!
+    const hunter = snapshot.entities.find((entity) => entity.ecologyGroupId?.startsWith('entry-') && entity.faction === 'hostile')!
+    expect(food.materializingUntilMs! - food.spawnedAtMs!).toBe(450)
+    expect(hunter.materializingUntilMs! - hunter.spawnedAtMs!).toBe(1200)
+
+    hunter.position = { ...player.position }
+    hunter.body = circleBody(hunter.position, hunter.body.radius)
+    hunter.velocity = { x: 120, y: 0 }
+    const warningPosition = { ...hunter.position }
+    engine.advance(400)
+
+    const currentHunter = engine.renderSnapshot().entities.find((entity) => entity.id === hunter.id)!
+    expect(currentHunter.position).toEqual(warningPosition)
+    expect(engine.renderSnapshot().entities.find((entity) => entity.id === player.id)?.status).toBe('active')
+  })
+
   it('makes a second-layer hunter dangerous during a committed pursuit', () => {
     const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
     const growingPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
@@ -100,6 +125,7 @@ describe('game engine lifecycle', () => {
     const entities = engine.renderSnapshot().entities
     const player = entities.find((entity) => entity.id === 'player')!
     const hunter = entities.find((entity) => entity.faction === 'hostile')!
+    hunter.materializingUntilMs = engine.renderSnapshot().elapsedMs
     player.membrane = 10_000
     player.position = { x: 320, y: 520 }
     player.body = circleBody(player.position, player.body.radius)
@@ -179,7 +205,8 @@ describe('game engine lifecycle', () => {
   it('publishes autonomous behavior states for player-readable ecology', () => {
     const engine = createGameEngine({ seed: 727 })
     engine.start()
-    engine.advance(1000 / 60)
+    engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!.membrane = 10_000
+    for (let frame = 0; frame < 75; frame += 1) engine.advance(1000 / 60)
 
     const autonomous = engine.renderSnapshot().entities.filter((entity) => entity.behaviorProfileId)
     expect(autonomous.length).toBeGreaterThan(0)
@@ -394,6 +421,7 @@ describe('game engine lifecycle', () => {
     player.body = circleBody(player.position, 20)
     food.position = { x: food.body.radius, y: food.body.radius }
     food.body = circleBody(food.position, food.body.radius)
+    food.materializingUntilMs = -1
 
     engine.advance(1000 / 60)
 
@@ -408,6 +436,7 @@ describe('game engine lifecycle', () => {
     const food = engine.renderSnapshot().entities.find((entity) => entity.faction !== 'player' && entity.body.radius < player.body.radius)!
     food.position = { ...player.position }
     food.body = circleBody(food.position, food.body.radius)
+    food.materializingUntilMs = -1
 
     engine.advance(1000 / 60)
 
@@ -484,9 +513,11 @@ describe('game engine lifecycle', () => {
       engine.advance(1000 / 60)
     }
 
-    const nearbyFood = engine.renderSnapshot().entities.filter((entity) => (
+    const currentWorld = engine.renderSnapshot()
+    const currentPlayer = currentWorld.entities.find((entity) => entity.id === player.id)!
+    const nearbyFood = currentWorld.entities.filter((entity) => (
       (entity.role === 'nutrient' || entity.role === 'prey')
-      && Math.hypot(entity.position.x - player.position.x, entity.position.y - player.position.y) <= 75
+      && Math.hypot(entity.position.x - currentPlayer.position.x, entity.position.y - currentPlayer.position.y) <= 75
     ))
     expect(nearbyFood.length).toBeGreaterThanOrEqual(6)
   })
@@ -934,6 +965,7 @@ describe('game engine lifecycle', () => {
     Object.assign(threat, {
       faction: 'hostile',
       spawnedAtMs: -500,
+      materializingUntilMs: -1,
       contactDamage: { source: 'spine', amount: 120, periodMs: 1000, activeMs: 900, phaseOffsetMs: 0 },
     })
 
@@ -955,6 +987,7 @@ describe('game engine lifecycle', () => {
       center: { ...currentPlayer.position },
       contour: currentNutrient.body.contour.map((point) => ({ x: point.x + nutrientOffset.x, y: point.y + nutrientOffset.y })),
     }
+    currentNutrient.materializingUntilMs = -1
     engine.advance(20)
 
     expect(engine.evolutionSnapshot().organelles[0]?.charges).toBe(1)

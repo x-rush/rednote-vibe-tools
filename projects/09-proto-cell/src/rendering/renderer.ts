@@ -8,6 +8,7 @@ import { assetPath } from '../content/assets'
 import rawContent from '../content/content.json'
 import { createCameraTracker, type CameraFrame } from './camera'
 import { relationshipCue, relationshipPulse, type RelationshipCue } from './feedback'
+import { isMaterializing } from '../game/materialization'
 
 export type CanvasRenderer = {
   render(snapshot: WorldRenderSnapshot, numbers: NumberFeed): void
@@ -62,11 +63,42 @@ export function swarmTransitionPresentation(ageMs: number, reducedMotion: boolea
   return { radiusScale: 1.15 + progress * 1.8, textOffset: progress * 12, alpha: 1 - progress }
 }
 
-export function foodBloomPresentation(ageMs: number, reducedMotion: boolean): { radiusScale: number; alpha: number } | undefined {
-  if (ageMs < 0 || ageMs > 850) return undefined
-  if (reducedMotion) return { radiusScale: 1.25, alpha: 0.3 }
-  const progress = ageMs / 850
-  return { radiusScale: 1.2 + progress * 2.4, alpha: (1 - progress) * 0.55 }
+export function materializationPresentation(
+  ageMs: number,
+  durationMs: number,
+  reducedMotion: boolean,
+): { radiusScale: number; alpha: number; ringAlpha: number } | undefined {
+  if (ageMs < 0 || durationMs <= 0 || ageMs >= durationMs) return undefined
+  if (reducedMotion) return { radiusScale: 0.88, alpha: 0.72, ringAlpha: 0.5 }
+  const progress = ageMs / durationMs
+  return {
+    radiusScale: 0.72 + progress * 0.28,
+    alpha: 0.24 + progress * 0.76,
+    ringAlpha: 0.72 - progress * 0.22,
+  }
+}
+
+export function edgeWarningPosition(
+  point: Vec2,
+  viewport: { width: number; height: number },
+  margin: number,
+): (Vec2 & { angle: number }) | undefined {
+  if (point.x >= margin && point.x <= viewport.width - margin && point.y >= margin && point.y <= viewport.height - margin) return undefined
+  const center = { x: viewport.width / 2, y: viewport.height / 2 }
+  const direction = { x: point.x - center.x, y: point.y - center.y }
+  if (direction.x === 0 && direction.y === 0) return undefined
+  const xScale = direction.x > 0
+    ? (viewport.width - margin - center.x) / direction.x
+    : direction.x < 0 ? (margin - center.x) / direction.x : Number.POSITIVE_INFINITY
+  const yScale = direction.y > 0
+    ? (viewport.height - margin - center.y) / direction.y
+    : direction.y < 0 ? (margin - center.y) / direction.y : Number.POSITIVE_INFINITY
+  const scale = Math.min(xScale, yScale)
+  return {
+    x: center.x + direction.x * scale,
+    y: center.y + direction.y * scale,
+    angle: Math.atan2(direction.y, direction.x),
+  }
 }
 
 export function createCanvasRenderer(
@@ -129,6 +161,16 @@ export function createCanvasRenderer(
         .filter((item) => item.x + item.radius * 2 > 0 && item.x - item.radius * 2 < width && item.y + item.radius * 2 > 0 && item.y - item.radius * 2 < height)
         .sort((left, right) => Number(left.entity.id === snapshot.playerId) - Number(right.entity.id === snapshot.playerId))
 
+      for (const entity of snapshot.entities) {
+        if (entity.faction !== 'hostile' || !isMaterializing(entity, snapshot.elapsedMs)) continue
+        const point = {
+          x: cameraFrame.anchor.x + (entity.position.x - camera.x) * zoom,
+          y: cameraFrame.anchor.y + (entity.position.y - camera.y) * zoom,
+        }
+        const warning = edgeWarningPosition(point, viewport, 28)
+        if (warning) drawArrivalEdgeWarning(context, warning, snapshot.elapsedMs, options.reducedMotion ?? false)
+      }
+
       for (const item of drawables) {
         if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase === 'dormant') {
           drawBossArrivalTelegraph(context, item.x, item.y, item.radius, snapshot.elapsedMs)
@@ -138,7 +180,9 @@ export function createCanvasRenderer(
       }
       drawAmbientParticles(context, particles, width, height, visualTime, options.lowParticles ? 'low' : quality, camera)
       drawRouteRifts(context, snapshot, cameraFrame)
-      for (const item of drawables) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
+      for (const item of drawables) {
+        if (!isMaterializing(item.entity, snapshot.elapsedMs)) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
+      }
       if (player) {
         for (const item of drawables) {
           if (item.entity.id === player.id) continue
@@ -154,11 +198,19 @@ export function createCanvasRenderer(
         }
       }
       for (const item of drawables) {
-        if (item.entity.id.startsWith('eco-food-')) drawFoodSpawnBloom(context, item.x, item.y, item.radius, item.entity, snapshot.elapsedMs, options.reducedMotion ?? false)
-        drawBehaviorStateCue(context, item.entity, item.x, item.y, item.radius)
+        const spawnedAtMs = item.entity.spawnedAtMs ?? Number.NEGATIVE_INFINITY
+        const materializingUntilMs = item.entity.materializingUntilMs ?? Number.NEGATIVE_INFINITY
+        const materialization = materializationPresentation(
+          snapshot.elapsedMs - spawnedAtMs,
+          materializingUntilMs - spawnedAtMs,
+          options.reducedMotion ?? false,
+        )
+        if (materialization) drawMaterializationBloom(context, item.x, item.y, item.radius, item.entity, materialization)
+        if (!materialization) drawBehaviorStateCue(context, item.entity, item.x, item.y, item.radius)
         context.save()
         if (item.entity.behaviorState === 'hide') context.globalAlpha = 0.38
-        drawCell(context, item.entity, item.x, item.y, item.radius, visualTime, {
+        if (materialization) context.globalAlpha *= materialization.alpha
+        drawCell(context, item.entity, item.x, item.y, item.radius * (materialization?.radiusScale ?? 1), visualTime, {
           quality,
           build: item.entity.faction === 'player' ? snapshot.playerBuild : undefined,
           organelleIds: item.entity.faction === 'player' ? snapshot.playerOrganelleIdsByEntity[item.entity.id] ?? [] : undefined,
@@ -364,26 +416,49 @@ function drawSwarmTransition(
   context.restore()
 }
 
-function drawFoodSpawnBloom(
+function drawMaterializationBloom(
   context: CanvasRenderingContext2D,
   x: number,
   y: number,
   radius: number,
   entity: EntityState,
+  presentation: { radiusScale: number; ringAlpha: number },
+) {
+  context.save()
+  context.globalCompositeOperation = 'screen'
+  context.globalAlpha = presentation.ringAlpha
+  context.strokeStyle = entity.faction === 'hostile' ? '#ff9f68' : '#91fff1'
+  context.shadowColor = context.strokeStyle
+  context.shadowBlur = entity.faction === 'hostile' ? 16 : 10
+  context.lineWidth = entity.faction === 'hostile' ? 2.4 : 1.5
+  context.beginPath()
+  context.arc(x, y, radius * (1.5 - presentation.radiusScale * 0.25), 0, Math.PI * 2)
+  context.stroke()
+  context.restore()
+}
+
+function drawArrivalEdgeWarning(
+  context: CanvasRenderingContext2D,
+  warning: Vec2 & { angle: number },
   elapsedMs: number,
   reducedMotion: boolean,
 ) {
-  const spawnedAtMs = 'spawnedAtMs' in entity ? Number(entity.spawnedAtMs) : Number.NEGATIVE_INFINITY
-  const presentation = foodBloomPresentation(elapsedMs - spawnedAtMs, reducedMotion)
-  if (!presentation) return
+  const pulse = reducedMotion ? 1 : 0.86 + Math.sin(elapsedMs / 90) * 0.14
   context.save()
+  context.translate(warning.x, warning.y)
+  context.rotate(warning.angle)
   context.globalCompositeOperation = 'screen'
-  context.globalAlpha = presentation.alpha
-  context.strokeStyle = '#91fff1'
-  context.lineWidth = 1.5
+  context.globalAlpha = 0.78
+  context.fillStyle = '#ff8b66'
+  context.shadowColor = '#ff704f'
+  context.shadowBlur = 12
   context.beginPath()
-  context.arc(x, y, radius * presentation.radiusScale, 0, Math.PI * 2)
-  context.stroke()
+  context.moveTo(10 * pulse, 0)
+  context.lineTo(-7 * pulse, -7 * pulse)
+  context.lineTo(-4 * pulse, 0)
+  context.lineTo(-7 * pulse, 7 * pulse)
+  context.closePath()
+  context.fill()
   context.restore()
 }
 

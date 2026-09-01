@@ -497,6 +497,14 @@ export function validateContent(input: unknown): ContentValidationResult {
       }
       require(Number(ecology.batchSize) <= Number(ecology.targetFoodCount), '$.m1.ecologyReplenishment.batchSize', 'food batch must not exceed its target')
     }
+    if (!isRecord(value.spawnPresentation)) {
+      issues.push({ path: '$.m1.spawnPresentation', message: 'spawn presentation configuration is required' })
+    } else {
+      const presentation = value.spawnPresentation
+      require(typeof presentation.foodMaterializeMs === 'number' && Number.isFinite(presentation.foodMaterializeMs) && presentation.foodMaterializeMs >= 400, '$.m1.spawnPresentation.foodMaterializeMs', 'food needs a readable materialization window')
+      require(typeof presentation.neutralMaterializeMs === 'number' && Number.isFinite(presentation.neutralMaterializeMs) && presentation.neutralMaterializeMs >= 400, '$.m1.spawnPresentation.neutralMaterializeMs', 'neutral creatures need a readable materialization window')
+      require(typeof presentation.threatMaterializeMs === 'number' && Number.isFinite(presentation.threatMaterializeMs) && presentation.threatMaterializeMs >= 1000, '$.m1.spawnPresentation.threatMaterializeMs', 'threats need a full warning window')
+    }
     if (!Array.isArray(value.stageEntryEcology) || value.stageEntryEcology.length !== 6) {
       issues.push({ path: '$.m1.stageEntryEcology', message: 'one entry ecology profile is required for each journey stage' })
     } else value.stageEntryEcology.forEach((entry, index) => {

@@ -34,4 +34,21 @@ describe('seeded region generation', () => {
     expect(first).toHaveLength(5)
     expect(first.every((position) => position.x >= 12 && position.x <= 628 && position.y >= 12 && position.y <= 1088)).toBe(true)
   })
+
+  it('re-angles edge spawns instead of clamping them close to the player', () => {
+    const center = { x: 28, y: 28 }
+    const positions = ecologyGroupPositions({
+      seed: 727,
+      groupId: 'edge-warning-group',
+      center,
+      distance: 250,
+      angle: -Math.PI * 0.75,
+      count: 4,
+      width: 640,
+      height: 1100,
+      margin: 18,
+    })
+
+    expect(positions.every((position) => Math.hypot(position.x - center.x, position.y - center.y) >= 237.5)).toBe(true)
+  })
 })

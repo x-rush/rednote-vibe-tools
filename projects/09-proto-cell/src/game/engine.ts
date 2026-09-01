@@ -27,6 +27,7 @@ import { createRunDirector, stepRunDirector, type RunDirectorState, type RunPhas
 import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type EcologyRole, type EcologySummary } from '../world/ecology-director'
 import { createBuildState, type BuildState } from '../evolution/build'
 import { evaluateTriggers, type TriggerFrame, type TriggerOutcome } from '../evolution/triggers'
+import { isMaterializing, materializeSpawn } from './materialization'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
 
@@ -558,7 +559,7 @@ export function createGameEngine(options: {
       }
       const id = `${activeEvent?.id ?? 'event'}-${requestIndex}-${index}`
       const spawned = createEntity(definition, { id, position, spawnedAtMs: elapsedMs })
-      entities.set(id, tuneSpawnedThreat(spawned, entities.get(PLAYER_ID)))
+      entities.set(id, prepareSpawn(spawned, entities.get(PLAYER_ID), elapsedMs))
     }
   }
 
@@ -669,7 +670,7 @@ export function createGameEngine(options: {
       const roleCount = activeByRole.get(entity.role) ?? 0
       if (roleCount >= spawnCapForRole(entity.role)) continue
       if (distanceBetween(entity, playerBody) > 420) continue
-      entities.set(entityId, tuneSpawnedThreat({ ...entity, spawnedAtMs: atMs }, playerBody))
+      entities.set(entityId, prepareSpawn({ ...entity, spawnedAtMs: atMs }, playerBody, atMs))
       spawnedIds.add(entityId)
       activeByRole.set(entity.role, roleCount + 1)
     }
@@ -690,6 +691,7 @@ export function createGameEngine(options: {
     if (!playerBody) return
     const nearbyEdibleCount = [...entities.values()].filter((entity) => (
       entity.status === 'active'
+      && !isMaterializing(entity, elapsedMs)
       && (entity.role === 'nutrient' || entity.role === 'prey')
       && entity.body.radius < playerBody.body.radius
       && distanceBetween(entity, playerBody) <= 160
@@ -712,7 +714,10 @@ export function createGameEngine(options: {
       visibleEntities,
     })
     ecologyDirectorState = result.state
-    result.commands.forEach((command) => applyEcologyCommand(command, playerBody))
+    const retiring = result.commands.filter((command) => command.type === 'dematerialize-group')
+    const arriving = result.commands.filter((command) => command.type !== 'dematerialize-group')
+    for (const command of retiring) applyEcologyCommand(command, playerBody)
+    for (const command of arriving) applyEcologyCommand(command, playerBody)
   }
 
   function applyEcologyCommand(command: EcologyCommand, playerBody: EntityState) {
@@ -748,10 +753,10 @@ export function createGameEngine(options: {
       const food = command.role === 'resource' || command.role === 'prey'
       const id = `${food ? 'eco-food' : `eco-${command.role}`}-${environmentId}-${foodSpawnSequence}`
       foodSpawnSequence += 1
-      entities.set(id, tuneSpawnedThreat({
+      entities.set(id, prepareSpawn({
         ...createEntity(definition, { id, position, spawnedAtMs: elapsedMs }),
         ecologyGroupId: command.groupId,
-      }, playerBody))
+      }, playerBody, elapsedMs))
     })
   }
 
@@ -797,6 +802,10 @@ export function createGameEngine(options: {
     for (const entity of entities.values()) {
       if (entity.status !== 'active') continue
       if (activeSwarm && entity.faction === 'player') continue
+      if (isMaterializing(entity, elapsedMs)) {
+        if (entity.velocity.x !== 0 || entity.velocity.y !== 0) entities.set(entity.id, moveEntity(entity, entity.position, { x: 0, y: 0 }))
+        continue
+      }
       const bossDormant = entity.id === bossState?.id && bossState.phase === 'dormant'
       const movement = movementDecision(entity, bossDormant)
       const intent = movement.intent
@@ -1459,6 +1468,7 @@ export function createGameEngine(options: {
         let first = entities.get(entity.id)
         let second = entities.get(candidate.id)
         if (!first || !second || first.status !== 'active' || second.status !== 'active') continue
+        if (isMaterializing(first, elapsedMs) || isMaterializing(second, elapsedMs)) continue
         if (first.id.startsWith('eco-food-') && second.id.startsWith('eco-food-')) continue
         if (first.faction === 'hostile' && second.faction === 'hostile') continue
         if (bossState?.phase === 'dormant' && (first.id === bossState.id || second.id === bossState.id)) continue
@@ -1637,7 +1647,11 @@ export function createGameEngine(options: {
     }
     const id = `modifier-elite-${environmentId}-${routeStageIndex}`
     const spawned = createEntity(definition, { id, position: { x: environment.width / 2, y: environment.height / 2 }, spawnedAtMs: elapsedMs })
-    entities.set(id, tuneSpawnedThreat(spawned, entities.get(PLAYER_ID)))
+    entities.set(id, prepareSpawn(spawned, entities.get(PLAYER_ID), elapsedMs))
+  }
+
+  function prepareSpawn(entity: EntityState, playerBody: EntityState | undefined, atMs: number): EntityState {
+    return materializeSpawn(tuneSpawnedThreat(entity, playerBody), atMs, content.m1.spawnPresentation)
   }
 
   function currentThreatProfile(): StageThreatProfileDefinition {

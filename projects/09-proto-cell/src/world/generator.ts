@@ -50,12 +50,36 @@ export function ecologyGroupPositions(input: {
   const baseAngle = input.angle ?? rng.next() * Math.PI * 2
   return Array.from({ length: input.count }, (_, index) => {
     const spread = (index - (input.count - 1) / 2) * 0.14 + (rng.next() - 0.5) * 0.08
-    const distance = input.distance * (0.88 + rng.next() * 0.18)
-    return {
-      x: Math.min(input.width - input.margin, Math.max(input.margin, input.center.x + Math.cos(baseAngle + spread) * distance)),
-      y: Math.min(input.height - input.margin, Math.max(input.margin, input.center.y + Math.sin(baseAngle + spread) * distance)),
-    }
+    const distance = input.distance * (0.96 + rng.next() * 0.1)
+    return readableRadialPosition(input.center, distance, baseAngle + spread, input.width, input.height, input.margin)
   })
+}
+
+function readableRadialPosition(
+  center: Vec2,
+  distance: number,
+  preferredAngle: number,
+  width: number,
+  height: number,
+  margin: number,
+): Vec2 {
+  const angleOffsets = [0, Math.PI / 8, -Math.PI / 8, Math.PI / 4, -Math.PI / 4, Math.PI / 2, -Math.PI / 2, Math.PI]
+  for (const offset of angleOffsets) {
+    const candidate = {
+      x: center.x + Math.cos(preferredAngle + offset) * distance,
+      y: center.y + Math.sin(preferredAngle + offset) * distance,
+    }
+    if (candidate.x >= margin && candidate.x <= width - margin && candidate.y >= margin && candidate.y <= height - margin) return candidate
+  }
+
+  return angleOffsets
+    .map((offset) => ({
+      x: Math.min(width - margin, Math.max(margin, center.x + Math.cos(preferredAngle + offset) * distance)),
+      y: Math.min(height - margin, Math.max(margin, center.y + Math.sin(preferredAngle + offset) * distance)),
+    }))
+    .sort((left, right) => (
+      Math.hypot(right.x - center.x, right.y - center.y) - Math.hypot(left.x - center.x, left.y - center.y)
+    ))[0]!
 }
 
 export function findEnteredRouteRift(

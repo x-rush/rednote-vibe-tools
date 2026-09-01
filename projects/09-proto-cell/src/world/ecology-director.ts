@@ -98,7 +98,7 @@ export function stepEcologyDirector(
   }
 
   if (input.nearbyEdibleCount === 0 && input.atMs >= next.nextFoodSupportAtMs) {
-    commands.push(materialize(next, 'resource', 6, Math.min(64, input.viewportRadius * 0.2), undefined))
+    commands.push(materialize(next, 'resource', 6, Math.min(56, input.viewportRadius * 0.18), undefined))
     next.firstFoodProvided = true
     next.nextFoodSupportAtMs = input.atMs + 6000
   } else if (input.nearbyEdibleCount > 0) {

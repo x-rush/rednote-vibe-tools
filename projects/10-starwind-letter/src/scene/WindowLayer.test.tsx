@@ -7,7 +7,6 @@ describe('window scene markup', () => {
     const html = renderToStaticMarkup(<WindowLayer openProgress={0} shakeProgress={0} />)
     expect(html).toContain('viewBox="0 0 390 844"')
     expect(html).toContain('data-layer="window-frame"')
-    expect(html).toContain('data-layer="curtain-static"')
     expect(html).toContain('data-window-state="closed"')
   })
 

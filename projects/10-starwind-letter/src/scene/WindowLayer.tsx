@@ -7,10 +7,6 @@ const exteriorStars = [
   [242, 205, 1.2], [288, 190, 0.8], [324, 232, 1.1], [266, 276, 0.7],
   [314, 319, 1.4], [238, 350, 0.9], [296, 397, 0.8], [332, 444, 1.2],
 ] as const
-const staticStrands = Array.from({ length: 42 }, (_, index) => ({
-  x: 190 + index * 4.2, length: 332 + (index % 7) * 7, opacity: 0.22 + (index % 5) * 0.055,
-}))
-
 function crossbarPoints(openProgress: number, ratio: number) {
   const sash = projectSash(openProgress)
   const left = { x: sash.topLeft.x + (sash.bottomLeft.x - sash.topLeft.x) * ratio, y: sash.topLeft.y + (sash.bottomLeft.y - sash.topLeft.y) * ratio }
@@ -30,7 +26,6 @@ export function WindowLayer({ openProgress, shakeProgress }: WindowLayerProps) {
         <radialGradient id={`${ids}-sky`} cx="58%" cy="24%" r="85%"><stop stopColor="#26305b" /><stop offset="0.38" stopColor="#090f2d" /><stop offset="1" stopColor="#010416" /></radialGradient>
         <linearGradient id={`${ids}-frame`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#b6c5ff" /><stop offset="0.26" stopColor="#687af2" /><stop offset="0.7" stopColor="#303bc1" /><stop offset="1" stopColor="#0e176b" /></linearGradient>
         <linearGradient id={`${ids}-beam`} x1="1" y1="0" x2="0" y2="1"><stop stopColor="#d9e7ff" stopOpacity="0.75" /><stop offset="1" stopColor="#728dff" stopOpacity="0" /></linearGradient>
-        <linearGradient id={`${ids}-strand`} x1="0" y1="0" x2="0" y2="1"><stop stopColor="#f7fbff" stopOpacity="0.9" /><stop offset="0.48" stopColor="#9ebcff" stopOpacity="0.55" /><stop offset="1" stopColor="#496ee8" stopOpacity="0.08" /></linearGradient>
         <filter id={`${ids}-glow`} x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="4" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
         <mask id={`${ids}-crescent`}><rect width="390" height="844" fill="black" /><circle cx="278" cy="235" r="27" fill="white" /><circle cx="289" cy="225" r="25" fill="black" /></mask>
       </defs>
@@ -52,13 +47,6 @@ export function WindowLayer({ openProgress, shakeProgress }: WindowLayerProps) {
           <polyline points={crossbarPoints(openProgress, 0.48)} stroke="#7d8ff0" strokeWidth="6" />
           <polyline points={crossbarPoints(openProgress, 0.78)} stroke="#596bdc" strokeWidth="5" opacity="0.82" />
           {openProgress > 0.08 && <polyline points={`${sash.topLeft.x},${sash.topLeft.y} ${sash.topLeft.x + 9},${sash.topLeft.y + 4} ${sash.bottomLeft.x + 9},${sash.bottomLeft.y + 5} ${sash.bottomLeft.x},${sash.bottomLeft.y}`} fill="#141c58" stroke="#788af0" strokeWidth="2" />}
-        </g>
-        <g data-layer="curtain-static">
-          <line x1="184" y1="116" x2="373" y2="151" stroke="#e7f0ff" strokeWidth="2" filter={`url(#${ids}-glow)`} />
-          {staticStrands.map((strand, index) => {
-            const topY = 116 + (strand.x - 184) * 0.185
-            return <path key={index} d={`M ${strand.x} ${topY} Q ${strand.x - 1.5} ${topY + strand.length * 0.5} ${strand.x + (index % 4) - 2} ${topY + strand.length}`} fill="none" stroke={`url(#${ids}-strand)`} strokeWidth={index % 8 === 0 ? 1.2 : 0.72} opacity={strand.opacity} />
-          })}
         </g>
       </g>
     </svg>

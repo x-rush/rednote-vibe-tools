@@ -18,4 +18,14 @@ describe('arcade number feed', () => {
 
     expect(feed.visible().map((item) => item.kind)).toEqual(['damage', 'block'])
   })
+
+  it('continues an engulf chain inside 1400ms and resets after the window', () => {
+    const feed = createNumberFeed({ aggregateMs: 180, maxVisible: 8, chainWindowMs: 1400 })
+    feed.push({ kind: 'biomass', amount: 12, entityId: 'player', label: '藻光粒', atMs: 100 })
+    feed.push({ kind: 'biomass', amount: 8, entityId: 'player', label: '藻光粒', atMs: 900 })
+    expect(feed.visible().at(-1)).toMatchObject({ chain: 2, label: '藻光粒' })
+
+    feed.push({ kind: 'biomass', amount: 5, entityId: 'player', label: '蛋白颗粒', atMs: 2500 })
+    expect(feed.visible().at(-1)).toMatchObject({ chain: 1, label: '蛋白颗粒' })
+  })
 })

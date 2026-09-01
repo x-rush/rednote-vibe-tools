@@ -52,4 +52,16 @@ describe('cell visual grammar', () => {
     expect(cell.buildVisualRecipeMap(undefined).size).toBe(0)
     expect(cell.buildVisualRecipeMap([{ id: 'broken', palette: null }]).size).toBe(0)
   })
+
+  it('uses a thick arcade membrane and three discrete body tones', () => {
+    expect(cell.cellStrokeWidth(10)).toBe(2.5)
+    expect(cell.cellStrokeWidth(40)).toBeCloseTo(4.4)
+    expect(new Set(cell.cellToneBands({
+      membrane: '#74f4e8',
+      cytoplasm: '#246879',
+      core: '#458ee8',
+      organ: '#ffffff',
+      glow: '#74f4e8',
+    })).size).toBe(3)
+  })
 })

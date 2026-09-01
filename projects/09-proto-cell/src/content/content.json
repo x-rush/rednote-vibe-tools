@@ -99,7 +99,8 @@
       "swarmHint": "游动保持，停下融合",
       "swarmStabilizing": "分裂稳定中",
       "splitPulse": "分裂 ×{count}",
-      "fusionPulse": "融合"
+      "fusionPulse": "融合",
+      "engulfNumber": "吞下{name} +{amount}"
     },
     "screens": {
       "pauseTitle": "培养皿静止中",

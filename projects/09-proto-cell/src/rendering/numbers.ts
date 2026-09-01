@@ -1,9 +1,12 @@
+import rawContent from '../content/content.json'
+
 export type NumberKind = 'biomass' | 'damage' | 'block'
 
 export type NumberEffectInput = {
   kind: NumberKind
   amount: number
   entityId: string
+  label?: string
   atMs: number
 }
 
@@ -21,12 +24,22 @@ export type NumberFeed = {
 
 const EFFECT_LIFETIME_MS = 920
 
-export function createNumberFeed(options: { aggregateMs: number; maxVisible: number }): NumberFeed {
+export function createNumberFeed(options: { aggregateMs: number; maxVisible: number; chainWindowMs?: number }): NumberFeed {
   let nextId = 1
   let effects: NumberEffect[] = []
+  let biomassChain = 0
+  let lastBiomassAt = Number.NEGATIVE_INFINITY
 
   return {
     push(input) {
+      let chain = 1
+      if (input.kind === 'biomass') {
+        const continuesChain = input.atMs >= lastBiomassAt
+          && input.atMs - lastBiomassAt <= (options.chainWindowMs ?? 1400)
+        biomassChain = continuesChain ? biomassChain + 1 : 1
+        lastBiomassAt = input.atMs
+        chain = biomassChain
+      }
       const aggregatable = [...effects].reverse().find((effect) => (
         effect.kind === input.kind
         && effect.entityId === input.entityId
@@ -36,12 +49,13 @@ export function createNumberFeed(options: { aggregateMs: number; maxVisible: num
 
       if (aggregatable) {
         aggregatable.amount += input.amount
-        aggregatable.chain += 1
+        aggregatable.chain = chain
+        aggregatable.label = input.label ?? aggregatable.label
         aggregatable.atMs = input.atMs
         return
       }
 
-      effects.push({ ...input, id: nextId, chain: 1 })
+      effects.push({ ...input, id: nextId, chain })
       nextId += 1
       if (effects.length > options.maxVisible) effects = effects.slice(-options.maxVisible)
     },
@@ -68,7 +82,11 @@ export function createNumberFeed(options: { aggregateMs: number; maxVisible: num
         context.shadowBlur = 12
         const prefix = effect.kind === 'biomass' ? '+' : effect.kind === 'damage' ? '−' : '◆'
         const chain = effect.chain > 1 ? ` ×${effect.chain}` : ''
-        context.fillText(`${prefix}${formatAmount(effect.amount)}${chain}`, width / 2, y)
+        const amount = formatAmount(effect.amount)
+        const text = effect.kind === 'biomass' && effect.label
+          ? rawContent.ui.hud.engulfNumber.replace('{name}', effect.label).replace('{amount}', amount)
+          : `${prefix}${amount}`
+        context.fillText(`${text}${chain}`, width / 2, y)
       })
 
       context.restore()

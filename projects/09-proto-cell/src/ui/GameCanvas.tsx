@@ -4,6 +4,19 @@ import type { ProtoCellEngine } from '../game/engine'
 import { createCanvasRenderer } from '../rendering/renderer'
 import { createNumberFeed } from '../rendering/numbers'
 import type { SaveSettings } from '../storage/codec'
+import { getContent } from '../content'
+
+const namedEngulfables = (() => {
+  const content = getContent()
+  return new Map<string, string>(
+    [...content.nutrients, ...content.creatures, ...content.bosses]
+      .map((definition) => [definition.id, definition.name]),
+  )
+})()
+
+export function engulfPreyName(preyDefinitionId?: string): string | undefined {
+  return preyDefinitionId ? namedEngulfables.get(preyDefinitionId) : undefined
+}
 
 export function clearPointerSession(
   input: ProtoCellEngine['input'],
@@ -54,7 +67,7 @@ export function GameCanvas({
       onCanvasErrorRef.current?.()
       return
     }
-    const numbers = createNumberFeed({ aggregateMs: 180, maxVisible: 8 })
+    const numbers = createNumberFeed({ aggregateMs: 180, maxVisible: 8, chainWindowMs: 1400 })
     let frameId = 0
     let failed = false
     let previousTime = performance.now()
@@ -80,7 +93,13 @@ export function GameCanvas({
         const bossId = engine.worldSnapshot().boss?.id
         for (const event of events) {
           if (event.type === 'engulfed' && event.predatorId === 'player') {
-            numbers.push({ kind: 'biomass', amount: event.biomass, entityId: 'player', atMs: event.atMs })
+            numbers.push({
+              kind: 'biomass',
+              amount: event.biomass,
+              entityId: 'player',
+              label: engulfPreyName(event.preyDefinitionId),
+              atMs: event.atMs,
+            })
           } else if (event.type === 'damaged' && event.targetId === 'player') {
             numbers.push({ kind: 'damage', amount: event.amount, entityId: 'player', atMs: event.atMs })
           } else if (event.type === 'damaged' && event.targetId === bossId) {

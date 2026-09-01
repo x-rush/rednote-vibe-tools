@@ -7,6 +7,7 @@ import type { NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
 import rawContent from '../content/content.json'
 import { createCameraTracker, type CameraFrame } from './camera'
+import { relationshipCue, relationshipPulse, type RelationshipCue } from './feedback'
 
 export type CanvasRenderer = {
   render(snapshot: WorldRenderSnapshot, numbers: NumberFeed): void
@@ -121,6 +122,20 @@ export function createCanvasRenderer(
       drawAmbientParticles(context, particles, width, height, visualTime, options.lowParticles ? 'low' : quality, camera)
       drawRouteRifts(context, snapshot, cameraFrame)
       for (const item of drawables) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
+      if (player) {
+        for (const item of drawables) {
+          if (item.entity.id === player.id) continue
+          drawRelationshipCue(
+            context,
+            relationshipCue(player, item.entity),
+            item.x,
+            item.y,
+            item.radius,
+            snapshot.elapsedMs,
+            options.reducedFlash ?? false,
+          )
+        }
+      }
       for (const item of drawables) {
         if (item.entity.id.startsWith('eco-food-')) drawFoodSpawnBloom(context, item.x, item.y, item.radius, item.entity, snapshot.elapsedMs, options.reducedMotion ?? false)
         drawCell(context, item.entity, item.x, item.y, item.radius, visualTime, {
@@ -166,6 +181,43 @@ export function createCanvasRenderer(
     assetImages.set(path, loaded)
     return loaded
   }
+}
+
+function drawRelationshipCue(
+  context: CanvasRenderingContext2D,
+  cue: RelationshipCue,
+  x: number,
+  y: number,
+  radius: number,
+  elapsedMs: number,
+  reducedFlash: boolean,
+) {
+  if (cue === 'neutral') return
+  const pulse = relationshipPulse(elapsedMs, reducedFlash)
+  const haloRadius = radius * (cue === 'edible' ? 1.22 : 1.3) * pulse
+  context.save()
+  context.translate(x, y)
+  context.globalAlpha = cue === 'edible' ? 0.82 : 0.9
+  context.strokeStyle = cue === 'edible' ? '#c9ffff' : '#ff806f'
+  context.shadowColor = context.strokeStyle
+  context.shadowBlur = reducedFlash ? 5 : 11
+  context.lineWidth = Math.max(2.5, radius * 0.08)
+  context.setLineDash(cue === 'edible' ? [] : [radius * 0.22, radius * 0.14])
+  context.beginPath()
+  context.arc(0, 0, haloRadius, 0, Math.PI * 2)
+  context.stroke()
+  if (cue === 'danger') {
+    context.setLineDash([])
+    context.lineWidth = Math.max(2, radius * 0.06)
+    for (let index = 0; index < 8; index += 1) {
+      const angle = index / 8 * Math.PI * 2
+      context.beginPath()
+      context.moveTo(Math.cos(angle) * haloRadius * 1.08, Math.sin(angle) * haloRadius * 1.08)
+      context.lineTo(Math.cos(angle) * haloRadius * 1.25, Math.sin(angle) * haloRadius * 1.25)
+      context.stroke()
+    }
+  }
+  context.restore()
 }
 
 function drawSwarmTransition(

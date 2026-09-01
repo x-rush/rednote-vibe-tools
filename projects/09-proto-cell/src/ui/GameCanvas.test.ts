@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createPointerInput } from '../game/input'
-import { clearPointerSession } from './GameCanvas'
+import { clearPointerSession, engulfPreyName } from './GameCanvas'
 
 describe('game canvas pointer lifecycle', () => {
   it('cancels movement only for the active pointer or a global lifecycle reset', () => {
@@ -21,5 +21,13 @@ describe('game canvas pointer lifecycle', () => {
     input.move({ x: 120, y: 0 })
     expect(clearPointerSession(input, activePointer)).toBe(true)
     expect(input.snapshot().strength).toBe(0)
+  })
+})
+
+describe('engulf feedback labels', () => {
+  it('resolves creature and nutrient names from content', () => {
+    expect(engulfPreyName('creature-drifter')).toBe('漂游体')
+    expect(engulfPreyName('nutrient-protein')).toBe('蛋白团')
+    expect(engulfPreyName(undefined)).toBeUndefined()
   })
 })

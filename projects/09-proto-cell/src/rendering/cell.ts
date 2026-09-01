@@ -16,6 +16,18 @@ export type CellVisualProfile = {
   appendages: 'none' | 'flagellum' | 'fins' | 'cilia' | 'spines'
 }
 
+export function cellStrokeWidth(radius: number): number {
+  return Math.max(2.5, radius * 0.11)
+}
+
+export function cellToneBands(palette: CellPalette): [string, string, string] {
+  return [
+    mixHex(palette.membrane, '#07142c', 0.44),
+    mixHex(palette.membrane, palette.core, 0.38),
+    mixHex(palette.core, '#e8ffff', 0.2),
+  ]
+}
+
 type DrawableVisualRecipe = { id: string; palette: string[] }
 
 export function buildVisualRecipeMap(value: unknown): Map<string, DrawableVisualRecipe> {
@@ -66,6 +78,7 @@ export function drawCell(
 ): void {
   const profile = cellVisualProfile(entity)
   const palette = profile.palette
+  const toneBands = cellToneBands(palette)
   const pulse = 1 + Math.sin(elapsedMs / 520 + hashPhase(entity.id)) * 0.025
   const bodyRadius = radius * pulse
   const speed = Math.hypot(entity.velocity.x, entity.velocity.y)
@@ -76,37 +89,30 @@ export function drawCell(
   context.rotate(heading)
 
   // 1. Liquid shadow and refraction.
-  context.fillStyle = 'rgb(0 4 18 / 42%)'
-  context.filter = options.quality === 'low' ? 'none' : 'blur(5px)'
+  context.fillStyle = 'rgb(0 3 16 / 68%)'
+  context.filter = options.quality === 'low' ? 'none' : 'blur(3px)'
   context.beginPath()
-  context.ellipse(3, radius * 0.42, bodyRadius * 0.92, bodyRadius * 0.48, 0, 0, Math.PI * 2)
+  context.ellipse(4, radius * 0.34, bodyRadius * 0.96, bodyRadius * 0.62, 0, 0, Math.PI * 2)
   context.fill()
   context.filter = 'none'
 
   // 2. Membrane outline.
   context.shadowColor = palette.glow
   context.shadowBlur = options.quality === 'low' ? 0 : entity.role === 'predator' || entity.role === 'boss' ? 16 : 10
-  context.fillStyle = palette.cytoplasm
+  context.fillStyle = toneBands[0]
   context.strokeStyle = palette.membrane
-  context.lineWidth = Math.max(1.4, radius * 0.075)
+  context.lineWidth = cellStrokeWidth(radius)
   traceBody(context, profile.silhouette, bodyRadius, elapsedMs, entity.id)
   context.fill()
   context.stroke()
 
-  context.globalAlpha = 0.38
-  context.strokeStyle = '#ffffff'
-  context.lineWidth = Math.max(0.8, radius * 0.025)
-  traceBody(context, profile.silhouette, bodyRadius * 0.87, elapsedMs + 90, entity.id)
-  context.stroke()
-  context.globalAlpha = 1
-
-  // 3. Cytoplasm highlight.
-  const cytoplasm = context.createRadialGradient(-radius * 0.35, -radius * 0.4, 0, 0, 0, radius)
-  cytoplasm.addColorStop(0, 'rgb(255 255 255 / 34%)')
-  cytoplasm.addColorStop(0.25, 'rgb(128 245 255 / 11%)')
-  cytoplasm.addColorStop(1, 'rgb(0 18 68 / 8%)')
-  context.fillStyle = cytoplasm
-  traceBody(context, profile.silhouette, radius * 0.86, elapsedMs, entity.id)
+  // 3. Three opaque arcade tone bands keep small cells readable at speed.
+  context.shadowBlur = 0
+  context.fillStyle = toneBands[1]
+  traceBody(context, profile.silhouette, radius * 0.82, elapsedMs, entity.id)
+  context.fill()
+  context.fillStyle = toneBands[2]
+  traceBody(context, profile.silhouette, radius * 0.62, elapsedMs, entity.id)
   context.fill()
 
   // 4. Core.
@@ -311,6 +317,16 @@ function hexWithAlpha(color: string, alpha: number): string {
   const green = Number.parseInt(color.slice(3, 5), 16)
   const blue = Number.parseInt(color.slice(5, 7), 16)
   return `rgb(${red} ${green} ${blue} / ${alpha})`
+}
+
+function mixHex(first: string, second: string, secondWeight: number): string {
+  if (!/^#[\da-f]{6}$/i.test(first) || !/^#[\da-f]{6}$/i.test(second)) return first
+  const weight = Math.min(1, Math.max(0, secondWeight))
+  const channel = (offset: number) => Math.round(
+    Number.parseInt(first.slice(offset, offset + 2), 16) * (1 - weight)
+      + Number.parseInt(second.slice(offset, offset + 2), 16) * weight,
+  ).toString(16).padStart(2, '0')
+  return `#${channel(1)}${channel(3)}${channel(5)}`
 }
 
 function hashPhase(id: string): number {

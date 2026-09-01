@@ -14,8 +14,17 @@
 - `projects/10-starwind-letter/PROJECT_BRIEF.md`
 - `projects/10-starwind-letter/UX_SPEC.md`
 - `projects/10-starwind-letter/MOTION_SPEC.md`
+- `projects/10-starwind-letter/VISUAL_REFERENCE.md`
 - `projects/10-starwind-letter/CONTENT_SPEC.md`
 - `projects/10-starwind-letter/IMPLEMENTATION_PLAN.md`
+
+还必须使用你可用的本地图片查看工具，逐张实际查看以下参考图，不能只读取文件名或依赖文字转述：
+
+- `projects/10-starwind-letter/references/01-curtain-closed.jpg`
+- `projects/10-starwind-letter/references/02-wind-opening.jpg`
+- `projects/10-starwind-letter/references/03-stars-entering.jpg`
+
+这些图片是社交平台视频的三个连续截图。只参考中央深蓝色艺术画面；忽略并禁止实现手机状态栏、平台导航、作者头像、关注、点赞、评论、进度条和黑色上下区域。原始截图仅作设计参考，不能直接作为成品背景或运行时素材展示。
 
 然后检查同仓库现有子项目的技术栈、构建脚本、测试配置和目录惯例。只借鉴工程结构，不复制其他项目的业务内容或视觉资产。
 
@@ -32,6 +41,8 @@
 7. 月光随着窗户开启进入房间。
 8. 窗外的星尘、拖尾光粒和主角星穿过窗口，被风吹进室内，再围绕选中的句子稳定成结果画面。
 9. 结果只提供“再听一次星空”，点击后完整重置并重新轮播。
+
+构图不能做成普通正面窗户。参考图最重要的视觉特征是侧面斜视：镜头位于窗户左前下方，窗户处于画面上半部偏右，窗框和横梁带明显纵深透视；风从窗外向室内压入，窗帘形成从顶部固定点向左下和前景甩出的长弧面，窗扇向观看者方向旋开。星星沿着倾斜的月光和风道，从窗框后方穿过开口，飞向画面左下方的室内空间。请在写复杂动画前先用静态构图验证这个侧视透视。
 
 以下是不可变的硬性要求：
 

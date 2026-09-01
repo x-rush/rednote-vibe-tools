@@ -19,10 +19,12 @@
 - [PROJECT_BRIEF.md](./PROJECT_BRIEF.md)：产品目标、体验闭环与范围。
 - [UX_SPEC.md](./UX_SPEC.md)：页面状态、操作规则、异常与可访问性。
 - [MOTION_SPEC.md](./MOTION_SPEC.md)：逐秒分镜、空间关系与动效验收标准。
+- [VISUAL_REFERENCE.md](./VISUAL_REFERENCE.md)：三张参考图的构图、透视、风感和星星入室拆解。
 - [CONTENT_SPEC.md](./CONTENT_SPEC.md)：内置星语的写作规范、分类与首批句库。
 - [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)：供开发 Agent 执行的阶段计划和验收清单。
 - [CODEX_PROMPT.md](./CODEX_PROMPT.md)：可直接复制到 WSL Agent 的完整提示词。
 - [AGENTS.md](./AGENTS.md)：本项目开发边界。
+- [`references/`](./references/)：原始三帧视觉参考，仅供设计与实现对照，不作为成品页面素材直接展示。
 
 ## 一句话体验
 

@@ -40,22 +40,23 @@ export function drawWater(
   if (background) {
     const crop = getCoverCrop(background.width, background.height, bounds)
     ctx.drawImage(background.image, crop.x, crop.y, crop.width, crop.height, 0, 0, bounds.width, bounds.height)
-  }
-  ctx.fillStyle = background ? 'rgba(233,238,230,.58)' : '#e9eee6'
-  ctx.fillRect(0, 0, bounds.width, bounds.height)
+  } else {
+    ctx.fillStyle = '#e9eee6'
+    ctx.fillRect(0, 0, bounds.width, bounds.height)
 
-  ctx.save()
-  ctx.globalAlpha = 0.16
-  ctx.fillStyle = '#cbded1'
-  ctx.beginPath()
-  ctx.ellipse(bounds.width * 0.58, bounds.height * 0.46, bounds.width * 0.54, bounds.height * 0.33, -0.18, 0, TAU)
-  ctx.fill()
-  ctx.globalAlpha = 0.1
-  ctx.fillStyle = '#e2d3c3'
-  ctx.beginPath()
-  ctx.ellipse(bounds.width * 0.18, bounds.height * 0.8, bounds.width * 0.48, bounds.height * 0.25, 0.3, 0, TAU)
-  ctx.fill()
-  ctx.restore()
+    ctx.save()
+    ctx.globalAlpha = 0.16
+    ctx.fillStyle = '#cbded1'
+    ctx.beginPath()
+    ctx.ellipse(bounds.width * 0.58, bounds.height * 0.46, bounds.width * 0.54, bounds.height * 0.33, -0.18, 0, TAU)
+    ctx.fill()
+    ctx.globalAlpha = 0.1
+    ctx.fillStyle = '#e2d3c3'
+    ctx.beginPath()
+    ctx.ellipse(bounds.width * 0.18, bounds.height * 0.8, bounds.width * 0.48, bounds.height * 0.25, 0.3, 0, TAU)
+    ctx.fill()
+    ctx.restore()
+  }
 
   const motion = reducedMotion ? 0 : time * 0.00018
   ctx.lineWidth = 0.65

@@ -6,7 +6,7 @@ import { collapsePresentation, drawAmbientParticles, drawDangerTelegraph, drawLi
 import type { NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
 import rawContent from '../content/content.json'
-import { createCameraTracker, type CameraFrame } from './camera'
+import { createCameraTracker, targetScreenDiameterRatio, type CameraFrame } from './camera'
 import { relationshipCue, relationshipPulse, type RelationshipCue } from './feedback'
 import { isMaterializing } from '../game/materialization'
 
@@ -141,8 +141,14 @@ export function createCanvasRenderer(
       const renderableEntities = snapshot.entities.filter(isFiniteEntityGeometry)
       const player = renderableEntities.find((entity) => entity.id === snapshot.playerId)
       const viewport = { width, height }
+      const tier = rawContent.scaleTiers[snapshot.lifecycle.tierIndex]
       const cameraFrame = player
-        ? cameraTracker.update({ ...player, radius: player.body.radius }, viewport, snapshot.bodyStage, snapshot.elapsedMs)
+        ? cameraTracker.update(
+          { ...player, radius: player.body.radius },
+          viewport,
+          tier ? { screenDiameterRatio: targetScreenDiameterRatio(tier.screenDiameterRange as unknown as readonly [number, number], snapshot.lifecycle.evolutionPressure) } : snapshot.bodyStage,
+          snapshot.elapsedMs,
+        )
         : { center: { x: snapshot.width / 2, y: snapshot.height / 2 }, zoom: 2.3, anchor: { x: width * 0.5, y: height * 0.58 } }
       const camera = cameraFrame.center
       const zoom = cameraFrame.zoom

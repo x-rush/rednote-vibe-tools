@@ -1,6 +1,12 @@
 import type { Vec2 } from '../domain/types'
 import type { MovementIntent } from './input'
 
+export function worldSpeedForForm(radius: number, bodyLengthsPerSecond: number): number {
+  const safeRadius = Number.isFinite(radius) && radius > 0 ? radius : 1
+  const safeRate = Number.isFinite(bodyLengthsPerSecond) && bodyLengthsPerSecond > 0 ? bodyLengthsPerSecond : 1
+  return safeRadius * 2 * safeRate
+}
+
 export function advanceVelocity(
   current: Vec2,
   intent: MovementIntent,

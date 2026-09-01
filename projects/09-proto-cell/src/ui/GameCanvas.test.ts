@@ -1,9 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { createPointerInput } from '../game/input'
-import { clearPointerSession, engulfPreyName } from './GameCanvas'
+import { canvasViewport, clearPointerSession, engulfPreyName } from './GameCanvas'
 import * as gameCanvasModule from './GameCanvas'
 
 describe('game canvas pointer lifecycle', () => {
+  it('falls back to a playable CSS viewport when layout is not measured yet', () => {
+    expect(canvasViewport({ clientWidth: 0, clientHeight: 0 })).toEqual({ width: 390, height: 844 })
+    expect(canvasViewport({ clientWidth: 375, clientHeight: 812 })).toEqual({ width: 375, height: 812 })
+  })
+
   it('cancels movement only for the active pointer or a global lifecycle reset', () => {
     const input = createPointerInput()
     const activePointer = { current: 7 as number | null }

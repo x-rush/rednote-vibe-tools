@@ -1,8 +1,22 @@
 import { describe, expect, it } from 'vitest'
-import { createCameraTracker } from './camera'
+import { cameraZoomFor, createCameraTracker, targetScreenDiameterRatio, visibleWorldRadius } from './camera'
 import { backdropTileOrigins, edgeWarningPosition, isFiniteEntityGeometry, materializationPresentation, renderPixelRatio, swarmTransitionPresentation, worldBoundaryScreenRect, worldTextureOffset } from './renderer'
 
 describe('stage camera', () => {
+  it('keeps a growing player inside the tier screen-diameter band', () => {
+    expect(cameraZoomFor({ viewport: { width: 390, height: 844 }, radius: 12, screenDiameterRatio: 0.16 })).toBeCloseTo(2.6)
+    expect(cameraZoomFor({ viewport: { width: 390, height: 844 }, radius: 40, screenDiameterRatio: 0.28 })).toBeCloseTo(1.365)
+  })
+
+  it('reports the actual visible world radius used by ecology', () => {
+    expect(visibleWorldRadius({ width: 390, height: 844 }, 2)).toBeCloseTo(232.5, 1)
+  })
+
+  it('interpolates the target screen ratio with finite tier progress', () => {
+    expect(targetScreenDiameterRatio([0.16, 0.21], 0.5)).toBeCloseTo(0.185)
+    expect(targetScreenDiameterRatio([0.16, 0.21], Number.NaN)).toBe(0.16)
+  })
+
   it('uses a lower player anchor and looks ahead along velocity', () => {
     const tracker = createCameraTracker()
     const viewport = { width: 390, height: 844 }

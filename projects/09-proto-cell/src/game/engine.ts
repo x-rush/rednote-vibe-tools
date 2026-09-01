@@ -21,7 +21,7 @@ import { applyEventWorldEffects, createEnvironmentField, resolveEnvironmentMovem
 import type { GeneratedRegion, RouteRift } from '../world/generator'
 import { applyModifiers } from '../progression/challenges'
 import { applySoftBoundary, constrainWorldMotion, engulfAccessMargin } from './bounds'
-import { advanceVelocity } from './motion'
+import { advanceVelocity, worldSpeedForForm } from './motion'
 import { escapeContactRelief } from './escape'
 import { createRunDirector, stepRunDirector, type RunDirectorState, type RunPhase } from '../world/run-director'
 import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type EcologyRole, type EcologySummary } from '../world/ecology-director'
@@ -29,6 +29,8 @@ import { createBuildState, type BuildState } from '../evolution/build'
 import { evaluateTriggers, type TriggerFrame, type TriggerOutcome } from '../evolution/triggers'
 import { isMaterializing, isThreatArrivalInactive, materializeSpawn, stepThreatArrival } from './materialization'
 import { advanceLifecycle, applyLifecycleBiomass, canAdvanceLifecycle, createLifecycle, radiusForTierProgress, type LifecycleState } from '../evolution/lifecycle'
+import { cameraZoomFor, targetScreenDiameterRatio, visibleWorldRadius } from '../rendering/camera'
+import { collapseInsetLimit } from './bounds'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution' | 'canvas'
 
@@ -70,6 +72,7 @@ export type GameEngine = {
   snapshot(): HudSnapshot
   drainEvents(): GameEvent[]
   destroy(): void
+  setViewport(viewport: { width: number; height: number }): void
 }
 
 export type WorldRenderSnapshot = {
@@ -200,6 +203,7 @@ export function createGameEngine(options: {
   let destroyed = false
   let mutationPending = false
   let formTransitionPending = false
+  let viewport = { width: 390, height: 844 }
   let evolutionThreshold = playerDefinition.evolutionThreshold
   let playerStability = playerDefinition.stability
   let installedOrganelles: InstalledOrganelle[] = origin.initialOrganelleIds.map((id) => {
@@ -280,6 +284,13 @@ export function createGameEngine(options: {
     resume(reason) {
       pauseReasons.delete(reason)
       clock.reset()
+    },
+    setViewport(nextViewport) {
+      const width = Number.isFinite(nextViewport.width) && nextViewport.width > 0 ? nextViewport.width : 390
+      const height = Number.isFinite(nextViewport.height) && nextViewport.height > 0 ? nextViewport.height : 844
+      if (width === viewport.width && height === viewport.height) return
+      viewport = { width, height }
+      input.cancel()
     },
     snapshot() {
       const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
@@ -760,7 +771,15 @@ export function createGameEngine(options: {
     const result = stepEcologyDirector(ecologyDirectorState, {
       atMs: elapsedMs,
       playerPosition: playerBody.position,
-      viewportRadius: 320,
+      viewportRadius: visibleWorldRadius(
+        viewport,
+        cameraZoomFor({
+          viewport,
+          radius: playerBody.body.radius,
+          screenDiameterRatio: targetScreenDiameterRatio(scaleTiers[lifecycle.tierIndex]?.screenDiameterRange ?? [0.16, 0.21], lifecycle.evolutionPressure),
+          world: environment,
+        }),
+      ),
       nearbyEdibleCount,
       visibleEntities,
     })
@@ -880,11 +899,16 @@ export function createGameEngine(options: {
       const pursuitSpeed = entity.faction === 'hostile' && ['ambush', 'charge', 'pursue'].includes(movingEntity.behaviorState ?? '')
         ? currentThreatProfile().pursuitSpeedMultiplier
         : 1
-      const turnResponseMs = pursuitSpeed > 1 && entity.behaviorProfileId
+      const tier = scaleTiers[lifecycle.tierIndex]
+      const turnResponseMs = entity.id === PLAYER_ID && tier
+        ? tier.turnResponseMs
+        : pursuitSpeed > 1 && entity.behaviorProfileId
         ? getBehaviorProfile(entity.behaviorProfileId).turnResponseMs
         : undefined
       const fieldSample = sampleEnvironmentField(environmentField, entity.position, entity.body.radius)
-      const maxSpeed = ('maxSpeed' in entity ? Number(entity.maxSpeed) : 52)
+      const maxSpeed = (entity.id === PLAYER_ID && tier
+        ? worldSpeedForForm(entity.body.radius, tier.movementBodyLengthsPerSecond)
+        : ('maxSpeed' in entity ? Number(entity.maxSpeed) : 52))
         * (entity.id === PLAYER_ID ? speedMultiplier : bossPhaseSpeed)
         * pursuitSpeed
         * (arrival?.speedRatio ?? 1)
@@ -1110,7 +1134,9 @@ export function createGameEngine(options: {
   function collapseSafeInset(): number {
     const progress = currentCollapseProgress()
     if (progress < 0.75) return 0
-    return Math.min(environment.width, environment.height) * 0.18 * ((progress - 0.75) / 0.25)
+    const tier = scaleTiers[lifecycle.tierIndex]
+    const limit = tier ? collapseInsetLimit(environment, lifecycle.bodyRadius, tier.minimumCollapsedBodyWidths) : 0
+    return Math.min(limit, Math.min(environment.width, environment.height) * 0.18 * ((progress - 0.75) / 0.25))
   }
 
   function stepEvolution(stepMs: number): { speedMultiplier: number; blockedAmount: number; splitTriggered: boolean } {

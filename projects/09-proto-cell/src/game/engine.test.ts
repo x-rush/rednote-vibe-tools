@@ -9,6 +9,14 @@ import { createBuildState } from '../evolution/build'
 import { generateRegion } from '../world/generator'
 
 describe('game engine lifecycle', () => {
+  it('accepts the real CSS viewport used by the camera and ecology', () => {
+    const engine = createGameEngine({ seed: 727 })
+    expect('setViewport' in engine).toBe(true)
+    if (!('setViewport' in engine)) return
+    engine.setViewport({ width: 375, height: 812 })
+    expect(engine.renderSnapshot().width).toBeGreaterThan(0)
+  })
+
   it('turns engulf biomass into lifecycle pressure without exceeding the tier radius', () => {
     const engine = createGameEngine({ seed: 727 })
     const entities = engine.renderSnapshot().entities

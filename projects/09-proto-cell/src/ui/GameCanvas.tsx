@@ -58,6 +58,13 @@ function hideFloatingJoystick(element: HTMLDivElement | null) {
   element.style.setProperty('--joystick-knob-y', '0px')
 }
 
+export function canvasViewport(canvas: Pick<HTMLCanvasElement, 'clientWidth' | 'clientHeight'>): { width: number; height: number } {
+  return {
+    width: canvas.clientWidth > 0 ? canvas.clientWidth : 390,
+    height: canvas.clientHeight > 0 ? canvas.clientHeight : 844,
+  }
+}
+
 export function GameCanvas({
   engine,
   label,
@@ -109,6 +116,7 @@ export function GameCanvas({
       joystickOrigin.current = null
       hideFloatingJoystick(joystickRef.current)
     }
+    const syncViewport = () => engine.setViewport(canvasViewport(canvas))
     const failCanvas = (failure: CanvasFailure, error?: unknown) => {
       if (failed) return
       failed = true
@@ -124,6 +132,7 @@ export function GameCanvas({
 
     const frame = (now: number) => {
       try {
+        syncViewport()
         const elapsed = Math.min(250, Math.max(0, now - previousTime))
         previousTime = now
         engine.advance(elapsed)
@@ -157,10 +166,12 @@ export function GameCanvas({
 
     frameId = requestAnimationFrame(frame)
     window.addEventListener('resize', clearMovement)
+    window.addEventListener('resize', syncViewport)
     canvas.addEventListener('contextlost', handleContextLost)
     return () => {
       cancelAnimationFrame(frameId)
       window.removeEventListener('resize', clearMovement)
+      window.removeEventListener('resize', syncViewport)
       canvas.removeEventListener('contextlost', handleContextLost)
       clearMovement()
       renderer.destroy()

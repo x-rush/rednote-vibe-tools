@@ -1,5 +1,22 @@
 import type { Vec2 } from '../domain/types'
 
+export function minimumPlayableWidth(radius: number, bodyWidths: number): number {
+  const safeRadius = Number.isFinite(radius) && radius > 0 ? radius : 0
+  const safeWidths = Number.isFinite(bodyWidths) && bodyWidths > 0 ? bodyWidths : 0
+  return safeRadius * 2 * safeWidths
+}
+
+export function collapseInsetLimit(
+  world: { width: number; height: number },
+  radius: number,
+  bodyWidths: number,
+): number {
+  const required = minimumPlayableWidth(radius, bodyWidths)
+  const widthLimit = (world.width - required) / 2
+  const heightLimit = (world.height - required) / 2
+  return Math.max(0, Math.min(widthLimit, heightLimit))
+}
+
 export function engulfAccessMargin(entityRadius: number, playerRadii: readonly number[]): number {
   return playerRadii.reduce((margin, playerRadius) => (
     playerRadius > entityRadius ? Math.max(margin, playerRadius) : margin

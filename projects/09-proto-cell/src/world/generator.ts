@@ -4,6 +4,7 @@ import { createRng } from '../domain/rng'
 import type { Vec2 } from '../domain/types'
 import { createEntity, type EntityDefinition, type SpawnedEntityState } from '../entities/factory'
 import { canResolveBossPath } from './bosses'
+import { worldDimensionsForTier } from './scale-world'
 
 type M0Environment = {
   id: string
@@ -149,8 +150,12 @@ export function getRegionDefinition(environmentId: string): M0Environment {
       'scavenger-vesicle': 'creature-vesicle-scavenger',
       'elite-membrane-warden': 'predator-membrane-warden',
     }
+    const scaleTier = (content.scaleTiers as unknown as Array<{ environmentId: string; radiusRange: readonly number[]; worldBodyWidths: number }>).find((tier) => tier.environmentId === environmentId)
+    const dimensions = scaleTier ? worldDimensionsForTier(scaleTier) : { width: m0.width, height: m0.height }
     return {
       ...m0,
+      width: dimensions.width,
+      height: dimensions.height,
       entityDefinitions: m0.entityDefinitions.map((definition) => {
         const id = aliases[definition.id] ?? definition.id
         const creature = content.creatures.find((item) => item.id === id)
@@ -184,10 +189,12 @@ export function getRegionDefinition(environmentId: string): M0Environment {
     maxSpeed: 8,
     visualRecipeId: nutrient.visualRecipeId,
   } : undefined
+  const scaleTier = (content.scaleTiers as unknown as Array<{ environmentId: string; radiusRange: readonly number[]; worldBodyWidths: number }>).find((tier) => tier.environmentId === environmentId)
+  const dimensions = scaleTier ? worldDimensionsForTier(scaleTier) : { width: 640, height: 1100 }
   return {
     id: environment.id,
-    width: 640,
-    height: 1100,
+    width: dimensions.width,
+    height: dimensions.height,
     playerDefinition,
     entityDefinitions: nutrientDefinition ? [nutrientDefinition, ...definitions] : definitions,
     spawnSchedule: [...(nutrientDefinition ? [{ atMs: 0, definitionId: nutrientDefinition.id, count: 4 }] : []), ...spawnTable.entries.map((entry) => ({

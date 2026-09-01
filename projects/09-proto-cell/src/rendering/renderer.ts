@@ -6,45 +6,13 @@ import { drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type Ambien
 import type { NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
 import rawContent from '../content/content.json'
+import { createCameraTracker, type CameraFrame } from './camera'
 
 export type CanvasRenderer = {
   render(snapshot: WorldRenderSnapshot, numbers: NumberFeed): void
   playerScreenPosition(): { x: number; y: number }
   setQuality(quality: RenderQuality): void
   destroy(): void
-}
-
-export function createCameraTracker(): {
-  update(player: Pick<EntityState, 'position' | 'velocity'>, elapsedMs: number): { x: number; y: number }
-} {
-  let position: { x: number; y: number } | undefined
-  let previousPlayerPosition: { x: number; y: number } | undefined
-  let previousElapsedMs = 0
-  return {
-    update(player, elapsedMs) {
-      const teleported = previousPlayerPosition
-        ? Math.hypot(player.position.x - previousPlayerPosition.x, player.position.y - previousPlayerPosition.y) > 240
-        : false
-      previousPlayerPosition = { ...player.position }
-      if (!position || elapsedMs < previousElapsedMs || teleported) {
-        position = { ...player.position }
-        previousElapsedMs = elapsedMs
-        return { ...position }
-      }
-      const deltaMs = Math.min(50, Math.max(1, elapsedMs - previousElapsedMs))
-      previousElapsedMs = elapsedMs
-      const target = {
-        x: player.position.x + player.velocity.x * 0.2,
-        y: player.position.y + player.velocity.y * 0.2,
-      }
-      const blend = 1 - Math.exp(-deltaMs / 125)
-      position = {
-        x: position.x + (target.x - position.x) * blend,
-        y: position.y + (target.y - position.y) * blend,
-      }
-      return { ...position }
-    },
-  }
 }
 
 export function worldTextureOffset(
@@ -58,36 +26,15 @@ export function worldTextureOffset(
   }
 }
 
-export function createZoomTracker(): { update(radius: number, elapsedMs: number): number } {
-  let zoom: number | undefined
-  let previousElapsedMs = 0
-  return {
-    update(radius, elapsedMs) {
-      const target = Math.min(3.4, Math.max(1.6, 42 / Math.max(1, radius)))
-      if (zoom === undefined || elapsedMs < previousElapsedMs) {
-        zoom = target
-        previousElapsedMs = elapsedMs
-        return zoom
-      }
-      const deltaMs = Math.min(50, Math.max(1, elapsedMs - previousElapsedMs))
-      previousElapsedMs = elapsedMs
-      zoom += (target - zoom) * (1 - Math.exp(-deltaMs / 180))
-      return zoom
-    },
-  }
-}
-
 export function worldBoundaryScreenRect(
-  camera: { x: number; y: number },
+  camera: CameraFrame,
   world: { width: number; height: number },
-  viewport: { width: number; height: number },
-  zoom: number,
 ): { x: number; y: number; width: number; height: number } {
   return {
-    x: viewport.width / 2 - camera.x * zoom,
-    y: viewport.height / 2 - camera.y * zoom,
-    width: world.width * zoom,
-    height: world.height * zoom,
+    x: camera.anchor.x - camera.center.x * camera.zoom,
+    y: camera.anchor.y - camera.center.y * camera.zoom,
+    width: world.width * camera.zoom,
+    height: world.height * camera.zoom,
   }
 }
 
@@ -122,7 +69,6 @@ export function createCanvasRenderer(
   const displayedRadii = new Map<string, number>()
   const assetImages = new Map<string, HTMLImageElement>()
   const cameraTracker = createCameraTracker()
-  const zoomTracker = createZoomTracker()
   let currentPlayerScreenPosition = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 }
   let quality = options.quality ?? 'balanced'
   let destroyed = false
@@ -132,12 +78,16 @@ export function createCanvasRenderer(
       if (destroyed) return
       const { width, height } = resizeCanvas(canvas, context)
       const player = snapshot.entities.find((entity) => entity.id === snapshot.playerId)
-      const camera = player ? cameraTracker.update(player, snapshot.elapsedMs) : { x: snapshot.width / 2, y: snapshot.height / 2 }
-      const zoom = player ? zoomTracker.update(player.body.radius, snapshot.elapsedMs) : 2.4
+      const viewport = { width, height }
+      const cameraFrame = player
+        ? cameraTracker.update({ ...player, radius: player.body.radius }, viewport, snapshot.bodyStage, snapshot.elapsedMs)
+        : { center: { x: snapshot.width / 2, y: snapshot.height / 2 }, zoom: 2.3, anchor: { x: width * 0.5, y: height * 0.58 } }
+      const camera = cameraFrame.center
+      const zoom = cameraFrame.zoom
       currentPlayerScreenPosition = player ? {
-        x: width / 2 + (player.position.x - camera.x) * zoom,
-        y: height / 2 + (player.position.y - camera.y) * zoom,
-      } : { x: width / 2, y: height / 2 }
+        x: cameraFrame.anchor.x + (player.position.x - camera.x) * zoom,
+        y: cameraFrame.anchor.y + (player.position.y - camera.y) * zoom,
+      } : { ...cameraFrame.anchor }
 
       context.clearRect(0, 0, width, height)
       const visualTime = options.reducedMotion ? 0 : snapshot.elapsedMs
@@ -147,17 +97,17 @@ export function createCanvasRenderer(
       if (usesFiberBackdrop(snapshot.environmentId)) {
         drawBackdropAsset(context, loadAsset('environment-fibers'), width, height, camera, zoom, 0.11, 0.34)
       }
-      drawEnvironmentField(context, snapshot, camera, width, height, zoom)
-      drawWorldBoundary(context, snapshot, camera, width, height, zoom, visualTime)
-      drawEventField(context, snapshot, camera, width, height, zoom)
+      drawEnvironmentField(context, snapshot, cameraFrame, width, height)
+      drawWorldBoundary(context, snapshot, cameraFrame, width, height, visualTime)
+      drawEventField(context, snapshot, cameraFrame)
       if (snapshot.activeEvent && snapshot.activeEvent.phase !== 'expired') {
-        const eventX = width / 2 + (snapshot.activeEvent.center.x - camera.x) * zoom
-        const eventY = height / 2 + (snapshot.activeEvent.center.y - camera.y) * zoom
+        const eventX = cameraFrame.anchor.x + (snapshot.activeEvent.center.x - camera.x) * zoom
+        const eventY = cameraFrame.anchor.y + (snapshot.activeEvent.center.y - camera.y) * zoom
         drawAssetLayer(context, loadAsset(snapshot.activeEvent.id), eventX, eventY, 42, 0.72)
       }
 
       const drawables = snapshot.entities
-        .map((entity) => toDrawable(entity, camera, width, height, zoom, displayedRadii))
+        .map((entity) => toDrawable(entity, cameraFrame, displayedRadii))
         .filter((item) => item.x + item.radius * 2 > 0 && item.x - item.radius * 2 < width && item.y + item.radius * 2 > 0 && item.y - item.radius * 2 < height)
         .sort((left, right) => Number(left.entity.id === snapshot.playerId) - Number(right.entity.id === snapshot.playerId))
 
@@ -169,7 +119,7 @@ export function createCanvasRenderer(
         }
       }
       drawAmbientParticles(context, particles, width, height, visualTime, options.lowParticles ? 'low' : quality, camera)
-      drawRouteRifts(context, snapshot, camera, width, height, zoom)
+      drawRouteRifts(context, snapshot, cameraFrame)
       for (const item of drawables) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
       for (const item of drawables) {
         if (item.entity.id.startsWith('eco-food-')) drawFoodSpawnBloom(context, item.x, item.y, item.radius, item.entity, snapshot.elapsedMs, options.reducedMotion ?? false)
@@ -189,7 +139,7 @@ export function createCanvasRenderer(
       if (snapshot.swarmTransition && player) {
         drawSwarmTransition(context, currentPlayerScreenPosition, player.body.radius * zoom, snapshot.swarmTransition, snapshot.elapsedMs, options.reducedMotion ?? false)
       }
-      drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height)
+      drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height, cameraFrame.anchor)
       numbers.draw(context, width, height, snapshot.elapsedMs)
     },
     playerScreenPosition() {
@@ -272,13 +222,12 @@ function drawFoodSpawnBloom(
 function drawWorldBoundary(
   context: CanvasRenderingContext2D,
   snapshot: Pick<WorldRenderSnapshot, 'width' | 'height'>,
-  camera: { x: number; y: number },
+  camera: CameraFrame,
   width: number,
   height: number,
-  zoom: number,
   elapsedMs: number,
 ) {
-  const boundary = worldBoundaryScreenRect(camera, snapshot, { width, height }, zoom)
+  const boundary = worldBoundaryScreenRect(camera, snapshot)
   const edgeVisible = boundary.x >= -24 || boundary.y >= -24
     || boundary.x + boundary.width <= width + 24
     || boundary.y + boundary.height <= height + 24
@@ -390,21 +339,21 @@ function drawAssetLayer(context: CanvasRenderingContext2D, image: HTMLImageEleme
 function drawEnvironmentField(
   context: CanvasRenderingContext2D,
   snapshot: WorldRenderSnapshot,
-  camera: { x: number; y: number },
+  camera: CameraFrame,
   width: number,
   height: number,
-  zoom: number,
 ) {
   const field = snapshot.environmentField
+  const { center, anchor, zoom } = camera
   context.save()
   for (const obstacle of field.obstacles) {
     const from = {
-      x: width / 2 + (obstacle.from.x - camera.x) * zoom,
-      y: height / 2 + (obstacle.from.y - camera.y) * zoom,
+      x: anchor.x + (obstacle.from.x - center.x) * zoom,
+      y: anchor.y + (obstacle.from.y - center.y) * zoom,
     }
     const to = {
-      x: width / 2 + (obstacle.to.x - camera.x) * zoom,
-      y: height / 2 + (obstacle.to.y - camera.y) * zoom,
+      x: anchor.x + (obstacle.to.x - center.x) * zoom,
+      y: anchor.y + (obstacle.to.y - center.y) * zoom,
     }
     context.globalAlpha = 0.72
     context.strokeStyle = obstacle.adhesive ? '#89e2c5' : '#87a3be'
@@ -417,8 +366,8 @@ function drawEnvironmentField(
   }
   if (field.environmentId === 'env-acid-vesicle' && field.safeCenters.length > 0) {
     const safe = field.safeCenters[0]!
-    const safeX = width / 2 + (safe.x - camera.x) * zoom
-    const safeY = height / 2 + (safe.y - camera.y) * zoom
+    const safeX = anchor.x + (safe.x - center.x) * zoom
+    const safeY = anchor.y + (safe.y - center.y) * zoom
     context.globalAlpha = field.activeHazardIds.includes('hazard-acid-discharge') ? 0.2 : 0.1
     context.fillStyle = '#d94f68'
     context.beginPath()
@@ -428,8 +377,8 @@ function drawEnvironmentField(
   }
   for (const cue of field.telegraphs) {
     const center = field.hazardCenters[cue.hazardId] ?? cue.center
-    const x = width / 2 + (center.x - camera.x) * zoom
-    const y = height / 2 + (center.y - camera.y) * zoom
+    const x = anchor.x + (center.x - camera.center.x) * zoom
+    const y = anchor.y + (center.y - camera.center.y) * zoom
     const radius = cue.radius * zoom
     const active = field.activeHazardIds.includes(cue.hazardId)
     const telegraphing = snapshot.elapsedMs >= cue.startsAtMs && snapshot.elapsedMs < cue.activatesAtMs
@@ -451,8 +400,8 @@ function drawEnvironmentField(
   context.lineWidth = 3
   context.globalAlpha = 0.76
   for (const center of field.safeCenters) {
-    const x = width / 2 + (center.x - camera.x) * zoom
-    const y = height / 2 + (center.y - camera.y) * zoom
+    const x = anchor.x + (center.x - camera.center.x) * zoom
+    const y = anchor.y + (center.y - camera.center.y) * zoom
     context.beginPath()
     context.arc(x, y, field.safeRadius * zoom, 0, Math.PI * 2)
     context.stroke()
@@ -465,10 +414,11 @@ function drawVisibilityVeil(
   visibility: number,
   width: number,
   height: number,
+  anchor: { x: number; y: number },
 ) {
   const opacity = Math.max(0, Math.min(0.38, (1 - visibility) * 0.5))
   if (opacity <= 0) return
-  const gradient = context.createRadialGradient(width / 2, height / 2, Math.min(width, height) * 0.12, width / 2, height / 2, Math.max(width, height) * 0.65)
+  const gradient = context.createRadialGradient(anchor.x, anchor.y, Math.min(width, height) * 0.12, anchor.x, anchor.y, Math.max(width, height) * 0.65)
   gradient.addColorStop(0, 'rgba(4, 10, 20, 0)')
   gradient.addColorStop(1, `rgba(4, 10, 20, ${opacity})`)
   context.save()
@@ -500,16 +450,13 @@ function drawBossArrivalTelegraph(
 function drawEventField(
   context: CanvasRenderingContext2D,
   snapshot: WorldRenderSnapshot,
-  camera: { x: number; y: number },
-  width: number,
-  height: number,
-  zoom: number,
+  camera: CameraFrame,
 ) {
   const event = snapshot.activeEvent
   if (!event || event.phase === 'expired') return
-  const x = width / 2 + (event.center.x - camera.x) * zoom
-  const y = height / 2 + (event.center.y - camera.y) * zoom
-  const radius = event.variant.radius * zoom
+  const x = camera.anchor.x + (event.center.x - camera.center.x) * camera.zoom
+  const y = camera.anchor.y + (event.center.y - camera.center.y) * camera.zoom
+  const radius = event.variant.radius * camera.zoom
   const pulse = 0.94 + Math.sin(snapshot.elapsedMs / 180) * 0.04
   context.save()
   context.globalAlpha = event.phase === 'telegraph' ? 0.5 : 0.22
@@ -544,16 +491,13 @@ function drawEventField(
 function drawRouteRifts(
   context: CanvasRenderingContext2D,
   snapshot: WorldRenderSnapshot,
-  camera: { x: number; y: number },
-  width: number,
-  height: number,
-  zoom: number,
+  camera: CameraFrame,
 ) {
   for (const [index, rift] of snapshot.routeRifts.entries()) {
     if (snapshot.elapsedMs < rift.opensAtMs - 12_000) continue
-    const x = width / 2 + (rift.position.x - camera.x) * zoom
-    const y = height / 2 + (rift.position.y - camera.y) * zoom
-    const radius = rift.radius * zoom
+    const x = camera.anchor.x + (rift.position.x - camera.center.x) * camera.zoom
+    const y = camera.anchor.y + (rift.position.y - camera.center.y) * camera.zoom
+    const radius = rift.radius * camera.zoom
     const open = snapshot.elapsedMs >= rift.opensAtMs
     const pulse = 0.82 + Math.sin(snapshot.elapsedMs / 340 + index) * 0.12
     context.save()
@@ -713,10 +657,7 @@ function resizeCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext
 
 function toDrawable(
   entity: EntityState,
-  camera: { x: number; y: number },
-  width: number,
-  height: number,
-  zoom: number,
+  camera: CameraFrame,
   displayedRadii: Map<string, number>,
 ) {
   const previousRadius = displayedRadii.get(entity.id) ?? entity.body.radius
@@ -724,8 +665,8 @@ function toDrawable(
   displayedRadii.set(entity.id, radius)
   return {
     entity,
-    radius: radius * zoom,
-    x: width / 2 + (entity.position.x - camera.x) * zoom,
-    y: height / 2 + (entity.position.y - camera.y) * zoom,
+    radius: radius * camera.zoom,
+    x: camera.anchor.x + (entity.position.x - camera.center.x) * camera.zoom,
+    y: camera.anchor.y + (entity.position.y - camera.center.y) * camera.zoom,
   }
 }

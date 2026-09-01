@@ -38,6 +38,7 @@ describe('game engine lifecycle', () => {
   it('loads the chosen destination inside the same run', () => {
     const engine = createGameEngine({ seed: 727, environmentId: 'env-acid-vesicle', initialElapsedMs: 130_000 })
     engine.start()
+    expect(engine.renderSnapshot().bodyStage).toBe('microbe')
     const rift = engine.renderSnapshot().routeRifts[0]!
     const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
     const organsBefore = engine.evolutionSnapshot().organelles
@@ -48,6 +49,7 @@ describe('game engine lifecycle', () => {
 
     expect(engine.snapshot().environmentId).toBe(rift.destinationEnvironmentId)
     expect(engine.renderSnapshot().environmentId).toBe(rift.destinationEnvironmentId)
+    expect(engine.renderSnapshot().bodyStage).toBe('hunter')
     expect(engine.evolutionSnapshot().organelles).toEqual(organsBefore)
     expect(engine.drainEvents()).toContainEqual(expect.objectContaining({
       type: 'route-selected',

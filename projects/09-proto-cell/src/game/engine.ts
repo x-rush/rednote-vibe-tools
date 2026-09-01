@@ -22,6 +22,7 @@ import { applySoftBoundary, constrainWorldMotion, engulfAccessMargin } from './b
 import { advanceVelocity } from './motion'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
+export type BodyStage = 'microbe' | 'hunter' | 'specialist' | 'dominant' | 'ascendant'
 
 export type HudSnapshot = {
   membrane: number
@@ -61,6 +62,7 @@ export type WorldRenderSnapshot = {
   width: number
   height: number
   playerId: string
+  bodyStage: BodyStage
   entities: readonly EntityState[]
   playerOrganelleIdsByEntity: Readonly<Record<string, readonly OrganelleId[]>>
   playerStability: number
@@ -241,6 +243,7 @@ export function createGameEngine(options: {
         width: environment.width,
         height: environment.height,
         playerId: PLAYER_ID,
+        bodyStage: provisionalBodyStage(routeStageIndex),
         entities: [...entities.values()].filter((entity) => entity.status === 'active'),
         playerOrganelleIdsByEntity: activeSwarm
           ? Object.fromEntries(activeSwarm.map((body) => [body.id, body.organelles.map((organ) => organ.id)]))
@@ -1357,6 +1360,11 @@ function getPlayerDefinition(originId: string, environment: EngineEnvironment): 
   const definition = (content.m0.playerDefinitions as PlayerDefinition[]).find((item) => item.id === originId)
   if (!definition) throw new RangeError(`Unknown player definition id: ${originId}`)
   return definition
+}
+
+function provisionalBodyStage(routeIndex: number): BodyStage {
+  const stages: readonly BodyStage[] = ['microbe', 'hunter', 'specialist', 'dominant', 'ascendant']
+  return stages[Math.min(stages.length - 1, Math.max(0, routeIndex))]!
 }
 
 function moveEntity(entity: EntityState, position: Vec2, velocity: Vec2): EntityState {

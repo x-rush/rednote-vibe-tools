@@ -93,9 +93,10 @@ export function createCanvasRenderer(
       context.clearRect(0, 0, width, height)
       const visualTime = options.reducedMotion ? 0 : snapshot.elapsedMs
       drawLiquidField(context, width, height, visualTime, camera)
-      drawBackdropAsset(context, loadAsset('environment-caustics'), width, height, camera, zoom, 0.52, 0.12)
-      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height, camera, zoom, 0.3, 0.2)
-      if (usesFiberBackdrop(snapshot.environmentId)) {
+      drawBackdropAsset(context, loadAsset(`${snapshot.environmentId}:arcade`), width, height, camera, zoom, 0.34, 0.07)
+      drawBackdropAsset(context, loadAsset('environment-caustics'), width, height, camera, zoom, 0.3, 0.12)
+      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height, camera, zoom, 0.24, 0.2)
+      if (quality !== 'low' && usesFiberBackdrop(snapshot.environmentId)) {
         drawBackdropAsset(context, loadAsset('environment-fibers'), width, height, camera, zoom, 0.11, 0.34)
       }
       drawEnvironmentField(context, snapshot, cameraFrame, width, height)

@@ -20,6 +20,7 @@ export const assetRegistry: Readonly<Record<string, string>> = Object.freeze({
   ...Object.fromEntries(originNames.map((name) => [`origin-${name}`, `/assets/icons/origin-${name}.svg`])),
   ...Object.fromEntries(modifierNames.map((name) => [`modifier-${name}`, `/assets/icons/modifier-${name}.svg`])),
   ...Object.fromEntries(environmentNames.map((name) => [`env-${name}`, `/assets/environments/env-${name}.svg`])),
+  ...Object.fromEntries(environmentNames.map((name) => [`env-${name}:arcade`, `/assets/environments/arcade-${name}.png`])),
   ...Object.fromEntries(bossNames.flatMap((name) => ([
     [`boss-${name}:body`, `/assets/bosses/boss-${name}-body.svg`],
     [`boss-${name}:mask`, `/assets/bosses/boss-${name}-mask.svg`],
@@ -40,6 +41,7 @@ export function collectAssetIds(content: ContentPack): string[] {
     ...content.origins.map((item) => item.id),
     ...content.modifiers.map((item) => item.id),
     ...content.environments.map((item) => item.id),
+    ...content.environments.map((item) => `${item.id}:arcade`),
     ...content.bosses.flatMap((item) => [`${item.id}:body`, `${item.id}:mask`]),
     'environment-caustics',
     'environment-fibers',

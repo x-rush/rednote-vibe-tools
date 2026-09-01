@@ -6,7 +6,7 @@ import { createParticleWorld, stepParticleWorld, type ParticleWorld } from './sy
 
 interface ParticleCanvasesProps {
   readonly sample: TimelineSample
-  readonly sashOpen: number
+  readonly entryProgress: number
   readonly mood: Mood
   readonly run: number
   readonly reducedMotion: boolean
@@ -30,7 +30,7 @@ function prepareCanvas(canvas: HTMLCanvasElement) {
   return context
 }
 
-export function ParticleCanvases({ sample, sashOpen, mood, run, reducedMotion, enabled = true }: ParticleCanvasesProps) {
+export function ParticleCanvases({ sample, entryProgress, mood, run, reducedMotion, enabled = true }: ParticleCanvasesProps) {
   const exterior = useRef<HTMLCanvasElement>(null)
   const interior = useRef<HTMLCanvasElement>(null)
   const world = useRef<ParticleWorld>(createParticleWorld(run + 0x91a7, reducedMotion ? 'fallback' : 'full', mood))
@@ -50,13 +50,17 @@ export function ParticleCanvases({ sample, sashOpen, mood, run, reducedMotion, e
     const deltaMs = Math.max(0, sample.elapsedMs - lastElapsed.current)
     lastElapsed.current = sample.elapsedMs
     world.current = stepParticleWorld(world.current, {
-      elapsedMs: sample.elapsedMs, deltaMs, sashOpen, reducedMotion,
+      elapsedMs: sample.elapsedMs,
+      deltaMs,
+      entryProgress,
+      reducedMotion,
+      continuous: sample.stage === 'result',
     })
     const exteriorContext = exterior.current ? prepareCanvas(exterior.current) : undefined
     const interiorContext = interior.current ? prepareCanvas(interior.current) : undefined
     if (exteriorContext) drawExterior(exteriorContext, world.current)
     if (interiorContext) drawInterior(interiorContext, world.current)
-  }, [enabled, reducedMotion, sample, sashOpen])
+  }, [enabled, entryProgress, reducedMotion, sample])
 
   return (
     <>

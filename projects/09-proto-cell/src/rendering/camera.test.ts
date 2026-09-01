@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { createCameraTracker } from './camera'
-import { backdropTileOrigins, edgeWarningPosition, materializationPresentation, renderPixelRatio, swarmTransitionPresentation, worldBoundaryScreenRect, worldTextureOffset } from './renderer'
+import { backdropTileOrigins, edgeWarningPosition, isFiniteEntityGeometry, materializationPresentation, renderPixelRatio, swarmTransitionPresentation, worldBoundaryScreenRect, worldTextureOffset } from './renderer'
 
 describe('stage camera', () => {
   it('uses a lower player anchor and looks ahead along velocity', () => {
@@ -109,6 +109,18 @@ describe('world-space camera feedback', () => {
     expect(materializationPresentation(600, 1200, false)).toMatchObject({ radiusScale: 0.86, alpha: 0.62 })
     expect(materializationPresentation(600, 1200, true)).toEqual({ radiusScale: 0.88, alpha: 0.72, ringAlpha: 0.5 })
     expect(materializationPresentation(1200, 1200, false)).toBeUndefined()
+  })
+
+  it('skips materialization when an entity has no finite presentation interval', () => {
+    expect(materializationPresentation(Number.POSITIVE_INFINITY, Number.NaN, false)).toBeUndefined()
+    expect(materializationPresentation(100, Number.POSITIVE_INFINITY, false)).toBeUndefined()
+  })
+
+  it('rejects an entity with a non-finite position or radius before canvas drawing', () => {
+    expect(isFiniteEntityGeometry({ position: { x: 12, y: 24 }, velocity: { x: 0, y: 0 }, body: { radius: 8 } })).toBe(true)
+    expect(isFiniteEntityGeometry({ position: { x: Number.NaN, y: 24 }, velocity: { x: 0, y: 0 }, body: { radius: 8 } })).toBe(false)
+    expect(isFiniteEntityGeometry({ position: { x: 12, y: 24 }, velocity: { x: 0, y: 0 }, body: { radius: Number.POSITIVE_INFINITY } })).toBe(false)
+    expect(isFiniteEntityGeometry({ position: { x: 12, y: 24 }, velocity: { x: 0, y: Number.NaN }, body: { radius: 8 } })).toBe(false)
   })
 
   it('projects offscreen materializing threats onto a safe edge warning', () => {

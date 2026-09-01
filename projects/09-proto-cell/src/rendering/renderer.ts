@@ -68,6 +68,7 @@ export function materializationPresentation(
   durationMs: number,
   reducedMotion: boolean,
 ): { radiusScale: number; alpha: number; ringAlpha: number } | undefined {
+  if (!Number.isFinite(ageMs) || !Number.isFinite(durationMs)) return undefined
   if (ageMs < 0 || durationMs <= 0 || ageMs >= durationMs) return undefined
   if (reducedMotion) return { radiusScale: 0.88, alpha: 0.72, ringAlpha: 0.5 }
   const progress = ageMs / durationMs
@@ -101,6 +102,17 @@ export function edgeWarningPosition(
   }
 }
 
+export function isFiniteEntityGeometry(
+  entity: Pick<EntityState, 'position' | 'velocity'> & { body: { radius: number } },
+): boolean {
+  return Number.isFinite(entity.position.x)
+    && Number.isFinite(entity.position.y)
+    && Number.isFinite(entity.velocity.x)
+    && Number.isFinite(entity.velocity.y)
+    && Number.isFinite(entity.body.radius)
+    && entity.body.radius > 0
+}
+
 export function createCanvasRenderer(
   canvas: HTMLCanvasElement,
   options: { quality?: RenderQuality; visualSeed?: number; reducedMotion?: boolean; reducedFlash?: boolean; lowParticles?: boolean } = {},
@@ -126,7 +138,8 @@ export function createCanvasRenderer(
     render(snapshot, numbers) {
       if (destroyed) return
       const { width, height } = resizeCanvas(canvas, context, quality)
-      const player = snapshot.entities.find((entity) => entity.id === snapshot.playerId)
+      const renderableEntities = snapshot.entities.filter(isFiniteEntityGeometry)
+      const player = renderableEntities.find((entity) => entity.id === snapshot.playerId)
       const viewport = { width, height }
       const cameraFrame = player
         ? cameraTracker.update({ ...player, radius: player.body.radius }, viewport, snapshot.bodyStage, snapshot.elapsedMs)
@@ -156,12 +169,12 @@ export function createCanvasRenderer(
         drawAssetLayer(context, loadAsset(snapshot.activeEvent.id), eventX, eventY, 42, 0.72)
       }
 
-      const drawables = snapshot.entities
+      const drawables = renderableEntities
         .map((entity) => toDrawable(entity, cameraFrame, displayedRadii))
         .filter((item) => item.x + item.radius * 2 > 0 && item.x - item.radius * 2 < width && item.y + item.radius * 2 > 0 && item.y - item.radius * 2 < height)
         .sort((left, right) => Number(left.entity.id === snapshot.playerId) - Number(right.entity.id === snapshot.playerId))
 
-      for (const entity of snapshot.entities) {
+      for (const entity of renderableEntities) {
         if (entity.faction !== 'hostile' || !isMaterializing(entity, snapshot.elapsedMs)) continue
         const point = {
           x: cameraFrame.anchor.x + (entity.position.x - camera.x) * zoom,
@@ -198,13 +211,15 @@ export function createCanvasRenderer(
         }
       }
       for (const item of drawables) {
-        const spawnedAtMs = item.entity.spawnedAtMs ?? Number.NEGATIVE_INFINITY
-        const materializingUntilMs = item.entity.materializingUntilMs ?? Number.NEGATIVE_INFINITY
-        const materialization = materializationPresentation(
-          snapshot.elapsedMs - spawnedAtMs,
-          materializingUntilMs - spawnedAtMs,
-          options.reducedMotion ?? false,
-        )
+        const spawnedAtMs = item.entity.spawnedAtMs
+        const materializingUntilMs = item.entity.materializingUntilMs
+        const materialization = spawnedAtMs !== undefined && materializingUntilMs !== undefined
+          ? materializationPresentation(
+              snapshot.elapsedMs - spawnedAtMs,
+              materializingUntilMs - spawnedAtMs,
+              options.reducedMotion ?? false,
+            )
+          : undefined
         if (materialization) drawMaterializationBloom(context, item.x, item.y, item.radius, item.entity, materialization)
         if (!materialization) drawBehaviorStateCue(context, item.entity, item.x, item.y, item.radius)
         context.save()
@@ -919,7 +934,10 @@ function toDrawable(
   camera: CameraFrame,
   displayedRadii: Map<string, number>,
 ) {
-  const previousRadius = displayedRadii.get(entity.id) ?? entity.body.radius
+  const cachedRadius = displayedRadii.get(entity.id)
+  const previousRadius = cachedRadius !== undefined && Number.isFinite(cachedRadius) && cachedRadius > 0
+    ? cachedRadius
+    : entity.body.radius
   const radius = previousRadius + (entity.body.radius - previousRadius) * 0.1
   displayedRadii.set(entity.id, radius)
   return {

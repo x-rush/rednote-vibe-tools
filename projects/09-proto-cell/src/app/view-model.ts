@@ -5,6 +5,17 @@ import type { LifeArchiveSummary } from '../storage/codec'
 
 export type ArchiveViewModel = ReturnType<typeof createArchiveViewModel>
 
+export function createHudViewModel(snapshot: HudSnapshot, content: ContentPack) {
+  const stageLabel = content.ui.hud[`bodyStage_${snapshot.bodyStage}`] ?? snapshot.bodyStage
+  return {
+    score: String(Math.round(snapshot.engulfScore)),
+    journey: `${String(snapshot.journeyIndex).padStart(2, '0')}/${String(snapshot.journeyTotal).padStart(2, '0')}`,
+    bodyStageName: stageLabel,
+    bodyStageProgress: Math.round(Math.min(1, Math.max(0, snapshot.bodyStageProgress)) * 100),
+    membrane: `${Math.round(Math.min(1, Math.max(0, snapshot.membraneRatio)) * 100)}%`,
+  }
+}
+
 export function createViewModel(
   snapshot: {
     screen: 'lab' | 'playing' | 'paused' | 'result'

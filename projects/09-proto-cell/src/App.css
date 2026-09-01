@@ -726,64 +726,95 @@
 .game-hud {
   position: fixed;
   z-index: 5;
-  top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) + 8px);
-  right: 12px;
-  left: 12px;
+  top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) + 10px);
+  right: 10px;
+  left: 10px;
   display: grid;
   grid-template-columns: 1fr 44px;
-  gap: 8px 12px;
+  align-items: start;
+  gap: 8px;
   pointer-events: none;
 }
 
-.game-hud__metrics {
+.game-hud__panel {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 4px;
-  margin: 0;
-  padding: 8px 10px;
-  border: 1px solid rgb(128 239 255 / 18%);
-  border-radius: 15px;
-  background: rgb(1 10 28 / 66%);
-  backdrop-filter: blur(12px);
-}
-
-.game-hud__metrics div {
   min-width: 0;
+  gap: 7px;
+  padding: 9px 11px 10px;
+  border: 1px solid rgb(146 244 255 / 30%);
+  border-radius: 16px;
+  background: linear-gradient(120deg, rgb(2 13 34 / 88%), rgb(9 28 57 / 72%));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 8%), 0 8px 24px rgb(0 4 18 / 24%);
+  backdrop-filter: blur(14px);
 }
 
-.game-hud__metrics dt {
+.game-hud__primary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  margin: 0;
+}
+
+.game-hud__primary div:last-child { text-align: right; }
+
+.game-hud__primary dt,
+.game-hud__membrane dt,
+.game-hud__stage span {
   overflow: hidden;
-  color: rgb(191 235 248 / 62%);
-  font-size: 0.57rem;
-  letter-spacing: 0.08em;
+  color: rgb(191 235 248 / 68%);
+  font-size: 0.54rem;
+  font-weight: 750;
+  letter-spacing: 0.11em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.game-hud__metrics dd {
+.game-hud__primary dd,
+.game-hud__membrane dd {
   margin: 1px 0 0;
   color: #eaffff;
-  font-size: 0.88rem;
+  font-size: 0.94rem;
   font-variant-numeric: tabular-nums;
-  font-weight: 750;
+  font-weight: 850;
+  line-height: 1;
 }
 
-.game-hud__evolution {
-  grid-column: 1;
-  height: 4px;
+.game-hud__primary div:first-child dd {
+  color: #8dfff0;
+  font-size: 1.08rem;
+  text-shadow: 0 0 12px rgb(77 255 225 / 48%);
+}
+
+.game-hud__secondary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 10px;
+  border-top: 1px solid rgb(135 236 255 / 12%);
+  padding-top: 6px;
+}
+
+.game-hud__stage { display: grid; min-width: 0; gap: 4px; }
+.game-hud__stage > div { display: flex; min-width: 0; align-items: baseline; gap: 6px; }
+.game-hud__stage strong { overflow: hidden; color: #d8c7ff; font-size: 0.72rem; text-overflow: ellipsis; white-space: nowrap; }
+.game-hud__stage i {
+  display: block;
+  height: 5px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgb(115 163 199 / 18%);
+  background: rgb(115 163 199 / 20%);
 }
-
-.game-hud__evolution span {
+.game-hud__stage b {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #65f6ff, #9f81ff);
+  background: linear-gradient(90deg, #65f6ff, #b28cff);
   box-shadow: 0 0 8px #67efff;
   transition: width 180ms ease-out;
 }
+
+.game-hud__membrane { margin: 0; text-align: right; }
+.game-hud__membrane dd { color: #91fff1; }
 
 .game-hud__swarm {
   grid-column: 1;
@@ -832,7 +863,7 @@
   position: relative;
   top: auto;
   grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-row: 1;
   width: 44px;
   height: 44px;
   padding: 0;

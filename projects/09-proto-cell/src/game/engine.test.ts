@@ -205,6 +205,23 @@ describe('game engine lifecycle', () => {
     expect(movedFood.position.y).toBeGreaterThanOrEqual(20)
   })
 
+  it('exposes transitional journey and score values after a player engulf', () => {
+    const engine = createTestEngine()
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    const food = engine.renderSnapshot().entities.find((entity) => entity.faction !== 'player' && entity.body.radius < player.body.radius)!
+    food.position = { ...player.position }
+    food.body = circleBody(food.position, food.body.radius)
+
+    engine.advance(1000 / 60)
+
+    expect(engine.snapshot()).toMatchObject({
+      engulfScore: food.mass,
+      journeyIndex: 1,
+      journeyTotal: 6,
+      bodyStage: 'microbe',
+    })
+  })
+
   it('keeps every corner finite and gives the player an escape velocity', () => {
     const directions = [
       { x: -1, y: -1 },

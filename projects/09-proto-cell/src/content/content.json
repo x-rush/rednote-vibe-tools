@@ -100,7 +100,18 @@
       "swarmStabilizing": "分裂稳定中",
       "splitPulse": "分裂 ×{count}",
       "fusionPulse": "融合",
-      "engulfNumber": "吞下{name} +{amount}"
+      "engulfNumber": "吞下{name} +{amount}",
+      "combatStatus": "战斗状态",
+      "engulfScore": "吞噬分",
+      "journey": "生态航程",
+      "bodyStage": "体型",
+      "bodyStageProgress": "体型进度",
+      "membraneIntegrity": "膜完整度",
+      "bodyStage_microbe": "微生体",
+      "bodyStage_hunter": "猎食体",
+      "bodyStage_specialist": "特化体",
+      "bodyStage_dominant": "优势体",
+      "bodyStage_ascendant": "超升体"
     },
     "screens": {
       "pauseTitle": "培养皿静止中",

@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "test": "vitest run",
+    "test": "vitest run --maxWorkers=1",
     "check": "pnpm lint && pnpm test && pnpm build",
     "preview": "vite preview"
   },

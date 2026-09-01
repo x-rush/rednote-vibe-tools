@@ -34,6 +34,13 @@ export function applySoftBoundary(
 ): { position: Vec2; velocity: Vec2; steering: Vec2 } {
   const safeRadius = Math.max(0, radius)
   const softZone = Math.max(1, world.softZone ?? 72)
+  const comfortablyInside = desiredPosition.x >= safeRadius + softZone
+    && desiredPosition.x <= world.width - safeRadius - softZone
+    && desiredPosition.y >= safeRadius + softZone
+    && desiredPosition.y <= world.height - safeRadius - softZone
+  if (comfortablyInside) {
+    return { position: desiredPosition, velocity, steering: { x: 0, y: 0 } }
+  }
   const position = {
     x: Number.isFinite(desiredPosition.x) ? desiredPosition.x : world.width / 2,
     y: Number.isFinite(desiredPosition.y) ? desiredPosition.y : world.height / 2,

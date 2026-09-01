@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { eventLog, testContent } from '../tests/fixtures'
-import { createViewModel } from './view-model'
+import { createHudViewModel, createViewModel } from './view-model'
 
 describe('app result view model', () => {
   it('maps a truthful archive to content-owned labels and environment art direction', () => {
@@ -39,6 +39,12 @@ describe('app result view model', () => {
         elapsedMs: 9000,
         environmentId: 'env-clear-drop',
         paused: true,
+        engulfScore: 0,
+        journeyIndex: 1,
+        journeyTotal: 6,
+        bodyStage: 'microbe',
+        bodyStageProgress: 0.78,
+        membraneRatio: 0,
       },
     }, content)
 
@@ -65,5 +71,29 @@ describe('app result view model', () => {
 
     expect(model.environmentName).toBe('酸性囊泡')
     expect(model.palette).toEqual(content.environments.find((item) => item.id === 'env-acid-vesicle')?.visualPalette)
+  })
+})
+
+describe('combat HUD view model', () => {
+  it('formats the score, journey, stage, and membrane ratio from content', () => {
+    const model = createHudViewModel({
+      membrane: 82,
+      energy: 100,
+      stability: 100,
+      biomass: 144,
+      peakBiomass: 144,
+      evolutionThreshold: 240,
+      elapsedMs: 0,
+      environmentId: 'env-clear-drop',
+      paused: false,
+      engulfScore: 6528,
+      journeyIndex: 1,
+      journeyTotal: 6,
+      bodyStage: 'microbe',
+      bodyStageProgress: 0.32,
+      membraneRatio: 0.82,
+    }, testContent())
+
+    expect(model).toMatchObject({ score: '6528', journey: '01/06', bodyStageName: '微生体', membrane: '82%' })
   })
 })

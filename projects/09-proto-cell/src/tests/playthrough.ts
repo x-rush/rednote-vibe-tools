@@ -58,11 +58,13 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     const elapsed = Math.min(STEP_BATCH_MS, durationMs - simulatedMs)
     engine.advance(elapsed)
     const previousSimulatedMs = simulatedMs
-    const advancedMs = engine.snapshot().elapsedMs
+    let hud = engine.snapshot()
+    const advancedMs = hud.elapsedMs
     if (advancedMs <= previousSimulatedMs && durationMs - previousSimulatedMs > 0) {
       engine.advance(1000 / 60)
+      hud = engine.snapshot()
     }
-    simulatedMs = engine.snapshot().elapsedMs
+    simulatedMs = hud.elapsedMs
     if (simulatedMs <= previousSimulatedMs) break
 
     const events = engine.drainEvents()
@@ -72,7 +74,7 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
         const evolution = engine.evolutionSnapshot()
         mutationContext = {
           ...mutationContext,
-          environmentId: engine.snapshot().environmentId as EnvironmentId,
+          environmentId: hud.environmentId as EnvironmentId,
           organIds: evolution.organelles.map((organ) => organ.id),
           matureOrganIds: evolution.organelles.filter((organ) => organ.stage === 'mature').map((organ) => organ.id),
           installed: [...evolution.organelles],
@@ -95,7 +97,7 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
 
     const world = engine.renderSnapshot()
     maxEntities = Math.max(maxEntities, world.entities.length)
-    inspectNumbers(engine.snapshot(), world.entities, invalidNumbers)
+    inspectNumbers(hud, world.entities, invalidNumbers)
     if (terminal) break
   }
 

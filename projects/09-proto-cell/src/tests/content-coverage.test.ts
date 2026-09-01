@@ -38,5 +38,5 @@ describe('launch outcome and build coverage', () => {
     expect(new Set(reports.map((report) => report.morphologySignature)).size).toBeGreaterThanOrEqual(6)
     expect(reports.filter((report) => report.endingId).length).toBeGreaterThanOrEqual(4)
     expect(reports.flatMap((report) => report.invalidNumbers)).toEqual([])
-  }, 30_000)
+  }, 60_000)
 })

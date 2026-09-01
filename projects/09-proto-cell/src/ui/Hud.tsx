@@ -1,27 +1,43 @@
-import content from '../content/content.json'
+import { getContent } from '../content'
 import type { HudSnapshot } from '../game/engine'
+import { createHudViewModel } from '../app/view-model'
 
 export function Hud({ snapshot, onPause }: { snapshot: HudSnapshot; onPause: () => void }) {
-  const metrics = [
-    [content.ui.hud.membrane, snapshot.membrane],
-    [content.ui.hud.energy, snapshot.energy],
-    [content.ui.hud.stability, snapshot.stability],
-    [content.ui.hud.biomass, snapshot.biomass],
-  ] as const
+  const content = getContent()
+  const model = createHudViewModel(snapshot, content)
 
   return (
     <div className="game-hud">
-      <dl className="game-hud__metrics">
-        {metrics.map(([label, value]) => (
-          <div key={label}>
-            <dt>{label}</dt>
-            <dd>{Math.round(value)}</dd>
+      <section className="game-hud__panel" aria-label={content.ui.hud.combatStatus}>
+        <dl className="game-hud__primary">
+          <div>
+            <dt>{content.ui.hud.engulfScore}</dt>
+            <dd>{model.score}</dd>
           </div>
-        ))}
-      </dl>
-      <div className="game-hud__evolution" aria-label={content.ui.hud.evolution}>
-        <span style={{ width: `${Math.min(100, snapshot.biomass / snapshot.evolutionThreshold * 100)}%` }} />
-      </div>
+          <div>
+            <dt>{content.ui.hud.journey}</dt>
+            <dd>{model.journey}</dd>
+          </div>
+        </dl>
+        <div className="game-hud__secondary">
+          <div className="game-hud__stage">
+            <div><span>{content.ui.hud.bodyStage}</span><strong>{model.bodyStageName}</strong></div>
+            <i
+              aria-label={content.ui.hud.bodyStageProgress}
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={model.bodyStageProgress}
+            ><b style={{ width: `${model.bodyStageProgress}%` }} /></i>
+          </div>
+          <dl className="game-hud__membrane">
+            <div>
+              <dt>{content.ui.hud.membraneIntegrity}</dt>
+              <dd>{model.membrane}</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
       {snapshot.swarm && (
         <div className="game-hud__swarm" role="status">
           <strong>{content.ui.hud.swarm} ×{snapshot.swarm.bodyCount}</strong>

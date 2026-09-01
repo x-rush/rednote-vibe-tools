@@ -34,6 +34,12 @@ export type HudSnapshot = {
   elapsedMs: number
   environmentId: string
   paused: boolean
+  engulfScore: number
+  journeyIndex: number
+  journeyTotal: number
+  bodyStage: BodyStage
+  bodyStageProgress: number
+  membraneRatio: number
   swarm?: { bodyCount: number; minimumRemainingMs: number; fusionProgress: number }
 }
 
@@ -179,6 +185,7 @@ export function createGameEngine(options: {
   let lastFoodReplenishmentAt = elapsedMs
   let foodSpawnSequence = 0
   let peakBiomass = player.mass
+  let engulfScore = 0
   let terminalReached = false
   let lastLiveMorphology: PlayerMorphologySnapshot = {
     bodyCount: 1,
@@ -214,9 +221,10 @@ export function createGameEngine(options: {
       const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
       const currentPlayer = entities.get(PLAYER_ID) ?? playerBodies[0] ?? player
       const biomass = playerBodies.reduce((sum, body) => sum + body.mass, 0)
+      const membrane = activeSwarm ? playerBodies.reduce((sum, body) => sum + body.membrane, 0) : currentPlayer.membrane
       peakBiomass = Math.max(peakBiomass, biomass)
       return {
-        membrane: activeSwarm ? playerBodies.reduce((sum, body) => sum + body.membrane, 0) : currentPlayer.membrane,
+        membrane,
         energy: activeSwarm ? playerBodies.reduce((sum, body) => sum + body.energy, 0) : currentPlayer.energy,
         stability: playerStability,
         biomass,
@@ -225,6 +233,12 @@ export function createGameEngine(options: {
         elapsedMs,
         environmentId,
         paused: pauseReasons.size > 0,
+        engulfScore,
+        journeyIndex: Math.min(6, routeStageIndex + 1),
+        journeyTotal: 6,
+        bodyStage: provisionalBodyStage(routeStageIndex),
+        bodyStageProgress: clamp(biomass / Math.max(1, evolutionThreshold), 0, 1),
+        membraneRatio: clamp(membrane / Math.max(1, playerDefinition.membrane), 0, 1),
         swarm: activeSwarm ? {
           bodyCount: playerBodies.length,
           minimumRemainingMs: Math.max(0, (swarmStartedAtMs ?? elapsedMs) + SWARM_MINIMUM_DURATION_MS - elapsedMs),
@@ -1143,6 +1157,7 @@ export function createGameEngine(options: {
         const engulfed = result.events.find((event) => event.type === 'engulfed')
         if (engulfed) {
           const predator = engulfed.predatorId === first.id ? first : second
+          if (predator.faction === 'player') engulfScore += engulfed.biomass
           if (predator.faction === 'player') rechargeGuard(predator.id)
           if (predator.faction === 'player') {
             const currentPredator = entities.get(predator.id)

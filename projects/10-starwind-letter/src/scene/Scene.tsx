@@ -1,20 +1,30 @@
 import type { ReactNode } from 'react'
 import type { TimelineSample } from '../experience/timeline'
+import type { Mood } from '../content/messages'
+import { ParticleCanvases } from '../particles/ParticleCanvases'
 import { CurtainLayer } from './CurtainLayer'
 import { WindowLayer } from './WindowLayer'
 
-interface SceneProps { readonly sample: TimelineSample; readonly children?: ReactNode }
+interface SceneProps {
+  readonly sample: TimelineSample
+  readonly mood?: Mood
+  readonly run?: number
+  readonly reducedMotion?: boolean
+  readonly children?: ReactNode
+}
 
 function windowMotion(sample: TimelineSample) {
   if (sample.stage === 'window-opening') return sample.stageProgress
   return ['stars-entering', 'settling', 'result'].includes(sample.stage) ? 1 : 0
 }
 
-export function Scene({ sample, children }: SceneProps) {
+export function Scene({ sample, mood = 'dream', run = 0, reducedMotion = false, children }: SceneProps) {
   const shake = sample.stage === 'window-opening' ? Math.min(1, sample.stageProgress * 4.5) : 0
+  const sashOpen = windowMotion(sample)
   return (
     <section className="scene" data-stage={sample.stage} aria-label="深蓝房间与月光夜窗">
-      <WindowLayer openProgress={windowMotion(sample)} shakeProgress={shake} />
+      <WindowLayer openProgress={sashOpen} shakeProgress={shake} />
+      <ParticleCanvases sample={sample} sashOpen={sashOpen} mood={mood} run={run} reducedMotion={reducedMotion} />
       <CurtainLayer sample={sample} />
       <div className="scene-content">{children}</div>
     </section>

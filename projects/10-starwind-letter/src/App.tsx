@@ -75,7 +75,7 @@ export function App() {
 
   return (
     <main className="app-shell" onClick={selectPhrase}>
-      <Scene sample={sample}>
+      <Scene sample={sample} mood={selected?.mood} run={state.run}>
         <p className="scene-title">星风来信</p>
         <PhraseCarousel
           state={state}

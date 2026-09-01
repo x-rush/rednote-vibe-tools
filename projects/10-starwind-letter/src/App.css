@@ -44,7 +44,20 @@ button { font: inherit; }
   display: block;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
+
+.particle-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle-canvas--exterior { z-index: 2; }
+.particle-canvas--interior { z-index: 4; }
 
 .curtain-layer {
   position: absolute;

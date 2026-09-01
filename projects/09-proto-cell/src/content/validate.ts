@@ -11,6 +11,8 @@ const LEGAL_CREATURE_ROLES = new Set(['resource', 'prey', 'scavenger', 'hunter',
 const LEGAL_BOSS_PATHS = new Set(['combat', 'environment', 'stealth', 'parasite'])
 const LEGAL_VISUAL_KINDS = new Set(['cell', 'organelle', 'synergy', 'environment', 'event', 'boss', 'ui'])
 const LEGAL_BODY_STAGES = new Set(['microbe', 'hunter', 'specialist', 'dominant', 'ascendant'])
+const LEGAL_SCALE_TIER_IDS = new Set(['tier-single-cell', 'tier-colony', 'tier-ciliate'])
+const LEGAL_FORM_IDS = new Set(['form-primal-cell', 'form-colony-body', 'form-ciliate-composite'])
 const LEGAL_BEHAVIOR_FAMILIES = new Set(['resource', 'skittish', 'school', 'competitor', 'ambusher', 'hunter', 'scavenger', 'apex'])
 const LEGAL_ECOLOGY_ROLES = new Set(['resource', 'prey', 'competitor', 'scavenger', 'hunter', 'apex'])
 const FROZEN_ORGAN_CATEGORIES: Record<string, string> = {
@@ -134,6 +136,7 @@ export function validateContent(input: unknown): ContentValidationResult {
   validateOriginsEntityReferences(collections.get('origins') ?? [], m0Entities.playerIds)
   validateEnvironments(collections.get('environments') ?? [], spawnTableIds, spawnTableEnvironmentById, eventIds, bossIds)
   validateJourney(input.journey, environmentIds)
+  validateScaleTiers(input.scaleTiers, environmentIds)
   validateFirstRunAssist(input.firstRunAssist)
   validateEcologyBudgets(input.ecologyBudgets, environmentIds)
   validateBehaviorProfiles(collections.get('behaviorProfiles') ?? [])
@@ -177,7 +180,7 @@ export function validateContent(input: unknown): ContentValidationResult {
     }
     const requiredCopy: Record<string, string[]> = {
       actions: ['start', 'pause', 'resume', 'restart', 'restartAfterLife'],
-      labels: ['prototypeCell', 'openingRegion', 'gameCanvas', 'mutationSynergyAugment', 'archiveDishCode', 'archiveEnvironment', 'archivePeakBiomass', 'archiveKeyOrgans', 'archiveSynergies', 'archiveSpeciesSeed', 'archiveNoOrgans', 'archiveCell'],
+      labels: ['prototypeCell', 'openingRegion', 'gameCanvas', 'mutationSynergyAugment', 'formPrimalCell', 'formColonyBody', 'formCiliateComposite', 'encounterPrimalShadow', 'encounterFiberGiant', 'encounterFinalHost', 'archiveDishCode', 'archiveEnvironment', 'archivePeakBiomass', 'archiveKeyOrgans', 'archiveSynergies', 'archiveSpeciesSeed', 'archiveNoOrgans', 'archiveCell'],
       hud: ['membrane', 'energy', 'stability', 'biomass', 'evolution'],
       screens: ['pauseTitle', 'pauseDescription', 'resultTitle', 'resultDescription', 'survival', 'contentErrorTitle', 'contentErrorDescription', 'archiveTitle'],
     }
@@ -202,6 +205,49 @@ export function validateContent(input: unknown): ContentValidationResult {
       if (item.bossId !== undefined) reference(item.bossId, bosses, `${base}.bossId`, 'boss')
       requireStringArray(item.visualPalette, `${base}.visualPalette`, true)
       requiredString(item.ambientAudioId, `${base}.ambientAudioId`)
+    })
+  }
+
+  function validateScaleTiers(value: unknown, environments: Set<string>) {
+    if (!Array.isArray(value)) {
+      issues.push({ path: '$.scaleTiers', message: 'three scale tiers are required' })
+      return
+    }
+    require(value.length === 3, '$.scaleTiers', 'scale journey must contain exactly three tiers')
+    const tierIds = new Set<string>()
+    const formIds = new Set<string>()
+    let previous: Record<string, unknown> | undefined
+    value.forEach((tier, index) => {
+      const base = `$.scaleTiers[${index}]`
+      if (!isRecord(tier)) {
+        issues.push({ path: base, message: 'scale tier must be an object' })
+        return
+      }
+      const expectedTierId = ['tier-single-cell', 'tier-colony', 'tier-ciliate'][index]
+      const expectedFormId = ['form-primal-cell', 'form-colony-body', 'form-ciliate-composite'][index]
+      require(typeof tier.id === 'string' && LEGAL_SCALE_TIER_IDS.has(tier.id) && tier.id === expectedTierId && !tierIds.has(tier.id), `${base}.id`, 'scale tier id must be unique and ordered')
+      if (typeof tier.id === 'string') tierIds.add(tier.id)
+      require(typeof tier.formId === 'string' && LEGAL_FORM_IDS.has(tier.formId) && tier.formId === expectedFormId && !formIds.has(tier.formId), `${base}.formId`, 'form id must be unique and ordered')
+      if (typeof tier.formId === 'string') formIds.add(tier.formId)
+      requiredString(tier.name, `${base}.name`)
+      reference(tier.environmentId, environments, `${base}.environmentId`, 'environment')
+      positiveFinite(tier.targetDurationMs, `${base}.targetDurationMs`, 'tier duration must be positive')
+      validateIncreasingRange(tier.radiusRange, `${base}.radiusRange`, 0, Number.POSITIVE_INFINITY)
+      validateIncreasingRange(tier.screenDiameterRange, `${base}.screenDiameterRange`, 0, 0.3)
+      require(typeof tier.worldBodyWidths === 'number' && Number.isFinite(tier.worldBodyWidths) && tier.worldBodyWidths >= 14, `${base}.worldBodyWidths`, 'world must retain at least fourteen body widths')
+      require(typeof tier.minimumCollapsedBodyWidths === 'number' && Number.isFinite(tier.minimumCollapsedBodyWidths) && tier.minimumCollapsedBodyWidths >= 6, `${base}.minimumCollapsedBodyWidths`, 'collapsed world must retain at least six body widths')
+      positiveFinite(tier.evolutionPressureTarget, `${base}.evolutionPressureTarget`, 'evolution pressure target must be positive')
+      require(typeof tier.ecologyBudgetId === 'string' && /^ecology-tier-[a-z0-9-]+$/.test(tier.ecologyBudgetId), `${base}.ecologyBudgetId`, 'tier ecology budget id is invalid')
+      require(typeof tier.encounterId === 'string' && /^encounter-[a-z0-9-]+$/.test(tier.encounterId), `${base}.encounterId`, 'tier encounter id is invalid')
+      positiveFinite(tier.movementBodyLengthsPerSecond, `${base}.movementBodyLengthsPerSecond`, 'movement speed must be positive')
+      positiveFinite(tier.turnResponseMs, `${base}.turnResponseMs`, 'turn response must be positive')
+      if (previous) {
+        require(tier.environmentId !== previous.environmentId, `${base}.environmentId`, 'adjacent scale tiers must use different environments')
+        if (isFinitePair(tier.radiusRange) && isFinitePair(previous.radiusRange)) {
+          require(tier.radiusRange[0] > previous.radiusRange[0] && tier.radiusRange[1] > previous.radiusRange[1], `${base}.radiusRange`, 'scale tier radius ranges must ascend')
+        }
+      }
+      previous = tier
     })
   }
 
@@ -794,6 +840,18 @@ export function validateContent(input: unknown): ContentValidationResult {
 
   function requireTuple(value: unknown, path: string) {
     require(Array.isArray(value) && value.length === 2 && value.every((entry) => typeof entry === 'number' && Number.isFinite(entry)) && value[0] <= value[1], path, 'numeric range is invalid')
+  }
+
+  function validateIncreasingRange(value: unknown, path: string, minimumExclusive: number, maximumInclusive: number) {
+    require(isFinitePair(value) && value[0] > minimumExclusive && value[1] > value[0] && value[1] <= maximumInclusive, path, 'numeric range is outside the allowed interval')
+  }
+
+  function isFinitePair(value: unknown): value is [number, number] {
+    return Array.isArray(value) && value.length === 2 && value.every((entry) => typeof entry === 'number' && Number.isFinite(entry))
+  }
+
+  function positiveFinite(value: unknown, path: string, message: string) {
+    require(typeof value === 'number' && Number.isFinite(value) && value > 0, path, message)
   }
 
   function finiteRange(value: unknown, min: number, max: number, path: string) {

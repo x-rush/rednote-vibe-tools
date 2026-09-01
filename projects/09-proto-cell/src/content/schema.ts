@@ -11,12 +11,31 @@ export type OriginId = `origin-${string}`
 export type ModifierId = `modifier-${string}`
 export type EndingId = `ending-${string}`
 export type DeathTemplateId = `death-${string}`
+export type FormId = 'form-primal-cell' | 'form-colony-body' | 'form-ciliate-composite'
+export type ScaleTierId = 'tier-single-cell' | 'tier-colony' | 'tier-ciliate'
 
 export type AnchorSlot = 'core' | 'membrane' | 'front' | 'rear' | 'left' | 'right' | 'internal' | 'symbiont'
 export type OrganelleCategory = 'sense' | 'move' | 'feed' | 'defend' | 'attack' | 'metabolism' | 'reproduce' | 'symbiosis'
 export type BossResolutionPath = 'combat' | 'environment' | 'stealth' | 'parasite'
 export type BodyStage = 'microbe' | 'hunter' | 'specialist' | 'dominant' | 'ascendant'
 export type BehaviorProfileId = `behavior-${string}`
+
+export type ScaleTierDefinition = {
+  id: ScaleTierId
+  formId: FormId
+  name: string
+  environmentId: EnvironmentId
+  targetDurationMs: number
+  radiusRange: [number, number]
+  screenDiameterRange: [number, number]
+  worldBodyWidths: number
+  minimumCollapsedBodyWidths: number
+  evolutionPressureTarget: number
+  ecologyBudgetId: `ecology-tier-${string}`
+  encounterId: `encounter-${string}`
+  movementBodyLengthsPerSecond: number
+  turnResponseMs: number
+}
 
 export type ContactDamageContent = {
   source: 'acid' | 'electric' | 'spine' | 'ram'
@@ -310,6 +329,7 @@ export type ContentPack = {
   firstRunAssist: FirstRunAssistDefinition
   ecologyBudgets: EcologyBudgetDefinition[]
   behaviorProfiles: BehaviorProfileDefinition[]
+  scaleTiers: ScaleTierDefinition[]
   m0: { playerDefinitions: PlayerDefinitionContent[]; environments: M0EnvironmentContent[] }
   m1: {
     sliceTargetMs: [number, number]

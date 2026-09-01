@@ -3,6 +3,31 @@ import { contentFixture } from '../tests/fixtures'
 import { validateContent } from './validate'
 
 describe('content integrity validation', () => {
+  it('requires exactly three scale tiers', () => {
+    const pack = contentFixture()
+    delete (pack as Partial<typeof pack>).scaleTiers
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.scaleTiers')
+  })
+
+  it('rejects duplicate forms, broken tier references, and unsafe scale geometry', () => {
+    const pack = contentFixture()
+    pack.scaleTiers = [
+      scaleTier('tier-single-cell', 'form-primal-cell', 'env-clear-drop', 12, 22),
+      scaleTier('tier-colony', 'form-primal-cell', 'env-missing', 18, 32),
+      scaleTier('tier-ciliate', 'form-ciliate-composite', 'env-abandoned-chamber', 24, 40),
+    ]
+    pack.scaleTiers[1]!.screenDiameterRange = [0.25, 0.31]
+    pack.scaleTiers[1]!.minimumCollapsedBodyWidths = 5
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.scaleTiers[1].formId',
+      '$.scaleTiers[1].environmentId',
+      '$.scaleTiers[1].screenDiameterRange',
+      '$.scaleTiers[1].minimumCollapsedBodyWidths',
+    ]))
+  })
+
   it('rejects missing organ visuals and dangling synergy requirements', () => {
     const pack = contentFixture()
     pack.organelles[0].visualMutationId = ''
@@ -266,3 +291,28 @@ describe('content integrity validation', () => {
     ]))
   })
 })
+
+function scaleTier(
+  id: 'tier-single-cell' | 'tier-colony' | 'tier-ciliate',
+  formId: 'form-primal-cell' | 'form-colony-body' | 'form-ciliate-composite',
+  environmentId: `env-${string}`,
+  minimumRadius: number,
+  maximumRadius: number,
+) {
+  return {
+    id,
+    formId,
+    name: id,
+    environmentId,
+    targetDurationMs: 150_000,
+    radiusRange: [minimumRadius, maximumRadius] as [number, number],
+    screenDiameterRange: [0.16, 0.21] as [number, number],
+    worldBodyWidths: 22,
+    minimumCollapsedBodyWidths: 6,
+    evolutionPressureTarget: 260,
+    ecologyBudgetId: `ecology-${id}` as const,
+    encounterId: `encounter-${id}` as const,
+    movementBodyLengthsPerSecond: 2,
+    turnResponseMs: 145,
+  }
+}

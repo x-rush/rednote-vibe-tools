@@ -22,6 +22,7 @@ describe('launch content completeness', () => {
     expect(pack.endings).toHaveLength(3)
     expect(pack.deathTemplates.length).toBeGreaterThanOrEqual(12)
     expect(pack.journey.stages).toHaveLength(6)
+    expect(pack.scaleTiers).toHaveLength(3)
     expect(pack.ecologyBudgets).toHaveLength(6)
     expect(pack.behaviorProfiles.map((profile) => profile.family).sort()).toEqual([
       'ambusher', 'apex', 'competitor', 'hunter', 'resource', 'scavenger', 'school', 'skittish',
@@ -34,6 +35,9 @@ describe('launch content completeness', () => {
     const ids = (items: ReadonlyArray<{ id: string }>) => items.map((item) => item.id).sort()
 
     expect(ids(pack.environments)).toEqual(['env-abandoned-chamber', 'env-acid-vesicle', 'env-algae-glow', 'env-antibody-storm', 'env-clear-drop', 'env-fiber-maze'])
+    expect(ids(pack.scaleTiers)).toEqual(['tier-ciliate', 'tier-colony', 'tier-single-cell'])
+    expect(pack.scaleTiers.map((tier) => tier.formId)).toEqual(['form-primal-cell', 'form-colony-body', 'form-ciliate-composite'])
+    expect(pack.scaleTiers.map((tier) => tier.environmentId)).toEqual(['env-clear-drop', 'env-fiber-maze', 'env-abandoned-chamber'])
     expect(ids(pack.nutrients)).toEqual(['nutrient-gene-fragment', 'nutrient-lipid', 'nutrient-lumen', 'nutrient-mineral', 'nutrient-protein', 'nutrient-sugar'])
     expect(ids(pack.organelles)).toEqual([
       'organelle-acid-gland', 'organelle-bud-sac', 'organelle-cilia-ring', 'organelle-cleaner-symbiont', 'organelle-division-ring', 'organelle-echo-sac',

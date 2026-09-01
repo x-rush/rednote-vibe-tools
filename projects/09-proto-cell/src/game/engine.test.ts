@@ -6,6 +6,7 @@ import { installMutation, offerMutations } from '../evolution/mutation'
 import { getContent } from '../content'
 import { coveredRatio } from './containment'
 import { createBuildState } from '../evolution/build'
+import { generateRegion } from '../world/generator'
 
 describe('game engine lifecycle', () => {
   it('guarantees the first evolution by the authored 45-second deadline', () => {
@@ -38,6 +39,87 @@ describe('game engine lifecycle', () => {
     expect(engine.snapshot().environmentId).not.toBe('env-clear-drop')
     expect(engine.runSnapshot().stageIndex).toBe(1)
     expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'migration-forced' }))
+  })
+
+  it('keeps the destination ecology spawned on the transition frame', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    engine.start()
+    for (let step = 0; step < 4 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
+      engine.advance(1000 / 60)
+    }
+
+    const destinationId = engine.snapshot().environmentId
+    expect(destinationId).not.toBe('env-clear-drop')
+    const authoredIds = new Set(generateRegion(727, destinationId).entities.map((entity) => entity.id))
+    expect(engine.renderSnapshot().entities.some((entity) => authoredIds.has(entity.id))).toBe(true)
+  })
+
+  it('retries a due spawn after the player comes within materialization range', () => {
+    const region = generateRegion(727, 'env-algae-glow')
+    const dueIds = new Set(region.spawnSchedule.filter((entry) => entry.atMs === 0).map((entry) => entry.entityId))
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-algae-glow' })
+    const visibleIds = new Set(engine.renderSnapshot().entities.map((entity) => entity.id))
+    const deferred = region.entities.find((entity) => dueIds.has(entity.id) && !visibleIds.has(entity.id))
+    expect(deferred).toBeDefined()
+
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    player.position = {
+      x: Math.max(40, Math.min(region.width - 40, deferred!.position.x + (deferred!.position.x < region.width / 2 ? 120 : -120))),
+      y: deferred!.position.y,
+    }
+    player.body = circleBody(player.position, player.body.radius)
+    engine.start()
+    engine.advance(1000 / 60)
+
+    expect(engine.renderSnapshot().entities.some((entity) => entity.id === deferred!.id)).toBe(true)
+  })
+
+  it('opens the second layer with prey, competitors, and a readable hunter', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    engine.start()
+    for (let step = 0; step < 60 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
+      engine.advance(1000 / 60)
+    }
+
+    const authoredRoles = generateRegion(727, engine.snapshot().environmentId).entities.map((entity) => entity.role)
+    expect(authoredRoles).toEqual(expect.arrayContaining(['competitor', 'predator']))
+    const ecology = engine.renderSnapshot().entities.filter((entity) => entity.faction !== 'player')
+    const readableRoles = ecology.map((entity) => entity.faction === 'hostile' ? 'hostile' : entity.role)
+    expect(readableRoles).toEqual(expect.arrayContaining(['prey', 'competitor', 'hostile']))
+  })
+
+  it('makes a second-layer hunter dangerous during a committed pursuit', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    const growingPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    growingPlayer.body = circleBody(growingPlayer.position, 24)
+    engine.start()
+    for (let step = 0; step < 60 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
+      engine.advance(1000 / 60)
+    }
+
+    const entities = engine.renderSnapshot().entities
+    const player = entities.find((entity) => entity.id === 'player')!
+    const hunter = entities.find((entity) => entity.faction === 'hostile')!
+    player.membrane = 10_000
+    player.position = { x: 320, y: 520 }
+    player.body = circleBody(player.position, player.body.radius)
+    hunter.position = { x: 320, y: 780 }
+    hunter.body = circleBody(hunter.position, hunter.body.radius)
+    entities.filter((entity) => entity.faction !== 'player' && entity.id !== hunter.id).forEach((entity, index) => {
+      entity.position = { x: 36 + index % 4 * 12, y: 36 + Math.floor(index / 4) * 12 }
+      entity.body = circleBody(entity.position, entity.body.radius)
+    })
+    engine.input.start({ x: 0, y: 0 })
+    engine.input.move({ x: 0, y: -120 })
+    for (let frame = 0; frame < 75; frame += 1) engine.advance(1000 / 60)
+
+    const pursued = engine.renderSnapshot().entities.find((entity) => entity.id === hunter.id)!
+    const playerMaxSpeed = 'maxSpeed' in player ? Number(player.maxSpeed) : 0
+    const contactDamage = 'contactDamage' in pursued ? pursued.contactDamage as { amount?: unknown } | undefined : undefined
+    expect(pursued.behaviorState).toBe('pursue')
+    expect(pursued.body.radius).toBeGreaterThanOrEqual(player.body.radius * 1.25)
+    expect(Math.hypot(pursued.velocity.x, pursued.velocity.y)).toBeGreaterThan(playerMaxSpeed)
+    expect(Number(contactDamage?.amount ?? 0)).toBeGreaterThanOrEqual(11)
   })
 
   it('allows an explicit migration while the collapse clock keeps running', () => {
@@ -332,11 +414,13 @@ describe('game engine lifecycle', () => {
 
   it('replenishes a bounded food wave after the edible population is depleted', () => {
     const engine = createTestEngine()
-    for (const entity of engine.renderSnapshot().entities) {
-      if (entity.role === 'nutrient' || entity.role === 'prey') entity.status = 'engulfed'
-    }
 
-    for (let index = 0; index < 160; index += 1) engine.advance(1000 / 60)
+    for (let index = 0; index < 160; index += 1) {
+      for (const entity of engine.renderSnapshot().entities) {
+        if (!entity.id.startsWith('eco-food-') && (entity.role === 'nutrient' || entity.role === 'prey')) entity.status = 'engulfed'
+      }
+      engine.advance(1000 / 60)
+    }
 
     const replenished = engine.renderSnapshot().entities.filter((entity) => entity.id.startsWith('eco-food-'))
     const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
@@ -353,13 +437,14 @@ describe('game engine lifecycle', () => {
     const engine = createTestEngine()
     const world = engine.renderSnapshot()
     const player = world.entities.find((entity) => entity.id === 'player')!
-    for (const entity of world.entities) {
-      if (entity.role !== 'nutrient' && entity.role !== 'prey') continue
-      entity.position = { x: 40, y: 40 }
-      entity.body = circleBody(entity.position, entity.body.radius)
+    for (let index = 0; index < 160; index += 1) {
+      for (const entity of engine.renderSnapshot().entities) {
+        if (entity.id.startsWith('eco-food-') || (entity.role !== 'nutrient' && entity.role !== 'prey')) continue
+        entity.position = { x: 40, y: 40 }
+        entity.body = circleBody(entity.position, entity.body.radius)
+      }
+      engine.advance(1000 / 60)
     }
-
-    for (let index = 0; index < 160; index += 1) engine.advance(1000 / 60)
 
     const nearbyFood = engine.renderSnapshot().entities.filter((entity) => (
       (entity.role === 'nutrient' || entity.role === 'prey')
@@ -539,6 +624,9 @@ describe('game engine lifecycle', () => {
       const bossState = engine.worldSnapshot().boss!
       const boss = engine.renderSnapshot().entities.find((entity) => entity.id === bossState.id)!
       const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+      engine.renderSnapshot().entities
+        .filter((entity) => entity.faction === 'hostile' && entity.id !== bossState.id)
+        .forEach((entity) => { entity.status = 'ruptured' })
       boss.position = { x: 220, y: 820 }
       boss.body = circleBody(boss.position, boss.body.radius)
       player.position = { x: boss.position.x + boss.body.radius + player.body.radius - 1, y: boss.position.y }

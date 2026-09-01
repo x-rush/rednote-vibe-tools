@@ -922,7 +922,7 @@
       "behaviorId": "compete-and-flock",
       "behaviorProfileId": "behavior-competitor",
       "organelleTags": ["spark-core"],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-acid-vesicle", "env-fiber-maze", "env-abandoned-chamber"],
       "warningCueId": "cue-spark-flash",
       "responseTags": ["race", "ambush"],
       "dropTableId": "drop-swarm-prey",
@@ -936,7 +936,7 @@
       "behaviorId": "follow-and-scavenge",
       "behaviorProfileId": "behavior-scavenger",
       "organelleTags": ["fragment-sense"],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-antibody-storm"],
       "warningCueId": "cue-scavenger-thread",
       "responseTags": ["bait", "intercept"],
       "dropTableId": "drop-scavenger",
@@ -964,7 +964,7 @@
       "behaviorId": "guard-territory-and-ram",
       "behaviorProfileId": "behavior-apex",
       "organelleTags": ["double-membrane", "ram"],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-acid-vesicle", "env-fiber-maze"],
       "warningCueId": "cue-double-membrane",
       "responseTags": ["flank", "environment"],
       "dropTableId": "drop-elite",
@@ -1700,7 +1700,10 @@
         { "creatureId": "creature-algae-speck", "weight": 38, "minAtMs": 0 },
         { "creatureId": "creature-lumen-drifter", "weight": 28, "minAtMs": 8000 },
         { "creatureId": "creature-pollen-float", "weight": 20, "minAtMs": 18000 },
-        { "creatureId": "predator-glow-siphon", "weight": 10, "minAtMs": 42000 }
+        { "creatureId": "creature-spark-swarm", "weight": 12, "minAtMs": 12000 },
+        { "creatureId": "creature-vesicle-scavenger", "weight": 8, "minAtMs": 22000 },
+        { "creatureId": "predator-glow-siphon", "weight": 10, "minAtMs": 8000 },
+        { "creatureId": "predator-membrane-warden", "weight": 4, "minAtMs": 36000 }
       ]
     },
     {
@@ -1709,8 +1712,10 @@
       "entries": [
         { "creatureId": "creature-acid-bubble", "weight": 34, "minAtMs": 0 },
         { "creatureId": "creature-vesicle-flee", "weight": 28, "minAtMs": 9000 },
+        { "creatureId": "creature-spark-swarm", "weight": 12, "minAtMs": 12000 },
         { "creatureId": "creature-mineral-scavenger", "weight": 18, "minAtMs": 22000 },
-        { "creatureId": "predator-acid-needle", "weight": 11, "minAtMs": 44000 }
+        { "creatureId": "predator-acid-needle", "weight": 11, "minAtMs": 9000 },
+        { "creatureId": "predator-membrane-warden", "weight": 4, "minAtMs": 38000 }
       ]
     },
     {
@@ -1719,8 +1724,10 @@
       "entries": [
         { "creatureId": "creature-thread-grazer", "weight": 34, "minAtMs": 0 },
         { "creatureId": "creature-fiber-float", "weight": 25, "minAtMs": 12000 },
+        { "creatureId": "creature-spark-swarm", "weight": 14, "minAtMs": 16000 },
         { "creatureId": "creature-fiber-scavenger", "weight": 18, "minAtMs": 24000 },
-        { "creatureId": "predator-fiber-stalker", "weight": 12, "minAtMs": 42000 }
+        { "creatureId": "predator-fiber-stalker", "weight": 12, "minAtMs": 7000 },
+        { "creatureId": "predator-membrane-warden", "weight": 5, "minAtMs": 34000 }
       ]
     },
     {
@@ -1730,7 +1737,8 @@
         { "creatureId": "creature-antibody-fragment", "weight": 32, "minAtMs": 0 },
         { "creatureId": "creature-mimic-drifter", "weight": 24, "minAtMs": 10000 },
         { "creatureId": "creature-ring-swarm", "weight": 20, "minAtMs": 18000 },
-        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 36000 },
+        { "creatureId": "creature-vesicle-scavenger", "weight": 14, "minAtMs": 22000 },
+        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 7000 },
         { "creatureId": "predator-crown-sentinel", "weight": 6, "minAtMs": 64000 }
       ]
     },
@@ -1740,8 +1748,9 @@
       "entries": [
         { "creatureId": "creature-host-droplet", "weight": 30, "minAtMs": 0 },
         { "creatureId": "creature-spore-drifter", "weight": 24, "minAtMs": 8000 },
+        { "creatureId": "creature-spark-swarm", "weight": 16, "minAtMs": 12000 },
         { "creatureId": "creature-cavity-scavenger", "weight": 18, "minAtMs": 20000 },
-        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 32000 },
+        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 6000 },
         { "creatureId": "predator-chamber-maw", "weight": 7, "minAtMs": 62000 }
       ]
     }
@@ -1938,6 +1947,22 @@
       "minPlayerDistance": 25,
       "minHostileDistance": 100
     },
+    "stageEntryEcology": [
+      { "stageIndex": 1, "groups": [{ "role": "resource", "count": 5, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }] },
+      { "stageIndex": 2, "groups": [{ "role": "resource", "count": 4, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }, { "role": "competitor", "count": 2, "distance": 185 }, { "role": "hunter", "count": 1, "distance": 250 }] },
+      { "stageIndex": 3, "groups": [{ "role": "resource", "count": 4, "distance": 95 }, { "role": "prey", "count": 3, "distance": 150 }, { "role": "competitor", "count": 2, "distance": 195 }, { "role": "hunter", "count": 1, "distance": 240 }] },
+      { "stageIndex": 4, "groups": [{ "role": "resource", "count": 4, "distance": 100 }, { "role": "prey", "count": 3, "distance": 155 }, { "role": "scavenger", "count": 2, "distance": 195 }, { "role": "hunter", "count": 2, "distance": 255 }] },
+      { "stageIndex": 5, "groups": [{ "role": "resource", "count": 4, "distance": 100 }, { "role": "competitor", "count": 3, "distance": 170 }, { "role": "hunter", "count": 2, "distance": 245 }, { "role": "apex", "count": 1, "distance": 300 }] },
+      { "stageIndex": 6, "groups": [{ "role": "resource", "count": 4, "distance": 105 }, { "role": "prey", "count": 3, "distance": 160 }, { "role": "scavenger", "count": 2, "distance": 205 }, { "role": "hunter", "count": 2, "distance": 250 }, { "role": "apex", "count": 1, "distance": 310 }] }
+    ],
+    "stageThreatProfiles": [
+      { "stageIndex": 1, "hostileCruiseSpeedRatio": 0.68, "pursuitSpeedMultiplier": 1.45, "minimumHunterRadiusRatio": 1.18, "contactDamageMultiplier": 1, "spawnClearance": 88 },
+      { "stageIndex": 2, "hostileCruiseSpeedRatio": 0.82, "pursuitSpeedMultiplier": 1.55, "minimumHunterRadiusRatio": 1.25, "contactDamageMultiplier": 1.6, "spawnClearance": 82 },
+      { "stageIndex": 3, "hostileCruiseSpeedRatio": 0.84, "pursuitSpeedMultiplier": 1.56, "minimumHunterRadiusRatio": 1.28, "contactDamageMultiplier": 1.8, "spawnClearance": 78 },
+      { "stageIndex": 4, "hostileCruiseSpeedRatio": 0.86, "pursuitSpeedMultiplier": 1.58, "minimumHunterRadiusRatio": 1.31, "contactDamageMultiplier": 2, "spawnClearance": 76 },
+      { "stageIndex": 5, "hostileCruiseSpeedRatio": 0.88, "pursuitSpeedMultiplier": 1.6, "minimumHunterRadiusRatio": 1.34, "contactDamageMultiplier": 2.2, "spawnClearance": 74 },
+      { "stageIndex": 6, "hostileCruiseSpeedRatio": 0.9, "pursuitSpeedMultiplier": 1.62, "minimumHunterRadiusRatio": 1.38, "contactDamageMultiplier": 2.4, "spawnClearance": 72 }
+    ],
     "eventSchedule": [
       { "eventId": "event-nutrient-bloom", "atMs": 90000 }
     ],

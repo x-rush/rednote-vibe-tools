@@ -25,14 +25,14 @@ describe('M0 headless playthrough', () => {
       const report = runHeadless({ seed: seed + 727, durationMs: 560_000, route })
       expect(report.invalidNumbers).toEqual([])
       expect(report.endingId ?? report.deathId).toBeDefined()
-      expect(report.stageSignature.split('>')).toHaveLength(6)
+      expect(report.stageSignature.split('>'), JSON.stringify(report.keyEvents.slice(-8))).toHaveLength(6)
     }
   }, 120_000)
 
   it('keeps the five-minute entity population bounded', () => {
     const report = runHeadless({ seed: 727, durationMs: 300_000 })
 
-    expect(report.simulatedMs).toBeCloseTo(300_000, 4)
+    expect(report.simulatedMs, JSON.stringify(report.keyEvents.slice(-8))).toBeCloseTo(300_000, 4)
     expect(report.maxEntities).toBeLessThanOrEqual(180)
     expect(report.invalidNumbers).toEqual([])
     expect(report.keyEvents).toContainEqual(expect.objectContaining({ type: 'ecology-opportunity' }))
@@ -45,7 +45,7 @@ describe('M0 headless playthrough', () => {
 
     expect(first.keyEvents).toEqual(second.keyEvents)
     expect(first.morphologySignature).toBe(second.morphologySignature)
-    expect(first.stageSignature).toBe('1>2>3>4>5>6')
+    expect(first.stageSignature, JSON.stringify(first.keyEvents.slice(-8))).toBe('1>2>3>4>5>6')
     expect(first.routeSignature.split('>')).toHaveLength(5)
     expect(new Set(first.opportunitySignature.split('>')).size).toBeGreaterThanOrEqual(4)
     expect(first.maxActionableGapMs).toBeLessThanOrEqual(8000)

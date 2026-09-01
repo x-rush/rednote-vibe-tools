@@ -175,21 +175,56 @@ export function auditOutcomes(content: ContentPack, fixtures: readonly OutcomeFi
 }
 
 function keepAuditPlayerAlive(engine: ReturnType<typeof createGameEngine>) {
-  for (const entity of engine.renderSnapshot().entities) {
+  const world = engine.renderSnapshot()
+  const hostiles = world.entities.filter((entity) => entity.faction === 'hostile' && entity.status === 'active')
+  const players = world.entities.filter((entity) => entity.faction === 'player' && entity.status === 'active')
+  for (const hostile of hostiles) {
+    if (hostile.role === 'boss' || players.every((player) => Math.hypot(hostile.position.x - player.position.x, hostile.position.y - player.position.y) > 360)) continue
+    hostile.status = 'ruptured'
+  }
+  for (const entity of world.entities) {
     if (entity.faction !== 'player' || entity.status !== 'active') continue
     entity.membrane = Math.max(entity.membrane, 10_000)
     entity.energy = Math.max(entity.energy, 10_000)
-    if (entity.body.radius < 50) {
-      entity.body = {
-        center: { ...entity.position },
-        radius: 50,
-        contour: Array.from({ length: 24 }, (_, index) => {
-          const angle = index / 24 * Math.PI * 2
-          return { x: entity.position.x + Math.cos(angle) * 50, y: entity.position.y + Math.sin(angle) * 50 }
-        }),
-      }
+    const auditRadius = 50
+    if (entity.body.radius !== auditRadius) {
+      entity.mass = Math.max(entity.mass, auditRadius * auditRadius)
+      entity.body = auditBody(entity.position, auditRadius)
+    }
+    const imminentContainment = hostiles.some((hostile) => (
+      hostile.status === 'active'
+      && hostile.body.radius > entity.body.radius
+      && Math.hypot(hostile.position.x - entity.position.x, hostile.position.y - entity.position.y) <= hostile.body.radius + entity.body.radius + 48
+    ))
+    if (imminentContainment) {
+      const margin = entity.body.radius + 18
+      const candidates = [
+        { x: margin, y: margin },
+        { x: world.width - margin, y: margin },
+        { x: margin, y: world.height - margin },
+        { x: world.width - margin, y: world.height - margin },
+      ]
+      const safest = candidates.sort((left, right) => minimumHostileDistance(right, hostiles) - minimumHostileDistance(left, hostiles))[0]!
+      entity.position = safest
+      entity.velocity = { x: 0, y: 0 }
+      entity.body = auditBody(safest, entity.body.radius)
     }
   }
+}
+
+function auditBody(position: { x: number; y: number }, radius: number) {
+  return {
+    center: { ...position },
+    radius,
+    contour: Array.from({ length: 24 }, (_, index) => {
+      const angle = index / 24 * Math.PI * 2
+      return { x: position.x + Math.cos(angle) * radius, y: position.y + Math.sin(angle) * radius }
+    }),
+  }
+}
+
+function minimumHostileDistance(position: { x: number; y: number }, hostiles: ReturnType<ReturnType<typeof createGameEngine>['renderSnapshot']>['entities']): number {
+  return hostiles.reduce((minimum, hostile) => Math.min(minimum, Math.hypot(hostile.position.x - position.x, hostile.position.y - position.y) - hostile.body.radius), Number.POSITIVE_INFINITY)
 }
 
 export function resolveBossThroughStateMachine(

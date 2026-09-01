@@ -250,6 +250,24 @@ export type EcologyBudgetDefinition = {
   opportunityIntervalMs: [number, number]
 }
 
+export type StageEntryEcologyDefinition = {
+  stageIndex: number
+  groups: Array<{
+    role: 'resource' | 'prey' | 'competitor' | 'scavenger' | 'hunter' | 'apex'
+    count: number
+    distance: number
+  }>
+}
+
+export type StageThreatProfileDefinition = {
+  stageIndex: number
+  hostileCruiseSpeedRatio: number
+  pursuitSpeedMultiplier: number
+  minimumHunterRadiusRatio: number
+  contactDamageMultiplier: number
+  spawnClearance: number
+}
+
 export type BehaviorProfileDefinition = {
   id: BehaviorProfileId
   family: 'resource' | 'skittish' | 'school' | 'competitor' | 'ambusher' | 'hunter' | 'scavenger' | 'apex'
@@ -304,6 +322,8 @@ export type ContentPack = {
       minPlayerDistance: number
       minHostileDistance: number
     }
+    stageEntryEcology: StageEntryEcologyDefinition[]
+    stageThreatProfiles: StageThreatProfileDefinition[]
     routeRifts: Array<{
       id: `route-rift-${string}`
       destinationEnvironmentId: EnvironmentId

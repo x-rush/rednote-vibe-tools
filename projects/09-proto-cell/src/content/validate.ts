@@ -12,6 +12,7 @@ const LEGAL_BOSS_PATHS = new Set(['combat', 'environment', 'stealth', 'parasite'
 const LEGAL_VISUAL_KINDS = new Set(['cell', 'organelle', 'synergy', 'environment', 'event', 'boss', 'ui'])
 const LEGAL_BODY_STAGES = new Set(['microbe', 'hunter', 'specialist', 'dominant', 'ascendant'])
 const LEGAL_BEHAVIOR_FAMILIES = new Set(['resource', 'skittish', 'school', 'competitor', 'ambusher', 'hunter', 'scavenger', 'apex'])
+const LEGAL_ECOLOGY_ROLES = new Set(['resource', 'prey', 'competitor', 'scavenger', 'hunter', 'apex'])
 const FROZEN_ORGAN_CATEGORIES: Record<string, string> = {
   'organelle-eye-spot': 'sense',
   'organelle-echo-sac': 'sense',
@@ -136,6 +137,13 @@ export function validateContent(input: unknown): ContentValidationResult {
   validateFirstRunAssist(input.firstRunAssist)
   validateEcologyBudgets(input.ecologyBudgets, environmentIds)
   validateBehaviorProfiles(collections.get('behaviorProfiles') ?? [])
+  validateEcologySpawnCoverage(
+    input.ecologyBudgets,
+    collections.get('environments') ?? [],
+    collections.get('spawnTables') ?? [],
+    collections.get('creatures') ?? [],
+    collections.get('behaviorProfiles') ?? [],
+  )
   validateM1(input.m1, eventIds, environmentIds)
 
   require((collections.get('organelles') ?? []).length >= 6, '$.organelles', 'M1 requires six organs')
@@ -419,6 +427,54 @@ export function validateContent(input: unknown): ContentValidationResult {
     })
   }
 
+  function validateEcologySpawnCoverage(
+    value: unknown,
+    environments: Record<string, unknown>[],
+    spawnTables: Record<string, unknown>[],
+    creatures: Record<string, unknown>[],
+    profiles: Record<string, unknown>[],
+  ) {
+    if (!Array.isArray(value)) return
+    const spawnTableIdByEnvironment = new Map(environments.flatMap((environment) => (
+      typeof environment.id === 'string' && typeof environment.spawnTableId === 'string'
+        ? [[environment.id, environment.spawnTableId] as const]
+        : []
+    )))
+    const creatureIdsByTable = new Map(spawnTables.flatMap((table) => (
+      typeof table.id === 'string' && Array.isArray(table.entries)
+        ? [[table.id, new Set(table.entries.flatMap((entry) => isRecord(entry) && typeof entry.creatureId === 'string' ? [entry.creatureId] : []))] as const]
+        : []
+    )))
+    const familyByProfile = new Map(profiles.flatMap((profile) => (
+      typeof profile.id === 'string' && typeof profile.family === 'string' ? [[profile.id, profile.family] as const] : []
+    )))
+    const familyByCreature = new Map(creatures.flatMap((creature) => (
+      typeof creature.id === 'string' && typeof creature.behaviorProfileId === 'string'
+        ? [[creature.id, familyByProfile.get(creature.behaviorProfileId)] as const]
+        : []
+    )))
+    const familiesByRole: Record<string, Set<string>> = {
+      resource: new Set(['resource']),
+      prey: new Set(['skittish']),
+      competitor: new Set(['school', 'competitor']),
+      scavenger: new Set(['scavenger']),
+      hunter: new Set(['hunter', 'ambusher']),
+      apex: new Set(['apex']),
+    }
+
+    value.forEach((budget, index) => {
+      if (!isRecord(budget) || typeof budget.environmentId !== 'string') return
+      const tableId = spawnTableIdByEnvironment.get(budget.environmentId)
+      const creatureIds = creatureIdsByTable.get(tableId ?? '') ?? new Set<string>()
+      for (const role of LEGAL_ECOLOGY_ROLES) {
+        const range = budget[role]
+        if (!Array.isArray(range) || Number(range[1]) <= 0) continue
+        const supported = [...creatureIds].some((creatureId) => familiesByRole[role]?.has(familyByCreature.get(creatureId) ?? ''))
+        require(supported, `$.ecologyBudgets[${index}].${role}`, `nonzero ${role} budget requires a matching spawn-table creature`)
+      }
+    })
+  }
+
   function validateM1(value: unknown, events: Set<string>, environments: Set<string>) {
     if (!isRecord(value)) {
       issues.push({ path: '$.m1', message: 'M1 pacing configuration is required' })
@@ -436,6 +492,46 @@ export function validateContent(input: unknown): ContentValidationResult {
       }
       require(Number(ecology.batchSize) <= Number(ecology.targetFoodCount), '$.m1.ecologyReplenishment.batchSize', 'food batch must not exceed its target')
     }
+    if (!Array.isArray(value.stageEntryEcology) || value.stageEntryEcology.length !== 6) {
+      issues.push({ path: '$.m1.stageEntryEcology', message: 'one entry ecology profile is required for each journey stage' })
+    } else value.stageEntryEcology.forEach((entry, index) => {
+      const path = `$.m1.stageEntryEcology[${index}]`
+      if (!isRecord(entry)) {
+        issues.push({ path, message: 'stage entry ecology must be an object' })
+        return
+      }
+      require(entry.stageIndex === index + 1, `${path}.stageIndex`, 'stage entry ecology must be ordered from one to six')
+      require(Array.isArray(entry.groups) && entry.groups.length > 0, `${path}.groups`, 'stage entry ecology groups are required')
+      if (Array.isArray(entry.groups)) entry.groups.forEach((group, groupIndex) => {
+        const groupPath = `${path}.groups[${groupIndex}]`
+        if (!isRecord(group)) {
+          issues.push({ path: groupPath, message: 'entry ecology group must be an object' })
+          return
+        }
+        require(typeof group.role === 'string' && LEGAL_ECOLOGY_ROLES.has(group.role), `${groupPath}.role`, 'entry ecology role is invalid')
+        require(typeof group.count === 'number' && Number.isInteger(group.count) && group.count > 0, `${groupPath}.count`, 'entry ecology count must be a positive integer')
+        require(typeof group.distance === 'number' && Number.isFinite(group.distance) && group.distance >= 60 && group.distance <= 360, `${groupPath}.distance`, 'entry ecology distance must stay readable')
+      })
+    })
+    if (!Array.isArray(value.stageThreatProfiles) || value.stageThreatProfiles.length !== 6) {
+      issues.push({ path: '$.m1.stageThreatProfiles', message: 'one threat profile is required for each journey stage' })
+    } else value.stageThreatProfiles.forEach((profile, index) => {
+      const path = `$.m1.stageThreatProfiles[${index}]`
+      if (!isRecord(profile)) {
+        issues.push({ path, message: 'stage threat profile must be an object' })
+        return
+      }
+      require(profile.stageIndex === index + 1, `${path}.stageIndex`, 'stage threat profiles must be ordered from one to six')
+      for (const field of ['hostileCruiseSpeedRatio', 'pursuitSpeedMultiplier', 'minimumHunterRadiusRatio', 'contactDamageMultiplier', 'spawnClearance']) {
+        require(typeof profile[field] === 'number' && Number.isFinite(profile[field]) && Number(profile[field]) > 0, `${path}.${field}`, `${field} must be positive`)
+      }
+      require(Number(profile.minimumHunterRadiusRatio) >= 1, `${path}.minimumHunterRadiusRatio`, 'hunters must not be smaller than their target')
+      require(Number(profile.contactDamageMultiplier) >= 1, `${path}.contactDamageMultiplier`, 'contact damage must not be reduced below authored damage')
+      require(Number(profile.spawnClearance) >= 48, `${path}.spawnClearance`, 'hostile spawns must leave a readable reaction gap')
+      if (index > 0) {
+        require(Number(profile.hostileCruiseSpeedRatio) * Number(profile.pursuitSpeedMultiplier) >= 1.1, `${path}.pursuitSpeedMultiplier`, 'post-intro hunters must reach at least 110% of player speed while pursuing')
+      }
+    })
     if (!Array.isArray(value.eventSchedule)) issues.push({ path: '$.m1.eventSchedule', message: 'M1 event schedule is required' })
     else value.eventSchedule.forEach((entry, index) => {
       const path = `$.m1.eventSchedule[${index}]`

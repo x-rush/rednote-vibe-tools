@@ -107,6 +107,22 @@ describe('content integrity validation', () => {
     expect(validateContent(contentFixture()).issues).toEqual([])
   })
 
+  it('rejects a nonzero ecology role with no creature in the environment spawn table', () => {
+    const pack = contentFixture()
+    const budgetIndex = pack.ecologyBudgets.findIndex((budget) => budget.environmentId === 'env-algae-glow')
+    const environment = pack.environments.find((item) => item.id === 'env-algae-glow')!
+    const table = pack.spawnTables.find((item) => item.id === environment.spawnTableId)!
+    const competitorProfiles = new Set(pack.behaviorProfiles
+      .filter((profile) => profile.family === 'school' || profile.family === 'competitor')
+      .map((profile) => profile.id))
+    const competitorCreatureIds = new Set(pack.creatures
+      .filter((creature) => competitorProfiles.has(creature.behaviorProfileId))
+      .map((creature) => creature.id))
+    table.entries = table.entries.filter((entry) => !competitorCreatureIds.has(entry.creatureId))
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain(`$.ecologyBudgets[${budgetIndex}].competitor`)
+  })
+
   it('rejects an invalid ecology replenishment budget', () => {
     const pack = contentFixture()
     pack.m1.ecologyReplenishment.targetFoodCount = 0
@@ -116,6 +132,13 @@ describe('content integrity validation', () => {
       '$.m1.ecologyReplenishment.targetFoodCount',
       '$.m1.ecologyReplenishment.localFoodTarget',
     ]))
+  })
+
+  it('requires one ordered and positive threat profile per journey stage', () => {
+    const pack = contentFixture()
+    pack.m1.stageThreatProfiles[1]!.pursuitSpeedMultiplier = 0
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.m1.stageThreatProfiles[1].pursuitSpeedMultiplier')
   })
 
   it('rejects incomplete event parameters, boss rules, and M1 route pacing', () => {
@@ -166,7 +189,7 @@ describe('content integrity validation', () => {
       synergy.excludes = synergy.excludes?.filter((id) => id !== orphanId)
     }
     pack.environments[0].spawnTableId = 'spawn-algae-glow'
-    pack.spawnTables[1].entries[0].creatureId = 'creature-vesicle-scavenger'
+    pack.spawnTables[1].entries[0].creatureId = 'creature-mineral-scavenger'
 
     expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
       '$.organelles[0]',

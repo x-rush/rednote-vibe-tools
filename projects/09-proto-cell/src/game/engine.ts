@@ -1,6 +1,6 @@
 import content from '../content/content.json'
 import { getBehaviorProfile } from '../content'
-import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EcologyBudgetDefinition, EventId, FirstRunAssistDefinition, JourneyDefinition, OrganelleId, OriginId } from '../content'
+import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EcologyBudgetDefinition, EventId, FirstRunAssistDefinition, JourneyDefinition, OrganelleId, OriginId, StageThreatProfileDefinition } from '../content'
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideBehavior, decideIntent } from '../entities/ai'
 import type { BehaviorMemory } from '../entities/behaviors/types'
@@ -556,7 +556,8 @@ export function createGameEngine(options: {
         y: clamp(request.center.y + Math.sin(angle) * distance, definition.radius, environment.height - definition.radius),
       }
       const id = `${activeEvent?.id ?? 'event'}-${requestIndex}-${index}`
-      entities.set(id, createEntity(definition, { id, position, spawnedAtMs: elapsedMs }))
+      const spawned = createEntity(definition, { id, position, spawnedAtMs: elapsedMs })
+      entities.set(id, tuneSpawnedThreat(spawned, entities.get(PLAYER_ID)))
     }
   }
 
@@ -663,12 +664,12 @@ export function createGameEngine(options: {
     for (const [entityId, scheduledAt] of scheduleAt) {
       if (scheduledAt > atMs || spawnedIds.has(entityId)) continue
       const entity = regionById.get(entityId)
-      spawnedIds.add(entityId)
       if (!entity || !playerBody) continue
       const roleCount = activeByRole.get(entity.role) ?? 0
       if (roleCount >= spawnCapForRole(entity.role)) continue
       if (distanceBetween(entity, playerBody) > 420) continue
-      entities.set(entityId, { ...entity, spawnedAtMs: atMs })
+      entities.set(entityId, tuneSpawnedThreat({ ...entity, spawnedAtMs: atMs }, playerBody))
+      spawnedIds.add(entityId)
       activeByRole.set(entity.role, roleCount + 1)
     }
   }
@@ -746,10 +747,10 @@ export function createGameEngine(options: {
       const food = command.role === 'resource' || command.role === 'prey'
       const id = `${food ? 'eco-food' : `eco-${command.role}`}-${environmentId}-${foodSpawnSequence}`
       foodSpawnSequence += 1
-      entities.set(id, {
+      entities.set(id, tuneSpawnedThreat({
         ...createEntity(definition, { id, position, spawnedAtMs: elapsedMs }),
         ecologyGroupId: command.groupId,
-      })
+      }, playerBody))
     })
   }
 
@@ -804,9 +805,13 @@ export function createGameEngine(options: {
           : bossState.phase === 'exposed' ? 0.86
             : bossState.phase === 'enraged' ? 1.35
               : 1
+      const pursuitSpeed = entity.faction === 'hostile' && ['ambush', 'charge', 'pursue'].includes(movingEntity.behaviorState ?? '')
+        ? currentThreatProfile().pursuitSpeedMultiplier
+        : 1
       const fieldSample = sampleEnvironmentField(environmentField, entity.position, entity.body.radius)
       const maxSpeed = ('maxSpeed' in entity ? Number(entity.maxSpeed) : 52)
         * (entity.id === PLAYER_ID ? speedMultiplier : bossPhaseSpeed)
+        * pursuitSpeed
         * fieldSample.speedMultiplier
       const responsiveVelocity = advanceVelocity(entity.velocity, intent, maxSpeed, stepMs)
       const flowVelocity = {
@@ -969,7 +974,26 @@ export function createGameEngine(options: {
       }
     }
     spawnDue(elapsedMs)
+    spawnStageEntryEcology(playerBodies[0] ? entities.get(playerBodies[0].id) : undefined)
     spawnModifierElite()
+  }
+
+  function spawnStageEntryEcology(playerBody: EntityState | undefined) {
+    if (!playerBody) return
+    const entry = content.m1.stageEntryEcology.find((profile) => profile.stageIndex === routeStageIndex + 1)
+    if (!entry) return
+    const centerAngle = Math.atan2(environment.height / 2 - playerBody.position.y, environment.width / 2 - playerBody.position.x)
+    const angleJitter = (createRng(options.seed).fork(`${environmentId}-entry-${routeStageIndex}`).next() - 0.5) * 0.24
+    entry.groups.forEach((group, index) => {
+      applyEcologyCommand({
+        type: 'materialize-group',
+        groupId: `entry-${environmentId}-${routeStageIndex}-${index}`,
+        role: group.role as EcologyRole,
+        count: group.count,
+        distance: group.distance,
+        angle: centerAngle + angleJitter + (index - (entry.groups.length - 1) / 2) * 0.52,
+      }, playerBody)
+    })
   }
 
   function activeRouteRifts(): readonly RouteRift[] {
@@ -1432,6 +1456,7 @@ export function createGameEngine(options: {
         let second = entities.get(candidate.id)
         if (!first || !second || first.status !== 'active' || second.status !== 'active') continue
         if (first.id.startsWith('eco-food-') && second.id.startsWith('eco-food-')) continue
+        if (first.faction === 'hostile' && second.faction === 'hostile') continue
         if (bossState?.phase === 'dormant' && (first.id === bossState.id || second.id === bossState.id)) continue
         const pairBoss = first.id === bossState?.id ? first : second.id === bossState?.id ? second : undefined
         const pairPlayerForRam = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
@@ -1591,7 +1616,61 @@ export function createGameEngine(options: {
       membrane: local.membrane * 1.35,
     }
     const id = `modifier-elite-${environmentId}-${routeStageIndex}`
-    entities.set(id, createEntity(definition, { id, position: { x: environment.width / 2, y: environment.height / 2 }, spawnedAtMs: elapsedMs }))
+    const spawned = createEntity(definition, { id, position: { x: environment.width / 2, y: environment.height / 2 }, spawnedAtMs: elapsedMs })
+    entities.set(id, tuneSpawnedThreat(spawned, entities.get(PLAYER_ID)))
+  }
+
+  function currentThreatProfile(): StageThreatProfileDefinition {
+    return (content.m1.stageThreatProfiles as StageThreatProfileDefinition[]).find((profile) => profile.stageIndex === routeStageIndex + 1)
+      ?? (content.m1.stageThreatProfiles as StageThreatProfileDefinition[])[0]!
+  }
+
+  function tuneSpawnedThreat(entity: EntityState, playerBody: EntityState | undefined): EntityState {
+    if (entity.faction !== 'hostile' || entity.role === 'boss' || !playerBody) return entity
+    const profile = currentThreatProfile()
+    const runtimeEntity = entity as EntityState & { maxSpeed?: number; contactDamage?: ContactDamageDefinition }
+    const runtimePlayer = playerBody as EntityState & { maxSpeed?: number }
+    const minimumRadius = playerBody.body.radius * profile.minimumHunterRadiusRatio
+    const radius = Math.max(entity.body.radius, minimumRadius)
+    const membraneScale = radius / Math.max(1, entity.body.radius)
+    const resized = resizeBodyToMass({
+      ...entity,
+      mass: Math.max(entity.mass, radius * radius),
+      membrane: Math.round(entity.membrane * membraneScale),
+    })
+    const tuned = {
+      ...resized,
+      maxSpeed: Math.max(1, Number(runtimePlayer.maxSpeed ?? 96) * profile.hostileCruiseSpeedRatio),
+      contactDamage: runtimeEntity.contactDamage ? {
+        ...runtimeEntity.contactDamage,
+        amount: runtimeEntity.contactDamage.amount * profile.contactDamageMultiplier,
+      } : undefined,
+    }
+    const currentDistance = distanceBetween(tuned, playerBody)
+    const safeDistance = tuned.body.radius + playerBody.body.radius + profile.spawnClearance
+    if (currentDistance >= safeDistance) return tuned
+    const fallbackAngle = createRng(options.seed).fork(`threat-clearance-${entity.id}`).next() * Math.PI * 2
+    const angle = currentDistance > 0
+      ? Math.atan2(tuned.position.y - playerBody.position.y, tuned.position.x - playerBody.position.x)
+      : fallbackAngle
+    const separatedPosition = {
+      x: clamp(playerBody.position.x + Math.cos(angle) * safeDistance, tuned.body.radius, environment.width - tuned.body.radius),
+      y: clamp(playerBody.position.y + Math.sin(angle) * safeDistance, tuned.body.radius, environment.height - tuned.body.radius),
+    }
+    const separatedDistance = Math.hypot(separatedPosition.x - playerBody.position.x, separatedPosition.y - playerBody.position.y)
+    const safePosition = separatedDistance >= safeDistance
+      ? separatedPosition
+      : Array.from({ length: 16 }, (_, index) => {
+        const candidateAngle = index / 16 * Math.PI * 2
+        return {
+          x: clamp(playerBody.position.x + Math.cos(candidateAngle) * safeDistance, tuned.body.radius, environment.width - tuned.body.radius),
+          y: clamp(playerBody.position.y + Math.sin(candidateAngle) * safeDistance, tuned.body.radius, environment.height - tuned.body.radius),
+        }
+      }).sort((left, right) => (
+        Math.hypot(right.x - playerBody.position.x, right.y - playerBody.position.y)
+        - Math.hypot(left.x - playerBody.position.x, left.y - playerBody.position.y)
+      ))[0]!
+    return moveEntity(tuned, safePosition, { x: 0, y: 0 })
   }
 }
 

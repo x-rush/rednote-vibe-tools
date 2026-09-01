@@ -1,12 +1,12 @@
 :root {
   color: #f4f7ff;
-  background: #020b2a;
+  background: #020820;
   font-family: ui-serif, "Songti SC", "Noto Serif CJK SC", serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html,
 body,
@@ -14,11 +14,77 @@ body,
   min-width: 320px;
   min-height: 100%;
   margin: 0;
-  background: #020b2a;
+  overflow: hidden;
+  background: #020820;
 }
+
+button { font: inherit; }
 
 .app-shell {
   display: grid;
   min-height: 100dvh;
   place-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 65% 18%, rgb(29 52 129 / 22%), transparent 38%), #020820;
+}
+
+.scene {
+  position: relative;
+  width: min(100vw, calc(100dvh * 390 / 844));
+  aspect-ratio: 390 / 844;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 0 80px rgb(45 74 188 / 12%);
+  touch-action: manipulation;
+}
+
+.window-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scene-content {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.intro-copy {
+  position: absolute;
+  right: 7%;
+  bottom: 9.5%;
+  left: 7%;
+  text-align: center;
+  text-shadow: 0 0 18px rgb(139 173 255 / 35%);
+}
+
+.intro-eyebrow {
+  margin: 0 0 18px;
+  color: rgb(180 200 255 / 45%);
+  font-size: clamp(10px, 2.8vw, 12px);
+  letter-spacing: 0.45em;
+}
+
+.intro-phrase {
+  margin: 0;
+  color: rgb(244 248 255 / 88%);
+  font-size: clamp(20px, 6vw, 25px);
+  letter-spacing: 0.08em;
+  line-height: 1.65;
+}
+
+.intro-hint {
+  margin: 16px 0 0;
+  color: rgb(190 207 255 / 58%);
+  font-family: system-ui, sans-serif;
+  font-size: clamp(11px, 3.2vw, 13px);
+  letter-spacing: 0.12em;
+}
+
+@media (orientation: landscape) {
+  .scene { width: auto; height: 100dvh; }
 }

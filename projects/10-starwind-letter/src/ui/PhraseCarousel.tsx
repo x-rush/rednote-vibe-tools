@@ -39,12 +39,26 @@ export function PhraseCarousel({ state, selected, visibleMessages, progress }: P
               data-phrase-row
               data-offset={offset}
               aria-hidden={isChoosing && offset !== 0 ? true : undefined}
+              aria-label={offset === 0 ? message.text : undefined}
               key={message.id}
             >
-              {message.text}
+              {offset === 0
+                ? Array.from(message.text).map((character, characterIndex) => (
+                    <span
+                      aria-hidden="true"
+                      className="phrase-char"
+                      data-phrase-char
+                      key={`${message.id}-${characterIndex}`}
+                      style={{ '--char-index': characterIndex } as CSSProperties}
+                    >
+                      {character}
+                    </span>
+                  ))
+                : message.text}
             </p>
           )
         })}
+        <span className="phrase-orbit" aria-hidden="true" />
       </div>
     </div>
   )

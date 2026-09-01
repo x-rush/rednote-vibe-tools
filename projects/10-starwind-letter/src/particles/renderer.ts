@@ -16,9 +16,11 @@ function portalPath(context: CanvasRenderingContext2D) {
 
 function drawParticle(context: CanvasRenderingContext2D, particle: Particle, color: string) {
   if (particle.ageMs < 0 || particle.ageMs > particle.lifetimeMs) return
-  const pulse = 0.68 + Math.sin(particle.ageMs / 150 + particle.twinklePhase) * 0.28
+  const pulseSpeed = particle.kind === 'hero' ? 260 : 190
+  const pulseDepth = particle.kind === 'hero' ? 0.24 : 0.14
+  const pulse = 0.76 + Math.sin(particle.ageMs / pulseSpeed + particle.twinklePhase) * pulseDepth
   context.save()
-  context.globalAlpha = Math.max(0, pulse)
+  context.globalAlpha = Math.max(0, pulse * particle.opacity)
   context.strokeStyle = color
   context.fillStyle = color
   context.shadowColor = color
@@ -31,7 +33,7 @@ function drawParticle(context: CanvasRenderingContext2D, particle: Particle, col
     context.stroke()
   } else if (particle.kind === 'hero') {
     const { x, y } = particle.position
-    const radius = particle.radius
+    const radius = particle.radius * (particle.space === 'dissipating' ? Math.max(0.18, particle.opacity) : 1)
     context.beginPath()
     context.moveTo(x, y - radius * 1.7)
     context.lineTo(x + radius * 0.55, y - radius * 0.5)
@@ -43,6 +45,28 @@ function drawParticle(context: CanvasRenderingContext2D, particle: Particle, col
     context.lineTo(x - radius * 0.55, y - radius * 0.5)
     context.closePath()
     context.fill()
+    context.globalAlpha *= 0.42
+    context.beginPath()
+    context.arc(x, y, radius * 0.66, 0, Math.PI * 2)
+    context.fillStyle = '#ffffff'
+    context.fill()
+    if (particle.space === 'landed' || particle.space === 'dissipating') {
+      const scatter = (1 - particle.opacity) * 13
+      context.strokeStyle = color
+      context.lineWidth = 0.72
+      context.beginPath()
+      context.ellipse(x, y + radius * 1.45, radius * (2.1 + scatter * 0.08), radius * 0.52, 0, 0, Math.PI * 2)
+      context.stroke()
+      for (let index = 0; index < 6; index += 1) {
+        const angle = particle.twinklePhase + index * Math.PI / 3
+        const distance = radius * 1.5 + scatter * (0.55 + (index % 2) * 0.25)
+        const moteX = x + Math.cos(angle) * distance
+        const moteY = y + Math.sin(angle) * distance * 0.48
+        context.beginPath()
+        context.arc(moteX, moteY, Math.max(0.42, radius * 0.18 * particle.opacity), 0, Math.PI * 2)
+        context.fill()
+      }
+    }
   } else {
     context.beginPath()
     context.arc(particle.position.x, particle.position.y, particle.radius, 0, Math.PI * 2)
@@ -54,7 +78,8 @@ function drawParticle(context: CanvasRenderingContext2D, particle: Particle, col
 function drawParticles(context: CanvasRenderingContext2D, world: ParticleWorld, spaces: readonly string[]) {
   const color = moodColors[world.mood]
   for (const particle of world.particles) {
-    if (spaces.includes(particle.space)) drawParticle(context, particle, color)
+    const particleColor = particle.kind === 'hero' && particle.id % 3 === 0 ? '#ffe6a3' : color
+    if (spaces.includes(particle.space)) drawParticle(context, particle, particleColor)
   }
 }
 
@@ -67,5 +92,5 @@ export function drawExterior(context: CanvasRenderingContext2D, world: ParticleW
 }
 
 export function drawInterior(context: CanvasRenderingContext2D, world: ParticleWorld) {
-  drawParticles(context, world, ['inside', 'settling'])
+  drawParticles(context, world, ['inside', 'settling', 'landed', 'dissipating'])
 }

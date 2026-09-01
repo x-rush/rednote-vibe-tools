@@ -30,4 +30,14 @@ describe('strand curtain motion', () => {
     const second = sampleCurtainPath(strand, 0, 600)
     expect(Math.abs(second.end.x - first.end.x)).toBeLessThanOrEqual(3)
   })
+
+  it('gathers the strand rings and tails beside the window after the gust', () => {
+    const strands = createCurtainStrands(64, createMulberry32(42))
+    const gathered = strands.map((strand) => sampleCurtainPath(strand, 0.38, 7200, 1))
+    const starts = gathered.map(({ start }) => start.x)
+    const ends = gathered.map(({ end }) => end.x)
+
+    expect(Math.max(...starts) - Math.min(...starts)).toBeLessThan(34)
+    expect(Math.max(...ends)).toBeLessThan(210)
+  })
 })

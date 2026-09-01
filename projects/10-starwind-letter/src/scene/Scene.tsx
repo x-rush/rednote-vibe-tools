@@ -16,6 +16,7 @@ interface SceneProps {
 
 function windowMotion(sample: TimelineSample) {
   if (sample.stage === 'window-opening') return sample.stageProgress
+  if (sample.stage === 'resetting') return 1 - sample.stageProgress
   return ['stars-entering', 'settling', 'result'].includes(sample.stage) ? 1 : 0
 }
 

@@ -43,6 +43,7 @@ export function App() {
   const clock = useRef(createTimelineClock())
   const audio = useRef(createAudioController(() => new AudioContext()))
   const lastCueStage = useRef<TimelineStage | undefined>(undefined)
+  const resetFrame = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -53,6 +54,10 @@ export function App() {
   }, [])
 
   useEffect(() => { audio.current.setMuted(muted) }, [muted])
+
+  useEffect(() => () => {
+    if (resetFrame.current !== undefined) cancelAnimationFrame(resetFrame.current)
+  }, [])
 
   useEffect(() => {
     const handleVisibility = () => {
@@ -78,7 +83,7 @@ export function App() {
 
   useEffect(() => {
     if (state.tag !== 'spinning') return
-    const timer = window.setInterval(() => setSpinIndex((index) => (index + 1) % messages.length), 105)
+    const timer = window.setInterval(() => setSpinIndex((index) => (index + 1) % messages.length), 1650)
     return () => window.clearInterval(timer)
   }, [state.tag])
 
@@ -97,10 +102,12 @@ export function App() {
 
   const visibleMessages = useMemo(() => {
     if (selected && state.tag !== 'spinning') {
-      return centeredMessages(messages.findIndex(({ id }) => id === selected.id))
+      const finalIndex = messages.findIndex(({ id }) => id === selected.id)
+      const centerIndex = state.tag === 'slowing' ? finalIndex + sample.selectionOffset : finalIndex
+      return centeredMessages(centerIndex)
     }
     return centeredMessages(spinIndex)
-  }, [selected, spinIndex, state.tag])
+  }, [sample.selectionOffset, selected, spinIndex, state.tag])
 
   const selectPhrase = () => {
     if (state.tag !== 'spinning') return
@@ -124,24 +131,24 @@ export function App() {
 
   const replay = () => {
     if (state.tag !== 'result') return
+    if (resetFrame.current !== undefined) cancelAnimationFrame(resetFrame.current)
     setState((current) => transition(current, { type: 'replay' }))
     const startedAt = performance.now()
-    let frame = 0
     const reset = (now: number) => {
       const progress = Math.min(1, (now - startedAt) / 1500)
       setSample(resetSceneSample(progress))
       if (progress < 1) {
-        frame = requestAnimationFrame(reset)
+        resetFrame.current = requestAnimationFrame(reset)
         return
       }
+      resetFrame.current = undefined
       clock.current.reset()
       lastCueStage.current = undefined
       setSelected(undefined)
       setSample(sampleTimeline(0, reducedMotion))
       setState((current) => transition(current, { type: 'reset-complete' }))
     }
-    frame = requestAnimationFrame(reset)
-    return () => cancelAnimationFrame(frame)
+    resetFrame.current = requestAnimationFrame(reset)
   }
 
   return (

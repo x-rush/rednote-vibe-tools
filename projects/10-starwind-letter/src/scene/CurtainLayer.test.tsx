@@ -19,7 +19,13 @@ function curtainPathXCoordinates(sample: ReturnType<typeof sampleTimeline>) {
   }).flat()
 }
 
-describe('curtain reset motion', () => {
+describe('curtain opening and reset motion', () => {
+  it('continues changing after the narrative reaches its result', () => {
+    const first = firstPathNumbers(sampleTimeline(7000, false))
+    const later = firstPathNumbers(sampleTimeline(8200, false))
+    expect(later).not.toEqual(first)
+  })
+
   it('approaches the resting strand geometry before reset completes', () => {
     const resting = firstPathNumbers(sampleTimeline(0, false))
     const almostReset = firstPathNumbers(resetSceneSample(0.999))
@@ -28,8 +34,8 @@ describe('curtain reset motion', () => {
     expect(largestDelta).toBeLessThan(2)
   })
 
-  it('clears every curtain strand left of the portal before the sash starts opening', () => {
-    for (const elapsedMs of [3399, 3400]) {
+  it('clears every curtain strand left of the portal before stars enter', () => {
+    for (const elapsedMs of [1799, 1800]) {
       expect(Math.max(...curtainPathXCoordinates(sampleTimeline(elapsedMs, false)))).toBeLessThan(214)
     }
   })

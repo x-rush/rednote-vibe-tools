@@ -1,5 +1,5 @@
 import type { EntityState, Vec2 } from '../domain/types'
-import type { BodyStage } from '../game/engine'
+import type { BodyStage } from '../content'
 
 export type CameraFrame = {
   center: Vec2

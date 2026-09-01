@@ -181,4 +181,21 @@ describe('content integrity validation', () => {
 
     expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.creatures[0].warningCueId')
   })
+
+  it('requires six ordered journey stages with collapse and two route offers before the finale', () => {
+    const pack = contentFixture()
+    pack.journey.stages = pack.journey.stages.slice(0, 5)
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.journey.stages')
+
+    pack.journey.stages = contentFixture().journey.stages
+    pack.journey.stages[1]!.routeOffers = []
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.journey.stages[1].routeOffers')
+  })
+
+  it('rejects behavior profiles without a state, movement pattern, and exploitable weakness', () => {
+    const pack = contentFixture()
+    pack.behaviorProfiles[0]!.weaknessId = ''
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.behaviorProfiles[0].weaknessId')
+  })
 })

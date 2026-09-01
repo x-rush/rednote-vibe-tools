@@ -21,6 +21,11 @@ describe('launch content completeness', () => {
     expect(pack.modifiers).toHaveLength(8)
     expect(pack.endings).toHaveLength(3)
     expect(pack.deathTemplates.length).toBeGreaterThanOrEqual(12)
+    expect(pack.journey.stages).toHaveLength(6)
+    expect(pack.ecologyBudgets).toHaveLength(6)
+    expect(pack.behaviorProfiles.map((profile) => profile.family).sort()).toEqual([
+      'ambusher', 'apex', 'competitor', 'hunter', 'resource', 'scavenger', 'school', 'skittish',
+    ])
   })
 
   it('freezes every launch stable id', () => {

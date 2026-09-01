@@ -22,5 +22,11 @@ export function getContent(): ContentPack {
   return cached
 }
 
+export function getBehaviorProfile(id: `behavior-${string}`) {
+  const profile = getContent().behaviorProfiles.find((item) => item.id === id)
+  if (!profile) throw new RangeError(`Unknown behavior profile id: ${id}`)
+  return profile
+}
+
 export type * from './schema'
 export { validateContent } from './validate'

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import content from './content.json'
+import { getBehaviorProfile } from './index'
 
 describe('content envelope', () => {
   it('identifies the proto-cell zh-CN content pack', () => {
@@ -16,5 +17,10 @@ describe('content envelope', () => {
       content.ui.hud.bodyStage_dominant,
       content.ui.hud.bodyStage_ascendant,
     ]).toEqual(['微生体', '猎食体', '特化体', '优势体', '超升体'])
+  })
+
+  it('resolves behavior profiles by stable id and rejects unknown profiles', () => {
+    expect(getBehaviorProfile('behavior-hunter').family).toBe('hunter')
+    expect(() => getBehaviorProfile('behavior-missing')).toThrow(RangeError)
   })
 })

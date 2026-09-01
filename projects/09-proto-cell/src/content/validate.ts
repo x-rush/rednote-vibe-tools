@@ -9,6 +9,8 @@ const LEGAL_RARITIES = new Set(['common', 'uncommon', 'rare'])
 const LEGAL_CREATURE_ROLES = new Set(['resource', 'prey', 'scavenger', 'hunter', 'parasite', 'swarm', 'elite'])
 const LEGAL_BOSS_PATHS = new Set(['combat', 'environment', 'stealth', 'parasite'])
 const LEGAL_VISUAL_KINDS = new Set(['cell', 'organelle', 'synergy', 'environment', 'event', 'boss', 'ui'])
+const LEGAL_BODY_STAGES = new Set(['microbe', 'hunter', 'specialist', 'dominant', 'ascendant'])
+const LEGAL_BEHAVIOR_FAMILIES = new Set(['resource', 'skittish', 'school', 'competitor', 'ambusher', 'hunter', 'scavenger', 'apex'])
 const FROZEN_ORGAN_CATEGORIES: Record<string, string> = {
   'organelle-eye-spot': 'sense',
   'organelle-echo-sac': 'sense',
@@ -65,6 +67,7 @@ const COLLECTION_PREFIXES: Record<string, string | RegExp> = {
   visualRecipes: 'visual-',
   spawnTables: 'spawn-',
   geneNodes: 'gene-',
+  behaviorProfiles: 'behavior-',
 }
 
 export function validateContent(input: unknown): ContentValidationResult {
@@ -127,6 +130,10 @@ export function validateContent(input: unknown): ContentValidationResult {
   const m0Entities = validateM0(input.m0, environmentIds, visualsByKind.cell)
   validateOriginsEntityReferences(collections.get('origins') ?? [], m0Entities.playerIds)
   validateEnvironments(collections.get('environments') ?? [], spawnTableIds, spawnTableEnvironmentById, eventIds, bossIds)
+  validateJourney(input.journey, environmentIds)
+  validateFirstRunAssist(input.firstRunAssist)
+  validateEcologyBudgets(input.ecologyBudgets, environmentIds)
+  validateBehaviorProfiles(collections.get('behaviorProfiles') ?? [])
   validateM1(input.m1, eventIds, environmentIds)
 
   require((collections.get('organelles') ?? []).length >= 6, '$.organelles', 'M1 requires six organs')
@@ -321,6 +328,87 @@ export function validateContent(input: unknown): ContentValidationResult {
         validateEntityDefinition(item.entity, `${base}.entity`, visuals)
         require(item.entity.role === 'boss' && item.entity.faction === 'hostile', `${base}.entity`, 'boss entity must be a hostile boss')
       }
+    })
+  }
+
+  function validateJourney(value: unknown, environments: Set<string>) {
+    if (!isRecord(value) || !Array.isArray(value.stages)) {
+      issues.push({ path: '$.journey.stages', message: 'six journey stages are required' })
+      return
+    }
+    require(value.stages.length === 6, '$.journey.stages', 'journey must contain exactly six stages')
+    const stageIds = new Set<string>()
+    const routeIds = new Set<string>()
+    value.stages.forEach((stage, index) => {
+      const base = `$.journey.stages[${index}]`
+      if (!isRecord(stage)) {
+        issues.push({ path: base, message: 'journey stage must be an object' })
+        return
+      }
+      require(stage.index === index + 1, `${base}.index`, 'journey stages must be ordered from one to six')
+      require(typeof stage.id === 'string' && stage.id.startsWith('journey-') && !stageIds.has(stage.id), `${base}.id`, 'journey stage id must be unique')
+      if (typeof stage.id === 'string') stageIds.add(stage.id)
+      for (const field of ['durationMs', 'warningLeadMs', 'collapseDurationMs']) {
+        require(typeof stage[field] === 'number' && Number.isFinite(stage[field]) && Number(stage[field]) > 0, `${base}.${field}`, 'journey timing must be positive')
+      }
+      require(Number(stage.warningLeadMs) < Number(stage.durationMs), `${base}.warningLeadMs`, 'warning lead must be shorter than the stage')
+      require(typeof stage.bodyStage === 'string' && LEGAL_BODY_STAGES.has(stage.bodyStage), `${base}.bodyStage`, 'body stage is invalid')
+      const expectedRoutes = index < 5 ? 2 : 0
+      require(Array.isArray(stage.routeOffers) && stage.routeOffers.length === expectedRoutes, `${base}.routeOffers`, index < 5 ? 'two route offers are required before the finale' : 'the finale cannot offer another route')
+      if (!Array.isArray(stage.routeOffers)) return
+      stage.routeOffers.forEach((offer, offerIndex) => {
+        const path = `${base}.routeOffers[${offerIndex}]`
+        if (!isRecord(offer)) {
+          issues.push({ path, message: 'route offer must be an object' })
+          return
+        }
+        require(typeof offer.id === 'string' && offer.id.startsWith('journey-route-') && !routeIds.has(offer.id), `${path}.id`, 'journey route id must be unique')
+        if (typeof offer.id === 'string') routeIds.add(offer.id)
+        reference(offer.destinationEnvironmentId, environments, `${path}.destinationEnvironmentId`, 'route destination environment')
+        for (const field of ['rewardId', 'riskId', 'entryModifierId']) requiredString(offer[field], `${path}.${field}`)
+      })
+    })
+  }
+
+  function validateFirstRunAssist(value: unknown) {
+    if (!isRecord(value)) {
+      issues.push({ path: '$.firstRunAssist', message: 'first-run assistance is required' })
+      return
+    }
+    require(Number.isInteger(value.throughRunOrdinal) && Number(value.throughRunOrdinal) >= 0, '$.firstRunAssist.throughRunOrdinal', 'run ordinal must be non-negative')
+    require(typeof value.firstFoodDeadlineMs === 'number' && value.firstFoodDeadlineMs > 0, '$.firstRunAssist.firstFoodDeadlineMs', 'first food deadline must be positive')
+    require(typeof value.warningLeadMultiplier === 'number' && value.warningLeadMultiplier >= 1, '$.firstRunAssist.warningLeadMultiplier', 'warning lead multiplier must be at least one')
+    requireStringArray(value.blockedOpportunityIds, '$.firstRunAssist.blockedOpportunityIds', true)
+  }
+
+  function validateEcologyBudgets(value: unknown, environments: Set<string>) {
+    const budgets = recordsAt(value, '$.ecologyBudgets')
+    require(budgets.length === environments.size, '$.ecologyBudgets', 'one ecology budget is required per environment')
+    const seen = new Set<string>()
+    budgets.forEach((budget, index) => {
+      const base = `$.ecologyBudgets[${index}]`
+      reference(budget.environmentId, environments, `${base}.environmentId`, 'environment')
+      require(typeof budget.environmentId === 'string' && !seen.has(budget.environmentId), `${base}.environmentId`, 'ecology budget environment must be unique')
+      if (typeof budget.environmentId === 'string') seen.add(budget.environmentId)
+      for (const field of ['resource', 'prey', 'competitor', 'scavenger', 'hunter', 'apex', 'opportunityIntervalMs']) {
+        requireTuple(budget[field], `${base}.${field}`)
+        require(Array.isArray(budget[field]) && budget[field].every((entry) => Number.isInteger(entry) && entry >= 0), `${base}.${field}`, 'ecology ranges must use non-negative integers')
+      }
+      require(Array.isArray(budget.opportunityIntervalMs) && Number(budget.opportunityIntervalMs[0]) >= 1000, `${base}.opportunityIntervalMs`, 'opportunity intervals must be at least one second')
+    })
+  }
+
+  function validateBehaviorProfiles(items: Record<string, unknown>[]) {
+    require(items.length === LEGAL_BEHAVIOR_FAMILIES.size, '$.behaviorProfiles', 'one profile is required for every behavior family')
+    const families = new Set<string>()
+    items.forEach((profile, index) => {
+      const base = `$.behaviorProfiles[${index}]`
+      require(typeof profile.family === 'string' && LEGAL_BEHAVIOR_FAMILIES.has(profile.family) && !families.has(profile.family), `${base}.family`, 'behavior family must be valid and unique')
+      if (typeof profile.family === 'string') families.add(profile.family)
+      requiredString(profile.movementPattern, `${base}.movementPattern`)
+      requiredString(profile.weaknessId, `${base}.weaknessId`)
+      require(typeof profile.perceptionRadius === 'number' && Number.isFinite(profile.perceptionRadius) && profile.perceptionRadius > 0, `${base}.perceptionRadius`, 'perception radius must be positive')
+      require(typeof profile.abandonAfterMs === 'number' && Number.isFinite(profile.abandonAfterMs) && profile.abandonAfterMs >= 0, `${base}.abandonAfterMs`, 'abandon timer must be non-negative')
     })
   }
 

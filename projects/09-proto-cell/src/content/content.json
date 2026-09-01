@@ -87,7 +87,30 @@
     "graphicsLow": "低",
     "structuredSave": "结构化存档",
     "exportedSave": "导出的存档文本",
-    "importedSave": "要导入的存档文本"
+    "importedSave": "要导入的存档文本",
+    "journeyRoute": "迁徙分岔",
+    "journeyReward": "收益",
+    "journeyRisk": "代价",
+    "journeyRewardAlgaeFeast": "高密度藻糖，快速积累生物质",
+    "journeyRiskAlgaeFeast": "藻幕会遮蔽大型猎手",
+    "journeyRewardAcidMutation": "矿物碎屑提高进化浓度",
+    "journeyRiskAcidMutation": "酸雾持续侵蚀外膜",
+    "journeyRewardFiberCover": "纤维掩体可甩开追猎者",
+    "journeyRiskFiberCover": "狭道会压缩转向空间",
+    "journeyRewardAntibodyCurrent": "抗体残片带来高额吞噬分",
+    "journeyRiskAntibodyCurrent": "扫荡潮会切断安全路线",
+    "journeyRewardAcidPressure": "危险猎物携带稀有基因",
+    "journeyRiskAcidPressure": "猎手密度随时间上升",
+    "journeyRewardAlgaeBlackout": "暗潮中弱小群落大量刷新",
+    "journeyRiskAlgaeBlackout": "视野会周期性缩窄",
+    "journeyRewardFiberAmbush": "伏击成功可延长吞噬连锁",
+    "journeyRiskFiberAmbush": "伪装捕食者贴近后才显形",
+    "journeyRewardAntibodyHunt": "击溃竞争者可修复细胞膜",
+    "journeyRiskAntibodyHunt": "高速抗体会协同夹击",
+    "journeyRewardChamberWreckage": "残骸群提供终局前最后补给",
+    "journeyRiskChamberWreckage": "腐坏区域限制可用水域",
+    "journeyRewardChamberGauntlet": "强敌携带终局进化样本",
+    "journeyRiskChamberGauntlet": "顶级捕食者提前入场"
     },
     "hud": {
       "membrane": "膜",
@@ -1598,6 +1621,163 @@
       "unlockIds": ["origin-armored-spore", "organelle-shell-plate", "organelle-guard-symbiont"],
       "cost": 10
     }
+  ],
+  "journey": {
+    "stages": [
+      {
+        "index": 1,
+        "id": "journey-awakening",
+        "durationMs": 60000,
+        "warningLeadMs": 15000,
+        "collapseDurationMs": 12000,
+        "bodyStage": "microbe",
+        "routeOffers": [
+          {
+            "id": "journey-route-algae-feast",
+            "destinationEnvironmentId": "env-algae-glow",
+            "rewardId": "journeyRewardAlgaeFeast",
+            "riskId": "journeyRiskAlgaeFeast",
+            "entryModifierId": "entry-algae-feast"
+          },
+          {
+            "id": "journey-route-acid-mutation",
+            "destinationEnvironmentId": "env-acid-vesicle",
+            "rewardId": "journeyRewardAcidMutation",
+            "riskId": "journeyRiskAcidMutation",
+            "entryModifierId": "entry-acid-mutation"
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "id": "journey-first-hunt",
+        "durationMs": 75000,
+        "warningLeadMs": 15000,
+        "collapseDurationMs": 12000,
+        "bodyStage": "hunter",
+        "routeOffers": [
+          {
+            "id": "journey-route-fiber-cover",
+            "destinationEnvironmentId": "env-fiber-maze",
+            "rewardId": "journeyRewardFiberCover",
+            "riskId": "journeyRiskFiberCover",
+            "entryModifierId": "entry-fiber-cover"
+          },
+          {
+            "id": "journey-route-antibody-current",
+            "destinationEnvironmentId": "env-antibody-storm",
+            "rewardId": "journeyRewardAntibodyCurrent",
+            "riskId": "journeyRiskAntibodyCurrent",
+            "entryModifierId": "entry-antibody-current"
+          }
+        ]
+      },
+      {
+        "index": 3,
+        "id": "journey-specialization",
+        "durationMs": 90000,
+        "warningLeadMs": 15000,
+        "collapseDurationMs": 12000,
+        "bodyStage": "specialist",
+        "routeOffers": [
+          {
+            "id": "journey-route-acid-pressure",
+            "destinationEnvironmentId": "env-acid-vesicle",
+            "rewardId": "journeyRewardAcidPressure",
+            "riskId": "journeyRiskAcidPressure",
+            "entryModifierId": "entry-acid-pressure"
+          },
+          {
+            "id": "journey-route-algae-blackout",
+            "destinationEnvironmentId": "env-algae-glow",
+            "rewardId": "journeyRewardAlgaeBlackout",
+            "riskId": "journeyRiskAlgaeBlackout",
+            "entryModifierId": "entry-algae-blackout"
+          }
+        ]
+      },
+      {
+        "index": 4,
+        "id": "journey-dominance",
+        "durationMs": 95000,
+        "warningLeadMs": 15000,
+        "collapseDurationMs": 12000,
+        "bodyStage": "dominant",
+        "routeOffers": [
+          {
+            "id": "journey-route-fiber-ambush",
+            "destinationEnvironmentId": "env-fiber-maze",
+            "rewardId": "journeyRewardFiberAmbush",
+            "riskId": "journeyRiskFiberAmbush",
+            "entryModifierId": "entry-fiber-ambush"
+          },
+          {
+            "id": "journey-route-antibody-hunt",
+            "destinationEnvironmentId": "env-antibody-storm",
+            "rewardId": "journeyRewardAntibodyHunt",
+            "riskId": "journeyRiskAntibodyHunt",
+            "entryModifierId": "entry-antibody-hunt"
+          }
+        ]
+      },
+      {
+        "index": 5,
+        "id": "journey-collapse",
+        "durationMs": 70000,
+        "warningLeadMs": 15000,
+        "collapseDurationMs": 12000,
+        "bodyStage": "ascendant",
+        "routeOffers": [
+          {
+            "id": "journey-route-chamber-wreckage",
+            "destinationEnvironmentId": "env-abandoned-chamber",
+            "rewardId": "journeyRewardChamberWreckage",
+            "riskId": "journeyRiskChamberWreckage",
+            "entryModifierId": "entry-chamber-wreckage"
+          },
+          {
+            "id": "journey-route-chamber-gauntlet",
+            "destinationEnvironmentId": "env-abandoned-chamber",
+            "rewardId": "journeyRewardChamberGauntlet",
+            "riskId": "journeyRiskChamberGauntlet",
+            "entryModifierId": "entry-chamber-gauntlet"
+          }
+        ]
+      },
+      {
+        "index": 6,
+        "id": "journey-final-host",
+        "durationMs": 90000,
+        "warningLeadMs": 15000,
+        "collapseDurationMs": 12000,
+        "bodyStage": "ascendant",
+        "routeOffers": []
+      }
+    ]
+  },
+  "firstRunAssist": {
+    "throughRunOrdinal": 2,
+    "firstFoodDeadlineMs": 5000,
+    "warningLeadMultiplier": 1.25,
+    "blockedOpportunityIds": ["giant-passage", "hazard-surge"]
+  },
+  "ecologyBudgets": [
+    { "environmentId": "env-clear-drop", "resource": [18, 26], "prey": [8, 12], "competitor": [2, 4], "scavenger": [1, 2], "hunter": [1, 2], "apex": [0, 0], "opportunityIntervalMs": [12000, 17000] },
+    { "environmentId": "env-algae-glow", "resource": [20, 28], "prey": [10, 14], "competitor": [3, 5], "scavenger": [1, 3], "hunter": [2, 3], "apex": [0, 1], "opportunityIntervalMs": [11000, 16000] },
+    { "environmentId": "env-acid-vesicle", "resource": [16, 23], "prey": [8, 12], "competitor": [3, 5], "scavenger": [2, 4], "hunter": [2, 4], "apex": [0, 1], "opportunityIntervalMs": [12000, 18000] },
+    { "environmentId": "env-fiber-maze", "resource": [18, 25], "prey": [9, 13], "competitor": [3, 6], "scavenger": [2, 3], "hunter": [3, 5], "apex": [0, 1], "opportunityIntervalMs": [11000, 17000] },
+    { "environmentId": "env-antibody-storm", "resource": [15, 22], "prey": [7, 11], "competitor": [4, 6], "scavenger": [2, 4], "hunter": [3, 6], "apex": [1, 2], "opportunityIntervalMs": [10000, 15000] },
+    { "environmentId": "env-abandoned-chamber", "resource": [17, 24], "prey": [8, 12], "competitor": [3, 5], "scavenger": [3, 5], "hunter": [4, 6], "apex": [1, 2], "opportunityIntervalMs": [10000, 14000] }
+  ],
+  "behaviorProfiles": [
+    { "id": "behavior-resource", "family": "resource", "movementPattern": "slow-drift", "weaknessId": "weakness-any-engulf", "perceptionRadius": 1, "abandonAfterMs": 0 },
+    { "id": "behavior-skittish", "family": "skittish", "movementPattern": "flee-burst", "weaknessId": "weakness-cornered", "perceptionRadius": 180, "abandonAfterMs": 1800 },
+    { "id": "behavior-school", "family": "school", "movementPattern": "orbit-flock", "weaknessId": "weakness-isolated", "perceptionRadius": 220, "abandonAfterMs": 2400 },
+    { "id": "behavior-competitor", "family": "competitor", "movementPattern": "contest-food", "weaknessId": "weakness-baited", "perceptionRadius": 240, "abandonAfterMs": 3200 },
+    { "id": "behavior-ambusher", "family": "ambusher", "movementPattern": "hide-lunge-reset", "weaknessId": "weakness-missed-lunge", "perceptionRadius": 210, "abandonAfterMs": 2600 },
+    { "id": "behavior-hunter", "family": "hunter", "movementPattern": "telegraph-chase-abandon", "weaknessId": "weakness-turn-radius", "perceptionRadius": 320, "abandonAfterMs": 4200 },
+    { "id": "behavior-scavenger", "family": "scavenger", "movementPattern": "circle-wounded", "weaknessId": "weakness-greedy", "perceptionRadius": 280, "abandonAfterMs": 3600 },
+    { "id": "behavior-apex", "family": "apex", "movementPattern": "claim-zone-pursue", "weaknessId": "weakness-telegraphed-charge", "perceptionRadius": 420, "abandonAfterMs": 6000 }
   ],
   "m1": {
     "sliceTargetMs": [300000, 480000],

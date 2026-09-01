@@ -15,6 +15,8 @@ export type DeathTemplateId = `death-${string}`
 export type AnchorSlot = 'core' | 'membrane' | 'front' | 'rear' | 'left' | 'right' | 'internal' | 'symbiont'
 export type OrganelleCategory = 'sense' | 'move' | 'feed' | 'defend' | 'attack' | 'metabolism' | 'reproduce' | 'symbiosis'
 export type BossResolutionPath = 'combat' | 'environment' | 'stealth' | 'parasite'
+export type BodyStage = 'microbe' | 'hunter' | 'specialist' | 'dominant' | 'ascendant'
+export type BehaviorProfileId = `behavior-${string}`
 
 export type ContactDamageContent = {
   source: 'acid' | 'electric' | 'spine' | 'ram'
@@ -207,6 +209,51 @@ export type GeneNodeDefinition = {
   cost: number
 }
 
+export type JourneyStageDefinition = {
+  index: number
+  id: `journey-${string}`
+  durationMs: number
+  warningLeadMs: number
+  collapseDurationMs: number
+  routeOffers: Array<{
+    id: `journey-route-${string}`
+    destinationEnvironmentId: EnvironmentId
+    rewardId: string
+    riskId: string
+    entryModifierId: string
+  }>
+  bodyStage: BodyStage
+}
+
+export type JourneyDefinition = { stages: JourneyStageDefinition[] }
+
+export type FirstRunAssistDefinition = {
+  throughRunOrdinal: number
+  firstFoodDeadlineMs: number
+  warningLeadMultiplier: number
+  blockedOpportunityIds: string[]
+}
+
+export type EcologyBudgetDefinition = {
+  environmentId: EnvironmentId
+  resource: [number, number]
+  prey: [number, number]
+  competitor: [number, number]
+  scavenger: [number, number]
+  hunter: [number, number]
+  apex: [number, number]
+  opportunityIntervalMs: [number, number]
+}
+
+export type BehaviorProfileDefinition = {
+  id: BehaviorProfileId
+  family: 'resource' | 'skittish' | 'school' | 'competitor' | 'ambusher' | 'hunter' | 'scavenger' | 'apex'
+  movementPattern: string
+  weaknessId: string
+  perceptionRadius: number
+  abandonAfterMs: number
+}
+
 export type ContentPack = {
   schemaVersion: 1
   contentVersion: string
@@ -233,6 +280,10 @@ export type ContentPack = {
   visualRecipes: VisualRecipeDefinition[]
   spawnTables: SpawnTableDefinition[]
   geneNodes: GeneNodeDefinition[]
+  journey: JourneyDefinition
+  firstRunAssist: FirstRunAssistDefinition
+  ecologyBudgets: EcologyBudgetDefinition[]
+  behaviorProfiles: BehaviorProfileDefinition[]
   m0: { playerDefinitions: PlayerDefinitionContent[]; environments: M0EnvironmentContent[] }
   m1: {
     sliceTargetMs: [number, number]

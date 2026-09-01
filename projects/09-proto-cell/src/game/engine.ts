@@ -1,5 +1,5 @@
 import content from '../content/content.json'
-import type { AnchorSlot, BossId, BossResolutionPath, EventId, OrganelleId, OriginId } from '../content'
+import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EventId, OrganelleId, OriginId } from '../content'
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideIntent } from '../entities/ai'
 import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
@@ -22,7 +22,6 @@ import { applySoftBoundary, constrainWorldMotion, engulfAccessMargin } from './b
 import { advanceVelocity } from './motion'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
-export type BodyStage = 'microbe' | 'hunter' | 'specialist' | 'dominant' | 'ascendant'
 
 export type HudSnapshot = {
   membrane: number

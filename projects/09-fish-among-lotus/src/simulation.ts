@@ -184,17 +184,22 @@ export function stepLeaves(leaves: Leaf[], fish: readonly Fish[], bounds: Bounds
   return leaves.map((leaf) => {
     const homeX = leaf.homeX ?? leaf.x
     const homeY = leaf.homeY ?? leaf.y
-    let vx = (leaf.vx ?? 0) + (homeX - leaf.x) * 0.55 * safeDt
-    let vy = (leaf.vy ?? 0) + (homeY - leaf.y) * 0.55 * safeDt
+    const homeDx = homeX - leaf.x
+    const homeDy = homeY - leaf.y
+    const homeDistance = Math.hypot(homeDx, homeDy)
+    const elasticRange = leaf.radius * 1.8 + 12
+    const springStrength = 0.55 + Math.max(0, homeDistance - elasticRange) * 0.07
+    let vx = (leaf.vx ?? 0) + homeDx * springStrength * safeDt
+    let vy = (leaf.vy ?? 0) + homeDy * springStrength * safeDt
     let angularVelocity = leaf.angularVelocity ?? 0
-    const range = getLeafCollisionRadius(leaf) + 12
+    const range = getLeafCollisionRadius(leaf) + 30
     fishGrid.query(leaf.x, leaf.y, range, nearbyFish)
 
     for (const swimmer of nearbyFish) {
       const dx = leaf.x - swimmer.x
       const dy = leaf.y - swimmer.y
       const distance = Math.hypot(dx, dy)
-      const contactRange = getLeafCollisionRadius(leaf) + swimmer.size + 6
+      const contactRange = getLeafCollisionRadius(leaf) + swimmer.size + 20
       if (distance >= contactRange) continue
       const heading = swimmer.heading ?? Math.atan2(swimmer.vy, swimmer.vx)
       const nx = distance > EPSILON ? dx / distance : Math.cos(heading)
@@ -204,7 +209,8 @@ export function stepLeaves(leaves: Leaf[], fish: readonly Fish[], bounds: Bounds
       const proximity = 1 - distance / contactRange
       const mass = 0.7 + leaf.radius / 24
       const followPressure = (swimmer.follow ?? 0) * 18
-      const impulse = (incomingSpeed + followPressure) * proximity * 0.45 / mass
+      const swimPressure = Math.hypot(swimmer.vx, swimmer.vy) * 0.24
+      const impulse = (incomingSpeed * 0.75 + swimPressure + followPressure) * proximity * 0.25 / mass
       vx += nx * impulse
       vy += ny * impulse
       const tangentSpeed = swimmer.vx * -ny + swimmer.vy * nx

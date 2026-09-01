@@ -343,4 +343,68 @@ describe('pond simulation', () => {
     expect(longestStall).toBeLessThan(95)
     expect(largestTurn).toBeLessThan(0.14)
   })
+
+  it('lets a freely swimming school push one leaf visibly aside', () => {
+    let leaves = [makeLeaf({
+      x: 140,
+      y: 320,
+      homeX: 140,
+      homeY: 320,
+      vx: 0,
+      vy: 0,
+      radius: 34,
+      collisionRadius: 23,
+    })]
+    let fish = Array.from({ length: 6 }, (_, index) => makeFish({
+      x: 55 - index * 15,
+      y: 310 + index * 4,
+      vx: 72,
+      vy: 0,
+      heading: 0,
+      wander: 0,
+      phase: 1 + index,
+      tone: index,
+      avoidSide: index % 2 ? -1 : 1,
+    }))
+    let farthestLeafX = leaves[0].x
+
+    for (let frame = 0; frame < 240; frame += 1) {
+      fish = stepFish(fish, leaves, bounds, null, 1 / 60, 1)
+      leaves = stepLeaves(leaves, fish, bounds, 1 / 60)
+      farthestLeafX = Math.max(farthestLeafX, leaves[0].x)
+    }
+
+    expect(farthestLeafX - 140).toBeGreaterThan(12)
+  })
+
+  it('does not trap fish for seconds in the highest-density moving lotus field', () => {
+    const random = seededRandom(11)
+    let leaves = createLeaves(188, bounds, random)
+    let fish = createEnteringFish(64, bounds, random)
+    const stalledFrames = fish.map(() => 0)
+    let longestStall = 0
+    let greatestLeafDisplacement = 0
+
+    for (let frame = 0; frame < 900; frame += 1) {
+      const previous = fish
+      fish = stepFish(fish, leaves, bounds, null, 1 / 60, 1.26)
+      leaves = stepLeaves(leaves, fish, bounds, 1 / 60)
+      for (const leaf of leaves) {
+        greatestLeafDisplacement = Math.max(
+          greatestLeafDisplacement,
+          Math.hypot(leaf.x - (leaf.homeX ?? leaf.x), leaf.y - (leaf.homeY ?? leaf.y)),
+        )
+      }
+      fish.forEach((item, index) => {
+        const movement = Math.hypot(item.x - previous[index].x, item.y - previous[index].y)
+        stalledFrames[index] = movement < 0.1 ? stalledFrames[index] + 1 : 0
+        longestStall = Math.max(longestStall, stalledFrames[index])
+      })
+    }
+
+    expect(fish.filter((item) => item.entering).length).toBe(0)
+    expect(longestStall).toBeLessThan(120)
+    expect(greatestLeafDisplacement).toBeGreaterThan(24)
+    expect(greatestLeafDisplacement).toBeLessThan(100)
+  })
 })

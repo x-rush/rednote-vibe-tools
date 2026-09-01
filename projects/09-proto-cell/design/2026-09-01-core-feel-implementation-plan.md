@@ -44,6 +44,9 @@
 - Modify: `src/game/input.test.ts`
 - Modify: `src/ui/GameCanvas.tsx`
 - Modify: `src/ui/GameCanvas.test.ts`
+- Modify: `src/game/engine.test.ts`
+- Modify: `src/tests/playthrough.ts`
+- Modify: `src/tests/performance-budget.test.ts`
 
 **Interfaces:**
 - Produces: `PointerInput.start(pointer: Vec2)`, `move(pointer: Vec2)`, `end()`, `cancel()`, and `snapshot(): MovementIntent`.
@@ -95,7 +98,7 @@ export function createPointerInput(options: { deadZone?: number; fullStrengthDis
     const distance = length(displacement)
     intent = distance <= deadZone ? ZERO_INTENT : {
       direction: normalize(displacement),
-      strength: Math.min(1, (distance - deadZone) / (fullStrengthDistance - deadZone)),
+      strength: Math.min(1, distance / fullStrengthDistance),
     }
   }
 
@@ -109,18 +112,18 @@ export function createPointerInput(options: { deadZone?: number; fullStrengthDis
 }
 ```
 
-Update `GameCanvas` so pointer down calls `engine.input.start({ x: event.clientX, y: event.clientY })` and pointer move calls `engine.input.move(...)`. Remove `playerScreenPosition()` from the input path; keep the renderer method only if another caller still needs it.
+Update `GameCanvas` so pointer down calls `engine.input.start({ x: event.clientX, y: event.clientY })` and pointer move calls `engine.input.move(...)`. Remove `playerScreenPosition()` from the input path; keep the renderer method only if another caller still needs it. Update engine tests, the headless policy, and the performance harness to call `start({ x: 0, y: 0 })` once before their first programmatic `move(...)` and to pass only the absolute pointer vector thereafter.
 
 - [ ] **Step 4: Run focused tests and the existing input/canvas suite**
 
-Run: `pnpm test -- src/game/input.test.ts src/ui/GameCanvas.test.ts`
+Run: `pnpm test -- src/game/input.test.ts src/ui/GameCanvas.test.ts src/game/engine.test.ts src/tests/playthrough.test.ts src/tests/performance-budget.test.ts`
 
 Expected: PASS; pointer cancellation, capture loss, and resize still clear movement.
 
 - [ ] **Step 5: Commit the floating joystick**
 
 ```bash
-git add projects/09-proto-cell/src/game/input.ts projects/09-proto-cell/src/game/input.test.ts projects/09-proto-cell/src/ui/GameCanvas.tsx projects/09-proto-cell/src/ui/GameCanvas.test.ts
+git add projects/09-proto-cell/src/game/input.ts projects/09-proto-cell/src/game/input.test.ts projects/09-proto-cell/src/ui/GameCanvas.tsx projects/09-proto-cell/src/ui/GameCanvas.test.ts projects/09-proto-cell/src/game/engine.test.ts projects/09-proto-cell/src/tests/playthrough.ts projects/09-proto-cell/src/tests/performance-budget.test.ts
 git commit -m "feat(proto-cell): add floating movement joystick"
 ```
 

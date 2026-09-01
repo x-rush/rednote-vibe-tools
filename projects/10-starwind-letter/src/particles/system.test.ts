@@ -17,6 +17,7 @@ function hero(position = { x: 308, y: 215 }, velocity = { x: -80, y: 110 }): Par
     radius: 4,
     twinklePhase: 0,
     settleTarget: { x: 250, y: 704 },
+    opacity: 1,
   }
 }
 
@@ -56,6 +57,46 @@ describe('particle spatial narrative', () => {
         elapsedMs, deltaMs: 20, sashOpen: elapsedMs >= 2100 ? 1 : 0, reducedMotion: true,
       })
     }
-    expect(world.particles.some(({ kind, space }) => kind === 'hero' && (space === 'inside' || space === 'settling'))).toBe(true)
+    expect(world.particles.some(({ kind, space, opacity }) => (
+      kind === 'hero' && space !== 'outside' && opacity > 0.05
+    ))).toBe(true)
+  })
+
+  it('maps the reduced result boundary to the complete landing narrative', () => {
+    const lateHero = {
+      ...hero({ x: 240, y: 520 }, { x: -8, y: 18 }),
+      space: 'inside' as const,
+      spawnAtMs: 7000,
+      enteredAtMs: 7000,
+    }
+    const result = stepParticleWorld(worldWith(lateHero), {
+      elapsedMs: 4300, deltaMs: 20, sashOpen: 1, reducedMotion: true,
+    })
+    expect(result.particles[0]?.space).toBe('settling')
+  })
+
+  it('lands hero stars on the room floor before they dissipate', () => {
+    const landedHero = { ...hero({ x: 250, y: 704 }, { x: -4, y: 8 }), space: 'inside' as const, spawnAtMs: 4300 }
+    const landed = stepParticleWorld(worldWith(landedHero), {
+      elapsedMs: 6820, deltaMs: 20, sashOpen: 1, reducedMotion: false,
+    })
+    const dissipating = stepParticleWorld(landed, {
+      elapsedMs: 7240, deltaMs: 420, sashOpen: 1, reducedMotion: false,
+    })
+
+    expect(landed.particles[0]?.space).toBe('landed')
+    expect(dissipating.particles[0]?.space).toBe('dissipating')
+  })
+
+  it('stagger-lands the generated star group so the finale includes visible dissipation', () => {
+    let world = createParticleWorld(42, 'full', 'hope')
+    for (let elapsedMs = 0; elapsedMs <= 7500; elapsedMs += 20) {
+      world = stepParticleWorld(world, {
+        elapsedMs, deltaMs: 20, sashOpen: elapsedMs >= 3900 ? 1 : 0, reducedMotion: false,
+      })
+    }
+    const heroSpaces = world.particles.filter(({ kind }) => kind === 'hero').map(({ space }) => space)
+    expect(heroSpaces).toContain('dissipating')
+    expect(heroSpaces.some((space) => space === 'settling' || space === 'landed')).toBe(true)
   })
 })

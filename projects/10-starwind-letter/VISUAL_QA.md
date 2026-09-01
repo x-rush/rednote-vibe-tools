@@ -6,20 +6,20 @@
 
 ## 视口矩阵
 
-| CSS 视口 | 首屏 | 选中 | 风压峰值 | 星星穿窗 | 结果 |
-|---|---|---|---|---|---|
-| 375×812 | [截图](./release-assets/375-initial.png) | [截图](./release-assets/375-selected.png) | [截图](./release-assets/375-wind.png) | [截图](./release-assets/375-crossing.png) | [截图](./release-assets/375-result.png) |
-| 390×844 | [截图](./release-assets/390-initial.png) | [截图](./release-assets/390-selected.png) | [截图](./release-assets/390-wind.png) | [截图](./release-assets/390-crossing.png) | [截图](./release-assets/390-result.png) |
-| 430×932 | [截图](./release-assets/430-initial.png) | [截图](./release-assets/430-selected.png) | [截图](./release-assets/430-wind.png) | [截图](./release-assets/430-crossing.png) | [截图](./release-assets/430-result.png) |
+| CSS 视口 | 首屏 | 选中 | 风压峰值 | 星星穿窗 | 落地消散 | 结果 |
+|---|---|---|---|---|---|---|
+| 375×812 | [截图](./release-assets/375-initial.png) | [截图](./release-assets/375-selected.png) | [截图](./release-assets/375-wind.png) | [截图](./release-assets/375-crossing.png) | [截图](./release-assets/375-landing.png) | [截图](./release-assets/375-result.png) |
+| 390×844 | [截图](./release-assets/390-initial.png) | [截图](./release-assets/390-selected.png) | [截图](./release-assets/390-wind.png) | [截图](./release-assets/390-crossing.png) | [截图](./release-assets/390-landing.png) | [截图](./release-assets/390-result.png) |
+| 430×932 | [截图](./release-assets/430-initial.png) | [截图](./release-assets/430-selected.png) | [截图](./release-assets/430-wind.png) | [截图](./release-assets/430-crossing.png) | [截图](./release-assets/430-landing.png) | [截图](./release-assets/430-result.png) |
 
 ## 构图核对
 
 - 通过：窗户位于上半屏偏右，帘杆、窗框上沿和横梁保持同向透视。
-- 通过：关闭态可透过独立帘线看见月亮、星点、窗框和窗扇。
-- 通过：风压峰值中 64 根帘线从右上固定点向左下室内前景形成长扇面，而非整体平移。
-- 通过：窗扇固定右侧铰链边，朝观看者和左下方向旋开；月光随开启扩大。
+- 通过：关闭态只有玻璃后的微弱月影，墙面和地面没有室内光束；明暗变化由开窗动作触发。
+- 通过：风压峰值中 64 根帘线向左下室内前景形成长弧面；随后帘环沿杆滑向左侧，结果态尾线不再横穿窗口。
+- 通过：窗扇固定右侧铰链边，带玻璃面、反光、把手、侧边和投影，朝观看者和左下方向旋开；月光与地面亮区同步扩大。
 - 通过：窗框在风压峰值仍可辨认，没有被发光粒子覆盖成白团。
-- 通过：星语使用无卡片“光尘显字”，位于下方留白，风压时降亮，结果时重新点亮。
+- 通过：星语使用无卡片“逐字光尘凝聚”，旧句上浮虚化，新句由弱光扫过后成形；系统楷宋字体位于下方留白。
 
 ## 粒子方向证据
 
@@ -27,7 +27,15 @@
 - 窗扇开启进度低于 0.55 时，主星不会转移到室内层。
 - 主星上一位置与下一位置必须形成向左下移动并经过窗口四边形的连续线段，才能进入 `inside`。
 - [390 穿窗截图](./release-assets/390-crossing.png) 可见主星和星尘从月亮附近、窗框开口到室内风道的连续分布。
-- [390 结果截图](./release-assets/390-result.png) 可见主星在进入室内后落到星语附近，没有从文字内部爆出。
+- [390 落地截图](./release-assets/390-landing.png) 可见早到主星在透视地面停驻闪烁，触地光环与碎尘向外散开。
+- [390 结果截图](./release-assets/390-result.png) 只保留晚到星的微弱余光，主星没有从文字内部爆出。
+- 完整演出在 7.5 秒仍处于错峰落地与消散余韵，8.8 秒进入结果态，避免星群在刚触地时冻结。
+
+## 选句与重置
+
+- 点击后 1.2 秒内实测中心位置依次显示 5 个不同候选句，停留间隔逐步拉长，最终落到预选星语。
+- 文案中心字符逐字由模糊光尘凝聚，旧句向上降亮，不再以高频整句硬闪替换。
+- 重播使用独立 `resetting` 采样：帘束由窗侧连续铺回整扇窗口，窗扇、月光和星粒同步收拢；结束前帘线几何已接近首帧，没有末帧跳变。
 
 ## 安全区与响应式
 
@@ -39,14 +47,14 @@
 ## 降低动态
 
 - [降低动态结果截图](./release-assets/390-reduced-result.png)。
-- 简化时间线保留选句、风、自动开窗、星星进入和结果阶段。
-- QA 首次发现粒子仍按 7.5 秒完整时间表生成，导致 4.3 秒简化演出结束时没有主星；已用回归测试复现并将粒子叙事时间映射至缩短时间线。
+- 简化时间线保留选句、风、自动开窗、星星进入、落地和结果阶段。
+- QA 首次发现粒子仍按原 7.5 秒时间表生成，导致 4.3 秒简化演出结束时没有主星；当前映射直接取完整与简化时间线的时长比，不再保留硬编码旧时长。
 - 修复后结果态可见主星已进入室内并落在星语附近。
 
 ## 稳定性与控制台
 
-- 在同一页面连续完成 10 次“触发 → 结果 → 重播 → 首屏”，每次结果态和重置后的唯一按钮计数均为 1。
-- 10 次循环后 Playwright 控制台为 0 errors、0 warnings。
+- 本次重做后连续完成 3 次降低动态模式的“触发 → 结果 → 重播 → 首屏”，每次结果态和重置后的唯一按钮计数均为 1。
+- 三档完整时间线及 3 次重播循环后 Playwright 控制台为 0 errors、0 warnings。
 - 重置后窗户关闭、帘线垂落、粒子清空、轮播重新启动。
 
 ## 已知限制

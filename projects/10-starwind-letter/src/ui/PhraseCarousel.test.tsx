@@ -40,4 +40,17 @@ describe('phrase carousel', () => {
     )
     expect(html.match(/data-phrase-row/g)).toHaveLength(5)
   })
+
+  it('splits the central phrase into characters for a staggered stardust reveal', () => {
+    const center = messages[2]
+    if (!center) throw new Error('Expected a center message')
+    const html = renderToStaticMarkup(
+      <PhraseCarousel
+        state={{ tag: 'spinning', run: 0 }}
+        visibleMessages={messages.slice(0, 5)}
+        progress={0}
+      />,
+    )
+    expect(html.match(/data-phrase-char/g)).toHaveLength(center.text.length)
+  })
 })

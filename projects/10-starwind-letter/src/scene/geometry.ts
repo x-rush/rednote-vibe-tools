@@ -13,10 +13,10 @@ const easeOutCubic = (value: number) => 1 - (1 - value) ** 3
 export function projectSash(openProgress: number): Quad {
   const progress = easeOutCubic(clamp(openProgress))
   return {
-    topLeft: { x: WINDOW_PORTAL.topLeft.x - 102 * progress, y: WINDOW_PORTAL.topLeft.y + 34 * progress },
+    topLeft: { x: WINDOW_PORTAL.topLeft.x - 82 * progress, y: WINDOW_PORTAL.topLeft.y + 28 * progress },
     topRight: WINDOW_PORTAL.topRight,
     bottomRight: WINDOW_PORTAL.bottomRight,
-    bottomLeft: { x: WINDOW_PORTAL.bottomLeft.x - 88 * progress, y: WINDOW_PORTAL.bottomLeft.y + 96 * progress },
+    bottomLeft: { x: WINDOW_PORTAL.bottomLeft.x - 69 * progress, y: WINDOW_PORTAL.bottomLeft.y + 82 * progress },
   }
 }
 

@@ -10,7 +10,9 @@ describe('scene timeline', () => {
     [3400, 'window-opening'],
     [4300, 'stars-entering'],
     [6500, 'settling'],
-    [7500, 'result'],
+    [7500, 'settling'],
+    [8799, 'settling'],
+    [8800, 'result'],
   ] as const)('maps %dms to %s', (elapsedMs, stage) => {
     expect(sampleTimeline(elapsedMs, false).stage).toBe(stage)
   })
@@ -30,12 +32,17 @@ describe('scene timeline', () => {
       'slowing', 'selected', 'wind', 'window-opening', 'stars-entering', 'settling', 'result',
     ]))
   })
+
+  it('advances through five phrases with widening pauses during slowdown', () => {
+    const offsets = [0, 150, 370, 670, 990].map((elapsedMs) => sampleTimeline(elapsedMs, false).selectionOffset)
+    expect(offsets).toEqual([-4, -3, -2, -1, 0])
+  })
 })
 
 describe('reset scene sample', () => {
   it('closes the window and returns to a stable first frame', () => {
     expect(resetSceneSample(0).stage).toBe('result')
-    expect(resetSceneSample(0.5)).toMatchObject({ stage: 'window-opening', stageProgress: 0.5 })
+    expect(resetSceneSample(0.5)).toMatchObject({ stage: 'resetting', stageProgress: 0.5 })
     expect(resetSceneSample(1)).toMatchObject({ stage: 'slowing', stageProgress: 0, elapsedMs: 0 })
   })
 })

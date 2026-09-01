@@ -20,6 +20,7 @@ export interface CurtainPath {
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const easeInOut = (value: number) => value * value * (3 - 2 * value)
+const mix = (from: number, to: number, amount: number) => from + (to - from) * amount
 
 export function createCurtainStrands(count: number, random: RandomSource): readonly CurtainStrand[] {
   if (!Number.isInteger(count) || count <= 0) throw new Error('Curtain strand count must be positive')
@@ -39,26 +40,56 @@ export function createCurtainStrands(count: number, random: RandomSource): reado
   })
 }
 
-export function sampleCurtainPath(strand: CurtainStrand, windProgress: number, timeMs: number): CurtainPath {
+export function sampleCurtainPath(strand: CurtainStrand, windProgress: number, timeMs: number, gatherProgress = 0): CurtainPath {
   const delayed = clamp((windProgress - strand.delay) / Math.max(0.01, 1 - strand.delay))
   const gust = easeInOut(delayed)
+  const gather = easeInOut(clamp(gatherProgress))
+  const strandRatio = strand.id / 63
   const breath = Math.sin(timeMs / 760 + strand.phase) * 1.35
   const recoil = Math.sin(delayed * Math.PI * 2.4) * (1 - delayed) * 10
-  const start = strand.anchor
-  const stillEnd = { x: start.x + breath, y: start.y + strand.length }
-  return {
-    start,
+  const windStart = strand.anchor
+  const gatheredStart = {
+    x: 184 + strandRatio * 27,
+    y: 116 + strandRatio * 5,
+  }
+  const start = {
+    x: mix(windStart.x, gatheredStart.x, gather),
+    y: mix(windStart.y, gatheredStart.y, gather),
+  }
+  const stillEnd = { x: windStart.x + breath, y: windStart.y + strand.length }
+  const windPath = {
     control1: {
-      x: start.x - gust * (16 + strand.response * 21),
-      y: start.y + strand.length * 0.31 + gust * 8,
+      x: windStart.x - gust * (16 + strand.response * 21),
+      y: windStart.y + strand.length * 0.31 + gust * 8,
     },
     control2: {
-      x: start.x - gust * (58 + strand.response * 56) + recoil * 0.35,
-      y: start.y + strand.length * 0.7 + gust * (24 + strand.response * 18),
+      x: windStart.x - gust * (58 + strand.response * 56) + recoil * 0.35,
+      y: windStart.y + strand.length * 0.7 + gust * (24 + strand.response * 18),
     },
     end: {
       x: stillEnd.x - gust * (105 + strand.response * 84) + recoil,
       y: stillEnd.y + gust * (42 + strand.response * 54),
+    },
+  }
+  const gatheredWave = Math.sin(strand.phase + timeMs / 1050) * 5
+  const gatheredPath = {
+    control1: { x: 171 + strandRatio * 30, y: 255 + strandRatio * 14 },
+    control2: { x: 145 + strandRatio * 58 + gatheredWave * 0.28, y: 438 + strandRatio * 18 },
+    end: { x: 146 + strandRatio * 55 + gatheredWave * 0.72, y: 565 + strandRatio * 44 + (strand.id % 4) * 7 },
+  }
+  return {
+    start,
+    control1: {
+      x: mix(windPath.control1.x, gatheredPath.control1.x, gather),
+      y: mix(windPath.control1.y, gatheredPath.control1.y, gather),
+    },
+    control2: {
+      x: mix(windPath.control2.x, gatheredPath.control2.x, gather),
+      y: mix(windPath.control2.y, gatheredPath.control2.y, gather),
+    },
+    end: {
+      x: mix(windPath.end.x, gatheredPath.end.x, gather),
+      y: mix(windPath.end.y, gatheredPath.end.y, gather),
     },
   }
 }

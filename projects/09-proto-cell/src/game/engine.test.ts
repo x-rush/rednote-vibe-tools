@@ -166,7 +166,8 @@ describe('game engine lifecycle', () => {
 
   it('keeps momentum after release and turns through acceleration', () => {
     const engine = createTestEngine()
-    engine.input.move({ x: 120, y: 0 }, { x: 0, y: 0 })
+    engine.input.start({ x: 0, y: 0 })
+    engine.input.move({ x: 120, y: 0 })
     engine.advance(100)
     const movingVelocity = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')?.velocity.x ?? 0
 
@@ -174,7 +175,8 @@ describe('game engine lifecycle', () => {
     engine.advance(1000 / 60)
     const releasedVelocity = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')?.velocity.x ?? 0
 
-    engine.input.move({ x: -120, y: 0 }, { x: 0, y: 0 })
+    engine.input.start({ x: 0, y: 0 })
+    engine.input.move({ x: -120, y: 0 })
     engine.advance(1000 / 60)
     const turningVelocity = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')?.velocity.x ?? 0
 
@@ -207,7 +209,8 @@ describe('game engine lifecycle', () => {
     player.position = { x: player.body.radius, y: 400 }
     player.body = circleBody(player.position, player.body.radius)
     player.velocity = { x: -80, y: 0 }
-    engine.input.move({ x: -120, y: 0 }, { x: 0, y: 0 })
+    engine.input.start({ x: 0, y: 0 })
+    engine.input.move({ x: -120, y: 0 })
 
     engine.advance(1000 / 60)
 
@@ -565,7 +568,8 @@ describe('game engine lifecycle', () => {
     })
     const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
     player.mass = 320
-    engine.input.move({ x: 100, y: 0 }, { x: 0, y: 0 })
+    engine.input.start({ x: 0, y: 0 })
+    engine.input.move({ x: 100, y: 0 })
 
     engine.advance(1000 / 30)
     const splitBodies = engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')

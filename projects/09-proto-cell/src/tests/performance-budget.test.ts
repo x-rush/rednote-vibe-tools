@@ -11,12 +11,13 @@ describe('launch simulation budget', () => {
     player.mass = 2500
     player.membrane = 1_000_000
     player.body = circleBody(player.position, 50)
+    engine.input.start({ x: 0, y: 0 })
     const startedAt = performance.now()
     let maxEntities = 0
     let duplicateIds = false
 
     for (let step = 0; step < PERFORMANCE_BUDGET.fixedSteps; step += 1) {
-      engine.input.move({ x: Math.cos(step / 180) * 120, y: Math.sin(step / 180) * 120 }, { x: 0, y: 0 })
+      engine.input.move({ x: Math.cos(step / 180) * 120, y: Math.sin(step / 180) * 120 })
       engine.advance(1000 / 60)
       const entities = engine.renderSnapshot().entities
       maxEntities = Math.max(maxEntities, entities.length)

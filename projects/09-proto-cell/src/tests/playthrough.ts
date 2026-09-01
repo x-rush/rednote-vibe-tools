@@ -45,6 +45,7 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   const acceleratedRiftIds = new Set<string>()
 
   engine.start()
+  engine.input.start({ x: 0, y: 0 })
   while (simulatedMs + 0.000_001 < durationMs) {
     keepAuditPlayerAlive(engine)
     if (options.route) driveRoute(engine, acceleratedRiftIds)
@@ -239,7 +240,6 @@ function setPolicyIntent(
   const angle = elapsedMs / 4200 + policyOffset
   engine.input.move(
     { x: Math.cos(angle) * 120, y: Math.sin(angle) * 120 },
-    { x: 0, y: 0 },
   )
 }
 

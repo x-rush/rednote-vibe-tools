@@ -7,8 +7,8 @@ export type MovementIntent = {
 }
 
 export type PointerInput = {
-  start(pointer: Vec2, playerScreenPosition: Vec2): void
-  move(pointer: Vec2, playerScreenPosition: Vec2): void
+  start(pointer: Vec2): void
+  move(pointer: Vec2): void
   end(): void
   cancel(): void
   snapshot(): MovementIntent
@@ -19,26 +19,35 @@ const ZERO_INTENT: MovementIntent = {
   strength: 0,
 }
 
-export function createPointerInput(): PointerInput {
+export function createPointerInput(options: { deadZone?: number; fullStrengthDistance?: number } = {}): PointerInput {
+  const deadZone = Math.max(0, options.deadZone ?? 12)
+  const fullStrengthDistance = Math.max(1, options.fullStrengthDistance ?? 96)
+  let origin: Vec2 | undefined
   let intent = ZERO_INTENT
 
-  const update = (pointer: Vec2, playerScreenPosition: Vec2) => {
+  const update = (pointer: Vec2) => {
+    if (!origin) return
     const displacement = {
-      x: pointer.x - playerScreenPosition.x,
-      y: pointer.y - playerScreenPosition.y,
+      x: pointer.x - origin.x,
+      y: pointer.y - origin.y,
     }
-    intent = {
+    const distance = length(displacement)
+    intent = distance <= deadZone ? ZERO_INTENT : {
       direction: normalize(displacement),
-      strength: Math.min(1, Math.max(0, length(displacement) / 120)),
+      strength: Math.min(1, distance / fullStrengthDistance),
     }
   }
 
   const clear = () => {
+    origin = undefined
     intent = ZERO_INTENT
   }
 
   return {
-    start: update,
+    start(pointer) {
+      origin = { ...pointer }
+      intent = ZERO_INTENT
+    },
     move: update,
     end: clear,
     cancel: clear,

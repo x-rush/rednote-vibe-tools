@@ -2,24 +2,32 @@ import { describe, expect, it } from 'vitest'
 import { createPointerInput } from './input'
 
 describe('movement-only pointer input', () => {
-  it('clears movement on pointer cancellation', () => {
-    const input = createPointerInput()
-    input.move({ x: 200, y: 300 }, { x: 100, y: 200 })
-    input.cancel()
+  it('uses the pointer-down location as the joystick origin', () => {
+    const input = createPointerInput({ deadZone: 12, fullStrengthDistance: 96 })
+    input.start({ x: 300, y: 600 })
+    input.move({ x: 348, y: 600 })
+
+    expect(input.snapshot()).toEqual({ direction: { x: 1, y: 0 }, strength: 0.5 })
+  })
+
+  it('keeps movement inside the dead zone at rest', () => {
+    const input = createPointerInput({ deadZone: 12, fullStrengthDistance: 96 })
+    input.start({ x: 300, y: 600 })
+    input.move({ x: 308, y: 606 })
 
     expect(input.snapshot()).toEqual({ direction: { x: 0, y: 0 }, strength: 0 })
   })
 
-  it('maps displacement to normalized direction and capped strength', () => {
-    const input = createPointerInput()
-
-    input.start({ x: 190, y: 200 }, { x: 100, y: 200 })
-    expect(input.snapshot()).toEqual({ direction: { x: 1, y: 0 }, strength: 0.75 })
-
-    input.move({ x: 100, y: 400 }, { x: 100, y: 200 })
-    expect(input.snapshot()).toEqual({ direction: { x: 0, y: 1 }, strength: 1 })
-
+  it('clears movement after release and cancellation', () => {
+    const input = createPointerInput({ deadZone: 12, fullStrengthDistance: 96 })
+    input.start({ x: 40, y: 50 })
+    input.move({ x: 40, y: 146 })
     input.end()
+    expect(input.snapshot().strength).toBe(0)
+
+    input.start({ x: 40, y: 50 })
+    input.move({ x: 136, y: 50 })
+    input.cancel()
     expect(input.snapshot()).toEqual({ direction: { x: 0, y: 0 }, strength: 0 })
   })
 })

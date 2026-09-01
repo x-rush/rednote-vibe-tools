@@ -110,15 +110,6 @@ export function GameCanvas({
     }
   }, [engine, settings.graphics, settings.lowParticles, settings.reducedFlash, settings.reducedMotion])
 
-  const playerScreenPosition = () => {
-    const rect = canvasRef.current?.getBoundingClientRect()
-    const rendered = rendererRef.current?.playerScreenPosition()
-    if (rect && rendered) return { x: rect.left + rendered.x, y: rect.top + rendered.y }
-    return rect
-      ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
-      : { x: 0, y: 0 }
-  }
-
   return (
     <canvas
       ref={canvasRef}
@@ -127,11 +118,11 @@ export function GameCanvas({
       onPointerDown={(event) => {
         activePointerId.current = event.pointerId
         event.currentTarget.setPointerCapture(event.pointerId)
-        engine.input.start({ x: event.clientX, y: event.clientY }, playerScreenPosition())
+        engine.input.start({ x: event.clientX, y: event.clientY })
       }}
       onPointerMove={(event) => {
         if (activePointerId.current !== event.pointerId) return
-        engine.input.move({ x: event.clientX, y: event.clientY }, playerScreenPosition())
+        engine.input.move({ x: event.clientX, y: event.clientY })
       }}
       onPointerUp={(event) => {
         if (activePointerId.current !== event.pointerId) return

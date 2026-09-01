@@ -22,10 +22,10 @@ function gatherStrength(sample: TimelineSample) {
   switch (sample.stage) {
     case 'slowing':
     case 'selected': return 0
-    case 'wind': return sample.stageProgress * 0.42
-    case 'window-opening': return 0.42 + sample.stageProgress * 0.38
-    case 'stars-entering': return 0.8 + sample.stageProgress * 0.15
-    case 'settling': return 0.95 + sample.stageProgress * 0.05
+    case 'wind': return sample.stageProgress
+    case 'window-opening':
+    case 'stars-entering': return 1
+    case 'settling': return 1
     case 'resetting': return 1 - sample.stageProgress
     case 'result': return 1
   }

@@ -11,6 +11,14 @@ function firstPathNumbers(sample: ReturnType<typeof sampleTimeline>) {
   return Array.from(path.matchAll(/-?\d+(?:\.\d+)?/g), ([number]) => Number(number))
 }
 
+function curtainPathXCoordinates(sample: ReturnType<typeof sampleTimeline>) {
+  const html = renderToStaticMarkup(createElement(CurtainLayer, { sample }))
+  return Array.from(html.matchAll(/<path d="([^"]+)"/g), ([, path]) => {
+    const values = Array.from(path.matchAll(/-?\d+(?:\.\d+)?/g), ([number]) => Number(number))
+    return [values[0], values[2], values[4], values[6]] as const
+  }).flat()
+}
+
 describe('curtain reset motion', () => {
   it('approaches the resting strand geometry before reset completes', () => {
     const resting = firstPathNumbers(sampleTimeline(0, false))
@@ -18,5 +26,11 @@ describe('curtain reset motion', () => {
     const largestDelta = Math.max(...resting.map((value, index) => Math.abs(value - (almostReset[index] ?? value))))
 
     expect(largestDelta).toBeLessThan(2)
+  })
+
+  it('clears every curtain strand left of the portal before the sash starts opening', () => {
+    for (const elapsedMs of [3399, 3400]) {
+      expect(Math.max(...curtainPathXCoordinates(sampleTimeline(elapsedMs, false)))).toBeLessThan(214)
+    }
   })
 })

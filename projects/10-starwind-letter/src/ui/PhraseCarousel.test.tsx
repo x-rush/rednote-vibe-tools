@@ -41,16 +41,32 @@ describe('phrase carousel', () => {
     expect(html.match(/data-phrase-row/g)).toHaveLength(5)
   })
 
-  it('splits the central phrase into characters for a staggered stardust reveal', () => {
+  it('keeps chance-wheel phrases obscured and reserves character reveal for the final selection', () => {
     const center = messages[2]
     if (!center) throw new Error('Expected a center message')
-    const html = renderToStaticMarkup(
+    const spinning = renderToStaticMarkup(
       <PhraseCarousel
         state={{ tag: 'spinning', run: 0 }}
         visibleMessages={messages.slice(0, 5)}
         progress={0}
       />,
     )
-    expect(html.match(/data-phrase-char/g)).toHaveLength(center.text.length)
+    const selected = renderToStaticMarkup(
+      <PhraseCarousel
+        state={{ tag: 'selected', run: 0, messageId: center.id }}
+        selected={center}
+        visibleMessages={messages.slice(0, 5)}
+        progress={1}
+      />,
+    )
+
+    expect(spinning).toContain('data-phrase-mode="chance"')
+    expect(spinning).toMatch(/<div class="phrase-carousel[^>]+aria-hidden="true"/)
+    expect(spinning).not.toContain('data-phrase-char')
+    expect(spinning).not.toContain(center.text)
+    expect(selected.match(/data-phrase-char/g)).toHaveLength(center.text.length)
+    expect(selected).not.toMatch(/<div class="phrase-carousel[^>]+aria-hidden="true"/)
+    const revealDuration = Number(selected.match(/data-reveal-total-ms="(\d+)"/)?.[1])
+    expect(revealDuration).toBeLessThanOrEqual(700)
   })
 })

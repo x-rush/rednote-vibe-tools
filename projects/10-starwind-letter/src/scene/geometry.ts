@@ -8,15 +8,18 @@ export const WINDOW_PORTAL: Quad = {
 }
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
-const easeOutCubic = (value: number) => 1 - (1 - value) ** 3
+const smoothstep = (value: number) => value * value * (3 - 2 * value)
 
 export function projectSash(openProgress: number): Quad {
-  const progress = easeOutCubic(clamp(openProgress))
+  const angle = smoothstep(clamp(openProgress)) * Math.PI / 2
+  const depth = Math.sin(angle)
+  const topWidth = 134 * Math.cos(angle) + 10 * depth
+  const bottomWidth = 134 * Math.cos(angle) + 14 * depth
   return {
-    topLeft: { x: WINDOW_PORTAL.topLeft.x - 82 * progress, y: WINDOW_PORTAL.topLeft.y + 28 * progress },
+    topLeft: { x: WINDOW_PORTAL.topRight.x - topWidth, y: WINDOW_PORTAL.topLeft.y + 50 * depth },
     topRight: WINDOW_PORTAL.topRight,
     bottomRight: WINDOW_PORTAL.bottomRight,
-    bottomLeft: { x: WINDOW_PORTAL.bottomLeft.x - 69 * progress, y: WINDOW_PORTAL.bottomLeft.y + 82 * progress },
+    bottomLeft: { x: WINDOW_PORTAL.bottomRight.x - bottomWidth, y: WINDOW_PORTAL.bottomLeft.y + 90 * depth },
   }
 }
 

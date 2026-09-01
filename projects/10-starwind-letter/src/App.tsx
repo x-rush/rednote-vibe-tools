@@ -83,9 +83,12 @@ export function App() {
 
   useEffect(() => {
     if (state.tag !== 'spinning') return
-    const timer = window.setInterval(() => setSpinIndex((index) => (index + 1) % messages.length), 1650)
+    const timer = window.setInterval(
+      () => setSpinIndex((index) => (index + 1) % messages.length),
+      reducedMotion ? 180 : 72,
+    )
     return () => window.clearInterval(timer)
-  }, [state.tag])
+  }, [reducedMotion, state.tag])
 
   useEffect(() => {
     if (!selected) return

@@ -49,8 +49,8 @@ export function sampleCurtainPath(strand: CurtainStrand, windProgress: number, t
   const recoil = Math.sin(delayed * Math.PI * 2.4) * (1 - delayed) * 10
   const windStart = strand.anchor
   const gatheredStart = {
-    x: 184 + strandRatio * 27,
-    y: 116 + strandRatio * 5,
+    x: 176 + strandRatio * 22,
+    y: 114 + strandRatio * 5,
   }
   const start = {
     x: mix(windStart.x, gatheredStart.x, gather),
@@ -73,9 +73,9 @@ export function sampleCurtainPath(strand: CurtainStrand, windProgress: number, t
   }
   const gatheredWave = Math.sin(strand.phase + timeMs / 1050) * 5
   const gatheredPath = {
-    control1: { x: 171 + strandRatio * 30, y: 255 + strandRatio * 14 },
-    control2: { x: 145 + strandRatio * 58 + gatheredWave * 0.28, y: 438 + strandRatio * 18 },
-    end: { x: 146 + strandRatio * 55 + gatheredWave * 0.72, y: 565 + strandRatio * 44 + (strand.id % 4) * 7 },
+    control1: { x: 163 + strandRatio * 28, y: 255 + strandRatio * 14 },
+    control2: { x: 124 + strandRatio * 56 + gatheredWave * 0.24, y: 438 + strandRatio * 18 },
+    end: { x: 126 + strandRatio * 57 + gatheredWave * 0.6, y: 565 + strandRatio * 44 + (strand.id % 4) * 7 },
   }
   return {
     start,

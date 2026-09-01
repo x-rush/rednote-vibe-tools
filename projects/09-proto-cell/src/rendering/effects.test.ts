@@ -2,7 +2,20 @@ import { describe, expect, it } from 'vitest'
 import { createEntity } from '../entities/factory'
 import * as effects from './effects'
 
-const { dangerPulseState } = effects
+const { collapsePresentation, dangerPulseState } = effects
+
+describe('ecology collapse presentation', () => {
+  it('compresses inward without flashing and stays harmless before the final quarter', () => {
+    expect(collapsePresentation('active', 0, false)).toEqual({ edgeOpacity: 0, safeInsetRatio: 0, cueOpacity: 0 })
+    expect(collapsePresentation('collapsing', 0.74, false).safeInsetRatio).toBe(0)
+    expect(collapsePresentation('collapsing', 0.9, false)).toMatchObject({
+      edgeOpacity: expect.any(Number),
+      cueOpacity: expect.any(Number),
+    })
+    expect(collapsePresentation('collapsing', 0.9, false).safeInsetRatio).toBeGreaterThan(0)
+    expect(collapsePresentation('collapsing', 0.9, true).cueOpacity).toBeLessThanOrEqual(0.5)
+  })
+})
 
 describe('danger telegraph timing', () => {
   it('shows an arming telegraph before a newly spawned pulse becomes active', () => {

@@ -16,6 +16,15 @@ describe('M0 app controller', () => {
     expect(controller.snapshot().seed).not.toBe(failedSeed)
   })
 
+  it('passes the persisted run ordinal and increments it on restart', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell', runOrdinal: 4 })
+    expect(controller.engine()?.runSnapshot().runOrdinal).toBe(4)
+
+    controller.restart()
+    expect(controller.engine()?.runSnapshot().runOrdinal).toBe(5)
+  })
+
   it('keeps visibility and user pauses independent', () => {
     const controller = createController(testDependencies())
     controller.startRun({ seed: 727, originId: 'origin-primal-cell' })

@@ -7,6 +7,32 @@ import { getContent } from '../content'
 import { coveredRatio } from './containment'
 
 describe('game engine lifecycle', () => {
+  it('advances out of clear drop when the player never enters a rift', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    engine.start()
+    for (let step = 0; step < 4; step += 1) engine.advance(1000 / 60)
+
+    expect(engine.snapshot().environmentId).not.toBe('env-clear-drop')
+    expect(engine.runSnapshot().stageIndex).toBe(1)
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'migration-forced' }))
+  })
+
+  it('allows an explicit migration while the collapse clock keeps running', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 60_900, runOrdinal: 3 })
+    engine.start()
+    for (let step = 0; step < 2; step += 1) engine.advance(1000 / 60)
+    expect(engine.runSnapshot().phase).toMatch(/choosing|collapsing/)
+
+    engine.selectMigration('journey-route-acid-mutation')
+    engine.advance(1000 / 60)
+
+    expect(engine.snapshot().environmentId).toBe('env-acid-vesicle')
+    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({
+      type: 'route-selected',
+      routeId: 'journey-route-acid-mutation',
+    }))
+  })
+
   it('applies launch challenge rules to the live simulation', () => {
     const constrained = createGameEngine({
       seed: 727,

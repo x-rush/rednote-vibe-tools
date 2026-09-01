@@ -1,8 +1,8 @@
 import { createRng } from '../domain/rng'
-import type { EntityState } from '../domain/types'
+import type { EntityState, Vec2 } from '../domain/types'
 import type { WorldRenderSnapshot } from '../game/engine'
 import { cellVisualProfile, drawCell } from './cell'
-import { drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type AmbientParticle, type RenderQuality } from './effects'
+import { collapsePresentation, drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type AmbientParticle, type RenderQuality } from './effects'
 import type { NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
 import rawContent from '../content/content.json'
@@ -155,6 +155,7 @@ export function createCanvasRenderer(
         drawSwarmTransition(context, currentPlayerScreenPosition, player.body.radius * zoom, snapshot.swarmTransition, snapshot.elapsedMs, options.reducedMotion ?? false)
       }
       drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height, cameraFrame.anchor)
+      drawEcologyCollapse(context, snapshot, width, height, cameraFrame.anchor, options.reducedMotion ?? false)
       numbers.draw(context, width, height, snapshot.elapsedMs)
     },
     playerScreenPosition() {
@@ -181,6 +182,52 @@ export function createCanvasRenderer(
     assetImages.set(path, loaded)
     return loaded
   }
+}
+
+function drawEcologyCollapse(
+  context: CanvasRenderingContext2D,
+  snapshot: WorldRenderSnapshot,
+  width: number,
+  height: number,
+  anchor: Vec2,
+  reducedMotion: boolean,
+) {
+  const presentation = collapsePresentation(snapshot.collapsePhase, snapshot.collapseProgress, reducedMotion)
+  if (presentation.edgeOpacity <= 0) return
+
+  const outerRadius = Math.hypot(width, height) * 0.64
+  const safeRadius = Math.min(width, height) * (0.52 - presentation.safeInsetRatio)
+  const fog = context.createRadialGradient(anchor.x, anchor.y, safeRadius, anchor.x, anchor.y, outerRadius)
+  fog.addColorStop(0, 'rgb(8 18 36 / 0%)')
+  fog.addColorStop(0.68, `rgb(30 16 43 / ${presentation.edgeOpacity * 0.48})`)
+  fog.addColorStop(1, `rgb(7 2 18 / ${presentation.edgeOpacity})`)
+  context.save()
+  context.fillStyle = fog
+  context.fillRect(0, 0, width, height)
+
+  const direction = snapshot.migrationDirection
+  if (direction && presentation.cueOpacity > 0) {
+    const cueX = anchor.x + direction.x * Math.min(width, height) * 0.22
+    const cueY = anchor.y + direction.y * Math.min(width, height) * 0.22
+    const angle = Math.atan2(direction.y, direction.x)
+    context.translate(cueX, cueY)
+    context.rotate(angle)
+    context.globalAlpha = presentation.cueOpacity
+    context.strokeStyle = '#a8fff1'
+    context.lineWidth = 3
+    context.lineCap = 'round'
+    context.shadowColor = '#67efff'
+    context.shadowBlur = 10
+    for (let index = 0; index < 2; index += 1) {
+      const offset = index * 11
+      context.beginPath()
+      context.moveTo(-10 - offset, -8)
+      context.lineTo(-1 - offset, 0)
+      context.lineTo(-10 - offset, 8)
+      context.stroke()
+    }
+  }
+  context.restore()
 }
 
 function drawRelationshipCue(

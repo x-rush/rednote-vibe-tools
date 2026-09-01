@@ -1,5 +1,6 @@
 import type { EntityState } from '../domain/types'
 import { CONTACT_DAMAGE_ARM_MS } from '../game/engine'
+import type { RunPhase } from '../world/run-director'
 
 export type RenderQuality = 'high' | 'balanced' | 'low'
 
@@ -8,6 +9,24 @@ export type AmbientParticle = {
   y: number
   radius: number
   phase: number
+}
+
+export function collapsePresentation(
+  phase: RunPhase,
+  progress: number,
+  reducedMotion: boolean,
+): { edgeOpacity: number; safeInsetRatio: number; cueOpacity: number } {
+  if (phase === 'active' || phase === 'finale' || phase === 'complete') {
+    return { edgeOpacity: 0, safeInsetRatio: 0, cueOpacity: 0 }
+  }
+  const normalized = Math.min(1, Math.max(0, progress))
+  const warning = phase === 'warning'
+  const dangerousProgress = Math.max(0, (normalized - 0.75) / 0.25)
+  return {
+    edgeOpacity: warning ? 0.08 : 0.12 + normalized * 0.48,
+    safeInsetRatio: dangerousProgress * 0.18,
+    cueOpacity: warning ? 0.3 : reducedMotion ? Math.min(0.5, 0.24 + normalized * 0.26) : 0.35 + normalized * 0.4,
+  }
 }
 
 export function drawLiquidField(

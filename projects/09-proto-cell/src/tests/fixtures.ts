@@ -69,7 +69,7 @@ export function createTestEngine(): ProtoCellEngine {
 
 export function testDependencies(): ControllerDependencies {
   return {
-    createEngine: ({ seed }) => createGameEngine({ seed, environmentId: 'env-clear-drop' }),
+    createEngine: ({ seed, runOrdinal }) => createGameEngine({ seed, environmentId: 'env-clear-drop', runOrdinal }),
     nextSeed: (seed) => seed + 1,
     recordResult: () => undefined,
   }

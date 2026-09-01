@@ -3,7 +3,7 @@ import type { GameEvent } from '../game/interactions'
 import type { LifeEventLogEntry } from '../progression/archive'
 import type { EnvironmentId, ModifierId } from '../content'
 
-export type RunStartInput = { seed: number; originId: string; modifierIds?: readonly ModifierId[]; route?: readonly EnvironmentId[] }
+export type RunStartInput = { seed: number; originId: string; modifierIds?: readonly ModifierId[]; route?: readonly EnvironmentId[]; runOrdinal?: number }
 
 export type ControllerDependencies = {
   createEngine(input: RunStartInput): ProtoCellEngine
@@ -40,7 +40,7 @@ export function createController(dependencies: ControllerDependencies): AppContr
   let originId: string | undefined
   let cause: string | undefined
   let eventLog: LifeEventLogEntry[] = []
-  let runOptions: Pick<RunStartInput, 'modifierIds' | 'route'> = {}
+  let runOptions: Pick<RunStartInput, 'modifierIds' | 'route' | 'runOrdinal'> = {}
 
   return {
     startRun(input) {
@@ -50,7 +50,7 @@ export function createController(dependencies: ControllerDependencies): AppContr
       originId = input.originId
       cause = undefined
       eventLog = []
-      runOptions = { modifierIds: input.modifierIds, route: input.route }
+      runOptions = { modifierIds: input.modifierIds, route: input.route, runOrdinal: input.runOrdinal }
       activeEngine = dependencies.createEngine(input)
       activeEngine.start()
       screen = 'playing'
@@ -95,7 +95,7 @@ export function createController(dependencies: ControllerDependencies): AppContr
     restart() {
       if (seed === undefined || !originId) return
       const nextSeed = dependencies.nextSeed(seed)
-      this.startRun({ seed: nextSeed, originId, ...runOptions })
+      this.startRun({ seed: nextSeed, originId, ...runOptions, runOrdinal: (runOptions.runOrdinal ?? 0) + 1 })
     },
     returnToLab() {
       activeEngine?.destroy()

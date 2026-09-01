@@ -31,6 +31,7 @@ import type { SaveIssue } from './storage/codec'
 import { createBrowserAudioDirector, type AudioDirector } from './audio/audio'
 import { Settings } from './ui/Settings'
 import { ErrorPanel } from './ui/ErrorPanel'
+import { MigrationOverlay } from './ui/MigrationOverlay'
 import './App.css'
 
 function App() {
@@ -54,7 +55,7 @@ function GameApp({ content }: { content: ContentPack }) {
   const controllerRef = useRef<AppController | null>(null)
   if (controllerRef.current === null) {
     controllerRef.current = createController({
-      createEngine: ({ seed, originId, modifierIds, route }) => createGameEngine({ seed, originId: originId as `origin-${string}`, environmentId: 'env-clear-drop', modifierIds, route }),
+      createEngine: ({ seed, originId, modifierIds, route, runOrdinal }) => createGameEngine({ seed, originId: originId as `origin-${string}`, environmentId: 'env-clear-drop', modifierIds, route, runOrdinal }),
       nextSeed: (seed) => (seed + 1) >>> 0,
       recordResult: () => undefined,
     })
@@ -64,6 +65,7 @@ function GameApp({ content }: { content: ContentPack }) {
   const mutationContextRef = useRef<MutationContext>(createMutationContext('env-clear-drop'))
   const mutationChoicesRef = useRef<MutationChoice[]>([])
   const [mutationChoices, setMutationChoices] = useState<MutationChoice[]>([])
+  const [migrationRoutes, setMigrationRoutes] = useState<ContentPack['journey']['stages'][number]['routeOffers']>([])
   const [save, setSave] = useState(createDefaultSave)
   const [hasArchive, setHasArchive] = useState(false)
   const [selectedOriginId, setSelectedOriginId] = useState<OriginId>('origin-primal-cell')
@@ -158,6 +160,9 @@ function GameApp({ content }: { content: ContentPack }) {
   }, [controller, sync])
 
   const handleEvents = useCallback((events: readonly GameEvent[]) => {
+    const offeredMigration = events.find((event): event is Extract<GameEvent, { type: 'migration-ready' }> => event.type === 'migration-ready')
+    if (offeredMigration) setMigrationRoutes(offeredMigration.routes.map((route) => ({ ...route })))
+    if (events.some((event) => event.type === 'route-selected')) setMigrationRoutes([])
     events.forEach((event) => audioRef.current?.handle(event))
     events.forEach((event) => controller.handle(event))
     setSave((current) => {
@@ -260,6 +265,7 @@ function GameApp({ content }: { content: ContentPack }) {
     })
     mutationChoicesRef.current = []
     setMutationChoices([])
+    setMigrationRoutes([])
     controller.engine()?.resume('evolution')
     sync()
   }, [controller, sync])
@@ -287,6 +293,15 @@ function GameApp({ content }: { content: ContentPack }) {
               onPause={() => {
                 controller.pause('user')
                 sync()
+              }}
+            />
+          )}
+          {view.screen === 'playing' && migrationRoutes.length > 0 && (
+            <MigrationOverlay
+              routes={migrationRoutes}
+              onSelect={(routeId) => {
+                engine.selectMigration(routeId)
+                setMigrationRoutes([])
               }}
             />
           )}
@@ -347,13 +362,13 @@ function GameApp({ content }: { content: ContentPack }) {
 
   if (labPanel === 'gene') return <main className="hatchery-shell lab-detail"><GeneGraph content={content} progress={save.progression} onUnlock={(id) => setSave((current) => ({ ...current, progression: unlockNode(current.progression, id) }))} /><button className="game-overlay__secondary" type="button" onClick={() => setLabPanel(null)}>{content.ui.actions.backToLab}</button></main>
   if (labPanel === 'codex') return <main className="hatchery-shell lab-detail"><Codex content={content} progress={save.codex} onClose={() => setLabPanel(null)} /></main>
-  if (labPanel === 'archive' && lastArchive) return <main className="game-shell"><Archive model={lastArchive} restartButtonRef={modalButtonRef} onRestart={() => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds }); setLabPanel(null); sync() }} onLab={() => setLabPanel(null)} labLabel={content.ui.actions.backToLab} onKeyDown={trapModalFocus} /></main>
+  if (labPanel === 'archive' && lastArchive) return <main className="game-shell"><Archive model={lastArchive} restartButtonRef={modalButtonRef} onRestart={() => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds, runOrdinal: save.lifeArchives.length }); setLabPanel(null); sync() }} onLab={() => setLabPanel(null)} labLabel={content.ui.actions.backToLab} onKeyDown={trapModalFocus} /></main>
   if (labPanel === 'settings') {
     const recoveryPayload = repository.recoveryPayload()
     return <main className="hatchery-shell lab-detail"><Settings content={content} settings={save.settings} storageMode={storageMode} storageIssues={storageIssues} onChange={(settings) => setSave((current) => ({ ...current, settings }))} onExport={() => repository.exportJson()} onExportRecovery={recoveryPayload === undefined ? undefined : async () => JSON.stringify(recoveryPayload, null, 2)} onImport={async (raw) => { const result = await repository.importJson(raw); setStorageMode(result.mode); setStorageIssues(result.issues); if (result.issues.length === 0) { setSave(result.value); setHasArchive(result.value.lifeArchives.length > 0); const latest = result.value.lifeArchives.at(-1); setLastArchive(latest ? createArchiveViewModelFromSummary(latest, content) : undefined); const unlockedOrigin = content.origins.find((origin) => result.value.progression.unlockedIds.includes(origin.id)); setSelectedOriginId(unlockedOrigin?.id ?? 'origin-primal-cell'); setActiveModifierIds([]) } return { ok: result.issues.length === 0, issues: result.issues } }} onClear={async () => { await repository.clear(); const cleared = createDefaultSave(); setSave(cleared); setHasArchive(false); setLastArchive(undefined); setActiveModifierIds([]); setSelectedOriginId('origin-primal-cell'); controller.returnToLab(); sync() }} onClose={() => setLabPanel(null)} /></main>
   }
 
-  return <Lab content={content} save={save} hasArchive={hasArchive} selectedOriginId={selectedOriginId} activeModifierIds={activeModifierIds} dailyRunSeed={dailySeed(new Date(), content.contentVersion)} storageWarning={storageMode === 'session' || storageIssues.length > 0} onSelectOrigin={setSelectedOriginId} onToggleModifier={(id) => setActiveModifierIds((current) => applyModifiers(current.includes(id) ? current.filter((item) => item !== id) : [...current, id], { baseTelegraphLeadMs: 1400 }).activeIds)} onOpen={setLabPanel} onStart={(seed, route) => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: seed ?? Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds, route }); sync() }} />
+  return <Lab content={content} save={save} hasArchive={hasArchive} selectedOriginId={selectedOriginId} activeModifierIds={activeModifierIds} dailyRunSeed={dailySeed(new Date(), content.contentVersion)} storageWarning={storageMode === 'session' || storageIssues.length > 0} onSelectOrigin={setSelectedOriginId} onToggleModifier={(id) => setActiveModifierIds((current) => applyModifiers(current.includes(id) ? current.filter((item) => item !== id) : [...current, id], { baseTelegraphLeadMs: 1400 }).activeIds)} onOpen={setLabPanel} onStart={(seed, route) => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: seed ?? Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds, route, runOrdinal: save.lifeArchives.length }); sync() }} />
 }
 
 function trapModalFocus(event: KeyboardEvent<HTMLElement>): void {

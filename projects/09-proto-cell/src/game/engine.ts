@@ -1,5 +1,5 @@
 import content from '../content/content.json'
-import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EventId, OrganelleId, OriginId } from '../content'
+import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EventId, FirstRunAssistDefinition, JourneyDefinition, OrganelleId, OriginId } from '../content'
 import type { EntityState, Vec2 } from '../domain/types'
 import { decideIntent } from '../entities/ai'
 import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
@@ -20,6 +20,7 @@ import type { GeneratedRegion, RouteRift } from '../world/generator'
 import { applyModifiers } from '../progression/challenges'
 import { applySoftBoundary, constrainWorldMotion, engulfAccessMargin } from './bounds'
 import { advanceVelocity } from './motion'
+import { createRunDirector, stepRunDirector, type RunDirectorState, type RunPhase } from '../world/run-director'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution'
 
@@ -78,6 +79,9 @@ export type WorldRenderSnapshot = {
   activeEvent?: EcosystemEventState
   environmentField: EnvironmentField
   boss?: BossState
+  collapsePhase: RunPhase
+  collapseProgress: number
+  migrationDirection?: Vec2
 }
 
 export type ProtoCellEngine = GameEngine & {
@@ -87,6 +91,8 @@ export type ProtoCellEngine = GameEngine & {
   evolutionSnapshot(): { organelles: readonly InstalledOrganelle[]; capacity: number; stability: number }
   morphologySnapshot(): PlayerMorphologySnapshot
   worldSnapshot(): { activeEvent?: EcosystemEventState; environmentField: EnvironmentField; boss?: BossState; selectedRouteId?: string }
+  selectMigration(routeId: string): void
+  runSnapshot(): RunDirectorState
 }
 
 type PlayerDefinition = EntityDefinition & {
@@ -117,6 +123,7 @@ export function createGameEngine(options: {
   initialElapsedMs?: number
   modifierIds?: readonly string[]
   route?: readonly string[]
+  runOrdinal?: number
 }): ProtoCellEngine {
   const modifiers = applyModifiers(options.modifierIds ?? [], { baseTelegraphLeadMs: 1400 })
   let routeStageIndex = 0
@@ -145,6 +152,14 @@ export function createGameEngine(options: {
   const input = options.input ?? createPointerInput()
   const worldRng = createRng(options.seed).fork('m1-world')
   let elapsedMs = Math.max(0, options.initialElapsedMs ?? 0)
+  const journeyEnabled = (options.environmentId ?? 'env-clear-drop') === 'env-clear-drop'
+  let runDirectorState = createRunDirector(
+    content.journey as JourneyDefinition,
+    options.seed,
+    options.runOrdinal ?? 0,
+    content.firstRunAssist as FirstRunAssistDefinition,
+  )
+  let pendingMigrationRouteId: string | undefined
   let interpolationAlpha = 0
   let started = false
   let destroyed = false
@@ -249,6 +264,10 @@ export function createGameEngine(options: {
       return events.splice(0, events.length)
     },
     renderSnapshot() {
+      const routeRifts = activeRouteRifts()
+      const collapseProgress = currentCollapseProgress()
+      const playerBody = entities.get(PLAYER_ID)
+      const targetRift = routeRifts[0]
       return {
         elapsedMs,
         interpolationAlpha,
@@ -265,10 +284,15 @@ export function createGameEngine(options: {
         playerSynergyIds: content.synergies.filter((synergy) => synergy.requires.every((id) => installedOrganelles.some((organ) => organ.id === id))).map((synergy) => synergy.id),
         playerDamage: lastDamageSource && elapsedMs - lastDamageAt <= 560 ? { source: lastDamageSource, untilMs: lastDamageAt + 560 } : undefined,
         swarmTransition: swarmTransition && elapsedMs - swarmTransition.startedAtMs <= 900 ? swarmTransition : undefined,
-        routeRifts: region.routeRifts,
+        routeRifts,
         activeEvent,
         environmentField,
         boss: bossState,
+        collapsePhase: runDirectorState.phase,
+        collapseProgress,
+        migrationDirection: playerBody && targetRift && runDirectorState.phase !== 'active'
+          ? normalizedDirection(playerBody.position, targetRift.position)
+          : undefined,
       }
     },
     applyMutation(result) {
@@ -302,6 +326,14 @@ export function createGameEngine(options: {
     worldSnapshot() {
       return { activeEvent, environmentField, boss: bossState, selectedRouteId }
     },
+    selectMigration(routeId) {
+      if (runDirectorState.phase !== 'choosing' && runDirectorState.phase !== 'collapsing') return
+      if (!runDirectorState.offeredRoutes.some((route) => route.id === routeId)) return
+      pendingMigrationRouteId = routeId
+    },
+    runSnapshot() {
+      return { ...runDirectorState, offeredRoutes: runDirectorState.offeredRoutes.map((route) => ({ ...route })) }
+    },
     destroy() {
       destroyed = true
       started = false
@@ -318,6 +350,7 @@ export function createGameEngine(options: {
   function simulateStep(stepMs: number) {
     if (terminalReached) return
     elapsedMs += stepMs
+    stepJourney()
     stepWorldFeatures(stepMs)
     if (terminalReached) {
       activeSwarm = undefined
@@ -351,6 +384,21 @@ export function createGameEngine(options: {
       events.push({ type: 'mutation-ready', entityId: PLAYER_ID, atMs: elapsedMs })
       mutationPending = true
     }
+  }
+
+  function stepJourney() {
+    if (!journeyEnabled) return
+    const result = stepRunDirector(runDirectorState, {
+      atMs: elapsedMs,
+      selectedRouteId: pendingMigrationRouteId,
+    })
+    pendingMigrationRouteId = undefined
+    runDirectorState = result.state
+    events.push(...result.events)
+    const route = result.events.find((event): event is Extract<GameEvent, { type: 'route-selected' }> => event.type === 'route-selected')
+    if (!route) return
+    selectedRouteId = route.routeId
+    enterEnvironment(route.environmentId)
   }
 
   function stepWorldFeatures(_stepMs: number) {
@@ -430,14 +478,24 @@ export function createGameEngine(options: {
     const playerBody = entities.get(PLAYER_ID)
     const bossAllowsExit = !bossState || bossState.phase === 'resolved'
     if (bossAllowsExit && elapsedMs >= routeEntryGuardUntilMs && playerBody?.status === 'active') {
-      const entered = findEnteredRouteRift(region.routeRifts, {
+      const entered = findEnteredRouteRift(activeRouteRifts(), {
         position: playerBody.position,
         radius: playerBody.body.radius,
       }, elapsedMs)
       if (entered) {
-        selectedRouteId = entered.id
-        events.push({ type: 'route-selected', routeId: entered.id, environmentId: entered.destinationEnvironmentId, atMs: elapsedMs })
-        enterEnvironment(entered.destinationEnvironmentId)
+        if (journeyEnabled) {
+          const offered = runDirectorState.offeredRoutes.find((route) => (
+            route.id === entered.id || route.destinationEnvironmentId === entered.destinationEnvironmentId
+          ))
+          if (offered) {
+            pendingMigrationRouteId = offered.id
+            stepJourney()
+          }
+        } else {
+          selectedRouteId = entered.id
+          events.push({ type: 'route-selected', routeId: entered.id, environmentId: entered.destinationEnvironmentId, atMs: elapsedMs })
+          enterEnvironment(entered.destinationEnvironmentId)
+        }
         return
       }
     }
@@ -689,11 +747,19 @@ export function createGameEngine(options: {
       const margin = entity.faction === 'player'
         ? entity.body.radius
         : engulfAccessMargin(entity.body.radius, playerRadii)
-      const constrained = applySoftBoundary(desiredPosition, velocity, {
-        width: environment.width,
-        height: environment.height,
+      const safeInset = collapseSafeInset()
+      const constrainedLocal = applySoftBoundary({
+        x: desiredPosition.x - safeInset,
+        y: desiredPosition.y - safeInset,
+      }, velocity, {
+        width: environment.width - safeInset * 2,
+        height: environment.height - safeInset * 2,
         softZone: 72,
       }, margin)
+      const constrained = {
+        position: { x: constrainedLocal.position.x + safeInset, y: constrainedLocal.position.y + safeInset },
+        velocity: constrainedLocal.velocity,
+      }
       const position = resolveEnvironmentMovement(environmentField, entity.position, constrained.position, entity.body.radius)
       entities.set(entity.id, moveEntity(entity, position, {
         x: constrained.velocity.x - flowVelocity.x,
@@ -734,7 +800,7 @@ export function createGameEngine(options: {
     environmentId = destinationEnvironmentId
     environment = getEnvironment(environmentId)
     environmentEnteredAtMs = elapsedMs
-    routeStageIndex += 1
+    routeStageIndex = journeyEnabled ? runDirectorState.stageIndex : routeStageIndex + 1
     routeEntryGuardUntilMs = elapsedMs + 1000
     region = offsetGeneratedRegion(filteredRegion(generateRegion(options.seed, environmentId), options.route?.[routeStageIndex]), environmentEnteredAtMs)
     scheduleAt = new Map(region.spawnSchedule.map((entry) => [entry.entityId, entry.atMs]))
@@ -768,6 +834,41 @@ export function createGameEngine(options: {
     }
     spawnDue(elapsedMs)
     spawnModifierElite()
+  }
+
+  function activeRouteRifts(): readonly RouteRift[] {
+    if (!journeyEnabled || runDirectorState.phase === 'active' || runDirectorState.phase === 'finale' || runDirectorState.phase === 'complete') {
+      return region.routeRifts
+    }
+    const stage = (content.journey as JourneyDefinition).stages[runDirectorState.stageIndex]
+    if (!stage) return []
+    return runDirectorState.offeredRoutes.map((route, index, all) => ({
+      id: route.id,
+      destinationEnvironmentId: route.destinationEnvironmentId,
+      position: {
+        x: all.length === 1 ? environment.width / 2 : environment.width * (index === 0 ? 0.26 : 0.74),
+        y: Math.max(86, environment.height * 0.18),
+      },
+      radius: 30,
+      opensAtMs: runDirectorState.stageStartedAtMs + stage.durationMs,
+      hazardId: route.riskId,
+      resourceId: route.rewardId,
+      affinityIconId: route.entryModifierId,
+    }))
+  }
+
+  function currentCollapseProgress(): number {
+    if (!journeyEnabled || (runDirectorState.phase !== 'choosing' && runDirectorState.phase !== 'collapsing')) return 0
+    const stage = (content.journey as JourneyDefinition).stages[runDirectorState.stageIndex]
+    if (!stage) return 0
+    const collapseAge = elapsedMs - runDirectorState.stageStartedAtMs - stage.durationMs
+    return clamp(collapseAge / stage.collapseDurationMs, 0, 1)
+  }
+
+  function collapseSafeInset(): number {
+    const progress = currentCollapseProgress()
+    if (progress < 0.75) return 0
+    return Math.min(environment.width, environment.height) * 0.18 * ((progress - 0.75) / 0.25)
   }
 
   function stepEvolution(stepMs: number): { speedMultiplier: number; blockedAmount: number; splitTriggered: boolean } {
@@ -1448,6 +1549,13 @@ function directionFromThreat(threat: EntityState, player: EntityState): Vec2 {
 function directionFromVelocity(velocity: Vec2): Vec2 {
   const length = Math.hypot(velocity.x, velocity.y)
   return length > 0 ? { x: -velocity.x / length, y: -velocity.y / length } : { x: -1, y: 0 }
+}
+
+function normalizedDirection(from: Vec2, to: Vec2): Vec2 {
+  const x = to.x - from.x
+  const y = to.y - from.y
+  const length = Math.hypot(x, y)
+  return length > 0 ? { x: x / length, y: y / length } : { x: 0, y: -1 }
 }
 
 function splitEscapePosition(threat: EntityState, childMass: number, index: number, count: number): Vec2 {

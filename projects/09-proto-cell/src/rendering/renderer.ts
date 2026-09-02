@@ -158,6 +158,9 @@ export function createCanvasRenderer(
       } : { ...cameraFrame.anchor }
 
       context.clearRect(0, 0, width, height)
+      const impact = screenImpactOffset(numbers.visible(), snapshot.elapsedMs, options.reducedMotion ?? false)
+      context.save()
+      context.translate(impact.x, impact.y)
       const visualTime = options.reducedMotion ? 0 : snapshot.elapsedMs
       drawLiquidField(context, width, height, visualTime, camera)
       drawBackdropAsset(context, loadAsset(`${snapshot.environmentId}:arcade`), width, height, camera, zoom, 0.34, 0.07)
@@ -255,6 +258,7 @@ export function createCanvasRenderer(
       }
       drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height, cameraFrame.anchor)
       drawEcologyCollapse(context, snapshot, width, height, cameraFrame.anchor, options.reducedMotion ?? false)
+      context.restore()
       numbers.draw(context, width, height, snapshot.elapsedMs)
     },
     playerScreenPosition() {
@@ -491,6 +495,27 @@ function drawEngulfBursts(
     }
     context.restore()
   })
+}
+
+function screenImpactOffset(
+  effects: readonly NumberEffect[],
+  elapsedMs: number,
+  reducedMotion: boolean,
+): { x: number; y: number } {
+  if (reducedMotion) return { x: 0, y: 0 }
+  const recent = effects.reduce<{ age: number; amplitude: number } | undefined>((best, effect) => {
+    const age = elapsedMs - effect.atMs
+    if (age < 0 || age > 220) return best
+    const amplitude = effect.kind === 'damage' ? 3.5 : effect.kind === 'biomass' ? Math.min(6, 2 + effect.chain) : 1.5
+    return !best || amplitude > best.amplitude ? { age, amplitude } : best
+  }, undefined)
+  if (!recent) return { x: 0, y: 0 }
+  const decay = 1 - recent.age / 220
+  const phase = elapsedMs / 22
+  return {
+    x: Math.sin(phase * 1.7) * recent.amplitude * decay,
+    y: Math.cos(phase * 1.3) * recent.amplitude * decay,
+  }
 }
 
 function drawMaterializationBloom(

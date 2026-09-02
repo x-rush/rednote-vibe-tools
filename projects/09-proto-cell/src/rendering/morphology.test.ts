@@ -3,6 +3,16 @@ import { createBuildState } from '../evolution/build'
 import { morphologyFor } from './morphology'
 
 describe('build morphology', () => {
+  it('gives primal, colony, and ciliate forms distinct skeletons', () => {
+    const build = createBuildState()
+    const primal = morphologyFor('form-primal-cell', build)
+    const colony = morphologyFor('form-colony-body', build)
+    const ciliate = morphologyFor('form-ciliate-composite', build)
+    expect(new Set([primal.skeleton, colony.skeleton, ciliate.skeleton]).size).toBe(3)
+    expect(colony.coreCount).toBeGreaterThan(1)
+    expect(ciliate.parts).toContain('oral-groove')
+  })
+
   it('changes silhouette and visible parts across body stages and routes', () => {
     const microbe = morphologyFor(createBuildState({ bodyStage: 'microbe' }))
     const predator = morphologyFor(createBuildState({

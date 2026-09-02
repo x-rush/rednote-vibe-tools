@@ -1,4 +1,5 @@
 import type { EntityState } from '../domain/types'
+import type { FormId } from '../content'
 import rawContent from '../content/content.json'
 import type { RenderQuality } from './effects'
 import { createBuildState, type BuildState } from '../evolution/build'
@@ -90,11 +91,13 @@ export function drawCell(
   screenY: number,
   radius: number,
   elapsedMs: number,
-  options: { quality?: RenderQuality; build?: BuildState; organelleIds?: readonly string[]; stability?: number; synergyIds?: readonly string[]; damageSource?: 'acid' | 'electric' | 'spine' | 'ram' } = {},
+  options: { quality?: RenderQuality; build?: BuildState; formId?: FormId; organelleIds?: readonly string[]; stability?: number; synergyIds?: readonly string[]; damageSource?: 'acid' | 'electric' | 'spine' | 'ram' } = {},
 ): void {
   const baseProfile = cellVisualProfile(entity)
   const playerMorphology = entity.faction === 'player'
-    ? morphologyFor(options.build ?? createBuildState({ traitIds: (options.organelleIds ?? []) as BuildState['traitIds'] }))
+    ? options.formId
+      ? morphologyFor(options.formId, options.build ?? createBuildState({ traitIds: (options.organelleIds ?? []) as BuildState['traitIds'] }))
+      : morphologyFor(options.build ?? createBuildState({ traitIds: (options.organelleIds ?? []) as BuildState['traitIds'] }))
     : undefined
   const profile = playerMorphology ? { ...baseProfile, silhouette: playerMorphology.silhouette } : baseProfile
   const palette = profile.palette

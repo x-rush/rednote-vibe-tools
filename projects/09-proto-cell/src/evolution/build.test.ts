@@ -1,10 +1,23 @@
 import { describe, expect, it } from 'vitest'
 import { getContent } from '../content'
-import { applyEvolution, bodyStageAfterOffer, createBuildState, offerEvolution } from './build'
+import { advanceBuildForm, applyEvolution, bodyStageAfterOffer, createBuildState, mutationMilestones, offerEvolution } from './build'
 
 const allTraitIds = getContent().organelles.map((organ) => organ.id)
 
 describe('behavior build offers', () => {
+  it('offers exactly two mutation milestones per scale tier', () => {
+    expect(mutationMilestones(getContent().scaleTiers)).toEqual([
+      { tierIndex: 0, pressure: 0.35 }, { tierIndex: 0, pressure: 0.72 },
+      { tierIndex: 1, pressure: 0.35 }, { tierIndex: 1, pressure: 0.72 },
+      { tierIndex: 2, pressure: 0.35 }, { tierIndex: 2, pressure: 0.72 },
+    ])
+  })
+
+  it('preserves installed traits across both form transitions', () => {
+    const build = createBuildState({ traitIds: ['organelle-flagellum', 'organelle-shell-plate'] })
+    expect(advanceBuildForm(advanceBuildForm(build, 'form-colony-body'), 'form-ciliate-composite').traitIds).toEqual(build.traitIds)
+  })
+
   it('offers continuation, environment response, and cross-route risk', () => {
     const state = createBuildState({ routeCounts: { predation: 2, survival: 0, colony: 0 } })
     const offers = offerEvolution(state, {

@@ -1,6 +1,6 @@
 import type { GameEvent } from '../game/interactions'
 import { createGameEngine } from '../game/engine'
-import { getContent, type ContentPack, type EnvironmentId } from '../content'
+import { getContent, type ContentPack, type EnvironmentId, type ScaleTierDefinition } from '../content'
 import type { LifeEventLogEntry } from '../progression/archive'
 import { deriveLifeArchive } from '../progression/archive'
 import { stepBoss, type BossState } from '../world/bosses'
@@ -27,6 +27,11 @@ export type HeadlessRunReport = {
   opportunitySignature: string
   behaviorStateCounts: Record<string, number>
   maxActionableGapMs: number
+  formSignature: string
+}
+
+export function maximumScreenOccupancy(tiers: readonly Pick<ScaleTierDefinition, 'screenDiameterRange'>[], _viewport: { width: number; height: number }): number {
+  return tiers.reduce((maximum, tier) => Math.max(maximum, tier.screenDiameterRange[1]), 0)
 }
 
 export type OutcomeFixture = { expectedId: string; events: readonly LifeEventLogEntry[] }
@@ -133,6 +138,8 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   }
 
   const morphology = engine.morphologySnapshot()
+  const formSignature = keyEvents.filter((event) => event.type === 'form-transitioned')
+    .reduce((signature, event) => event.type === 'form-transitioned' ? `${signature}>${event.toFormId}` : signature, 'form-primal-cell')
   const profile = morphologyFor(buildState)
   const morphologySignature = [
     buildState.bodyStage,
@@ -161,6 +168,7 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     opportunitySignature: opportunityIds.join('>'),
     behaviorStateCounts,
     maxActionableGapMs,
+    formSignature,
   }
 }
 

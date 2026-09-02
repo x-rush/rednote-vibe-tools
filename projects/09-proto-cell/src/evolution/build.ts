@@ -1,4 +1,4 @@
-import { getContent, type BodyStage, type EnvironmentId, type OrganelleId, type SynergyId } from '../content'
+import { getContent, type BodyStage, type EnvironmentId, type FormId, type OrganelleId, type ScaleTierDefinition, type SynergyId } from '../content'
 
 export type EvolutionRoute = 'predation' | 'survival' | 'colony'
 export type EvolutionLane = 'continuation' | 'adaptation' | 'risk'
@@ -39,6 +39,18 @@ export type EvolutionOfferContext = {
   remainingEnvironmentIds: EnvironmentId[]
   unlockedTraitIds: OrganelleId[]
   recentTraitIds: OrganelleId[]
+}
+
+export function mutationMilestones(tiers: readonly ScaleTierDefinition[]): Array<{ tierIndex: number; pressure: number }> {
+  return tiers.flatMap((_tier, tierIndex) => [
+    { tierIndex, pressure: 0.35 },
+    { tierIndex, pressure: 0.72 },
+  ])
+}
+
+export function advanceBuildForm(state: BuildState, formId: FormId): BuildState {
+  const bodyStage: BodyStage = formId === 'form-primal-cell' ? 'microbe' : formId === 'form-colony-body' ? 'specialist' : 'ascendant'
+  return { ...state, bodyStage, traitIds: [...state.traitIds], synergyIds: [...state.synergyIds], routeCounts: { ...state.routeCounts } }
 }
 
 const ROUTES: readonly EvolutionRoute[] = ['predation', 'survival', 'colony']

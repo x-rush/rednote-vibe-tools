@@ -1062,6 +1062,26 @@
 .game-hud__membrane { margin: 0; text-align: right; }
 .game-hud__membrane dd { color: #91fff1; }
 
+.ecology-radar {
+  position: relative;
+  grid-column: 1;
+  width: 72px;
+  height: 72px;
+  margin-top: 2px;
+  border: 1px solid rgb(129 245 255 / 42%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(28 184 211 / 18%), rgb(3 20 45 / 76%));
+  box-shadow: inset 0 0 18px rgb(65 225 255 / 18%), 0 6px 18px rgb(0 4 18 / 24%);
+  pointer-events: none;
+}
+.ecology-radar::after { position: absolute; inset: 50% 8%; height: 1px; background: rgb(170 255 255 / 18%); content: ""; }
+.ecology-radar::before { position: absolute; inset: 8% 50%; width: 1px; background: rgb(170 255 255 / 18%); content: ""; }
+.ecology-radar i { position: absolute; width: 6px; height: 6px; border-radius: 50%; transform: translate(-50%, -50%); }
+.ecology-radar i[data-kind="boundary"] { width: 8px; height: 8px; border: 1px solid #86faff; background: transparent; }
+.ecology-radar i[data-kind="encounter"] { background: #ffb36b; box-shadow: 0 0 8px #ff925f; }
+.ecology-radar i[data-kind="exit"] { background: #a88cff; box-shadow: 0 0 8px #a88cff; }
+.ecology-radar i[data-kind="warned-threat"] { background: #ff557e; box-shadow: 0 0 8px #ff557e; }
+
 .game-hud__swarm {
   grid-column: 1;
   display: grid;

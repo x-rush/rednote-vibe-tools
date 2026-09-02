@@ -1,4 +1,4 @@
-import { getContent, type AnchorSlot, type BodyStage, type EnvironmentId, type OrganelleId, type SynergyId } from '../content'
+import { getContent, type AnchorSlot, type BodyStage, type EnvironmentId, type FormId, type OrganelleId, type SynergyId } from '../content'
 import type { EvolutionRoute } from '../evolution/build'
 import type { PlayerMorphologySnapshot } from '../game/engine'
 
@@ -26,6 +26,9 @@ export type LifeArchiveSummary = {
   dishCode: string
   finalMorphology?: PlayerMorphologySnapshot
   finalBodyStage: BodyStage
+  finalFormId?: FormId
+  finalTierIndex?: number
+  ecosystemIds?: EnvironmentId[]
   buildRouteCounts: Record<EvolutionRoute, number>
   journeyStageIndex: number
 }
@@ -273,6 +276,17 @@ function sanitizeArchives(value: unknown, issues: SaveIssue[], content: ReturnTy
       : Number.isInteger(entry.journeyStageIndex) && Number(entry.journeyStageIndex) >= 0 && Number(entry.journeyStageIndex) <= 5
         ? Number(entry.journeyStageIndex)
         : (issues.push({ path: `${path}.journeyStageIndex`, code: 'invalid-number', message: 'journey stage is invalid' }), 0)
+    const finalFormId = entry.finalFormId === undefined
+      ? legacyFormForStage(finalBodyStage)
+      : isFormId(entry.finalFormId) ? entry.finalFormId : (issues.push({ path: `${path}.finalFormId`, code: 'invalid-enum', message: 'form id is invalid' }), legacyFormForStage(finalBodyStage))
+    const finalTierIndex = entry.finalTierIndex === undefined
+      ? tierIndexForForm(finalFormId)
+      : Number.isInteger(entry.finalTierIndex) && Number(entry.finalTierIndex) >= 0 && Number(entry.finalTierIndex) <= 2
+        ? Number(entry.finalTierIndex)
+        : (issues.push({ path: `${path}.finalTierIndex`, code: 'invalid-number', message: 'tier index is invalid' }), tierIndexForForm(finalFormId))
+    const ecosystemIds = Array.isArray(entry.ecosystemIds)
+      ? knownIds(entry.ecosystemIds, `${path}.ecosystemIds`, environments, issues) as EnvironmentId[]
+      : [typeof environmentId === 'string' ? environmentId as EnvironmentId : 'env-clear-drop']
     return [{
       speciesNameSeed: finite('speciesNameSeed'),
       survivalMs: finite('survivalMs'),
@@ -285,10 +299,27 @@ function sanitizeArchives(value: unknown, issues: SaveIssue[], content: ReturnTy
       dishCode: typeof entry.dishCode === 'string' ? entry.dishCode : 'PC1.e30.0000000',
       finalMorphology,
       finalBodyStage,
+      finalFormId,
+      finalTierIndex,
+      ecosystemIds,
       buildRouteCounts,
       journeyStageIndex,
     }]
   })
+}
+
+function legacyFormForStage(stage: BodyStage): FormId {
+  if (stage === 'specialist' || stage === 'dominant') return 'form-colony-body'
+  if (stage === 'ascendant') return 'form-ciliate-composite'
+  return 'form-primal-cell'
+}
+
+function tierIndexForForm(formId: FormId): number {
+  return formId === 'form-primal-cell' ? 0 : formId === 'form-colony-body' ? 1 : 2
+}
+
+function isFormId(value: unknown): value is FormId {
+  return value === 'form-primal-cell' || value === 'form-colony-body' || value === 'form-ciliate-composite'
 }
 
 function sanitizeRouteCounts(value: unknown, path: string, issues: SaveIssue[]): Record<EvolutionRoute, number> {

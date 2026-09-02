@@ -61,11 +61,16 @@ export type ArchiveViewModel = ReturnType<typeof createArchiveViewModel>
 
 export function createHudViewModel(snapshot: HudSnapshot, content: ContentPack) {
   const stageLabel = content.ui.hud[`bodyStage_${snapshot.bodyStage}`] ?? snapshot.bodyStage
+  const formLabel = snapshot.formId === 'form-primal-cell' ? content.ui.labels.formPrimalCell
+    : snapshot.formId === 'form-colony-body' ? content.ui.labels.formColonyBody
+      : content.ui.labels.formCiliateComposite
   return {
     score: String(Math.round(snapshot.engulfScore)),
     journey: `${String(snapshot.journeyIndex).padStart(2, '0')}/${String(snapshot.journeyTotal).padStart(2, '0')}`,
     bodyStageName: stageLabel,
     bodyStageProgress: Math.round(Math.min(1, Math.max(0, snapshot.bodyStageProgress)) * 100),
+    formName: formLabel,
+    tierProgress: Math.round(Math.min(1, Math.max(0, snapshot.tierProgress)) * 100),
     membrane: `${Math.round(Math.min(1, Math.max(0, snapshot.membraneRatio)) * 100)}%`,
   }
 }

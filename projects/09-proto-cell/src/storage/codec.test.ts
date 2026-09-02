@@ -3,6 +3,19 @@ import { saveFixture } from '../tests/fixtures'
 import { decodeSave, encodeSave } from './codec'
 
 describe('versioned save codec', () => {
+  it.each([
+    ['microbe', 'form-primal-cell'],
+    ['hunter', 'form-primal-cell'],
+    ['specialist', 'form-colony-body'],
+    ['dominant', 'form-colony-body'],
+    ['ascendant', 'form-ciliate-composite'],
+  ] as const)('maps legacy stage %s conservatively to %s', (stage, formId) => {
+    const fixture = saveFixture()
+    fixture.lifeArchives[0]!.finalBodyStage = stage
+    delete (fixture.lifeArchives[0] as Partial<typeof fixture.lifeArchives[0]>).finalFormId
+    expect(decodeSave(fixture).value?.lifeArchives[0]?.finalFormId).toBe(formId)
+  })
+
   it('drops unknown fields and caps archives at thirty', () => {
     const save = saveFixture({ extra: 'blocked', archiveCount: 35 })
     const decoded = decodeSave(save)

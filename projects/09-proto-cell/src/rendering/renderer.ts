@@ -3,7 +3,7 @@ import type { EntityState, Vec2 } from '../domain/types'
 import type { WorldRenderSnapshot } from '../game/engine'
 import { cellVisualProfile, drawCell } from './cell'
 import { collapsePresentation, drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type AmbientParticle, type RenderQuality } from './effects'
-import type { NumberFeed } from './numbers'
+import type { NumberEffect, NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
 import rawContent from '../content/content.json'
 import { createCameraTracker, targetScreenDiameterRatio, type CameraFrame } from './camera'
@@ -250,6 +250,9 @@ export function createCanvasRenderer(
       if (snapshot.swarmTransition && player) {
         drawSwarmTransition(context, currentPlayerScreenPosition, player.body.radius * zoom, snapshot.swarmTransition, snapshot.elapsedMs, options.reducedMotion ?? false)
       }
+      if (player) {
+        drawEngulfBursts(context, currentPlayerScreenPosition, player.body.radius * zoom, numbers.visible(), snapshot.elapsedMs, options.reducedMotion ?? false)
+      }
       drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height, cameraFrame.anchor)
       drawEcologyCollapse(context, snapshot, width, height, cameraFrame.anchor, options.reducedMotion ?? false)
       numbers.draw(context, width, height, snapshot.elapsedMs)
@@ -447,6 +450,47 @@ function drawSwarmTransition(
   const template = transition.kind === 'split' ? rawContent.ui.hud.splitPulse : rawContent.ui.hud.fusionPulse
   context.fillText(template.replace('{count}', String(transition.bodyCount)), position.x, position.y - radius - 20 - presentation.textOffset)
   context.restore()
+}
+
+function drawEngulfBursts(
+  context: CanvasRenderingContext2D,
+  position: { x: number; y: number },
+  radius: number,
+  effects: readonly NumberEffect[],
+  elapsedMs: number,
+  reducedMotion: boolean,
+): void {
+  effects.filter((effect) => effect.kind === 'biomass' && effect.entityId === 'player').forEach((effect) => {
+    const age = elapsedMs - effect.atMs
+    if (age < 0 || age > 520) return
+    const progress = age / 520
+    const rings = effect.chain > 1 ? 2 : 1
+    context.save()
+    context.translate(position.x, position.y)
+    context.globalAlpha = 0.72 * (1 - progress)
+    context.strokeStyle = effect.chain > 2 ? '#ffe68a' : '#8effef'
+    context.shadowColor = context.strokeStyle
+    context.shadowBlur = reducedMotion ? 4 : 16
+    context.lineWidth = Math.max(2, radius * 0.08)
+    for (let index = 0; index < rings; index += 1) {
+      context.beginPath()
+      context.arc(0, 0, radius * (1.2 + progress * (1.35 + index * 0.35)), 0, Math.PI * 2)
+      context.stroke()
+    }
+    if (effect.chain > 1 && !reducedMotion) {
+      context.lineWidth = 2
+      for (let index = 0; index < Math.min(8, effect.chain + 2); index += 1) {
+        const angle = index / Math.min(8, effect.chain + 2) * Math.PI * 2
+        const inner = radius * (1.05 + progress * 0.7)
+        const outer = inner + radius * 0.24
+        context.beginPath()
+        context.moveTo(Math.cos(angle) * inner, Math.sin(angle) * inner)
+        context.lineTo(Math.cos(angle) * outer, Math.sin(angle) * outer)
+        context.stroke()
+      }
+    }
+    context.restore()
+  })
 }
 
 function drawMaterializationBloom(

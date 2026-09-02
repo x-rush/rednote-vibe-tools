@@ -156,6 +156,18 @@ describe('particle spatial narrative', () => {
     expect(Math.min(...surge.map(speed))).toBeGreaterThan(Math.max(...later.map(speed)) * 0.82)
   })
 
+  it('draws the opening surge from the upper window and sends it deeper into the room', () => {
+    const world = createParticleWorld(42, 'full', 'dream')
+    const surge = world.particles.filter(({ spawnAtMs }) => spawnAtMs < 2800)
+    const later = world.particles.filter(({ spawnAtMs }) => spawnAtMs >= 3200)
+    const upperRatio = surge.filter(({ position }) => position.y < 340).length / surge.length
+    const surgeReach = Math.min(...surge.map(({ settleTarget }) => settleTarget.x))
+    const laterReach = Math.min(...later.map(({ settleTarget }) => settleTarget.x))
+
+    expect(upperRatio).toBeGreaterThan(0.82)
+    expect(surgeReach).toBeLessThan(laterReach - 24)
+  })
+
   it('keeps a dense reference-like mix of fine stars and short light trails', () => {
     const world = createParticleWorld(42, 'full', 'dream')
     expect(world.particles.length).toBeGreaterThanOrEqual(190)

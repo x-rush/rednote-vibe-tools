@@ -19,6 +19,7 @@ export interface CurtainPath {
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const mix = (from: number, to: number, amount: number) => from + (to - from) * amount
+const smoothstep = (value: number) => value * value * (3 - 2 * value)
 
 export function createCurtainStrands(count: number, random: RandomSource): readonly CurtainStrand[] {
   if (!Number.isInteger(count) || count <= 0) throw new Error('Curtain strand count must be positive')
@@ -70,7 +71,8 @@ export function sampleCurtainPath(
   const edgeMobility = 0.12 + strandRatio ** 1.7 * 0.88
   const ambientMobility = 0.38 + strandRatio ** 1.4 * 0.62
   const strandLag = Math.max(0, strand.delay - strandRatio * 0.24) * 0.35
-  const gustStrength = clamp(Math.abs(gustInput))
+    const gustStrength = clamp(Math.abs(gustInput))
+    const gustEnvelope = 1 - smoothstep(clamp((openingProgress - 0.2) / 0.72))
   const nodes = Array.from({ length: 12 }, (_, index) => {
     const depth = index / 11
     const opening = curtainFollowProgress(openingProgress, depth, strandLag)
@@ -91,6 +93,9 @@ export function sampleCurtainPath(
       - depth * 5.2
     const wakeFlutter = Math.sin(wakePhase) * gustStrength * (1.4 + depth * 3.6) * depth ** 1.65 * edgeMobility
     const wakeLift = Math.cos(wakePhase * 0.83 + depth) * gustStrength * 1.8 * depth ** 1.35 * edgeMobility
+    const sweepOnset = smoothstep(clamp((openingProgress - 0.24) / 0.16))
+    const inertialSweep = gustStrength * gustEnvelope * sweepOnset * depth ** 1.2
+      * (16 + depth * 68) * edgeMobility
     const slowPeriod = 780 + strand.response * 620 + (strand.id % 5) * 37
     const flutterPeriod = 330 + strand.delay * 640 + (strand.id % 7) * 19
     const travellingWave = (
@@ -109,6 +114,7 @@ export function sampleCurtainPath(
         + travellingWave
         + fineRipple
         + wakeFlutter
+        + inertialSweep
         + flowShift * looseWeight * ambientMobility,
       y: mix(closed.y, opened.y, opening)
         + verticalRipple

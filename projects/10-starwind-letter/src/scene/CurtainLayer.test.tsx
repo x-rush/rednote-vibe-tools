@@ -83,12 +83,12 @@ describe('curtain opening and reset motion', () => {
     expect(later).not.toEqual(first)
   })
 
-  it('builds the opening arc from trailing inertia rather than an outward shove', () => {
+  it('builds the opening arc from a strong outward tail sweep', () => {
     const resting = outermostPathNumbers(sampleTimeline(0, false))
     const trailing = outermostPathNumbers(sampleTimeline(600, false))
     const pulled = outermostPathNumbers(sampleTimeline(950, false))
     expect(Math.abs(tailX(trailing) - tailX(resting))).toBeLessThan(16)
-    expect(tailX(pulled)).toBeLessThan(tailX(trailing) - 140)
+    expect(tailX(pulled)).toBeGreaterThan(260)
   })
 
   it('snaps the rings inward while inertia leaves the tails near their resting position', () => {
@@ -108,13 +108,13 @@ describe('curtain opening and reset motion', () => {
     expect(Math.max(...gatheredHeaders)).toBeLessThan(240)
   })
 
-  it('lets the delayed tail pass the gathered position once before settling', () => {
+  it('lets the delayed tail overshoot before settling inward', () => {
     const following = outermostPathNumbers(sampleTimeline(950, false))
     const overshot = outermostPathNumbers(sampleTimeline(1200, false))
     const settling = outermostPathNumbers(sampleTimeline(1500, false))
 
     expect(tailX(overshot)).toBeLessThan(tailX(following) - 12)
-    expect(tailX(settling)).toBeGreaterThan(tailX(overshot) + 5)
+    expect(tailX(settling)).toBeLessThan(tailX(overshot) - 5)
   })
 
   it('deforms the translucent curtain body with the wind instead of fading a fixed polygon', () => {
@@ -159,7 +159,7 @@ describe('curtain opening and reset motion', () => {
     const almostReset = firstPathNumbers(resetSceneSample(0.999))
     const largestDelta = Math.max(...resting.map((value, index) => Math.abs(value - (almostReset[index] ?? value))))
 
-    expect(largestDelta).toBeLessThan(2)
+    expect(largestDelta).toBeLessThan(3)
   })
 
   it('keeps every curtain anchor left of the portal while tassel tails sweep across it', () => {

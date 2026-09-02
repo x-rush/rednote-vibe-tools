@@ -19,6 +19,13 @@ describe('strand curtain motion', () => {
     expect(Math.abs(innerCaught.end.x - innerResting.end.x)).toBeLessThan(3)
   })
 
+  it('throws the loose outer tail into a broad arc during the opening gust', () => {
+    const strand = createCurtainStrands(64, createMulberry32(42))[63]
+    if (!strand) throw new Error('Expected the outer curtain strand')
+    const path = sampleCurtainPath(strand, 0.45, 950, 0.18, 1)
+    expect(path.end.x - path.start.x).toBeGreaterThan(25)
+  })
+
   it('creates independent delays and lengths for sixty-four strands', () => {
     const strands = createCurtainStrands(64, createMulberry32(42))
     expect(new Set(strands.map(({ delay }) => delay)).size).toBeGreaterThan(20)

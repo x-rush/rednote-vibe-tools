@@ -92,13 +92,13 @@ export function createParticleWorld(seed: number, quality: ParticleQuality, mood
   const particles: Particle[] = []
   let id = 0
   const add = (kind: ParticleKind, count: number) => {
+    const surgeCount = Math.max(1, Math.round(count * 0.64))
     for (let index = 0; index < count; index += 1) {
       const ratio = random()
-      const x = 228 + random() * 106
-      const y = 184 + random() * 226
-      const spawnAtMs = openingSpawnAt(kind, index, count)
-      const surgeCount = Math.max(1, Math.round(count * 0.64))
       const surge = index < surgeCount
+      const x = surge ? 230 + random() * 96 : 236 + random() * 96
+      const y = surge ? 176 + random() * 130 : 274 + random() * 134
+      const spawnAtMs = openingSpawnAt(kind, index, count)
       const waveRatio = surge ? index / Math.max(1, surgeCount - 1) : 1
       const waveSpeed = surge ? 1.65 - waveRatio * 0.1 : 0.78 + random() * 0.06
       const speed = (kind === 'dust' ? 0.72 : kind === 'trail' ? 1.55 : 1) * waveSpeed
@@ -115,7 +115,10 @@ export function createParticleWorld(seed: number, quality: ParticleQuality, mood
         history: [{ x, y }],
         radius: kind === 'hero' ? 1.3 + random() * 1.5 : kind === 'trail' ? 0.55 + random() * 0.45 : 0.25 + random() * 0.42,
         twinklePhase: random() * Math.PI * 2,
-        settleTarget: { x: 64 + ratio * 252, y: 588 + (index % 3) * 24 + random() * 13 },
+        settleTarget: {
+          x: (surge ? 30 : 92) + ratio * (surge ? 300 : 210),
+          y: 588 + (index % 3) * 24 + random() * 13,
+        },
         opacity: 1,
       })
       id += 1

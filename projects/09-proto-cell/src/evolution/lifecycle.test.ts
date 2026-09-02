@@ -7,6 +7,7 @@ import {
   createLifecycle,
   markLifecycleEncounterResolved,
   radiusForTierProgress,
+  transitionLifecycleToTier,
 } from './lifecycle'
 
 const tiers = [
@@ -99,6 +100,12 @@ describe('bounded form lifecycle', () => {
 
     expect(canAdvanceLifecycle(complete, tiers)).toBe(false)
     expect(() => advanceLifecycle(complete, tiers)).toThrow(RangeError)
+  })
+
+  it('supports an authored journey promotion without requiring a manual button', () => {
+    const state = transitionLifecycleToTier(createLifecycle(tiers, 144), tiers, 1)
+    expect(state).toMatchObject({ tierIndex: 1, formId: 'form-colony-body', bodyRadius: 18 })
+    expect(() => transitionLifecycleToTier(state, tiers, 0)).toThrow(RangeError)
   })
 
   it('uses a finite eased radius and rejects malformed gain', () => {

@@ -76,6 +76,27 @@ export function advanceLifecycle(
   }
 }
 
+export function transitionLifecycleToTier(
+  state: LifecycleState,
+  tiers: readonly ScaleTierDefinition[],
+  targetTierIndex: number,
+): LifecycleState {
+  if (!Number.isInteger(targetTierIndex) || targetTierIndex < state.tierIndex || targetTierIndex >= tiers.length) {
+    throw new RangeError('Invalid lifecycle target tier')
+  }
+  if (targetTierIndex === state.tierIndex) return state
+  const tier = tierAt(tiers, targetTierIndex)
+  return {
+    ...state,
+    tierIndex: targetTierIndex,
+    formId: tier.formId,
+    tierBiomass: 0,
+    evolutionPressure: 0,
+    bodyRadius: radiusForTierProgress(tier, 0),
+    encounterResolved: false,
+  }
+}
+
 export function radiusForTierProgress(tier: ScaleTierDefinition, progress: number): number {
   const [minimum, maximum] = tier.radiusRange
   const clampedProgress = clamp01(progress)

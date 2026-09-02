@@ -28,7 +28,7 @@ import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type E
 import { createBuildState, type BuildState } from '../evolution/build'
 import { evaluateTriggers, type TriggerFrame, type TriggerOutcome } from '../evolution/triggers'
 import { isMaterializing, isThreatArrivalInactive, materializeSpawn, stepThreatArrival } from './materialization'
-import { advanceLifecycle, applyLifecycleBiomass, canAdvanceLifecycle, createLifecycle, radiusForTierProgress, type LifecycleState } from '../evolution/lifecycle'
+import { advanceLifecycle, applyLifecycleBiomass, canAdvanceLifecycle, createLifecycle, radiusForTierProgress, transitionLifecycleToTier, type LifecycleState } from '../evolution/lifecycle'
 import { cameraZoomFor, targetScreenDiameterRatio, visibleWorldRadius } from '../rendering/camera'
 import { collapseInsetLimit } from './bounds'
 
@@ -319,7 +319,7 @@ export function createGameEngine(options: {
         formId: lifecycle.formId,
         tierIndex: lifecycle.tierIndex,
         tierProgress: lifecycle.evolutionPressure,
-        membraneRatio: clamp(membrane / Math.max(1, playerDefinition.membrane), 0, 1),
+        membraneRatio: clamp(membrane / Math.max(1, currentMembraneMax()), 0, 1),
         swarm: activeSwarm ? {
           bodyCount: playerBodies.length,
           minimumRemainingMs: Math.max(0, (swarmStartedAtMs ?? elapsedMs) + SWARM_MINIMUM_DURATION_MS - elapsedMs),
@@ -1057,6 +1057,13 @@ export function createGameEngine(options: {
     environment = getEnvironment(environmentId)
     environmentEnteredAtMs = elapsedMs
     routeStageIndex = journeyEnabled ? runDirectorState.stageIndex : routeStageIndex + 1
+    const targetTierIndex = journeyEnabled ? Math.min(scaleTiers.length - 1, Math.floor(routeStageIndex / 2)) : lifecycle.tierIndex
+    if (targetTierIndex > lifecycle.tierIndex) {
+      const fromFormId = lifecycle.formId
+      lifecycle = transitionLifecycleToTier(lifecycle, scaleTiers, targetTierIndex)
+      resizeActivePlayerBodies(true)
+      events.push({ type: 'form-transitioned', fromFormId, toFormId: lifecycle.formId, atMs: elapsedMs })
+    }
     routeEntryGuardUntilMs = elapsedMs + 1000
     region = offsetGeneratedRegion(filteredRegion(generateRegion(options.seed, environmentId), options.route?.[routeStageIndex]), environmentEnteredAtMs)
     scheduleAt = new Map(region.spawnSchedule.map((entry) => [entry.entityId, entry.atMs]))
@@ -1145,7 +1152,13 @@ export function createGameEngine(options: {
   function currentBodyStage(): BodyStage {
     if (buildState.evolutionCount > 0 || buildState.bodyStage !== 'microbe') return buildState.bodyStage
     if (!journeyEnabled) return provisionalBodyStage(routeStageIndex)
-    return 'microbe'
+    if (lifecycle.tierIndex >= 2) return 'ascendant'
+    if (lifecycle.tierIndex >= 1) return 'specialist'
+    return routeStageIndex >= 1 ? 'hunter' : 'microbe'
+  }
+
+  function currentMembraneMax(): number {
+    return playerDefinition.membrane * (1 + lifecycle.tierIndex * 0.45)
   }
 
   function currentCollapseProgress(): number {
@@ -1261,7 +1274,7 @@ export function createGameEngine(options: {
       }
       if (outcome.effectId === 'low-membrane-molt' || outcome.effectId === 'school-proximity-heal') {
         const live = entities.get(currentPlayer.id)
-        if (live) entities.set(live.id, { ...live, membrane: Math.min(playerDefinition.membrane, live.membrane + (outcome.magnitude ?? 0)) })
+        if (live) entities.set(live.id, { ...live, membrane: Math.min(currentMembraneMax(), live.membrane + (outcome.magnitude ?? 0)) })
       }
       if (outcome.effectId === 'damage-split') splitTriggered = activateSplit(currentPlayer, 2) || splitTriggered
       traitReadyAt.set(outcome.traitId, elapsedMs + outcome.cooldownMs)
@@ -1298,12 +1311,15 @@ export function createGameEngine(options: {
     return resizeBodyToRadius(entity, Math.max(2, lifecycle.bodyRadius * Math.sqrt(share)))
   }
 
-  function resizeActivePlayerBodies() {
+  function resizeActivePlayerBodies(promoting = false) {
     const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
     const totalMass = playerBodies.reduce((sum, entity) => sum + entity.mass, 0)
     for (const body of playerBodies) {
       const share = playerBodies.length === 1 ? 1 : clamp(body.mass / Math.max(body.mass, totalMass), 0, 1)
-      entities.set(body.id, resizeBodyToRadius(body, Math.max(2, lifecycle.bodyRadius * Math.sqrt(share))))
+      const resized = resizeBodyToRadius(body, Math.max(2, lifecycle.bodyRadius * Math.sqrt(share)))
+      entities.set(body.id, promoting
+        ? { ...resized, membrane: Math.min(currentMembraneMax(), Math.round(resized.membrane * 1.3)), energy: Math.min(playerDefinition.energy, resized.energy + 24) }
+        : resized)
     }
   }
 
@@ -1337,7 +1353,7 @@ export function createGameEngine(options: {
       speedRatio: Math.hypot(currentPlayer.velocity.x, currentPlayer.velocity.y) / Math.max(1, maxSpeed),
       sameDirectionMs: overrides.sameDirectionMs ?? sameDirectionMs,
       msSinceDamage: elapsedMs - lastDamageAt,
-      membraneMax: playerDefinition.membrane,
+      membraneMax: currentMembraneMax(),
       collisionStrength: overrides.collisionStrength ?? 0,
       incomingFatalDamage,
       incomingDamage,
@@ -1369,7 +1385,7 @@ export function createGameEngine(options: {
       if (effect.effect === 'repair') {
         entities.set(effect.entityId, {
           ...currentPlayer,
-          membrane: Math.min(playerDefinition.membrane, currentPlayer.membrane + (effect.amount ?? 0)),
+          membrane: Math.min(currentMembraneMax(), currentPlayer.membrane + (effect.amount ?? 0)),
           energy: Math.max(0, currentPlayer.energy - (effect.energyCost ?? 0)),
         })
       }
@@ -1743,7 +1759,7 @@ export function createGameEngine(options: {
             if (damagedPlayer?.status === 'active') applyTriggerOutcomes(damagedPlayer, evaluateTriggers(buildState, triggerFrame(damagedPlayer, {
               damage: {
                 source: playerDamage.source,
-                remainingMembraneRatio: damagedPlayer.membrane / Math.max(1, playerDefinition.membrane),
+                remainingMembraneRatio: damagedPlayer.membrane / Math.max(1, currentMembraneMax()),
               },
               collision: { sourceId: pairThreat.id, strength: playerDamage.amount },
             })))

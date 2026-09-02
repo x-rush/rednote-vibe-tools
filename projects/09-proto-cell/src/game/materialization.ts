@@ -24,6 +24,7 @@ export function materializeSpawn(
       materializingUntilMs: undefined,
       arrivalPhase: 'approach',
       behaviorState: 'approach',
+      arrivalReleaseUntilMs: undefined,
     }
   }
   const duration = entity.role === 'nutrient' || entity.role === 'prey'
@@ -47,13 +48,22 @@ export function stepThreatArrival(
   atMs: number,
   config: SpawnPresentationConfig,
 ): { entity: EntityState; intent?: MovementIntent; speedRatio?: number; stationary: boolean } | undefined {
-  if (!entity.arrivalPhase) return undefined
+  if (!entity.arrivalPhase) {
+    if (entity.arrivalReleaseUntilMs !== undefined && atMs < entity.arrivalReleaseUntilMs) {
+      return { entity, speedRatio: 0.68, stationary: false }
+    }
+    return undefined
+  }
   if (entity.arrivalPhase === 'alert') {
     if (atMs < (entity.alertedAtMs ?? atMs) + config.threatAlertMs) {
       return { entity: { ...entity, velocity: { x: 0, y: 0 }, behaviorState: 'alert' }, stationary: true }
     }
     const { arrivalPhase: _arrivalPhase, alertedAtMs: _alertedAtMs, ...active } = entity
-    return { entity: { ...active, behaviorState: undefined }, stationary: false }
+    return {
+      entity: { ...active, behaviorState: undefined, arrivalReleaseUntilMs: atMs + 240 },
+      speedRatio: 0.68,
+      stationary: false,
+    }
   }
 
   if (playerPosition && Math.hypot(entity.position.x - playerPosition.x, entity.position.y - playerPosition.y) <= config.threatDiscoveryDistance) {

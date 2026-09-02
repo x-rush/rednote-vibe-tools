@@ -47,6 +47,10 @@ describe('launch environments', () => {
     expect(sampleEnvironmentField(active, active.hazardCenters['hazard-acid-discharge']!, 10).damage).toBeGreaterThan(0)
   })
 
+  it('gives the acid layer a readable escape radius', () => {
+    expect(createEnvironmentField('env-acid-vesicle', 727).safeRadius).toBeGreaterThanOrEqual(120)
+  })
+
   it('moves acid safety geometry deterministically and exposes adhesive fiber collision', () => {
     const acid = createEnvironmentField('env-acid-vesicle', 727, 0)
     const first = stepEnvironmentField(acid, 3000)

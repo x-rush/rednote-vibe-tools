@@ -591,9 +591,9 @@ export function createGameEngine(options: {
     if (modifiers.rules['persistent-turbidity']) environmentField = { ...environmentField, visibility: environmentField.visibility * 0.68 }
     if (modifiers.rules['progressive-acid-coverage'] && environmentId === 'env-acid-vesicle') {
       const environmentOrder = content.environments.find((item) => item.id === environmentId)?.order ?? routeStageIndex
-      environmentField = { ...environmentField, safeRadius: Math.max(48, 92 - environmentOrder * 12) }
+      environmentField = { ...environmentField, safeRadius: Math.max(56, 84 - environmentOrder * 8) }
     }
-    if (entryGraceEnabled && elapsedMs - environmentEnteredAtMs < ENVIRONMENT_ENTRY_GRACE_MS) {
+    if (entryGraceEnabled && environmentId !== 'env-clear-drop' && elapsedMs - environmentEnteredAtMs < ENVIRONMENT_ENTRY_GRACE_MS) {
       const entrySafeCenters = [...entities.values()]
         .filter((entity) => entity.faction === 'player' && entity.status === 'active')
         .map((entity) => ({ ...entity.position }))
@@ -923,7 +923,8 @@ export function createGameEngine(options: {
         * (entity.id === PLAYER_ID ? speedMultiplier : bossPhaseSpeed)
         * pursuitSpeed
         * (arrival?.speedRatio ?? 1)
-        * fieldSample.speedMultiplier
+        * spawnReleaseRatio(movingEntity, elapsedMs)
+        * (entity.id === PLAYER_ID ? fieldSample.speedMultiplier : Math.max(fieldSample.speedMultiplier, 0.85))
       const responsiveVelocity = advanceVelocity(entity.velocity, intent, maxSpeed, stepMs, { responseMs: turnResponseMs })
       const flowVelocity = arrival?.intent ? { x: 0, y: 0 } : {
         x: fieldSample.flow.x * 24,
@@ -959,6 +960,19 @@ export function createGameEngine(options: {
         y: constrained.velocity.y - flowVelocity.y,
       }))
     }
+  }
+
+  function spawnReleaseRatio(entity: EntityState, atMs: number): number {
+    if (entity.faction === 'player' || entity.role === 'boss') return 1
+    if (['pursue', 'charge', 'ambush'].includes(entity.behaviorState ?? '')) return 1
+    if (entity.arrivalReleaseUntilMs !== undefined) {
+      const releaseStartedAt = entity.arrivalReleaseUntilMs - 240
+      return clamp(0.68 + ((atMs - releaseStartedAt) / 240) * 0.32, 0.68, 1)
+    }
+    if (entity.materializingUntilMs !== undefined) {
+      return clamp((atMs - entity.materializingUntilMs) / 500, 0, 1)
+    }
+    return 1
   }
 
   function movementDecision(entity: EntityState, bossDormant: boolean): { entity: EntityState; intent: MovementIntent } {

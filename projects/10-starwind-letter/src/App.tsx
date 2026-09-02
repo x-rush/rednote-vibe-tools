@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { createAudioController } from './audio/controller'
+import { createAudioController, stageAudioCue } from './audio/controller'
 import { messages, type StarMessage } from './content/messages'
 import { chooseNextMessage } from './domain/random'
 import { transition, type ExperienceState } from './experience/machine'
@@ -72,7 +72,8 @@ export function App() {
   useEffect(() => {
     if (lastCueStage.current === sample.stage) return
     lastCueStage.current = sample.stage
-    if (sample.stage === 'stars-and-letters') audio.current.cue('stars')
+    const cue = stageAudioCue(sample.stage)
+    if (cue) audio.current.cue(cue)
   }, [sample.stage])
 
   useEffect(() => {

@@ -23,6 +23,7 @@ export interface Particle {
   readonly settleTarget: Point
   readonly opacity: number
   readonly enteredAtMs?: number
+  readonly landedAtMs?: number
 }
 
 export interface ParticleWorld {
@@ -43,12 +44,22 @@ export interface ParticleStepInput {
 }
 
 const counts = {
-  full: { dust: 76, trail: 24, hero: 10 },
+  full: { dust: 146, trail: 42, hero: 10 },
   fallback: { dust: 38, trail: 11, hero: 6 },
 } as const
 
-const limits = { full: 132, fallback: 68 } as const
-const resultIntervals = { full: 880, fallback: 1500 } as const
+const limits = { full: 216, fallback: 68 } as const
+const resultIntervals = { full: 760, fallback: 1500 } as const
+
+const landingProfiles = {
+  dust: { settleAfterMs: 450, impactAfterMs: 780, holdMs: 160, fadeMs: 520 },
+  trail: { settleAfterMs: 650, impactAfterMs: 1120, holdMs: 220, fadeMs: 600 },
+  hero: { settleAfterMs: 1250, impactAfterMs: 2100, holdMs: 500, fadeMs: 520 },
+} as const
+
+export function particleImpactDelay(kind: ParticleKind) {
+  return landingProfiles[kind].impactAfterMs
+}
 
 export function particleLimit(quality: ParticleQuality) {
   return limits[quality]
@@ -90,7 +101,7 @@ export function createParticleWorld(seed: number, quality: ParticleQuality, mood
         spawnAtMs: baseSpawnAtMs + kindOffset + index * interval,
         lifetimeMs: kind === 'hero' ? 9000 : kind === 'trail' ? 2800 : 2100,
         history: [{ x, y }],
-        radius: kind === 'hero' ? 2.8 + random() * 2.8 : kind === 'trail' ? 1 + random() : 0.45 + random() * 0.85,
+        radius: kind === 'hero' ? 1.3 + random() * 1.5 : kind === 'trail' ? 0.55 + random() * 0.45 : 0.25 + random() * 0.42,
         twinklePhase: random() * Math.PI * 2,
         settleTarget: { x: 64 + ratio * 252, y: 588 + (index % 3) * 24 + random() * 13 },
         opacity: 1,
@@ -141,7 +152,7 @@ function createResultBatch(
         spawnAtMs,
         lifetimeMs: kind === 'hero' ? 9000 : kind === 'trail' ? 3000 : 2300,
         history: [{ x, y }],
-        radius: kind === 'hero' ? 2.8 + random() * 2.7 : kind === 'trail' ? 1 + random() : 0.45 + random() * 0.82,
+        radius: kind === 'hero' ? 1.3 + random() * 1.5 : kind === 'trail' ? 0.55 + random() * 0.45 : 0.25 + random() * 0.4,
         twinklePhase: random() * Math.PI * 2,
         settleTarget: { x: 64 + ratio * 252, y: 588 + ((emissionIndex + index) % 3) * 24 + random() * 13 },
         opacity: 1,
@@ -173,31 +184,40 @@ export function stepParticleWorld(world: ParticleWorld, input: ParticleStepInput
   }).map((particle) => {
     const ageMs = narrativeElapsed - particle.spawnAtMs
     if (ageMs < 0 || ageMs > particle.lifetimeMs) return { ...particle, ageMs }
-    const previous = particle.position
-    let position = {
+    const frozen = particle.space === 'landed' || particle.space === 'dissipating'
+    const previous = frozen ? particle.settleTarget : particle.position
+    let position = frozen ? particle.settleTarget : {
       x: previous.x + particle.velocity.x * seconds * motionScale,
       y: previous.y + particle.velocity.y * seconds * motionScale,
     }
+    let velocity = frozen ? { x: 0, y: 0 } : particle.velocity
     let space = particle.space
     let enteredAtMs = particle.enteredAtMs
+    let landedAtMs = particle.landedAtMs
     if (space === 'outside' && input.entryProgress >= 0.55 && crossesPortal(previous, position, WINDOW_PORTAL)) {
       space = 'inside'
       enteredAtMs = narrativeElapsed
     }
     let opacity = particle.opacity
     const roomAgeMs = narrativeElapsed - (enteredAtMs ?? particle.spawnAtMs)
-    if ((space === 'inside' || space === 'settling') && particle.kind === 'hero' && roomAgeMs >= 1250) {
-      space = roomAgeMs >= 2100 ? 'landed' : 'settling'
-      const settleAmount = 1 - Math.exp(-input.deltaMs / (space === 'landed' ? 90 : 360))
+    const landing = landingProfiles[particle.kind]
+    if ((space === 'inside' || space === 'settling') && roomAgeMs >= landing.settleAfterMs) {
+      space = roomAgeMs >= landing.impactAfterMs ? 'landed' : 'settling'
+      const settleAmount = 1 - Math.exp(-input.deltaMs / 260)
       position = {
         x: position.x + (particle.settleTarget.x - position.x) * settleAmount,
         y: position.y + (particle.settleTarget.y - position.y) * settleAmount,
       }
     }
-    if ((space === 'landed' || space === 'dissipating') && particle.kind === 'hero') {
+    if (space === 'landed' || space === 'dissipating') {
+      landedAtMs ??= (enteredAtMs ?? particle.spawnAtMs) + landing.impactAfterMs
       position = particle.settleTarget
-      if (roomAgeMs >= 2600) space = 'dissipating'
-      opacity = space === 'dissipating' ? Math.max(0, 1 - (roomAgeMs - 2600) / 520) : 1
+      velocity = { x: 0, y: 0 }
+      const impactAgeMs = Math.max(0, narrativeElapsed - landedAtMs)
+      if (impactAgeMs >= landing.holdMs) space = 'dissipating'
+      opacity = space === 'dissipating'
+        ? Math.max(0, 1 - (impactAgeMs - landing.holdMs) / landing.fadeMs)
+        : 1
     } else if (particle.kind !== 'hero') {
       const fadeIn = Math.min(1, ageMs / 180)
       const fadeOut = Math.min(1, (particle.lifetimeMs - ageMs) / 480)
@@ -206,7 +226,7 @@ export function stepParticleWorld(world: ParticleWorld, input: ParticleStepInput
     const history = particle.kind === 'hero'
       ? [...particle.history, position].slice(-48)
       : [previous, position]
-    return { ...particle, previous, position, space, ageMs, history, opacity, enteredAtMs }
+    return { ...particle, previous, position, velocity, space, ageMs, history, opacity, enteredAtMs, landedAtMs }
   })
 
   let nextId = world.nextId

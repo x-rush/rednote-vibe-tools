@@ -1,21 +1,38 @@
 import { useId } from 'react'
-import { splitMoonlightPolygons, WINDOW_PORTAL, quadPoints } from './geometry'
+import { projectWindowLightCast, WINDOW_PORTAL, quadPoints } from './geometry'
 
 interface WindowLayerProps { readonly revealProgress: number }
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const smoothstep = (value: number) => value * value * (3 - 2 * value)
 
-const exteriorStars = [
-  [232, 190, 0.7], [257, 214, 1.1], [298, 185, 0.65], [327, 224, 1],
-  [239, 264, 0.8], [314, 292, 1.25], [270, 327, 0.65], [334, 362, 0.9],
-  [244, 390, 1.1], [304, 426, 0.7], [329, 458, 1.2],
+const starDepths = [
+  [[225, 177, 0.55], [242, 204, 0.4], [272, 184, 0.48], [301, 213, 0.38], [333, 196, 0.54], [236, 249, 0.38], [286, 272, 0.46], [326, 254, 0.35], [251, 306, 0.52], [312, 338, 0.42], [232, 377, 0.38], [287, 404, 0.45], [329, 433, 0.36], [251, 421, 0.3]],
+  [[232, 190, 0.82], [259, 226, 0.72], [296, 193, 0.66], [326, 230, 0.88], [237, 281, 0.7], [276, 301, 0.58], [320, 291, 0.9], [250, 346, 0.6], [300, 371, 0.78], [337, 356, 0.62], [235, 408, 0.86], [275, 435, 0.62], [321, 454, 0.78]],
+  [[249, 181, 1.25], [317, 205, 1.1], [227, 230, 1.05], [302, 250, 1.35], [339, 281, 0.92], [242, 322, 1.18], [323, 331, 1.42], [274, 385, 1.08], [335, 402, 1.2], [250, 449, 1.34], [307, 463, 0.96]],
 ] as const
+
+const floorDust = [[70, 730, 1.4], [104, 692, 0.8], [153, 676, 1.2], [207, 650, 0.7], [266, 625, 1], [310, 602, 0.65], [43, 783, 0.7], [188, 746, 0.55], [113, 767, 0.52], [238, 697, 0.66], [286, 741, 0.48], [53, 807, 0.58], [329, 667, 0.45], [159, 791, 0.62]] as const
+
+const tyndallMotes = Array.from({ length: 46 }, (_, index) => {
+  const depth = ((index * 37) % 97) / 96
+  const drift = ((index * 19) % 23) - 11
+  return {
+    x: 307 - depth * 194 + drift,
+    y: 263 + depth * 438 + (index % 5) * 7,
+    radius: 0.28 + (index % 4) * 0.12,
+    opacity: 0.2 + (index % 6) * 0.08,
+  }
+})
+
+function starPath(x: number, y: number, radius: number) {
+  return `M ${x} ${y - radius * 2.5} L ${x + radius * 0.42} ${y - radius * 0.42} L ${x + radius * 2.5} ${y} L ${x + radius * 0.42} ${y + radius * 0.42} L ${x} ${y + radius * 2.5} L ${x - radius * 0.42} ${y + radius * 0.42} L ${x - radius * 2.5} ${y} L ${x - radius * 0.42} ${y - radius * 0.42} Z`
+}
 
 export function WindowLayer({ revealProgress }: WindowLayerProps) {
   const ids = useId().replaceAll(':', '')
   const light = smoothstep(clamp(revealProgress))
-  const [nearMoonlight, farMoonlight] = splitMoonlightPolygons(light)
+  const cast = projectWindowLightCast(light)
 
   return (
     <svg
@@ -27,82 +44,136 @@ export function WindowLayer({ revealProgress }: WindowLayerProps) {
     >
       <defs>
         <linearGradient id={`${ids}-room`} x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor="#020716" />
-          <stop offset="0.5" stopColor="#050b24" />
-          <stop offset="1" stopColor="#010311" />
+          <stop stopColor="#030713" />
+          <stop offset="0.48" stopColor="#070c24" />
+          <stop offset="1" stopColor="#01030d" />
         </linearGradient>
-        <linearGradient id={`${ids}-floor`} x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor="#020717" />
-          <stop offset="0.56" stopColor="#081234" />
-          <stop offset="1" stopColor="#010314" />
+        <linearGradient id={`${ids}-floor`} x1="0.9" y1="0" x2="0.1" y2="1">
+          <stop stopColor="#0b1333" />
+          <stop offset="0.48" stopColor="#070d27" />
+          <stop offset="1" stopColor="#020412" />
         </linearGradient>
-        <radialGradient id={`${ids}-sky`} cx="52%" cy="22%" r="92%">
-          <stop stopColor="#8194c8" />
-          <stop offset="0.27" stopColor="#303961" />
-          <stop offset="0.62" stopColor="#111631" />
-          <stop offset="1" stopColor="#020515" />
+        <radialGradient id={`${ids}-sky`} cx="45%" cy="22%" r="94%">
+          <stop stopColor="#171b2a" />
+          <stop offset="0.26" stopColor="#0a0d18" />
+          <stop offset="0.58" stopColor="#040610" />
+          <stop offset="1" stopColor="#010207" />
+        </radialGradient>
+        <radialGradient id={`${ids}-mist`} cx="50%" cy="42%" r="58%">
+          <stop stopColor="#b9caff" stopOpacity="0.13" />
+          <stop offset="0.52" stopColor="#657bc2" stopOpacity="0.035" />
+          <stop offset="1" stopColor="#344b9c" stopOpacity="0" />
         </radialGradient>
         <linearGradient id={`${ids}-frame`} x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor="#dae4ff" />
-          <stop offset="0.3" stopColor="#8fa0dc" />
-          <stop offset="0.72" stopColor="#4b5eaa" />
-          <stop offset="1" stopColor="#192450" />
+          <stop stopColor="#f2f4ff" />
+          <stop offset="0.18" stopColor="#aebde9" />
+          <stop offset="0.6" stopColor="#58699f" />
+          <stop offset="1" stopColor="#1f2a55" />
         </linearGradient>
-        <linearGradient id={`${ids}-beam-near`} x1="1" y1="0" x2="0" y2="1">
-          <stop stopColor="#f2f6ff" stopOpacity="0.48" />
-          <stop offset="0.42" stopColor="#b6caff" stopOpacity="0.22" />
-          <stop offset="1" stopColor="#7892ed" stopOpacity="0.02" />
+        <linearGradient id={`${ids}-beam-upper`} x1="0.78" y1="0" x2="0.16" y2="1">
+          <stop stopColor="#fbfdff" stopOpacity="0.5" />
+          <stop offset="0.38" stopColor="#c9d8ff" stopOpacity="0.23" />
+          <stop offset="1" stopColor="#7898f0" stopOpacity="0.018" />
         </linearGradient>
-        <linearGradient id={`${ids}-beam-far`} x1="1" y1="0" x2="0" y2="1">
-          <stop stopColor="#eef4ff" stopOpacity="0.3" />
-          <stop offset="1" stopColor="#768fdf" stopOpacity="0.02" />
+        <linearGradient id={`${ids}-beam-lower`} x1="0.84" y1="0" x2="0.06" y2="1">
+          <stop stopColor="#f8fbff" stopOpacity="0.43" />
+          <stop offset="0.42" stopColor="#b8cbff" stopOpacity="0.2" />
+          <stop offset="1" stopColor="#6d87dc" stopOpacity="0.015" />
         </linearGradient>
-        <radialGradient id={`${ids}-moon`} cx="37%" cy="36%" r="70%">
+        <linearGradient id={`${ids}-floor-glow`} x1="0.76" y1="0" x2="0.12" y2="1">
+          <stop stopColor="#f3f7ff" stopOpacity="0.38" />
+          <stop offset="0.5" stopColor="#b9ccff" stopOpacity="0.25" />
+          <stop offset="1" stopColor="#778fd8" stopOpacity="0.1" />
+        </linearGradient>
+        <radialGradient id={`${ids}-moon`} cx="34%" cy="30%" r="72%">
           <stop stopColor="#ffffff" />
-          <stop offset="0.52" stopColor="#f5f7ff" />
-          <stop offset="1" stopColor="#bdcaf3" />
+          <stop offset="0.5" stopColor="#f5f5ff" />
+          <stop offset="0.8" stopColor="#d8e0ff" />
+          <stop offset="1" stopColor="#9faddd" />
         </radialGradient>
-        <filter id={`${ids}-moon-glow`} x="-150%" y="-150%" width="400%" height="400%">
-          <feGaussianBlur stdDeviation="7" result="blur" />
+        <filter id={`${ids}-moon-soft`} x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="16" /></filter>
+        <filter id={`${ids}-moon-aura`} x="-180%" y="-180%" width="460%" height="460%"><feGaussianBlur stdDeviation="7" /></filter>
+        <filter id={`${ids}-star-glow`} x="-300%" y="-300%" width="700%" height="700%">
+          <feGaussianBlur stdDeviation="1.7" result="blur" />
           <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
-        <filter id={`${ids}-soft`} x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="10" />
-        </filter>
+        <filter id={`${ids}-beam-soft`} x="-25%" y="-20%" width="150%" height="150%"><feGaussianBlur stdDeviation="4" /></filter>
+        <filter id={`${ids}-floor-soft`} x="-15%" y="-18%" width="130%" height="140%"><feGaussianBlur stdDeviation="2.6" /></filter>
+        <filter id={`${ids}-ambient-soft`} x="-35%" y="-50%" width="170%" height="200%"><feGaussianBlur stdDeviation="22" /></filter>
         <mask id={`${ids}-crescent`}>
           <rect width="390" height="844" fill="black" />
-          <circle cx="279" cy="231" r="30" fill="white" />
-          <circle cx="291" cy="219" r="28" fill="black" />
+          <circle cx="281" cy="230" r="29" fill="white" />
+          <circle cx="292" cy="219" r="27" fill="black" />
         </mask>
+        <clipPath id={`${ids}-portal`}><polygon points={quadPoints(WINDOW_PORTAL)} /></clipPath>
       </defs>
 
       <rect width="390" height="844" fill={`url(#${ids}-room)`} />
-      <path d="M0 604 L390 488 L390 844 L0 844Z" fill={`url(#${ids}-floor)`} />
+      <path d="M0 603 L390 486 L390 844 L0 844Z" fill={`url(#${ids}-floor)`} />
+      <ellipse cx="190" cy="682" rx="190" ry="118" fill="#718bd8" opacity={light * 0.055} filter={`url(#${ids}-ambient-soft)`} />
 
-      <g data-layer="moonlight" opacity={light}>
-        <polygon data-layer="moonlight-plane" points={quadPoints(farMoonlight)} fill={`url(#${ids}-beam-far)`} />
-        <polygon data-layer="moonlight-plane" points={quadPoints(nearMoonlight)} fill={`url(#${ids}-beam-near)`} />
-        <ellipse cx="181" cy="655" rx="162" ry="105" fill="#91aaf5" opacity="0.14" filter={`url(#${ids}-soft)`} />
-      </g>
-
-      <polygon points={quadPoints(WINDOW_PORTAL)} fill={`url(#${ids}-sky)`} opacity={0.18 + light * 0.82} />
-      <g opacity={0.06 + light * 0.9}>
-        {exteriorStars.map(([x, y, radius], index) => (
-          <circle key={index} cx={x} cy={y} r={radius} fill="#f5f7ff" opacity={0.54 + (index % 3) * 0.18} />
+      <g data-layer="volumetric-moonlight" opacity={light} filter={`url(#${ids}-beam-soft)`} style={{ mixBlendMode: 'screen' }}>
+        {cast.airBeams.map((beam, index) => (
+          <polygon key={`beam-${index}`} data-layer="tyndall-beam" points={quadPoints(beam)} fill={`url(#${ids}-${index === 0 ? 'beam-upper' : 'beam-lower'})`} />
         ))}
       </g>
-      <g data-layer="moon-crescent" opacity={0.14 + light * 0.86} filter={`url(#${ids}-moon-glow)`}>
-        <circle cx="279" cy="231" r="31" fill={`url(#${ids}-moon)`} mask={`url(#${ids}-crescent)`} />
-        <circle cx="268" cy="244" r="2" fill="#dbe4ff" opacity="0.42" />
+      <g data-layer="tyndall-dust" opacity={light * 0.84} filter={`url(#${ids}-star-glow)`}>
+        {tyndallMotes.map((mote, index) => (
+          <circle key={index} className="beam-mote" cx={mote.x} cy={mote.y} r={mote.radius} fill="#e7efff" opacity={mote.opacity} style={{ animationDelay: `${-index * 0.19}s` }} />
+        ))}
+      </g>
+      <g data-layer="floor-window-projection" opacity={light * 0.9}>
+        <g filter={`url(#${ids}-floor-soft)`} style={{ mixBlendMode: 'screen' }}>
+          {cast.floorPanes.map((pane, index) => (
+            <polygon key={`floor-pane-${index}`} data-layer="floor-window-pane" points={quadPoints(pane)} fill={`url(#${ids}-floor-glow)`} opacity={index === 0 ? 0.9 : 0.78} />
+          ))}
+        </g>
+        {cast.frameShadows.map((shadow, index) => (
+          <polygon key={`frame-shadow-${index}`} data-layer="projected-window-frame-shadow" points={quadPoints(shadow)} fill="#02050f" opacity="0.46" />
+        ))}
+        <polygon data-layer="projected-sash-shadow" points={quadPoints(cast.sashShadow)} fill="#02050f" opacity="0.52" />
       </g>
 
-      <g data-layer="fixed-window-frame" opacity={0.38 + light * 0.56}>
+      <g clipPath={`url(#${ids}-portal)`} opacity={light}>
+        <polygon data-sky-tone="near-black" points={quadPoints(WINDOW_PORTAL)} fill={`url(#${ids}-sky)`} />
+        <ellipse data-layer="star-mist" cx="287" cy="296" rx="94" ry="205" fill={`url(#${ids}-mist)`} />
+        {starDepths.map((stars, depth) => (
+          <g key={depth} data-layer="starfield-depth" opacity={0.42 + depth * 0.23} filter={depth === 2 ? `url(#${ids}-star-glow)` : undefined}>
+            {stars.map(([x, y, radius], index) => depth === 2
+              ? <path key={index} className="sky-star sky-star--bright" d={starPath(x, y, radius)} fill={index % 4 === 0 ? '#fff0c7' : '#f7f8ff'} style={{ animationDelay: `${-(index * 0.41 + depth)}s` }} />
+              : <circle key={index} className="sky-star" cx={x} cy={y} r={radius} fill={depth === 0 ? '#a8bcfa' : '#e4ebff'} style={{ animationDelay: `${-(index * 0.53 + depth)}s` }} />
+            )}
+          </g>
+        ))}
+
+        <circle data-layer="moon-halo" cx="281" cy="230" r="58" fill="#7f9fff" opacity="0.14" filter={`url(#${ids}-moon-soft)`} />
+        <circle data-layer="moon-halo" cx="281" cy="230" r="42" fill="#bdccff" opacity="0.2" filter={`url(#${ids}-moon-aura)`} />
+        <circle data-layer="moon-halo" cx="281" cy="230" r="33" fill="#f0f3ff" opacity="0.075" filter={`url(#${ids}-moon-aura)`} />
+        <g data-layer="moon-crescent" mask={`url(#${ids}-crescent)`} filter={`url(#${ids}-star-glow)`}>
+          <circle cx="281" cy="230" r="29" fill={`url(#${ids}-moon)`} />
+          <circle cx="266" cy="242" r="3.3" fill="#aebce4" opacity="0.25" />
+          <circle cx="271" cy="214" r="2" fill="#c4ceec" opacity="0.32" />
+          <circle cx="283" cy="250" r="4.6" fill="#bac4e3" opacity="0.16" />
+          <path d="M257 244 Q267 256 282 258" fill="none" stroke="#ffffff" strokeWidth="1" opacity="0.48" />
+        </g>
+      </g>
+
+      <g data-layer="fixed-window-frame" opacity={0.24 + light * 0.74}>
+        <polyline points="202,138 360,168 360,505 202,452 202,138" fill="none" stroke="#172044" strokeWidth="14" strokeLinejoin="round" />
         <polyline points="202,138 360,168 360,505 202,452 202,138" fill="none" stroke={`url(#${ids}-frame)`} strokeWidth="8.5" strokeLinejoin="round" />
-        <polyline points="202,138 214,152 348,178 360,168" fill="#d5defa" opacity="0.52" />
-        <polyline points="360,168 348,178 348,486 360,505" fill="#14204f" opacity="0.95" />
-        <polyline points="202,452 214,438 348,486 360,505" fill="#35477d" opacity="0.82" />
-        <line x1="208" y1="286" x2="354" y2="322" stroke="#8999ce" strokeWidth="6.5" />
-        <line x1="211" y1="288" x2="351" y2="322" stroke="#d8e1ff" strokeWidth="1.3" opacity="0.52" />
+        <polyline points="202,138 214,152 348,178 360,168" fill="#e8edff" opacity="0.56" />
+        <polyline points="360,168 348,178 348,486 360,505" fill="#17244e" opacity="0.96" />
+        <polyline points="202,452 214,438 348,486 360,505" fill="#354878" opacity="0.86" />
+        <line x1="208" y1="286" x2="354" y2="322" stroke="#344471" strokeWidth="10" />
+        <line x1="209" y1="286" x2="353" y2="322" stroke="#97a6d2" strokeWidth="6" />
+        <line x1="211" y1="286" x2="351" y2="321" stroke="#edf2ff" strokeWidth="1.2" opacity="0.6" />
+        <polyline points="204,141 357,170" fill="none" stroke="#ffffff" strokeWidth="1.1" opacity="0.5" />
+      </g>
+
+      <g data-layer="floor-moon-dust" opacity={light * 0.72} filter={`url(#${ids}-star-glow)`}>
+        {floorDust.map(([x, y, radius], index) => (
+          <path key={index} className="floor-star" d={starPath(x, y, radius)} fill={index % 3 === 0 ? '#ffeec1' : '#dfe9ff'} style={{ animationDelay: `${-index * 0.47}s` }} />
+        ))}
       </g>
     </svg>
   )

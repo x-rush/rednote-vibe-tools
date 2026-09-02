@@ -21,6 +21,17 @@ function hero(position = { x: 308, y: 215 }, velocity = { x: -80, y: 110 }): Par
   }
 }
 
+function indoorParticle(kind: Particle['kind']): Particle {
+  return {
+    ...hero({ x: 208, y: 540 }, { x: -18, y: 46 }),
+    id: kind === 'dust' ? 1 : kind === 'trail' ? 2 : 3,
+    kind,
+    space: 'inside',
+    enteredAtMs: 0,
+    lifetimeMs: 9000,
+  }
+}
+
 function worldWith(particle: Particle): ParticleWorld {
   return {
     particles: [particle], quality: 'full', mood: 'dream', nextId: 2,
@@ -96,6 +107,23 @@ describe('particle spatial narrative', () => {
     expect(dissipating.particles[0]?.space).toBe('dissipating')
   })
 
+  it.each(['dust', 'trail', 'hero'] as const)('stops a %s star at its impact point instead of sliding across the floor', (kind) => {
+    const impactElapsedMs = { dust: 800, trail: 1140, hero: 2120 }[kind]
+    const landed = stepParticleWorld(worldWith(indoorParticle(kind)), {
+      elapsedMs: impactElapsedMs, deltaMs: 20, entryProgress: 1, reducedMotion: false, continuous: false,
+    })
+    const afterImpact = stepParticleWorld(landed, {
+      elapsedMs: impactElapsedMs + 120, deltaMs: 120, entryProgress: 1, reducedMotion: false, continuous: false,
+    })
+    const particle = landed.particles[0]
+    const laterParticle = afterImpact.particles[0]
+
+    expect(particle?.position).toEqual(particle?.settleTarget)
+    expect(particle?.velocity).toEqual({ x: 0, y: 0 })
+    expect(laterParticle?.position).toEqual(particle?.settleTarget)
+    expect(laterParticle?.previous).toEqual(particle?.settleTarget)
+  })
+
   it('stagger-lands the generated star group so the finale includes visible dissipation', () => {
     let world = createParticleWorld(42, 'full', 'hope')
     for (let elapsedMs = 0; elapsedMs <= 7500; elapsedMs += 20) {
@@ -115,6 +143,14 @@ describe('particle spatial narrative', () => {
 
     expect(Math.max(...dustSpawns)).toBeGreaterThan(5000)
     expect(Math.max(...trailSpawns)).toBeGreaterThan(5000)
+  })
+
+  it('keeps a dense reference-like mix of fine stars and short light trails', () => {
+    const world = createParticleWorld(42, 'full', 'dream')
+    expect(world.particles.length).toBeGreaterThanOrEqual(190)
+    expect(world.particles.filter(({ kind }) => kind === 'trail')).toHaveLength(42)
+    expect(Math.max(...world.particles.filter(({ kind }) => kind === 'hero').map(({ radius }) => radius))).toBeLessThan(3)
+    expect(particleLimit('full')).toBeGreaterThanOrEqual(210)
   })
 
   it('continues emitting stars for 60 seconds without exceeding the particle cap', () => {

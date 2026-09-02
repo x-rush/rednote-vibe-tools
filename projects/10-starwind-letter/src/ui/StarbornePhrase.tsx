@@ -25,6 +25,7 @@ export function StarbornePhrase({ message, progress, complete, reducedMotion }: 
               '--flight-rotation': `${sample.rotationDeg}deg`,
               '--flight-blur': `${sample.blurPx}px`,
               '--flight-opacity': sample.opacity,
+              '--flight-sparkle': sample.sparkle,
             } as CSSProperties}
           >
             {sample.character}

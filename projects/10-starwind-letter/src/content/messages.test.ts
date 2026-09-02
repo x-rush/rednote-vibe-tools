@@ -13,17 +13,17 @@ describe('star message content', () => {
     expect(messages.every((message) => [...message.text.replace(/[，。！？、]/g, '')].length <= 24)).toBe(true)
   })
 
-  it('softens concrete future promises approved in the design', () => {
-    const text = parseContent(raw).messages.map((message) => message.text)
-    expect(text).toContain('也许明天，会有小小惊喜')
-    expect(text).toContain('愿一件好事慢慢靠近')
-    expect(text).not.toContain('明天会有一个小小的惊喜')
-    expect(text).not.toContain('一件好事正在慢慢靠近')
+  it('keeps every message focused on encouragement without romantic or relationship language', () => {
+    const text = parseContent(raw).messages.map((message) => message.text).join('\n')
+    const relationshipTerms = ['爱', '喜欢', '想念', '惦记', '牵挂', '拥抱', '某个人', '回应', '偏爱', '陪伴', '关系', '真心']
+
+    expect(relationshipTerms.filter((term) => text.includes(term))).toEqual([])
+    expect(parseContent(raw).messages.filter((message) => /你|自己|今天|今晚|可以|不必|允许|别|先/.test(message.text)).length).toBeGreaterThanOrEqual(48)
   })
 
   it('keeps the packaged fallback in the content file', () => {
     expect(parseContent(raw).fallback).toEqual({
-      id: 'system-fallback', text: '今晚，先听一听风', mood: 'calm', weight: 1,
+      id: 'system-fallback', text: '今晚不必证明自己', mood: 'calm', weight: 1,
     })
   })
 })

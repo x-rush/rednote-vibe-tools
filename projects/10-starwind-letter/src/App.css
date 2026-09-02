@@ -70,6 +70,33 @@ button { font: inherit; }
   pointer-events: none;
 }
 
+.sky-star,
+.floor-star,
+.beam-mote {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: star-breathe 2.8s ease-in-out infinite alternate;
+}
+
+.sky-star--bright { animation-duration: 2.15s; }
+.floor-star { animation-duration: 3.4s; }
+.beam-mote { animation-duration: 4.2s; }
+
+@keyframes star-breathe {
+  0%, 18% { opacity: 0.34; transform: scale(0.72); }
+  52% { opacity: 0.94; transform: scale(1.18); }
+  72% { opacity: 0.56; transform: scale(0.88); }
+  100% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes moon-dust-drift {
+  0% { opacity: 0.18; transform: translate3d(0, 3px, 0) scale(0.72); }
+  48% { opacity: 0.72; transform: translate3d(-2px, -1px, 0) scale(1.12); }
+  100% { opacity: 0.24; transform: translate3d(-5px, -6px, 0) scale(0.82); }
+}
+
+.beam-mote { animation-name: moon-dust-drift; }
+
 .scene-content {
   position: absolute;
   inset: 0;
@@ -117,7 +144,7 @@ button { font: inherit; }
 .scene-title {
   position: absolute;
   right: 7%;
-  bottom: 19%;
+  bottom: 29.5%;
   left: 7%;
   margin: 0;
   color: rgb(180 200 255 / 38%);
@@ -130,7 +157,7 @@ button { font: inherit; }
 .starborne-phrase {
   position: absolute;
   right: 5%;
-  bottom: 8.5%;
+  bottom: 15.5%;
   left: 5%;
   z-index: 7;
   margin: 0;
@@ -141,16 +168,36 @@ button { font: inherit; }
   letter-spacing: 0.12em;
   line-height: 1.58;
   text-align: center;
+  line-break: strict;
+  text-wrap: pretty;
   text-shadow: 0 0 10px rgb(173 198 255 / 38%), 0 0 28px rgb(104 143 239 / 34%);
 }
 
 .starborne-char {
+  position: relative;
   display: inline-block;
   opacity: var(--flight-opacity);
   filter: blur(var(--flight-blur));
   transform: translate3d(var(--flight-x), var(--flight-y), 0) rotate(var(--flight-rotation));
   transform-origin: 50% 65%;
+  isolation: isolate;
   will-change: transform, filter, opacity;
+}
+
+.starborne-char::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: 0.78em;
+  height: 0.78em;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 250 220 / 78%) 0 8%, rgb(180 211 255 / 42%) 25%, transparent 72%);
+  content: '';
+  opacity: calc(var(--flight-sparkle) * 0.72);
+  transform: translate(-50%, -50%) scale(calc(0.72 + var(--flight-sparkle) * 0.92));
+  filter: blur(4px);
+  pointer-events: none;
 }
 
 .starborne-announcement {
@@ -198,4 +245,10 @@ button { font: inherit; }
 
 @media (orientation: landscape) {
   .scene { width: auto; height: 100dvh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-star,
+  .floor-star,
+  .beam-mote { animation-duration: 7s; }
 }

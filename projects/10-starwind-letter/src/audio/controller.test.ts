@@ -1,17 +1,27 @@
 import { describe, expect, it } from 'vitest'
-import { createAudioController } from './controller'
+import { createAudioController, stageAudioCue } from './controller'
 
-function fakeAudioContext() {
-  const parameter = { setValueAtTime() {}, exponentialRampToValueAtTime() {} }
+function fakeAudioContext(calls = { buffers: 0, filters: 0 }) {
+  const parameter = { setValueAtTime() {}, exponentialRampToValueAtTime() {}, linearRampToValueAtTime() {} }
   const node = { connect() { return node }, disconnect() {} }
   return {
     currentTime: 0,
+    sampleRate: 48_000,
     destination: node,
     state: 'running',
     createOscillator() {
       return { ...node, frequency: parameter, type: 'sine', start() {}, stop() {} }
     },
     createGain() { return { ...node, gain: parameter } },
+    createBuffer() {
+      calls.buffers += 1
+      return { getChannelData: () => new Float32Array(48_000) }
+    },
+    createBufferSource() { return { ...node, buffer: null, start() {}, stop() {} } },
+    createBiquadFilter() {
+      calls.filters += 1
+      return { ...node, type: 'lowpass', frequency: parameter, Q: parameter }
+    },
     resume: async () => undefined,
     suspend: async () => undefined,
   } as unknown as AudioContext
@@ -40,5 +50,20 @@ describe('audio controller activation', () => {
     audio.activate()
     audio.setMuted(true)
     expect(audio.snapshot()).toMatchObject({ active: true, muted: true, failed: false })
+  })
+
+  it('renders the curtain brush as filtered broadband texture', () => {
+    const calls = { buffers: 0, filters: 0 }
+    const audio = createAudioController(() => fakeAudioContext(calls))
+    audio.activate()
+    expect(() => audio.cue('curtain')).not.toThrow()
+    expect(calls.buffers).toBe(1)
+    expect(calls.filters).toBeGreaterThanOrEqual(1)
+  })
+
+  it('synchronizes the brush cue with the curtain-opening stage', () => {
+    expect(stageAudioCue('wind')).toBeUndefined()
+    expect(stageAudioCue('curtain-opening')).toBe('curtain')
+    expect(stageAudioCue('stars-and-letters')).toBe('stars')
   })
 })

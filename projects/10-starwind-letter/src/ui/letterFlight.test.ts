@@ -13,6 +13,7 @@ describe('star-borne letter trajectories', () => {
     expect(result.every(({ translateX, translateY, rotationDeg, blurPx }) => (
       translateX === 0 && translateY === 0 && rotationDeg === 0 && blurPx === 0
     ))).toBe(true)
+    expect(result.every(({ target }) => target.y < 690)).toBe(true)
   })
 
   it('stagger-delays later glyphs without changing final order', () => {
@@ -24,6 +25,12 @@ describe('star-borne letter trajectories', () => {
     const middle = sampleLetterFlight('今晚有星光', 0.55, false)
     expect(middle.at(-1)!.opacity).toBeLessThan(0.62)
     expect(middle.at(-1)!.blurPx).toBeGreaterThan(3)
+  })
+
+  it('keeps glyphs embedded in the star trail instead of spinning into view', () => {
+    const middle = sampleLetterFlight('今晚有星光', 0.72, false)
+    expect(Math.max(...middle.map(({ rotationDeg }) => Math.abs(rotationDeg)))).toBeLessThanOrEqual(5)
+    expect(middle.every(({ sparkle }) => sparkle >= 0 && sparkle <= 1)).toBe(true)
   })
 
   it('reduces rotation and travel in reduced motion', () => {

@@ -36,6 +36,11 @@ function curtainStrandTailXCoordinates(sample: ReturnType<typeof sampleTimeline>
   return mainCurtainPaths(sample).map((values) => values.at(-2) ?? 0)
 }
 
+function curtainTailCenterX(sample: ReturnType<typeof sampleTimeline>) {
+  const tails = curtainStrandTailXCoordinates(sample)
+  return tails.reduce((sum, tail) => sum + tail, 0) / tails.length
+}
+
 function tailX(values: readonly number[]) {
   return values.at(-2) ?? 0
 }
@@ -141,6 +146,16 @@ describe('curtain opening and reset motion', () => {
     expect(tailX(overshot)).toBeLessThan(tailX(following) - 30)
     expect(tailX(settling)).toBeGreaterThan(tailX(overshot) + 12)
     expect(tailX(opened)).toBeGreaterThan(tailX(settling) + 45)
+  })
+
+  it('releases the strong gust without kicking the curtain left a second time', () => {
+    const centers = Array.from({ length: 13 }, (_, index) => (
+      curtainTailCenterX(sampleTimeline(1200 + index * 50, false))
+    ))
+    const backwardKicks = centers.slice(1).map((center, index) => center - (centers[index] ?? center))
+      .filter((step) => step < -0.75)
+
+    expect(backwardKicks).toEqual([])
   })
 
   it('carries diminishing inertia through the late opening instead of pausing vertically', () => {

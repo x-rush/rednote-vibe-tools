@@ -93,18 +93,9 @@ export function sampleCurtainPath(
     const localGustAttack = smoothstep(clamp(localGustAgeMs / 190))
     const localGustDecay = 1 - smoothstep(clamp((localGustAgeMs - 480) / 690))
     const localPrimaryImpulse = localGustAttack * localGustDecay
-    const localReboundAgeMs = Math.max(0, localGustAgeMs - 610)
-    const localRebound = localGustAgeMs > 610
-      ? Math.exp(-localReboundAgeMs / (1120 + strand.response * 180))
-        * Math.sin(localReboundAgeMs / (218 + (strand.id % 5) * 9) + 0.36)
-        * 0.34
-      : 0
-    const localGustResponse = (localPrimaryImpulse + localRebound) * gustStrength
-    const horizontalResponse = localGustResponse >= 0 ? localGustResponse : localGustResponse * 0.42
-    const localGustEnergy = Math.min(
-      1,
-      (localPrimaryImpulse + Math.abs(localRebound) * 1.35) * gustStrength,
-    )
+    const localGustResponse = localPrimaryImpulse * gustStrength
+    const horizontalResponse = localGustResponse
+    const localGustEnergy = localGustResponse
     const windLift = Math.sin(Math.PI * depth) ** 0.8 * localGustEnergy * 4.8
     const wakePhase = timeMs / (175 + (strand.id % 7) * 13)
       + strand.phase * 3.8

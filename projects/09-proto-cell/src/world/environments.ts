@@ -66,7 +66,7 @@ export function createEnvironmentField(environmentId: EnvironmentId, seed: numbe
     flow: { x: Math.cos(angle) * environment.viscosity, y: Math.sin(angle) * environment.viscosity },
     baseFlow: { x: Math.cos(angle) * environment.viscosity, y: Math.sin(angle) * environment.viscosity },
     safeCenters: [],
-    safeRadius: environmentId === 'env-acid-vesicle' ? 132 : 92,
+    safeRadius: environmentId === 'env-acid-vesicle' || environmentId === 'env-antibody-storm' ? 132 : 92,
     obstacles: environmentId === 'env-fiber-maze'
       ? [
           { id: 'fiber-main', kind: 'fiber', from: point(90, 220), to: point(550, 760), adhesive: true },
@@ -101,19 +101,19 @@ export function stepEnvironmentField(state: EnvironmentField, atMs: number): Env
   )).map((cue) => cue.hazardId)
   const telegraphing = telegraphs.some((cue) => atMs >= cue.startsAtMs && atMs < cue.activatesAtMs)
   const elapsedSeconds = Math.max(0, atMs - state.phaseStartedAtMs) / 1000
-  const hazardSpeedMultiplier = state.environmentId === 'env-acid-vesicle' ? 0.45 : 1
+  const hazardSpeedMultiplier = state.environmentId === 'env-acid-vesicle' ? 0.45 : state.environmentId === 'env-antibody-storm' ? 0.5 : 1
   const moves = state.environmentId === 'env-acid-vesicle' || state.environmentId === 'env-antibody-storm' || state.environmentId === 'env-abandoned-chamber'
   const hazardCenters = Object.fromEntries(telegraphs.map((cue) => [cue.hazardId, moves ? {
     x: pingPong(cue.center.x + state.flow.x * elapsedSeconds * 180 * hazardSpeedMultiplier, Math.max(70, dimensions.width * 0.08), Math.min(dimensions.width - 70, dimensions.width * 0.92)),
     y: pingPong(cue.center.y + state.flow.y * elapsedSeconds * 220 * hazardSpeedMultiplier, Math.max(100, dimensions.height * 0.08), Math.min(dimensions.height - 100, dimensions.height * 0.92)),
   } : cue.center]))
-  let safeCenters: Vec2[] = state.environmentId === 'env-acid-vesicle' && (telegraphing || activeHazardIds.length > 0)
+  let safeCenters: Vec2[] = (state.environmentId === 'env-acid-vesicle' || state.environmentId === 'env-antibody-storm') && (telegraphing || activeHazardIds.length > 0)
     ? Object.values(hazardCenters).map((center) => ({
         x: pingPong(center.x + dimensions.width * 0.5, Math.max(70, dimensions.width * 0.08), Math.min(dimensions.width - 70, dimensions.width * 0.92)),
         y: pingPong(center.y + dimensions.height * 0.44, Math.max(100, dimensions.height * 0.08), Math.min(dimensions.height - 100, dimensions.height * 0.92)),
       }))
     : []
-  if (state.environmentId === 'env-antibody-storm' && activeHazardIds.length > 0) {
+  if (state.environmentId === 'env-antibody-storm' && (telegraphing || activeHazardIds.length > 0)) {
     safeCenters = Object.values(hazardCenters).map((center) => ({ x: pingPong(center.x + dimensions.width * 0.12, Math.max(70, dimensions.width * 0.08), Math.min(dimensions.width - 70, dimensions.width * 0.92)), y: center.y }))
   }
   const obstacles = state.environmentId === 'env-abandoned-chamber'
@@ -220,7 +220,7 @@ export function sampleEnvironmentField(
     flow: { ...state.flow },
     speedMultiplier: touchesAdhesive ? 0.42 : 1,
     damage: damagingHazard
-      ? state.environmentId === 'env-abandoned-chamber' ? 12 : state.environmentId === 'env-acid-vesicle' ? 6 : 8
+      ? state.environmentId === 'env-abandoned-chamber' ? 12 : state.environmentId === 'env-acid-vesicle' || state.environmentId === 'env-antibody-storm' ? 6 : 8
       : 0,
     hazardId: activeHazard,
     blocked: touchesWall,

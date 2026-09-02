@@ -102,6 +102,16 @@ describe('launch environments', () => {
     expect(sampleEnvironmentField(acid, farPosition, 12).damage).toBe(0)
   })
 
+  it('previews an antibody safe lane before the sweep activates', () => {
+    const field = createEnvironmentField('env-antibody-storm', 727)
+    const cue = field.telegraphs[0]!
+    const preview = stepEnvironmentField(field, cue.activatesAtMs - 1)
+
+    expect(preview.safeCenters).toHaveLength(1)
+    expect(preview.safeRadius).toBeGreaterThanOrEqual(120)
+    expect(sampleEnvironmentField(preview, preview.safeCenters[0]!, 12).damage).toBe(0)
+  })
+
   it('consumes event world effects while the event is active', () => {
     const started = startEvent('event-giant-passage', {
       seed: 727,

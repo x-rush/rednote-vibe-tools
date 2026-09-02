@@ -8,45 +8,39 @@ interface CurtainLayerProps {
   readonly reducedMotion?: boolean
 }
 
-function curtainMotion(sample: TimelineSample) {
+const clamp = (value: number) => Math.min(1, Math.max(0, value))
+const smoothstep = (value: number) => value * value * (3 - 2 * value)
+
+function motionElapsedMs(sample: TimelineSample) {
   switch (sample.stage) {
-    case 'wind': {
-      const pressure = Math.min(1, Math.max(0, (sample.stageProgress - 0.5) / 0.5))
-      const easedPressure = pressure * pressure * (3 - 2 * pressure)
-      return {
-        opening: easedPressure * 0.05,
-        ambient: 0.08 + easedPressure * 0.2,
-        gustStrength: 0.34 + easedPressure * 0.66,
-        flowStrength: 0,
-      }
-    }
-    case 'curtain-opening': {
-      const progress = sample.stageProgress
-      return {
-        opening: 0.05 + progress * 0.95,
-        ambient: 0.13 + Math.sin(Math.min(1, progress) * Math.PI) * 0.17,
-        gustStrength: 1,
-        flowStrength: 0,
-      }
-    }
-    case 'stars-and-letters': return {
-      opening: 1,
-      ambient: 0.82,
-      gustStrength: 0,
-      flowStrength: 0.18,
-    }
-    case 'result': return {
-      opening: 1,
-      ambient: 0.72 + Math.sin(sample.resultElapsedMs / 1800) * 0.075,
-      gustStrength: 0,
-      flowStrength: 0.14,
-    }
-    case 'resetting': return {
+    case 'wind': return sample.stageProgress * 300
+    case 'curtain-opening': return 300 + sample.stageProgress * 1500
+    case 'stars-and-letters': return 1800 + sample.stageProgress * 4700
+    case 'result': return 6500 + sample.resultElapsedMs
+    case 'resetting': return sample.elapsedMs
+  }
+}
+
+function curtainMotion(sample: TimelineSample) {
+  if (sample.stage === 'resetting') {
+    return {
       opening: 1 - sample.stageProgress,
       ambient: 0.24 * (1 - sample.stageProgress),
       gustStrength: 0,
       flowStrength: 0,
     }
+  }
+  const elapsedMs = motionElapsedMs(sample)
+  const opening = elapsedMs < 300
+    ? smoothstep(clamp((elapsedMs - 120) / 180)) * 0.05
+    : 0.05 + clamp((elapsedMs - 300) / 1500) * 0.95
+  const breezeRise = smoothstep(clamp((elapsedMs - 520) / 1680))
+  const pressureRise = smoothstep(clamp((elapsedMs - 150) / 360))
+  return {
+    opening,
+    ambient: 0.08 + pressureRise * 0.13 + breezeRise * 0.53,
+    gustStrength: 1,
+    flowStrength: breezeRise * 0.16,
   }
 }
 
@@ -54,15 +48,16 @@ export function CurtainLayer({ sample, reducedMotion = false }: CurtainLayerProp
   const id = useId().replaceAll(':', '')
   const strands = useMemo(() => createCurtainStrands(64, createMulberry32(0x51a7)), [])
   const motion = curtainMotion(sample)
+  const motionElapsed = motionElapsedMs(sample)
   const motionScale = reducedMotion ? 0.42 : 1
   const ambient = motion.ambient * motionScale
   const flowShift = (
-    Math.sin(sample.elapsedMs / 1450) * 11
-    + Math.sin(sample.elapsedMs / 510 + 0.8) * 3.6
+    Math.sin(motionElapsed / 1450) * 11
+    + Math.sin(motionElapsed / 510 + 0.8) * 3.6
   ) * motion.flowStrength * motionScale
   const paths = strands.map((strand) => ({
     strand,
-    path: sampleCurtainPath(strand, motion.opening, sample.elapsedMs, ambient, motion.gustStrength, flowShift),
+    path: sampleCurtainPath(strand, motion.opening, motionElapsed, ambient, motion.gustStrength, flowShift),
   }))
   const leftBoundary = paths[0]?.path
   const rightBoundary = paths.at(-1)?.path
@@ -157,7 +152,7 @@ export function CurtainLayer({ sample, reducedMotion = false }: CurtainLayerProp
       </g>
       <g data-layer="curtain-sparkles" opacity={motion.opening * 0.82} filter={`url(#${id}-sparkle-glow)`}>
         {sparkles.map(({ strand, point, index }) => {
-          const pulse = 0.55 + Math.sin(sample.elapsedMs / (420 + index * 19) + strand.phase) * 0.38
+          const pulse = 0.55 + Math.sin(motionElapsed / (420 + index * 19) + strand.phase) * 0.38
           return (
             <g key={`sparkle-${index}`} data-curtain-sparkle="true" transform={`translate(${point.x} ${point.y})`} opacity={Math.max(0.12, pulse)}>
               <circle r={0.85 + (index % 3) * 0.24} fill={index % 4 === 0 ? '#fff1c8' : '#f5f7ff'} />

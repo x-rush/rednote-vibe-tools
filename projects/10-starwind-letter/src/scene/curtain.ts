@@ -73,11 +73,19 @@ export function sampleCurtainPath(
   const ambientMobility = 0.38 + strandRatio ** 1.4 * 0.62
   const strandLag = Math.max(0, strand.delay - strandRatio * 0.24) * 1.55
   const gustStrength = clamp(Math.abs(gustInput))
-  const gustArrival = 0.025 + strandLag * 0.22 + (Math.sin(strand.phase * 1.31) + 1) * 0.012
-  const gustRelease = 0.19 + strandLag * 0.2 + (Math.cos(strand.phase * 0.83) + 1) * 0.018
-  const gustAttack = smoothstep(clamp((openingProgress - gustArrival) / 0.115))
-  const gustDecay = 1 - smoothstep(clamp((openingProgress - gustRelease) / 0.27))
-  const gustPulse = gustAttack * gustDecay
+  const gustDelayMs = strandLag * 260 + (Math.sin(strand.phase * 1.31) + 1) * 22
+  const gustAgeMs = timeMs - 190 - gustDelayMs
+  const gustAttack = smoothstep(clamp(gustAgeMs / 230))
+  const gustDecay = 1 - smoothstep(clamp((gustAgeMs - 480) / 690))
+  const primaryImpulse = gustAttack * gustDecay
+  const reboundAgeMs = Math.max(0, gustAgeMs - 610)
+  const rebound = gustAgeMs > 610
+    ? Math.exp(-reboundAgeMs / (1120 + strand.response * 180))
+      * Math.sin(reboundAgeMs / (218 + (strand.id % 5) * 9) + 0.36)
+      * 0.34
+    : 0
+  const gustResponse = (primaryImpulse + rebound) * gustStrength
+  const gustEnergy = Math.min(1, (primaryImpulse + Math.abs(rebound) * 1.35) * gustStrength)
   const nodes = Array.from({ length: 12 }, (_, index) => {
     const depth = index / 11
     const opening = curtainFollowProgress(openingProgress, depth, strandLag)
@@ -91,14 +99,14 @@ export function sampleCurtainPath(
       y: mix(openedStart.y, openedEnd.y, depth) + Math.sin(Math.PI * depth) * 3,
     }
     const looseWeight = depth ** 1.62
-    const windLift = Math.sin(Math.PI * depth) ** 0.8 * gustStrength * 3.8
+    const windLift = Math.sin(Math.PI * depth) ** 0.8 * gustEnergy * 4.8
     const wakePhase = timeMs / (175 + (strand.id % 7) * 13)
       + strand.phase * 3.8
       - strand.delay * 10
       - depth * 5.2
-    const wakeFlutter = Math.sin(wakePhase) * gustStrength * gustPulse
+    const wakeFlutter = Math.sin(wakePhase) * gustEnergy
       * (2.4 + depth * 8.2) * depth ** 1.42 * edgeMobility
-    const wakeLift = Math.cos(wakePhase * 0.83 + depth) * gustStrength * gustPulse
+    const wakeLift = Math.cos(wakePhase * 0.83 + depth) * gustEnergy
       * 4.6 * depth ** 1.3 * edgeMobility
     const unevenPressure = 0.82
       + Math.sin(strand.phase * 1.73 + depth * 1.2) * 0.13
@@ -106,15 +114,15 @@ export function sampleCurtainPath(
     const braidedWake = (
       Math.sin(strand.phase * 2.27 + depth * 4.6)
       + Math.sin(strand.id * 1.13 - depth * 7.1) * 0.48
-    ) * gustStrength * gustPulse * (3 + depth * 15) * gustMobility
+    ) * gustEnergy * (3 + depth * 15) * gustMobility * depth ** 0.82
     const braidedLift = (
       Math.cos(strand.phase * 1.91 - depth * 3.7)
       + Math.sin(strand.id * 0.77 + depth * 5.3) * 0.42
-    ) * gustStrength * gustPulse * (2 + depth * 10) * gustMobility
-    const inertialSweep = gustStrength * gustPulse * depth ** 1.18
+    ) * gustEnergy * (2 + depth * 10) * gustMobility * depth ** 0.86
+    const inertialSweep = gustResponse * depth ** 0.94
       * (34 + depth * 112) * gustMobility * unevenPressure
-    const inertialLift = gustStrength * gustPulse * depth ** 1.24
-      * (35 + depth * 138) * gustMobility * (0.84 + Math.cos(strand.phase * 1.47) * 0.16)
+    const inertialLift = gustResponse * depth ** 1.02
+      * (42 + depth * 152) * gustMobility * (0.84 + Math.cos(strand.phase * 1.47) * 0.16)
     const slowPeriod = 780 + strand.response * 620 + (strand.id % 5) * 37
     const flutterPeriod = 330 + strand.delay * 640 + (strand.id % 7) * 19
     const travellingWave = (

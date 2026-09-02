@@ -60,6 +60,10 @@ function bodyX(values: readonly number[]) {
   return values[42] ?? 0
 }
 
+function pathDistance(first: readonly number[], second: readonly number[]) {
+  return Math.hypot(tailX(second) - tailX(first), tailY(second) - tailY(first))
+}
+
 function curtainVeilPath(sample: ReturnType<typeof sampleTimeline>) {
   const html = renderToStaticMarkup(createElement(CurtainLayer, { sample }))
   const path = html.match(/data-layer="curtain-veil" d="([^"]+)"/)?.[1]
@@ -105,6 +109,16 @@ describe('curtain opening and reset motion', () => {
     expect(tailX(easing)).toBeLessThan(tailX(caught) - 30)
   })
 
+  it('sustains the visible opening arc instead of spending the gust in one clipped snap', () => {
+    for (const elapsedMs of [550, 750, 950]) {
+      const path = outermostPathNumbers(sampleTimeline(elapsedMs, false))
+      const rootX = path[0] ?? 0
+
+      expect(tailX(path) - rootX).toBeGreaterThan(78)
+      expect(tailY(path)).toBeLessThan(545)
+    }
+  })
+
   it('lets the first gust catch a broad bundle instead of moving only the outermost strand', () => {
     const tails = curtainStrandTailXCoordinates(sampleTimeline(650, false))
     const swept = tails.filter((x) => x > 275)
@@ -138,6 +152,25 @@ describe('curtain opening and reset motion', () => {
     expect(tailX(overshot)).toBeLessThan(tailX(following) - 30)
     expect(tailX(settling)).toBeLessThan(tailX(overshot) - 12)
     expect(tailX(opened)).toBeLessThan(tailX(settling) + 12)
+  })
+
+  it('carries diminishing inertia through the late opening instead of pausing vertically', () => {
+    const earlySettle = outermostPathNumbers(sampleTimeline(1250, false))
+    const lateSettle = outermostPathNumbers(sampleTimeline(1700, false))
+
+    expect(pathDistance(earlySettle, lateSettle)).toBeGreaterThan(13)
+  })
+
+  it('crosses from opening inertia into the soft breeze without a position jump', () => {
+    const before = outermostPathNumbers(sampleTimeline(1790, false))
+    const boundary = outermostPathNumbers(sampleTimeline(1800, false))
+    const after = outermostPathNumbers(sampleTimeline(1810, false))
+    const incomingStep = pathDistance(before, boundary)
+    const outgoingStep = pathDistance(boundary, after)
+
+    expect(incomingStep).toBeLessThan(3)
+    expect(outgoingStep).toBeLessThan(3)
+    expect(Math.abs(incomingStep - outgoingStep)).toBeLessThan(1.5)
   })
 
   it('deforms the translucent curtain body with the wind instead of fading a fixed polygon', () => {

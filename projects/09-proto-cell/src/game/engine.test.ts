@@ -48,6 +48,57 @@ describe('game engine lifecycle', () => {
     expect(engine.snapshot().energy).toBeGreaterThan(30)
   })
 
+  it('opens a counter-hunt window while keeping elite threats larger', () => {
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 90_000 })
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    const commonHunter = engine.renderSnapshot().entities.find((entity) => 'definitionId' in entity && entity.definitionId === 'predator-azure-ring')
+    const eliteHunter = engine.renderSnapshot().entities.find((entity) => entity.role === 'elite')
+
+    expect(commonHunter).toBeDefined()
+    expect(commonHunter!.body.radius).toBeLessThanOrEqual(player.body.radius)
+    if (eliteHunter) expect(eliteHunter.body.radius).toBeGreaterThan(player.body.radius)
+
+    for (const entity of engine.renderSnapshot().entities) {
+      if (entity.id !== player.id && entity.id !== commonHunter!.id) entity.status = 'engulfed'
+    }
+    commonHunter!.position = { ...player.position }
+    commonHunter!.body = circleBody(commonHunter!.position, commonHunter!.body.radius)
+    commonHunter!.materializingUntilMs = -1
+    commonHunter!.arrivalPhase = undefined
+    commonHunter!.arrivalReleaseUntilMs = undefined
+    engine.start()
+    engine.advance(1000 / 60)
+
+    expect(engine.snapshot().engulfScore).toBeGreaterThan(0)
+    expect(engine.renderSnapshot().entities.find((entity) => entity.id === commonHunter!.id)).toBeUndefined()
+  })
+
+  it('turning prey biomass into a meal immediately grows the player body', () => {
+    const engine = createGameEngine({ seed: 727 })
+    const entities = engine.renderSnapshot().entities
+    const player = entities.find((entity) => entity.id === 'player')!
+    const food = entities.find((entity) => entity.role === 'nutrient')!
+    for (const entity of entities) {
+      if (entity.id !== player.id && entity.id !== food.id) entity.status = 'engulfed'
+    }
+    food.position = { ...player.position }
+    food.body = circleBody(food.position, food.body.radius)
+    food.materializingUntilMs = -1
+    player.energy = 40
+    player.membrane = 40
+    const radiusBefore = player.body.radius
+    const energyBefore = player.energy
+    const membraneBefore = player.membrane
+
+    engine.start()
+    engine.advance(1000 / 60)
+
+    const after = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    expect(after.body.radius).toBeGreaterThan(radiusBefore)
+    expect(after.energy).toBeGreaterThan(energyBefore)
+    expect(after.membrane).toBeGreaterThan(membraneBefore)
+  })
+
   it('turns engulf biomass into lifecycle pressure without exceeding the tier radius', () => {
     const engine = createGameEngine({ seed: 727 })
     const entities = engine.renderSnapshot().entities
@@ -265,7 +316,7 @@ describe('game engine lifecycle', () => {
     const playerMaxSpeed = 'maxSpeed' in player ? Number(player.maxSpeed) : 0
     const contactDamage = 'contactDamage' in pursued ? pursued.contactDamage as { amount?: unknown } | undefined : undefined
     expect(pursued.behaviorState).toBe('pursue')
-    expect(pursued.body.radius).toBeGreaterThanOrEqual(player.body.radius * 1.25)
+    expect(pursued.body.radius).toBeGreaterThanOrEqual(player.body.radius * 0.8)
     expect(Math.hypot(pursued.velocity.x, pursued.velocity.y)).toBeGreaterThan(playerMaxSpeed)
     expect(Number(contactDamage?.amount ?? 0)).toBeGreaterThanOrEqual(11)
   })

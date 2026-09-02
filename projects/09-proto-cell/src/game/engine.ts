@@ -1065,7 +1065,7 @@ export function createGameEngine(options: {
       entities.set(entity.id, {
         ...entity,
         membrane: Math.min(currentMembraneMax(), entity.membrane + recovery * 10),
-        energy: Math.min(playerDefinition.energy, entity.energy + recovery * 5),
+        energy: Math.min(currentEnergyMax(), entity.energy + recovery * 5),
       })
     }
   }
@@ -1176,7 +1176,11 @@ export function createGameEngine(options: {
   }
 
   function currentMembraneMax(): number {
-    return playerDefinition.membrane * (1 + lifecycle.tierIndex * 0.45)
+    return playerDefinition.membrane * (1 + lifecycle.tierIndex * 0.45 + lifecycle.evolutionPressure * 0.18)
+  }
+
+  function currentEnergyMax(): number {
+    return playerDefinition.energy * (1 + lifecycle.tierIndex * 0.18 + lifecycle.evolutionPressure * 0.12)
   }
 
   function currentCollapseProgress(): number {
@@ -1336,7 +1340,7 @@ export function createGameEngine(options: {
       const share = playerBodies.length === 1 ? 1 : clamp(body.mass / Math.max(body.mass, totalMass), 0, 1)
       const resized = resizeBodyToRadius(body, Math.max(2, lifecycle.bodyRadius * Math.sqrt(share)))
       entities.set(body.id, promoting
-        ? { ...resized, membrane: Math.min(currentMembraneMax(), Math.round(resized.membrane * 1.3)), energy: Math.min(playerDefinition.energy, resized.energy + 24) }
+        ? { ...resized, membrane: Math.min(currentMembraneMax(), Math.round(resized.membrane * 1.3)), energy: Math.min(currentEnergyMax(), resized.energy + 24) }
         : resized)
     }
   }
@@ -1754,7 +1758,8 @@ export function createGameEngine(options: {
             const currentPredator = entities.get(predator.id)
             if (currentPredator) entities.set(predator.id, {
               ...currentPredator,
-              energy: Math.min(playerDefinition.energy, currentPredator.energy + engulfed.biomass * (modifiers.rules['reduced-energy-yield'] ? 0.03 : 0.08)),
+              membrane: Math.min(currentMembraneMax(), currentPredator.membrane + Math.max(1, engulfed.biomass * 0.12)),
+              energy: Math.min(currentEnergyMax(), currentPredator.energy + engulfed.biomass * (modifiers.rules['reduced-energy-yield'] ? 0.03 : 0.08)),
             })
           }
           if (engulfed.preyId === bossState?.id && predator.faction === 'player') {
@@ -1842,14 +1847,22 @@ export function createGameEngine(options: {
     const profile = currentThreatProfile()
     const runtimeEntity = entity as EntityState & { maxSpeed?: number; contactDamage?: ContactDamageDefinition }
     const runtimePlayer = playerBody as EntityState & { maxSpeed?: number }
-    const minimumRadius = playerBody.body.radius * profile.minimumHunterRadiusRatio
-    const radius = Math.max(entity.body.radius, minimumRadius)
+    const definitionId = 'definitionId' in entity ? String(entity.definitionId) : undefined
+    const creatureRole = content.creatures.find((item) => item.id === definitionId)?.role
+    const elite = entity.role === 'elite' || creatureRole === 'elite'
+    const counterHuntRatio = Math.min(0.94, Math.max(0.82, profile.minimumHunterRadiusRatio - 0.3))
+    const eliteRatio = Math.max(1.08, profile.minimumHunterRadiusRatio - 0.08)
+    const desiredRadius = playerBody.body.radius * (elite ? eliteRatio : counterHuntRatio)
+    const radius = elite
+      ? Math.max(entity.body.radius, desiredRadius)
+      : Math.max(3, Math.min(entity.body.radius, desiredRadius))
     const membraneScale = radius / Math.max(1, entity.body.radius)
-    const resized = resizeBodyToMass({
+    const tunedMass = elite ? Math.max(entity.mass, radius * radius) : Math.max(9, radius * radius)
+    const resized = resizeBodyToRadius({
       ...entity,
-      mass: Math.max(entity.mass, radius * radius),
+      mass: tunedMass,
       membrane: Math.round(entity.membrane * membraneScale),
-    })
+    }, radius)
     const tuned = {
       ...resized,
       maxSpeed: Math.max(1, Number(runtimePlayer.maxSpeed ?? 96) * profile.hostileCruiseSpeedRatio),
@@ -2146,24 +2159,6 @@ function resizeForMass(entity: EntityState): EntityState {
   const radius = Math.max(entity.body.radius, Math.sqrt(entity.mass))
   if (radius === entity.body.radius) return entity
 
-  return {
-    ...entity,
-    body: {
-      center: { ...entity.position },
-      radius,
-      contour: Array.from({ length: 16 }, (_, index) => {
-        const angle = index / 16 * Math.PI * 2
-        return {
-          x: entity.position.x + Math.cos(angle) * radius,
-          y: entity.position.y + Math.sin(angle) * radius,
-        }
-      }),
-    },
-  }
-}
-
-function resizeBodyToMass(entity: EntityState): EntityState {
-  const radius = Math.max(2, Math.sqrt(Math.max(0, entity.mass)))
   return {
     ...entity,
     body: {

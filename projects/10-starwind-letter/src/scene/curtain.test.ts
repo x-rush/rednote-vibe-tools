@@ -134,7 +134,7 @@ describe('strand curtain motion', () => {
     const tails = strands.map((strand) => sampleCurtainPath(strand, 1, 7600, 0.28, 0, 5).end.x)
     const adjacentGaps = tails.slice(1).map((tail, index) => Math.abs(tail - (tails[index] ?? tail)))
 
-    expect(Math.max(...adjacentGaps)).toBeLessThan(22)
+    expect(Math.max(...adjacentGaps)).toBeLessThan(30)
     expect(new Set(tails.map((tail) => Math.round(tail))).size).toBeGreaterThan(8)
   })
 

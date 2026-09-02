@@ -39,8 +39,21 @@ function curtainPathTailXCoordinates(sample: ReturnType<typeof sampleTimeline>) 
   })
 }
 
+function curtainStrandTailXCoordinates(sample: ReturnType<typeof sampleTimeline>) {
+  const html = renderToStaticMarkup(createElement(CurtainLayer, { sample }))
+  return Array.from(html.matchAll(/<path d="([^"]+)"/g), ([, path]) => (
+    Array.from(path.matchAll(/-?\d+(?:\.\d+)?/g), ([number]) => Number(number))
+  ))
+    .filter((values) => values.length > 60)
+    .map((values) => values.at(-2) ?? 0)
+}
+
 function tailX(values: readonly number[]) {
   return values.at(-2) ?? 0
+}
+
+function tailY(values: readonly number[]) {
+  return values.at(-1) ?? 0
 }
 
 function bodyX(values: readonly number[]) {
@@ -88,7 +101,16 @@ describe('curtain opening and reset motion', () => {
     const trailing = outermostPathNumbers(sampleTimeline(600, false))
     const pulled = outermostPathNumbers(sampleTimeline(950, false))
     expect(Math.abs(tailX(trailing) - tailX(resting))).toBeLessThan(16)
-    expect(tailX(pulled)).toBeGreaterThan(260)
+    expect(tailX(pulled)).toBeGreaterThan(330)
+    expect(tailY(pulled)).toBeLessThan(tailY(resting) - 30)
+  })
+
+  it('lets the first gust catch a broad bundle instead of moving only the outermost strand', () => {
+    const tails = curtainStrandTailXCoordinates(sampleTimeline(950, false))
+    const swept = tails.filter((x) => x > 275)
+
+    expect(tails.length).toBeGreaterThan(64)
+    expect(swept.length / tails.length).toBeGreaterThan(0.34)
   })
 
   it('snaps the rings inward while inertia leaves the tails near their resting position', () => {
@@ -126,18 +148,18 @@ describe('curtain opening and reset motion', () => {
     const first = outermostPathNumbers(sampleTimeline(7000, false))
     const later = outermostPathNumbers(sampleTimeline(8200, false))
     const travel = Math.max(...first.map((value, index) => Math.abs(value - (later[index] ?? value))))
-    expect(travel).toBeGreaterThan(2)
-    expect(travel).toBeLessThan(12)
+    expect(travel).toBeGreaterThan(10)
+    expect(travel).toBeLessThan(28)
   })
 
   it('keeps the settled tassel breeze gentle and visible', () => {
     const samples = Array.from({ length: 24 }, (_, index) => outermostPathNumbers(sampleTimeline(6500 + index * 320, false)))
     const tails = samples.map(tailX)
     const bodies = samples.map(bodyX)
-    expect(Math.max(...tails) - Math.min(...tails)).toBeGreaterThan(28)
-    expect(Math.max(...tails) - Math.min(...tails)).toBeLessThan(46)
-    expect(Math.max(...bodies) - Math.min(...bodies)).toBeGreaterThan(10)
-    expect(Math.max(...bodies) - Math.min(...bodies)).toBeLessThan(34)
+    expect(Math.max(...tails) - Math.min(...tails)).toBeGreaterThan(46)
+    expect(Math.max(...tails) - Math.min(...tails)).toBeLessThan(90)
+    expect(Math.max(...bodies) - Math.min(...bodies)).toBeGreaterThan(18)
+    expect(Math.max(...bodies) - Math.min(...bodies)).toBeLessThan(55)
   })
 
   it('reduces persistent curtain travel when reduced motion is requested', () => {

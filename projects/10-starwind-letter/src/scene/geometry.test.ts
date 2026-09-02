@@ -24,6 +24,18 @@ describe('perspective window geometry', () => {
     expect(cast.floorPanes[1].bottomRight.x).toBeLessThan(cast.floorPanes[0].topRight.x)
     expect(cast.floorPanes[1].bottomLeft.y).toBeGreaterThan(cast.floorPanes[0].topLeft.y)
     expect(cast.floorPanes[1].bottomRight.y).toBeGreaterThan(cast.floorPanes[0].topRight.y)
+
+    cast.floorPanes.forEach((pane) => {
+      const width = {
+        x: pane.topRight.x - pane.topLeft.x,
+        y: pane.topRight.y - pane.topLeft.y,
+      }
+      const depth = {
+        x: pane.bottomLeft.x - pane.topLeft.x,
+        y: pane.bottomLeft.y - pane.topLeft.y,
+      }
+      expect(Math.abs(width.x * depth.x + width.y * depth.y)).toBeLessThan(1500)
+    })
   })
 
   it('recognizes points in the slanted portal', () => {

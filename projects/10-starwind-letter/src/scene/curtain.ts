@@ -69,10 +69,11 @@ export function sampleCurtainPath(
       + strandRatio * 6,
   }
   const edgeMobility = 0.12 + strandRatio ** 1.7 * 0.88
+  const gustMobility = 0.48 + edgeMobility * 0.52
   const ambientMobility = 0.38 + strandRatio ** 1.4 * 0.62
   const strandLag = Math.max(0, strand.delay - strandRatio * 0.24) * 0.35
-    const gustStrength = clamp(Math.abs(gustInput))
-    const gustEnvelope = 1 - smoothstep(clamp((openingProgress - 0.2) / 0.72))
+  const gustStrength = clamp(Math.abs(gustInput))
+  const gustEnvelope = 1 - smoothstep(clamp((openingProgress - 0.2) / 0.72))
   const nodes = Array.from({ length: 12 }, (_, index) => {
     const depth = index / 11
     const opening = curtainFollowProgress(openingProgress, depth, strandLag)
@@ -95,19 +96,21 @@ export function sampleCurtainPath(
     const wakeLift = Math.cos(wakePhase * 0.83 + depth) * gustStrength * 1.8 * depth ** 1.35 * edgeMobility
     const sweepOnset = smoothstep(clamp((openingProgress - 0.24) / 0.16))
     const inertialSweep = gustStrength * gustEnvelope * sweepOnset * depth ** 1.2
-      * (16 + depth * 68) * edgeMobility
+      * (28 + depth * 110) * gustMobility
+    const inertialLift = gustStrength * gustEnvelope * sweepOnset * depth ** 1.28
+      * (24 + depth * 124) * gustMobility
     const slowPeriod = 780 + strand.response * 620 + (strand.id % 5) * 37
     const flutterPeriod = 330 + strand.delay * 640 + (strand.id % 7) * 19
     const travellingWave = (
-      Math.sin(timeMs / slowPeriod + strand.phase - depth * 2.4) * (20 + strand.response * 5)
-      + Math.sin(timeMs / flutterPeriod + strand.phase * 1.7 - depth * 5.8) * 5.5
+      Math.sin(timeMs / slowPeriod + strand.phase - depth * 2.4) * (26 + strand.response * 6)
+      + Math.sin(timeMs / flutterPeriod + strand.phase * 1.7 - depth * 5.8) * 8
     ) * ambientStrength * ambientMobility * depth ** 0.82
     const fineRipple = Math.sin(
       timeMs / 235 + strand.phase * 0.72 - depth * 6.4,
-    ) * ambientStrength * 5.5 * depth ** 2 * ambientMobility
+    ) * ambientStrength * 7.5 * depth ** 2 * ambientMobility
     const verticalRipple = Math.cos(
       timeMs / 690 + strand.phase - depth * 2.4,
-    ) * ambientStrength * 7 * looseWeight * ambientMobility
+    ) * ambientStrength * 12 * looseWeight * ambientMobility
 
     return {
       x: mix(closed.x, opened.x, opening)
@@ -118,6 +121,7 @@ export function sampleCurtainPath(
         + flowShift * looseWeight * ambientMobility,
       y: mix(closed.y, opened.y, opening)
         + verticalRipple
+        - inertialLift
         - windLift * (0.82 + strand.response * 0.15) * edgeMobility
         + wakeLift
         + Math.abs(flowShift) * 0.07 * looseWeight * ambientMobility,

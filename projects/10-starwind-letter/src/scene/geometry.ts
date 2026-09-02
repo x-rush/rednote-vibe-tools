@@ -20,16 +20,16 @@ export interface WindowLightCast {
 export function projectWindowLightCast(revealProgress: number): WindowLightCast {
   const amount = smoothstep(clamp(revealProgress))
   const nearPane: Quad = {
-    topLeft: { x: 150, y: 585 },
-    topRight: { x: 325, y: 520 },
-    bottomRight: { x: 285, y: 625 },
-    bottomLeft: { x: 82, y: 702 },
+    topLeft: { x: 100, y: 580 },
+    topRight: { x: 310, y: 625 },
+    bottomRight: { x: 288, y: 728 },
+    bottomLeft: { x: 78, y: 683 },
   }
   const farPane: Quad = {
     topLeft: nearPane.bottomLeft,
     topRight: nearPane.bottomRight,
-    bottomRight: { x: 240, y: 735 + amount * 12 },
-    bottomLeft: { x: 15, y: 811 + amount * 24 },
+    bottomRight: { x: 266, y: 819 + amount * 12 },
+    bottomLeft: { x: 56, y: 774 + amount * 12 },
   }
   return {
     airBeams: [
@@ -49,23 +49,23 @@ export function projectWindowLightCast(revealProgress: number): WindowLightCast 
     floorPanes: [nearPane, farPane],
     frameShadows: [
       {
-        topLeft: { x: 150, y: 585 }, topRight: { x: 158, y: 589 },
-        bottomRight: { x: 25, y: 836 }, bottomLeft: { x: 15, y: 835 },
+        topLeft: { x: 100, y: 580 }, topRight: { x: 108, y: 584 },
+        bottomRight: { x: 64, y: 788 }, bottomLeft: { x: 56, y: 786 },
       },
       {
-        topLeft: { x: 317, y: 523 }, topRight: { x: 325, y: 520 },
-        bottomRight: { x: 240, y: 747 }, bottomLeft: { x: 231, y: 744 },
+        topLeft: { x: 302, y: 623 }, topRight: { x: 310, y: 625 },
+        bottomRight: { x: 266, y: 831 }, bottomLeft: { x: 258, y: 827 },
       },
       {
-        topLeft: { x: 15, y: 829 }, topRight: { x: 240, y: 741 },
-        bottomRight: { x: 242, y: 749 }, bottomLeft: { x: 15, y: 839 },
+        topLeft: { x: 56, y: 781 }, topRight: { x: 266, y: 826 },
+        bottomRight: { x: 266, y: 836 }, bottomLeft: { x: 54, y: 791 },
       },
     ],
     sashShadow: {
-      topLeft: { x: 80, y: 696 },
-      topRight: { x: 286, y: 619 },
-      bottomRight: { x: 284, y: 631 },
-      bottomLeft: { x: 84, y: 708 },
+      topLeft: { x: 76, y: 677 },
+      topRight: { x: 290, y: 722 },
+      bottomRight: { x: 286, y: 734 },
+      bottomLeft: { x: 80, y: 689 },
     },
   }
 }

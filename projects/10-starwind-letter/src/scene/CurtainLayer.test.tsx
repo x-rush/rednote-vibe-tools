@@ -31,14 +31,6 @@ function curtainPathStartXCoordinates(sample: ReturnType<typeof sampleTimeline>)
   })
 }
 
-function curtainPathTailXCoordinates(sample: ReturnType<typeof sampleTimeline>) {
-  const html = renderToStaticMarkup(createElement(CurtainLayer, { sample }))
-  return Array.from(html.matchAll(/<path d="([^"]+)"/g), ([, path]) => {
-    const values = Array.from(path.matchAll(/-?\d+(?:\.\d+)?/g), ([number]) => Number(number))
-    return values.at(-2) ?? 0
-  })
-}
-
 function curtainStrandTailXCoordinates(sample: ReturnType<typeof sampleTimeline>) {
   const html = renderToStaticMarkup(createElement(CurtainLayer, { sample }))
   return Array.from(html.matchAll(/<path d="([^"]+)"/g), ([, path]) => (
@@ -100,28 +92,28 @@ describe('curtain opening and reset motion', () => {
     expect(later).not.toEqual(first)
   })
 
-  it('builds the opening arc from a strong outward tail sweep', () => {
+  it('builds the opening arc by sweeping the loose curtain clear to the left', () => {
     const resting = outermostPathNumbers(sampleTimeline(0, false))
     const caught = outermostPathNumbers(sampleTimeline(600, false))
     const easing = outermostPathNumbers(sampleTimeline(950, false))
-    expect(tailX(caught)).toBeGreaterThan(tailX(resting) + 28)
+    expect(tailX(caught)).toBeLessThan(tailX(resting) - 55)
     expect(tailY(caught)).toBeLessThan(tailY(resting) - 30)
-    expect(tailX(easing)).toBeLessThan(tailX(caught) - 30)
+    expect(tailX(easing)).toBeLessThan(tailX(caught) - 18)
   })
 
-  it('sustains the visible opening arc instead of spending the gust in one clipped snap', () => {
-    for (const elapsedMs of [550, 750, 950]) {
+  it('sustains a visibly left-leaning opening arc instead of spending the gust offscreen right', () => {
+    for (const [elapsedMs, minimumLean] of [[550, 20], [750, 58], [950, 58]] as const) {
       const path = outermostPathNumbers(sampleTimeline(elapsedMs, false))
       const rootX = path[0] ?? 0
 
-      expect(tailX(path) - rootX).toBeGreaterThan(78)
+      expect(rootX - tailX(path)).toBeGreaterThan(minimumLean)
       expect(tailY(path)).toBeLessThan(545)
     }
   })
 
   it('lets the first gust catch a broad bundle instead of moving only the outermost strand', () => {
     const tails = curtainStrandTailXCoordinates(sampleTimeline(650, false))
-    const swept = tails.filter((x) => x > 275)
+    const swept = tails.filter((x) => x < 235)
 
     expect(tails.length).toBeGreaterThan(64)
     expect(swept.length / tails.length).toBeGreaterThan(0.34)
@@ -130,11 +122,11 @@ describe('curtain opening and reset motion', () => {
   it('snaps the rings inward while loose tails catch the same early gust', () => {
     const restingHeaders = curtainPathStartXCoordinates(sampleTimeline(0, false))
     const pulledHeaders = curtainPathStartXCoordinates(sampleTimeline(600, false))
-    const restingTails = curtainPathTailXCoordinates(sampleTimeline(0, false))
-    const balloonedTails = curtainPathTailXCoordinates(sampleTimeline(600, false))
+    const restingTails = curtainStrandTailXCoordinates(sampleTimeline(0, false))
+    const balloonedTails = curtainStrandTailXCoordinates(sampleTimeline(600, false))
 
     expect(Math.max(...pulledHeaders)).toBeLessThan(Math.max(...restingHeaders) - 60)
-    expect(Math.max(...balloonedTails)).toBeGreaterThan(Math.max(...restingTails) + 28)
+    expect(Math.min(...balloonedTails)).toBeLessThan(Math.min(...restingTails) - 28)
   })
 
   it('finishes gathering the header before the inertial tail settles', () => {
@@ -143,15 +135,15 @@ describe('curtain opening and reset motion', () => {
     expect(Math.max(...gatheredHeaders)).toBeLessThan(240)
   })
 
-  it('settles under gravity without throwing the opened curtain right again', () => {
+  it('returns gradually from the leftmost gust arc toward its left-biased resting point', () => {
     const following = outermostPathNumbers(sampleTimeline(600, false))
     const overshot = outermostPathNumbers(sampleTimeline(950, false))
     const settling = outermostPathNumbers(sampleTimeline(1500, false))
     const opened = outermostPathNumbers(sampleTimeline(1750, false))
 
     expect(tailX(overshot)).toBeLessThan(tailX(following) - 30)
-    expect(tailX(settling)).toBeLessThan(tailX(overshot) - 12)
-    expect(tailX(opened)).toBeLessThan(tailX(settling) + 12)
+    expect(tailX(settling)).toBeGreaterThan(tailX(overshot) + 55)
+    expect(tailX(opened)).toBeLessThan(tailX(settling) + 30)
   })
 
   it('carries diminishing inertia through the late opening instead of pausing vertically', () => {
@@ -194,6 +186,15 @@ describe('curtain opening and reset motion', () => {
     expect(Math.max(...tails) - Math.min(...tails)).toBeLessThan(90)
     expect(Math.max(...bodies) - Math.min(...bodies)).toBeGreaterThan(18)
     expect(Math.max(...bodies) - Math.min(...bodies)).toBeLessThan(55)
+  })
+
+  it('keeps the settled breeze oscillating around a left-leaning equilibrium', () => {
+    const samples = Array.from({ length: 18 }, (_, index) => outermostPathNumbers(sampleTimeline(6500 + index * 280, false)))
+    const leftLeans = samples.map((path) => (path[0] ?? 0) - tailX(path))
+    const averageLean = leftLeans.reduce((sum, lean) => sum + lean, 0) / leftLeans.length
+
+    expect(averageLean).toBeGreaterThan(12)
+    expect(Math.min(...leftLeans)).toBeGreaterThan(-5)
   })
 
   it('reduces persistent curtain travel when reduced motion is requested', () => {

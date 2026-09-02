@@ -59,10 +59,10 @@ export function sampleCurtainPath(
   flowShift = 0,
 ): CurtainPath {
   const strandRatio = strand.id / 63
-  const openedStart = { x: 176 + strandRatio * 38, y: 114 + strandRatio * 5 }
+  const openedStart = { x: 160 + strandRatio * 42, y: 114 + strandRatio * 5 }
   const restingTailOffset = Math.sin(strand.phase * 1.7) * 4.5 + (strand.response - 0.97) * 4
   const openedEnd = {
-    x: openedStart.x + restingTailOffset,
+    x: openedStart.x - 27 - strandRatio * 5 + restingTailOffset,
     y: 554
       + (strand.length - 306) * 0.52
       + Math.sin(strand.phase * 2.1) * 8
@@ -85,6 +85,7 @@ export function sampleCurtainPath(
       * 0.34
     : 0
   const gustResponse = (primaryImpulse + rebound) * gustStrength
+  const horizontalResponse = gustResponse >= 0 ? gustResponse : gustResponse * 0.42
   const gustEnergy = Math.min(1, (primaryImpulse + Math.abs(rebound) * 1.35) * gustStrength)
   const nodes = Array.from({ length: 12 }, (_, index) => {
     const depth = index / 11
@@ -119,8 +120,8 @@ export function sampleCurtainPath(
       Math.cos(strand.phase * 1.91 - depth * 3.7)
       + Math.sin(strand.id * 0.77 + depth * 5.3) * 0.42
     ) * gustEnergy * (2 + depth * 10) * gustMobility * depth ** 0.86
-    const inertialSweep = gustResponse * depth ** 0.94
-      * (34 + depth * 112) * gustMobility * unevenPressure
+    const inertialSweep = -horizontalResponse * depth ** 0.94
+      * (64 + depth * 190) * gustMobility * unevenPressure
     const inertialLift = gustResponse * depth ** 1.02
       * (42 + depth * 152) * gustMobility * (0.84 + Math.cos(strand.phase * 1.47) * 0.16)
     const slowPeriod = 780 + strand.response * 620 + (strand.id % 5) * 37

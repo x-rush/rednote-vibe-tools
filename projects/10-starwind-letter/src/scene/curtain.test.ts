@@ -3,7 +3,7 @@ import { createMulberry32 } from '../domain/random'
 import { createCurtainStrands, pointOnCurtainPath, sampleCurtainPath } from './curtain'
 
 describe('strand curtain motion', () => {
-  it('snaps the outer header inward while the same early gust lifts its loose tail', () => {
+  it('snaps the outer header inward while the same early gust lifts and clears its loose tail leftward', () => {
     const strands = createCurtainStrands(64, createMulberry32(42))
     const inner = strands[0]
     const outer = strands[63]
@@ -14,20 +14,23 @@ describe('strand curtain motion', () => {
     const outerCaught = sampleCurtainPath(outer, 0.2, 600, 0, 0.8)
 
     expect(outerResting.start.x - outerCaught.start.x).toBeGreaterThan(70)
-    expect(outerCaught.end.x - outerResting.end.x).toBeGreaterThan(55)
+    expect(outerCaught.end.x).toBeLessThan(outerResting.end.x - 55)
     expect(outerCaught.end.y).toBeLessThan(outerResting.end.y - 45)
-    expect(innerResting.start.x - innerCaught.start.x).toBeLessThan(10)
-    const innerTailTravel = innerCaught.end.x - innerResting.end.x
-    const outerTailTravel = outerCaught.end.x - outerResting.end.x
+    expect(innerResting.start.x - innerCaught.start.x).toBeGreaterThan(18)
+    expect(outerResting.start.x - outerCaught.start.x).toBeGreaterThan(
+      (innerResting.start.x - innerCaught.start.x) * 5,
+    )
+    const innerTailTravel = innerResting.end.x - innerCaught.end.x
+    const outerTailTravel = outerResting.end.x - outerCaught.end.x
     expect(innerTailTravel).toBeGreaterThan(20)
-    expect(innerTailTravel).toBeLessThan(outerTailTravel * 0.7)
+    expect(innerTailTravel).toBeLessThan(outerTailTravel * 0.82)
   })
 
-  it('throws the loose outer tail into a broad arc during the opening gust', () => {
+  it('throws the loose outer tail into a broad left arc during the opening gust', () => {
     const strand = createCurtainStrands(64, createMulberry32(42))[63]
     if (!strand) throw new Error('Expected the outer curtain strand')
     const path = sampleCurtainPath(strand, 0.45, 950, 0.18, 1)
-    expect(path.end.x - path.start.x).toBeGreaterThan(25)
+    expect(path.start.x - path.end.x).toBeGreaterThan(55)
   })
 
   it('creates independent delays and lengths for sixty-four strands', () => {
@@ -51,7 +54,7 @@ describe('strand curtain motion', () => {
     const starts = gathered.map(({ start }) => start.x)
     const ends = gathered.map(({ end }) => end.x)
 
-    expect(Math.max(...starts)).toBeLessThan(215)
+    expect(Math.max(...starts)).toBeLessThan(203)
     expect(Math.max(...starts) - Math.min(...starts)).toBeLessThan(44)
     expect(Math.max(...ends)).toBeLessThan(224)
   })
@@ -64,13 +67,14 @@ describe('strand curtain motion', () => {
     expect(Math.max(...starts) - Math.min(...starts)).toBeLessThan(48)
   })
 
-  it('lets opened tassels hang beneath their roots instead of leaning as one sheet', () => {
+  it('lets opened tassels hang with a gentle persistent left bias instead of returning vertical', () => {
     const strands = createCurtainStrands(64, createMulberry32(42))
     const hanging = strands.map((strand) => sampleCurtainPath(strand, 1, 7600, 0))
-    const horizontalOffsets = hanging.map(({ start, end }) => Math.abs(end.x - start.x))
+    const horizontalOffsets = hanging.map(({ start, end }) => end.x - start.x)
     const verticalDrops = hanging.map(({ start, end }) => end.y - start.y)
 
-    expect(Math.max(...horizontalOffsets)).toBeLessThan(18)
+    expect(Math.max(...horizontalOffsets)).toBeLessThan(-4)
+    expect(Math.min(...horizontalOffsets)).toBeGreaterThan(-40)
     expect(Math.min(...verticalDrops)).toBeGreaterThan(340)
   })
 
@@ -110,17 +114,13 @@ describe('strand curtain motion', () => {
     const strand = createCurtainStrands(64, createMulberry32(42))[32]
     if (!strand) throw new Error('Expected a strand')
     const path = sampleCurtainPath(strand, 1, 7600, 0.28, 0, 5)
-    const horizontalTurns = path.nodes.slice(1).reduce((turns, node, index) => {
+    const horizontalDirections = path.nodes.slice(1).map((node, index) => {
       const previous = path.nodes[index]
-      const beforePrevious = path.nodes[index - 1]
-      if (!previous || !beforePrevious) return turns
-      const previousDirection = previous.x - beforePrevious.x
-      const nextDirection = node.x - previous.x
-      return turns + (previousDirection * nextDirection < 0 ? 1 : 0)
-    }, 0)
+      return previous ? node.x - previous.x : 0
+    })
 
     expect(path.nodes).toHaveLength(12)
-    expect(horizontalTurns).toBeGreaterThanOrEqual(1)
+    expect(Math.max(...horizontalDirections) - Math.min(...horizontalDirections)).toBeGreaterThan(1.2)
   })
 
   it('keeps the tassel header anchored while the loose tail takes the wind', () => {
@@ -151,7 +151,7 @@ describe('strand curtain motion', () => {
     })
     const adjacentChanges = displacements.slice(1).map((movement, index) => movement - (displacements[index] ?? movement))
 
-    expect(Math.min(...displacements)).toBeGreaterThan(30)
+    expect(Math.max(...displacements)).toBeLessThan(-30)
     expect(Math.max(...displacements) - Math.min(...displacements)).toBeGreaterThan(70)
     expect(adjacentChanges.filter((change) => change < 0).length).toBeGreaterThan(20)
     expect(adjacentChanges.filter((change) => change > 0).length).toBeGreaterThan(20)

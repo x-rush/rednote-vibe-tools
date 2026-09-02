@@ -98,30 +98,29 @@ describe('curtain opening and reset motion', () => {
 
   it('builds the opening arc from a strong outward tail sweep', () => {
     const resting = outermostPathNumbers(sampleTimeline(0, false))
-    const trailing = outermostPathNumbers(sampleTimeline(600, false))
-    const pulled = outermostPathNumbers(sampleTimeline(950, false))
-    expect(Math.abs(tailX(trailing) - tailX(resting))).toBeLessThan(16)
-    expect(tailX(pulled)).toBeGreaterThan(330)
-    expect(tailY(pulled)).toBeLessThan(tailY(resting) - 30)
+    const caught = outermostPathNumbers(sampleTimeline(600, false))
+    const easing = outermostPathNumbers(sampleTimeline(950, false))
+    expect(tailX(caught)).toBeGreaterThan(tailX(resting) + 28)
+    expect(tailY(caught)).toBeLessThan(tailY(resting) - 30)
+    expect(tailX(easing)).toBeLessThan(tailX(caught) - 30)
   })
 
   it('lets the first gust catch a broad bundle instead of moving only the outermost strand', () => {
-    const tails = curtainStrandTailXCoordinates(sampleTimeline(950, false))
+    const tails = curtainStrandTailXCoordinates(sampleTimeline(650, false))
     const swept = tails.filter((x) => x > 275)
 
     expect(tails.length).toBeGreaterThan(64)
     expect(swept.length / tails.length).toBeGreaterThan(0.34)
   })
 
-  it('snaps the rings inward while inertia leaves the tails near their resting position', () => {
+  it('snaps the rings inward while loose tails catch the same early gust', () => {
     const restingHeaders = curtainPathStartXCoordinates(sampleTimeline(0, false))
     const pulledHeaders = curtainPathStartXCoordinates(sampleTimeline(600, false))
     const restingTails = curtainPathTailXCoordinates(sampleTimeline(0, false))
     const balloonedTails = curtainPathTailXCoordinates(sampleTimeline(600, false))
 
     expect(Math.max(...pulledHeaders)).toBeLessThan(Math.max(...restingHeaders) - 60)
-    expect(Math.max(...balloonedTails)).toBeLessThan(Math.max(...restingTails) + 16)
-    expect(Math.max(...balloonedTails)).toBeGreaterThan(Math.max(...restingTails) - 16)
+    expect(Math.max(...balloonedTails)).toBeGreaterThan(Math.max(...restingTails) + 28)
   })
 
   it('finishes gathering the header before the inertial tail settles', () => {
@@ -130,13 +129,15 @@ describe('curtain opening and reset motion', () => {
     expect(Math.max(...gatheredHeaders)).toBeLessThan(240)
   })
 
-  it('lets the delayed tail overshoot before settling inward', () => {
-    const following = outermostPathNumbers(sampleTimeline(950, false))
-    const overshot = outermostPathNumbers(sampleTimeline(1200, false))
+  it('settles under gravity without throwing the opened curtain right again', () => {
+    const following = outermostPathNumbers(sampleTimeline(600, false))
+    const overshot = outermostPathNumbers(sampleTimeline(950, false))
     const settling = outermostPathNumbers(sampleTimeline(1500, false))
+    const opened = outermostPathNumbers(sampleTimeline(1750, false))
 
-    expect(tailX(overshot)).toBeLessThan(tailX(following) - 12)
-    expect(tailX(settling)).toBeLessThan(tailX(overshot) - 5)
+    expect(tailX(overshot)).toBeLessThan(tailX(following) - 30)
+    expect(tailX(settling)).toBeLessThan(tailX(overshot) - 12)
+    expect(tailX(opened)).toBeLessThan(tailX(settling) + 12)
   })
 
   it('deforms the translucent curtain body with the wind instead of fading a fixed polygon', () => {

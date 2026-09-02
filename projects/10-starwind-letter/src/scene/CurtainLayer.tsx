@@ -8,10 +8,6 @@ interface CurtainLayerProps {
   readonly reducedMotion?: boolean
 }
 
-function windStrength(progress: number) {
-  return 0.68 + Math.sin(Math.min(1, progress) * Math.PI) * 0.32
-}
-
 function curtainMotion(sample: TimelineSample) {
   switch (sample.stage) {
     case 'wind': {
@@ -21,29 +17,29 @@ function curtainMotion(sample: TimelineSample) {
         opening: easedPressure * 0.05,
         ambient: 0.08 + easedPressure * 0.2,
         gustStrength: 0.34 + easedPressure * 0.66,
-        flowStrength: easedPressure * 0.5,
+        flowStrength: 0,
       }
     }
     case 'curtain-opening': {
       const progress = sample.stageProgress
       return {
         opening: 0.05 + progress * 0.95,
-        ambient: 0.16 + Math.sin(Math.min(1, progress) * Math.PI) * 0.12,
-        gustStrength: windStrength(progress),
-        flowStrength: Math.max(0, (progress - 0.58) / 0.42),
+        ambient: 0.13 + Math.sin(Math.min(1, progress) * Math.PI) * 0.17,
+        gustStrength: 1,
+        flowStrength: 0,
       }
     }
     case 'stars-and-letters': return {
       opening: 1,
       ambient: 0.82,
       gustStrength: 0,
-      flowStrength: 1,
+      flowStrength: 0.18,
     }
     case 'result': return {
       opening: 1,
-      ambient: 0.68 + Math.sin(sample.resultElapsedMs / 1800) * 0.085,
+      ambient: 0.72 + Math.sin(sample.resultElapsedMs / 1800) * 0.075,
       gustStrength: 0,
-      flowStrength: 0.94,
+      flowStrength: 0.14,
     }
     case 'resetting': return {
       opening: 1 - sample.stageProgress,

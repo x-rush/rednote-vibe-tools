@@ -60,16 +60,39 @@ describe('particle spatial narrative', () => {
     expect(wall.particles[0]?.space).toBe('outside')
   })
 
-  it('keeps indoor stars carried leftward by the wind instead of drifting straight down', () => {
+  it('carries an indoor star along one constant straight velocity instead of easing it downward', () => {
     const particle = indoorParticle('dust')
-    const next = stepParticleWorld(worldWith(particle), {
-      elapsedMs: 300, deltaMs: 120, entryProgress: 1, reducedMotion: false, continuous: false,
-    }).particles[0]
-    if (!next) throw new Error('Expected an indoor particle')
-    const deltaX = next.position.x - particle.position.x
-    const deltaY = next.position.y - particle.position.y
+    const first = stepParticleWorld(worldWith(particle), {
+      elapsedMs: 100, deltaMs: 100, entryProgress: 1, reducedMotion: false, continuous: false,
+    })
+    const second = stepParticleWorld(first, {
+      elapsedMs: 200, deltaMs: 100, entryProgress: 1, reducedMotion: false, continuous: false,
+    })
+    const firstParticle = first.particles[0]
+    const secondParticle = second.particles[0]
+    if (!firstParticle || !secondParticle) throw new Error('Expected an indoor particle')
+    const firstStep = {
+      x: firstParticle.position.x - particle.position.x,
+      y: firstParticle.position.y - particle.position.y,
+    }
+    const secondStep = {
+      x: secondParticle.position.x - firstParticle.position.x,
+      y: secondParticle.position.y - firstParticle.position.y,
+    }
 
-    expect(deltaX).toBeLessThan(-Math.abs(deltaY) * 0.8)
+    expect(secondStep.x).toBeCloseTo(firstStep.x, 8)
+    expect(secondStep.y).toBeCloseTo(firstStep.y, 8)
+    expect(firstStep.x).toBeLessThan(-Math.abs(firstStep.y) * 0.35)
+  })
+
+  it('does not switch to a timed settling pull before reaching the floor', () => {
+    const particle = { ...indoorParticle('hero'), position: { x: 208, y: 300 }, previous: { x: 208, y: 300 } }
+    const next = stepParticleWorld(worldWith(particle), {
+      elapsedMs: 1500, deltaMs: 20, entryProgress: 1, reducedMotion: false, continuous: false,
+    }).particles[0]
+
+    expect(next?.space).toBe('inside')
+    expect(next?.position.y).toBeLessThan(310)
   })
 
   it('clears particles and continuous emission counters on reset', () => {
@@ -93,7 +116,7 @@ describe('particle spatial narrative', () => {
     ))).toBe(true)
   })
 
-  it('maps the reduced result boundary to the complete landing narrative', () => {
+  it('does not teleport a reduced-motion star to its landing point at the result boundary', () => {
     const lateHero = {
       ...hero({ x: 240, y: 520 }, { x: -8, y: 18 }),
       space: 'inside' as const,
@@ -103,7 +126,8 @@ describe('particle spatial narrative', () => {
     const result = stepParticleWorld(worldWith(lateHero), {
       elapsedMs: 3000, deltaMs: 20, entryProgress: 1, reducedMotion: true, continuous: true,
     })
-    expect(result.particles[0]?.space).toBe('settling')
+    expect(result.particles[0]?.space).toBe('inside')
+    expect(result.particles[0]?.position.y).toBeLessThan(540.5)
   })
 
   it('lands hero stars on the room floor before they dissipate', () => {
@@ -112,20 +136,26 @@ describe('particle spatial narrative', () => {
       elapsedMs: 4020, deltaMs: 20, entryProgress: 1, reducedMotion: false, continuous: false,
     })
     const dissipating = stepParticleWorld(landed, {
-      elapsedMs: 4440, deltaMs: 420, entryProgress: 1, reducedMotion: false, continuous: false,
+      elapsedMs: 4600, deltaMs: 580, entryProgress: 1, reducedMotion: false, continuous: false,
     })
 
     expect(landed.particles[0]?.space).toBe('landed')
     expect(dissipating.particles[0]?.space).toBe('dissipating')
   })
 
-  it.each(['dust', 'trail', 'hero'] as const)('stops a %s star at its impact point instead of sliding across the floor', (kind) => {
-    const impactElapsedMs = { dust: 800, trail: 1140, hero: 2120 }[kind]
-    const landed = stepParticleWorld(worldWith(indoorParticle(kind)), {
-      elapsedMs: impactElapsedMs, deltaMs: 20, entryProgress: 1, reducedMotion: false, continuous: false,
+  it.each(['dust', 'trail', 'hero'] as const)('stops a %s star at its physical floor crossing instead of sliding across it', (kind) => {
+    const approaching = {
+      ...indoorParticle(kind),
+      position: { x: 180, y: 698 },
+      previous: { x: 180, y: 698 },
+      velocity: { x: -30, y: 180 },
+      settleTarget: { x: 150, y: 704 },
+    }
+    const landed = stepParticleWorld(worldWith(approaching), {
+      elapsedMs: 100, deltaMs: 48, entryProgress: 1, reducedMotion: false, continuous: false,
     })
     const afterImpact = stepParticleWorld(landed, {
-      elapsedMs: impactElapsedMs + 120, deltaMs: 120, entryProgress: 1, reducedMotion: false, continuous: false,
+      elapsedMs: 220, deltaMs: 120, entryProgress: 1, reducedMotion: false, continuous: false,
     })
     const particle = landed.particles[0]
     const laterParticle = afterImpact.particles[0]
@@ -145,7 +175,7 @@ describe('particle spatial narrative', () => {
     }
     const heroSpaces = world.particles.filter(({ kind }) => kind === 'hero').map(({ space }) => space)
     expect(heroSpaces).toContain('dissipating')
-    expect(heroSpaces.some((space) => space === 'settling' || space === 'landed')).toBe(true)
+    expect(heroSpaces.some((space) => space === 'inside' || space === 'landed')).toBe(true)
   })
 
   it('spreads the opening star stream across the full letter-forming scene', () => {

@@ -3,7 +3,7 @@ import { createMulberry32 } from '../domain/random'
 import { createCurtainStrands, pointOnCurtainPath, sampleCurtainPath } from './curtain'
 
 describe('strand curtain motion', () => {
-  it('snaps the outer header inward while its loose tail remains behind', () => {
+  it('snaps the outer header inward while the same early gust lifts its loose tail', () => {
     const strands = createCurtainStrands(64, createMulberry32(42))
     const inner = strands[0]
     const outer = strands[63]
@@ -14,9 +14,13 @@ describe('strand curtain motion', () => {
     const outerCaught = sampleCurtainPath(outer, 0.2, 600, 0, 0.8)
 
     expect(outerResting.start.x - outerCaught.start.x).toBeGreaterThan(70)
-    expect(Math.abs(outerCaught.end.x - outerResting.end.x)).toBeLessThan(8)
-    expect(innerResting.start.x - innerCaught.start.x).toBeLessThan(8)
-    expect(Math.abs(innerCaught.end.x - innerResting.end.x)).toBeLessThan(3)
+    expect(outerCaught.end.x - outerResting.end.x).toBeGreaterThan(55)
+    expect(outerCaught.end.y).toBeLessThan(outerResting.end.y - 45)
+    expect(innerResting.start.x - innerCaught.start.x).toBeLessThan(10)
+    const innerTailTravel = innerCaught.end.x - innerResting.end.x
+    const outerTailTravel = outerCaught.end.x - outerResting.end.x
+    expect(innerTailTravel).toBeGreaterThan(20)
+    expect(innerTailTravel).toBeLessThan(outerTailTravel * 0.7)
   })
 
   it('throws the loose outer tail into a broad arc during the opening gust', () => {
@@ -138,17 +142,19 @@ describe('strand curtain motion', () => {
     expect(new Set(tails.map((tail) => Math.round(tail))).size).toBeGreaterThan(8)
   })
 
-  it('uses wind for small irregular ripples instead of carrying the fringe sideways', () => {
+  it('gives neighboring strands uneven momentum inside one coherent opening gust', () => {
     const strands = createCurtainStrands(64, createMulberry32(42))
     const displacements = strands.map((strand) => {
-      const resting = sampleCurtainPath(strand, 0, 640, 0)
-      const gusting = sampleCurtainPath(strand, 0, 640, 0, 0.8)
+      const resting = sampleCurtainPath(strand, 0, 0, 0)
+      const gusting = sampleCurtainPath(strand, 0.2, 600, 0.16, 1)
       return gusting.end.x - resting.end.x
     })
+    const adjacentChanges = displacements.slice(1).map((movement, index) => movement - (displacements[index] ?? movement))
 
-    expect(Math.max(...displacements) - Math.min(...displacements)).toBeGreaterThan(2)
-    expect(Math.max(...displacements.map(Math.abs))).toBeLessThan(6)
-    expect(new Set(displacements.map((value) => Math.round(value))).size).toBeGreaterThan(4)
+    expect(Math.min(...displacements)).toBeGreaterThan(30)
+    expect(Math.max(...displacements) - Math.min(...displacements)).toBeGreaterThan(70)
+    expect(adjacentChanges.filter((change) => change < 0).length).toBeGreaterThan(20)
+    expect(adjacentChanges.filter((change) => change > 0).length).toBeGreaterThan(20)
   })
 
   it('keeps the outer fringe more responsive without freezing the inner fringe', () => {
@@ -163,9 +169,9 @@ describe('strand curtain motion', () => {
     const innerTravel = Math.abs(innerRight.end.x - innerLeft.end.x)
     const outerTravel = Math.abs(outerRight.end.x - outerLeft.end.x)
 
-    expect(outerTravel).toBeGreaterThan(innerTravel * 2)
+    expect(outerTravel).toBeGreaterThan(innerTravel * 1.35)
     expect(innerTravel).toBeGreaterThan(2)
-    expect(innerTravel).toBeLessThan(6)
+    expect(innerTravel).toBeLessThan(8)
   })
 
   it('samples sparkle positions along the moving strand curve', () => {

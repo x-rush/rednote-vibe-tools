@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { WINDOW_PORTAL, WINDOW_SASH, crossesPortal, pointInConvexQuad, projectWindowLightCast } from './geometry'
+import { WINDOW_FRAME, WINDOW_PORTAL, WINDOW_SASH, crossesPortal, pointInConvexQuad, projectWindowLightCast } from './geometry'
 
 const vector = (from: { x: number; y: number }, to: { x: number; y: number }) => ({
   x: to.x - from.x,
@@ -86,7 +86,10 @@ describe('perspective window geometry', () => {
 
     const farWindowSide = length(vector(WINDOW_PORTAL.topLeft, WINDOW_PORTAL.bottomLeft))
     const nearWindowSide = length(vector(WINDOW_PORTAL.topRight, WINDOW_PORTAL.bottomRight))
-    expect(nearWindowSide).toBeGreaterThan(farWindowSide * 1.04)
+    const farFrameSide = length(vector(WINDOW_FRAME.topLeft, WINDOW_FRAME.bottomLeft))
+    const nearFrameSide = length(vector(WINDOW_FRAME.topRight, WINDOW_FRAME.bottomRight))
+    expect(nearWindowSide).toBeGreaterThan(farWindowSide * 1.1)
+    expect(nearFrameSide).toBeGreaterThan(farFrameSide * 1.1)
 
     const farFloorWidth = length(vector(cast.floorPanes[0].topLeft, cast.floorPanes[0].topRight))
     const nearFloorWidth = length(vector(cast.floorPanes[1].bottomLeft, cast.floorPanes[1].bottomRight))

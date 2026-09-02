@@ -177,6 +177,8 @@ export function WindowLayer({ revealProgress }: WindowLayerProps) {
         <polygon points={quadPoints(topFrameFace)} fill="#e8edff" opacity="0.56" />
         <polygon points={quadPoints(rightFrameFace)} fill="#17244e" opacity="0.96" />
         <polygon points={quadPoints(bottomFrameFace)} fill="#354878" opacity="0.86" />
+        <line data-frame-depth="far" x1={WINDOW_FRAME.topLeft.x} y1={WINDOW_FRAME.topLeft.y} x2={WINDOW_FRAME.bottomLeft.x} y2={WINDOW_FRAME.bottomLeft.y} stroke="#c7d2f3" strokeWidth="5.6" opacity="0.72" />
+        <line data-frame-depth="near" x1={WINDOW_FRAME.topRight.x} y1={WINDOW_FRAME.topRight.y} x2={WINDOW_FRAME.bottomRight.x} y2={WINDOW_FRAME.bottomRight.y} stroke="#eef2ff" strokeWidth="9.6" opacity="0.84" />
         <line x1={WINDOW_SASH_FRAME.left.x} y1={WINDOW_SASH_FRAME.left.y} x2={WINDOW_SASH_FRAME.right.x} y2={WINDOW_SASH_FRAME.right.y} stroke="#344471" strokeWidth="10" />
         <line x1={WINDOW_SASH.left.x} y1={WINDOW_SASH.left.y} x2={WINDOW_SASH.right.x} y2={WINDOW_SASH.right.y} stroke="#97a6d2" strokeWidth="6" />
         <line x1={WINDOW_SASH.left.x} y1={WINDOW_SASH.left.y} x2={WINDOW_SASH.right.x} y2={WINDOW_SASH.right.y} stroke="#edf2ff" strokeWidth="1.2" opacity="0.6" />

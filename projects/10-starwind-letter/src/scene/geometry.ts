@@ -5,15 +5,15 @@ export const DESIGN_SIZE = { width: 390, height: 844 } as const
 
 interface Point3 { readonly x: number; readonly y: number; readonly z: number }
 
-const CAMERA_POSITION: Point3 = { x: 4, y: 3, z: 10 }
+const CAMERA_POSITION: Point3 = { x: 5, y: 3, z: 7 }
 const CAMERA_TARGET: Point3 = { x: 0, y: 2, z: 0 }
-const CAMERA_LENS = 1000
+const CAMERA_LENS = 850
 const CAMERA_CENTER = { x: 282, y: 340 } as const
 const CAMERA_SHEAR = 0.22
 const WORLD_UP: Point3 = { x: 0, y: 1, z: 0 }
 const WINDOW_WORLD = { left: -0.8, right: 0.8, bottom: 0.7, sash: 2.35, top: 4 } as const
 const FRAME_WORLD = { left: -0.95, right: 0.95, bottom: 0.55, top: 4.15 } as const
-const MOONLIGHT = { xPerHeight: 0.2, zPerHeight: 1.2 } as const
+const MOONLIGHT = { xPerHeight: 0.3, zPerHeight: 0.85 } as const
 
 const subtract3 = (first: Point3, second: Point3): Point3 => ({
   x: first.x - second.x,

@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { projectWindowLightCast, WINDOW_PORTAL, quadPoints } from './geometry'
+import { projectWindowLightCast, WINDOW_PORTAL, WINDOW_SASH, quadPoints } from './geometry'
 
 interface WindowLayerProps { readonly revealProgress: number }
 
@@ -159,15 +159,15 @@ export function WindowLayer({ revealProgress }: WindowLayerProps) {
       </g>
 
       <g data-layer="fixed-window-frame" opacity={0.24 + light * 0.74}>
-        <polyline points="202,138 360,168 360,505 202,452 202,138" fill="none" stroke="#172044" strokeWidth="14" strokeLinejoin="round" />
-        <polyline points="202,138 360,168 360,505 202,452 202,138" fill="none" stroke={`url(#${ids}-frame)`} strokeWidth="8.5" strokeLinejoin="round" />
-        <polyline points="202,138 214,152 348,178 360,168" fill="#e8edff" opacity="0.56" />
-        <polyline points="360,168 348,178 348,486 360,505" fill="#17244e" opacity="0.96" />
-        <polyline points="202,452 214,438 348,486 360,505" fill="#354878" opacity="0.86" />
-        <line x1="208" y1="286" x2="354" y2="322" stroke="#344471" strokeWidth="10" />
-        <line x1="209" y1="286" x2="353" y2="322" stroke="#97a6d2" strokeWidth="6" />
-        <line x1="211" y1="286" x2="351" y2="321" stroke="#edf2ff" strokeWidth="1.2" opacity="0.6" />
-        <polyline points="204,141 357,170" fill="none" stroke="#ffffff" strokeWidth="1.1" opacity="0.5" />
+        <polyline points="202,138 360,180 360,494 202,452 202,138" fill="none" stroke="#172044" strokeWidth="14" strokeLinejoin="round" />
+        <polyline points="202,138 360,180 360,494 202,452 202,138" fill="none" stroke={`url(#${ids}-frame)`} strokeWidth="8.5" strokeLinejoin="round" />
+        <polyline points="202,138 214,152 348,188 360,180" fill="#e8edff" opacity="0.56" />
+        <polyline points="360,180 348,188 348,474 360,494" fill="#17244e" opacity="0.96" />
+        <polyline points="202,452 214,438 348,474 360,494" fill="#354878" opacity="0.86" />
+        <line x1={WINDOW_SASH.left.x} y1={WINDOW_SASH.left.y} x2={WINDOW_SASH.right.x} y2={WINDOW_SASH.right.y} stroke="#344471" strokeWidth="10" />
+        <line x1={WINDOW_SASH.left.x} y1={WINDOW_SASH.left.y} x2={WINDOW_SASH.right.x} y2={WINDOW_SASH.right.y} stroke="#97a6d2" strokeWidth="6" />
+        <line x1={WINDOW_SASH.left.x} y1={WINDOW_SASH.left.y} x2={WINDOW_SASH.right.x} y2={WINDOW_SASH.right.y} stroke="#edf2ff" strokeWidth="1.2" opacity="0.6" />
+        <polyline points="204,141 357,182" fill="none" stroke="#ffffff" strokeWidth="1.1" opacity="0.5" />
       </g>
 
       <g data-layer="floor-moon-dust" opacity={light * 0.72} filter={`url(#${ids}-star-glow)`}>

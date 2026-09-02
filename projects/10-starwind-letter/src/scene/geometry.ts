@@ -3,12 +3,30 @@ export interface Quad { readonly topLeft: Point; readonly topRight: Point; reado
 
 export const DESIGN_SIZE = { width: 390, height: 844 } as const
 export const WINDOW_PORTAL: Quad = {
-  topLeft: { x: 214, y: 152 }, topRight: { x: 348, y: 178 },
-  bottomRight: { x: 348, y: 486 }, bottomLeft: { x: 214, y: 438 },
+  topLeft: { x: 214, y: 152 }, topRight: { x: 348, y: 188 },
+  bottomRight: { x: 348, y: 474 }, bottomLeft: { x: 214, y: 438 },
+}
+export const WINDOW_SASH = {
+  left: { x: 214, y: 286 },
+  right: { x: 348, y: 322 },
+} as const
+
+const WINDOW_AXIS = { x: 134, y: 36 } as const
+const WALL_FLOOR_ORIGIN = { x: 214, y: 488 } as const
+const GROUND_LIGHT_PER_HEIGHT = { x: -0.63, y: 0.84 } as const
+
+function add(point: Point, offset: Point): Point {
+  return { x: point.x + offset.x, y: point.y + offset.y }
 }
 
-const clamp = (value: number) => Math.min(1, Math.max(0, value))
-const smoothstep = (value: number) => value * value * (3 - 2 * value)
+function projectWindowRowToFloor(leftY: number) {
+  const height = WALL_FLOOR_ORIGIN.y - leftY
+  const left = {
+    x: WALL_FLOOR_ORIGIN.x + GROUND_LIGHT_PER_HEIGHT.x * height,
+    y: WALL_FLOOR_ORIGIN.y + GROUND_LIGHT_PER_HEIGHT.y * height,
+  }
+  return { left, right: add(left, WINDOW_AXIS) }
+}
 
 export interface WindowLightCast {
   readonly airBeams: readonly [Quad, Quad]
@@ -17,55 +35,65 @@ export interface WindowLightCast {
   readonly sashShadow: Quad
 }
 
-export function projectWindowLightCast(revealProgress: number): WindowLightCast {
-  const amount = smoothstep(clamp(revealProgress))
+export function projectWindowLightCast(_revealProgress: number): WindowLightCast {
+  const bottomRow = projectWindowRowToFloor(WINDOW_PORTAL.bottomLeft.y)
+  const sashRow = projectWindowRowToFloor(WINDOW_SASH.left.y)
+  const topRow = projectWindowRowToFloor(WINDOW_PORTAL.topLeft.y)
   const nearPane: Quad = {
-    topLeft: { x: 25, y: 640 },
-    topRight: { x: 270, y: 565 },
-    bottomRight: { x: 292, y: 637 },
-    bottomLeft: { x: 47, y: 712 },
+    topLeft: bottomRow.left,
+    topRight: bottomRow.right,
+    bottomRight: sashRow.right,
+    bottomLeft: sashRow.left,
   }
   const farPane: Quad = {
-    topLeft: nearPane.bottomLeft,
-    topRight: nearPane.bottomRight,
-    bottomRight: { x: 314, y: 697 + amount * 12 },
-    bottomLeft: { x: 69, y: 772 + amount * 12 },
+    topLeft: sashRow.left,
+    topRight: sashRow.right,
+    bottomRight: topRow.right,
+    bottomLeft: topRow.left,
   }
+  const frameWidth = { x: WINDOW_AXIS.x * 0.055, y: WINDOW_AXIS.y * 0.055 }
+  const sashDepth = { x: GROUND_LIGHT_PER_HEIGHT.x * 6, y: GROUND_LIGHT_PER_HEIGHT.y * 6 }
   return {
     airBeams: [
       {
         topLeft: WINDOW_PORTAL.topLeft,
         topRight: WINDOW_PORTAL.topRight,
-        bottomRight: nearPane.topRight,
-        bottomLeft: nearPane.topLeft,
+        bottomRight: topRow.right,
+        bottomLeft: topRow.left,
       },
       {
-        topLeft: { x: 208, y: 286 },
-        topRight: { x: 354, y: 322 },
-        bottomRight: farPane.topRight,
-        bottomLeft: farPane.topLeft,
+        topLeft: WINDOW_SASH.left,
+        topRight: WINDOW_SASH.right,
+        bottomRight: sashRow.right,
+        bottomLeft: sashRow.left,
       },
     ],
     floorPanes: [nearPane, farPane],
     frameShadows: [
       {
-        topLeft: { x: 25, y: 640 }, topRight: { x: 33, y: 641 },
-        bottomRight: { x: 77, y: 786 }, bottomLeft: { x: 69, y: 784 },
+        topLeft: bottomRow.left,
+        topRight: add(bottomRow.left, frameWidth),
+        bottomRight: add(topRow.left, frameWidth),
+        bottomLeft: topRow.left,
       },
       {
-        topLeft: { x: 262, y: 568 }, topRight: { x: 270, y: 565 },
-        bottomRight: { x: 314, y: 709 }, bottomLeft: { x: 306, y: 708 },
+        topLeft: add(bottomRow.right, { x: -frameWidth.x, y: -frameWidth.y }),
+        topRight: bottomRow.right,
+        bottomRight: topRow.right,
+        bottomLeft: add(topRow.right, { x: -frameWidth.x, y: -frameWidth.y }),
       },
       {
-        topLeft: { x: 69, y: 778 }, topRight: { x: 314, y: 703 },
-        bottomRight: { x: 316, y: 713 }, bottomLeft: { x: 69, y: 790 },
+        topLeft: topRow.left,
+        topRight: topRow.right,
+        bottomRight: add(topRow.right, sashDepth),
+        bottomLeft: add(topRow.left, sashDepth),
       },
     ],
     sashShadow: {
-      topLeft: { x: 45, y: 705 },
-      topRight: { x: 290, y: 630 },
-      bottomRight: { x: 294, y: 644 },
-      bottomLeft: { x: 49, y: 719 },
+      topLeft: add(sashRow.left, { x: -sashDepth.x, y: -sashDepth.y }),
+      topRight: add(sashRow.right, { x: -sashDepth.x, y: -sashDepth.y }),
+      bottomRight: add(sashRow.right, sashDepth),
+      bottomLeft: add(sashRow.left, sashDepth),
     },
   }
 }

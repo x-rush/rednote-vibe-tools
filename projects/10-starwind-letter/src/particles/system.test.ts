@@ -145,6 +145,17 @@ describe('particle spatial narrative', () => {
     expect(Math.max(...trailSpawns)).toBeGreaterThan(5000)
   })
 
+  it('front-loads a fast opening star surge before settling into a softer stream', () => {
+    const world = createParticleWorld(42, 'full', 'dream')
+    const dust = world.particles.filter(({ kind }) => kind === 'dust')
+    const surge = dust.filter(({ spawnAtMs }) => spawnAtMs < 2800)
+    const later = dust.filter(({ spawnAtMs }) => spawnAtMs >= 3200)
+    const speed = (particle: Particle) => Math.hypot(particle.velocity.x, particle.velocity.y)
+
+    expect(surge.length).toBeGreaterThan(later.length)
+    expect(Math.min(...surge.map(speed))).toBeGreaterThan(Math.max(...later.map(speed)) * 0.82)
+  })
+
   it('keeps a dense reference-like mix of fine stars and short light trails', () => {
     const world = createParticleWorld(42, 'full', 'dream')
     expect(world.particles.length).toBeGreaterThanOrEqual(190)

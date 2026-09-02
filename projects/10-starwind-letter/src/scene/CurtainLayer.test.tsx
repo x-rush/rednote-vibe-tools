@@ -71,6 +71,12 @@ describe('curtain opening and reset motion', () => {
     expect(html.match(/gradientUnits="userSpaceOnUse"/g)?.length ?? 0).toBeGreaterThanOrEqual(4)
   })
 
+  it('starts lifting the curtain in the first gust before the main opening beat', () => {
+    const resting = firstPathNumbers(sampleTimeline(0, false))
+    const gust = firstPathNumbers(sampleTimeline(299, false))
+    expect(gust).not.toEqual(resting)
+  })
+
   it('continues changing after the narrative reaches its result', () => {
     const first = firstPathNumbers(sampleTimeline(7000, false))
     const later = firstPathNumbers(sampleTimeline(8200, false))

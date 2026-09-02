@@ -69,6 +69,17 @@ function resultStart(quality: ParticleQuality) {
   return timelineDuration(quality === 'fallback')
 }
 
+function openingSpawnAt(kind: ParticleKind, index: number, count: number) {
+  const surgeCount = Math.max(1, Math.round(count * 0.64))
+  const kindOffset = kind === 'dust' ? 0 : kind === 'trail' ? 180 : 320
+  if (index < surgeCount) {
+    const ratio = index / Math.max(1, surgeCount - 1)
+    return 980 + kindOffset + ratio ** 1.35 * 1450
+  }
+  const ratio = (index - surgeCount) / Math.max(1, count - surgeCount - 1)
+  return 3050 + kindOffset * 0.35 + ratio ** 1.12 * 2650
+}
+
 export function emptyParticleWorld(quality: ParticleQuality, mood: Mood): ParticleWorld {
   return {
     particles: [], quality, mood, nextId: 0,
@@ -85,11 +96,12 @@ export function createParticleWorld(seed: number, quality: ParticleQuality, mood
       const ratio = random()
       const x = 228 + random() * 106
       const y = 184 + random() * 226
-      const baseSpawnAtMs = 1500
-      const kindOffset = kind === 'dust' ? 0 : kind === 'trail' ? 220 : 360
-      const lastSpawnAtMs = kind === 'dust' ? 5700 : kind === 'trail' ? 5600 : 5000
-      const interval = (lastSpawnAtMs - baseSpawnAtMs - kindOffset) / Math.max(1, count - 1)
-      const speed = kind === 'dust' ? 0.72 : kind === 'trail' ? 1.55 : 1
+      const spawnAtMs = openingSpawnAt(kind, index, count)
+      const surgeCount = Math.max(1, Math.round(count * 0.64))
+      const surge = index < surgeCount
+      const waveRatio = surge ? index / Math.max(1, surgeCount - 1) : 1
+      const waveSpeed = surge ? 1.65 - waveRatio * 0.1 : 0.78 + random() * 0.06
+      const speed = (kind === 'dust' ? 0.72 : kind === 'trail' ? 1.55 : 1) * waveSpeed
       particles.push({
         id,
         kind,
@@ -97,8 +109,8 @@ export function createParticleWorld(seed: number, quality: ParticleQuality, mood
         position: { x, y },
         previous: { x, y },
         velocity: { x: (-38 - random() * 42) * speed, y: (66 + random() * 70) * speed },
-        ageMs: -(baseSpawnAtMs + kindOffset + index * interval),
-        spawnAtMs: baseSpawnAtMs + kindOffset + index * interval,
+        ageMs: -spawnAtMs,
+        spawnAtMs,
         lifetimeMs: kind === 'hero' ? 9000 : kind === 'trail' ? 2800 : 2100,
         history: [{ x, y }],
         radius: kind === 'hero' ? 1.3 + random() * 1.5 : kind === 'trail' ? 0.55 + random() * 0.45 : 0.25 + random() * 0.42,

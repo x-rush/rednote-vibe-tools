@@ -35,13 +35,13 @@ function curtainMotion(sample: TimelineSample) {
     }
     case 'stars-and-letters': return {
       opening: 1,
-      ambient: 0.28,
+      ambient: 0.42,
       gustStrength: 0,
       flowStrength: 1,
     }
     case 'result': return {
       opening: 1,
-      ambient: 0.24 + Math.sin(sample.resultElapsedMs / 1800) * 0.035,
+      ambient: 0.28 + Math.sin(sample.resultElapsedMs / 1800) * 0.035,
       gustStrength: 0,
       flowStrength: 0.7,
     }

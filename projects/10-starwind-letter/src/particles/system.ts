@@ -50,6 +50,7 @@ const counts = {
 
 const limits = { full: 216, fallback: 68 } as const
 const resultIntervals = { full: 760, fallback: 1500 } as const
+const clamp = (value: number) => Math.min(1, Math.max(0, value))
 
 const landingProfiles = {
   dust: { settleAfterMs: 450, impactAfterMs: 780, holdMs: 160, fadeMs: 520 },
@@ -189,6 +190,20 @@ function mappedElapsedMs(elapsedMs: number, reducedMotion: boolean) {
     + Math.max(0, elapsedMs - reducedTotal)
 }
 
+function windField(particle: Particle, elapsedMs: number) {
+  const surge = particle.spawnAtMs < 2800
+  const age = Math.max(0, elapsedMs - particle.spawnAtMs)
+  const duration = surge ? 1900 : 1250
+  const envelope = 1 - clamp(age / duration)
+  const crosswind = surge ? 64 : 20
+  const downdraft = surge ? 24 : 8
+  const turbulence = Math.sin(elapsedMs / (surge ? 150 : 260) + particle.twinklePhase) * (surge ? 14 : 5)
+  return {
+    x: (-crosswind + turbulence) * envelope,
+    y: (downdraft + turbulence * 0.22) * envelope,
+  }
+}
+
 export function stepParticleWorld(world: ParticleWorld, input: ParticleStepInput): ParticleWorld {
   const seconds = Math.min(48, Math.max(0, input.deltaMs)) / 1000
   const motionScale = input.reducedMotion ? 0.58 : 1
@@ -201,9 +216,10 @@ export function stepParticleWorld(world: ParticleWorld, input: ParticleStepInput
     if (ageMs < 0 || ageMs > particle.lifetimeMs) return { ...particle, ageMs }
     const frozen = particle.space === 'landed' || particle.space === 'dissipating'
     const previous = frozen ? particle.settleTarget : particle.position
+    const wind = frozen ? { x: 0, y: 0 } : windField(particle, narrativeElapsed)
     let position = frozen ? particle.settleTarget : {
-      x: previous.x + particle.velocity.x * seconds * motionScale,
-      y: previous.y + particle.velocity.y * seconds * motionScale,
+      x: previous.x + (particle.velocity.x + wind.x) * seconds * motionScale,
+      y: previous.y + (particle.velocity.y + wind.y) * seconds * motionScale,
     }
     let velocity = frozen ? { x: 0, y: 0 } : particle.velocity
     let space = particle.space

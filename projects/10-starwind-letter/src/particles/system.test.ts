@@ -60,6 +60,18 @@ describe('particle spatial narrative', () => {
     expect(wall.particles[0]?.space).toBe('outside')
   })
 
+  it('keeps indoor stars carried leftward by the wind instead of drifting straight down', () => {
+    const particle = indoorParticle('dust')
+    const next = stepParticleWorld(worldWith(particle), {
+      elapsedMs: 300, deltaMs: 120, entryProgress: 1, reducedMotion: false, continuous: false,
+    }).particles[0]
+    if (!next) throw new Error('Expected an indoor particle')
+    const deltaX = next.position.x - particle.position.x
+    const deltaY = next.position.y - particle.position.y
+
+    expect(deltaX).toBeLessThan(-Math.abs(deltaY) * 0.8)
+  })
+
   it('clears particles and continuous emission counters on reset', () => {
     const reset = resetParticleWorld({
       ...worldWith(hero()),

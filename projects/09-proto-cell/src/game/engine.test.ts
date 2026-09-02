@@ -17,6 +17,19 @@ describe('game engine lifecycle', () => {
     expect(engine.renderSnapshot().width).toBeGreaterThan(0)
   })
 
+  it('protects the second-layer entry while the player reads the hazard telegraph', () => {
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-fiber-maze' })
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    const hazardCenter = engine.renderSnapshot().environmentField.hazardCenters['hazard-fiber-anchor']!
+    player.position = { ...hazardCenter }
+    player.body.center = { ...player.position }
+    engine.start()
+    engine.advance(3500)
+
+    expect(engine.renderSnapshot().entities.find((entity) => entity.id === 'player')?.status).toBe('active')
+    expect(engine.snapshot().membrane).toBe(100)
+  })
+
   it('turns engulf biomass into lifecycle pressure without exceeding the tier radius', () => {
     const engine = createGameEngine({ seed: 727 })
     const entities = engine.renderSnapshot().entities

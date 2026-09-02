@@ -58,13 +58,31 @@ describe('launch environments', () => {
     expect(createEnvironmentField('env-fiber-maze', 727).obstacles).toContainEqual(expect.objectContaining({ kind: 'fiber', adhesive: true }))
   })
 
+  it('keeps second-layer hazards and fibers inside the scaled world', () => {
+    const field = stepEnvironmentField(createEnvironmentField('env-fiber-maze', 727), 12_000)
+    const maxX = Math.max(...field.obstacles.flatMap((obstacle) => [obstacle.from.x, obstacle.to.x]))
+    const maxY = Math.max(...field.obstacles.flatMap((obstacle) => [obstacle.from.y, obstacle.to.y]))
+    const hazard = field.hazardCenters['hazard-fiber-anchor']!
+
+    expect(maxX).toBeGreaterThan(1000)
+    expect(maxY).toBeGreaterThan(1800)
+    expect(hazard.x).toBeGreaterThan(70)
+    expect(hazard.x).toBeLessThan(1536 - 70)
+    expect(hazard.y).toBeGreaterThan(100)
+    expect(hazard.y).toBeLessThan(2611 - 100)
+  })
+
   it('turns field geometry into movement and damage samples', () => {
     const acid = stepEnvironmentField(createEnvironmentField('env-acid-vesicle', 727), 3000)
     const hazard = Object.values(acid.hazardCenters)[0]!
     const acidSample = sampleEnvironmentField(acid, hazard, 12)
     const safeSample = sampleEnvironmentField(acid, acid.safeCenters[0]!, 12)
     const fiber = stepEnvironmentField(createEnvironmentField('env-fiber-maze', 727), 5000)
-    const fiberSample = sampleEnvironmentField(fiber, { x: 320, y: 490 }, 12)
+    const fiberSegment = fiber.obstacles.find((obstacle) => obstacle.kind === 'fiber')!
+    const fiberSample = sampleEnvironmentField(fiber, {
+      x: (fiberSegment.from.x + fiberSegment.to.x) / 2,
+      y: (fiberSegment.from.y + fiberSegment.to.y) / 2,
+    }, 12)
 
     expect(acidSample.damage).toBeGreaterThan(0)
     expect(safeSample.damage).toBe(0)
@@ -104,13 +122,14 @@ describe('launch environments', () => {
     expect(cleaned.telegraphs.some((cue) => cue.hazardId === 'event-antibody-sweep')).toBe(false)
   })
 
-  it('blocks crossing a fiber while retaining adhesive slowdown near it', () => {
+  it('allows crossing a fiber while retaining adhesive slowdown near it', () => {
     const field = createEnvironmentField('env-fiber-maze', 727)
-    const from = { x: 310, y: 460 }
-    const to = { x: 330, y: 520 }
+    const fiber = field.obstacles.find((obstacle) => obstacle.kind === 'fiber')!
+    const from = { x: fiber.from.x - 20, y: fiber.from.y - 20 }
+    const to = { x: fiber.to.x + 20, y: fiber.to.y + 20 }
 
-    expect(resolveEnvironmentMovement(field, from, to, 12)).toEqual(from)
-    expect(sampleEnvironmentField(field, { x: 320, y: 490 }, 12).speedMultiplier).toBeLessThan(1)
+    expect(resolveEnvironmentMovement(field, from, to, 12)).toEqual(to)
+    expect(sampleEnvironmentField(field, { x: (fiber.from.x + fiber.to.x) / 2, y: (fiber.from.y + fiber.to.y) / 2 }, 12).speedMultiplier).toBeLessThan(1)
   })
 
   it('lets a touching body move away from an adhesive fiber in a subpixel step', () => {

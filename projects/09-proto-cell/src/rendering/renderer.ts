@@ -642,7 +642,7 @@ function drawEnvironmentField(
     const safe = field.safeCenters[0]!
     const safeX = anchor.x + (safe.x - center.x) * zoom
     const safeY = anchor.y + (safe.y - center.y) * zoom
-    context.globalAlpha = field.activeHazardIds.includes('hazard-acid-discharge') ? 0.2 : 0.1
+    context.globalAlpha = field.activeHazardIds.includes('hazard-acid-discharge') ? 0.26 : 0.18
     context.fillStyle = '#d94f68'
     context.beginPath()
     context.rect(0, 0, width, height)
@@ -657,7 +657,6 @@ function drawEnvironmentField(
     const active = field.activeHazardIds.includes(cue.hazardId)
     const telegraphing = snapshot.elapsedMs >= cue.startsAtMs && snapshot.elapsedMs < cue.activatesAtMs
     if (!active && !telegraphing) continue
-    if (field.environmentId === 'env-acid-vesicle' && cue.hazardId === 'hazard-acid-discharge') continue
     const pulse = 0.95 + Math.sin(snapshot.elapsedMs / 170) * 0.05
     context.globalAlpha = active ? 0.18 : 0.68
     context.strokeStyle = active ? '#ff806c' : '#ffe595'
@@ -671,15 +670,36 @@ function drawEnvironmentField(
   }
   context.setLineDash([])
   context.strokeStyle = '#9dffd1'
-  context.lineWidth = 3
-  context.globalAlpha = 0.76
+  context.lineWidth = 4
+  context.globalAlpha = 0.9
   for (const center of field.safeCenters) {
     const x = anchor.x + (center.x - camera.center.x) * zoom
     const y = anchor.y + (center.y - camera.center.y) * zoom
+    context.fillStyle = 'rgba(126, 255, 196, 0.14)'
+    context.beginPath()
+    context.arc(x, y, field.safeRadius * zoom, 0, Math.PI * 2)
+    context.fill()
+    context.setLineDash([12, 8])
     context.beginPath()
     context.arc(x, y, field.safeRadius * zoom, 0, Math.PI * 2)
     context.stroke()
+    const edge = edgeWarningPosition({ x, y }, { width, height }, 28)
+    if (edge) {
+      context.save()
+      context.translate(edge.x, edge.y)
+      context.rotate(edge.angle)
+      context.fillStyle = '#9dffd1'
+      context.globalAlpha = 0.95
+      context.beginPath()
+      context.moveTo(13, 0)
+      context.lineTo(-8, -8)
+      context.lineTo(-8, 8)
+      context.closePath()
+      context.fill()
+      context.restore()
+    }
   }
+  context.setLineDash([])
   context.restore()
 }
 

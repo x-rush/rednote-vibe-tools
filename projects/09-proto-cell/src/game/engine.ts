@@ -132,6 +132,7 @@ const STEP_MS = 1000 / 60
 const PLAYER_ID = 'player'
 const SWARM_MINIMUM_DURATION_MS = 6000
 const SWARM_FUSION_STABLE_MS = 1200
+const ENVIRONMENT_ENTRY_GRACE_MS = 5000
 export const CONTACT_DAMAGE_ARM_MS = 420
 
 export class LifecycleInvariantError extends Error {
@@ -184,6 +185,7 @@ export function createGameEngine(options: {
   const worldRng = createRng(options.seed).fork('m1-world')
   let elapsedMs = Math.max(0, options.initialElapsedMs ?? 0)
   const journeyEnabled = (options.environmentId ?? 'env-clear-drop') === 'env-clear-drop'
+  const entryGraceEnabled = journeyEnabled || options.initialElapsedMs === undefined
   let runDirectorState = createRunDirector(
     content.journey as JourneyDefinition,
     options.seed,
@@ -590,6 +592,15 @@ export function createGameEngine(options: {
     if (modifiers.rules['progressive-acid-coverage'] && environmentId === 'env-acid-vesicle') {
       const environmentOrder = content.environments.find((item) => item.id === environmentId)?.order ?? routeStageIndex
       environmentField = { ...environmentField, safeRadius: Math.max(48, 92 - environmentOrder * 12) }
+    }
+    if (entryGraceEnabled && elapsedMs - environmentEnteredAtMs < ENVIRONMENT_ENTRY_GRACE_MS) {
+      const entrySafeCenters = [...entities.values()]
+        .filter((entity) => entity.faction === 'player' && entity.status === 'active')
+        .map((entity) => ({ ...entity.position }))
+      environmentField = {
+        ...environmentField,
+        safeCenters: [...environmentField.safeCenters, ...entrySafeCenters],
+      }
     }
     applyEnvironmentDamage()
     const bossDefinition = content.bosses.find((item) => item.id === launchEnvironment?.bossId)

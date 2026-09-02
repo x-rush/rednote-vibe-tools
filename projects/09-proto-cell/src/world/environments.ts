@@ -2,6 +2,7 @@ import { getContent, type EnvironmentId } from '../content'
 import { createRng } from '../domain/rng'
 import type { Vec2 } from '../domain/types'
 import type { EcosystemEventState } from './events'
+import { worldDimensionsForTier } from './scale-world'
 
 export type EnvironmentTelegraph = {
   cueId: string
@@ -42,9 +43,20 @@ export function createEnvironmentField(environmentId: EnvironmentId, seed: numbe
   const environment = getContent().environments.find((item) => item.id === environmentId)
   const rule = FIELD_RULES[environmentId]
   if (!environment || !rule) throw new RangeError(`Unknown environment id: ${environmentId}`)
+  const m0Environment = (getContent().m0.environments as Array<{ id: string; width: number; height: number }>).find((item) => item.id === environmentId)
+  const scaleTier = (getContent().scaleTiers as Array<{ environmentId: string; radiusRange: readonly number[]; worldBodyWidths: number }>).find((item) => item.environmentId === environmentId)
+  const dimensions = scaleTier ? worldDimensionsForTier(scaleTier) : { width: m0Environment?.width ?? 640, height: m0Environment?.height ?? 1100 }
   const rng = createRng(seed).fork(`field:${environmentId}`)
   const angle = rng.next() * Math.PI * 2
-  const center = { x: 100 + rng.next() * 440, y: 160 + rng.next() * 760 }
+  const center = {
+    x: dimensions.width * (0.18 + rng.next() * 0.64),
+    y: dimensions.height * (0.18 + rng.next() * 0.54),
+  }
+  const geometryBaseWidth = environmentId === 'env-fiber-maze' ? 1160 : 640
+  const geometryBaseHeight = environmentId === 'env-fiber-maze' ? 1700 : 1100
+  const scaleX = dimensions.width / geometryBaseWidth
+  const scaleY = dimensions.height / geometryBaseHeight
+  const point = (x: number, y: number): Vec2 => ({ x: x * scaleX, y: y * scaleY })
   return {
     environmentId,
     seed,
@@ -57,15 +69,15 @@ export function createEnvironmentField(environmentId: EnvironmentId, seed: numbe
     safeRadius: 92,
     obstacles: environmentId === 'env-fiber-maze'
       ? [
-          { id: 'fiber-main', kind: 'fiber', from: { x: 90, y: 220 }, to: { x: 550, y: 760 }, adhesive: true },
-          { id: 'fiber-upper', kind: 'fiber', from: { x: 620, y: 180 }, to: { x: 1160, y: 640 }, adhesive: true },
-          { id: 'fiber-lower', kind: 'fiber', from: { x: 260, y: 980 }, to: { x: 880, y: 1420 }, adhesive: true },
+          { id: 'fiber-main', kind: 'fiber', from: point(90, 220), to: point(550, 760), adhesive: true },
+          { id: 'fiber-upper', kind: 'fiber', from: point(620, 180), to: point(1160, 640), adhesive: true },
+          { id: 'fiber-lower', kind: 'fiber', from: point(260, 980), to: point(880, 1420), adhesive: true },
         ]
       : environmentId === 'env-abandoned-chamber'
         ? [
-            { id: 'chamber-gate', kind: 'chamber-wall', from: { x: 80, y: 520 }, to: { x: 560, y: 520 }, adhesive: false },
-            { id: 'chamber-lane-upper', kind: 'chamber-wall', from: { x: 180, y: 940 }, to: { x: 820, y: 940 }, adhesive: false },
-            { id: 'chamber-lane-lower', kind: 'chamber-wall', from: { x: 720, y: 1520 }, to: { x: 1420, y: 1520 }, adhesive: false },
+          { id: 'chamber-gate', kind: 'chamber-wall', from: point(80, 520), to: point(560, 520), adhesive: false },
+          { id: 'chamber-lane-upper', kind: 'chamber-wall', from: point(180, 940), to: point(820, 940), adhesive: false },
+          { id: 'chamber-lane-lower', kind: 'chamber-wall', from: point(720, 1520), to: point(1420, 1520), adhesive: false },
           ]
         : [],
     telegraphs: [{ cueId: rule.cueId, hazardId: rule.hazardId, shape: rule.shape, startsAtMs: atMs, activatesAtMs: atMs + rule.leadMs, center, radius: 90 + rng.int(0, 80) }],
@@ -76,6 +88,7 @@ export function createEnvironmentField(environmentId: EnvironmentId, seed: numbe
 
 export function stepEnvironmentField(state: EnvironmentField, atMs: number): EnvironmentField {
   const rule = FIELD_RULES[state.environmentId]
+  const dimensions = dimensionsFor(state)
   const cycleIndex = Math.floor(Math.max(0, atMs - state.phaseStartedAtMs) / rule.periodMs)
   const cycleStartsAtMs = state.phaseStartedAtMs + cycleIndex * rule.periodMs
   const telegraphs = state.telegraphs.filter((cue) => cue.hazardId === rule.hazardId).map((cue) => ({
@@ -90,17 +103,17 @@ export function stepEnvironmentField(state: EnvironmentField, atMs: number): Env
   const elapsedSeconds = Math.max(0, atMs - state.phaseStartedAtMs) / 1000
   const moves = state.environmentId === 'env-acid-vesicle' || state.environmentId === 'env-antibody-storm' || state.environmentId === 'env-abandoned-chamber'
   const hazardCenters = Object.fromEntries(telegraphs.map((cue) => [cue.hazardId, moves ? {
-    x: pingPong(cue.center.x + state.flow.x * elapsedSeconds * 180, 70, 570),
-    y: pingPong(cue.center.y + state.flow.y * elapsedSeconds * 220, 100, 1000),
+    x: pingPong(cue.center.x + state.flow.x * elapsedSeconds * 180, Math.max(70, dimensions.width * 0.08), Math.min(dimensions.width - 70, dimensions.width * 0.92)),
+    y: pingPong(cue.center.y + state.flow.y * elapsedSeconds * 220, Math.max(100, dimensions.height * 0.08), Math.min(dimensions.height - 100, dimensions.height * 0.92)),
   } : cue.center]))
   let safeCenters: Vec2[] = state.environmentId === 'env-acid-vesicle' && (telegraphing || activeHazardIds.length > 0)
     ? Object.values(hazardCenters).map((center) => ({
-        x: pingPong(center.x + 320, 70, 570),
-        y: pingPong(center.y + 480, 100, 1000),
+        x: pingPong(center.x + dimensions.width * 0.5, Math.max(70, dimensions.width * 0.08), Math.min(dimensions.width - 70, dimensions.width * 0.92)),
+        y: pingPong(center.y + dimensions.height * 0.44, Math.max(100, dimensions.height * 0.08), Math.min(dimensions.height - 100, dimensions.height * 0.92)),
       }))
     : []
   if (state.environmentId === 'env-antibody-storm' && activeHazardIds.length > 0) {
-    safeCenters = Object.values(hazardCenters).map((center) => ({ x: pingPong(center.x + 70, 70, 570), y: center.y }))
+    safeCenters = Object.values(hazardCenters).map((center) => ({ x: pingPong(center.x + dimensions.width * 0.12, Math.max(70, dimensions.width * 0.08), Math.min(dimensions.width - 70, dimensions.width * 0.92)), y: center.y }))
   }
   const obstacles = state.environmentId === 'env-abandoned-chamber'
     ? state.obstacles.map((obstacle) => {
@@ -218,12 +231,9 @@ export function resolveEnvironmentMovement(
 ): Vec2 {
   for (const obstacle of state.obstacles) {
     if (obstacle.kind === 'fiber') {
-      const fromSide = signedSide(from, obstacle.from, obstacle.to)
-      const toSide = signedSide(to, obstacle.from, obstacle.to)
       const fromDistance = distanceToSegment(from, obstacle.from, obstacle.to)
       const toDistance = distanceToSegment(to, obstacle.from, obstacle.to)
       const nearSegment = toDistance <= radius + 2
-      if (fromSide * toSide < 0) return { ...from }
       if (nearSegment) {
         if (toDistance > fromDistance) return { ...to }
         return slideAlongCapsule(from, to, obstacle.from, obstacle.to)
@@ -272,12 +282,15 @@ function closestPointOnSegment(point: Vec2, from: Vec2, to: Vec2): Vec2 {
   return { x: from.x + dx * ratio, y: from.y + dy * ratio }
 }
 
-function signedSide(point: Vec2, from: Vec2, to: Vec2): number {
-  return (to.x - from.x) * (point.y - from.y) - (to.y - from.y) * (point.x - from.x)
-}
-
 function pingPong(value: number, min: number, max: number): number {
   const width = max - min
   const phase = ((value - min) % (width * 2) + width * 2) % (width * 2)
   return min + (phase <= width ? phase : width * 2 - phase)
+}
+
+function dimensionsFor(state: EnvironmentField): { width: number; height: number } {
+  const content = getContent()
+  const m0Environment = (content.m0.environments as Array<{ id: string; width: number; height: number }>).find((item) => item.id === state.environmentId)
+  const scaleTier = (content.scaleTiers as Array<{ environmentId: string; radiusRange: readonly number[]; worldBodyWidths: number }>).find((item) => item.environmentId === state.environmentId)
+  return scaleTier ? worldDimensionsForTier(scaleTier) : { width: m0Environment?.width ?? 640, height: m0Environment?.height ?? 1100 }
 }

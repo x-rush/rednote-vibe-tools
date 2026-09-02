@@ -2,17 +2,17 @@ import { describe, expect, it } from 'vitest'
 import { WINDOW_PORTAL, crossesPortal, pointInConvexQuad, projectWindowLightCast } from './geometry'
 
 describe('perspective window geometry', () => {
-  it('projects the window as one continuous down-left light cast', () => {
+  it('lands the diagonal beam on a wide floor plane to form a right-triangle read', () => {
     const cast = projectWindowLightCast(1)
     expect(cast.airBeams).toHaveLength(2)
     expect(cast.floorPanes).toHaveLength(2)
     expect(cast.frameShadows).toHaveLength(3)
     expect(cast.airBeams[0].topLeft).toEqual(WINDOW_PORTAL.topLeft)
     expect(cast.airBeams[0].topRight).toEqual(WINDOW_PORTAL.topRight)
-    expect(cast.airBeams[0].bottomLeft).toEqual(cast.floorPanes[1].bottomLeft)
-    expect(cast.airBeams[0].bottomRight).toEqual(cast.floorPanes[1].bottomRight)
-    expect(cast.airBeams[1].bottomLeft).toEqual(cast.floorPanes[0].bottomLeft)
-    expect(cast.airBeams[1].bottomRight).toEqual(cast.floorPanes[0].bottomRight)
+    expect(cast.airBeams[0].bottomLeft).toEqual(cast.floorPanes[0].topLeft)
+    expect(cast.airBeams[0].bottomRight).toEqual(cast.floorPanes[0].topRight)
+    expect(cast.airBeams[1].bottomLeft).toEqual(cast.floorPanes[1].topLeft)
+    expect(cast.airBeams[1].bottomRight).toEqual(cast.floorPanes[1].topRight)
     cast.airBeams.forEach((beam) => {
       expect(beam.bottomLeft.x).toBeLessThan(beam.topLeft.x)
       expect(beam.topRight.x - beam.bottomRight.x).toBeGreaterThan(60)
@@ -20,10 +20,18 @@ describe('perspective window geometry', () => {
 
     expect(cast.floorPanes[0].bottomLeft).toEqual(cast.floorPanes[1].topLeft)
     expect(cast.floorPanes[0].bottomRight).toEqual(cast.floorPanes[1].topRight)
-    expect(cast.floorPanes[1].bottomLeft.x).toBeLessThan(cast.floorPanes[0].topLeft.x)
-    expect(cast.floorPanes[1].bottomRight.x).toBeLessThan(cast.floorPanes[0].topRight.x)
     expect(cast.floorPanes[1].bottomLeft.y).toBeGreaterThan(cast.floorPanes[0].topLeft.y)
     expect(cast.floorPanes[1].bottomRight.y).toBeGreaterThan(cast.floorPanes[0].topRight.y)
+
+    const floorWidth = Math.hypot(
+      cast.floorPanes[0].topRight.x - cast.floorPanes[0].topLeft.x,
+      cast.floorPanes[0].topRight.y - cast.floorPanes[0].topLeft.y,
+    )
+    const floorDepth = Math.hypot(
+      cast.floorPanes[1].bottomLeft.x - cast.floorPanes[0].topLeft.x,
+      cast.floorPanes[1].bottomLeft.y - cast.floorPanes[0].topLeft.y,
+    )
+    expect(floorWidth).toBeGreaterThan(floorDepth * 1.5)
 
     cast.floorPanes.forEach((pane) => {
       const width = {

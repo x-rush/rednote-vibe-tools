@@ -20,52 +20,52 @@ export interface WindowLightCast {
 export function projectWindowLightCast(revealProgress: number): WindowLightCast {
   const amount = smoothstep(clamp(revealProgress))
   const nearPane: Quad = {
-    topLeft: { x: 100, y: 580 },
-    topRight: { x: 310, y: 625 },
-    bottomRight: { x: 288, y: 728 },
-    bottomLeft: { x: 78, y: 683 },
+    topLeft: { x: 25, y: 640 },
+    topRight: { x: 270, y: 565 },
+    bottomRight: { x: 292, y: 637 },
+    bottomLeft: { x: 47, y: 712 },
   }
   const farPane: Quad = {
     topLeft: nearPane.bottomLeft,
     topRight: nearPane.bottomRight,
-    bottomRight: { x: 266, y: 819 + amount * 12 },
-    bottomLeft: { x: 56, y: 774 + amount * 12 },
+    bottomRight: { x: 314, y: 697 + amount * 12 },
+    bottomLeft: { x: 69, y: 772 + amount * 12 },
   }
   return {
     airBeams: [
       {
         topLeft: WINDOW_PORTAL.topLeft,
         topRight: WINDOW_PORTAL.topRight,
-        bottomRight: farPane.bottomRight,
-        bottomLeft: farPane.bottomLeft,
+        bottomRight: nearPane.topRight,
+        bottomLeft: nearPane.topLeft,
       },
       {
         topLeft: { x: 208, y: 286 },
         topRight: { x: 354, y: 322 },
-        bottomRight: nearPane.bottomRight,
-        bottomLeft: nearPane.bottomLeft,
+        bottomRight: farPane.topRight,
+        bottomLeft: farPane.topLeft,
       },
     ],
     floorPanes: [nearPane, farPane],
     frameShadows: [
       {
-        topLeft: { x: 100, y: 580 }, topRight: { x: 108, y: 584 },
-        bottomRight: { x: 64, y: 788 }, bottomLeft: { x: 56, y: 786 },
+        topLeft: { x: 25, y: 640 }, topRight: { x: 33, y: 641 },
+        bottomRight: { x: 77, y: 786 }, bottomLeft: { x: 69, y: 784 },
       },
       {
-        topLeft: { x: 302, y: 623 }, topRight: { x: 310, y: 625 },
-        bottomRight: { x: 266, y: 831 }, bottomLeft: { x: 258, y: 827 },
+        topLeft: { x: 262, y: 568 }, topRight: { x: 270, y: 565 },
+        bottomRight: { x: 314, y: 709 }, bottomLeft: { x: 306, y: 708 },
       },
       {
-        topLeft: { x: 56, y: 781 }, topRight: { x: 266, y: 826 },
-        bottomRight: { x: 266, y: 836 }, bottomLeft: { x: 54, y: 791 },
+        topLeft: { x: 69, y: 778 }, topRight: { x: 314, y: 703 },
+        bottomRight: { x: 316, y: 713 }, bottomLeft: { x: 69, y: 790 },
       },
     ],
     sashShadow: {
-      topLeft: { x: 76, y: 677 },
-      topRight: { x: 290, y: 722 },
-      bottomRight: { x: 286, y: 734 },
-      bottomLeft: { x: 80, y: 689 },
+      topLeft: { x: 45, y: 705 },
+      topRight: { x: 290, y: 630 },
+      bottomRight: { x: 294, y: 644 },
+      bottomLeft: { x: 49, y: 719 },
     },
   }
 }

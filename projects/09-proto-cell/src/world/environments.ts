@@ -211,6 +211,7 @@ export function sampleEnvironmentField(
   ))
   const acidExposed = state.environmentId === 'env-acid-vesicle'
     && state.activeHazardIds.includes('hazard-acid-discharge')
+    && Boolean(activeHazard)
     && !nearSafeCenter
   const damagingHazard = !nearSafeCenter && (acidExposed || Boolean(activeHazard && (
     state.environmentId === 'env-fiber-maze' || state.environmentId === 'env-antibody-storm' || state.environmentId === 'env-abandoned-chamber'

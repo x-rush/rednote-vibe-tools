@@ -93,6 +93,15 @@ describe('launch environments', () => {
     expect(fiberSample.speedMultiplier).toBeLessThan(1)
   })
 
+  it('does not make the entire acid layer damaging outside the hazard circle', () => {
+    const acid = stepEnvironmentField(createEnvironmentField('env-acid-vesicle', 727), 3000)
+    const hazard = Object.values(acid.hazardCenters)[0]!
+    const farPosition = { x: hazard.x < 320 ? 560 : 80, y: hazard.y < 550 ? 980 : 120 }
+
+    expect(Math.hypot(farPosition.x - hazard.x, farPosition.y - hazard.y)).toBeGreaterThan(220)
+    expect(sampleEnvironmentField(acid, farPosition, 12).damage).toBe(0)
+  })
+
   it('consumes event world effects while the event is active', () => {
     const started = startEvent('event-giant-passage', {
       seed: 727,

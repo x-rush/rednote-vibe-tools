@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { projectWindowLightCast, WINDOW_PORTAL, WINDOW_SASH, quadPoints } from './geometry'
+import { projectWindowLightCast, ROOM_FLOOR_EDGE, WINDOW_FRAME, WINDOW_PORTAL, WINDOW_SASH, WINDOW_SASH_FRAME, quadPoints } from './geometry'
 
 interface WindowLayerProps { readonly revealProgress: number }
 
@@ -33,6 +33,19 @@ export function WindowLayer({ revealProgress }: WindowLayerProps) {
   const ids = useId().replaceAll(':', '')
   const light = smoothstep(clamp(revealProgress))
   const cast = projectWindowLightCast(light)
+  const frameOutline = `${quadPoints(WINDOW_FRAME)} ${WINDOW_FRAME.topLeft.x},${WINDOW_FRAME.topLeft.y}`
+  const topFrameFace = {
+    topLeft: WINDOW_FRAME.topLeft, topRight: WINDOW_FRAME.topRight,
+    bottomRight: WINDOW_PORTAL.topRight, bottomLeft: WINDOW_PORTAL.topLeft,
+  }
+  const rightFrameFace = {
+    topLeft: WINDOW_PORTAL.topRight, topRight: WINDOW_FRAME.topRight,
+    bottomRight: WINDOW_FRAME.bottomRight, bottomLeft: WINDOW_PORTAL.bottomRight,
+  }
+  const bottomFrameFace = {
+    topLeft: WINDOW_PORTAL.bottomLeft, topRight: WINDOW_PORTAL.bottomRight,
+    bottomRight: WINDOW_FRAME.bottomRight, bottomLeft: WINDOW_FRAME.bottomLeft,
+  }
 
   return (
     <svg
@@ -109,7 +122,7 @@ export function WindowLayer({ revealProgress }: WindowLayerProps) {
       </defs>
 
       <rect width="390" height="844" fill={`url(#${ids}-room)`} />
-      <path d="M0 603 L390 486 L390 844 L0 844Z" fill={`url(#${ids}-floor)`} />
+      <path d={`M0 ${ROOM_FLOOR_EDGE.left.y} L390 ${ROOM_FLOOR_EDGE.right.y} L390 844 L0 844Z`} fill={`url(#${ids}-floor)`} />
       <ellipse cx="190" cy="682" rx="190" ry="118" fill="#718bd8" opacity={light * 0.055} filter={`url(#${ids}-ambient-soft)`} />
 
       <g data-layer="volumetric-moonlight" opacity={light} filter={`url(#${ids}-beam-soft)`} style={{ mixBlendMode: 'screen' }}>
@@ -159,15 +172,15 @@ export function WindowLayer({ revealProgress }: WindowLayerProps) {
       </g>
 
       <g data-layer="fixed-window-frame" opacity={0.24 + light * 0.74}>
-        <polyline points="202,138 360,180 360,494 202,452 202,138" fill="none" stroke="#172044" strokeWidth="14" strokeLinejoin="round" />
-        <polyline points="202,138 360,180 360,494 202,452 202,138" fill="none" stroke={`url(#${ids}-frame)`} strokeWidth="8.5" strokeLinejoin="round" />
-        <polyline points="202,138 214,152 348,188 360,180" fill="#e8edff" opacity="0.56" />
-        <polyline points="360,180 348,188 348,474 360,494" fill="#17244e" opacity="0.96" />
-        <polyline points="202,452 214,438 348,474 360,494" fill="#354878" opacity="0.86" />
-        <line x1={WINDOW_SASH.left.x} y1={WINDOW_SASH.left.y} x2={WINDOW_SASH.right.x} y2={WINDOW_SASH.right.y} stroke="#344471" strokeWidth="10" />
+        <polyline points={frameOutline} fill="none" stroke="#172044" strokeWidth="14" strokeLinejoin="round" />
+        <polyline points={frameOutline} fill="none" stroke={`url(#${ids}-frame)`} strokeWidth="8.5" strokeLinejoin="round" />
+        <polygon points={quadPoints(topFrameFace)} fill="#e8edff" opacity="0.56" />
+        <polygon points={quadPoints(rightFrameFace)} fill="#17244e" opacity="0.96" />
+        <polygon points={quadPoints(bottomFrameFace)} fill="#354878" opacity="0.86" />
+        <line x1={WINDOW_SASH_FRAME.left.x} y1={WINDOW_SASH_FRAME.left.y} x2={WINDOW_SASH_FRAME.right.x} y2={WINDOW_SASH_FRAME.right.y} stroke="#344471" strokeWidth="10" />
         <line x1={WINDOW_SASH.left.x} y1={WINDOW_SASH.left.y} x2={WINDOW_SASH.right.x} y2={WINDOW_SASH.right.y} stroke="#97a6d2" strokeWidth="6" />
         <line x1={WINDOW_SASH.left.x} y1={WINDOW_SASH.left.y} x2={WINDOW_SASH.right.x} y2={WINDOW_SASH.right.y} stroke="#edf2ff" strokeWidth="1.2" opacity="0.6" />
-        <polyline points="204,141 357,182" fill="none" stroke="#ffffff" strokeWidth="1.1" opacity="0.5" />
+        <line x1={WINDOW_FRAME.topLeft.x} y1={WINDOW_FRAME.topLeft.y} x2={WINDOW_FRAME.topRight.x} y2={WINDOW_FRAME.topRight.y} stroke="#ffffff" strokeWidth="1.1" opacity="0.5" />
       </g>
 
       <g data-layer="floor-moon-dust" opacity={light * 0.72} filter={`url(#${ids}-star-glow)`}>

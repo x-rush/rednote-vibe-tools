@@ -2,31 +2,85 @@ export interface Point { readonly x: number; readonly y: number }
 export interface Quad { readonly topLeft: Point; readonly topRight: Point; readonly bottomRight: Point; readonly bottomLeft: Point }
 
 export const DESIGN_SIZE = { width: 390, height: 844 } as const
-export const WINDOW_PORTAL: Quad = {
-  topLeft: { x: 214, y: 152 }, topRight: { x: 348, y: 188 },
-  bottomRight: { x: 348, y: 474 }, bottomLeft: { x: 214, y: 438 },
+
+interface Point3 { readonly x: number; readonly y: number; readonly z: number }
+
+const CAMERA_POSITION: Point3 = { x: 4, y: 3, z: 10 }
+const CAMERA_TARGET: Point3 = { x: 0, y: 2, z: 0 }
+const CAMERA_LENS = 1000
+const CAMERA_CENTER = { x: 282, y: 340 } as const
+const CAMERA_SHEAR = 0.22
+const WORLD_UP: Point3 = { x: 0, y: 1, z: 0 }
+const WINDOW_WORLD = { left: -0.8, right: 0.8, bottom: 0.7, sash: 2.35, top: 4 } as const
+const FRAME_WORLD = { left: -0.95, right: 0.95, bottom: 0.55, top: 4.15 } as const
+const MOONLIGHT = { xPerHeight: 0.2, zPerHeight: 1.2 } as const
+
+const subtract3 = (first: Point3, second: Point3): Point3 => ({
+  x: first.x - second.x,
+  y: first.y - second.y,
+  z: first.z - second.z,
+})
+const dot3 = (first: Point3, second: Point3) => first.x * second.x + first.y * second.y + first.z * second.z
+const cross3 = (first: Point3, second: Point3): Point3 => ({
+  x: first.y * second.z - first.z * second.y,
+  y: first.z * second.x - first.x * second.z,
+  z: first.x * second.y - first.y * second.x,
+})
+const normalize3 = (value: Point3): Point3 => {
+  const magnitude = Math.hypot(value.x, value.y, value.z)
+  return { x: value.x / magnitude, y: value.y / magnitude, z: value.z / magnitude }
 }
-export const WINDOW_SASH = {
-  left: { x: 214, y: 286 },
-  right: { x: 348, y: 322 },
-} as const
 
-const WINDOW_AXIS = { x: 134, y: 36 } as const
-const WALL_FLOOR_ORIGIN = { x: 214, y: 488 } as const
-const GROUND_LIGHT_PER_HEIGHT = { x: -0.63, y: 0.84 } as const
+const cameraForward = normalize3(subtract3(CAMERA_TARGET, CAMERA_POSITION))
+const cameraRight = normalize3(cross3(cameraForward, WORLD_UP))
+const cameraUp = cross3(cameraRight, cameraForward)
 
-function add(point: Point, offset: Point): Point {
-  return { x: point.x + offset.x, y: point.y + offset.y }
+function projectScenePoint(point: Point3): Point {
+  const relative = subtract3(point, CAMERA_POSITION)
+  const depth = dot3(relative, cameraForward)
+  const x = CAMERA_CENTER.x + CAMERA_LENS * dot3(relative, cameraRight) / depth
+  const y = CAMERA_CENTER.y - CAMERA_LENS * dot3(relative, cameraUp) / depth
+  return { x, y: y + CAMERA_SHEAR * (x - CAMERA_CENTER.x) }
 }
 
-function projectWindowRowToFloor(leftY: number) {
-  const height = WALL_FLOOR_ORIGIN.y - leftY
-  const left = {
-    x: WALL_FLOOR_ORIGIN.x + GROUND_LIGHT_PER_HEIGHT.x * height,
-    y: WALL_FLOOR_ORIGIN.y + GROUND_LIGHT_PER_HEIGHT.y * height,
+function projectWindowRow(y: number, left: number = WINDOW_WORLD.left, right: number = WINDOW_WORLD.right) {
+  return {
+    left: projectScenePoint({ x: left, y, z: 0 }),
+    right: projectScenePoint({ x: right, y, z: 0 }),
   }
-  return { left, right: add(left, WINDOW_AXIS) }
 }
+
+function projectWindowRowToFloor(y: number, left: number = WINDOW_WORLD.left, right: number = WINDOW_WORLD.right) {
+  const groundPoint = (x: number) => projectScenePoint({
+    x: x + MOONLIGHT.xPerHeight * y,
+    y: 0,
+    z: MOONLIGHT.zPerHeight * y,
+  })
+  return { left: groundPoint(left), right: groundPoint(right) }
+}
+
+function quadFromRows(top: ReturnType<typeof projectWindowRow>, bottom: ReturnType<typeof projectWindowRow>): Quad {
+  return { topLeft: top.left, topRight: top.right, bottomRight: bottom.right, bottomLeft: bottom.left }
+}
+
+const windowTop = projectWindowRow(WINDOW_WORLD.top)
+const windowBottom = projectWindowRow(WINDOW_WORLD.bottom)
+const frameTop = projectWindowRow(FRAME_WORLD.top, FRAME_WORLD.left, FRAME_WORLD.right)
+const frameBottom = projectWindowRow(FRAME_WORLD.bottom, FRAME_WORLD.left, FRAME_WORLD.right)
+
+export const WINDOW_PORTAL: Quad = quadFromRows(windowTop, windowBottom)
+export const WINDOW_FRAME: Quad = quadFromRows(frameTop, frameBottom)
+export const WINDOW_SASH = projectWindowRow(WINDOW_WORLD.sash)
+export const WINDOW_SASH_FRAME = projectWindowRow(WINDOW_WORLD.sash, FRAME_WORLD.left, FRAME_WORLD.right)
+
+const wallFloorFirst = projectScenePoint({ x: -5, y: 0, z: 0 })
+const wallFloorSecond = projectScenePoint({ x: 5, y: 0, z: 0 })
+const floorYAt = (x: number) => wallFloorFirst.y
+  + (wallFloorSecond.y - wallFloorFirst.y) * (x - wallFloorFirst.x) / (wallFloorSecond.x - wallFloorFirst.x)
+export const ROOM_FLOOR_EDGE = {
+  left: { x: 0, y: floorYAt(0) },
+  right: { x: DESIGN_SIZE.width, y: floorYAt(DESIGN_SIZE.width) },
+} as const
 
 export interface WindowLightCast {
   readonly airBeams: readonly [Quad, Quad]
@@ -36,9 +90,13 @@ export interface WindowLightCast {
 }
 
 export function projectWindowLightCast(_revealProgress: number): WindowLightCast {
-  const bottomRow = projectWindowRowToFloor(WINDOW_PORTAL.bottomLeft.y)
-  const sashRow = projectWindowRowToFloor(WINDOW_SASH.left.y)
-  const topRow = projectWindowRowToFloor(WINDOW_PORTAL.topLeft.y)
+  const bottomRow = projectWindowRowToFloor(WINDOW_WORLD.bottom)
+  const sashRow = projectWindowRowToFloor(WINDOW_WORLD.sash)
+  const topRow = projectWindowRowToFloor(WINDOW_WORLD.top)
+  const outerBottomRow = projectWindowRowToFloor(WINDOW_WORLD.bottom, FRAME_WORLD.left, FRAME_WORLD.right)
+  const outerTopRow = projectWindowRowToFloor(FRAME_WORLD.top, FRAME_WORLD.left, FRAME_WORLD.right)
+  const sashNearRow = projectWindowRowToFloor(WINDOW_WORLD.sash - 0.07, FRAME_WORLD.left, FRAME_WORLD.right)
+  const sashFarRow = projectWindowRowToFloor(WINDOW_WORLD.sash + 0.07, FRAME_WORLD.left, FRAME_WORLD.right)
   const nearPane: Quad = {
     topLeft: bottomRow.left,
     topRight: bottomRow.right,
@@ -51,8 +109,6 @@ export function projectWindowLightCast(_revealProgress: number): WindowLightCast
     bottomRight: topRow.right,
     bottomLeft: topRow.left,
   }
-  const frameWidth = { x: WINDOW_AXIS.x * 0.055, y: WINDOW_AXIS.y * 0.055 }
-  const sashDepth = { x: GROUND_LIGHT_PER_HEIGHT.x * 6, y: GROUND_LIGHT_PER_HEIGHT.y * 6 }
   return {
     airBeams: [
       {
@@ -71,29 +127,29 @@ export function projectWindowLightCast(_revealProgress: number): WindowLightCast
     floorPanes: [nearPane, farPane],
     frameShadows: [
       {
-        topLeft: bottomRow.left,
-        topRight: add(bottomRow.left, frameWidth),
-        bottomRight: add(topRow.left, frameWidth),
-        bottomLeft: topRow.left,
+        topLeft: outerBottomRow.left,
+        topRight: bottomRow.left,
+        bottomRight: topRow.left,
+        bottomLeft: outerTopRow.left,
       },
       {
-        topLeft: add(bottomRow.right, { x: -frameWidth.x, y: -frameWidth.y }),
-        topRight: bottomRow.right,
+        topLeft: bottomRow.right,
+        topRight: outerBottomRow.right,
+        bottomRight: outerTopRow.right,
+        bottomLeft: topRow.right,
+      },
+      {
+        topLeft: outerTopRow.left,
+        topRight: outerTopRow.right,
         bottomRight: topRow.right,
-        bottomLeft: add(topRow.right, { x: -frameWidth.x, y: -frameWidth.y }),
-      },
-      {
-        topLeft: topRow.left,
-        topRight: topRow.right,
-        bottomRight: add(topRow.right, sashDepth),
-        bottomLeft: add(topRow.left, sashDepth),
+        bottomLeft: topRow.left,
       },
     ],
     sashShadow: {
-      topLeft: add(sashRow.left, { x: -sashDepth.x, y: -sashDepth.y }),
-      topRight: add(sashRow.right, { x: -sashDepth.x, y: -sashDepth.y }),
-      bottomRight: add(sashRow.right, sashDepth),
-      bottomLeft: add(sashRow.left, sashDepth),
+      topLeft: sashNearRow.left,
+      topRight: sashNearRow.right,
+      bottomRight: sashFarRow.right,
+      bottomLeft: sashFarRow.left,
     },
   }
 }

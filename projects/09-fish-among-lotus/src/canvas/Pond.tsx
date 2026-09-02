@@ -4,6 +4,7 @@ import type { Bounds, Fish, Leaf, Point, PointerState } from '../simulation.ts'
 import { SpatialGrid } from '../spatial-grid.ts'
 import { drawFish, drawLeaf, drawRipple, drawTrail, drawWater } from './draw.ts'
 import type { PosterBackground } from './draw.ts'
+import { suppressNativeContextMenu } from './interaction.ts'
 import { ParticleField } from './particles.ts'
 
 const FISH_COUNTS = [28, 44, 64]
@@ -275,6 +276,7 @@ export function Pond({ leafLevel, fishLevel, speedLevel, resetKey, ariaLabel, ke
         onPointerMove={move}
         onPointerUp={end}
         onPointerCancel={end}
+        onContextMenu={suppressNativeContextMenu}
         onKeyDown={moveKeyboardTarget}
         onKeyUp={stopKeyboardTarget}
         onBlur={blurKeyboardTarget}

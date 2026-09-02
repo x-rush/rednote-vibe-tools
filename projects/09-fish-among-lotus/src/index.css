@@ -9,7 +9,13 @@
 
 * { box-sizing: border-box; }
 html, body, #root { width: 100%; height: 100%; margin: 0; overflow: hidden; }
-body { overscroll-behavior: none; }
+html { touch-action: manipulation; }
+body {
+  overscroll-behavior: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 button { font: inherit; }
 button:focus-visible { outline: 2px solid #bd4238; outline-offset: 2px; }
 
@@ -39,6 +45,9 @@ button:focus-visible { outline: 2px solid #bd4238; outline-offset: 2px; }
   width: 100%;
   height: 100%;
   touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
   cursor: crosshair;
 }
 

@@ -14,23 +14,23 @@ const environmentNames = ['clear-drop', 'algae-glow', 'acid-vesicle', 'fiber-maz
 const bossNames = ['membrane-queen', 'antibody-crown', 'abandoned-host'] as const
 
 export const assetRegistry: Readonly<Record<string, string>> = Object.freeze({
-  ...Object.fromEntries(organelleNames.map((name) => [`organelle-${name}`, `/assets/icons/organelle-${name}.svg`])),
-  ...Object.fromEntries(synergyNames.map((name) => [`synergy-${name}`, `/assets/icons/synergy-${name}.svg`])),
-  ...Object.fromEntries(eventNames.map((name) => [`event-${name}`, `/assets/icons/event-${name}.svg`])),
-  ...Object.fromEntries(originNames.map((name) => [`origin-${name}`, `/assets/icons/origin-${name}.svg`])),
-  ...Object.fromEntries(modifierNames.map((name) => [`modifier-${name}`, `/assets/icons/modifier-${name}.svg`])),
-  ...Object.fromEntries(environmentNames.map((name) => [`env-${name}`, `/assets/environments/env-${name}.svg`])),
-  ...Object.fromEntries(environmentNames.map((name) => [`env-${name}:arcade`, `/assets/environments/arcade-${name}.png`])),
+  ...Object.fromEntries(organelleNames.map((name) => [`organelle-${name}`, `./assets/icons/organelle-${name}.svg`])),
+  ...Object.fromEntries(synergyNames.map((name) => [`synergy-${name}`, `./assets/icons/synergy-${name}.svg`])),
+  ...Object.fromEntries(eventNames.map((name) => [`event-${name}`, `./assets/icons/event-${name}.svg`])),
+  ...Object.fromEntries(originNames.map((name) => [`origin-${name}`, `./assets/icons/origin-${name}.svg`])),
+  ...Object.fromEntries(modifierNames.map((name) => [`modifier-${name}`, `./assets/icons/modifier-${name}.svg`])),
+  ...Object.fromEntries(environmentNames.map((name) => [`env-${name}`, `./assets/environments/env-${name}.svg`])),
+  ...Object.fromEntries(environmentNames.map((name) => [`env-${name}:arcade`, `./assets/environments/arcade-${name}.webp`])),
   ...Object.fromEntries(bossNames.flatMap((name) => ([
-    [`boss-${name}:body`, `/assets/bosses/boss-${name}-body.svg`],
-    [`boss-${name}:mask`, `/assets/bosses/boss-${name}-mask.svg`],
+    [`boss-${name}:body`, `./assets/bosses/boss-${name}-body.svg`],
+    [`boss-${name}:mask`, `./assets/bosses/boss-${name}-mask.svg`],
   ]))),
-  'environment-caustics': '/assets/environments/microscope-caustics-v2.png',
-  'environment-fibers': '/assets/environments/microscope-fibers-v2.png',
-  'ui-lab-frame': '/assets/ui/lab-frame.svg',
-  'ui-archive-frame': '/assets/ui/archive-frame.svg',
-  'ui-gene-node': '/assets/ui/gene-node.svg',
-  'ui-codex-frame': '/assets/ui/codex-frame.svg',
+  'environment-caustics': './assets/environments/microscope-caustics-v2.webp',
+  'environment-fibers': './assets/environments/microscope-fibers-v2.webp',
+  'ui-lab-frame': './assets/ui/lab-frame.svg',
+  'ui-archive-frame': './assets/ui/archive-frame.svg',
+  'ui-gene-node': './assets/ui/gene-node.svg',
+  'ui-codex-frame': './assets/ui/codex-frame.svg',
 })
 
 export function collectAssetIds(content: ContentPack): string[] {

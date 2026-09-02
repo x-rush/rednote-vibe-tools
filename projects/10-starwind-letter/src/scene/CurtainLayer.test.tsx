@@ -134,10 +134,10 @@ describe('curtain opening and reset motion', () => {
     const samples = Array.from({ length: 24 }, (_, index) => outermostPathNumbers(sampleTimeline(6500 + index * 320, false)))
     const tails = samples.map(tailX)
     const bodies = samples.map(bodyX)
-    expect(Math.max(...tails) - Math.min(...tails)).toBeGreaterThan(14)
-    expect(Math.max(...tails) - Math.min(...tails)).toBeLessThan(24)
-    expect(Math.max(...bodies) - Math.min(...bodies)).toBeGreaterThan(4)
-    expect(Math.max(...bodies) - Math.min(...bodies)).toBeLessThan(18)
+    expect(Math.max(...tails) - Math.min(...tails)).toBeGreaterThan(28)
+    expect(Math.max(...tails) - Math.min(...tails)).toBeLessThan(46)
+    expect(Math.max(...bodies) - Math.min(...bodies)).toBeGreaterThan(10)
+    expect(Math.max(...bodies) - Math.min(...bodies)).toBeLessThan(34)
   })
 
   it('reduces persistent curtain travel when reduced motion is requested', () => {

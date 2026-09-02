@@ -35,15 +35,15 @@ function curtainMotion(sample: TimelineSample) {
     }
     case 'stars-and-letters': return {
       opening: 1,
-      ambient: 0.42,
+      ambient: 0.58,
       gustStrength: 0,
       flowStrength: 1,
     }
     case 'result': return {
       opening: 1,
-      ambient: 0.28 + Math.sin(sample.resultElapsedMs / 1800) * 0.035,
+      ambient: 0.43 + Math.sin(sample.resultElapsedMs / 1800) * 0.055,
       gustStrength: 0,
-      flowStrength: 0.7,
+      flowStrength: 0.82,
     }
     case 'resetting': return {
       opening: 1 - sample.stageProgress,
@@ -61,8 +61,8 @@ export function CurtainLayer({ sample, reducedMotion = false }: CurtainLayerProp
   const motionScale = reducedMotion ? 0.42 : 1
   const ambient = motion.ambient * motionScale
   const flowShift = (
-    Math.sin(sample.elapsedMs / 1450) * 4.2
-    + Math.sin(sample.elapsedMs / 510 + 0.8) * 1.2
+    Math.sin(sample.elapsedMs / 1450) * 7.2
+    + Math.sin(sample.elapsedMs / 510 + 0.8) * 2.4
   ) * motion.flowStrength * motionScale
   const paths = strands.map((strand) => ({
     strand,

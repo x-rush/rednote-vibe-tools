@@ -97,7 +97,7 @@ export function WindowLayer({ revealProgress }: WindowLayerProps) {
           <feGaussianBlur stdDeviation="1.7" result="blur" />
           <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
-        <filter id={`${ids}-beam-soft`} x="-25%" y="-20%" width="150%" height="150%"><feGaussianBlur stdDeviation="4" /></filter>
+        <filter id={`${ids}-beam-soft`} x="-25%" y="-20%" width="150%" height="150%"><feGaussianBlur stdDeviation="2.4" /></filter>
         <filter id={`${ids}-floor-soft`} x="-15%" y="-18%" width="130%" height="140%"><feGaussianBlur stdDeviation="2.6" /></filter>
         <filter id={`${ids}-ambient-soft`} x="-35%" y="-50%" width="170%" height="200%"><feGaussianBlur stdDeviation="22" /></filter>
         <mask id={`${ids}-crescent`}>

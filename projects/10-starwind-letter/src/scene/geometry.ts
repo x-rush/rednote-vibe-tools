@@ -19,54 +19,53 @@ export interface WindowLightCast {
 
 export function projectWindowLightCast(revealProgress: number): WindowLightCast {
   const amount = smoothstep(clamp(revealProgress))
-  const reach = 0.88 + amount * 0.12
   const nearPane: Quad = {
     topLeft: { x: 150, y: 585 },
-    topRight: { x: 341, y: 516 },
-    bottomRight: { x: 370, y: 612 },
-    bottomLeft: { x: 125, y: 704 },
+    topRight: { x: 325, y: 520 },
+    bottomRight: { x: 285, y: 625 },
+    bottomLeft: { x: 82, y: 702 },
   }
   const farPane: Quad = {
-    topLeft: { x: 117, y: 718 },
-    topRight: { x: 368, y: 625 },
-    bottomRight: { x: 308, y: 782 + amount * 12 },
-    bottomLeft: { x: 18, y: 748 + 76 * reach },
+    topLeft: nearPane.bottomLeft,
+    topRight: nearPane.bottomRight,
+    bottomRight: { x: 240, y: 735 + amount * 12 },
+    bottomLeft: { x: 15, y: 811 + amount * 24 },
   }
   return {
     airBeams: [
       {
         topLeft: WINDOW_PORTAL.topLeft,
         topRight: WINDOW_PORTAL.topRight,
-        bottomRight: nearPane.topRight,
-        bottomLeft: nearPane.topLeft,
+        bottomRight: farPane.bottomRight,
+        bottomLeft: farPane.bottomLeft,
       },
       {
         topLeft: { x: 208, y: 286 },
         topRight: { x: 354, y: 322 },
-        bottomRight: farPane.topRight,
-        bottomLeft: farPane.topLeft,
+        bottomRight: nearPane.bottomRight,
+        bottomLeft: nearPane.bottomLeft,
       },
     ],
     floorPanes: [nearPane, farPane],
     frameShadows: [
       {
-        topLeft: { x: 125, y: 704 }, topRight: { x: 134, y: 701 },
-        bottomRight: { x: 30, y: 827 }, bottomLeft: { x: 17, y: 824 },
+        topLeft: { x: 150, y: 585 }, topRight: { x: 158, y: 589 },
+        bottomRight: { x: 25, y: 836 }, bottomLeft: { x: 15, y: 835 },
       },
       {
-        topLeft: { x: 362, y: 609 }, topRight: { x: 372, y: 612 },
-        bottomRight: { x: 316, y: 799 }, bottomLeft: { x: 306, y: 794 },
+        topLeft: { x: 317, y: 523 }, topRight: { x: 325, y: 520 },
+        bottomRight: { x: 240, y: 747 }, bottomLeft: { x: 231, y: 744 },
       },
       {
-        topLeft: { x: 18, y: 824 }, topRight: { x: 308, y: 794 },
-        bottomRight: { x: 314, y: 803 }, bottomLeft: { x: 12, y: 834 },
+        topLeft: { x: 15, y: 829 }, topRight: { x: 240, y: 741 },
+        bottomRight: { x: 242, y: 749 }, bottomLeft: { x: 15, y: 839 },
       },
     ],
     sashShadow: {
-      topLeft: nearPane.bottomLeft,
-      topRight: nearPane.bottomRight,
-      bottomRight: farPane.topRight,
-      bottomLeft: farPane.topLeft,
+      topLeft: { x: 80, y: 696 },
+      topRight: { x: 286, y: 619 },
+      bottomRight: { x: 284, y: 631 },
+      bottomLeft: { x: 84, y: 708 },
     },
   }
 }

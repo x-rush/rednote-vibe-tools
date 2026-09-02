@@ -3,7 +3,35 @@ import { createMulberry32 } from '../domain/random'
 import { createCurtainStrands, pointOnCurtainPath, sampleCurtainPath } from './curtain'
 
 describe('strand curtain motion', () => {
-  it('snaps the outer header inward while the same early gust lifts and clears its loose tail leftward', () => {
+  it('transmits the first pull downward instead of moving the root and tail ahead of the middle', () => {
+    const strand = createCurtainStrands(64, createMulberry32(42))[63]
+    if (!strand) throw new Error('Expected the outer curtain strand')
+    const resting = sampleCurtainPath(strand, 0, 0, 0)
+    const firstPull = sampleCurtainPath(strand, 0.177, 500, 0.14, 1)
+    const leftTravel = firstPull.nodes.map((node, index) => (
+      (resting.nodes[index]?.x ?? node.x) - node.x
+    ))
+
+    expect(leftTravel[0]).toBeGreaterThan((leftTravel[4] ?? 0) + 24)
+    expect(leftTravel[4]).toBeGreaterThan((leftTravel[8] ?? 0) + 12)
+    expect(leftTravel[11]).toBeLessThan((leftTravel[8] ?? 0) + 10)
+  })
+
+  it('lets the delayed tail accumulate the largest throw after the upper curtain has led the opening', () => {
+    const strand = createCurtainStrands(64, createMulberry32(42))[63]
+    if (!strand) throw new Error('Expected the outer curtain strand')
+    const resting = sampleCurtainPath(strand, 0, 0, 0)
+    const firstPull = sampleCurtainPath(strand, 0.177, 500, 0.14, 1)
+    const fullThrow = sampleCurtainPath(strand, 0.462, 950, 0.22, 1)
+    const firstTailTravel = (resting.nodes[11]?.x ?? 0) - (firstPull.nodes[11]?.x ?? 0)
+    const thrownTailTravel = (resting.nodes[11]?.x ?? 0) - (fullThrow.nodes[11]?.x ?? 0)
+    const thrownMiddleTravel = (resting.nodes[6]?.x ?? 0) - (fullThrow.nodes[6]?.x ?? 0)
+
+    expect(thrownTailTravel).toBeGreaterThan(firstTailTravel + 70)
+    expect(thrownTailTravel).toBeGreaterThan(thrownMiddleTravel + 45)
+  })
+
+  it('snaps the outer header inward while its loose tail initially lags behind', () => {
     const strands = createCurtainStrands(64, createMulberry32(42))
     const inner = strands[0]
     const outer = strands[63]
@@ -14,16 +42,12 @@ describe('strand curtain motion', () => {
     const outerCaught = sampleCurtainPath(outer, 0.2, 600, 0, 0.8)
 
     expect(outerResting.start.x - outerCaught.start.x).toBeGreaterThan(70)
-    expect(outerCaught.end.x).toBeLessThan(outerResting.end.x - 55)
-    expect(outerCaught.end.y).toBeLessThan(outerResting.end.y - 45)
+    expect(Math.abs(outerCaught.end.x - outerResting.end.x)).toBeLessThan(12)
+    expect(Math.abs(outerCaught.end.y - outerResting.end.y)).toBeLessThan(12)
     expect(innerResting.start.x - innerCaught.start.x).toBeGreaterThan(18)
     expect(outerResting.start.x - outerCaught.start.x).toBeGreaterThan(
       (innerResting.start.x - innerCaught.start.x) * 5,
     )
-    const innerTailTravel = innerResting.end.x - innerCaught.end.x
-    const outerTailTravel = outerResting.end.x - outerCaught.end.x
-    expect(innerTailTravel).toBeGreaterThan(20)
-    expect(innerTailTravel).toBeLessThan(outerTailTravel * 0.82)
   })
 
   it('throws the loose outer tail into a broad left arc during the opening gust', () => {
@@ -142,11 +166,11 @@ describe('strand curtain motion', () => {
     expect(new Set(tails.map((tail) => Math.round(tail))).size).toBeGreaterThan(8)
   })
 
-  it('gives neighboring strands uneven momentum inside one coherent opening gust', () => {
+  it('gives neighboring strands uneven momentum when the delayed gust reaches their tails', () => {
     const strands = createCurtainStrands(64, createMulberry32(42))
     const displacements = strands.map((strand) => {
       const resting = sampleCurtainPath(strand, 0, 0, 0)
-      const gusting = sampleCurtainPath(strand, 0.2, 600, 0.16, 1)
+      const gusting = sampleCurtainPath(strand, 0.462, 950, 0.22, 1)
       return gusting.end.x - resting.end.x
     })
     const adjacentChanges = displacements.slice(1).map((movement, index) => movement - (displacements[index] ?? movement))

@@ -551,7 +551,7 @@ export function createGameEngine(options: {
     enterEnvironment(route.environmentId)
   }
 
-  function stepWorldFeatures(_stepMs: number) {
+  function stepWorldFeatures(stepMs: number) {
     environmentField = stepEnvironmentField(environmentField, elapsedMs)
     const launchEnvironment = content.environments.find((item) => item.id === environmentId)
     const availableEventIds = launchEnvironment?.eventIds.filter((eventId) => (
@@ -603,6 +603,7 @@ export function createGameEngine(options: {
       }
     }
     applyEnvironmentDamage()
+    applyEnvironmentRecovery(stepMs)
     const bossDefinition = content.bosses.find((item) => item.id === launchEnvironment?.bossId)
     const bossSpawnAtMs = runDirectorState.phase === 'finale'
       ? environmentEnteredAtMs + 45_000
@@ -1049,6 +1050,23 @@ export function createGameEngine(options: {
       events.push({ type: 'player-died', cause: 'environmental-rupture', atMs: elapsedMs })
       activeSwarm = undefined
       terminalReached = true
+    }
+  }
+
+  function applyEnvironmentRecovery(stepMs: number) {
+    if (terminalReached || elapsedMs - lastDamageAt < 900) return
+    const recovery = Math.max(0, stepMs / 1000)
+    const playerBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
+    for (const entity of playerBodies) {
+      const inSafeZone = environmentField.safeCenters.some((center) => (
+        Math.hypot(center.x - entity.position.x, center.y - entity.position.y) <= environmentField.safeRadius + entity.body.radius
+      ))
+      if (!inSafeZone) continue
+      entities.set(entity.id, {
+        ...entity,
+        membrane: Math.min(currentMembraneMax(), entity.membrane + recovery * 10),
+        energy: Math.min(playerDefinition.energy, entity.energy + recovery * 5),
+      })
     }
   }
 

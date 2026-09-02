@@ -30,6 +30,24 @@ describe('game engine lifecycle', () => {
     expect(engine.snapshot().membrane).toBe(100)
   })
 
+  it('repairs membrane and energy inside a visible environment safe zone', () => {
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-acid-vesicle', initialElapsedMs: 3000 })
+    engine.start()
+    engine.advance(1000 / 60)
+    const snapshot = engine.renderSnapshot()
+    const player = snapshot.entities.find((entity) => entity.id === 'player')!
+    const safe = snapshot.environmentField.safeCenters[0]!
+    player.position = { ...safe }
+    player.body.center = { ...safe }
+    player.membrane = 40
+    player.energy = 30
+
+    engine.advance(1000)
+
+    expect(engine.snapshot().membrane).toBeGreaterThan(40)
+    expect(engine.snapshot().energy).toBeGreaterThan(30)
+  })
+
   it('turns engulf biomass into lifecycle pressure without exceeding the tier radius', () => {
     const engine = createGameEngine({ seed: 727 })
     const entities = engine.renderSnapshot().entities

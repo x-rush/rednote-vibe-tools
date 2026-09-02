@@ -497,7 +497,7 @@ function drawEngulfBursts(
   })
 }
 
-function screenImpactOffset(
+export function screenImpactOffset(
   effects: readonly NumberEffect[],
   elapsedMs: number,
   reducedMotion: boolean,
@@ -506,7 +506,9 @@ function screenImpactOffset(
   const recent = effects.reduce<{ age: number; amplitude: number } | undefined>((best, effect) => {
     const age = elapsedMs - effect.atMs
     if (age < 0 || age > 220) return best
-    const amplitude = effect.kind === 'damage' ? 3.5 : effect.kind === 'biomass' ? Math.min(6, 2 + effect.chain) : 1.5
+    const meaningfulEngulf = effect.kind === 'biomass' && (effect.chain >= 3 || effect.amount >= 80)
+    if (effect.kind === 'biomass' && !meaningfulEngulf) return best
+    const amplitude = effect.kind === 'damage' ? 2.6 : meaningfulEngulf ? Math.min(5, 1.5 + effect.chain * 0.8) : 0
     return !best || amplitude > best.amplitude ? { age, amplitude } : best
   }, undefined)
   if (!recent) return { x: 0, y: 0 }

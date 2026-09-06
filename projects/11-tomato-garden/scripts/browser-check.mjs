@@ -8,10 +8,29 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 await mkdir('artifacts', { recursive: true });
-const base = 'http://127.0.0.1:4311';
+const base = process.env.BASE_URL || 'http://127.0.0.1:4311';
+if (process.env.OFFLINE_CHECK === '1') {
+  await page.context().setOffline(true);
+  await page.addInitScript(() => {
+    window.fetch = () => { throw new Error('Network requests are disabled in the container'); };
+    window.XMLHttpRequest = class { constructor() { throw new Error('XMLHttpRequest is disabled in the container'); } };
+  });
+}
 await page.goto(base);
 await page.waitForSelector('[data-action=start]');
+await page.waitForSelector('[data-action=custom]');
+await page.locator('[data-action=start]').click();
+assert.equal(await page.locator('button, a, input, select, textarea').count(), 2, 'An active session exposes only pause and stop');
+await page.screenshot({ path: 'artifacts/session-desktop.png' });
+await page.locator('[data-action=finish]').click();
+await page.keyboard.press('Escape');
+await page.evaluate(() => document.activeElement.blur());
 await page.screenshot({ path: 'artifacts/desktop.png', fullPage: true });
+async function assertSessionOnly() {
+  assert.equal(await page.locator('.focus-sanctuary').count(), 1);
+  assert.deepEqual(await page.locator('button, a, input, select, textarea').evaluateAll(elements => elements.map(el => el.dataset.action).sort()), ['finish', 'pause']);
+  assert.equal(await page.locator('nav, header, footer, .garden-invitation, .duration-options').count(), 0);
+}
 const results = [];
 for (const width of [375, 390, 430]) {
   await page.setViewportSize({ width, height: 844 });
@@ -24,12 +43,110 @@ for (const width of [375, 390, 430]) {
     results.push({ width, route, ...metrics });
   }
   await page.locator('nav [data-action=focus]').click();
-  await page.locator('[data-action=seeds]').click();
+  await page.locator('[data-action=seeds]:visible').last().click();
   assert(await page.locator('.modal').evaluate(el => el.getBoundingClientRect().top) >= 44);
   await page.keyboard.press('Escape');
+  const layout = await page.evaluate(() => {
+    const clock = document.querySelector('.home-clock').getBoundingClientRect();
+    const plant = document.querySelector('.home-plant').getBoundingClientRect();
+    const copy = document.querySelector('.invitation-copy').getBoundingClientRect();
+    const art = document.querySelector('.invitation-art').getBoundingClientRect();
+    const link = document.querySelector('.garden-invitation > button').getBoundingClientRect();
+    return { parallel: clock.right <= plant.left + 1 && clock.top < plant.bottom && plant.top < clock.bottom, invitation: copy.right <= art.left && link.top >= Math.max(copy.bottom, art.bottom) };
+  });
+  assert(layout.parallel, `Clock and plant share a row: ${width}`);
+  assert(layout.invitation, `Seed introduction has no overlap: ${width}`);
+  await page.locator('[data-action=start]').click();
+  await assertSessionOnly();
+  assert(await page.locator('.session-intro').evaluate(el => el.getBoundingClientRect().top) >= 44);
+  assert(await page.locator('[data-action=finish]').evaluate(el => el.getBoundingClientRect().bottom) <= 844);
+  assert(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1), 'Active session fits the viewport');
+  await page.screenshot({ path: `artifacts/session-${width}.png` });
+  if (width === 390) {
+    for (const viewport of [{ width: 390, height: 667 }, { width: 844, height: 390 }]) {
+      await page.setViewportSize(viewport);
+      const bounds = await page.locator('.session-controls').evaluate(el => ({ top: el.getBoundingClientRect().top, bottom: el.getBoundingClientRect().bottom, width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight }));
+      assert(bounds.top >= 44 && bounds.bottom <= viewport.height, 'Controls stay visible on short and landscape screens');
+      assert(bounds.width <= viewport.width && bounds.height <= viewport.height + 1, 'Full viewport layout does not overflow');
+    }
+    await page.setViewportSize({ width, height: 844 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    assert.equal(await page.locator('.living-foliage').evaluate(el => getComputedStyle(el).animationName), 'none');
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+  }
+  await page.keyboard.press('Escape');
+  await assertSessionOnly();
+  await page.mouse.click(width / 2, 230);
+  await assertSessionOnly();
+  await page.locator('[data-action=pause]').click();
+  assert.equal(await page.locator('.living-foliage').evaluate(el => getComputedStyle(el).animationPlayState), 'paused');
+  await page.keyboard.press('Tab');
+  assert.equal(await page.evaluate(() => document.activeElement.dataset.action), 'finish');
+  await page.keyboard.press('Tab');
+  assert.equal(await page.evaluate(() => document.activeElement.dataset.action), 'pause');
+  await page.locator('[data-action=finish]').click();
+  await page.keyboard.press('Escape');
+  await page.locator('.skip-link').focus();
+  await page.keyboard.press('Enter');
+  assert(await page.locator('#main').evaluate(el => el.getBoundingClientRect().top) >= 44);
+  await page.evaluate(() => { document.activeElement.blur(); window.scrollTo(0, 0); });
+  assert(await page.locator('[data-action=start]').evaluate(el => el.getBoundingClientRect().bottom) <= 844);
   await page.screenshot({ path: `artifacts/mobile-${width}.png`, fullPage: true });
 }
+await page.locator('[data-action=custom]').click();
+for (const value of ['0', '181', '1.5', '']) {
+  await page.locator('#custom-minutes').fill(value);
+  await page.locator('#duration-form button').click();
+  assert(await page.locator('#custom-error').textContent());
+  assert.equal(await page.locator('#custom-minutes').getAttribute('aria-invalid'), 'true');
+}
+await page.locator('#custom-minutes').fill('37');
+await page.locator('#custom-minutes').press('Enter');
+assert.equal(await page.locator('#timer').textContent(), '37:00');
+await page.locator('[data-action=suggest][data-value="0"]').click();
+assert.equal(await page.locator('#task').inputValue(), '阅读');
+await page.locator('[data-action=scene][data-value=sunset]').click();
+assert(await page.locator('.home-workbench.sunset').count());
+await page.locator('[data-action=seeds]:visible').last().click();
+assert.equal(await page.locator('.seed-card').count(), 8);
+await page.locator('[data-action=filter][data-value=available]').click();
+assert.equal(await page.locator('.seed-card').count(), 3);
+await page.locator('[data-action=select][data-id=mint]').click();
+assert((await page.locator('.plant-caption h2').textContent()).includes('薄荷'));
+await page.locator('[data-action=detail]').click();
+for (let stage = 0; stage < 5; stage++) {
+  await page.locator(`[data-action=preview-stage][data-value="${stage}"]`).click();
+  assert.equal(await page.locator(`[data-action=preview-stage][data-value="${stage}"]`).getAttribute('aria-pressed'), 'true');
+}
+await page.locator('[data-action=seeds]:visible').last().click();
+await page.locator('[data-action=filter][data-value=all]').click();
+await page.locator('[data-action=detail][data-id=lavender]').click();
+assert(await page.locator('.modal [data-action=select]').isDisabled());
+await page.screenshot({ path: 'artifacts/plant-preview.png' });
+await page.keyboard.press('Escape');
 await page.clock.install();
+await page.clock.pauseAt(await page.evaluate(() => Date.now()));
+await page.locator('[data-action=start]').click();
+await page.clock.fastForward(60000);
+await page.reload();
+await page.waitForSelector('[data-action=pause]');
+await assertSessionOnly();
+assert.equal(await page.locator('#timer').textContent(), '36:00');
+assert((await page.locator('.session-duration').textContent()).includes('37'));
+await page.locator('[data-action=finish]').click();
+await page.keyboard.press('Escape');
+assert.equal(await page.evaluate(() => document.activeElement.dataset.action), 'start', 'Closing the result restores visible keyboard focus');
+await page.locator('[data-action=long-rest]').click();
+assert.equal(await page.locator('#timer').textContent(), '15:00');
+await page.clock.fastForward(15 * 60000 + 1000);
+await page.waitForSelector('[role=dialog]');
+let customSaved = await page.evaluate(() => JSON.parse(localStorage.getItem('tomato-garden-v1')));
+assert.equal(customSaved.session, null);
+assert.equal(customSaved.total, 1);
+assert.equal(customSaved.progress.mint, 1);
+await page.evaluate(() => localStorage.clear());
+await page.reload();
+await page.waitForSelector('[data-action=start]');
 await page.locator('#task').fill('读完一章 <书>');
 await page.locator('[data-action=start]').click();
 await page.clock.fastForward(5 * 60000);
@@ -41,11 +158,15 @@ await page.reload();
 await page.waitForSelector('[data-action=pause]');
 assert.equal(await page.locator('#timer').textContent(), paused);
 await page.locator('[data-action=pause]').click();
-await page.clock.fastForward(20 * 60000 + 1000);
+await page.clock.fastForward(10 * 60000 + 1000);
+assert.equal(await page.locator('#live-plant').getAttribute('data-stage'), '1', 'The plant advances visually as focus time accrues');
+assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('tomato-garden-v1')).progress.tomato || 0), 0, 'Live animation does not award unsettled growth');
+await page.screenshot({ path: 'artifacts/session-growing.png' });
+await page.clock.fastForward(10 * 60000);
 await page.waitForSelector('[role=dialog]');
 let saved = await page.evaluate(() => JSON.parse(localStorage.getItem('tomato-garden-v1')));
 assert.equal(saved.total, 25); assert.equal(saved.records.length, 1); assert(saved.records[0].complete);
-await page.locator('[data-action=rest]').click();
+await page.locator('.modal [data-action=rest]').click();
 await page.clock.fastForward(5 * 60000 + 1000);
 await page.waitForSelector('[role=dialog]');
 saved = await page.evaluate(() => JSON.parse(localStorage.getItem('tomato-garden-v1')));
@@ -54,7 +175,6 @@ await page.locator('.close').click();
 await page.locator('[data-action=start]').click();
 await page.clock.fastForward(2 * 60000 + 15000);
 await page.locator('[data-action=finish]').click();
-await page.locator('[data-action=confirm-finish]').click();
 saved = await page.evaluate(() => JSON.parse(localStorage.getItem('tomato-garden-v1')));
 assert.equal(saved.total, 27); assert.equal(saved.records.length, 2); assert.equal(saved.records[1].complete, false);
 await page.reload();
@@ -66,14 +186,17 @@ await page.reload();
 await page.locator('[data-action=collect]').click();
 await page.locator('[data-action=select][data-id=sunflower]').click();
 assert.equal(await page.locator('.plant-caption h2').textContent(), '向日葵种子');
+assert(await page.locator('[data-action=start]').evaluate(el => { const r = el.getBoundingClientRect(); return r.top >= 44 && r.bottom <= 844; }), 'Selecting a plant must return to the visible timer controls');
 saved = await page.evaluate(() => JSON.parse(localStorage.getItem('tomato-garden-v1')));
 assert.equal(saved.collection.length, 1); assert.equal(saved.progress.tomato, 0);
 await page.locator('nav [data-action=garden]').click();
 await page.screenshot({ path: 'artifacts/garden.png', fullPage: true });
+await page.locator('[data-action=select][data-id=daisy]').click();
+assert(await page.locator('[data-action=start]').evaluate(el => { const r = el.getBoundingClientRect(); return r.top >= 44 && r.bottom <= 844; }), 'Selecting from the bottom of the garden must reveal the timer');
 await page.locator('nav [data-action=journal]').click();
 assert((await page.locator('.records').textContent()).includes('读完一章 <书>'));
 await page.screenshot({ path: 'artifacts/journal.png', fullPage: true });
 assert.equal(errors.length, 0, errors.join('\n'));
-await writeFile('artifacts/browser-results.json', JSON.stringify({ results, checks: ['pause', 'refresh restore', 'completion', 'no duplicate reward', 'rest no growth', 'partial settlement', 'collection', 'unlocked selection', 'escaped task text', 'modal safe area'], errors }, null, 2));
+await writeFile('artifacts/browser-results.json', JSON.stringify({ results, checks: ['pause', 'refresh restore', 'completion', 'no duplicate reward', 'rest no growth', 'partial settlement', 'collection', 'unlocked selection', 'escaped task text', 'modal safe area', 'custom duration validation', 'task suggestions', 'eight plants', 'three starter plants', 'catalog filters', 'five-stage preview', 'locked preview', 'sunset scene', 'long rest', 'session only has pause and stop', 'automatic full viewport', 'Esc and background cannot exit', 'pause freezes animation', 'session keyboard cycle', 'live growth stage', 'home clock and plant side by side', 'seed invitation alignment', 'session safe area', 'short and landscape screens', 'reduced motion', 'anchor safe area', 'primary action above fold', 'session result focus', 'selection scroll restoration', 'custom duration refresh'], errors }, null, 2));
 await browser.close();
 console.log('Browser checks passed: 375 / 390 / 430px, 44px safe area, timer and growth flows.');

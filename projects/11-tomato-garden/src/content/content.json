@@ -1,13 +1,455 @@
 {
-  "brand": {"name":"番茄小院","en":"THE LITTLE GARDEN","tagline":"把认真度过的时间，种成喜欢的样子。"},
-  "timing":{"presets":[15,25,45],"default":25,"rest":5},
-  "plants":[
-    {"id":"tomato","name":"小番茄","latin":"Solanum lycopersicum","kind":"结果植物","color":"#c64e37","unlock":0,"description":"从第一片嫩叶，到枝头的一抹红。适合你的第一段专注。","stages":[{"name":"种子","at":0,"note":"一颗小种子，等一段认真时光。"},{"name":"萌芽","at":15,"note":"两片嫩芽探出土面。"},{"name":"展叶","at":50,"note":"枝条伸长，新叶舒展开来。"},{"name":"开花","at":100,"note":"小小的黄色星花，开在枝头。"},{"name":"结果","at":150,"note":"红番茄成熟了，认真有了形状。"}]},
-    {"id":"sunflower","name":"向日葵","latin":"Helianthus annuus","kind":"观花植物","color":"#c99a30","unlock":60,"description":"向着光慢慢长高，把每次投入变成一朵明亮的花。","stages":[{"name":"种子","at":0,"note":"把一点期待，种进土里。"},{"name":"萌芽","at":15,"note":"圆圆的子叶迎接阳光。"},{"name":"拔高","at":60,"note":"茎秆长高，大叶子舒展开。"},{"name":"花苞","at":120,"note":"顶端的小花苞，正在积蓄力量。"},{"name":"盛放","at":180,"note":"金黄花盘打开，今天也有好阳光。"}]},
-    {"id":"strawberry","name":"草莓","latin":"Fragaria × ananassa","kind":"结果植物","color":"#b85460","unlock":180,"description":"低低的叶丛里藏着小惊喜，慢慢积攒自己的甜。","stages":[{"name":"种子","at":0,"note":"甜甜的期待，从这里开始。"},{"name":"萌芽","at":20,"note":"一株小芽冒出了头。"},{"name":"簇叶","at":70,"note":"三片一组的叶子渐渐茂密。"},{"name":"白花","at":140,"note":"白色小花躲在叶子之间。"},{"name":"红果","at":210,"note":"垂下的红草莓，是时间的回礼。"}]},
-    {"id":"monstera","name":"龟背竹","latin":"Monstera deliciosa","kind":"观叶植物","color":"#426340","unlock":360,"description":"从一片心形叶，到舒展的绿意。为长久的专注留一个位置。","stages":[{"name":"种子","at":0,"note":"给一片未来的绿意留个位置。"},{"name":"萌芽","at":20,"note":"卷着的小叶，正在慢慢醒来。"},{"name":"心叶","at":80,"note":"完整的心形叶舒展开来。"},{"name":"初裂","at":160,"note":"新叶开始出现独特的裂口。"},{"name":"繁叶","at":240,"note":"层层绿叶，长成小院安静的一角。"}]}
+  "brand": {
+    "name": "番茄小院",
+    "en": "THE LITTLE GARDEN",
+    "tagline": "把认真度过的时间，种成喜欢的样子。"
+  },
+  "timing": {
+    "presets": [
+      15,
+      25,
+      45
+    ],
+    "default": 25,
+    "rest": 5,
+    "longRest": 15,
+    "min": 1,
+    "max": 180
+  },
+  "plants": [
+    {
+      "id": "tomato",
+      "name": "小番茄",
+      "latin": "Solanum lycopersicum",
+      "kind": "结果植物",
+      "color": "#c64e37",
+      "unlock": 0,
+      "description": "从第一片嫩叶，到枝头的一抹红。适合你的第一段专注。",
+      "stages": [
+        {
+          "name": "种子",
+          "at": 0,
+          "note": "一颗小种子，等一段认真时光。"
+        },
+        {
+          "name": "萌芽",
+          "at": 15,
+          "note": "两片嫩芽探出土面。"
+        },
+        {
+          "name": "展叶",
+          "at": 50,
+          "note": "枝条伸长，新叶舒展开来。"
+        },
+        {
+          "name": "开花",
+          "at": 100,
+          "note": "小小的黄色星花，开在枝头。"
+        },
+        {
+          "name": "结果",
+          "at": 150,
+          "note": "红番茄成熟了，认真有了形状。"
+        }
+      ]
+    },
+    {
+      "id": "sunflower",
+      "name": "向日葵",
+      "latin": "Helianthus annuus",
+      "kind": "观花植物",
+      "color": "#c99a30",
+      "unlock": 60,
+      "description": "向着光慢慢长高，把每次投入变成一朵明亮的花。",
+      "stages": [
+        {
+          "name": "种子",
+          "at": 0,
+          "note": "把一点期待，种进土里。"
+        },
+        {
+          "name": "萌芽",
+          "at": 15,
+          "note": "圆圆的子叶迎接阳光。"
+        },
+        {
+          "name": "拔高",
+          "at": 60,
+          "note": "茎秆长高，大叶子舒展开。"
+        },
+        {
+          "name": "花苞",
+          "at": 120,
+          "note": "顶端的小花苞，正在积蓄力量。"
+        },
+        {
+          "name": "盛放",
+          "at": 180,
+          "note": "金黄花盘打开，今天也有好阳光。"
+        }
+      ]
+    },
+    {
+      "id": "strawberry",
+      "name": "草莓",
+      "latin": "Fragaria × ananassa",
+      "kind": "结果植物",
+      "color": "#b85460",
+      "unlock": 180,
+      "description": "低低的叶丛里藏着小惊喜，慢慢积攒自己的甜。",
+      "stages": [
+        {
+          "name": "种子",
+          "at": 0,
+          "note": "甜甜的期待，从这里开始。"
+        },
+        {
+          "name": "萌芽",
+          "at": 20,
+          "note": "一株小芽冒出了头。"
+        },
+        {
+          "name": "簇叶",
+          "at": 70,
+          "note": "三片一组的叶子渐渐茂密。"
+        },
+        {
+          "name": "白花",
+          "at": 140,
+          "note": "白色小花躲在叶子之间。"
+        },
+        {
+          "name": "红果",
+          "at": 210,
+          "note": "垂下的红草莓，是时间的回礼。"
+        }
+      ]
+    },
+    {
+      "id": "monstera",
+      "name": "龟背竹",
+      "latin": "Monstera deliciosa",
+      "kind": "观叶植物",
+      "color": "#426340",
+      "unlock": 360,
+      "description": "从一片心形叶，到舒展的绿意。为长久的专注留一个位置。",
+      "stages": [
+        {
+          "name": "种子",
+          "at": 0,
+          "note": "给一片未来的绿意留个位置。"
+        },
+        {
+          "name": "萌芽",
+          "at": 20,
+          "note": "卷着的小叶，正在慢慢醒来。"
+        },
+        {
+          "name": "心叶",
+          "at": 80,
+          "note": "完整的心形叶舒展开来。"
+        },
+        {
+          "name": "初裂",
+          "at": 160,
+          "note": "新叶开始出现独特的裂口。"
+        },
+        {
+          "name": "繁叶",
+          "at": 240,
+          "note": "层层绿叶，长成小院安静的一角。"
+        }
+      ]
+    },
+    {
+      "id": "mint",
+      "name": "薄荷",
+      "latin": "Mentha",
+      "kind": "香草植物",
+      "color": "#6b9566",
+      "unlock": 0,
+      "description": "清新的小叶片，陪你从十分钟开始。",
+      "stages": [
+        {
+          "name": "种子",
+          "at": 0,
+          "note": "小种子已就位，开始一段属于你的时间。"
+        },
+        {
+          "name": "新芽",
+          "at": 10,
+          "note": "嫩芽探出头，每一点投入都有回应。"
+        },
+        {
+          "name": "对叶",
+          "at": 25,
+          "note": "绿意正在舒展，慢慢来也很好。"
+        },
+        {
+          "name": "分枝",
+          "at": 55,
+          "note": "离盛放更近了，给期待一点时间。"
+        },
+        {
+          "name": "清香",
+          "at": 90,
+          "note": "这株植物长成了，把它收藏进小院吧。"
+        }
+      ]
+    },
+    {
+      "id": "cactus",
+      "name": "仙人掌",
+      "latin": "Cactaceae",
+      "kind": "观叶植物",
+      "color": "#79966c",
+      "unlock": 0,
+      "description": "不急着长高，也能开出自己的小花。",
+      "stages": [
+        {
+          "name": "种子",
+          "at": 0,
+          "note": "小种子已就位，开始一段属于你的时间。"
+        },
+        {
+          "name": "冒芽",
+          "at": 10,
+          "note": "嫩芽探出头，每一点投入都有回应。"
+        },
+        {
+          "name": "圆茎",
+          "at": 35,
+          "note": "绿意正在舒展，慢慢来也很好。"
+        },
+        {
+          "name": "侧芽",
+          "at": 75,
+          "note": "离盛放更近了，给期待一点时间。"
+        },
+        {
+          "name": "开花",
+          "at": 120,
+          "note": "这株植物长成了，把它收藏进小院吧。"
+        }
+      ]
+    },
+    {
+      "id": "lavender",
+      "name": "薰衣草",
+      "latin": "Lavandula",
+      "kind": "香草植物",
+      "color": "#9580aa",
+      "unlock": 120,
+      "description": "一簇紫色的安静，留给沉浸其中的你。",
+      "stages": [
+        {
+          "name": "种子",
+          "at": 0,
+          "note": "小种子已就位，开始一段属于你的时间。"
+        },
+        {
+          "name": "萌芽",
+          "at": 15,
+          "note": "嫩芽探出头，每一点投入都有回应。"
+        },
+        {
+          "name": "细叶",
+          "at": 50,
+          "note": "绿意正在舒展，慢慢来也很好。"
+        },
+        {
+          "name": "花穗",
+          "at": 110,
+          "note": "离盛放更近了，给期待一点时间。"
+        },
+        {
+          "name": "紫花",
+          "at": 180,
+          "note": "这株植物长成了，把它收藏进小院吧。"
+        }
+      ]
+    },
+    {
+      "id": "daisy",
+      "name": "小雏菊",
+      "latin": "Bellis perennis",
+      "kind": "观花植物",
+      "color": "#d1ad5e",
+      "unlock": 240,
+      "description": "在普通的日子里，种出小小的明亮。",
+      "stages": [
+        {
+          "name": "种子",
+          "at": 0,
+          "note": "小种子已就位，开始一段属于你的时间。"
+        },
+        {
+          "name": "萌芽",
+          "at": 15,
+          "note": "嫩芽探出头，每一点投入都有回应。"
+        },
+        {
+          "name": "叶丛",
+          "at": 45,
+          "note": "绿意正在舒展，慢慢来也很好。"
+        },
+        {
+          "name": "花苞",
+          "at": 95,
+          "note": "离盛放更近了，给期待一点时间。"
+        },
+        {
+          "name": "花开",
+          "at": 150,
+          "note": "这株植物长成了，把它收藏进小院吧。"
+        }
+      ]
+    }
   ],
-  "ui":{
-    "nav":["专注时光","我的小院","成长手记"],"eyebrow":"留一点时间，给自己","focusTitle":"今天，种下一点认真。","taskLabel":"这段时间，想完成什么？","taskPlaceholder":"读几页书、写一段文字……","taskDefault":"一段专注时光","minutes":"分钟","growth":"成长","start":"开始专注","pause":"暂停","resume":"继续专注","finish":"提前结束","rest":"休息 5 分钟","skipRest":"结束休息","back":"回到小院","again":"再专注一次","growing":"正在生长","ready":"等待下一段时光","paused":"歇一歇，回来接着长","focusing":"把注意力，留给眼前的事","resting":"休息一下，让思绪透透气","today":"今日专注","sessions":"完整番茄","total":"累计专注","stage":"生长进度","next":"距离下一阶段","mature":"已经长成，可以收入小院了","collect":"收入小院，种下一株","collected":"已收入小院。选一颗新的种子吧。","seedTitle":"挑一颗喜欢的种子","seedIntro":"成长时间是小院里的游戏设定，不是现实种植周期。","select":"种下它","selected":"正在培养","locked":"累计专注 {n} 分钟解锁","replace":"当前植物的进度会保留，下次可以继续培养。","gardenTitle":"努力过的时间，都在这里。","gardenSubtitle":"一盆一盆，慢慢长成你的小院。","collection":"小院收藏","emptyGarden":"小院还很安静","emptyGardenNote":"完成第一株植物的培养，就能把它留在这里。","journalTitle":"每一点认真，都算数。","week":"最近七天","recent":"最近的专注","emptyRecords":"第一段专注，正等着你写下。","complete":"完整专注","partial":"提前结束","success":"这段认真，已经长进小院。","restDone":"休息结束，带着好精神回来。","earned":"本次收获","stageReached":"现在的模样","close":"关闭","finishTitle":"要结束这段专注吗？","finishNote":"已完成的整分钟会保留为成长，未完成的番茄不计入完整次数。","confirmFinish":"结束并保留成长","cancel":"继续当前计时","storageError":"浏览器暂时无法保存。当前可继续使用，关闭页面后进度可能丢失。","storageReset":"本地记录无法读取，已开启新的小院。","local":"进度保存在当前浏览器","localDetail":"换设备不会同步，清理浏览器数据会清除小院。","saved":"安静生长，不必赶时间","plantDetail":"植物图鉴","minuteShort":"分","newPlant":"挑选植物","fullyGrown":"已成熟","keepGrowing":"每一段专注，都在生长","viewGarden":"看看小院","harvestFirst":"当前植物已成熟。请先收入小院，再开始新的专注。","dayNames":["日","一","二","三","四","五","六"]
-  }
+  "ui": {
+    "nav": [
+      "专注时光",
+      "我的小院",
+      "成长手记"
+    ],
+    "eyebrow": "留一点时间，给自己",
+    "focusTitle": "今天，种下一点认真。",
+    "taskLabel": "这段时间，想完成什么？",
+    "taskPlaceholder": "读几页书、写一段文字……",
+    "taskDefault": "一段专注时光",
+    "minutes": "分钟",
+    "growth": "成长",
+    "start": "开始专注",
+    "pause": "暂停",
+    "resume": "继续专注",
+    "finish": "提前结束",
+    "rest": "休息 5 分钟",
+    "skipRest": "结束休息",
+    "back": "回到小院",
+    "again": "再专注一次",
+    "growing": "正在生长",
+    "ready": "等待下一段时光",
+    "paused": "歇一歇，回来接着长",
+    "focusing": "把注意力，留给眼前的事",
+    "resting": "休息一下，让思绪透透气",
+    "today": "今日专注",
+    "sessions": "完整番茄",
+    "total": "累计专注",
+    "stage": "生长进度",
+    "next": "距离下一阶段",
+    "mature": "已经长成，可以收入小院了",
+    "collect": "收入小院，种下一株",
+    "collected": "已收入小院。选一颗新的种子吧。",
+    "seedTitle": "挑一颗喜欢的种子",
+    "seedIntro": "成长时间是小院里的游戏设定，不是现实种植周期。",
+    "select": "种下它",
+    "selected": "正在培养",
+    "locked": "累计专注 {n} 分钟解锁",
+    "replace": "当前植物的进度会保留，下次可以继续培养。",
+    "gardenTitle": "努力过的时间，都在这里。",
+    "gardenSubtitle": "一盆一盆，慢慢长成你的小院。",
+    "collection": "小院收藏",
+    "emptyGarden": "小院还很安静",
+    "emptyGardenNote": "完成第一株植物的培养，就能把它留在这里。",
+    "journalTitle": "每一点认真，都算数。",
+    "week": "最近七天",
+    "recent": "最近的专注",
+    "emptyRecords": "第一段专注，正等着你写下。",
+    "complete": "完整专注",
+    "partial": "提前结束",
+    "success": "这段认真，已经长进小院。",
+    "restDone": "休息结束，带着好精神回来。",
+    "earned": "本次收获",
+    "stageReached": "现在的模样",
+    "close": "关闭",
+    "finishTitle": "要结束这段专注吗？",
+    "finishNote": "已完成的整分钟会保留为成长，未完成的番茄不计入完整次数。",
+    "confirmFinish": "结束并保留成长",
+    "cancel": "继续当前计时",
+    "storageError": "浏览器暂时无法保存。当前可继续使用，关闭页面后进度可能丢失。",
+    "storageReset": "本地记录无法读取，已开启新的小院。",
+    "local": "进度保存在当前浏览器",
+    "localDetail": "换设备不会同步，清理浏览器数据会清除小院。",
+    "saved": "安静生长，不必赶时间",
+    "plantDetail": "植物图鉴",
+    "minuteShort": "分",
+    "newPlant": "挑选植物",
+    "fullyGrown": "已成熟",
+    "keepGrowing": "每一段专注，都在生长",
+    "viewGarden": "看看小院",
+    "harvestFirst": "当前植物已成熟。请先收入小院，再开始新的专注。",
+    "dayNames": [
+      "日",
+      "一",
+      "二",
+      "三",
+      "四",
+      "五",
+      "六"
+    ],
+    "custom": "自定义",
+    "customLabel": "专注时长",
+    "customHint": "输入 1–180 之间的整数分钟",
+    "customError": "请输入 1–180 之间的整数。",
+    "apply": "设定时长",
+    "shortBreak": "短休息",
+    "longBreak": "长休息",
+    "focusMode": "沉浸专注",
+    "exitFocus": "退出沉浸",
+    "daylight": "晴日",
+    "sunset": "暮色",
+    "sceneLabel": "窗外的光",
+    "timerHint": "专注一会儿，让小院长大一点。",
+    "restHint": "起身走走，喝一口水。",
+    "taskSuggestions": [
+      "阅读",
+      "学习",
+      "写作",
+      "工作"
+    ],
+    "allPlants": "全部植物",
+    "available": "已解锁",
+    "blooming": "观花植物",
+    "foliage": "观叶植物",
+    "herbs": "香草植物",
+    "fruiting": "结果植物",
+    "preview": "查看成长",
+    "previewNote": "点选阶段，看看它未来的模样。",
+    "backSeeds": "返回种子图鉴",
+    "unlockRemaining": "再专注 {n} 分钟解锁",
+    "seedCount": "种植物，等你慢慢认识",
+    "gardenShelf": "你的时间，会开花。",
+    "gardenShelfNote": "每次专注，都让窗台多一点绿意。",
+    "catalogLink": "逛逛种子图鉴",
+    "discovered": "已解锁",
+    "liveSession": "计时仍在继续",
+    "returnTimer": "返回计时",
+    "elapsed": "本次已专注",
+    "startRest": "开始休息",
+    "growthPreview": "成长预览",
+    "specimen": "植物档案",
+    "availableHint": "随时可以开始培养",
+    "noPlants": "这里暂时没有植物",
+    "progressHint": "完成专注后，成长会记入植物。",
+    "skipMain": "跳到主要内容",
+    "stop": "停止",
+    "focusSanctuary": "这一刻，只做一件事。",
+    "liveGrowth": "你的专注，正在给它生长的力量。",
+    "livePaused": "时间停一停，植物也歇一歇。",
+    "liveRest": "让眼睛休息，让思绪透透气。",
+    "growingTogether": "和你一起，慢慢长大",
+    "sessionGrowth": "本次成长",
+    "sessionProgressNote": "停止时保留已完成的整分钟",
+    "chooseCompanion": "今天，和它一起专注",
+    "seedShelfTitle": "下一次，想种点什么？",
+    "seedShelfNote": "从一颗小种子，收藏认真过的日子。",
+    "sessionTask": "正在专注",
+    "sessionRest": "休息时光",
+    "sessionDuration": "本轮时长"
+  },
+  "showcase": [
+    "mint",
+    "daisy",
+    "cactus"
+  ]
 }

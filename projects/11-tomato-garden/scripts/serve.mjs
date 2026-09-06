@@ -12,4 +12,5 @@ const server = createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': types[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' }); res.end(body);
   } catch { res.writeHead(404); res.end('Not found'); }
 });
-server.listen(4311, '127.0.0.1', () => console.log('Tomato Garden: http://127.0.0.1:4311'));
+const port = Number(process.env.PORT || 4311);
+server.listen(port, '127.0.0.1', () => console.log(`Tomato Garden: http://127.0.0.1:${port}`));

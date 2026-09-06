@@ -64,3 +64,31 @@ test('statistics group by local calendar date', () => {
   assert.equal(localDay(new Date(2026, 8, 6, 0, 1)), '2026-9-6');
   assert.equal(localDay(new Date(2026, 8, 5, 23, 59)), '2026-9-5');
 });
+test('invalid custom durations never create a timer or corrupt saved progress', () => {
+  for (const minutes of [0, -5, NaN, Infinity, 1.5, '25']) {
+    const state = freshState();
+    assert.strictEqual(startSession(state, { id: 'invalid', minutes, task: '', now }), state);
+  }
+});
+test('custom focus and long rest keep their own duration and reward rules', () => {
+  const custom = startSession(freshState(), { id: 'custom', minutes: 37, task: 'Write', now });
+  const done = settle(custom, now + 37 * 60000, plants).state;
+  assert.equal(done.total, 37);
+  const rest = startSession(done, { id: 'long-rest', minutes: 15, mode: 'rest', task: '', now });
+  assert.equal(remaining(rest.session, now), 15 * 60000);
+  assert.equal(settle(rest, now + 15 * 60000, plants).state.total, 37);
+});
+test('each plant can grow, survive a reload, and be collected', () => {
+  for (const plant of plants) {
+    const maturity = plant.stages.at(-1).at;
+    const initial = { ...freshState(), selected: plant.id, total: plant.unlock, progress: { [plant.id]: maturity - 5 } };
+    const session = startSession(initial, { id: plant.id, minutes: 5, task: 'Grow', now });
+    const done = settle(session, now + 5 * 60000, plants).state;
+    const restored = restore(JSON.stringify(done), plants);
+    assert.equal(stageOf(plant, restored.progress[plant.id]), 4);
+    const harvested = collect(restored, plants, now, `harvest-${plant.id}`);
+    assert.equal(harvested.collection[0].plantId, plant.id);
+    assert.equal(harvested.progress[plant.id], 0);
+    assert.equal(harvested.total, plant.unlock + 5);
+  }
+});

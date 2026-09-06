@@ -10,7 +10,7 @@ export function remaining(session, now) {
   return Math.max(0, session.status === 'paused' ? session.left : Math.min(session.duration, session.end - now));
 }
 export function startSession(state, { id, minutes, task, mode = 'focus', now }) {
-  if (state.session) return state;
+  if (state.session || !Number.isSafeInteger(minutes) || minutes <= 0) return state;
   return { ...state, session: { id, plantId: state.selected, task, mode, duration: minutes * 60000, left: minutes * 60000, end: now + minutes * 60000, status: 'running' } };
 }
 export function togglePause(state, now) {

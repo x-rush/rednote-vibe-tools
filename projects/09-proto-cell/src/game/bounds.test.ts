@@ -35,4 +35,9 @@ describe('accessible world bounds', () => {
     expect(result.steering.x).toBeGreaterThan(0)
     expect(result.position.x).toBeGreaterThanOrEqual(18)
   })
+
+  it('never produces a collapsed arena narrower than six player diameters', () => {
+    expect(bounds.minimumPlayableWidth(40, 6)).toBe(480)
+    expect(bounds.collapseInsetLimit({ width: 1760, height: 2992 }, 40, 6)).toBeLessThanOrEqual(640)
+  })
 })

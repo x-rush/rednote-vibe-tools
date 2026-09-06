@@ -3,11 +3,12 @@ import type { EntityState, Vec2 } from '../domain/types'
 import type { WorldRenderSnapshot } from '../game/engine'
 import { cellVisualProfile, drawCell } from './cell'
 import { collapsePresentation, drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type AmbientParticle, type RenderQuality } from './effects'
-import type { NumberFeed } from './numbers'
+import type { NumberEffect, NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
 import rawContent from '../content/content.json'
-import { createCameraTracker, type CameraFrame } from './camera'
+import { createCameraTracker, targetScreenDiameterRatio, type CameraFrame } from './camera'
 import { relationshipCue, relationshipPulse, type RelationshipCue } from './feedback'
+import { isMaterializing } from '../game/materialization'
 
 export type CanvasRenderer = {
   render(snapshot: WorldRenderSnapshot, numbers: NumberFeed): void
@@ -25,6 +26,22 @@ export function worldTextureOffset(
     x: camera.x === 0 ? 0 : -camera.x * parallax,
     y: camera.y === 0 ? 0 : -camera.y * parallax,
   }
+}
+
+export function backdropTileOrigins(
+  viewport: { width: number; height: number },
+  tile: { width: number; height: number },
+  offset: { x: number; y: number },
+): Array<{ x: number; y: number }> {
+  const origins: Array<{ x: number; y: number }> = []
+  for (let x = offset.x - tile.width; x < viewport.width; x += tile.width) {
+    if (x + tile.width <= 0) continue
+    for (let y = offset.y - tile.height; y < viewport.height; y += tile.height) {
+      if (y + tile.height <= 0) continue
+      origins.push({ x, y })
+    }
+  }
+  return origins
 }
 
 export function worldBoundaryScreenRect(
@@ -46,11 +63,54 @@ export function swarmTransitionPresentation(ageMs: number, reducedMotion: boolea
   return { radiusScale: 1.15 + progress * 1.8, textOffset: progress * 12, alpha: 1 - progress }
 }
 
-export function foodBloomPresentation(ageMs: number, reducedMotion: boolean): { radiusScale: number; alpha: number } | undefined {
-  if (ageMs < 0 || ageMs > 850) return undefined
-  if (reducedMotion) return { radiusScale: 1.25, alpha: 0.3 }
-  const progress = ageMs / 850
-  return { radiusScale: 1.2 + progress * 2.4, alpha: (1 - progress) * 0.55 }
+export function materializationPresentation(
+  ageMs: number,
+  durationMs: number,
+  reducedMotion: boolean,
+): { radiusScale: number; alpha: number; ringAlpha: number } | undefined {
+  if (!Number.isFinite(ageMs) || !Number.isFinite(durationMs)) return undefined
+  if (ageMs < 0 || durationMs <= 0 || ageMs >= durationMs) return undefined
+  if (reducedMotion) return { radiusScale: 0.88, alpha: 0.72, ringAlpha: 0.5 }
+  const progress = ageMs / durationMs
+  return {
+    radiusScale: 0.72 + progress * 0.28,
+    alpha: 0.24 + progress * 0.76,
+    ringAlpha: 0.72 - progress * 0.22,
+  }
+}
+
+export function edgeWarningPosition(
+  point: Vec2,
+  viewport: { width: number; height: number },
+  margin: number,
+): (Vec2 & { angle: number }) | undefined {
+  if (point.x >= margin && point.x <= viewport.width - margin && point.y >= margin && point.y <= viewport.height - margin) return undefined
+  const center = { x: viewport.width / 2, y: viewport.height / 2 }
+  const direction = { x: point.x - center.x, y: point.y - center.y }
+  if (direction.x === 0 && direction.y === 0) return undefined
+  const xScale = direction.x > 0
+    ? (viewport.width - margin - center.x) / direction.x
+    : direction.x < 0 ? (margin - center.x) / direction.x : Number.POSITIVE_INFINITY
+  const yScale = direction.y > 0
+    ? (viewport.height - margin - center.y) / direction.y
+    : direction.y < 0 ? (margin - center.y) / direction.y : Number.POSITIVE_INFINITY
+  const scale = Math.min(xScale, yScale)
+  return {
+    x: center.x + direction.x * scale,
+    y: center.y + direction.y * scale,
+    angle: Math.atan2(direction.y, direction.x),
+  }
+}
+
+export function isFiniteEntityGeometry(
+  entity: Pick<EntityState, 'position' | 'velocity'> & { body: { radius: number } },
+): boolean {
+  return Number.isFinite(entity.position.x)
+    && Number.isFinite(entity.position.y)
+    && Number.isFinite(entity.velocity.x)
+    && Number.isFinite(entity.velocity.y)
+    && Number.isFinite(entity.body.radius)
+    && entity.body.radius > 0
 }
 
 export function createCanvasRenderer(
@@ -77,11 +137,18 @@ export function createCanvasRenderer(
   return {
     render(snapshot, numbers) {
       if (destroyed) return
-      const { width, height } = resizeCanvas(canvas, context)
-      const player = snapshot.entities.find((entity) => entity.id === snapshot.playerId)
+      const { width, height } = resizeCanvas(canvas, context, quality)
+      const renderableEntities = snapshot.entities.filter(isFiniteEntityGeometry)
+      const player = renderableEntities.find((entity) => entity.id === snapshot.playerId)
       const viewport = { width, height }
+      const tier = rawContent.scaleTiers[snapshot.lifecycle.tierIndex]
       const cameraFrame = player
-        ? cameraTracker.update({ ...player, radius: player.body.radius }, viewport, snapshot.bodyStage, snapshot.elapsedMs)
+        ? cameraTracker.update(
+          { ...player, radius: player.body.radius },
+          viewport,
+          tier ? { screenDiameterRatio: targetScreenDiameterRatio(tier.screenDiameterRange as unknown as readonly [number, number], snapshot.lifecycle.evolutionPressure) } : snapshot.bodyStage,
+          snapshot.elapsedMs,
+        )
         : { center: { x: snapshot.width / 2, y: snapshot.height / 2 }, zoom: 2.3, anchor: { x: width * 0.5, y: height * 0.58 } }
       const camera = cameraFrame.center
       const zoom = cameraFrame.zoom
@@ -91,11 +158,15 @@ export function createCanvasRenderer(
       } : { ...cameraFrame.anchor }
 
       context.clearRect(0, 0, width, height)
+      const impact = screenImpactOffset(numbers.visible(), snapshot.elapsedMs, options.reducedMotion ?? false)
+      context.save()
+      context.translate(impact.x, impact.y)
       const visualTime = options.reducedMotion ? 0 : snapshot.elapsedMs
       drawLiquidField(context, width, height, visualTime, camera)
-      drawBackdropAsset(context, loadAsset('environment-caustics'), width, height, camera, zoom, 0.52, 0.12)
-      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height, camera, zoom, 0.3, 0.2)
-      if (usesFiberBackdrop(snapshot.environmentId)) {
+      drawBackdropAsset(context, loadAsset(`${snapshot.environmentId}:arcade`), width, height, camera, zoom, 0.34, 0.07)
+      drawBackdropAsset(context, loadAsset('environment-caustics'), width, height, camera, zoom, 0.3, 0.12)
+      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height, camera, zoom, 0.24, 0.2)
+      if (quality !== 'low' && usesFiberBackdrop(snapshot.environmentId)) {
         drawBackdropAsset(context, loadAsset('environment-fibers'), width, height, camera, zoom, 0.11, 0.34)
       }
       drawEnvironmentField(context, snapshot, cameraFrame, width, height)
@@ -107,10 +178,20 @@ export function createCanvasRenderer(
         drawAssetLayer(context, loadAsset(snapshot.activeEvent.id), eventX, eventY, 42, 0.72)
       }
 
-      const drawables = snapshot.entities
+      const drawables = renderableEntities
         .map((entity) => toDrawable(entity, cameraFrame, displayedRadii))
         .filter((item) => item.x + item.radius * 2 > 0 && item.x - item.radius * 2 < width && item.y + item.radius * 2 > 0 && item.y - item.radius * 2 < height)
         .sort((left, right) => Number(left.entity.id === snapshot.playerId) - Number(right.entity.id === snapshot.playerId))
+
+      for (const entity of renderableEntities) {
+        if (entity.faction !== 'hostile' || !isMaterializing(entity, snapshot.elapsedMs)) continue
+        const point = {
+          x: cameraFrame.anchor.x + (entity.position.x - camera.x) * zoom,
+          y: cameraFrame.anchor.y + (entity.position.y - camera.y) * zoom,
+        }
+        const warning = edgeWarningPosition(point, viewport, 28)
+        if (warning) drawArrivalEdgeWarning(context, warning, snapshot.elapsedMs, options.reducedMotion ?? false)
+      }
 
       for (const item of drawables) {
         if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase === 'dormant') {
@@ -121,7 +202,9 @@ export function createCanvasRenderer(
       }
       drawAmbientParticles(context, particles, width, height, visualTime, options.lowParticles ? 'low' : quality, camera)
       drawRouteRifts(context, snapshot, cameraFrame)
-      for (const item of drawables) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
+      for (const item of drawables) {
+        if (!isMaterializing(item.entity, snapshot.elapsedMs)) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
+      }
       if (player) {
         for (const item of drawables) {
           if (item.entity.id === player.id) continue
@@ -137,12 +220,24 @@ export function createCanvasRenderer(
         }
       }
       for (const item of drawables) {
-        if (item.entity.id.startsWith('eco-food-')) drawFoodSpawnBloom(context, item.x, item.y, item.radius, item.entity, snapshot.elapsedMs, options.reducedMotion ?? false)
-        drawBehaviorStateCue(context, item.entity, item.x, item.y, item.radius)
+        const spawnedAtMs = item.entity.spawnedAtMs
+        const materializingUntilMs = item.entity.materializingUntilMs
+        const materialization = spawnedAtMs !== undefined && materializingUntilMs !== undefined
+          ? materializationPresentation(
+              snapshot.elapsedMs - spawnedAtMs,
+              materializingUntilMs - spawnedAtMs,
+              options.reducedMotion ?? false,
+            )
+          : undefined
+        if (materialization) drawMaterializationBloom(context, item.x, item.y, item.radius, item.entity, materialization)
+        if (!materialization) drawBehaviorStateCue(context, item.entity, item.x, item.y, item.radius)
         context.save()
         if (item.entity.behaviorState === 'hide') context.globalAlpha = 0.38
-        drawCell(context, item.entity, item.x, item.y, item.radius, visualTime, {
+        if (materialization) context.globalAlpha *= materialization.alpha
+        drawCell(context, item.entity, item.x, item.y, item.radius * (materialization?.radiusScale ?? 1), visualTime, {
           quality,
+          build: item.entity.faction === 'player' ? snapshot.playerBuild : undefined,
+          formId: item.entity.faction === 'player' ? snapshot.lifecycle.formId : undefined,
           organelleIds: item.entity.faction === 'player' ? snapshot.playerOrganelleIdsByEntity[item.entity.id] ?? [] : undefined,
           stability: item.entity.faction === 'player' ? snapshot.playerStability : undefined,
           synergyIds: item.entity.faction === 'player' ? snapshot.playerSynergyIds : undefined,
@@ -158,8 +253,12 @@ export function createCanvasRenderer(
       if (snapshot.swarmTransition && player) {
         drawSwarmTransition(context, currentPlayerScreenPosition, player.body.radius * zoom, snapshot.swarmTransition, snapshot.elapsedMs, options.reducedMotion ?? false)
       }
+      if (player) {
+        drawEngulfBursts(context, currentPlayerScreenPosition, player.body.radius * zoom, numbers.visible(), snapshot.elapsedMs, options.reducedMotion ?? false)
+      }
       drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height, cameraFrame.anchor)
       drawEcologyCollapse(context, snapshot, width, height, cameraFrame.anchor, options.reducedMotion ?? false)
+      context.restore()
       numbers.draw(context, width, height, snapshot.elapsedMs)
     },
     playerScreenPosition() {
@@ -222,6 +321,26 @@ function drawBehaviorStateCue(
     context.lineTo(radius * 1.08, radius * 0.2)
     context.closePath()
     context.fill()
+  } else if (entity.behaviorState === 'recover') {
+    context.globalAlpha = 0.64
+    context.strokeStyle = '#8ff8ff'
+    context.lineWidth = 1.5
+    for (let index = 0; index < 3; index += 1) {
+      context.beginPath()
+      context.arc(-radius * (0.7 + index * 0.28), -radius * (0.45 + index * 0.18), radius * (0.11 + index * 0.03), 0, Math.PI * 2)
+      context.stroke()
+    }
+  } else if (entity.behaviorState === 'alert') {
+    context.globalAlpha = 0.84
+    context.strokeStyle = '#ff9f68'
+    context.fillStyle = '#fff3cb'
+    context.lineWidth = 2.2
+    context.beginPath()
+    context.arc(0, 0, radius * 1.38, 0, Math.PI * 2)
+    context.stroke()
+    context.font = `800 ${Math.max(12, radius * 0.62)}px Inter, sans-serif`
+    context.textAlign = 'center'
+    context.fillText('!', 0, -radius * 1.5)
   }
   context.restore()
 }
@@ -337,26 +456,113 @@ function drawSwarmTransition(
   context.restore()
 }
 
-function drawFoodSpawnBloom(
+function drawEngulfBursts(
+  context: CanvasRenderingContext2D,
+  position: { x: number; y: number },
+  radius: number,
+  effects: readonly NumberEffect[],
+  elapsedMs: number,
+  reducedMotion: boolean,
+): void {
+  effects.filter((effect) => effect.kind === 'biomass' && effect.entityId === 'player').forEach((effect) => {
+    const age = elapsedMs - effect.atMs
+    if (age < 0 || age > 520) return
+    const progress = age / 520
+    const rings = effect.chain > 1 ? 2 : 1
+    context.save()
+    context.translate(position.x, position.y)
+    context.globalAlpha = 0.72 * (1 - progress)
+    context.strokeStyle = effect.chain > 2 ? '#ffe68a' : '#8effef'
+    context.shadowColor = context.strokeStyle
+    context.shadowBlur = reducedMotion ? 4 : 16
+    context.lineWidth = Math.max(2, radius * 0.08)
+    for (let index = 0; index < rings; index += 1) {
+      context.beginPath()
+      context.arc(0, 0, radius * (1.2 + progress * (1.35 + index * 0.35)), 0, Math.PI * 2)
+      context.stroke()
+    }
+    if (effect.chain > 1 && !reducedMotion) {
+      context.lineWidth = 2
+      for (let index = 0; index < Math.min(8, effect.chain + 2); index += 1) {
+        const angle = index / Math.min(8, effect.chain + 2) * Math.PI * 2
+        const inner = radius * (1.05 + progress * 0.7)
+        const outer = inner + radius * 0.24
+        context.beginPath()
+        context.moveTo(Math.cos(angle) * inner, Math.sin(angle) * inner)
+        context.lineTo(Math.cos(angle) * outer, Math.sin(angle) * outer)
+        context.stroke()
+      }
+    }
+    context.restore()
+  })
+}
+
+export function screenImpactOffset(
+  effects: readonly NumberEffect[],
+  elapsedMs: number,
+  reducedMotion: boolean,
+): { x: number; y: number } {
+  if (reducedMotion) return { x: 0, y: 0 }
+  const recent = effects.reduce<{ age: number; amplitude: number } | undefined>((best, effect) => {
+    const age = elapsedMs - effect.atMs
+    if (age < 0 || age > 220) return best
+    const meaningfulEngulf = effect.kind === 'biomass' && (effect.chain >= 3 || effect.amount >= 80)
+    if (effect.kind === 'biomass' && !meaningfulEngulf) return best
+    const amplitude = effect.kind === 'damage' ? 2.6 : meaningfulEngulf ? Math.min(5, 1.5 + effect.chain * 0.8) : 0
+    return !best || amplitude > best.amplitude ? { age, amplitude } : best
+  }, undefined)
+  if (!recent) return { x: 0, y: 0 }
+  const decay = 1 - recent.age / 220
+  const phase = elapsedMs / 22
+  return {
+    x: Math.sin(phase * 1.7) * recent.amplitude * decay,
+    y: Math.cos(phase * 1.3) * recent.amplitude * decay,
+  }
+}
+
+function drawMaterializationBloom(
   context: CanvasRenderingContext2D,
   x: number,
   y: number,
   radius: number,
   entity: EntityState,
+  presentation: { radiusScale: number; ringAlpha: number },
+) {
+  context.save()
+  context.globalCompositeOperation = 'screen'
+  context.globalAlpha = presentation.ringAlpha
+  context.strokeStyle = entity.faction === 'hostile' ? '#ff9f68' : '#91fff1'
+  context.shadowColor = context.strokeStyle
+  context.shadowBlur = entity.faction === 'hostile' ? 16 : 10
+  context.lineWidth = entity.faction === 'hostile' ? 2.4 : 1.5
+  context.beginPath()
+  context.arc(x, y, radius * (1.5 - presentation.radiusScale * 0.25), 0, Math.PI * 2)
+  context.stroke()
+  context.restore()
+}
+
+function drawArrivalEdgeWarning(
+  context: CanvasRenderingContext2D,
+  warning: Vec2 & { angle: number },
   elapsedMs: number,
   reducedMotion: boolean,
 ) {
-  const spawnedAtMs = 'spawnedAtMs' in entity ? Number(entity.spawnedAtMs) : Number.NEGATIVE_INFINITY
-  const presentation = foodBloomPresentation(elapsedMs - spawnedAtMs, reducedMotion)
-  if (!presentation) return
+  const pulse = reducedMotion ? 1 : 0.86 + Math.sin(elapsedMs / 90) * 0.14
   context.save()
+  context.translate(warning.x, warning.y)
+  context.rotate(warning.angle)
   context.globalCompositeOperation = 'screen'
-  context.globalAlpha = presentation.alpha
-  context.strokeStyle = '#91fff1'
-  context.lineWidth = 1.5
+  context.globalAlpha = 0.78
+  context.fillStyle = '#ff8b66'
+  context.shadowColor = '#ff704f'
+  context.shadowBlur = 12
   context.beginPath()
-  context.arc(x, y, radius * presentation.radiusScale, 0, Math.PI * 2)
-  context.stroke()
+  context.moveTo(10 * pulse, 0)
+  context.lineTo(-7 * pulse, -7 * pulse)
+  context.lineTo(-4 * pulse, 0)
+  context.lineTo(-7 * pulse, 7 * pulse)
+  context.closePath()
+  context.fill()
   context.restore()
 }
 
@@ -416,10 +622,8 @@ function drawBackdropAsset(
   }
   context.save()
   context.globalAlpha = opacity
-  for (let x = offset.x - tile.width; x < width + tile.width; x += tile.width) {
-    for (let y = offset.y - tile.height; y < height + tile.height; y += tile.height) {
-      context.drawImage(image, x, y, tile.width, tile.height)
-    }
+  for (const origin of backdropTileOrigins({ width, height }, tile, offset)) {
+    context.drawImage(image, origin.x, origin.y, tile.width, tile.height)
   }
   context.restore()
 }
@@ -509,7 +713,7 @@ function drawEnvironmentField(
     const safe = field.safeCenters[0]!
     const safeX = anchor.x + (safe.x - center.x) * zoom
     const safeY = anchor.y + (safe.y - center.y) * zoom
-    context.globalAlpha = field.activeHazardIds.includes('hazard-acid-discharge') ? 0.2 : 0.1
+    context.globalAlpha = field.activeHazardIds.includes('hazard-acid-discharge') ? 0.26 : 0.18
     context.fillStyle = '#d94f68'
     context.beginPath()
     context.rect(0, 0, width, height)
@@ -524,7 +728,6 @@ function drawEnvironmentField(
     const active = field.activeHazardIds.includes(cue.hazardId)
     const telegraphing = snapshot.elapsedMs >= cue.startsAtMs && snapshot.elapsedMs < cue.activatesAtMs
     if (!active && !telegraphing) continue
-    if (field.environmentId === 'env-acid-vesicle' && cue.hazardId === 'hazard-acid-discharge') continue
     const pulse = 0.95 + Math.sin(snapshot.elapsedMs / 170) * 0.05
     context.globalAlpha = active ? 0.18 : 0.68
     context.strokeStyle = active ? '#ff806c' : '#ffe595'
@@ -538,15 +741,36 @@ function drawEnvironmentField(
   }
   context.setLineDash([])
   context.strokeStyle = '#9dffd1'
-  context.lineWidth = 3
-  context.globalAlpha = 0.76
+  context.lineWidth = 4
+  context.globalAlpha = 0.9
   for (const center of field.safeCenters) {
     const x = anchor.x + (center.x - camera.center.x) * zoom
     const y = anchor.y + (center.y - camera.center.y) * zoom
+    context.fillStyle = 'rgba(126, 255, 196, 0.14)'
+    context.beginPath()
+    context.arc(x, y, field.safeRadius * zoom, 0, Math.PI * 2)
+    context.fill()
+    context.setLineDash([12, 8])
     context.beginPath()
     context.arc(x, y, field.safeRadius * zoom, 0, Math.PI * 2)
     context.stroke()
+    const edge = edgeWarningPosition({ x, y }, { width, height }, 28)
+    if (edge) {
+      context.save()
+      context.translate(edge.x, edge.y)
+      context.rotate(edge.angle)
+      context.fillStyle = '#9dffd1'
+      context.globalAlpha = 0.95
+      context.beginPath()
+      context.moveTo(13, 0)
+      context.lineTo(-8, -8)
+      context.lineTo(-8, 8)
+      context.closePath()
+      context.fill()
+      context.restore()
+    }
   }
+  context.setLineDash([])
   context.restore()
 }
 
@@ -782,10 +1006,17 @@ function drawBossPhase(
   context.restore()
 }
 
-function resizeCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
+export function renderPixelRatio(quality: RenderQuality, devicePixelRatio: number): number {
+  const dpr = Math.max(1, devicePixelRatio || 1)
+  if (quality === 'high') return Math.min(2, dpr)
+  if (quality === 'low') return Math.min(1, Math.max(0.7, dpr * 0.6))
+  return Math.min(1.25, Math.max(0.8, dpr * 0.75))
+}
+
+function resizeCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, quality: RenderQuality) {
   const width = Math.max(1, canvas.clientWidth)
   const height = Math.max(1, canvas.clientHeight)
-  const ratio = Math.min(2, Math.max(1, window.devicePixelRatio || 1))
+  const ratio = renderPixelRatio(quality, window.devicePixelRatio || 1)
   const pixelWidth = Math.round(width * ratio)
   const pixelHeight = Math.round(height * ratio)
   if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
@@ -801,7 +1032,10 @@ function toDrawable(
   camera: CameraFrame,
   displayedRadii: Map<string, number>,
 ) {
-  const previousRadius = displayedRadii.get(entity.id) ?? entity.body.radius
+  const cachedRadius = displayedRadii.get(entity.id)
+  const previousRadius = cachedRadius !== undefined && Number.isFinite(cachedRadius) && cachedRadius > 0
+    ? cachedRadius
+    : entity.body.radius
   const radius = previousRadius + (entity.body.radius - previousRadius) * 0.1
   displayedRadii.set(entity.id, radius)
   return {

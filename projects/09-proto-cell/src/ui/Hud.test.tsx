@@ -19,6 +19,9 @@ describe('swarm HUD feedback', () => {
       journeyTotal: 6,
       bodyStage: 'microbe',
       bodyStageProgress: 0.8,
+      formId: 'form-primal-cell',
+      tierIndex: 0,
+      tierProgress: 0.8,
       membraneRatio: 1,
       swarm: { bodyCount: 2, minimumRemainingMs: 0, fusionProgress: 0.5 },
     }} onPause={() => undefined} />)
@@ -44,6 +47,9 @@ describe('swarm HUD feedback', () => {
       journeyTotal: 6,
       bodyStage: 'microbe',
       bodyStageProgress: 0.32,
+      formId: 'form-primal-cell',
+      tierIndex: 0,
+      tierProgress: 0.32,
       membraneRatio: 0.82,
     }} onPause={() => undefined} />)
 

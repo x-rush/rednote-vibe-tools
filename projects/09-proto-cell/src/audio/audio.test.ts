@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { fakeAudioContext } from '../tests/fixtures'
-import { createAudioDirector } from './audio'
+import { createAudioDirector, cuePattern } from './audio'
 
 describe('audio director', () => {
   it('never starts audio before a user gesture', () => {
@@ -24,5 +24,12 @@ describe('audio director', () => {
     expect(audio.state()).toBe('silent')
     expect(audibleCalls).toBeGreaterThan(0)
     expect(context.calls).toHaveLength(audibleCalls + 1)
+  })
+
+  it('raises pitch and layer count across an engulf chain without exceeding the gain cap', () => {
+    expect(cuePattern({ kind: 'engulf', chain: 1 }).frequencies).toHaveLength(1)
+    expect(cuePattern({ kind: 'engulf', chain: 5 }).frequencies.length).toBeGreaterThan(1)
+    expect(cuePattern({ kind: 'engulf', chain: 5 }).frequencies[0]).toBeGreaterThan(cuePattern({ kind: 'engulf', chain: 1 }).frequencies[0]!)
+    expect(cuePattern({ kind: 'engulf', chain: 5 }).gain).toBeLessThanOrEqual(0.06)
   })
 })

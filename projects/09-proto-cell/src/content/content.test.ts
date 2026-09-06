@@ -16,7 +16,7 @@ describe('content envelope', () => {
       content.ui.hud.bodyStage_specialist,
       content.ui.hud.bodyStage_dominant,
       content.ui.hud.bodyStage_ascendant,
-    ]).toEqual(['微生体', '猎食体', '特化体', '优势体', '超升体'])
+    ]).toEqual(['微生体', '猎食体', '特化体', '统治体', '升华体'])
   })
 
   it('resolves behavior profiles by stable id and rejects unknown profiles', () => {

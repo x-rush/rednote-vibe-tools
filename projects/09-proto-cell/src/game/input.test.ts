@@ -2,6 +2,14 @@ import { describe, expect, it } from 'vitest'
 import { createPointerInput } from './input'
 
 describe('movement-only pointer input', () => {
+  it('reaches half strength after a short default thumb drag', () => {
+    const input = createPointerInput()
+    input.start({ x: 180, y: 620 })
+    input.move({ x: 204, y: 620 })
+
+    expect(input.snapshot()).toEqual({ direction: { x: 1, y: 0 }, strength: 0.5 })
+  })
+
   it('uses the pointer-down location as the joystick origin', () => {
     const input = createPointerInput({ deadZone: 12, fullStrengthDistance: 96 })
     input.start({ x: 300, y: 600 })

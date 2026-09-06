@@ -3,14 +3,31 @@ import type { ContentPack } from './schema'
 export type ContentIssue = { path: string; message: string }
 export type ContentValidationResult = { issues: ContentIssue[]; value?: ContentPack }
 
+export function adjacentTierReplacementRatio(
+  firstTier: { environmentId: string },
+  secondTier: { environmentId: string },
+  creatures: readonly { id: string; environmentIds: readonly string[] }[],
+): number {
+  const ordinary = creatures.filter((creature) => !creature.id.startsWith('predator-'))
+  const first = new Set(ordinary.filter((creature) => creature.environmentIds.includes(firstTier.environmentId)).map((creature) => creature.id))
+  const second = new Set(ordinary.filter((creature) => creature.environmentIds.includes(secondTier.environmentId)).map((creature) => creature.id))
+  const overlap = [...first].filter((id) => second.has(id)).length
+  const denominator = Math.max(first.size, second.size)
+  return denominator === 0 ? 1 : 1 - overlap / denominator
+}
+
 const LEGAL_ANCHOR_SLOTS = new Set(['core', 'membrane', 'front', 'rear', 'left', 'right', 'internal', 'symbiont'])
 const LEGAL_ORGAN_CATEGORIES = new Set(['sense', 'move', 'feed', 'defend', 'attack', 'metabolism', 'reproduce', 'symbiosis'])
 const LEGAL_RARITIES = new Set(['common', 'uncommon', 'rare'])
+const LEGAL_EVOLUTION_ROUTES = new Set(['predation', 'survival', 'colony'])
 const LEGAL_CREATURE_ROLES = new Set(['resource', 'prey', 'scavenger', 'hunter', 'parasite', 'swarm', 'elite'])
 const LEGAL_BOSS_PATHS = new Set(['combat', 'environment', 'stealth', 'parasite'])
 const LEGAL_VISUAL_KINDS = new Set(['cell', 'organelle', 'synergy', 'environment', 'event', 'boss', 'ui'])
 const LEGAL_BODY_STAGES = new Set(['microbe', 'hunter', 'specialist', 'dominant', 'ascendant'])
+const LEGAL_SCALE_TIER_IDS = new Set(['tier-single-cell', 'tier-colony', 'tier-ciliate'])
+const LEGAL_FORM_IDS = new Set(['form-primal-cell', 'form-colony-body', 'form-ciliate-composite'])
 const LEGAL_BEHAVIOR_FAMILIES = new Set(['resource', 'skittish', 'school', 'competitor', 'ambusher', 'hunter', 'scavenger', 'apex'])
+const LEGAL_ECOLOGY_ROLES = new Set(['resource', 'prey', 'competitor', 'scavenger', 'hunter', 'apex'])
 const FROZEN_ORGAN_CATEGORIES: Record<string, string> = {
   'organelle-eye-spot': 'sense',
   'organelle-echo-sac': 'sense',
@@ -132,9 +149,17 @@ export function validateContent(input: unknown): ContentValidationResult {
   validateOriginsEntityReferences(collections.get('origins') ?? [], m0Entities.playerIds)
   validateEnvironments(collections.get('environments') ?? [], spawnTableIds, spawnTableEnvironmentById, eventIds, bossIds)
   validateJourney(input.journey, environmentIds)
+  validateScaleTiers(input.scaleTiers, environmentIds)
   validateFirstRunAssist(input.firstRunAssist)
   validateEcologyBudgets(input.ecologyBudgets, environmentIds)
   validateBehaviorProfiles(collections.get('behaviorProfiles') ?? [])
+  validateEcologySpawnCoverage(
+    input.ecologyBudgets,
+    collections.get('environments') ?? [],
+    collections.get('spawnTables') ?? [],
+    collections.get('creatures') ?? [],
+    collections.get('behaviorProfiles') ?? [],
+  )
   validateM1(input.m1, eventIds, environmentIds)
 
   require((collections.get('organelles') ?? []).length >= 6, '$.organelles', 'M1 requires six organs')
@@ -168,7 +193,7 @@ export function validateContent(input: unknown): ContentValidationResult {
     }
     const requiredCopy: Record<string, string[]> = {
       actions: ['start', 'pause', 'resume', 'restart', 'restartAfterLife'],
-      labels: ['prototypeCell', 'openingRegion', 'gameCanvas', 'mutationSynergyAugment', 'archiveDishCode', 'archiveEnvironment', 'archivePeakBiomass', 'archiveKeyOrgans', 'archiveSynergies', 'archiveSpeciesSeed', 'archiveNoOrgans', 'archiveCell'],
+      labels: ['prototypeCell', 'openingRegion', 'gameCanvas', 'mutationSynergyAugment', 'formPrimalCell', 'formColonyBody', 'formCiliateComposite', 'encounterPrimalShadow', 'encounterFiberGiant', 'encounterFinalHost', 'archiveDishCode', 'archiveEnvironment', 'archivePeakBiomass', 'archiveKeyOrgans', 'archiveSynergies', 'archiveSpeciesSeed', 'archiveNoOrgans', 'archiveCell'],
       hud: ['membrane', 'energy', 'stability', 'biomass', 'evolution'],
       screens: ['pauseTitle', 'pauseDescription', 'resultTitle', 'resultDescription', 'survival', 'contentErrorTitle', 'contentErrorDescription', 'archiveTitle'],
     }
@@ -193,6 +218,49 @@ export function validateContent(input: unknown): ContentValidationResult {
       if (item.bossId !== undefined) reference(item.bossId, bosses, `${base}.bossId`, 'boss')
       requireStringArray(item.visualPalette, `${base}.visualPalette`, true)
       requiredString(item.ambientAudioId, `${base}.ambientAudioId`)
+    })
+  }
+
+  function validateScaleTiers(value: unknown, environments: Set<string>) {
+    if (!Array.isArray(value)) {
+      issues.push({ path: '$.scaleTiers', message: 'three scale tiers are required' })
+      return
+    }
+    require(value.length === 3, '$.scaleTiers', 'scale journey must contain exactly three tiers')
+    const tierIds = new Set<string>()
+    const formIds = new Set<string>()
+    let previous: Record<string, unknown> | undefined
+    value.forEach((tier, index) => {
+      const base = `$.scaleTiers[${index}]`
+      if (!isRecord(tier)) {
+        issues.push({ path: base, message: 'scale tier must be an object' })
+        return
+      }
+      const expectedTierId = ['tier-single-cell', 'tier-colony', 'tier-ciliate'][index]
+      const expectedFormId = ['form-primal-cell', 'form-colony-body', 'form-ciliate-composite'][index]
+      require(typeof tier.id === 'string' && LEGAL_SCALE_TIER_IDS.has(tier.id) && tier.id === expectedTierId && !tierIds.has(tier.id), `${base}.id`, 'scale tier id must be unique and ordered')
+      if (typeof tier.id === 'string') tierIds.add(tier.id)
+      require(typeof tier.formId === 'string' && LEGAL_FORM_IDS.has(tier.formId) && tier.formId === expectedFormId && !formIds.has(tier.formId), `${base}.formId`, 'form id must be unique and ordered')
+      if (typeof tier.formId === 'string') formIds.add(tier.formId)
+      requiredString(tier.name, `${base}.name`)
+      reference(tier.environmentId, environments, `${base}.environmentId`, 'environment')
+      positiveFinite(tier.targetDurationMs, `${base}.targetDurationMs`, 'tier duration must be positive')
+      validateIncreasingRange(tier.radiusRange, `${base}.radiusRange`, 0, Number.POSITIVE_INFINITY)
+      validateIncreasingRange(tier.screenDiameterRange, `${base}.screenDiameterRange`, 0, 0.3)
+      require(typeof tier.worldBodyWidths === 'number' && Number.isFinite(tier.worldBodyWidths) && tier.worldBodyWidths >= 14, `${base}.worldBodyWidths`, 'world must retain at least fourteen body widths')
+      require(typeof tier.minimumCollapsedBodyWidths === 'number' && Number.isFinite(tier.minimumCollapsedBodyWidths) && tier.minimumCollapsedBodyWidths >= 6, `${base}.minimumCollapsedBodyWidths`, 'collapsed world must retain at least six body widths')
+      positiveFinite(tier.evolutionPressureTarget, `${base}.evolutionPressureTarget`, 'evolution pressure target must be positive')
+      require(typeof tier.ecologyBudgetId === 'string' && /^ecology-tier-[a-z0-9-]+$/.test(tier.ecologyBudgetId), `${base}.ecologyBudgetId`, 'tier ecology budget id is invalid')
+      require(typeof tier.encounterId === 'string' && /^encounter-[a-z0-9-]+$/.test(tier.encounterId), `${base}.encounterId`, 'tier encounter id is invalid')
+      positiveFinite(tier.movementBodyLengthsPerSecond, `${base}.movementBodyLengthsPerSecond`, 'movement speed must be positive')
+      positiveFinite(tier.turnResponseMs, `${base}.turnResponseMs`, 'turn response must be positive')
+      if (previous) {
+        require(tier.environmentId !== previous.environmentId, `${base}.environmentId`, 'adjacent scale tiers must use different environments')
+        if (isFinitePair(tier.radiusRange) && isFinitePair(previous.radiusRange)) {
+          require(tier.radiusRange[0] > previous.radiusRange[0] && tier.radiusRange[1] > previous.radiusRange[1], `${base}.radiusRange`, 'scale tier radius ranges must ascend')
+        }
+      }
+      previous = tier
     })
   }
 
@@ -223,6 +291,10 @@ export function validateContent(input: unknown): ContentValidationResult {
       shortCopy(item.triggerDescription, `${base}.triggerDescription`, 72)
       requiredString(item.behaviorId, `${base}.behaviorId`)
       reference(item.visualMutationId, visuals, `${base}.visualMutationId`, 'visual recipe')
+      require(typeof item.evolutionRoute === 'string' && LEGAL_EVOLUTION_ROUTES.has(item.evolutionRoute), `${base}.evolutionRoute`, 'evolution route is invalid')
+      require(typeof item.evolutionTriggerId === 'string' && /^trigger-[a-z0-9-]+$/.test(item.evolutionTriggerId), `${base}.evolutionTriggerId`, 'behavior trigger is required')
+      requiredString(item.morphologyPartId, `${base}.morphologyPartId`)
+      shortCopy(item.costText, `${base}.costText`, 48)
     })
   }
 
@@ -411,6 +483,59 @@ export function validateContent(input: unknown): ContentValidationResult {
       requiredString(profile.weaknessId, `${base}.weaknessId`)
       require(typeof profile.perceptionRadius === 'number' && Number.isFinite(profile.perceptionRadius) && profile.perceptionRadius > 0, `${base}.perceptionRadius`, 'perception radius must be positive')
       require(typeof profile.abandonAfterMs === 'number' && Number.isFinite(profile.abandonAfterMs) && profile.abandonAfterMs >= 0, `${base}.abandonAfterMs`, 'abandon timer must be non-negative')
+      if (profile.family === 'hunter') {
+        require(typeof profile.pursuitBurstMs === 'number' && Number.isFinite(profile.pursuitBurstMs) && profile.pursuitBurstMs >= 600, `${base}.pursuitBurstMs`, 'hunter pursuit bursts must stay readable')
+        require(typeof profile.recoveryMs === 'number' && Number.isFinite(profile.recoveryMs) && profile.recoveryMs >= 400, `${base}.recoveryMs`, 'hunter recovery must leave an escape window')
+        require(typeof profile.turnResponseMs === 'number' && Number.isFinite(profile.turnResponseMs) && profile.turnResponseMs >= 250, `${base}.turnResponseMs`, 'hunter turning must remain readable')
+      }
+    })
+  }
+
+  function validateEcologySpawnCoverage(
+    value: unknown,
+    environments: Record<string, unknown>[],
+    spawnTables: Record<string, unknown>[],
+    creatures: Record<string, unknown>[],
+    profiles: Record<string, unknown>[],
+  ) {
+    if (!Array.isArray(value)) return
+    const spawnTableIdByEnvironment = new Map(environments.flatMap((environment) => (
+      typeof environment.id === 'string' && typeof environment.spawnTableId === 'string'
+        ? [[environment.id, environment.spawnTableId] as const]
+        : []
+    )))
+    const creatureIdsByTable = new Map(spawnTables.flatMap((table) => (
+      typeof table.id === 'string' && Array.isArray(table.entries)
+        ? [[table.id, new Set(table.entries.flatMap((entry) => isRecord(entry) && typeof entry.creatureId === 'string' ? [entry.creatureId] : []))] as const]
+        : []
+    )))
+    const familyByProfile = new Map(profiles.flatMap((profile) => (
+      typeof profile.id === 'string' && typeof profile.family === 'string' ? [[profile.id, profile.family] as const] : []
+    )))
+    const familyByCreature = new Map(creatures.flatMap((creature) => (
+      typeof creature.id === 'string' && typeof creature.behaviorProfileId === 'string'
+        ? [[creature.id, familyByProfile.get(creature.behaviorProfileId)] as const]
+        : []
+    )))
+    const familiesByRole: Record<string, Set<string>> = {
+      resource: new Set(['resource']),
+      prey: new Set(['skittish']),
+      competitor: new Set(['school', 'competitor']),
+      scavenger: new Set(['scavenger']),
+      hunter: new Set(['hunter', 'ambusher']),
+      apex: new Set(['apex']),
+    }
+
+    value.forEach((budget, index) => {
+      if (!isRecord(budget) || typeof budget.environmentId !== 'string') return
+      const tableId = spawnTableIdByEnvironment.get(budget.environmentId)
+      const creatureIds = creatureIdsByTable.get(tableId ?? '') ?? new Set<string>()
+      for (const role of LEGAL_ECOLOGY_ROLES) {
+        const range = budget[role]
+        if (!Array.isArray(range) || Number(range[1]) <= 0) continue
+        const supported = [...creatureIds].some((creatureId) => familiesByRole[role]?.has(familyByCreature.get(creatureId) ?? ''))
+        require(supported, `$.ecologyBudgets[${index}].${role}`, `nonzero ${role} budget requires a matching spawn-table creature`)
+      }
     })
   }
 
@@ -419,6 +544,7 @@ export function validateContent(input: unknown): ContentValidationResult {
       issues.push({ path: '$.m1', message: 'M1 pacing configuration is required' })
       return
     }
+    require(typeof value.firstEvolutionAtMs === 'number' && Number.isFinite(value.firstEvolutionAtMs) && value.firstEvolutionAtMs > 0 && value.firstEvolutionAtMs <= 45_000, '$.m1.firstEvolutionAtMs', 'first evolution must occur by 45 seconds')
     requireTuple(value.sliceTargetMs, '$.m1.sliceTargetMs')
     require(Array.isArray(value.sliceTargetMs) && Number(value.sliceTargetMs[0]) >= 300_000 && Number(value.sliceTargetMs[1]) <= 480_000, '$.m1.sliceTargetMs', 'M1 slice must target five to eight minutes')
     require(typeof value.bossSpawnAtMs === 'number' && Number.isFinite(value.bossSpawnAtMs) && value.bossSpawnAtMs > 0, '$.m1.bossSpawnAtMs', 'M1 boss spawn time is required')
@@ -430,6 +556,57 @@ export function validateContent(input: unknown): ContentValidationResult {
       }
       require(Number(ecology.batchSize) <= Number(ecology.targetFoodCount), '$.m1.ecologyReplenishment.batchSize', 'food batch must not exceed its target')
     }
+    if (!isRecord(value.spawnPresentation)) {
+      issues.push({ path: '$.m1.spawnPresentation', message: 'spawn presentation configuration is required' })
+    } else {
+      const presentation = value.spawnPresentation
+      require(typeof presentation.foodMaterializeMs === 'number' && Number.isFinite(presentation.foodMaterializeMs) && presentation.foodMaterializeMs >= 400, '$.m1.spawnPresentation.foodMaterializeMs', 'food needs a readable materialization window')
+      require(typeof presentation.neutralMaterializeMs === 'number' && Number.isFinite(presentation.neutralMaterializeMs) && presentation.neutralMaterializeMs >= 400, '$.m1.spawnPresentation.neutralMaterializeMs', 'neutral creatures need a readable materialization window')
+      require(typeof presentation.threatApproachSpeedRatio === 'number' && Number.isFinite(presentation.threatApproachSpeedRatio) && presentation.threatApproachSpeedRatio > 0 && presentation.threatApproachSpeedRatio <= 0.4, '$.m1.spawnPresentation.threatApproachSpeedRatio', 'unaware threats must approach below forty percent speed')
+      require(typeof presentation.threatSpawnDistance === 'number' && Number.isFinite(presentation.threatSpawnDistance) && presentation.threatSpawnDistance >= 180, '$.m1.spawnPresentation.threatSpawnDistance', 'threats must spawn outside the mobile view')
+      require(typeof presentation.threatDiscoveryDistance === 'number' && Number.isFinite(presentation.threatDiscoveryDistance) && presentation.threatDiscoveryDistance >= 70 && presentation.threatDiscoveryDistance <= Number(presentation.threatSpawnDistance) - 40, '$.m1.spawnPresentation.threatDiscoveryDistance', 'threat discovery must happen after a readable approach')
+      require(typeof presentation.threatAlertMs === 'number' && Number.isFinite(presentation.threatAlertMs) && presentation.threatAlertMs >= 500, '$.m1.spawnPresentation.threatAlertMs', 'discovered threats need a readable alert beat')
+    }
+    if (!Array.isArray(value.stageEntryEcology) || value.stageEntryEcology.length !== 6) {
+      issues.push({ path: '$.m1.stageEntryEcology', message: 'one entry ecology profile is required for each journey stage' })
+    } else value.stageEntryEcology.forEach((entry, index) => {
+      const path = `$.m1.stageEntryEcology[${index}]`
+      if (!isRecord(entry)) {
+        issues.push({ path, message: 'stage entry ecology must be an object' })
+        return
+      }
+      require(entry.stageIndex === index + 1, `${path}.stageIndex`, 'stage entry ecology must be ordered from one to six')
+      require(Array.isArray(entry.groups) && entry.groups.length > 0, `${path}.groups`, 'stage entry ecology groups are required')
+      if (Array.isArray(entry.groups)) entry.groups.forEach((group, groupIndex) => {
+        const groupPath = `${path}.groups[${groupIndex}]`
+        if (!isRecord(group)) {
+          issues.push({ path: groupPath, message: 'entry ecology group must be an object' })
+          return
+        }
+        require(typeof group.role === 'string' && LEGAL_ECOLOGY_ROLES.has(group.role), `${groupPath}.role`, 'entry ecology role is invalid')
+        require(typeof group.count === 'number' && Number.isInteger(group.count) && group.count > 0, `${groupPath}.count`, 'entry ecology count must be a positive integer')
+        require(typeof group.distance === 'number' && Number.isFinite(group.distance) && group.distance >= 60 && group.distance <= 360, `${groupPath}.distance`, 'entry ecology distance must stay readable')
+      })
+    })
+    if (!Array.isArray(value.stageThreatProfiles) || value.stageThreatProfiles.length !== 6) {
+      issues.push({ path: '$.m1.stageThreatProfiles', message: 'one threat profile is required for each journey stage' })
+    } else value.stageThreatProfiles.forEach((profile, index) => {
+      const path = `$.m1.stageThreatProfiles[${index}]`
+      if (!isRecord(profile)) {
+        issues.push({ path, message: 'stage threat profile must be an object' })
+        return
+      }
+      require(profile.stageIndex === index + 1, `${path}.stageIndex`, 'stage threat profiles must be ordered from one to six')
+      for (const field of ['hostileCruiseSpeedRatio', 'pursuitSpeedMultiplier', 'minimumHunterRadiusRatio', 'contactDamageMultiplier', 'spawnClearance']) {
+        require(typeof profile[field] === 'number' && Number.isFinite(profile[field]) && Number(profile[field]) > 0, `${path}.${field}`, `${field} must be positive`)
+      }
+      require(Number(profile.minimumHunterRadiusRatio) >= 1, `${path}.minimumHunterRadiusRatio`, 'hunters must not be smaller than their target')
+      require(Number(profile.contactDamageMultiplier) >= 1, `${path}.contactDamageMultiplier`, 'contact damage must not be reduced below authored damage')
+      require(Number(profile.spawnClearance) >= 48, `${path}.spawnClearance`, 'hostile spawns must leave a readable reaction gap')
+      if (index > 0) {
+        require(Number(profile.hostileCruiseSpeedRatio) * Number(profile.pursuitSpeedMultiplier) >= 1.1, `${path}.pursuitSpeedMultiplier`, 'post-intro hunters must reach at least 110% of player speed while pursuing')
+      }
+    })
     if (!Array.isArray(value.eventSchedule)) issues.push({ path: '$.m1.eventSchedule', message: 'M1 event schedule is required' })
     else value.eventSchedule.forEach((entry, index) => {
       const path = `$.m1.eventSchedule[${index}]`
@@ -676,6 +853,18 @@ export function validateContent(input: unknown): ContentValidationResult {
 
   function requireTuple(value: unknown, path: string) {
     require(Array.isArray(value) && value.length === 2 && value.every((entry) => typeof entry === 'number' && Number.isFinite(entry)) && value[0] <= value[1], path, 'numeric range is invalid')
+  }
+
+  function validateIncreasingRange(value: unknown, path: string, minimumExclusive: number, maximumInclusive: number) {
+    require(isFinitePair(value) && value[0] > minimumExclusive && value[1] > value[0] && value[1] <= maximumInclusive, path, 'numeric range is outside the allowed interval')
+  }
+
+  function isFinitePair(value: unknown): value is [number, number] {
+    return Array.isArray(value) && value.length === 2 && value.every((entry) => typeof entry === 'number' && Number.isFinite(entry))
+  }
+
+  function positiveFinite(value: unknown, path: string, message: string) {
+    require(typeof value === 'number' && Number.isFinite(value) && value > 0, path, message)
   }
 
   function finiteRange(value: unknown, min: number, max: number, path: string) {

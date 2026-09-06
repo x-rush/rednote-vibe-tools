@@ -11,12 +11,31 @@ export type OriginId = `origin-${string}`
 export type ModifierId = `modifier-${string}`
 export type EndingId = `ending-${string}`
 export type DeathTemplateId = `death-${string}`
+export type FormId = 'form-primal-cell' | 'form-colony-body' | 'form-ciliate-composite'
+export type ScaleTierId = 'tier-single-cell' | 'tier-colony' | 'tier-ciliate'
 
 export type AnchorSlot = 'core' | 'membrane' | 'front' | 'rear' | 'left' | 'right' | 'internal' | 'symbiont'
 export type OrganelleCategory = 'sense' | 'move' | 'feed' | 'defend' | 'attack' | 'metabolism' | 'reproduce' | 'symbiosis'
 export type BossResolutionPath = 'combat' | 'environment' | 'stealth' | 'parasite'
 export type BodyStage = 'microbe' | 'hunter' | 'specialist' | 'dominant' | 'ascendant'
 export type BehaviorProfileId = `behavior-${string}`
+
+export type ScaleTierDefinition = {
+  id: ScaleTierId
+  formId: FormId
+  name: string
+  environmentId: EnvironmentId
+  targetDurationMs: number
+  radiusRange: [number, number]
+  screenDiameterRange: [number, number]
+  worldBodyWidths: number
+  minimumCollapsedBodyWidths: number
+  evolutionPressureTarget: number
+  ecologyBudgetId: `ecology-tier-${string}`
+  encounterId: `encounter-${string}`
+  movementBodyLengthsPerSecond: number
+  turnResponseMs: number
+}
 
 export type ContactDamageContent = {
   source: 'acid' | 'electric' | 'spine' | 'ram'
@@ -75,6 +94,7 @@ export type NutrientDefinition = {
   behaviorId: string
   riskTags: string[]
   visualRecipeId: string
+  scaleTierIds?: ScaleTierId[]
 }
 
 export type OrganelleDefinition = {
@@ -90,6 +110,10 @@ export type OrganelleDefinition = {
   triggerDescription: string
   behaviorId: string
   visualMutationId: string
+  evolutionRoute: 'predation' | 'survival' | 'colony'
+  evolutionTriggerId: `trigger-${string}`
+  morphologyPartId: string
+  costText: string
   environmentIds: EnvironmentId[]
   unlockId?: string
 }
@@ -119,6 +143,7 @@ export type CreatureDefinition = {
   responseTags: string[]
   dropTableId: string
   visualRecipeId: string
+  scaleTierIds?: ScaleTierId[]
 }
 
 export type EventDefinition = {
@@ -246,6 +271,24 @@ export type EcologyBudgetDefinition = {
   opportunityIntervalMs: [number, number]
 }
 
+export type StageEntryEcologyDefinition = {
+  stageIndex: number
+  groups: Array<{
+    role: 'resource' | 'prey' | 'competitor' | 'scavenger' | 'hunter' | 'apex'
+    count: number
+    distance: number
+  }>
+}
+
+export type StageThreatProfileDefinition = {
+  stageIndex: number
+  hostileCruiseSpeedRatio: number
+  pursuitSpeedMultiplier: number
+  minimumHunterRadiusRatio: number
+  contactDamageMultiplier: number
+  spawnClearance: number
+}
+
 export type BehaviorProfileDefinition = {
   id: BehaviorProfileId
   family: 'resource' | 'skittish' | 'school' | 'competitor' | 'ambusher' | 'hunter' | 'scavenger' | 'apex'
@@ -253,6 +296,9 @@ export type BehaviorProfileDefinition = {
   weaknessId: string
   perceptionRadius: number
   abandonAfterMs: number
+  pursuitBurstMs?: number
+  recoveryMs?: number
+  turnResponseMs?: number
 }
 
 export type ContentPack = {
@@ -285,9 +331,11 @@ export type ContentPack = {
   firstRunAssist: FirstRunAssistDefinition
   ecologyBudgets: EcologyBudgetDefinition[]
   behaviorProfiles: BehaviorProfileDefinition[]
+  scaleTiers: ScaleTierDefinition[]
   m0: { playerDefinitions: PlayerDefinitionContent[]; environments: M0EnvironmentContent[] }
   m1: {
     sliceTargetMs: [number, number]
+    firstEvolutionAtMs: number
     eventSchedule: Array<{ eventId: EventId; atMs: number }>
     bossSpawnAtMs: number
     ecologyReplenishment: {
@@ -299,6 +347,16 @@ export type ContentPack = {
       minPlayerDistance: number
       minHostileDistance: number
     }
+    spawnPresentation: {
+      foodMaterializeMs: number
+      neutralMaterializeMs: number
+      threatApproachSpeedRatio: number
+      threatSpawnDistance: number
+      threatDiscoveryDistance: number
+      threatAlertMs: number
+    }
+    stageEntryEcology: StageEntryEcologyDefinition[]
+    stageThreatProfiles: StageThreatProfileDefinition[]
     routeRifts: Array<{
       id: `route-rift-${string}`
       destinationEnvironmentId: EnvironmentId

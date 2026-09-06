@@ -5,19 +5,12 @@ import rawContent from './content/content.json'
 import { ContentValidationError, getContent, type ContentPack, type ModifierId, type OriginId } from './content'
 import { createGameEngine } from './game/engine'
 import type { GameEvent } from './game/interactions'
-import {
-  continueMutationContext,
-  createMutationContext,
-  installMutation,
-  offerMutations,
-  type MutationChoice,
-  type MutationContext,
-} from './evolution/mutation'
+import { applyEvolution, createBuildState, offerEvolution, type BuildState, type EvolutionOffer } from './evolution/build'
 import { EvolutionOverlay } from './ui/EvolutionOverlay'
-import { GameCanvas } from './ui/GameCanvas'
+import { GameCanvas, type CanvasFailure } from './ui/GameCanvas'
 import { Hud } from './ui/Hud'
 import { Archive } from './ui/Archive'
-import { createArchiveViewModelFromSummary, createViewModel } from './app/view-model'
+import { createArchiveViewModelFromSummary, createResultViewModel, createViewModel } from './app/view-model'
 import { createDefaultSave } from './storage/codec'
 import { awardGenes, unlockNode } from './progression/genes'
 import { applyModifiers, dailySeed } from './progression/challenges'
@@ -32,6 +25,7 @@ import { createBrowserAudioDirector, type AudioDirector } from './audio/audio'
 import { Settings } from './ui/Settings'
 import { ErrorPanel } from './ui/ErrorPanel'
 import { MigrationOverlay } from './ui/MigrationOverlay'
+import { ResultOverlay } from './ui/ResultOverlay'
 import './App.css'
 
 function App() {
@@ -62,9 +56,13 @@ function GameApp({ content }: { content: ContentPack }) {
   }
   const controller = controllerRef.current
   const [view, setView] = useState(() => controller.snapshot())
-  const mutationContextRef = useRef<MutationContext>(createMutationContext('env-clear-drop'))
-  const mutationChoicesRef = useRef<MutationChoice[]>([])
-  const [mutationChoices, setMutationChoices] = useState<MutationChoice[]>([])
+  const buildStateRef = useRef<BuildState>(createBuildState())
+  const mutationChoicesRef = useRef<EvolutionOffer[]>([])
+  const recentTraitIdsRef = useRef<BuildState['traitIds']>([])
+  const unlockedTraitIdsRef = useRef<BuildState['traitIds']>(content.organelles.map((organ) => organ.id))
+  const metamorphTimerRef = useRef<number | undefined>(undefined)
+  const [mutationChoices, setMutationChoices] = useState<EvolutionOffer[]>([])
+  const [metamorphosis, setMetamorphosis] = useState<{ bodyStage: BuildState['bodyStage']; route: EvolutionOffer['route'] }>()
   const [migrationRoutes, setMigrationRoutes] = useState<ContentPack['journey']['stages'][number]['routeOffers']>([])
   const [save, setSave] = useState(createDefaultSave)
   const [hasArchive, setHasArchive] = useState(false)
@@ -75,16 +73,27 @@ function GameApp({ content }: { content: ContentPack }) {
   const [saveReady, setSaveReady] = useState(false)
   const [storageMode, setStorageMode] = useState<RepositoryMode>('persistent')
   const [storageIssues, setStorageIssues] = useState<SaveIssue[]>([])
-  const [canvasError, setCanvasError] = useState(false)
+  const [canvasFailure, setCanvasFailure] = useState<CanvasFailure>()
+  const [canvasGeneration, setCanvasGeneration] = useState(0)
+  const canvasAutoRetryUsedRef = useRef(false)
   const sync = useCallback(() => setView(controller.snapshot()), [controller])
-  const handleCanvasError = useCallback(() => {
-    controller.pause('user')
-    setCanvasError(true)
+  const handleCanvasError = useCallback((failure: CanvasFailure) => {
+    if (!canvasAutoRetryUsedRef.current) {
+      canvasAutoRetryUsedRef.current = true
+      setCanvasGeneration((current) => current + 1)
+      return
+    }
+    controller.pause('canvas')
+    setCanvasFailure(failure)
     sync()
   }, [controller, sync])
   const modalButtonRef = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => () => { controller.destroy(); audioRef.current?.destroy() }, [controller])
+  useEffect(() => () => {
+    controller.destroy()
+    audioRef.current?.destroy()
+    if (metamorphTimerRef.current !== undefined) window.clearTimeout(metamorphTimerRef.current)
+  }, [controller])
 
   useEffect(() => {
     let active = true
@@ -116,6 +125,11 @@ function GameApp({ content }: { content: ContentPack }) {
   useEffect(() => {
     document.title = content.meta.title
   }, [])
+
+  useEffect(() => {
+    canvasAutoRetryUsedRef.current = false
+    setCanvasFailure(undefined)
+  }, [view.seed])
 
   useEffect(() => {
     if (view.screen !== 'paused' && view.screen !== 'result') return
@@ -211,6 +225,9 @@ function GameApp({ content }: { content: ContentPack }) {
           endingId: completedArchive.endingId,
           dishCode: completedArchive.dishCode,
           finalMorphology: completedArchive.finalMorphology,
+          finalBodyStage: completedArchive.finalBodyStage,
+          buildRouteCounts: completedArchive.buildRouteCounts,
+          journeyStageIndex: completedArchive.journeyStageIndex,
         } : undefined
         return {
           ...current,
@@ -223,20 +240,24 @@ function GameApp({ content }: { content: ContentPack }) {
       && mutationChoicesRef.current.length === 0
       && events.some((event) => event.type === 'mutation-ready')
     if (canEvolve) {
-      const evolution = controller.engine()?.evolutionSnapshot()
-      if (evolution) {
-        mutationContextRef.current = {
-          ...mutationContextRef.current,
-          organIds: evolution.organelles.map((organ) => organ.id),
-          matureOrganIds: evolution.organelles.filter((organ) => organ.stage === 'mature').map((organ) => organ.id),
-          installed: [...evolution.organelles],
-          stability: evolution.stability,
-          capacity: evolution.capacity,
-        }
-      }
-      const choices = offerMutations(mutationContextRef.current)
+      const activeEngine = controller.engine()
+      const run = activeEngine?.runSnapshot()
+      const stageIndex = run?.stageIndex ?? 0
+      const environmentId = (activeEngine?.snapshot().environmentId ?? 'env-clear-drop') as ContentPack['environments'][number]['id']
+      const remainingEnvironmentIds = content.journey.stages
+        .slice(stageIndex + 1)
+        .flatMap((stage) => stage.routeOffers.map((route) => route.destinationEnvironmentId))
+      const choices = offerEvolution(buildStateRef.current, {
+        seed: controller.snapshot().seed ?? 727,
+        environmentId,
+        stageIndex,
+        remainingEnvironmentIds,
+        unlockedTraitIds: unlockedTraitIdsRef.current,
+        recentTraitIds: recentTraitIdsRef.current,
+      })
       if (choices.length > 0) {
-        controller.engine()?.pause('evolution')
+        activeEngine?.pause('evolution')
+        recentTraitIdsRef.current = choices.map((choice) => choice.traitId)
         mutationChoicesRef.current = choices
         setMutationChoices(choices)
       }
@@ -244,49 +265,91 @@ function GameApp({ content }: { content: ContentPack }) {
     sync()
   }, [activeModifierIds, content, controller, sync])
 
-  const confirmMutation = useCallback((choice: MutationChoice) => {
-    const result = installMutation(mutationContextRef.current, choice)
-    controller.engine()?.applyMutation(result)
+  const confirmMutation = useCallback((choice: EvolutionOffer) => {
+    const nextBuild = applyEvolution(buildStateRef.current, choice)
+    buildStateRef.current = nextBuild
+    setMetamorphosis({ bodyStage: nextBuild.bodyStage, route: choice.route })
+    controller.engine()?.applyEvolution(nextBuild)
     setSave((current) => {
-      const synergyRewards = result.synergyIds.map((id) => {
+      const synergyRewards = nextBuild.synergyIds.map((id) => {
         const repeats = current.progression.rewardCounts[`synergy:${id}`] ?? 0
         return { kind: 'synergy' as const, id, first: repeats === 0, repeats }
       })
       const { awarded: _awarded, ...progression } = awardGenes(current.progression, synergyRewards)
-      return { ...current, progression: { ...progression, discoveredSynergyIds: [...new Set([...progression.discoveredSynergyIds, ...result.synergyIds])] } }
+      return { ...current, progression: { ...progression, discoveredSynergyIds: [...new Set([...progression.discoveredSynergyIds, ...nextBuild.synergyIds])] } }
     })
-    mutationContextRef.current = continueMutationContext(mutationContextRef.current, result)
     controller.handle({
       type: 'mutation-selected',
       entityId: 'player',
-      organId: choice.organId,
-      action: choice.action,
+      organId: choice.traitId,
+      action: 'install',
       atMs: controller.engine()?.snapshot().elapsedMs ?? 0,
     })
     mutationChoicesRef.current = []
     setMutationChoices([])
     setMigrationRoutes([])
-    controller.engine()?.resume('evolution')
+    if (metamorphTimerRef.current !== undefined) window.clearTimeout(metamorphTimerRef.current)
+    metamorphTimerRef.current = window.setTimeout(() => {
+      controller.engine()?.resume('evolution')
+      setMetamorphosis(undefined)
+      metamorphTimerRef.current = undefined
+    }, save.settings.reducedMotion ? 180 : 900)
     sync()
-  }, [controller, sync])
+  }, [controller, save.settings.reducedMotion, sync])
 
   const resetMutationRun = useCallback(() => {
     const geneLockedOrgans = new Set(content.geneNodes.flatMap((node) => node.unlockIds.filter((id) => id.startsWith('organelle-'))))
     const availableOrgans = content.organelles.filter((organ) => !geneLockedOrgans.has(organ.id) || save.progression.unlockedIds.includes(organ.id)).map((organ) => organ.id)
-    mutationContextRef.current = createMutationContext('env-clear-drop', availableOrgans)
+    const origin = content.origins.find((candidate) => candidate.id === selectedOriginId)
+    const initialTraitIds = origin?.initialOrganelleIds.filter((id) => availableOrgans.includes(id)) ?? []
+    const routeCounts = initialTraitIds.reduce<BuildState['routeCounts']>((counts, id) => {
+      const route = content.organelles.find((organ) => organ.id === id)?.evolutionRoute
+      if (route) counts[route] += 1
+      return counts
+    }, { predation: 0, survival: 0, colony: 0 })
+    buildStateRef.current = createBuildState({ traitIds: initialTraitIds, routeCounts })
+    unlockedTraitIdsRef.current = availableOrgans
+    recentTraitIdsRef.current = []
+    setMetamorphosis(undefined)
     mutationChoicesRef.current = []
     setMutationChoices([])
-  }, [content, save.progression.unlockedIds])
+    if (metamorphTimerRef.current !== undefined) window.clearTimeout(metamorphTimerRef.current)
+  }, [content, save.progression.unlockedIds, selectedOriginId])
 
   const engine = controller.engine()
-  const archiveModel = createViewModel(view, content).archive
+  const resultModel = view.screen === 'result' && view.hud ? createResultViewModel({
+    events: view.eventLog.map((entry) => entry.event),
+    finalBuild: buildStateRef.current,
+    journeyStageIndex: Math.max(0, view.hud.journeyIndex - 1),
+    environmentIds: [...new Set(view.eventLog.flatMap((entry) => entry.event.type === 'route-selected' ? [entry.event.environmentId] : []))] as ContentPack['environments'][number]['id'][],
+    engulfScore: view.hud.engulfScore,
+    survivalMs: view.hud.elapsedMs,
+    seed: view.seed ?? 0,
+  }, content) : undefined
   if (!saveReady) return <main className="hatchery-shell"><section className="hatchery-card" aria-live="polite"><p className="hatchery-region">{content.ui.labels.lab}</p><h1>{content.ui.screens.loadingSave}</h1></section></main>
-  if (canvasError) return <main className="hatchery-shell"><ErrorPanel title={content.ui.screens.canvasErrorTitle} description={content.ui.screens.canvasErrorDescription} actionLabel={content.ui.actions.retry} onAction={() => { controller.returnToLab(); setCanvasError(false); sync() }} /></main>
+  if (canvasFailure) return <main className="hatchery-shell"><ErrorPanel
+    title={content.ui.screens.canvasErrorTitle}
+    description={content.ui.screens.canvasErrorDescription}
+    detail={`${canvasFailure.phase}: ${canvasFailure.message}`}
+    actionLabel={content.ui.actions.retry}
+    onAction={() => {
+      setCanvasFailure(undefined)
+      setCanvasGeneration((current) => current + 1)
+      controller.resume('canvas')
+      sync()
+    }}
+    secondaryActionLabel={content.ui.actions.backToLab}
+    onSecondaryAction={() => {
+      controller.returnToLab()
+      setCanvasFailure(undefined)
+      sync()
+    }}
+  /></main>
   if (view.screen !== 'lab' && engine) {
     return (
       <main className="game-shell">
         <div className="game-stage" inert={mutationChoices.length > 0} aria-hidden={mutationChoices.length > 0 || undefined}>
-          <GameCanvas engine={engine} label={content.ui.labels.gameCanvas} settings={save.settings} onEvents={handleEvents} onCanvasError={handleCanvasError} />
+          <GameCanvas key={canvasGeneration} engine={engine} label={content.ui.labels.gameCanvas} settings={save.settings} onEvents={handleEvents} onCanvasError={handleCanvasError} />
           {view.hud && view.screen !== 'result' && (
             <Hud
               snapshot={view.hud}
@@ -304,6 +367,13 @@ function GameApp({ content }: { content: ContentPack }) {
                 setMigrationRoutes([])
               }}
             />
+          )}
+          {metamorphosis && (
+            <div className={`metamorphosis metamorphosis--${metamorphosis.route}`} role="status" aria-live="polite">
+              <span data-stage={metamorphosis.bodyStage} aria-hidden="true"><i /><b /><em /></span>
+              <strong>{content.ui.labels.metamorphosisComplete}</strong>
+              <small>{content.ui.labels[`bodyStage${metamorphosis.bodyStage[0].toUpperCase()}${metamorphosis.bodyStage.slice(1)}`]}</small>
+            </div>
           )}
           {view.screen === 'paused' && (
           <section className="game-overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title" onKeyDown={trapModalFocus}>
@@ -336,9 +406,9 @@ function GameApp({ content }: { content: ContentPack }) {
             </div>
           </section>
           )}
-          {view.screen === 'result' && archiveModel && (
-            <Archive
-              model={archiveModel}
+          {view.screen === 'result' && resultModel && (
+            <ResultOverlay
+              model={resultModel}
               restartButtonRef={modalButtonRef}
               onKeyDown={trapModalFocus}
               onRestart={() => {
@@ -351,11 +421,16 @@ function GameApp({ content }: { content: ContentPack }) {
                 setLabPanel(null)
                 sync()
               }}
-              labLabel={content.ui.actions.backToLab}
+              onReplaySeed={() => {
+                const seed = view.seed ?? 727
+                resetMutationRun()
+                controller.startRun({ seed, originId: selectedOriginId, modifierIds: activeModifierIds, runOrdinal: save.lifeArchives.length })
+                sync()
+              }}
             />
           )}
         </div>
-        {mutationChoices.length > 0 && <EvolutionOverlay choices={mutationChoices} onConfirm={confirmMutation} />}
+        {mutationChoices.length > 0 && <EvolutionOverlay choices={mutationChoices} currentBuild={buildStateRef.current} onConfirm={confirmMutation} />}
       </main>
     )
   }

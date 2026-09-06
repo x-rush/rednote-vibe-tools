@@ -36,7 +36,7 @@
       "clearSave": "清除本机进度",
       "confirmClear": "确认清除",
       "cancel": "取消",
-      "retry": "返回培养舱"
+      "retry": "重建当前视野"
     },
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
@@ -52,7 +52,24 @@
       "mutationExpand": "扩容",
       "mutationReplaces": "将替换",
     "mutationSynergy": "组合激活",
-    "mutationSynergyAugment": "组合增强",
+      "mutationSynergyAugment": "组合增强",
+      "routePredation": "捕食型",
+      "routeSurvival": "生存型",
+      "routeColony": "群落型",
+      "evolutionBefore": "当前",
+      "evolutionAfter": "进化后",
+      "bodyStageMicrobe": "微生体",
+      "bodyStageHunter": "猎食体",
+      "bodyStageSpecialist": "特化体",
+      "bodyStageDominant": "统治体",
+      "bodyStageAscendant": "升华体",
+      "formPrimalCell": "原始单细胞",
+      "formColonyBody": "聚合多细胞体",
+      "formCiliateComposite": "草履虫型复合体",
+      "encounterPrimalShadow": "巨影过滴",
+      "encounterFiberGiant": "纤维巨体",
+      "encounterFinalHost": "宿主核心",
+      "metamorphosisComplete": "形态跃迁",
     "archiveDishCode": "培养皿码",
     "archiveEnvironment": "最远水域",
     "archivePeakBiomass": "峰值生物质",
@@ -133,8 +150,22 @@
       "bodyStage_microbe": "微生体",
       "bodyStage_hunter": "猎食体",
       "bodyStage_specialist": "特化体",
-      "bodyStage_dominant": "优势体",
-      "bodyStage_ascendant": "超升体"
+    "bodyStage_dominant": "统治体",
+    "bodyStage_ascendant": "升华体",
+    "resultCauseEngulf": "被更大的生命吞噬",
+    "resultCauseRupture": "细胞膜破裂",
+    "resultCauseInstability": "终局稳定性崩解",
+    "resultRoutePredation": "捕食路线",
+    "resultRouteSurvival": "生存路线",
+    "resultRouteColony": "群落路线",
+    "resultRouteUncommitted": "尚未定型",
+    "resultStage": "最终形态",
+    "resultScore": "吞噬分",
+    "resultTraits": "关键进化",
+    "resultJourney": "抵达生态阶段",
+    "resultSameSeed": "重玩本次培养皿",
+    "resultImmediateRestart": "立即重生",
+    "resultBackDish": "返回培养皿"
     },
     "screens": {
       "pauseTitle": "培养皿静止中",
@@ -164,8 +195,8 @@
       "importSuccess": "存档导入成功。",
       "importFailure": "存档不兼容或内容损坏。",
       "clearConfirm": "此操作会清除本机生命档案、图鉴和基因进度，确定继续吗？",
-      "canvasErrorTitle": "显微视野无法建立",
-      "canvasErrorDescription": "当前浏览器未能启动 Canvas 2D。进度仍安全，可以返回培养舱调整画质或更换浏览器。"
+      "canvasErrorTitle": "显微视野暂时中断",
+      "canvasErrorDescription": "本局已经暂停且状态仍然保留。可以原地重建画面；如果问题持续，再返回培养舱调整画质。"
     }
   },
   "environments": [
@@ -309,7 +340,11 @@
       "shortEffect": "持续直线游动后逐步加速。",
       "triggerDescription": "同方向游动 1.2 秒后启动。",
       "behaviorId": "straight-line-boost",
-      "visualMutationId": "visual-organelle-flagellum"
+      "visualMutationId": "visual-organelle-flagellum",
+      "evolutionRoute": "predation",
+      "evolutionTriggerId": "trigger-straight-line-boost",
+      "morphologyPartId": "pursuit-tail",
+      "costText": "代价：爆发时转向变慢"
     },
     {
       "id": "organelle-jet-vacuole",
@@ -324,7 +359,11 @@
       "shortEffect": "即将被大部分包裹时自动反冲。",
       "triggerDescription": "包裹比例达到 55% 时启动。",
       "behaviorId": "containment-escape",
-      "visualMutationId": "visual-organelle-jet-vacuole"
+      "visualMutationId": "visual-organelle-jet-vacuole",
+      "evolutionRoute": "survival",
+      "evolutionTriggerId": "trigger-containment-escape",
+      "morphologyPartId": "jet-pod",
+      "costText": "代价：反冲会消耗能量"
     },
     {
       "id": "organelle-shell-plate",
@@ -339,7 +378,11 @@
       "shortEffect": "降低碰撞伤害，但转向更慢。",
       "triggerDescription": "受到碰撞时自动以外层壳板承伤。",
       "behaviorId": "collision-shell",
-      "visualMutationId": "visual-organelle-shell-plate"
+      "visualMutationId": "visual-organelle-shell-plate",
+      "evolutionRoute": "survival",
+      "evolutionTriggerId": "trigger-collision-shell",
+      "morphologyPartId": "shell-plates",
+      "costText": "代价：身体转向更迟钝"
     },
     {
       "id": "organelle-guard-symbiont",
@@ -354,7 +397,11 @@
       "shortEffect": "消耗能量自动拦截一次致命攻击，补充营养后再生。",
       "triggerDescription": "即将受到致命伤时自动拦截。",
       "behaviorId": "fatal-hit-guard",
-      "visualMutationId": "visual-organelle-guard-symbiont"
+      "visualMutationId": "visual-organelle-guard-symbiont",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-fatal-hit-guard",
+      "morphologyPartId": "guard-orb",
+      "costText": "代价：拦截后需进食再生"
     },
     {
       "id": "organelle-repair-vacuole",
@@ -369,7 +416,11 @@
       "shortEffect": "脱离危险后消耗能量修复膜。",
       "triggerDescription": "3 秒未受伤且膜未满时启动。",
       "behaviorId": "safe-energy-repair",
-      "visualMutationId": "visual-organelle-repair-vacuole"
+      "visualMutationId": "visual-organelle-repair-vacuole",
+      "evolutionRoute": "survival",
+      "evolutionTriggerId": "trigger-safe-energy-repair",
+      "morphologyPartId": "repair-core",
+      "costText": "代价：修复时持续耗能"
     },
     {
       "id": "organelle-division-ring",
@@ -384,7 +435,11 @@
       "shortEffect": "质量充足或遭遇致命包裹时自动分裂。",
       "triggerDescription": "生物质达到 320 或包裹比例达到 62% 时启动。",
       "behaviorId": "mass-or-fatal-split",
-      "visualMutationId": "visual-organelle-division-ring"
+      "visualMutationId": "visual-organelle-division-ring",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-mass-or-fatal-split",
+      "morphologyPartId": "division-ring",
+      "costText": "代价：分裂会暂时缩小本体"
     },
     {
       "id": "organelle-eye-spot",
@@ -399,7 +454,11 @@
       "shortEffect": "提前显出光脉冲和扫荡方向。",
       "triggerDescription": "危险光场生成时自动标出安全侧。",
       "behaviorId": "light-hazard-forecast",
-      "visualMutationId": "visual-organelle-eye-spot"
+      "visualMutationId": "visual-organelle-eye-spot",
+      "evolutionRoute": "survival",
+      "evolutionTriggerId": "trigger-light-hazard-forecast",
+      "morphologyPartId": "light-eye",
+      "costText": "代价：强光中轮廓更显眼"
     },
     {
       "id": "organelle-echo-sac",
@@ -414,7 +473,11 @@
       "shortEffect": "浑浊区域周期显出附近轮廓。",
       "triggerDescription": "低可见度持续 1 秒后周期扫描。",
       "behaviorId": "turbidity-echo-scan",
-      "visualMutationId": "visual-organelle-echo-sac"
+      "visualMutationId": "visual-organelle-echo-sac",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-turbidity-echo-scan",
+      "morphologyPartId": "echo-lobes",
+      "costText": "代价：扫描会暴露自身位置"
     },
     {
       "id": "organelle-vibration-cilia",
@@ -429,7 +492,11 @@
       "shortEffect": "感知屏外巨物造成的液流震动。",
       "triggerDescription": "大型生物接近视野边缘时自动振动。",
       "behaviorId": "giant-vibration-sense",
-      "visualMutationId": "visual-organelle-vibration-cilia"
+      "visualMutationId": "visual-organelle-vibration-cilia",
+      "evolutionRoute": "survival",
+      "evolutionTriggerId": "trigger-giant-vibration-sense",
+      "morphologyPartId": "sense-cilia",
+      "costText": "代价：高速时感知精度下降"
     },
     {
       "id": "organelle-cilia-ring",
@@ -444,7 +511,11 @@
       "shortEffect": "贴近障碍时自动增强转向。",
       "triggerDescription": "膜接近纤维或边界时自动摆动。",
       "behaviorId": "obstacle-turn-assist",
-      "visualMutationId": "visual-organelle-cilia-ring"
+      "visualMutationId": "visual-organelle-cilia-ring",
+      "evolutionRoute": "survival",
+      "evolutionTriggerId": "trigger-obstacle-turn-assist",
+      "morphologyPartId": "steering-fringe",
+      "costText": "代价：直线极速略低"
     },
     {
       "id": "organelle-wide-mouth",
@@ -459,7 +530,11 @@
       "shortEffect": "扩大对小型目标的有效吞噬范围。",
       "triggerDescription": "追上更小目标时自动展开前膜。",
       "behaviorId": "wide-prey-containment",
-      "visualMutationId": "visual-organelle-wide-mouth"
+      "visualMutationId": "visual-organelle-wide-mouth",
+      "evolutionRoute": "predation",
+      "evolutionTriggerId": "trigger-wide-prey-containment",
+      "morphologyPartId": "wide-maw",
+      "costText": "代价：张口时侧面防护变薄"
     },
     {
       "id": "organelle-needle-mouth",
@@ -474,7 +549,11 @@
       "shortEffect": "贴住大型弱点时自动抽取生物质。",
       "triggerDescription": "前端持续贴住暴露弱点时启动。",
       "behaviorId": "weakpoint-parasite-feed",
-      "visualMutationId": "visual-organelle-needle-mouth"
+      "visualMutationId": "visual-organelle-needle-mouth",
+      "evolutionRoute": "predation",
+      "evolutionTriggerId": "trigger-weakpoint-parasite-feed",
+      "morphologyPartId": "piercing-proboscis",
+      "costText": "代价：只擅长正面贴近弱点"
     },
     {
       "id": "organelle-filter-gill",
@@ -489,7 +568,11 @@
       "shortEffect": "顺流游动时自动收集微小营养。",
       "triggerDescription": "沿液流移动时周期吸附营养微粒。",
       "behaviorId": "current-filter-feed",
-      "visualMutationId": "visual-organelle-filter-gill"
+      "visualMutationId": "visual-organelle-filter-gill",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-current-filter-feed",
+      "morphologyPartId": "filter-fans",
+      "costText": "代价：逆流移动时收益停滞"
     },
     {
       "id": "organelle-transparent-membrane",
@@ -504,7 +587,11 @@
       "shortEffect": "低速移动后降低敌对锁定。",
       "triggerDescription": "保持低速 1.5 秒后自动透明。",
       "behaviorId": "slow-movement-cloak",
-      "visualMutationId": "visual-organelle-transparent-membrane"
+      "visualMutationId": "visual-organelle-transparent-membrane",
+      "evolutionRoute": "survival",
+      "evolutionTriggerId": "trigger-slow-movement-cloak",
+      "morphologyPartId": "ghost-membrane",
+      "costText": "代价：加速会立即显形"
     },
     {
       "id": "organelle-mucus-coat",
@@ -519,7 +606,11 @@
       "shortEffect": "接触敌人后留下减速液迹。",
       "triggerDescription": "敌对目标擦过膜时自动分泌。",
       "behaviorId": "contact-slow-trail",
-      "visualMutationId": "visual-organelle-mucus-coat"
+      "visualMutationId": "visual-organelle-mucus-coat",
+      "evolutionRoute": "survival",
+      "evolutionTriggerId": "trigger-contact-slow-trail",
+      "morphologyPartId": "mucus-rim",
+      "costText": "代价：分泌会持续消耗能量"
     },
     {
       "id": "organelle-electric-sac",
@@ -534,7 +625,11 @@
       "shortEffect": "多个敌人近身时自动释放电弧。",
       "triggerDescription": "近身敌对目标达到三个时放电。",
       "behaviorId": "hostile-crowd-discharge",
-      "visualMutationId": "visual-organelle-electric-sac"
+      "visualMutationId": "visual-organelle-electric-sac",
+      "evolutionRoute": "predation",
+      "evolutionTriggerId": "trigger-hostile-crowd-discharge",
+      "morphologyPartId": "arc-sacs",
+      "costText": "代价：放电后短暂失去加速"
     },
     {
       "id": "organelle-toxin-spine",
@@ -549,7 +644,11 @@
       "shortEffect": "被追咬时自动向接触方向竖起毒棘。",
       "triggerDescription": "敌对膜持续压迫时自动竖起。",
       "behaviorId": "pressure-toxin-spine",
-      "visualMutationId": "visual-organelle-toxin-spine"
+      "visualMutationId": "visual-organelle-toxin-spine",
+      "evolutionRoute": "predation",
+      "evolutionTriggerId": "trigger-pressure-toxin-spine",
+      "morphologyPartId": "toxin-spines",
+      "costText": "代价：毒棘展开时转向变慢"
     },
     {
       "id": "organelle-shock-pulse",
@@ -564,7 +663,11 @@
       "shortEffect": "遭受强碰撞时自动推出近身目标。",
       "triggerDescription": "碰撞强度超过阈值时释放冲击。",
       "behaviorId": "collision-shockwave",
-      "visualMutationId": "visual-organelle-shock-pulse"
+      "visualMutationId": "visual-organelle-shock-pulse",
+      "evolutionRoute": "predation",
+      "evolutionTriggerId": "trigger-collision-shockwave",
+      "morphologyPartId": "shock-rings",
+      "costText": "代价：冲击后进入冷却"
     },
     {
       "id": "organelle-photosome",
@@ -579,7 +682,11 @@
       "shortEffect": "停留在安全光区时缓慢恢复能量。",
       "triggerDescription": "安全光照持续 1 秒后启动。",
       "behaviorId": "safe-light-energy",
-      "visualMutationId": "visual-organelle-photosome"
+      "visualMutationId": "visual-organelle-photosome",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-safe-light-energy",
+      "morphologyPartId": "solar-nodules",
+      "costText": "代价：暗区无法恢复能量"
     },
     {
       "id": "organelle-acid-gland",
@@ -594,7 +701,11 @@
       "shortEffect": "吞噬带酸目标时转化腐蚀为能量。",
       "triggerDescription": "大部分包裹酸性目标后自动转化。",
       "behaviorId": "acid-digestion-energy",
-      "visualMutationId": "visual-organelle-acid-gland"
+      "visualMutationId": "visual-organelle-acid-gland",
+      "evolutionRoute": "predation",
+      "evolutionTriggerId": "trigger-acid-digestion-energy",
+      "morphologyPartId": "acid-gland",
+      "costText": "代价：普通食物转化率降低"
     },
     {
       "id": "organelle-bud-sac",
@@ -609,7 +720,11 @@
       "shortEffect": "生物质充足时自动生成诱饵子体。",
       "triggerDescription": "生物质超过当前阈值时芽生。",
       "behaviorId": "surplus-decoy-bud",
-      "visualMutationId": "visual-organelle-bud-sac"
+      "visualMutationId": "visual-organelle-bud-sac",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-surplus-decoy-bud",
+      "morphologyPartId": "bud-sacs",
+      "costText": "代价：芽生会分走生物质"
     },
     {
       "id": "organelle-recombination-core",
@@ -624,7 +739,11 @@
       "shortEffect": "融合完成时自动恢复部分稳定。",
       "triggerDescription": "多个子体稳定融合后启动。",
       "behaviorId": "fusion-stability-repair",
-      "visualMutationId": "visual-organelle-recombination-core"
+      "visualMutationId": "visual-organelle-recombination-core",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-fusion-stability-repair",
+      "morphologyPartId": "fusion-core",
+      "costText": "代价：独行时没有收益"
     },
     {
       "id": "organelle-cleaner-symbiont",
@@ -639,7 +758,11 @@
       "shortEffect": "离开酸区后自动清除残留腐蚀。",
       "triggerDescription": "酸接触结束后持续清洁外膜。",
       "behaviorId": "post-acid-cleanse",
-      "visualMutationId": "visual-organelle-cleaner-symbiont"
+      "visualMutationId": "visual-organelle-cleaner-symbiont",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-post-acid-cleanse",
+      "morphologyPartId": "cleaner-orbit",
+      "costText": "代价：清洁时无法再次触发"
     },
     {
       "id": "organelle-lure-symbiont",
@@ -654,7 +777,11 @@
       "shortEffect": "追击者锁定时自动投射偏移诱饵。",
       "triggerDescription": "敌对锁定环闭合过半时启动。",
       "behaviorId": "lock-misdirection-lure",
-      "visualMutationId": "visual-organelle-lure-symbiont"
+      "visualMutationId": "visual-organelle-lure-symbiont",
+      "evolutionRoute": "colony",
+      "evolutionTriggerId": "trigger-lock-misdirection-lure",
+      "morphologyPartId": "lure-orbit",
+      "costText": "代价：诱饵会吸引附近猎手"
     }
   ],
   "synergies": [
@@ -801,7 +928,7 @@
       "behaviorId": "compete-and-flock",
       "behaviorProfileId": "behavior-competitor",
       "organelleTags": ["spark-core"],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-acid-vesicle", "env-fiber-maze", "env-abandoned-chamber"],
       "warningCueId": "cue-spark-flash",
       "responseTags": ["race", "ambush"],
       "dropTableId": "drop-swarm-prey",
@@ -815,7 +942,7 @@
       "behaviorId": "follow-and-scavenge",
       "behaviorProfileId": "behavior-scavenger",
       "organelleTags": ["fragment-sense"],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-antibody-storm"],
       "warningCueId": "cue-scavenger-thread",
       "responseTags": ["bait", "intercept"],
       "dropTableId": "drop-scavenger",
@@ -843,7 +970,7 @@
       "behaviorId": "guard-territory-and-ram",
       "behaviorProfileId": "behavior-apex",
       "organelleTags": ["double-membrane", "ram"],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-acid-vesicle", "env-fiber-maze"],
       "warningCueId": "cue-double-membrane",
       "responseTags": ["flank", "environment"],
       "dropTableId": "drop-elite",
@@ -1579,7 +1706,10 @@
         { "creatureId": "creature-algae-speck", "weight": 38, "minAtMs": 0 },
         { "creatureId": "creature-lumen-drifter", "weight": 28, "minAtMs": 8000 },
         { "creatureId": "creature-pollen-float", "weight": 20, "minAtMs": 18000 },
-        { "creatureId": "predator-glow-siphon", "weight": 10, "minAtMs": 42000 }
+        { "creatureId": "creature-spark-swarm", "weight": 12, "minAtMs": 12000 },
+        { "creatureId": "creature-vesicle-scavenger", "weight": 8, "minAtMs": 22000 },
+        { "creatureId": "predator-glow-siphon", "weight": 10, "minAtMs": 8000 },
+        { "creatureId": "predator-membrane-warden", "weight": 4, "minAtMs": 36000 }
       ]
     },
     {
@@ -1588,8 +1718,10 @@
       "entries": [
         { "creatureId": "creature-acid-bubble", "weight": 34, "minAtMs": 0 },
         { "creatureId": "creature-vesicle-flee", "weight": 28, "minAtMs": 9000 },
+        { "creatureId": "creature-spark-swarm", "weight": 12, "minAtMs": 12000 },
         { "creatureId": "creature-mineral-scavenger", "weight": 18, "minAtMs": 22000 },
-        { "creatureId": "predator-acid-needle", "weight": 11, "minAtMs": 44000 }
+        { "creatureId": "predator-acid-needle", "weight": 11, "minAtMs": 9000 },
+        { "creatureId": "predator-membrane-warden", "weight": 4, "minAtMs": 38000 }
       ]
     },
     {
@@ -1598,8 +1730,10 @@
       "entries": [
         { "creatureId": "creature-thread-grazer", "weight": 34, "minAtMs": 0 },
         { "creatureId": "creature-fiber-float", "weight": 25, "minAtMs": 12000 },
+        { "creatureId": "creature-spark-swarm", "weight": 14, "minAtMs": 16000 },
         { "creatureId": "creature-fiber-scavenger", "weight": 18, "minAtMs": 24000 },
-        { "creatureId": "predator-fiber-stalker", "weight": 12, "minAtMs": 42000 }
+        { "creatureId": "predator-fiber-stalker", "weight": 12, "minAtMs": 7000 },
+        { "creatureId": "predator-membrane-warden", "weight": 5, "minAtMs": 34000 }
       ]
     },
     {
@@ -1609,7 +1743,8 @@
         { "creatureId": "creature-antibody-fragment", "weight": 32, "minAtMs": 0 },
         { "creatureId": "creature-mimic-drifter", "weight": 24, "minAtMs": 10000 },
         { "creatureId": "creature-ring-swarm", "weight": 20, "minAtMs": 18000 },
-        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 36000 },
+        { "creatureId": "creature-vesicle-scavenger", "weight": 14, "minAtMs": 22000 },
+        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 7000 },
         { "creatureId": "predator-crown-sentinel", "weight": 6, "minAtMs": 64000 }
       ]
     },
@@ -1619,8 +1754,9 @@
       "entries": [
         { "creatureId": "creature-host-droplet", "weight": 30, "minAtMs": 0 },
         { "creatureId": "creature-spore-drifter", "weight": 24, "minAtMs": 8000 },
+        { "creatureId": "creature-spark-swarm", "weight": 16, "minAtMs": 12000 },
         { "creatureId": "creature-cavity-scavenger", "weight": 18, "minAtMs": 20000 },
-        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 32000 },
+        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 6000 },
         { "creatureId": "predator-chamber-maw", "weight": 7, "minAtMs": 62000 }
       ]
     }
@@ -1801,11 +1937,62 @@
     { "id": "behavior-school", "family": "school", "movementPattern": "orbit-flock", "weaknessId": "weakness-isolated", "perceptionRadius": 220, "abandonAfterMs": 2400 },
     { "id": "behavior-competitor", "family": "competitor", "movementPattern": "contest-food", "weaknessId": "weakness-baited", "perceptionRadius": 240, "abandonAfterMs": 3200 },
     { "id": "behavior-ambusher", "family": "ambusher", "movementPattern": "hide-lunge-reset", "weaknessId": "weakness-missed-lunge", "perceptionRadius": 210, "abandonAfterMs": 2600 },
-    { "id": "behavior-hunter", "family": "hunter", "movementPattern": "telegraph-chase-abandon", "weaknessId": "weakness-turn-radius", "perceptionRadius": 320, "abandonAfterMs": 4200 },
+    { "id": "behavior-hunter", "family": "hunter", "movementPattern": "telegraph-chase-recover", "weaknessId": "weakness-turn-radius", "perceptionRadius": 320, "abandonAfterMs": 4200, "pursuitBurstMs": 1200, "recoveryMs": 900, "turnResponseMs": 460 },
     { "id": "behavior-scavenger", "family": "scavenger", "movementPattern": "circle-wounded", "weaknessId": "weakness-greedy", "perceptionRadius": 280, "abandonAfterMs": 3600 },
     { "id": "behavior-apex", "family": "apex", "movementPattern": "claim-zone-pursue", "weaknessId": "weakness-telegraphed-charge", "perceptionRadius": 420, "abandonAfterMs": 6000 }
   ],
+  "scaleTiers": [
+    {
+      "id": "tier-single-cell",
+      "formId": "form-primal-cell",
+      "name": "原始单细胞",
+      "environmentId": "env-clear-drop",
+      "targetDurationMs": 150000,
+      "radiusRange": [12, 22],
+      "screenDiameterRange": [0.16, 0.21],
+      "worldBodyWidths": 30,
+      "minimumCollapsedBodyWidths": 6,
+      "evolutionPressureTarget": 260,
+      "ecologyBudgetId": "ecology-tier-single-cell",
+      "encounterId": "encounter-primal-shadow",
+      "movementBodyLengthsPerSecond": 2.4,
+      "turnResponseMs": 120
+    },
+    {
+      "id": "tier-colony",
+      "formId": "form-colony-body",
+      "name": "聚合多细胞体",
+      "environmentId": "env-fiber-maze",
+      "targetDurationMs": 210000,
+      "radiusRange": [18, 32],
+      "screenDiameterRange": [0.19, 0.25],
+      "worldBodyWidths": 24,
+      "minimumCollapsedBodyWidths": 6,
+      "evolutionPressureTarget": 540,
+      "ecologyBudgetId": "ecology-tier-colony",
+      "encounterId": "encounter-fiber-giant",
+      "movementBodyLengthsPerSecond": 2.0,
+      "turnResponseMs": 170
+    },
+    {
+      "id": "tier-ciliate",
+      "formId": "form-ciliate-composite",
+      "name": "草履虫型复合体",
+      "environmentId": "env-abandoned-chamber",
+      "targetDurationMs": 270000,
+      "radiusRange": [24, 40],
+      "screenDiameterRange": [0.22, 0.28],
+      "worldBodyWidths": 22,
+      "minimumCollapsedBodyWidths": 6,
+      "evolutionPressureTarget": 900,
+      "ecologyBudgetId": "ecology-tier-ciliate",
+      "encounterId": "encounter-final-host",
+      "movementBodyLengthsPerSecond": 1.95,
+      "turnResponseMs": 145
+    }
+  ],
   "m1": {
+    "firstEvolutionAtMs": 45000,
     "sliceTargetMs": [300000, 480000],
     "ecologyReplenishment": {
       "intervalMs": 2500,
@@ -1816,6 +2003,30 @@
       "minPlayerDistance": 25,
       "minHostileDistance": 100
     },
+    "spawnPresentation": {
+      "foodMaterializeMs": 450,
+      "neutralMaterializeMs": 700,
+      "threatApproachSpeedRatio": 0.35,
+      "threatSpawnDistance": 220,
+      "threatDiscoveryDistance": 105,
+      "threatAlertMs": 650
+    },
+    "stageEntryEcology": [
+      { "stageIndex": 1, "groups": [{ "role": "resource", "count": 5, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }] },
+      { "stageIndex": 2, "groups": [{ "role": "resource", "count": 4, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }, { "role": "competitor", "count": 2, "distance": 185 }, { "role": "hunter", "count": 1, "distance": 250 }] },
+      { "stageIndex": 3, "groups": [{ "role": "resource", "count": 4, "distance": 95 }, { "role": "prey", "count": 3, "distance": 150 }, { "role": "competitor", "count": 2, "distance": 195 }, { "role": "hunter", "count": 1, "distance": 240 }] },
+      { "stageIndex": 4, "groups": [{ "role": "resource", "count": 4, "distance": 100 }, { "role": "prey", "count": 3, "distance": 155 }, { "role": "scavenger", "count": 2, "distance": 195 }, { "role": "hunter", "count": 2, "distance": 255 }] },
+      { "stageIndex": 5, "groups": [{ "role": "resource", "count": 4, "distance": 100 }, { "role": "competitor", "count": 3, "distance": 170 }, { "role": "hunter", "count": 2, "distance": 245 }, { "role": "apex", "count": 1, "distance": 300 }] },
+      { "stageIndex": 6, "groups": [{ "role": "resource", "count": 4, "distance": 105 }, { "role": "prey", "count": 3, "distance": 160 }, { "role": "scavenger", "count": 2, "distance": 205 }, { "role": "hunter", "count": 2, "distance": 250 }, { "role": "apex", "count": 1, "distance": 310 }] }
+    ],
+    "stageThreatProfiles": [
+      { "stageIndex": 1, "hostileCruiseSpeedRatio": 0.68, "pursuitSpeedMultiplier": 1.45, "minimumHunterRadiusRatio": 1.18, "contactDamageMultiplier": 1, "spawnClearance": 88 },
+      { "stageIndex": 2, "hostileCruiseSpeedRatio": 0.82, "pursuitSpeedMultiplier": 1.55, "minimumHunterRadiusRatio": 1.25, "contactDamageMultiplier": 1.6, "spawnClearance": 82 },
+      { "stageIndex": 3, "hostileCruiseSpeedRatio": 0.84, "pursuitSpeedMultiplier": 1.56, "minimumHunterRadiusRatio": 1.28, "contactDamageMultiplier": 1.8, "spawnClearance": 78 },
+      { "stageIndex": 4, "hostileCruiseSpeedRatio": 0.86, "pursuitSpeedMultiplier": 1.58, "minimumHunterRadiusRatio": 1.31, "contactDamageMultiplier": 2, "spawnClearance": 76 },
+      { "stageIndex": 5, "hostileCruiseSpeedRatio": 0.88, "pursuitSpeedMultiplier": 1.6, "minimumHunterRadiusRatio": 1.34, "contactDamageMultiplier": 2.2, "spawnClearance": 74 },
+      { "stageIndex": 6, "hostileCruiseSpeedRatio": 0.9, "pursuitSpeedMultiplier": 1.62, "minimumHunterRadiusRatio": 1.38, "contactDamageMultiplier": 2.4, "spawnClearance": 72 }
+    ],
     "eventSchedule": [
       { "eventId": "event-nutrient-bloom", "atMs": 90000 }
     ],

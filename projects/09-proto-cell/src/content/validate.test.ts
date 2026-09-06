@@ -3,6 +3,31 @@ import { contentFixture } from '../tests/fixtures'
 import { validateContent } from './validate'
 
 describe('content integrity validation', () => {
+  it('requires exactly three scale tiers', () => {
+    const pack = contentFixture()
+    delete (pack as Partial<typeof pack>).scaleTiers
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.scaleTiers')
+  })
+
+  it('rejects duplicate forms, broken tier references, and unsafe scale geometry', () => {
+    const pack = contentFixture()
+    pack.scaleTiers = [
+      scaleTier('tier-single-cell', 'form-primal-cell', 'env-clear-drop', 12, 22),
+      scaleTier('tier-colony', 'form-primal-cell', 'env-missing', 18, 32),
+      scaleTier('tier-ciliate', 'form-ciliate-composite', 'env-abandoned-chamber', 24, 40),
+    ]
+    pack.scaleTiers[1]!.screenDiameterRange = [0.25, 0.31]
+    pack.scaleTiers[1]!.minimumCollapsedBodyWidths = 5
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.scaleTiers[1].formId',
+      '$.scaleTiers[1].environmentId',
+      '$.scaleTiers[1].screenDiameterRange',
+      '$.scaleTiers[1].minimumCollapsedBodyWidths',
+    ]))
+  })
+
   it('rejects missing organ visuals and dangling synergy requirements', () => {
     const pack = contentFixture()
     pack.organelles[0].visualMutationId = ''
@@ -107,6 +132,22 @@ describe('content integrity validation', () => {
     expect(validateContent(contentFixture()).issues).toEqual([])
   })
 
+  it('rejects a nonzero ecology role with no creature in the environment spawn table', () => {
+    const pack = contentFixture()
+    const budgetIndex = pack.ecologyBudgets.findIndex((budget) => budget.environmentId === 'env-algae-glow')
+    const environment = pack.environments.find((item) => item.id === 'env-algae-glow')!
+    const table = pack.spawnTables.find((item) => item.id === environment.spawnTableId)!
+    const competitorProfiles = new Set(pack.behaviorProfiles
+      .filter((profile) => profile.family === 'school' || profile.family === 'competitor')
+      .map((profile) => profile.id))
+    const competitorCreatureIds = new Set(pack.creatures
+      .filter((creature) => competitorProfiles.has(creature.behaviorProfileId))
+      .map((creature) => creature.id))
+    table.entries = table.entries.filter((entry) => !competitorCreatureIds.has(entry.creatureId))
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain(`$.ecologyBudgets[${budgetIndex}].competitor`)
+  })
+
   it('rejects an invalid ecology replenishment budget', () => {
     const pack = contentFixture()
     pack.m1.ecologyReplenishment.targetFoodCount = 0
@@ -115,6 +156,26 @@ describe('content integrity validation', () => {
     expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
       '$.m1.ecologyReplenishment.targetFoodCount',
       '$.m1.ecologyReplenishment.localFoodTarget',
+    ]))
+  })
+
+  it('requires one ordered and positive threat profile per journey stage', () => {
+    const pack = contentFixture()
+    pack.m1.stageThreatProfiles[1]!.pursuitSpeedMultiplier = 0
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.m1.stageThreatProfiles[1].pursuitSpeedMultiplier')
+  })
+
+  it('requires readable food materialization and restrained hunter arrival tuning', () => {
+    const pack = contentFixture()
+    pack.m1.spawnPresentation.foodMaterializeMs = 0
+    pack.m1.spawnPresentation.threatApproachSpeedRatio = 1
+    pack.m1.spawnPresentation.threatAlertMs = 300
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.m1.spawnPresentation.foodMaterializeMs',
+      '$.m1.spawnPresentation.threatApproachSpeedRatio',
+      '$.m1.spawnPresentation.threatAlertMs',
     ]))
   })
 
@@ -166,7 +227,7 @@ describe('content integrity validation', () => {
       synergy.excludes = synergy.excludes?.filter((id) => id !== orphanId)
     }
     pack.environments[0].spawnTableId = 'spawn-algae-glow'
-    pack.spawnTables[1].entries[0].creatureId = 'creature-vesicle-scavenger'
+    pack.spawnTables[1].entries[0].creatureId = 'creature-mineral-scavenger'
 
     expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
       '$.organelles[0]',
@@ -198,4 +259,60 @@ describe('content integrity validation', () => {
 
     expect(validateContent(pack).issues.map((issue) => issue.path)).toContain('$.behaviorProfiles[0].weaknessId')
   })
+
+  it('requires a readable pursuit, recovery, and turn cadence for hunters', () => {
+    const pack = contentFixture()
+    const hunterIndex = pack.behaviorProfiles.findIndex((profile) => profile.family === 'hunter')
+    Object.assign(pack.behaviorProfiles[hunterIndex]!, {
+      pursuitBurstMs: 0,
+      recoveryMs: 0,
+      turnResponseMs: 0,
+    })
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      `$.behaviorProfiles[${hunterIndex}].pursuitBurstMs`,
+      `$.behaviorProfiles[${hunterIndex}].recoveryMs`,
+      `$.behaviorProfiles[${hunterIndex}].turnResponseMs`,
+    ]))
+  })
+
+  it('requires every evolution to declare a route, trigger, morphology, and visible cost', () => {
+    const pack = contentFixture()
+    delete (pack.organelles[0] as Partial<typeof pack.organelles[0]>).evolutionRoute
+    ;(pack.organelles[1] as typeof pack.organelles[1]).evolutionTriggerId = '' as never
+    ;(pack.organelles[2] as typeof pack.organelles[2]).morphologyPartId = ''
+    ;(pack.organelles[3] as typeof pack.organelles[3]).costText = ''
+
+    expect(validateContent(pack).issues.map((issue) => issue.path)).toEqual(expect.arrayContaining([
+      '$.organelles[0].evolutionRoute',
+      '$.organelles[1].evolutionTriggerId',
+      '$.organelles[2].morphologyPartId',
+      '$.organelles[3].costText',
+    ]))
+  })
 })
+
+function scaleTier(
+  id: 'tier-single-cell' | 'tier-colony' | 'tier-ciliate',
+  formId: 'form-primal-cell' | 'form-colony-body' | 'form-ciliate-composite',
+  environmentId: `env-${string}`,
+  minimumRadius: number,
+  maximumRadius: number,
+) {
+  return {
+    id,
+    formId,
+    name: id,
+    environmentId,
+    targetDurationMs: 150_000,
+    radiusRange: [minimumRadius, maximumRadius] as [number, number],
+    screenDiameterRange: [0.16, 0.21] as [number, number],
+    worldBodyWidths: 22,
+    minimumCollapsedBodyWidths: 6,
+    evolutionPressureTarget: 260,
+    ecologyBudgetId: `ecology-${id}` as const,
+    encounterId: `encounter-${id}` as const,
+    movementBodyLengthsPerSecond: 2,
+    turnResponseMs: 145,
+  }
+}

@@ -1,8 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { perception, playerWith } from '../tests/fixtures'
-import { evaluatePassiveOrgans } from './organs'
+import { applyOrganEffects, evaluatePassiveOrgans } from './organs'
 
 describe('passive organ behavior registry', () => {
+  it('spawns an automatic decoy without replacing the controlled player', () => {
+    const result = applyOrganEffects([{ entityId: 'player', organId: 'organelle-division-ring', atMs: 0, type: 'organ-triggered', effect: 'colony-decoy', amount: 1 }])
+    expect(result.controlledEntityId).toBe('player')
+    expect(result.spawnedDecoys).toHaveLength(1)
+  })
+
   it('fires jet vacuole only on imminent containment', () => {
     const player = playerWith('organelle-jet-vacuole', { velocity: { x: 20, y: 0 } })
 

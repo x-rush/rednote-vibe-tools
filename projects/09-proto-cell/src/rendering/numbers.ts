@@ -8,6 +8,7 @@ export type NumberEffectInput = {
   entityId: string
   label?: string
   atMs: number
+  chain?: number
 }
 
 export type NumberEffect = NumberEffectInput & {
@@ -32,8 +33,8 @@ export function createNumberFeed(options: { aggregateMs: number; maxVisible: num
 
   return {
     push(input) {
-      let chain = 1
-      if (input.kind === 'biomass') {
+      let chain = Math.max(1, Math.floor(input.chain ?? 1))
+      if (input.kind === 'biomass' && input.chain === undefined) {
         const continuesChain = input.atMs >= lastBiomassAt
           && input.atMs - lastBiomassAt <= (options.chainWindowMs ?? 1400)
         biomassChain = continuesChain ? biomassChain + 1 : 1

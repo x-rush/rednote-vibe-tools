@@ -1,8 +1,27 @@
 import { describe, expect, it } from 'vitest'
 import { eventLog, testContent } from '../tests/fixtures'
-import { createHudViewModel, createViewModel } from './view-model'
+import { createHudViewModel, createResultViewModel, createViewModel } from './view-model'
+import { createBuildState } from '../evolution/build'
 
 describe('app result view model', () => {
+  it('derives result facts from events instead of generic copy', () => {
+    const result = createResultViewModel({
+      events: [{ type: 'player-died', cause: 'predator-engulf', atMs: 360_000 }],
+      finalBuild: createBuildState({ bodyStage: 'dominant', traitIds: ['organelle-flagellum'] }),
+      journeyStageIndex: 4,
+      environmentIds: ['env-clear-drop', 'env-algae-glow'],
+      engulfScore: 6528,
+      survivalMs: 360_000,
+      seed: 727,
+    }, testContent())
+
+    expect(result.cause).toContain('吞噬')
+    expect(result.stageLabel).toBe('统治体')
+    expect(result.route).toBe('uncommitted')
+    expect(result.routeLabel).toBe('尚未定型')
+    expect(result.keyTraitIds).toContain('organelle-flagellum')
+  })
+
   it('maps a truthful archive to content-owned labels and environment art direction', () => {
     const content = testContent()
     const log = eventLog([
@@ -44,6 +63,9 @@ describe('app result view model', () => {
         journeyTotal: 6,
         bodyStage: 'microbe',
         bodyStageProgress: 0.78,
+        formId: 'form-primal-cell',
+        tierIndex: 0,
+        tierProgress: 0.78,
         membraneRatio: 0,
       },
     }, content)
@@ -91,6 +113,9 @@ describe('combat HUD view model', () => {
       journeyTotal: 6,
       bodyStage: 'microbe',
       bodyStageProgress: 0.32,
+      formId: 'form-primal-cell',
+      tierIndex: 0,
+      tierProgress: 0.32,
       membraneRatio: 0.82,
     }, testContent())
 

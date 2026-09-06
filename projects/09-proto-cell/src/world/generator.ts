@@ -1,8 +1,10 @@
 import content from '../content/content.json'
 import type { BossResolutionPath, CreatureDefinition, EnvironmentId } from '../content'
 import { createRng } from '../domain/rng'
+import type { Vec2 } from '../domain/types'
 import { createEntity, type EntityDefinition, type SpawnedEntityState } from '../entities/factory'
 import { canResolveBossPath } from './bosses'
+import { worldDimensionsForTier } from './scale-world'
 
 type M0Environment = {
   id: string
@@ -21,6 +23,7 @@ export type GeneratedRegion = {
   entities: readonly SpawnedEntityState[]
   spawnSchedule: ReadonlyArray<{ atMs: number; entityId: string }>
   routeRifts: readonly RouteRift[]
+  minimumCorridorWidth: number
 }
 
 export type RouteRift = {
@@ -32,6 +35,53 @@ export type RouteRift = {
   hazardId: string
   resourceId: string
   affinityIconId: string
+}
+
+export function ecologyGroupPositions(input: {
+  seed: number
+  groupId: string
+  center: { x: number; y: number }
+  distance: number
+  count: number
+  width: number
+  height: number
+  margin: number
+  angle?: number
+}): Vec2[] {
+  const rng = createRng(input.seed).fork(input.groupId)
+  const baseAngle = input.angle ?? rng.next() * Math.PI * 2
+  return Array.from({ length: input.count }, (_, index) => {
+    const spread = (index - (input.count - 1) / 2) * 0.14 + (rng.next() - 0.5) * 0.08
+    const distance = input.distance * (0.96 + rng.next() * 0.1)
+    return readableRadialPosition(input.center, distance, baseAngle + spread, input.width, input.height, input.margin)
+  })
+}
+
+function readableRadialPosition(
+  center: Vec2,
+  distance: number,
+  preferredAngle: number,
+  width: number,
+  height: number,
+  margin: number,
+): Vec2 {
+  const angleOffsets = [0, Math.PI / 8, -Math.PI / 8, Math.PI / 4, -Math.PI / 4, Math.PI / 2, -Math.PI / 2, Math.PI]
+  for (const offset of angleOffsets) {
+    const candidate = {
+      x: center.x + Math.cos(preferredAngle + offset) * distance,
+      y: center.y + Math.sin(preferredAngle + offset) * distance,
+    }
+    if (candidate.x >= margin && candidate.x <= width - margin && candidate.y >= margin && candidate.y <= height - margin) return candidate
+  }
+
+  return angleOffsets
+    .map((offset) => ({
+      x: Math.min(width - margin, Math.max(margin, center.x + Math.cos(preferredAngle + offset) * distance)),
+      y: Math.min(height - margin, Math.max(margin, center.y + Math.sin(preferredAngle + offset) * distance)),
+    }))
+    .sort((left, right) => (
+      Math.hypot(right.x - center.x, right.y - center.y) - Math.hypot(left.x - center.x, left.y - center.y)
+    ))[0]!
 }
 
 export function findEnteredRouteRift(
@@ -88,7 +138,20 @@ export function generateRegion(seed: number, environmentId: string): GeneratedRe
         y: 72 + routeRng.next() * 130,
       },
     })),
+    minimumCorridorWidth: minimumCorridorWidthFor(environmentId, environment.width, environment.height),
   }
+}
+
+export function generateTierRegion(seed: number, tier: { environmentId: string; radiusRange: readonly number[] }): GeneratedRegion {
+  const region = generateRegion(seed, tier.environmentId)
+  const maximumRadius = Number.isFinite(tier.radiusRange[1]) ? Number(tier.radiusRange[1]) : 1
+  return { ...region, minimumCorridorWidth: Math.max(region.minimumCorridorWidth, maximumRadius * 2.4) }
+}
+
+function minimumCorridorWidthFor(environmentId: string, width: number, height: number): number {
+  const tier = (content.scaleTiers as unknown as Array<{ environmentId: string; radiusRange: readonly number[] }>).find((item) => item.environmentId === environmentId)
+  const radius = tier && Number.isFinite(tier.radiusRange[1]) ? Number(tier.radiusRange[1]) : 1
+  return Math.max(radius * 2.4, Math.min(width, height) * 0.5)
 }
 
 export function getRegionDefinition(environmentId: string): M0Environment {
@@ -101,8 +164,12 @@ export function getRegionDefinition(environmentId: string): M0Environment {
       'scavenger-vesicle': 'creature-vesicle-scavenger',
       'elite-membrane-warden': 'predator-membrane-warden',
     }
+    const scaleTier = (content.scaleTiers as unknown as Array<{ environmentId: string; radiusRange: readonly number[]; worldBodyWidths: number }>).find((tier) => tier.environmentId === environmentId)
+    const dimensions = scaleTier ? worldDimensionsForTier(scaleTier) : { width: m0.width, height: m0.height }
     return {
       ...m0,
+      width: dimensions.width,
+      height: dimensions.height,
       entityDefinitions: m0.entityDefinitions.map((definition) => {
         const id = aliases[definition.id] ?? definition.id
         const creature = content.creatures.find((item) => item.id === id)
@@ -136,10 +203,12 @@ export function getRegionDefinition(environmentId: string): M0Environment {
     maxSpeed: 8,
     visualRecipeId: nutrient.visualRecipeId,
   } : undefined
+  const scaleTier = (content.scaleTiers as unknown as Array<{ environmentId: string; radiusRange: readonly number[]; worldBodyWidths: number }>).find((tier) => tier.environmentId === environmentId)
+  const dimensions = scaleTier ? worldDimensionsForTier(scaleTier) : { width: 640, height: 1100 }
   return {
     id: environment.id,
-    width: 640,
-    height: 1100,
+    width: dimensions.width,
+    height: dimensions.height,
     playerDefinition,
     entityDefinitions: nutrientDefinition ? [nutrientDefinition, ...definitions] : definitions,
     spawnSchedule: [...(nutrientDefinition ? [{ atMs: 0, definitionId: nutrientDefinition.id, count: 4 }] : []), ...spawnTable.entries.map((entry) => ({

@@ -1,8 +1,22 @@
 import { describe, expect, it } from 'vitest'
-import { createCameraTracker } from './camera'
-import { foodBloomPresentation, swarmTransitionPresentation, worldBoundaryScreenRect, worldTextureOffset } from './renderer'
+import { cameraZoomFor, createCameraTracker, targetScreenDiameterRatio, visibleWorldRadius } from './camera'
+import { backdropTileOrigins, edgeWarningPosition, isFiniteEntityGeometry, materializationPresentation, renderPixelRatio, swarmTransitionPresentation, worldBoundaryScreenRect, worldTextureOffset } from './renderer'
 
 describe('stage camera', () => {
+  it('keeps a growing player inside the tier screen-diameter band', () => {
+    expect(cameraZoomFor({ viewport: { width: 390, height: 844 }, radius: 12, screenDiameterRatio: 0.16 })).toBeCloseTo(2.6)
+    expect(cameraZoomFor({ viewport: { width: 390, height: 844 }, radius: 40, screenDiameterRatio: 0.28 })).toBeCloseTo(1.365)
+  })
+
+  it('reports the actual visible world radius used by ecology', () => {
+    expect(visibleWorldRadius({ width: 390, height: 844 }, 2)).toBeCloseTo(232.5, 1)
+  })
+
+  it('interpolates the target screen ratio with finite tier progress', () => {
+    expect(targetScreenDiameterRatio([0.16, 0.21], 0.5)).toBeCloseTo(0.185)
+    expect(targetScreenDiameterRatio([0.16, 0.21], Number.NaN)).toBe(0.16)
+  })
+
   it('uses a lower player anchor and looks ahead along velocity', () => {
     const tracker = createCameraTracker()
     const viewport = { width: 390, height: 844 }
@@ -75,6 +89,24 @@ describe('world-space camera feedback', () => {
     expect(worldTextureOffset({ x: 100, y: 50 }, { width: 640, height: 360 }, 0.24)).toEqual({ x: -24, y: -12 })
   })
 
+  it('does not submit backdrop tiles that sit entirely outside the canvas', () => {
+    const origins = backdropTileOrigins(
+      { width: 390, height: 844 },
+      { width: 904, height: 904 },
+      { x: 100, y: 150 },
+    )
+
+    expect(origins).toHaveLength(4)
+    expect(origins.every(({ x, y }) => x < 390 && y < 844 && x + 904 > 0 && y + 904 > 0)).toBe(true)
+  })
+
+  it('uses a mobile performance ratio for the default balanced canvas', () => {
+    expect(renderPixelRatio('balanced', 1)).toBe(0.8)
+    expect(renderPixelRatio('balanced', 2)).toBe(1.25)
+    expect(renderPixelRatio('high', 2.5)).toBe(2)
+    expect(renderPixelRatio('low', 1)).toBe(0.7)
+  })
+
   it('projects the finite ecology boundary from the lower player anchor', () => {
     expect(worldBoundaryScreenRect(
       { center: { x: 12, y: 550 }, anchor: { x: 195, y: 489.52 }, zoom: 2 },
@@ -87,8 +119,27 @@ describe('world-space camera feedback', () => {
     expect(swarmTransitionPresentation(300, true)).toEqual({ radiusScale: 1.2, textOffset: 0, alpha: 0.72 })
   })
 
-  it('disables expanding food bloom when motion is reduced', () => {
-    expect(foodBloomPresentation(425, false)?.radiusScale).toBeCloseTo(2.4)
-    expect(foodBloomPresentation(425, true)).toEqual({ radiusScale: 1.25, alpha: 0.3 })
+  it('presents a materializing entity as a growing readable silhouette', () => {
+    expect(materializationPresentation(600, 1200, false)).toMatchObject({ radiusScale: 0.86, alpha: 0.62 })
+    expect(materializationPresentation(600, 1200, true)).toEqual({ radiusScale: 0.88, alpha: 0.72, ringAlpha: 0.5 })
+    expect(materializationPresentation(1200, 1200, false)).toBeUndefined()
+  })
+
+  it('skips materialization when an entity has no finite presentation interval', () => {
+    expect(materializationPresentation(Number.POSITIVE_INFINITY, Number.NaN, false)).toBeUndefined()
+    expect(materializationPresentation(100, Number.POSITIVE_INFINITY, false)).toBeUndefined()
+  })
+
+  it('rejects an entity with a non-finite position or radius before canvas drawing', () => {
+    expect(isFiniteEntityGeometry({ position: { x: 12, y: 24 }, velocity: { x: 0, y: 0 }, body: { radius: 8 } })).toBe(true)
+    expect(isFiniteEntityGeometry({ position: { x: Number.NaN, y: 24 }, velocity: { x: 0, y: 0 }, body: { radius: 8 } })).toBe(false)
+    expect(isFiniteEntityGeometry({ position: { x: 12, y: 24 }, velocity: { x: 0, y: 0 }, body: { radius: Number.POSITIVE_INFINITY } })).toBe(false)
+    expect(isFiniteEntityGeometry({ position: { x: 12, y: 24 }, velocity: { x: 0, y: Number.NaN }, body: { radius: 8 } })).toBe(false)
+  })
+
+  it('projects offscreen materializing threats onto a safe edge warning', () => {
+    expect(edgeWarningPosition({ x: -100, y: 400 }, { width: 390, height: 844 }, 24)).toMatchObject({ x: 24 })
+    expect(edgeWarningPosition({ x: -100, y: 400 }, { width: 390, height: 844 }, 24)?.y).toBeCloseTo(409.25, 1)
+    expect(edgeWarningPosition({ x: 100, y: 400 }, { width: 390, height: 844 }, 24)).toBeUndefined()
   })
 })

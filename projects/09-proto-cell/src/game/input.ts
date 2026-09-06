@@ -19,9 +19,12 @@ const ZERO_INTENT: MovementIntent = {
   strength: 0,
 }
 
+export const DEFAULT_POINTER_DEAD_ZONE = 6
+export const DEFAULT_POINTER_FULL_STRENGTH_DISTANCE = 48
+
 export function createPointerInput(options: { deadZone?: number; fullStrengthDistance?: number } = {}): PointerInput {
-  const deadZone = Math.max(0, options.deadZone ?? 12)
-  const fullStrengthDistance = Math.max(1, options.fullStrengthDistance ?? 96)
+  const deadZone = Math.max(0, options.deadZone ?? DEFAULT_POINTER_DEAD_ZONE)
+  const fullStrengthDistance = Math.max(1, options.fullStrengthDistance ?? DEFAULT_POINTER_FULL_STRENGTH_DISTANCE)
   let origin: Vec2 | undefined
   let intent = ZERO_INTENT
 

@@ -29,6 +29,42 @@ export type AudioDirector = {
   destroy(): void
 }
 
+export type AudioCueInput =
+  | { kind: 'movement-onset' }
+  | { kind: 'engulf'; chain: number }
+  | { kind: 'damage'; severity?: number }
+  | { kind: 'block' }
+  | { kind: 'collapse-warning' }
+  | { kind: 'metamorphosis' }
+  | { kind: 'boss-arrival' }
+  | { kind: 'death' }
+  | { kind: 'ending' }
+
+export type AudioCuePattern = {
+  frequencies: number[]
+  duration: number
+  gain: number
+  type: OscillatorType
+  staggerMs: number
+}
+
+export function cuePattern(input: AudioCueInput): AudioCuePattern {
+  if (input.kind === 'engulf') {
+    const chain = Math.max(1, Math.min(8, Math.floor(input.chain)))
+    const base = 410 + chain * 34
+    const frequencies = chain >= 5 ? [base, base * 1.25, base * 1.5] : chain >= 3 ? [base, base * 1.25] : [base]
+    return { frequencies, duration: 0.1 + chain * 0.012, gain: Math.min(0.06, 0.034 + chain * 0.004), type: 'sine', staggerMs: 18 }
+  }
+  if (input.kind === 'movement-onset') return { frequencies: [210, 315], duration: 0.08, gain: 0.025, type: 'triangle', staggerMs: 12 }
+  if (input.kind === 'damage') return { frequencies: [110, 82], duration: 0.16, gain: Math.min(0.06, 0.045 + (input.severity ?? 0) * 0.01), type: 'sawtooth', staggerMs: 16 }
+  if (input.kind === 'block') return { frequencies: [720, 960], duration: 0.08, gain: 0.035, type: 'triangle', staggerMs: 10 }
+  if (input.kind === 'collapse-warning') return { frequencies: [180, 135, 90], duration: 0.24, gain: 0.04, type: 'triangle', staggerMs: 55 }
+  if (input.kind === 'metamorphosis') return { frequencies: [330, 494, 659, 988], duration: 0.28, gain: 0.05, type: 'sine', staggerMs: 42 }
+  if (input.kind === 'boss-arrival') return { frequencies: [82, 123, 164], duration: 0.38, gain: 0.055, type: 'sawtooth', staggerMs: 65 }
+  if (input.kind === 'death') return { frequencies: [110, 82, 62], duration: 0.42, gain: 0.055, type: 'sawtooth', staggerMs: 70 }
+  return { frequencies: [523, 659, 784], duration: 0.42, gain: 0.05, type: 'sine', staggerMs: 58 }
+}
+
 export function createAudioDirector(
   source: AudioContextLike | (() => AudioContextLike | undefined),
   initial: AudioSettings = { music: true, sfx: true },
@@ -56,9 +92,12 @@ export function createAudioDirector(
     },
     handle(event) {
       if (status !== 'ready' || !settings.sfx || !context) return
-      const cue = cueFor(event)
-      if (!cue) return
-      playTone(context, cue.frequency, cue.duration, cue.gain, cue.type)
+      const input = cueInputFor(event)
+      if (!input) return
+      const pattern = cuePattern(input)
+      const frequencies = pattern.frequencies.slice(0, 8)
+      const layerGain = pattern.gain / Math.max(1, frequencies.length)
+      frequencies.forEach((frequency, index) => playTone(context!, frequency, pattern.duration, layerGain, pattern.type, index * pattern.staggerMs / 1000))
     },
     setSettings(next) {
       settings = { ...next }
@@ -107,29 +146,30 @@ export function createBrowserAudioDirector(settings?: AudioSettings): AudioDirec
   }, settings)
 }
 
-function cueFor(event: GameEvent): { frequency: number; duration: number; gain: number; type: OscillatorType } | undefined {
-  if (event.type === 'engulfed') return { frequency: event.predatorId.startsWith('player') ? 440 : 130, duration: 0.11, gain: 0.045, type: 'sine' }
-  if (event.type === 'damaged') return { frequency: 105, duration: 0.16, gain: 0.055, type: 'sawtooth' }
-  if (event.type === 'blocked') return { frequency: 720, duration: 0.08, gain: 0.035, type: 'triangle' }
-  if (event.type === 'mutation-ready') return { frequency: 610, duration: 0.22, gain: 0.035, type: 'sine' }
-  if (event.type === 'event-phase' && event.phase === 'telegraph') return { frequency: 180, duration: 0.28, gain: 0.028, type: 'triangle' }
-  if (event.type === 'boss-resolved') return { frequency: 330, duration: 0.4, gain: 0.05, type: 'sine' }
-  if (event.type === 'player-died') return { frequency: 72, duration: 0.45, gain: 0.055, type: 'sawtooth' }
-  if (event.type === 'ending-reached') return { frequency: 523, duration: 0.5, gain: 0.045, type: 'sine' }
+function cueInputFor(event: GameEvent): AudioCueInput | undefined {
+  if (event.type === 'engulfed') return { kind: 'engulf', chain: event.predatorId.startsWith('player') ? event.chain ?? 1 : 1 }
+  if (event.type === 'damaged') return { kind: 'damage', severity: Math.min(1, event.amount / 100) }
+  if (event.type === 'blocked') return { kind: 'block' }
+  if (event.type === 'collapse-warning' || event.type === 'event-phase' && event.phase === 'telegraph') return { kind: 'collapse-warning' }
+  if (event.type === 'mutation-selected') return { kind: 'metamorphosis' }
+  if (event.type === 'trait-triggered' && (event.effectId === 'pursuit-burst' || event.effectId === 'current-assisted-acceleration')) return { kind: 'movement-onset' }
+  if (event.type === 'boss-resolved') return { kind: 'boss-arrival' }
+  if (event.type === 'player-died') return { kind: 'death' }
+  if (event.type === 'ending-reached') return { kind: 'ending' }
   return undefined
 }
 
-function playTone(context: AudioContextLike, frequency: number, duration: number, volume: number, type: OscillatorType) {
+function playTone(context: AudioContextLike, frequency: number, duration: number, volume: number, type: OscillatorType, delay = 0) {
   const oscillator = context.createOscillator()
   const gain = context.createGain()
   const now = context.currentTime
   oscillator.type = type
-  oscillator.frequency.setValueAtTime?.(frequency, now)
+  oscillator.frequency.setValueAtTime?.(frequency, now + delay)
   oscillator.frequency.value = frequency
-  gain.gain.setValueAtTime?.(volume, now)
-  gain.gain.exponentialRampToValueAtTime?.(0.0001, now + duration)
+  gain.gain.setValueAtTime?.(volume, now + delay)
+  gain.gain.exponentialRampToValueAtTime?.(0.0001, now + delay + duration)
   oscillator.connect(gain)
   gain.connect(context.destination)
-  oscillator.start(now)
-  oscillator.stop(now + duration)
+  oscillator.start(now + delay)
+  oscillator.stop(now + delay + duration)
 }

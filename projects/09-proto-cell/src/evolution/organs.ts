@@ -33,11 +33,19 @@ export type OrganEffect = {
   entityId: string
   organId: OrganelleId
   atMs: number
-  effect: 'speed-boost' | 'escape-impulse' | 'block' | 'repair' | 'split'
+  effect: 'speed-boost' | 'escape-impulse' | 'block' | 'repair' | 'split' | 'colony-decoy'
   amount?: number
   energyCost?: number
   impulse?: Vec2
   consumesCharge?: boolean
+}
+
+export function applyOrganEffects(effects: readonly OrganEffect[]): { controlledEntityId: string; spawnedDecoys: Array<{ sourceEntityId: string; expiresAtMs: number }> } {
+  const source = effects.find((effect) => effect.effect === 'colony-decoy')
+  return {
+    controlledEntityId: source?.entityId ?? 'player',
+    spawnedDecoys: source ? [{ sourceEntityId: source.entityId, expiresAtMs: source.atMs + 2400 }] : [],
+  }
 }
 
 type OrganBehavior = (entity: EvolvedEntityState, organ: InstalledOrganelle, perception: OrganPerception) => Omit<OrganEffect, 'type' | 'entityId' | 'organId' | 'atMs'> | undefined

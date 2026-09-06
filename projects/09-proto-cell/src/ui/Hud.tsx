@@ -1,8 +1,9 @@
 import { getContent } from '../content'
 import type { HudSnapshot } from '../game/engine'
 import { createHudViewModel } from '../app/view-model'
+import { EcologyRadar, type RadarInput } from './EcologyRadar'
 
-export function Hud({ snapshot, onPause }: { snapshot: HudSnapshot; onPause: () => void }) {
+export function Hud({ snapshot, onPause, radar }: { snapshot: HudSnapshot; onPause: () => void; radar?: RadarInput }) {
   const content = getContent()
   const model = createHudViewModel(snapshot, content)
 
@@ -16,7 +17,7 @@ export function Hud({ snapshot, onPause }: { snapshot: HudSnapshot; onPause: () 
           </div>
           <div>
             <dt>{content.ui.hud.journey}</dt>
-            <dd>{model.journey}</dd>
+            <dd>{model.formName} · {model.journey}</dd>
           </div>
         </dl>
         <div className="game-hud__secondary">
@@ -29,6 +30,7 @@ export function Hud({ snapshot, onPause }: { snapshot: HudSnapshot; onPause: () 
               aria-valuemax={100}
               aria-valuenow={model.bodyStageProgress}
             ><b style={{ width: `${model.bodyStageProgress}%` }} /></i>
+            <i aria-label={content.ui.hud.evolution} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={model.tierProgress}><b style={{ width: `${model.tierProgress}%` }} /></i>
           </div>
           <dl className="game-hud__membrane">
             <div>
@@ -38,6 +40,7 @@ export function Hud({ snapshot, onPause }: { snapshot: HudSnapshot; onPause: () 
           </dl>
         </div>
       </section>
+      <EcologyRadar input={radar ?? { world: { width: 1, height: 1 }, playerPosition: { x: 0, y: 0 }, warnedThreats: [] }} />
       {snapshot.swarm && (
         <div className="game-hud__swarm" role="status">
           <strong>{content.ui.hud.swarm} ×{snapshot.swarm.bodyCount}</strong>

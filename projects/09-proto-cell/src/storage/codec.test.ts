@@ -3,6 +3,19 @@ import { saveFixture } from '../tests/fixtures'
 import { decodeSave, encodeSave } from './codec'
 
 describe('versioned save codec', () => {
+  it.each([
+    ['microbe', 'form-primal-cell'],
+    ['hunter', 'form-primal-cell'],
+    ['specialist', 'form-colony-body'],
+    ['dominant', 'form-colony-body'],
+    ['ascendant', 'form-ciliate-composite'],
+  ] as const)('maps legacy stage %s conservatively to %s', (stage, formId) => {
+    const fixture = saveFixture()
+    fixture.lifeArchives[0]!.finalBodyStage = stage
+    delete (fixture.lifeArchives[0] as Partial<typeof fixture.lifeArchives[0]>).finalFormId
+    expect(decodeSave(fixture).value?.lifeArchives[0]?.finalFormId).toBe(formId)
+  })
+
   it('drops unknown fields and caps archives at thirty', () => {
     const save = saveFixture({ extra: 'blocked', archiveCount: 35 })
     const decoded = decodeSave(save)
@@ -43,6 +56,19 @@ describe('versioned save codec', () => {
     expect(decoded.value).toEqual(decodeSave(fixture).value)
     expect(decoded.value?.lifeArchives[0]?.finalMorphology?.organelles[0]?.charges).toBe(2)
     expect(decoded.value?.progression.rewardCounts['environment:env-clear-drop']).toBe(900)
+  })
+
+  it('migrates a v1 archive without inventing a completed body stage', () => {
+    const fixture = saveFixture()
+    delete (fixture.lifeArchives[0] as Partial<typeof fixture.lifeArchives[0]>).finalBodyStage
+    delete (fixture.lifeArchives[0] as Partial<typeof fixture.lifeArchives[0]>).buildRouteCounts
+    delete (fixture.lifeArchives[0] as Partial<typeof fixture.lifeArchives[0]>).journeyStageIndex
+
+    const migrated = decodeSave(fixture)
+
+    expect(migrated.value?.lifeArchives[0]?.finalBodyStage).toBe('microbe')
+    expect(migrated.value?.lifeArchives[0]?.buildRouteCounts).toEqual({ predation: 0, survival: 0, colony: 0 })
+    expect(migrated.issues).toEqual([])
   })
 
   it('rejects unknown or invalid reward counters', () => {

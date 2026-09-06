@@ -1,4 +1,5 @@
-import type { ContentPack, EnvironmentId, OrganelleId, SynergyId } from '../content'
+import type { BodyStage, ContentPack, EnvironmentId, FormId, OrganelleId, SynergyId } from '../content'
+import type { EvolutionRoute } from '../evolution/build'
 import type { GameEvent } from '../game/interactions'
 import type { PlayerMorphologySnapshot } from '../game/engine'
 import { encodeDishCode } from './challenges'
@@ -12,6 +13,11 @@ export type LifeEventSnapshot = {
   peakBiomass?: number
   organelleIds: readonly OrganelleId[]
   morphology?: PlayerMorphologySnapshot
+  bodyStage?: BodyStage
+  buildRouteCounts?: Record<EvolutionRoute, number>
+  journeyStageIndex?: number
+  formId?: FormId
+  tierIndex?: number
 }
 
 export type LifeEventLogEntry = {
@@ -31,6 +37,12 @@ export type LifeArchive = {
   endingId?: ContentPack['endings'][number]['id']
   dishCode: string
   finalMorphology?: PlayerMorphologySnapshot
+  finalBodyStage: BodyStage
+  buildRouteCounts: Record<EvolutionRoute, number>
+  journeyStageIndex: number
+  finalFormId?: FormId
+  finalTierIndex?: number
+  ecosystemIds?: EnvironmentId[]
 }
 
 export function deriveLifeArchive(
@@ -92,6 +104,11 @@ export function deriveLifeArchive(
   const finalMorphology: PlayerMorphologySnapshot | undefined = finalSnapshot?.morphology
     ? { ...finalSnapshot.morphology, organelles: finalSnapshot.morphology.organelles.map((organ) => ({ ...organ })) }
     : undefined
+  const finalBodyStage = finalSnapshot?.bodyStage ?? 'microbe'
+  const finalFormId = finalSnapshot?.formId ?? legacyFormForStage(finalBodyStage)
+  const buildRouteCounts = { predation: 0, survival: 0, colony: 0, ...finalSnapshot?.buildRouteCounts }
+  const journeyStageIndex = finalSnapshot?.journeyStageIndex
+    ?? Math.max(0, ...visitedEnvironmentIds.map((id) => content.environments.find((environment) => environment.id === id)?.order ?? 0))
 
   return {
     speciesNameSeed,
@@ -103,8 +120,24 @@ export function deriveLifeArchive(
     deathTemplateId,
     endingId,
     finalMorphology,
+    finalBodyStage,
+    buildRouteCounts,
+    journeyStageIndex,
+    finalFormId,
+    finalTierIndex: finalSnapshot?.tierIndex ?? tierIndexForForm(finalFormId),
+    ecosystemIds: visitedEnvironmentIds.filter((id): id is EnvironmentId => content.environments.some((environment) => environment.id === id)),
     dishCode: encodeDishCode({ seed: runSeed, contentVersion: content.contentVersion, route: codedRoute }),
   }
+}
+
+function legacyFormForStage(stage: BodyStage): FormId {
+  if (stage === 'specialist' || stage === 'dominant') return 'form-colony-body'
+  if (stage === 'ascendant') return 'form-ciliate-composite'
+  return 'form-primal-cell'
+}
+
+function tierIndexForForm(formId: FormId): number {
+  return formId === 'form-primal-cell' ? 0 : formId === 'form-colony-body' ? 1 : 2
 }
 
 function selectDeathTemplateId(

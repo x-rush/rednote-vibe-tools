@@ -14,6 +14,17 @@ describe('entity interactions', () => {
     expect(event).toMatchObject({ routeId: 'journey-route-algae-feast', environmentId: 'env-algae-glow' })
   })
 
+  it('keeps ecology opportunities structured for run audits', () => {
+    const event: GameEvent = {
+      type: 'ecology-opportunity',
+      opportunityId: 'predator-conflict',
+      environmentId: 'env-clear-drop',
+      atMs: 14_000,
+    }
+
+    expect(event).toMatchObject({ opportunityId: 'predator-conflict', environmentId: 'env-clear-drop' })
+  })
+
   it('engulfs once when a larger cell covers most of its prey', () => {
     const context = testInteractionContext()
     const predator = entity('large', 20)
@@ -25,6 +36,15 @@ describe('entity interactions', () => {
     expect(result.events.filter((event) => event.type === 'engulfed')).toHaveLength(1)
     expect(result.massAfter).toBe(result.massBefore)
     expect(repeated.events.filter((event) => event.type === 'engulfed')).toHaveLength(0)
+  })
+
+  it('carries the engine-authored engulf chain on the structured event', () => {
+    const result = resolveInteraction(entity('large', 20), entity('small', 5, { x: 18, y: 0 }), {
+      ...testInteractionContext(),
+      engulfChain: 4,
+    })
+
+    expect(result.events).toContainEqual(expect.objectContaining({ type: 'engulfed', chain: 4 }))
   })
 
   it('emits no damage or engulf below the majority threshold', () => {

@@ -1,22 +1,27 @@
-import type { JourneyStageDefinition } from '../content'
+import type { FormId, JourneyStageDefinition } from '../content'
 import type { BodyShape, EntityState, Vec2 } from '../domain/types'
 import { mostlyContains } from './containment'
 
 export type DamageSource = 'acid' | 'electric' | 'spine' | 'ram'
 
 export type GameEvent =
-  | { type: 'engulfed'; predatorId: string; preyId: string; predatorDefinitionId?: string; preyDefinitionId?: string; biomass: number; atMs: number }
+  | { type: 'engulfed'; predatorId: string; preyId: string; predatorDefinitionId?: string; preyDefinitionId?: string; biomass: number; chain?: number; atMs: number }
   | { type: 'damaged'; targetId: string; amount: number; source: DamageSource; atMs: number }
   | { type: 'blocked'; targetId: string; amount: number; atMs: number }
   | { type: 'ruptured'; targetId: string; fragmentMasses: readonly number[]; atMs: number }
   | { type: 'organ-triggered'; entityId: string; organId: string; atMs: number }
+  | { type: 'trait-triggered'; entityId: string; traitId: string; effectId: string; durationMs?: number; atMs: number }
   | { type: 'mutation-ready'; entityId: string; atMs: number }
   | { type: 'mutation-selected'; entityId: string; organId: string; action: string; atMs: number }
+  | { type: 'form-transition-ready'; fromFormId: FormId; toFormId: FormId; atMs: number }
+  | { type: 'form-transitioned'; fromFormId: FormId; toFormId: FormId; atMs: number }
+  | { type: 'tier-encounter-resolved'; tierIndex: number; encounterId: string; atMs: number }
   | { type: 'event-phase'; eventId: string; phase: 'telegraph' | 'active' | 'expired'; atMs: number }
   | { type: 'collapse-warning'; stageIndex: number; atMs: number }
   | { type: 'migration-ready'; stageIndex: number; routes: JourneyStageDefinition['routeOffers']; atMs: number }
   | { type: 'migration-forced'; stageIndex: number; routeId: string; destinationEnvironmentId: string; atMs: number }
   | { type: 'route-selected'; routeId: string; environmentId: string; atMs: number }
+  | { type: 'ecology-opportunity'; opportunityId: string; environmentId: string; atMs: number }
   | { type: 'boss-resolved'; bossId: string; path: 'combat' | 'environment' | 'stealth' | 'parasite'; atMs: number }
   | { type: 'player-died'; cause: string; defeatedByDefinitionId?: string; atMs: number }
   | { type: 'ending-reached'; endingId: string; atMs: number }
@@ -28,6 +33,7 @@ export type InteractionContext = {
   containmentTolerance?: number
   engulfCoverageThreshold?: number
   engulfMassGainFraction?: number
+  engulfChain?: number
   contactDamage?: {
     source: DamageSource
     amount: number
@@ -82,6 +88,7 @@ export function resolveInteraction(
           ...('definitionId' in containment.predator ? { predatorDefinitionId: String(containment.predator.definitionId) } : {}),
           ...('definitionId' in containment.prey ? { preyDefinitionId: String(containment.prey.definitionId) } : {}),
           biomass: containment.prey.mass,
+          chain: Math.max(1, Math.floor(context.engulfChain ?? 1)),
           atMs: context.atMs,
         }],
         massBefore,

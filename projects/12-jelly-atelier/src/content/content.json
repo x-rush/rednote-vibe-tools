@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 2,
+  "brand": {
+    "name": "果冻慢慢",
+    "sub": "把今天做成一只果冻",
+    "edition": "VOL. 01 / THE SOFT EXPERIMENT",
+    "tag": "十几秒，做一件柔软的小事。",
+    "title": "今天的快乐，\n亲手做。",
+    "description": "挑一个形状，倒两层喜欢的颜色。\n放上小装饰，把今天做成一只果冻。",
+    "craft": "MADE OF LITTLE JOYS",
+    "footer": "不必完美，Q 弹就好。"
+  },
+  "ui": {
+    "flavorLabel": "今天，想要什么味道？",
+    "flavorEnglish": "PICK YOUR MOOD",
+    "unmold": "轻轻脱模",
+    "unmoldEnglish": "LET IT WOBBLE",
+    "unmolding": "快乐正在脱模…",
+    "ready": "戳戳果冻",
+    "readyHint": "轻触果冻，看柔软泛起涟漪",
+    "startHint": "选择一个模具，开始你的甜品实验",
+    "replay": "再做一只",
+    "save": "收进甜品柜",
+    "saved": "已放进甜品柜",
+    "shelf": "我的甜品柜",
+    "shelfEmpty": "还没有收藏。完成一次脱模，留住今天的柔软。",
+    "shelfDetail": "保存形状、两层配色与装饰位置。点「继续把玩」，重新打开你的作品。",
+    "close": "关闭",
+    "soundOn": "关闭声音",
+    "soundOff": "开启声音",
+    "poke": "戳戳果冻",
+    "sceneLabel": "三维果冻工作台：装饰阶段点击果冻放装饰，完成后轻触果冻让它晃动。",
+    "countUnit": "份小快乐",
+    "remove": "移除",
+    "webglError": "三维工作台暂时无法开启，请使用支持 WebGL 2 的浏览器重新打开。",
+    "retry": "重新打开",
+    "storageError": "本次作品已展示，但浏览器没有允许保存。",
+    "loading": "正在调配一份柔软…",
+    "loadingSub": "WARMING UP THE ATELIER",
+    "contextLost": "画面连接暂时中断，请重新打开工作台。",
+    "resume": "继续把玩",
+    "moldLabel": "01 · 手工花瓣模具",
+    "materialLabel": "透光 · 柔软 · 有一点甜",
+    "collectionLabel": "LITTLE JOYS, COLLECTED",
+    "instructions": "鼠标或手指轻触果冻 · 拖动空白处转动视角",
+    "sample": "自由制作 / 无限把玩"
+  },
+  "flavors": [
+    {
+      "id": "peach",
+      "name": "蜜桃乌龙",
+      "english": "PEACH OOLONG",
+      "note": "像傍晚落在指尖的一点粉。",
+      "color": "#de477c",
+      "attenuation": "#c93567",
+      "accent": "#773049",
+      "swatch": "#e99bb0",
+      "syrup": "#bf4c6f",
+      "seed": 17
+    },
+    {
+      "id": "grape",
+      "name": "紫葡萄雾",
+      "english": "GRAPE MIST",
+      "note": "把一场紫色的梦，装进盘子。",
+      "color": "#9565ca",
+      "attenuation": "#743ba7",
+      "accent": "#634379",
+      "swatch": "#b2a0d6",
+      "syrup": "#8c64aa",
+      "seed": 29
+    },
+    {
+      "id": "citrus",
+      "name": "橙光气泡",
+      "english": "CITRUS SUNSHINE",
+      "note": "一口没有截止日期的晴天。",
+      "color": "#ffb843",
+      "attenuation": "#ee9a2c",
+      "accent": "#966029",
+      "swatch": "#edbc70",
+      "syrup": "#cf8f34",
+      "seed": 43
+    }
+  ],
+  "limits": {
+    "collection": 18
+  },
+  "motion": {
+    "unmoldDuration": 5.8,
+    "reducedUnmoldDuration": 2.2,
+    "maxPokes": 8,
+    "pokeDuration": 2.5
+  },
+  "sources": [
+    {
+      "title": "Three.js 0.180.0",
+      "url": "https://registry.npmjs.org/three/0.180.0",
+      "license": "MIT",
+      "usage": "本地分发三维渲染库与 RoomEnvironment",
+      "integrity": "sha512-o+qycAMZrh+TsE01GqWUxUIKR1AL0S8pq7zDkYOQw8GqfX8b8VoCKYUoHbhiX5j+7hr8XsuHDVU6+gkQJQKg9w=="
+    },
+    {
+      "title": "Jelly Atelier original art",
+      "license": "Project original",
+      "usage": "全部模型、场景、排版与程序化纹理为本项目原创；无用户媒体输入"
+    }
+  ],
+  "craft": {
+    "minFirst": 0.2,
+    "maxFirst": 0.75,
+    "pourRate": 0.22,
+    "maxToppings": 8,
+    "toppingRadius": 0.6,
+    "keyboardDose": 0.1
+  },
+  "molds": [
+    {
+      "id": "flower",
+      "name": "花瓣",
+      "symbol": "✿",
+      "note": "一圈花瓣，盛住今天的小快乐。"
+    },
+    {
+      "id": "heart",
+      "name": "爱心",
+      "symbol": "♡",
+      "note": "给自己做一颗，软乎乎的心。"
+    },
+    {
+      "id": "star",
+      "name": "星星",
+      "symbol": "☆",
+      "note": "把星星摘下来，放进甜品盘。"
+    }
+  ],
+  "toppings": [
+    {
+      "id": "berry",
+      "name": "树莓",
+      "symbol": "●"
+    },
+    {
+      "id": "mint",
+      "name": "薄荷",
+      "symbol": "❧"
+    },
+    {
+      "id": "gold",
+      "name": "金糖星",
+      "symbol": "✦"
+    }
+  ],
+  "workshop": {
+    "steps": [
+      "选模具",
+      "倒两层",
+      "放装饰",
+      "脱模玩"
+    ],
+    "moldTitle": "今天，做只小果冻。",
+    "moldHint": "选个模具，亲手倒入两层颜色，再放上小装饰。",
+    "moldAction": "就做这个，开始倒",
+    "pour1Title": "第一层，倒多少由你。",
+    "pour1Hint": "按住就倒，松手就停。至少倒到 20%，最多 75%。",
+    "pour2Title": "第二层，换一种心情。",
+    "pour2Hint": "换个颜色，按住补满。两层比例由刚才的你决定。",
+    "hold": "按住倒入",
+    "holding": "正在倒入 · 松手就停",
+    "dose": "轻点加 10%",
+    "nextLayer": "换第二层",
+    "firstLimit": "第一层已到 75%，可以换第二层了。",
+    "minimum": "先倒到 20%，再换第二层。",
+    "filled": "装满啦，来放点小装饰。",
+    "decorateTitle": "最后，放一点小偏爱。",
+    "decorateHint": "选一种装饰，再点果冻顶面。可以不放，也可以放满。",
+    "center": "帮我放一颗",
+    "undo": "撤回一颗",
+    "toppingLimit": "已经放满 8 颗啦，可以撤回后再摆。",
+    "placeHint": "点果冻顶面放装饰，也可以用「帮我放一颗」。",
+    "readyTitle": "这是你做的小快乐。",
+    "readyHint": "戳一戳，看它晃。喜欢的话，收进甜品柜。",
+    "unmoldTitle": "让快乐，晃出来。",
+    "unmoldHint": "轻轻提起模具，等一个软乎乎的落地。",
+    "restart": "重新制作",
+    "recipe": "你的配方",
+    "first": "底层",
+    "second": "上层",
+    "progress": "模具装满进度",
+    "toppingCount": "颗装饰",
+    "colorLabel": "这一层，选什么味道？",
+    "moldLabel": "挑一个喜欢的形状",
+    "topLabel": "挑装饰，点果冻摆放",
+    "finishLabel": "你的独家配方",
+    "open": "继续把玩",
+    "restartHint": "新模具准备好了。",
+    "noTopping": "原味留白",
+    "startOver": "从头再做",
+    "keyboardHint": "也可聚焦按钮，按住空格或回车；轻点加量无需长按。"
+  },
+  "listing": {
+    "name": "果冻慢慢",
+    "description": "亲手做果冻收藏今天的甜蜜快乐",
+    "logo": "./src/assets/logo.png"
+  },
+  "customRules": {
+    "maxInput": 1024,
+    "points": 96,
+    "closeDistance": 0.18,
+    "minSpan": 0.25,
+    "minAreaRatio": 0.07,
+    "toppingMargin": 0.06
+  },
+  "draw": {
+    "name": "手绘模具",
+    "note": "把你画的线，变成自己的果冻。",
+    "entry": "自己画",
+    "edit": "修改轮廓",
+    "title": "画一个，只属于你的形状。",
+    "hint": "一笔绕回起点，松手自动修圆。也可以切换点选，逐点画轮廓。",
+    "free": "一笔画",
+    "points": "点选画",
+    "close": "闭合并预览",
+    "clear": "重新画",
+    "undo": "撤回一点",
+    "use": "就用这个模具",
+    "cancel": "取消",
+    "preview": "三维模具预览",
+    "empty": "从这里画一圈",
+    "ready": "模具准备好了，看看右边的预览。",
+    "mobileReady": "模具准备好了，下方是三维预览。",
+    "keyboard": "方向键移动圆点，空格落点；画好后点击闭合。",
+    "few": "至少画出三个不同的点。",
+    "open": "还差一点闭合，把线画回起点附近。",
+    "cross": "线条交叉了，红色线段需要调整。",
+    "thin": "轮廓太小或太细，画得胖一点试试。",
+    "invalid": "这一笔没有完成，请重新画。",
+    "noSpace": "这个位置放不下装饰，换个宽一点的位置。"
+  }
+}

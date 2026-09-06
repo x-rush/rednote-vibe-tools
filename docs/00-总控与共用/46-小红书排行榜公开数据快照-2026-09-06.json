@@ -1,0 +1,6209 @@
+{
+  "sourcePage": "https://cowork.xiaohongshu.com/s/vibe-app-rank/",
+  "sourceData": "https://cowork.xiaohongshu.com/s/vibe-app-rank/data.json",
+  "retrievedAt": "2026-09-06T14:28:41.2540073+08:00",
+  "dataDate": "2026-09-05",
+  "genTime": "2026-09-06 08:14:26",
+  "method": "Public page data read; not individual app playtesting. Category order combines popularity, activity and freshness. Counts are source-reported.",
+  "allAppsRecordCount": 24621,
+  "categories": [
+    {
+      "key": "game",
+      "label": "休闲游戏",
+      "icon": "🎮",
+      "count": 60,
+      "items": [
+        {
+          "app_id": "6a9151214045f30015094593",
+          "app_name": "开蚌直播间：稀有珍珠由你开",
+          "slogan": "开蚌拆珍珠，做首饰经营小游戏",
+          "use_users": 848735,
+          "note_id": "6a916fe20000000020030c01"
+        },
+        {
+          "app_id": "6a86aaed2ba0fd0015a86334",
+          "app_name": "烤肉模拟器",
+          "slogan": "烤出各种风味烤肉交付给客人！",
+          "use_users": 842426,
+          "note_id": "6a86c7af000000001402808b"
+        },
+        {
+          "app_id": "6a8cfb60d5704c0015efa7e7",
+          "app_name": "挤痘｜解压小游戏",
+          "slogan": "六关卡解救强迫症；31日更新",
+          "use_users": 289641,
+          "note_id": "6a8ef279000000002c03cb28"
+        },
+        {
+          "app_id": "6a902b9ae3efb40015e023e5",
+          "app_name": "恋综模拟器",
+          "slogan": "心动的信号～快来参加恋综吧！",
+          "use_users": 255089,
+          "note_id": "6a925f31000000002c03d900"
+        },
+        {
+          "app_id": "6a83e8d09b57b900153acfe4",
+          "app_name": "戳泥泥 小游戏",
+          "slogan": "一款可以戳电子泥的解压小游戏",
+          "use_users": 443534,
+          "note_id": "6a83fd41000000002800b2ba"
+        },
+        {
+          "app_id": "6a950bf9e29cdb0015d5e0e8",
+          "app_name": "泳池后室 POOLROOMS",
+          "slogan": "在一片无边无际的泳池中探索",
+          "use_users": 170173,
+          "note_id": "6a967a1b0000000011036df1"
+        },
+        {
+          "app_id": "6a8f08347f0ea30015c22bf2",
+          "app_name": "养一只小仓鼠",
+          "slogan": "来喂养一只可爱的小仓鼠吧！",
+          "use_users": 145822,
+          "note_id": "6a8f09c70000000026003591"
+        },
+        {
+          "app_id": "6a8e6b0cee1dff0015042db6",
+          "app_name": "他出轨了吗",
+          "slogan": "我把“查手机”做成了推理游戏",
+          "use_users": 392964,
+          "note_id": "6a8e77d1000000001803f1ca"
+        },
+        {
+          "app_id": "6a89540fe44b190015f7696e",
+          "app_name": "节奏大厨",
+          "slogan": "跟随音乐节奏做一道美食",
+          "use_users": 392199,
+          "note_id": "6a8b104f0000000033023a7f"
+        },
+        {
+          "app_id": "6a896ba40106b3001577ac5c",
+          "app_name": "浮生扇影",
+          "slogan": "治愈系水墨漆扇DIY小游戏",
+          "use_users": 570319,
+          "note_id": "6a8a81ca000000003703cb6b"
+        },
+        {
+          "app_id": "6a8988d89b57b900153add38",
+          "app_name": "小心别被老师发现",
+          "slogan": "机房玩游戏模拟器",
+          "use_users": 232827,
+          "note_id": "6a899306000000002603b93d"
+        },
+        {
+          "app_id": "6a93dad3384ee40015948d23",
+          "app_name": "网暴模拟器",
+          "slogan": "希望我们都多些理智",
+          "use_users": 196731,
+          "note_id": "6a9673780000000025034653"
+        },
+        {
+          "app_id": "6a87be0f2ee6700015adbce2",
+          "app_name": "火柴人闯关",
+          "slogan": "贴住墙就能往上爬",
+          "use_users": 257320,
+          "note_id": "6a88414b000000002202f350"
+        },
+        {
+          "app_id": "6a8afa7be424b80015cf5910",
+          "app_name": "摸鱼办公室",
+          "slogan": "躲老板，摸鱼到下班的小游戏",
+          "use_users": 139294,
+          "note_id": "6a8b83660000000033029e96"
+        },
+        {
+          "app_id": "6a96767f7f0ea30015c259e0",
+          "app_name": "海边餐馆物语：钓鱼烹饪经营！",
+          "slogan": "海边开餐馆，试试你能坚持几天",
+          "use_users": 98748,
+          "note_id": "6a97b8a90000000028030094"
+        },
+        {
+          "app_id": "6a8d39690106b3001577b6e8",
+          "app_name": "Haerin Dash",
+          "slogan": "Bunnies集合！",
+          "use_users": 205514,
+          "note_id": "6a8d5fc30000000016021c8f"
+        },
+        {
+          "app_id": "6a983d0852d5f4001518688b",
+          "app_name": "被病态上司看上了怎么办！",
+          "slogan": "又名：牛马模拟器（？）",
+          "use_users": 145224,
+          "note_id": "6a98fdbb000000002b0111b5"
+        },
+        {
+          "app_id": "6a865e9ee44b190015f76192",
+          "app_name": "花光马斯克的钱",
+          "slogan": "一万亿美元，你花得完吗",
+          "use_users": 502199,
+          "note_id": "6a86bdb400000000330183b2"
+        },
+        {
+          "app_id": "6a83dbe42ee6700015adb4b3",
+          "app_name": "kpop爱豆模拟器-爱豆日记",
+          "slogan": "体验最真实的kpop模拟✨",
+          "use_users": 519911,
+          "note_id": "6a83e70b000000003302ee7a"
+        },
+        {
+          "app_id": "6a92e960384ee40015948174",
+          "app_name": "别回头：404号寝室",
+          "slogan": "沉浸式文字恐怖游戏",
+          "use_users": 45246,
+          "note_id": "6a951717000000002501a34b"
+        },
+        {
+          "app_id": "6a912e26e424b800151eba2f",
+          "app_name": "小猫快跑",
+          "slogan": "小猫快跑小游戏",
+          "use_users": 86600,
+          "note_id": "6a914cdf000000001f01df4a"
+        },
+        {
+          "app_id": "6a8c64c69b57b900153ae605",
+          "app_name": "NJZ音游-爆锤方猪",
+          "slogan": "Bunnies集合，爆锤方猪",
+          "use_users": 127185,
+          "note_id": "6a904552000000002503d246"
+        },
+        {
+          "app_id": "6a86e503e424b80015cf4e43",
+          "app_name": "钢琴块大师",
+          "slogan": "点中琴块弹出整首曲",
+          "use_users": 235002,
+          "note_id": "6a8835a80000000028027310"
+        },
+        {
+          "app_id": "6a8fdef54045f30015094126",
+          "app_name": "富豪排行榜",
+          "slogan": "点击触发随机事件，积累财富",
+          "use_users": 323621,
+          "note_id": "6a8ffc9c00000000240076f5"
+        },
+        {
+          "app_id": "6a85d3c59b57b900153ad42c",
+          "app_name": "《夜班》网页经营微恐小游戏",
+          "slogan": "夜间氛围的探索解谜小游戏",
+          "use_users": 228000,
+          "note_id": "6a806b45000000003300d400"
+        },
+        {
+          "app_id": "6a8c15ced5704c0015efa608",
+          "app_name": "贪吃蛇球球",
+          "slogan": "贪吃蛇球球小游戏",
+          "use_users": 80890,
+          "note_id": "6a8c342500000000220226a7"
+        },
+        {
+          "app_id": "6a87bea3f994f9001516236b",
+          "app_name": "围住小猫",
+          "slogan": "试试你能不能圈住小猫",
+          "use_users": 423526,
+          "note_id": "6a8ef0280000000021024837"
+        },
+        {
+          "app_id": "6a9161157f0ea30015c2325f",
+          "app_name": "疯狂妈妈CrazyMam",
+          "slogan": "一个家庭怪咖追逐生存音乐游戏",
+          "use_users": 404459,
+          "note_id": "6a91b1ec000000000303ff2e"
+        },
+        {
+          "app_id": "6a8863950106b3001577a932",
+          "app_name": "寻呼1996",
+          "slogan": "免费悬疑文字冒险解谜游戏",
+          "use_users": 146103,
+          "note_id": "6a86e717000000003a020606"
+        },
+        {
+          "app_id": "6a892cbe2ba0fd0015a869a0",
+          "app_name": "俄罗斯方块游戏机",
+          "slogan": "经典俄罗斯方块小游戏一点即玩",
+          "use_users": 112242,
+          "note_id": "6a8967740000000017000c98"
+        },
+        {
+          "app_id": "6a897716c8b11e00153d6eb0",
+          "app_name": "大红人",
+          "slogan": "10 万+观众直播间模拟器",
+          "use_users": 68458,
+          "note_id": "6a94bc760000000003028b6c"
+        },
+        {
+          "app_id": "6a90d122ad16f4001557e62a",
+          "app_name": "清明上河图：我在汴京摆地摊",
+          "slogan": "在汴京街头摆摊搞钱，爽翻了！",
+          "use_users": 203461,
+          "note_id": "6a913ec70000000025026b45"
+        },
+        {
+          "app_id": "6a8ade852ba0fd0015a86f02",
+          "app_name": "新版五子棋",
+          "slogan": "一款复刻经典五子棋的小游戏",
+          "use_users": 64510,
+          "note_id": "6a8aeee100000000280003b1"
+        },
+        {
+          "app_id": "6a8c0196e44b190015f7716c",
+          "app_name": "梦回高三（高三模拟器）",
+          "slogan": "重生之我再活一次高三",
+          "use_users": 511020,
+          "note_id": "6a8c1669000000002b00294d"
+        },
+        {
+          "app_id": "6a943fb50106b30015b890d5",
+          "app_name": "拆盲袋小店",
+          "slogan": "快来经营自己的拆盲袋小店吧！",
+          "use_users": 34396,
+          "note_id": "6a9a6584000000002802e1ad"
+        },
+        {
+          "app_id": "6a8d5ec92ee6700015adcd0c",
+          "app_name": "青蛙跳一跳",
+          "slogan": "操控小青蛙在荷叶间跳动",
+          "use_users": 72168,
+          "note_id": "6a8dc2d600000000040283a7"
+        },
+        {
+          "app_id": "6a893dc09b57b900153adb95",
+          "app_name": "推推屋丨喜欢的Ta→像素小屋",
+          "slogan": "捏人 对话 投喂 养成 社交",
+          "use_users": 284419,
+          "note_id": "6a868e5c000000003301b31f"
+        },
+        {
+          "app_id": "6a9176c8384ee40015946ccb",
+          "app_name": "银河系中心小酒吧",
+          "slogan": "蒲熠星原创oc同人经营类游戏",
+          "use_users": 24545,
+          "note_id": "6a928c06000000002502756b"
+        },
+        {
+          "app_id": "6a7fcff8b7bd4900156a3496",
+          "app_name": "方块谷",
+          "slogan": "一个益智解压小游戏",
+          "use_users": 227299,
+          "note_id": "6a7feb580000000027023f48"
+        },
+        {
+          "app_id": "6a89cccd2ee6700015adc3c4",
+          "app_name": "大地图自由贪吃蛇",
+          "slogan": "经典贪吃蛇玩法升级！",
+          "use_users": 92072,
+          "note_id": "6a8aaf270000000017002c84"
+        },
+        {
+          "app_id": "6a8c24fcb7bd4900156a4b68",
+          "app_name": "一秒反应王",
+          "slogan": "3款小游戏，你能坚持多少局？",
+          "use_users": 74409,
+          "note_id": "6a8d54f4000000002802746a"
+        },
+        {
+          "app_id": "6a96ab56e29cdb0015ecb582",
+          "app_name": "民国成衣铺-旗袍主理人",
+          "slogan": "沉浸式经营民国成衣店接待客人",
+          "use_users": 37819,
+          "note_id": "6a917109000000000700633f"
+        },
+        {
+          "app_id": "6a8012fe9b57b900153acdf6",
+          "app_name": "恋爱模拟器",
+          "slogan": "要不要谈一场甜甜的恋爱",
+          "use_users": 159250,
+          "note_id": "6a801eac00000000280041f8"
+        },
+        {
+          "app_id": "6a8ad553f994f90015162c8b",
+          "app_name": "解压拼豆豆",
+          "slogan": "在线拼豆，解压不伤身",
+          "use_users": 230066,
+          "note_id": "6a8ad88e0000000033019fa5"
+        },
+        {
+          "app_id": "6a8ec3dde424b800151eb38b",
+          "app_name": "宫墙一梦",
+          "slogan": "宫斗小游戏",
+          "use_users": 32140,
+          "note_id": "6a900e0d0000000025010314"
+        },
+        {
+          "app_id": "6a91c533384ee40015947460",
+          "app_name": "星露谷刘易斯紫色裤衩失踪案",
+          "slogan": "星露谷主题的2048游戏",
+          "use_users": 23140,
+          "note_id": "6a939c52000000002902b2c6"
+        },
+        {
+          "app_id": "6a898c529b57b900153add48",
+          "app_name": "第五席",
+          "slogan": "五章沉浸式点击恐怖解谜",
+          "use_users": 234386,
+          "note_id": "6a8b2c7f0000000026038298"
+        },
+        {
+          "app_id": "6a917455e29cdb0015d5bd9e",
+          "app_name": "审讯室模拟器文游",
+          "slogan": "被陷害后如何达成理想结局",
+          "use_users": 76391,
+          "note_id": "6a918f230000000021024be7"
+        },
+        {
+          "app_id": "6a8c7af1f994f9001516316d",
+          "app_name": "困住小蚂蚁",
+          "slogan": "蚂蚁军团，金币赚到爽",
+          "use_users": 453313,
+          "note_id": "6a8d18d5000000003302b9b9"
+        },
+        {
+          "app_id": "6a97187eea512a001565c43c",
+          "app_name": "奶茶吨吨吨",
+          "slogan": "可爱奶茶割草小游戏",
+          "use_users": 20934,
+          "note_id": "6a97eefb0000000011032d0a"
+        },
+        {
+          "app_id": "6a8abb29e424b80015cf581a",
+          "app_name": "跳一跳 Pro",
+          "slogan": "双人版的跳一跳",
+          "use_users": 83063,
+          "note_id": "6a8aed92000000001801825c"
+        },
+        {
+          "app_id": "6a8426e7c8b11e00153d6232",
+          "app_name": "会停车吗你",
+          "slogan": "在坦克到达前完成倒车入库！",
+          "use_users": 230008,
+          "note_id": "6a848caa000000003301bb84"
+        },
+        {
+          "app_id": "6a85a408b7bd4900156a3a32",
+          "app_name": "萌球生存记：你会越来越强",
+          "slogan": "探索+生存+种田",
+          "use_users": 132034,
+          "note_id": "6a868b1c000000003301cd88"
+        },
+        {
+          "app_id": "6a62490fd8df040015f858ab",
+          "app_name": "后室漫游",
+          "slogan": "体验掉入后室的一天！",
+          "use_users": 502668,
+          "note_id": "6a62ae88000000000f008886"
+        },
+        {
+          "app_id": "6a98cb1252d5f400151869d9",
+          "app_name": "岛民模拟人生",
+          "slogan": "属于你的小世界",
+          "use_users": 15573,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a953eccee1dff0015045c5a",
+          "app_name": "偷吃模拟器",
+          "slogan": "趁老师不注意，偷偷吃点零食",
+          "use_users": 38688,
+          "note_id": "6a9685e40000000028000609"
+        },
+        {
+          "app_id": "6a8c5066b7bd4900156a4bdb",
+          "app_name": "刷牙模拟器",
+          "slogan": "如何才是正确的刷牙方式(优)",
+          "use_users": 48267,
+          "note_id": "6a8d3241000000003300d066"
+        },
+        {
+          "app_id": "6a94eee6e29cdb0015d5e078",
+          "app_name": "人为财死模拟器",
+          "slogan": "人为财死，鸟为食亡",
+          "use_users": 34349,
+          "note_id": "6a9667d10000000026020f4d"
+        },
+        {
+          "app_id": "6a98224852d5f400151867f7",
+          "app_name": "阿珠开蚌最初的美好版",
+          "slogan": "让我们回到阿珠最初开蚌的样子",
+          "use_users": 11363,
+          "note_id": "6a98eaf80000000026014057"
+        },
+        {
+          "app_id": "6a92c5a5ad16f4001557fc2f",
+          "app_name": "词语猜猜猜",
+          "slogan": "《下一个是谁7》同款猜词游戏",
+          "use_users": 15512,
+          "note_id": "6a950c84000000001803c3ad"
+        }
+      ]
+    },
+    {
+      "key": "test",
+      "label": "趣味测评",
+      "icon": "🎯",
+      "count": 60,
+      "items": [
+        {
+          "app_id": "6a8854b72ba0fd0015a867d9",
+          "app_name": "测测你的灵魂像什么食物",
+          "slogan": "一共12道题，21种结果",
+          "use_users": 1097237,
+          "note_id": "6a890bab0000000028000e97"
+        },
+        {
+          "app_id": "6a8ffd36384ee40015946865",
+          "app_name": "理想型测试（阴湿版）",
+          "slogan": "沉浸式情感体验",
+          "use_users": 1011483,
+          "note_id": "6a902f100000000025027c8b"
+        },
+        {
+          "app_id": "6a96f6abf8fbb80015e3b0c4",
+          "app_name": "《你的性格测试》微恐",
+          "slogan": "感受文字魅力",
+          "use_users": 121500,
+          "note_id": "6a97b33e0000000029016bbd"
+        },
+        {
+          "app_id": "6a900caae424b800151eb740",
+          "app_name": "你在《甄嬛传》能活几集？",
+          "slogan": "mbtix 甄学测试",
+          "use_users": 28026,
+          "note_id": "6a904b3a000000001f000a6a"
+        },
+        {
+          "app_id": "6a958fa4ee1dff0015045de3",
+          "app_name": "测测他有多爱你？",
+          "slogan": "一个恋爱心理测试的互动文游",
+          "use_users": 110146,
+          "note_id": "6a9699ce000000002502ce39"
+        },
+        {
+          "app_id": "6a8dbdd6556c070015ed3e21",
+          "app_name": "今晚的塔罗",
+          "slogan": "抽张牌，听听此刻的答案！",
+          "use_users": 87118,
+          "note_id": "6a8ebc19000000001f006a78"
+        },
+        {
+          "app_id": "6a8be5f52ba0fd0015a871dc",
+          "app_name": "色感实验室",
+          "slogan": "测一测自己对色彩的感知能力！",
+          "use_users": 76966,
+          "note_id": "6a8abc2d0000000038001fb8"
+        },
+        {
+          "app_id": "6a9182caee1dff00150438be",
+          "app_name": "SMTI趣味人格测试",
+          "slogan": "不太正经的测试，看你是哪一型",
+          "use_users": 74548,
+          "note_id": "6a9672ff00000000250343c0"
+        },
+        {
+          "app_id": "6a8d1afe0106b3001577b691",
+          "app_name": "房否？",
+          "slogan": "测一测你的购房意愿与选房人格",
+          "use_users": 20699,
+          "note_id": "6a8d6f4f0000000029035e77"
+        },
+        {
+          "app_id": "6a916184e29cdb0015d5bd4e",
+          "app_name": "天选本命-pink noir",
+          "slogan": "找到你的本命女团与本命成员",
+          "use_users": 29173,
+          "note_id": "6a929f5d0000000028007c92"
+        },
+        {
+          "app_id": "6a996fb8ddc4cf00159dec7e",
+          "app_name": "花学人格测试",
+          "slogan": "测测你是花少2的谁",
+          "use_users": 6969,
+          "note_id": "6a9a9b2a0000000029016122"
+        },
+        {
+          "app_id": "6a9161404045f3001509460d",
+          "app_name": "从荣格八维到MBTI",
+          "slogan": "取证告破你的MBTI悬案",
+          "use_users": 75189,
+          "note_id": "6a91a0f6000000001f006145"
+        },
+        {
+          "app_id": "6a8aabf4b7bd4900156a46d9",
+          "app_name": "吹一个牛",
+          "slogan": "把牛吹翻！测测你的肺活量",
+          "use_users": 61270,
+          "note_id": "6a8abfe0000000002800817a"
+        },
+        {
+          "app_id": "6a938cd17f0ea30015c2516a",
+          "app_name": "OC关系测试",
+          "slogan": "测试双人关系",
+          "use_users": 17345,
+          "note_id": "6a911e0d000000002503fcac"
+        },
+        {
+          "app_id": "6a720fd8b88d260015e2d868",
+          "app_name": "塔罗抽牌｜49个牌阵+学习册",
+          "slogan": "感情|事业|找东西|生命数字",
+          "use_users": 369493,
+          "note_id": "6a72b9fa0000000027021f50"
+        },
+        {
+          "app_id": "6a99193233dcf5001578cef9",
+          "app_name": "你还是人吗",
+          "slogan": "一场逐渐失控的人类测试",
+          "use_users": 13685,
+          "note_id": "6a996f6b0000000026020f53"
+        },
+        {
+          "app_id": "6a900e69ad16f4001557e47e",
+          "app_name": "同日同乐",
+          "slogan": "测测你出生那天发行的音乐",
+          "use_users": 10069,
+          "note_id": "6a903270000000002501ff96"
+        },
+        {
+          "app_id": "6a8fc496384ee40015946787",
+          "app_name": "LBTI恋爱人格",
+          "slogan": "16道题，看你恋爱像谁",
+          "use_users": 20330,
+          "note_id": "6a901eaa000000002a0392d2"
+        },
+        {
+          "app_id": "6a9578f14045f30015096aeb",
+          "app_name": "新三国梗学考试",
+          "slogan": "测测你是新三国十级学者吗？",
+          "use_users": 2571,
+          "note_id": "6a96dc400000000012025d19"
+        },
+        {
+          "app_id": "6a8e570a0106b30015b8656f",
+          "app_name": "声音色卡",
+          "slogan": "测测你的声音是什么颜色",
+          "use_users": 8650,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a9a36d212d71a0015f8579b",
+          "app_name": "测测你的恋爱阴湿度",
+          "slogan": "让你更了解自己的暗黑指数",
+          "use_users": 13921,
+          "note_id": "6a9a8571000000002900e569"
+        },
+        {
+          "app_id": "6a86cff12ee6700015adbb16",
+          "app_name": "色感大师",
+          "slogan": "一分钟测出你的色感等级",
+          "use_users": 9815,
+          "note_id": "6a87ca0b0000000035017dd2"
+        },
+        {
+          "app_id": "6a98474ea2887a0015b67318",
+          "app_name": "MBTI都市版",
+          "slogan": "体验不一样的MBTI",
+          "use_users": 3954,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a8c4d4f2ee6700015adca8f",
+          "app_name": "人类精度测试",
+          "slogan": "测测你的大脑有多准确",
+          "use_users": 26239,
+          "note_id": "6a8d91d9000000002102ebb7"
+        },
+        {
+          "app_id": "6a915ccae424b800151ebb6c",
+          "app_name": "星座搭子",
+          "slogan": "互动式的3D星盘&解读报告",
+          "use_users": 3806,
+          "note_id": "6a57ab62000000001603ffce"
+        },
+        {
+          "app_id": "6a8698e42ee6700015adba40",
+          "app_name": "OC动物塑测试",
+          "slogan": "测试你的OC动物塑",
+          "use_users": 49482,
+          "note_id": "6a84347f000000002500cd66"
+        },
+        {
+          "app_id": "6a92b634e3efb40015e03aca",
+          "app_name": "赛车起步反应测试器",
+          "slogan": "挑战神之起步！",
+          "use_users": 2032,
+          "note_id": "6a9507eb000000000302bb19"
+        },
+        {
+          "app_id": "6a9a6da012d71a0015f858d9",
+          "app_name": "测测你的理想室友类型",
+          "slogan": "谁是你的完美室友",
+          "use_users": 8159,
+          "note_id": "6a9a977e000000002802e1da"
+        },
+        {
+          "app_id": "6a9a65bdf229450015bfe6a9",
+          "app_name": "花少2旅行人格",
+          "slogan": "测测你是花少2里的谁",
+          "use_users": 2176,
+          "note_id": "6a9a9544000000002600b4f0"
+        },
+        {
+          "app_id": "6a97ddcbbaf575001516defc",
+          "app_name": "偏执深情 · 承受力测试",
+          "slogan": "12题·6档偏执承受阈值",
+          "use_users": 20855,
+          "note_id": "6a992c3900000000280385df"
+        },
+        {
+          "app_id": "6a85bb09b7bd4900156a3a59",
+          "app_name": "chiikawa角色性格测试",
+          "slogan": "测测你的chiikawa角色",
+          "use_users": 48670,
+          "note_id": "6a86595400000000210050ef"
+        },
+        {
+          "app_id": "6a7daa01c8b11e00153d5e5e",
+          "app_name": "绝对色感",
+          "slogan": "来挑战一下你的颜色感觉吧！",
+          "use_users": 31582,
+          "note_id": "6a7db05200000000080127c8"
+        },
+        {
+          "app_id": "6a983392f229450015bfde93",
+          "app_name": "测试乐园 · 趣味测试合集",
+          "slogan": "测试-星盘-缘分娱乐向",
+          "use_users": 2197,
+          "note_id": "6a98f88c000000001001eb06"
+        },
+        {
+          "app_id": "6a901b42ee1dff001504341c",
+          "app_name": "你家毛孩子能退货吗",
+          "slogan": "测测它为何概不退换",
+          "use_users": 2551,
+          "note_id": "6a9139f10000000021024abf"
+        },
+        {
+          "app_id": "6a8965952ee6700015adc1bb",
+          "app_name": "Friends趣味测试",
+          "slogan": "OMG！寻找隐藏的老友记专家",
+          "use_users": 22229,
+          "note_id": "6a898a1e000000002901aeb3"
+        },
+        {
+          "app_id": "6a841a899b57b900153ad090",
+          "app_name": "测测你适合去哪里留学或生活?",
+          "slogan": "10个有趣的问题快速帮你分析",
+          "use_users": 11912,
+          "note_id": "6a8566240000000022032416"
+        },
+        {
+          "app_id": "6a901ba74045f3001509423d",
+          "app_name": "测测你的offer何时来",
+          "slogan": "迎接你的offer吧！接接接",
+          "use_users": 1591,
+          "note_id": "6a904176000000002102721a"
+        },
+        {
+          "app_id": "6a854e97f994f90015161e57",
+          "app_name": "测测你的动漫人格",
+          "slogan": "快来揭晓你的专属动漫人格！",
+          "use_users": 8618,
+          "note_id": "6a856286000000002501424a"
+        },
+        {
+          "app_id": "6a925e49ad16f4001557facf",
+          "app_name": "大结果挑战测试",
+          "slogan": "沉浸式测试你能否拿到大结果",
+          "use_users": 2844,
+          "note_id": "6a955a99000000002503b10a"
+        },
+        {
+          "app_id": "6a84477883a4890015981a89",
+          "app_name": "测测你最适合养的宠物",
+          "slogan": "测测你最适合养什么宠物。",
+          "use_users": 7739,
+          "note_id": "6a9163d9000000002501a4c0"
+        },
+        {
+          "app_id": "6a98bbdceeb797001535b7af",
+          "app_name": "测测你能拿到大结果吗？",
+          "slogan": "给答案，给建议，超有用测试",
+          "use_users": 1606,
+          "note_id": "6a9934c2000000000b03487f"
+        },
+        {
+          "app_id": "6a99236ba2887a0015b6769d",
+          "app_name": "追星女人格测试",
+          "slogan": "每个追星瞬间都是人格的一部分",
+          "use_users": 1681,
+          "note_id": "6a99a6670000000026014273"
+        },
+        {
+          "app_id": "6a5b59fa995a3800158999aa",
+          "app_name": "MBTI人格测试",
+          "slogan": "MBTI人格测试！",
+          "use_users": 70762,
+          "note_id": "6a5b6036000000001303cacb"
+        },
+        {
+          "app_id": "6a91f3a00106b30015b87d0b",
+          "app_name": "GeoPop 反应力人格",
+          "slogan": "你的反应几毫秒？",
+          "use_users": 13176,
+          "note_id": "6a940c62000000002303ee25"
+        },
+        {
+          "app_id": "6a868b32d5704c0015ef960d",
+          "app_name": "噩梦",
+          "slogan": "召唤塔罗牌解梦",
+          "use_users": 3669,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a994ac212d71a0015f854ec",
+          "app_name": "提瓦特普通人身份测试",
+          "slogan": "看看你在提瓦特大陆是什么身份",
+          "use_users": 1388,
+          "note_id": "6a9a90b9000000002900d3b2"
+        },
+        {
+          "app_id": "6a8c0a792ee6700015adc99b",
+          "app_name": "在比奇堡上班能摸多少鱼",
+          "slogan": "测测你的比奇堡摸鱼反应",
+          "use_users": 3536,
+          "note_id": "6a8c5afc000000002202e02d"
+        },
+        {
+          "app_id": "6a87f49fd5704c0015ef99bf",
+          "app_name": "测测你是哪种设计师",
+          "slogan": "测出你的隐藏设计师人格",
+          "use_users": 2860,
+          "note_id": "6a882f9e000000001600aaf2"
+        },
+        {
+          "app_id": "6a812eed83a48900159817e2",
+          "app_name": "OC人格测试60问",
+          "slogan": "测试你的OC MBTI",
+          "use_users": 47489,
+          "note_id": "6a80491d0000000028000c50"
+        },
+        {
+          "app_id": "6a7ee640c8b11e00153d5ee8",
+          "app_name": "MBTI 16型人格测验",
+          "slogan": "MBTI人格测试",
+          "use_users": 47369,
+          "note_id": "6a7ef2e1000000002c003f73"
+        },
+        {
+          "app_id": "6a8c784b2ee6700015adcb35",
+          "app_name": "AI成瘾测试",
+          "slogan": "12道题快速测试AI成瘾程度",
+          "use_users": 5157,
+          "note_id": "6a8d458b000000000f03d2ff"
+        },
+        {
+          "app_id": "6a72df1b398dc700153781ae",
+          "app_name": "自助餐回本难度测试",
+          "slogan": "测测你适合吃什么价位的自助餐",
+          "use_users": 18129,
+          "note_id": "6a73f1e30000000028007ecf"
+        },
+        {
+          "app_id": "6a919bbdad16f4001557eba2",
+          "app_name": "拖延趣味测试",
+          "slogan": "轻松测一测你的拖延习惯~",
+          "use_users": 3233,
+          "note_id": "6a9acfc4000000001001c59b"
+        },
+        {
+          "app_id": "6a995d44a2887a0015b677e9",
+          "app_name": "红楼十二钗人格判词",
+          "slogan": "十问照出你是红楼里哪一种姑娘",
+          "use_users": 849,
+          "note_id": "6a9a34ab0000000025034d08"
+        },
+        {
+          "app_id": "6a8c87002ba0fd0015a87409",
+          "app_name": "测测你是JOJO里的哪位角色",
+          "slogan": "看看你是哪个jojo",
+          "use_users": 5997,
+          "note_id": "6a8d21300000000029027600"
+        },
+        {
+          "app_id": "6a8eb1134045f30015093d47",
+          "app_name": "3D答案之书",
+          "slogan": "3D答案之书",
+          "use_users": 3900,
+          "note_id": "6a98086300000000260147c2"
+        },
+        {
+          "app_id": "6a902c02e424b800151eb7d2",
+          "app_name": "榆野岛入岛测试",
+          "slogan": "欢迎大家登陆榆野岛",
+          "use_users": 1254,
+          "note_id": "6a9056dc00000000260056cd"
+        },
+        {
+          "app_id": "6a8db3e47f0ea30015c227fc",
+          "app_name": "你家阳光存款有多少？",
+          "slogan": "测你家全年阳光存款与电费结余",
+          "use_users": 2014,
+          "note_id": "6a8e3c870000000004009b48"
+        },
+        {
+          "app_id": "6a928c10e3efb40015e03a22",
+          "app_name": "甄嬛传人格测试",
+          "slogan": "甄嬛传人格测试",
+          "use_users": 451,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a99763eeeb797001535bbd8",
+          "app_name": "西游·灵山人格图鉴",
+          "slogan": "是谁？你本就是灵山的一支签～",
+          "use_users": 1187,
+          "note_id": ""
+        }
+      ]
+    },
+    {
+      "key": "image",
+      "label": "图像创作",
+      "icon": "🎨",
+      "count": 60,
+      "items": [
+        {
+          "app_id": "6a7ab59c9e1e380015b4df57",
+          "app_name": "Framed 框框生成器",
+          "slogan": "Interest",
+          "use_users": 2636,
+          "note_id": "6a7b0366000000002403cf19"
+        },
+        {
+          "app_id": "6a892518e44b190015f768ab",
+          "app_name": "剪纸生花",
+          "slogan": "创作数字剪纸作品",
+          "use_users": 306833,
+          "note_id": "6a8956d2000000001801a46f"
+        },
+        {
+          "app_id": "6a917cd7ad16f4001557e8a2",
+          "app_name": "H2H STYLE",
+          "slogan": "一起咕咕照片吧✨",
+          "use_users": 93562,
+          "note_id": "6a92937e00000000060104d5"
+        },
+        {
+          "app_id": "6a8eeffbe3efb40015e02014",
+          "app_name": "梗图表情包制作器",
+          "slogan": "DIY表情包，预置热梗模板",
+          "use_users": 14384,
+          "note_id": "6a9bb1920000000012035060"
+        },
+        {
+          "app_id": "6a9011f4ad16f4001557e498",
+          "app_name": "POVY｜ins网感PO图",
+          "slogan": "一键生成ins韩系网感照片",
+          "use_users": 37302,
+          "note_id": "6a955e430000000021030c12"
+        },
+        {
+          "app_id": "6a8c6b56f994f90015163137",
+          "app_name": "拼豆工坊",
+          "slogan": "照片一键变拼豆图!",
+          "use_users": 70141,
+          "note_id": "6a8d0e830000000016008e2b"
+        },
+        {
+          "app_id": "6a8c4da12ee6700015adca93",
+          "app_name": "Y2K彩钻贴纸小工具",
+          "slogan": "给生活加一些布灵布灵✨",
+          "use_users": 48587,
+          "note_id": "6a8c68f6000000002a02c5ec"
+        },
+        {
+          "app_id": "6a968ca0344fae0015321a21",
+          "app_name": "attach.边角小集",
+          "slogan": "将照片生成超好看的档案美学",
+          "use_users": 14723,
+          "note_id": "6a979a3c000000002a02ef24"
+        },
+        {
+          "app_id": "6a86c32fe424b80015cf4dcb",
+          "app_name": "云拼豆（3D模拟拼豆）",
+          "slogan": "摸鱼必备，在线玩拼豆",
+          "use_users": 149610,
+          "note_id": "6a87e74e0000000035016fa7"
+        },
+        {
+          "app_id": "6a91b1d5e424b800151ec178",
+          "app_name": "momo头像生成器",
+          "slogan": "定制你的专属 momo 头像",
+          "use_users": 16698,
+          "note_id": "6a9786610000000028001c35"
+        },
+        {
+          "app_id": "6a89b79e9b57b900153adde8",
+          "app_name": "拼豆图纸一键生成器",
+          "slogan": "将图片转换成高清拼豆图纸",
+          "use_users": 11772,
+          "note_id": "6a89bc0e0000000016028444"
+        },
+        {
+          "app_id": "6a967f3ae29cdb0015d5e5c5",
+          "app_name": "摆好丨咔嚓出片丨30个拍法",
+          "slogan": "1:1照着拍，拯救男友镜头",
+          "use_users": 9948,
+          "note_id": "6a97f7ee000000002802fae6"
+        },
+        {
+          "app_id": "6a5ed670427cef00154d000e",
+          "app_name": "笔拼豆",
+          "slogan": "一键生成你的拼豆图纸",
+          "use_users": 89557,
+          "note_id": "6a5ee89d000000001f01ed46"
+        },
+        {
+          "app_id": "6a846fc69b57b900153ad16e",
+          "app_name": "牛来快跑（已上线多种角色）",
+          "slogan": "可自定义图片，快跑起来",
+          "use_users": 29195,
+          "note_id": "6a9a5a04000000002a02c8f2"
+        },
+        {
+          "app_id": "6a899d60e44b190015f76aa8",
+          "app_name": "Photous",
+          "slogan": "足不出户就能去的复古自拍亭",
+          "use_users": 19662,
+          "note_id": "6a8a5fbe0000000029026148"
+        },
+        {
+          "app_id": "6a6105d6427cef00154d006b",
+          "app_name": "拼豆艺绘",
+          "slogan": "专属于你的拼豆画廊-3D拼豆",
+          "use_users": 35301,
+          "note_id": "6a619b9c000000000402bd71"
+        },
+        {
+          "app_id": "6a525adaa53adf0015c9b810",
+          "app_name": "拼豆图纸生成器",
+          "slogan": "把任意图片做成拼豆色号图纸",
+          "use_users": 45442,
+          "note_id": "6a54c25200000000150250cf"
+        },
+        {
+          "app_id": "6a83124b2ee6700015adb43a",
+          "app_name": "热异常·融化机",
+          "slogan": "一键让你的图片热化",
+          "use_users": 24736,
+          "note_id": "6a7431030000000028031e0a"
+        },
+        {
+          "app_id": "6a926fabad16f4001557faf7",
+          "app_name": "把今天贴进手账",
+          "slogan": "把照片变成动态手账",
+          "use_users": 1656,
+          "note_id": "6a9547de000000002600782a"
+        },
+        {
+          "app_id": "6a8f6756ad16f4001557e24f",
+          "app_name": "拍立得相纸机",
+          "slogan": "拍照秒变拍立得，直接发笔记",
+          "use_users": 2507,
+          "note_id": "6a8fddb50000000004029938"
+        },
+        {
+          "app_id": "6a95126aee1dff0015045b0a",
+          "app_name": "爱拼豆",
+          "slogan": "最全面的离线拼豆工具",
+          "use_users": 1074,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a8577dc0106b3001577a2b1",
+          "app_name": "96CAM｜杨幂同款古早成像",
+          "slogan": "十余款复古古早滤镜供你选择",
+          "use_users": 21869,
+          "note_id": "6a85da26000000002701f074"
+        },
+        {
+          "app_id": "6a92479de3efb40015e0392a",
+          "app_name": "隆盛像素Pixel相机",
+          "slogan": "12种精选像素滤镜，自由创作",
+          "use_users": 1543,
+          "note_id": "6a94ede6000000000a009d58"
+        },
+        {
+          "app_id": "6a856d09e44b190015f76003",
+          "app_name": "绿茵节奏拍",
+          "slogan": "看头像追拍点名",
+          "use_users": 7513,
+          "note_id": "6a882e80000000002603aa77"
+        },
+        {
+          "app_id": "6a847e6de44b190015f75e81",
+          "app_name": "PB｜复古首尔同款人生四格",
+          "slogan": "一键get首尔同款复古菲林照",
+          "use_users": 22676,
+          "note_id": "6a871b4f0000000033021dfb"
+        },
+        {
+          "app_id": "6a95c99d0106b30015b895e2",
+          "app_name": "苹果液态玻璃水印 - 超真实",
+          "slogan": "为照片添加质感的液态玻璃水印",
+          "use_users": 3613,
+          "note_id": "6a96a8e30000000029010f85"
+        },
+        {
+          "app_id": "6a748c23c8aeac00158e1d57",
+          "app_name": "小豆格",
+          "slogan": "图片一放，拼豆图纸就出来了。",
+          "use_users": 21407,
+          "note_id": "6a74907700000000290314df"
+        },
+        {
+          "app_id": "6a858e1db7bd4900156a3a0c",
+          "app_name": "今晚拼豆",
+          "slogan": "卡皮巴拉拼豆来喽",
+          "use_users": 10311,
+          "note_id": "6a864bbf000000000b0325a8"
+        },
+        {
+          "app_id": "6a884ba70106b3001577a8e1",
+          "app_name": "双人表情包合拍",
+          "slogan": "快和好朋友拍一张抽象合照🤳",
+          "use_users": 30424,
+          "note_id": "6a8889e4000000003301071a"
+        },
+        {
+          "app_id": "6a855617d5704c0015ef93d1",
+          "app_name": "显影工坊📷",
+          "slogan": "把想留住的瞬间，慢慢显影出来",
+          "use_users": 3369,
+          "note_id": "6a859e1d000000002201785e"
+        },
+        {
+          "app_id": "6a8d86b24045f300150939f0",
+          "app_name": "情绪显影室",
+          "slogan": "把照片洗成情绪纸刊",
+          "use_users": 1695,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a9269254045f300150958ac",
+          "app_name": "兔宝的拼豆工坊",
+          "slogan": "轻松拼豆，可自由DIY模板",
+          "use_users": 4679,
+          "note_id": "6a96d68e000000002502f64e"
+        },
+        {
+          "app_id": "6a889f80f994f900151625e7",
+          "app_name": "DIY抠图拼贴器",
+          "slogan": "制作属于你的手机壁纸和po图",
+          "use_users": 7985,
+          "note_id": "6a8968860000000014026d6c"
+        },
+        {
+          "app_id": "6a7da99ce424b80015cf44cb",
+          "app_name": "MOTION ARCHIVE",
+          "slogan": "让文字流动起来",
+          "use_users": 5942,
+          "note_id": "6a882552000000003400cafd"
+        },
+        {
+          "app_id": "6a8ed9b00106b30015b86884",
+          "app_name": "色笺",
+          "slogan": "发现一张照片的不同配色语言",
+          "use_users": 7969,
+          "note_id": "6a900e4100000000280077fa"
+        },
+        {
+          "app_id": "6a91b3d0ad16f4001557ee23",
+          "app_name": "小烫烫拼豆",
+          "slogan": "可爱的小烫斗喜欢上了拼豆豆",
+          "use_users": 2241,
+          "note_id": "6a702384000000002202e714"
+        },
+        {
+          "app_id": "6a8996402ee6700015adc26e",
+          "app_name": "一格拼豆·图纸生成+辅助拼豆",
+          "slogan": "让照片变成拼豆施工图",
+          "use_users": 5845,
+          "note_id": "6a64f890000000000e034813"
+        },
+        {
+          "app_id": "6a856e4dc8b11e00153d64e6",
+          "app_name": "好看配色生成器",
+          "slogan": "一键生成好看配色灵感随手收藏",
+          "use_users": 8012,
+          "note_id": "6a868a66000000002702ad79"
+        },
+        {
+          "app_id": "6a85d222b7bd4900156a3a91",
+          "app_name": "小铭海拔水印",
+          "slogan": "小铭户外照片海拔水印工具",
+          "use_users": 3949,
+          "note_id": "6a87c91d000000002c000bbb"
+        },
+        {
+          "app_id": "6a83a0a0c8b11e00153d6107",
+          "app_name": "图片切割工具-可去背景",
+          "slogan": "压箱底的好东西，免费分享啦",
+          "use_users": 4339,
+          "note_id": "6a83d116000000003501565b"
+        },
+        {
+          "app_id": "6a89506f9b57b900153adc0a",
+          "app_name": "一图百工",
+          "slogan": "国风手作图纸工坊",
+          "use_users": 2648,
+          "note_id": "6a897548000000003302acb2"
+        },
+        {
+          "app_id": "6a5621c4fb15910015a646c1",
+          "app_name": "渐变色卡生成器",
+          "slogan": "一键生成渐变氛围感小卡",
+          "use_users": 12520,
+          "note_id": "6a574e3400000000160263dd"
+        },
+        {
+          "app_id": "6a829896e44b190015f75b95",
+          "app_name": "Pawlaroid爪印显影",
+          "slogan": "宠物拍立得回忆制作工具",
+          "use_users": 1441,
+          "note_id": "6a85663b000000002403db19"
+        },
+        {
+          "app_id": "6a87318a2ba0fd0015a8652b",
+          "app_name": "窗花生成器",
+          "slogan": "中华窗花，数字剪纸",
+          "use_users": 7049,
+          "note_id": "6a88057b000000001700975b"
+        },
+        {
+          "app_id": "6a8dfd98ad16f4001557dd6b",
+          "app_name": "色卡提取排版神器",
+          "slogan": "用于导入图片并提取色卡排版",
+          "use_users": 1981,
+          "note_id": "6a8f0d8d0000000020035816"
+        },
+        {
+          "app_id": "6a7de41d9b57b900153acd37",
+          "app_name": "Zine艺术海报生成",
+          "slogan": "轻松生成富有艺术感的创作图片",
+          "use_users": 3505,
+          "note_id": "6a7d6ab2000000003400c3eb"
+        },
+        {
+          "app_id": "6a984dc533dcf5001578cc1f",
+          "app_name": "拼豆城市",
+          "slogan": "拼豆 × 模拟城市！亲手拼城",
+          "use_users": 323,
+          "note_id": "6a9990da000000001203f961"
+        },
+        {
+          "app_id": "6a95bed5ee1dff0015045e88",
+          "app_name": "拼豆陶瓷杯｜新国风体验",
+          "slogan": "当拼豆遇上千年传统陶艺",
+          "use_users": 878,
+          "note_id": "6a96ad33000000002802f5f0"
+        },
+        {
+          "app_id": "6a8f027fe424b800151eb478",
+          "app_name": "剑网3修图神器",
+          "slogan": "轻松为图片添加剑网3logo",
+          "use_users": 4467,
+          "note_id": "6a8fc8a90000000029036366"
+        },
+        {
+          "app_id": "6a96ef8ce29cdb0015ecb6c8",
+          "app_name": "时光电视台",
+          "slogan": "把你的带回过去的视频滤镜",
+          "use_users": 233,
+          "note_id": "6a9ad330000000000d0254ba"
+        },
+        {
+          "app_id": "6a6ffb7560623700158a9004",
+          "app_name": "GLYPHFIELD废片拯救",
+          "slogan": "ASCII风格图片装饰",
+          "use_users": 18954,
+          "note_id": "6a707ac1000000002202e51b"
+        },
+        {
+          "app_id": "6a99b94c52d5f40015186eac",
+          "app_name": "拍个头，大头宇宙",
+          "slogan": "异次元谷子拍立得，祈福幸运签",
+          "use_users": 1470,
+          "note_id": "6a9a5d6a00000000290123a4"
+        },
+        {
+          "app_id": "6a85e3aec8b11e00153d65f5",
+          "app_name": "国风名画映射小工具",
+          "slogan": "一键get名画同款配色图片",
+          "use_users": 652,
+          "note_id": "6a86fcaa000000003b0150ea"
+        },
+        {
+          "app_id": "6a959c92384ee40015949309",
+          "app_name": "阈限相机",
+          "slogan": "按下快门选择你的时光机",
+          "use_users": 579,
+          "note_id": "6a97e9830000000028031d64"
+        },
+        {
+          "app_id": "6a7ef639b7bd4900156a3450",
+          "app_name": "CUT MOMENT",
+          "slogan": "仿真打孔机图片效果",
+          "use_users": 8541,
+          "note_id": "6a7efa6c0000000033011e2f"
+        },
+        {
+          "app_id": "6a866fd4d5704c0015ef95c3",
+          "app_name": "Stamp Maker",
+          "slogan": "把照片变成专属复古邮票票根",
+          "use_users": 3438,
+          "note_id": "6a86a706000000001402b6f8"
+        },
+        {
+          "app_id": "6a995c33ea512a00157e025c",
+          "app_name": "魔法拼豆",
+          "slogan": "照图纸钉豆，烫成一张画",
+          "use_users": 219,
+          "note_id": "6a9a53ed0000000029010667"
+        },
+        {
+          "app_id": "6a8d58019b57b900153ae7d2",
+          "app_name": "Frutiger大头贴机",
+          "slogan": "来2005年拍一张大头贴吧",
+          "use_users": 3333,
+          "note_id": "6a87ff26000000003a023458"
+        },
+        {
+          "app_id": "6a82a39db7bd4900156a3582",
+          "app_name": "合拍星环",
+          "slogan": "一指合拍，点亮整片星河",
+          "use_users": 2324,
+          "note_id": "6a82a548000000002201762e"
+        },
+        {
+          "app_id": "6a86dba59b57b900153ad66a",
+          "app_name": "渐变请就位",
+          "slogan": "拖动色卡排出顺滑渐变",
+          "use_users": 653,
+          "note_id": "6a8717d7000000001700aa42"
+        }
+      ]
+    },
+    {
+      "key": "query",
+      "label": "查询工具",
+      "icon": "🔍",
+      "count": 60,
+      "items": [
+        {
+          "app_id": "6a97142bf8fbb80015e3b13b",
+          "app_name": "寻找你的使用说明书",
+          "slogan": "每个人出厂时，都忘了带说明书",
+          "use_users": 9744,
+          "note_id": "6a95b88a000000001001f32f"
+        },
+        {
+          "app_id": "6a957a21ee1dff0015045d7d",
+          "app_name": "毛孩子托管所",
+          "slogan": "给毛孩子画路线",
+          "use_users": 15483,
+          "note_id": "6a9a98f500000000120355b9"
+        },
+        {
+          "app_id": "6a96d74dea512a001565c32e",
+          "app_name": "姓氏地图",
+          "slogan": "你的姓，是什么职业，活了多久",
+          "use_users": 4815,
+          "note_id": "6a97a1c0000000002902f7d3"
+        },
+        {
+          "app_id": "6a8be42fc8b11e00153d752a",
+          "app_name": "引力换乘",
+          "slogan": "一键脱轨，零误差换乘",
+          "use_users": 31442,
+          "note_id": "6a8c0ad30000000016022d50"
+        },
+        {
+          "app_id": "6a8bfd2e2ba0fd0015a87245",
+          "app_name": "亲友喜好对比表",
+          "slogan": "与亲友共同填写喜好表看看对比",
+          "use_users": 18039,
+          "note_id": "6a8c4535000000001801a544"
+        },
+        {
+          "app_id": "6a7c0b251e9afc0015bf1220",
+          "app_name": "新退休年龄计算器",
+          "slogan": "计算退休年龄，生成退休倒计时",
+          "use_users": 3780,
+          "note_id": "6a7c12c40000000033008fb2"
+        },
+        {
+          "app_id": "6a95ad25556c070015ed6dc8",
+          "app_name": "冲走烦恼·集世界地图图鉴~",
+          "slogan": "千禧风·集34个海内外打卡点",
+          "use_users": 2009,
+          "note_id": "6a97e5c3000000000d024b37"
+        },
+        {
+          "app_id": "6a89f492b7bd4900156a45cf",
+          "app_name": "田园攻略笔记",
+          "slogan": "《静谧田园》非官方百科工具",
+          "use_users": 1844,
+          "note_id": "6a8ac30b000000001700b980"
+        },
+        {
+          "app_id": "6a83d8952ee6700015adb4ab",
+          "app_name": "影厅指南",
+          "slogan": "查询全国特效厅银幕，观影必备",
+          "use_users": 16771,
+          "note_id": "6a697dbd000000000f01e1a5"
+        },
+        {
+          "app_id": "6a89084df994f90015162689",
+          "app_name": "萌兽突击队",
+          "slogan": "萌兽突击净化地图",
+          "use_users": 2702,
+          "note_id": "6a893f310000000018018818"
+        },
+        {
+          "app_id": "6a8e7ef6e424b800151eb211",
+          "app_name": "上海地铁票价听证通勤计算器",
+          "slogan": "上海地铁票价听证通勤计算器",
+          "use_users": 2239,
+          "note_id": "6a87cad3000000000c0272e1"
+        },
+        {
+          "app_id": "6a94d2bc384ee40015948f5c",
+          "app_name": "秋招开发速成手册",
+          "slogan": "agent全栈开发+力扣算法",
+          "use_users": 808,
+          "note_id": "6a967e71000000002503438b"
+        },
+        {
+          "app_id": "6a5ef47f1b5ff80015594831",
+          "app_name": "内衣尺码计算器",
+          "slogan": "输入胸围，快速算出内衣罩杯",
+          "use_users": 5681,
+          "note_id": "6a5ef80e000000001c012d1b"
+        },
+        {
+          "app_id": "6a929a78ee1dff0015044bed",
+          "app_name": "上海地铁新票价对比计算器",
+          "slogan": "地铁调价票价谁更省？一算便知",
+          "use_users": 1190,
+          "note_id": "6a9520f500000000060120e2"
+        },
+        {
+          "app_id": "6a85ab6a9b57b900153ad3bd",
+          "app_name": "牛来没来？",
+          "slogan": "你的专属牛市检测器",
+          "use_users": 1365,
+          "note_id": "6a85c6a7000000003300df2e"
+        },
+        {
+          "app_id": "6a91a8660106b30015b874ed",
+          "app_name": "FIRE财富自由计算器",
+          "slogan": "算算你离财务自由还有多少天",
+          "use_users": 261,
+          "note_id": "6a72f6960000000028001941"
+        },
+        {
+          "app_id": "6a8a82fdc8b11e00153d7182",
+          "app_name": "日期差计算器",
+          "slogan": "纪念日等日期差计算存图发笔记",
+          "use_users": 3332,
+          "note_id": "6a8aa55e0000000035025f1a"
+        },
+        {
+          "app_id": "6a891e4fe424b80015cf5309",
+          "app_name": "嘉应学院校园地图",
+          "slogan": "畅游嘉园，新生必备",
+          "use_users": 480,
+          "note_id": "6a8975020000000033021a40"
+        },
+        {
+          "app_id": "6a9ab3aa3555e00015925a3d",
+          "app_name": "花滑比赛分数计算器",
+          "slogan": "根据花滑sov计算总分",
+          "use_users": 188,
+          "note_id": "6a9beae7000000002b02585d"
+        },
+        {
+          "app_id": "6a99a15f12d71a0015f85690",
+          "app_name": "进来十秒成丈育",
+          "slogan": "检测自己是不是丈育",
+          "use_users": 1421,
+          "note_id": "6a9af93f000000002901bd00"
+        },
+        {
+          "app_id": "6a577df5427cef00154cfef3",
+          "app_name": "山河人脉地图",
+          "slogan": "历史人物都在哪些城市生活过？",
+          "use_users": 10378,
+          "note_id": "6a5832560000000001001312"
+        },
+        {
+          "app_id": "6a8ee0dde29cdb0015d5b613",
+          "app_name": "暴食情绪急救小工具",
+          "slogan": "帮助识别情绪，降低暴食冲动",
+          "use_users": 364,
+          "note_id": "6a8efdf0000000002a03b918"
+        },
+        {
+          "app_id": "6a8ad76d9b57b900153ae0f3",
+          "app_name": "MOON WALK 喵喵地图",
+          "slogan": "跟随俊辉脚步探索世界🐾",
+          "use_users": 2041,
+          "note_id": "6a97e3c1000000002900cb58"
+        },
+        {
+          "app_id": "6a9006c70106b30015b86bdc",
+          "app_name": "中国攀岩地图",
+          "slogan": "记录全国的室内岩馆和野攀线路",
+          "use_users": 215,
+          "note_id": "6a91586100000000200327f5"
+        },
+        {
+          "app_id": "6a7814b39cc47000155470dd",
+          "app_name": "青鸟翻译",
+          "slogan": "自动识别显示自然的中文翻译",
+          "use_users": 3406,
+          "note_id": "6a79374a00000000250013ce"
+        },
+        {
+          "app_id": "6a8eaf157f0ea30015c22a46",
+          "app_name": "香港永居日期计算器",
+          "slogan": "计算香港永居参考日期",
+          "use_users": 539,
+          "note_id": "6a8f09180000000025013d7c"
+        },
+        {
+          "app_id": "6a84743cb7bd4900156a3846",
+          "app_name": "万能计算神器",
+          "slogan": "万能计算器涵盖金融网络生活",
+          "use_users": 2379,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a856f20d5704c0015ef941c",
+          "app_name": "日期计算",
+          "slogan": "年龄日期倒数推算一站式计算器",
+          "use_users": 2663,
+          "note_id": "6a87a252000000003b016528"
+        },
+        {
+          "app_id": "6a8eab9d384ee4001594648c",
+          "app_name": "路线迷踪",
+          "slogan": "一条路线走遍所有格子",
+          "use_users": 569,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a675ed61ed11800159c9d47",
+          "app_name": "Vibecoding 手册",
+          "slogan": "前端交互效果术语手册",
+          "use_users": 2635,
+          "note_id": "6a657f8e000000000503bfbc"
+        },
+        {
+          "app_id": "6a844ef6c8b11e00153d628c",
+          "app_name": "超废物计算器",
+          "slogan": "超智能的计算器",
+          "use_users": 4914,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a914d45e29cdb0015d5bcc5",
+          "app_name": "工作性价比计算器",
+          "slogan": "这个班到底值不值得上？",
+          "use_users": 139,
+          "note_id": "6a928d6a000000002501bcf8"
+        },
+        {
+          "app_id": "6a8cb8c2f994f90015163189",
+          "app_name": "线下助手",
+          "slogan": "一个工具箱",
+          "use_users": 137,
+          "note_id": "6a919ab8000000001e014f4a"
+        },
+        {
+          "app_id": "6a911412e29cdb0015d5bbce",
+          "app_name": "太好看的计算器",
+          "slogan": "传奇神作Braun ET66",
+          "use_users": 112,
+          "note_id": "6a913ad4000000000b026f41"
+        },
+        {
+          "app_id": "6a8bb9d90106b3001577b326",
+          "app_name": "合租边界说明书",
+          "slogan": "住一起，先聊清楚彼此生活边界",
+          "use_users": 319,
+          "note_id": "6a8cec5c0000000028026b3c"
+        },
+        {
+          "app_id": "6a924cf9e424b800151ece4f",
+          "app_name": "南锣 - 北京老城区闲逛指南",
+          "slogan": "提供北京老城区的游玩路线推荐",
+          "use_users": 162,
+          "note_id": "6a957be5000000001f002ca2"
+        },
+        {
+          "app_id": "6a90f68ee424b800151eb95d",
+          "app_name": "口袋情绪",
+          "slogan": "一款拍照识别情绪的小工具",
+          "use_users": 367,
+          "note_id": "6a912cca000000002a03ce01"
+        },
+        {
+          "app_id": "6a97d61cad16f4001502e833",
+          "app_name": "裸辞躺平计算器",
+          "slogan": "算算你的存款能躺平多久",
+          "use_users": 63,
+          "note_id": "6a98d5ec000000002b01fd2e"
+        },
+        {
+          "app_id": "6a8da596e424b800151eb006",
+          "app_name": "杭州玩水地图大全",
+          "slogan": "杭州及周边200+玩水地汇总",
+          "use_users": 101,
+          "note_id": "6a898e5c0000000017001286"
+        },
+        {
+          "app_id": "6a6088a6ed10e80015ce5a5d",
+          "app_name": "全球「城市路书」地图",
+          "slogan": "在空间叙事中读懂城市",
+          "use_users": 4272,
+          "note_id": "6a52da2f0000000011012c9e"
+        },
+        {
+          "app_id": "6a7b01ba9e1e380015b4df6c",
+          "app_name": "书法山河",
+          "slogan": "地图看懂中华审美巅峰之书法",
+          "use_users": 3315,
+          "note_id": "6a7741900000000005028f90"
+        },
+        {
+          "app_id": "6a8c18079b57b900153ae4ea",
+          "app_name": "诗词地图",
+          "slogan": "点城池灯火，品此地诗词",
+          "use_users": 203,
+          "note_id": "6a8ec7e6000000002103297a"
+        },
+        {
+          "app_id": "6a816bbef994f900151619b4",
+          "app_name": "国考历年入面分查询",
+          "slogan": "查近三年国考入面分",
+          "use_users": 950,
+          "note_id": "6a827a180000000032031457"
+        },
+        {
+          "app_id": "6a8d7b2b2ba0fd0015a875e0",
+          "app_name": "深海暴食",
+          "slogan": "选路线吞鱼，无尽进化",
+          "use_users": 406,
+          "note_id": "6a8d953c0000000005028765"
+        },
+        {
+          "app_id": "6a993491a2887a0015b67705",
+          "app_name": "山姆会员计算器",
+          "slogan": "山姆会员办哪个，滑块一拖便知",
+          "use_users": 152,
+          "note_id": "6a9116910000000005029e2f"
+        },
+        {
+          "app_id": "6a8ee922384ee40015946596",
+          "app_name": "吃了没",
+          "slogan": "你的私人美食地图",
+          "use_users": 92,
+          "note_id": "6a916002000000000303ef31"
+        },
+        {
+          "app_id": "6a8c517be424b80015cf5cc3",
+          "app_name": "夜幕之下计算器",
+          "slogan": "打榜排轴工具，计算暴击概率",
+          "use_users": 268,
+          "note_id": "6a8e71f9000000001f0008f2"
+        },
+        {
+          "app_id": "6a9220c9e29cdb0015d5cf13",
+          "app_name": "功德来了",
+          "slogan": "查询TA的功德值，趣味积德",
+          "use_users": 157,
+          "note_id": "6a944e80000000001803fe79"
+        },
+        {
+          "app_id": "6a4df71249e47200151e57c7",
+          "app_name": "算号小能手",
+          "slogan": "提供号码计算和规则校验功能",
+          "use_users": 3556,
+          "note_id": "6a4dfb52000000003401794f"
+        },
+        {
+          "app_id": "6a850c44b7bd4900156a38b5",
+          "app_name": "AI课代表",
+          "slogan": "3步生成AI学习路线",
+          "use_users": 457,
+          "note_id": "6a8821fd0000000016025bf4"
+        },
+        {
+          "app_id": "6a8bdd320106b3001577b36b",
+          "app_name": "房贷计算器升级版",
+          "slogan": "计算房贷的小工具",
+          "use_users": 104,
+          "note_id": "6a8c48f20000000028003621"
+        },
+        {
+          "app_id": "6a87b8aa2ee6700015adbcd1",
+          "app_name": "星露谷农场手册",
+          "slogan": "像星露谷一样规划日常",
+          "use_users": 181,
+          "note_id": "6a870b63000000000600762b"
+        },
+        {
+          "app_id": "6a53039b19a8470015e86de2",
+          "app_name": "🌍 全球民族志地图",
+          "slogan": "探索世界各个角落的民族志作品",
+          "use_users": 1507,
+          "note_id": "6a5396bb000000002103ef55"
+        },
+        {
+          "app_id": "6a8ee5770106b30015b868c2",
+          "app_name": "滚贴水计算器",
+          "slogan": "手动计算股指期货成交结果",
+          "use_users": 107,
+          "note_id": "6a8f019e00000000260058a3"
+        },
+        {
+          "app_id": "6a97caf5e29cdb0015ecb9ec",
+          "app_name": "机场巴士小助手",
+          "slogan": "查询机场巴士的路线和班次",
+          "use_users": 58,
+          "note_id": "6a8554070000000005032d80"
+        },
+        {
+          "app_id": "6a9803aa344fae0015322060",
+          "app_name": "毛孩子年龄计算器",
+          "slogan": "看看你家毛孩子相当于人类几岁",
+          "use_users": 226,
+          "note_id": "6a999db1000000000d024abd"
+        },
+        {
+          "app_id": "6a85594be44b190015f75fb8",
+          "app_name": "七夕地图-北京版",
+          "slogan": "七夕没事儿来捡东西",
+          "use_users": 727,
+          "note_id": "6a855225000000003300bdd1"
+        },
+        {
+          "app_id": "6a912af9556c070015ed47cc",
+          "app_name": "养老金计算器",
+          "slogan": "计算退休后的养老金",
+          "use_users": 25,
+          "note_id": "6a9145420000000025011d74"
+        },
+        {
+          "app_id": "6a90fafc7f0ea30015c2309d",
+          "app_name": "一笔救援",
+          "slogan": "选对路线救出伙伴",
+          "use_users": 31,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a913ffce3efb40015e02659",
+          "app_name": "娃的废话翻译器",
+          "slogan": "翻开小册把娃的废话翻译成人话",
+          "use_users": 72,
+          "note_id": "6a9acd4f0000000026023bd2"
+        }
+      ]
+    },
+    {
+      "key": "life",
+      "label": "效率生活",
+      "icon": "📝",
+      "count": 60,
+      "items": [
+        {
+          "app_id": "6a95bf5e4045f30015096bae",
+          "app_name": "番茄大厨",
+          "slogan": "扮演番茄大厨抵挡馋鬼来袭吧！",
+          "use_users": 27714,
+          "note_id": "6a97e10a000000002502f2cc"
+        },
+        {
+          "app_id": "6a69b8e34bd4cc001599e41d",
+          "app_name": "捡手机文学生成器",
+          "slogan": "聊天记录，论坛推特，轻松产粮",
+          "use_users": 963518,
+          "note_id": "6a69becb0000000001003dc0"
+        },
+        {
+          "app_id": "6a978f85ac2d1000153c4a15",
+          "app_name": "摸鱼学习转盘",
+          "slogan": "决定学习摸鱼时间，并倒计时",
+          "use_users": 10965,
+          "note_id": "6a97ef40000000000d024e01"
+        },
+        {
+          "app_id": "6a8fde73556c070015ed440e",
+          "app_name": "门阀传奇",
+          "slogan": "书写属于你的门阀传奇",
+          "use_users": 6593,
+          "note_id": "6a8ffb32000000002a03e140"
+        },
+        {
+          "app_id": "6a969badac2d1000153c4706",
+          "app_name": "InFrame-女友视角记录",
+          "slogan": "BeReal同款梦女图模版",
+          "use_users": 4614,
+          "note_id": "6a99615a0000000011032a73"
+        },
+        {
+          "app_id": "6a90241de29cdb0015d5b9e6",
+          "app_name": "一笺花信｜古法花草造纸",
+          "slogan": "拣花入纸，亲手做一笺花信",
+          "use_users": 11774,
+          "note_id": "6a9062db0000000021025281"
+        },
+        {
+          "app_id": "6a8d0dc0b7bd4900156a4ced",
+          "app_name": "压死最后一个番茄",
+          "slogan": "经典挤番茄复刻",
+          "use_users": 8458,
+          "note_id": "6a8e3e87000000002003ac38"
+        },
+        {
+          "app_id": "6a854a14e44b190015f75f7f",
+          "app_name": "番茄钟花园",
+          "slogan": "一起来构建自己的花园吧",
+          "use_users": 69540,
+          "note_id": "6a85c0e10000000022033776"
+        },
+        {
+          "app_id": "6a89848db7bd4900156a43da",
+          "app_name": "巧手菜谱",
+          "slogan": "指定食材生成食谱",
+          "use_users": 34873,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a8fb6a10106b30015b86aa1",
+          "app_name": "行李箱塞塞乐",
+          "slogan": "60秒把旅行必需品塞进行李箱",
+          "use_users": 7028,
+          "note_id": "6a8fe7fe000000002a031e5b"
+        },
+        {
+          "app_id": "6a9abce933dcf5001578d50d",
+          "app_name": "阿sueの美甲店💅🏻✨",
+          "slogan": "Let's搞搞漂亮💅🏻✨",
+          "use_users": 7701,
+          "note_id": "6a9bc19d00000000110301ee"
+        },
+        {
+          "app_id": "6a958c88ee1dff0015045dcc",
+          "app_name": "别拦我下班",
+          "slogan": "打完老板就下班！",
+          "use_users": 9640,
+          "note_id": "6a96d1aa000000002601728d"
+        },
+        {
+          "app_id": "6a912d68556c070015ed47d9",
+          "app_name": "潜水员戴夫菜谱大全",
+          "slogan": "毕业菜谱推荐+全菜谱自由浏览",
+          "use_users": 1506,
+          "note_id": "6a91786500000000050286a5"
+        },
+        {
+          "app_id": "6a83d76183a489001598192e",
+          "app_name": "新生开学必备清单",
+          "slogan": "不漏刚需，少带闲置",
+          "use_users": 14267,
+          "note_id": "6a83e5b0000000000503340b"
+        },
+        {
+          "app_id": "6a8d5c7fb7bd4900156a4df5",
+          "app_name": "我的乙游编年史",
+          "slogan": "记录国乙走过的这十年",
+          "use_users": 7757,
+          "note_id": "6a8d7cf7000000002503fd99"
+        },
+        {
+          "app_id": "6a847427e44b190015f75e63",
+          "app_name": "转转锅搭子 | 计时、热量",
+          "slogan": "已支持盛香亭最新菜品！",
+          "use_users": 79973,
+          "note_id": "6a82b87e000000003300de56"
+        },
+        {
+          "app_id": "6a98f13252d5f40015186ac0",
+          "app_name": "情绪小记",
+          "slogan": "记录心情，自我提升",
+          "use_users": 1284,
+          "note_id": "6a99409a000000002802ff87"
+        },
+        {
+          "app_id": "6a91b4e5556c070015ed4eaf",
+          "app_name": "摸鱼之神（可自定义摸鱼画面）",
+          "slogan": "挑战不被老板发现",
+          "use_users": 2401,
+          "note_id": "6a92ea7c000000001803ef07"
+        },
+        {
+          "app_id": "6a883f00f994f900151624ef",
+          "app_name": "饭撒牌决策器",
+          "slogan": "帮你解决饭撒牌选择困难症~",
+          "use_users": 8364,
+          "note_id": "6a8854bc000000001801aed4"
+        },
+        {
+          "app_id": "6a95615a0106b30015b894b6",
+          "app_name": "洗头日记",
+          "slogan": "记录每日的洗头瞬间",
+          "use_users": 862,
+          "note_id": "6a96936c000000002700a246"
+        },
+        {
+          "app_id": "6a84f2a4b7bd4900156a389e",
+          "app_name": "Mood31-Emoji日历",
+          "slogan": "INS风Emoji月历手帐",
+          "use_users": 37766,
+          "note_id": "6a857f180000000032033232"
+        },
+        {
+          "app_id": "6a967b45e424b800151ee3e9",
+          "app_name": "禾伙人摸鱼搭子合集版",
+          "slogan": "禾～想玩哪个点哪个",
+          "use_users": 852,
+          "note_id": "6a9536c5000000002503af29"
+        },
+        {
+          "app_id": "6a913263e3efb40015e02620",
+          "app_name": "东方美妆体验实验室",
+          "slogan": "一起来沉浸式体验购物吧！",
+          "use_users": 691,
+          "note_id": "6a92afa0000000000402bb74"
+        },
+        {
+          "app_id": "6a85517eb7bd4900156a3958",
+          "app_name": "像素日签",
+          "slogan": "用逻辑画一幅治愈像素画",
+          "use_users": 9909,
+          "note_id": "6a858e65000000003400cbf3"
+        },
+        {
+          "app_id": "6a8c068c0106b3001577b3f1",
+          "app_name": "杯盏时记",
+          "slogan": "一杯一盏一计时一分一秒皆成书",
+          "use_users": 1132,
+          "note_id": "6a8c073c000000002902630b"
+        },
+        {
+          "app_id": "6a9638944045f30015096c07",
+          "app_name": "课程表与假期计划",
+          "slogan": "快速制作课程表和假期计划。",
+          "use_users": 1196,
+          "note_id": "6a6da695000000002402f5ba"
+        },
+        {
+          "app_id": "6a8d4346e44b190015f77434",
+          "app_name": "手帐模版",
+          "slogan": "免费AI字体卡片",
+          "use_users": 1701,
+          "note_id": "6a8e65bb0000000021031a75"
+        },
+        {
+          "app_id": "6a95708fe29cdb0015d5e32f",
+          "app_name": "试睡员日记",
+          "slogan": "0元免费测10家酒店～",
+          "use_users": 5880,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a929030e29cdb0015d5d11e",
+          "app_name": "一起来摸鱼",
+          "slogan": "薅资本羊毛最好的方式是摸鱼！",
+          "use_users": 1605,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a6d9de3263dce0015352260",
+          "app_name": "买不买",
+          "slogan": "有效记账·消费决策助手",
+          "use_users": 24903,
+          "note_id": "6a6e8753000000002c000afd"
+        },
+        {
+          "app_id": "6a91b55c4045f30015094be5",
+          "app_name": "全屏补光灯",
+          "slogan": "别再买补光灯了!直接让你发光",
+          "use_users": 422,
+          "note_id": "6a92eee50000000025024bcb"
+        },
+        {
+          "app_id": "6a8b01b1e44b190015f76ec8",
+          "app_name": "精神食粮Log",
+          "slogan": "记录一下自己的精神食粮吧",
+          "use_users": 1346,
+          "note_id": "6a8b11ff000000002902755a"
+        },
+        {
+          "app_id": "6a91593d4045f300150945be",
+          "app_name": "银河系旅行攻略 · 记忆坐标",
+          "slogan": "宇宙浩瀚，爱是唯一坐标。",
+          "use_users": 307,
+          "note_id": "6a9178e50000000007005579"
+        },
+        {
+          "app_id": "6a9826f4a2887a0015b67290",
+          "app_name": "宠物城市证件局",
+          "slogan": "主子今天上班还是去旅行？",
+          "use_users": 564,
+          "note_id": "6a9956ae000000002700b286"
+        },
+        {
+          "app_id": "6a8bb543e44b190015f77095",
+          "app_name": "清单喵",
+          "slogan": "收集各类必备清单、可勾选管理",
+          "use_users": 3792,
+          "note_id": "6a8c1fc30000000033013925"
+        },
+        {
+          "app_id": "6a85e669e424b80015cf4c4f",
+          "app_name": "Encore",
+          "slogan": "剧场式沉浸专注计时",
+          "use_users": 8354,
+          "note_id": "6a86f62e000000003b0156a5"
+        },
+        {
+          "app_id": "6a8d3e452ee6700015adcc9f",
+          "app_name": "表面办公",
+          "slogan": "摸鱼神器-领导以为你在审文档",
+          "use_users": 493,
+          "note_id": "6a8d613b000000002202e2f9"
+        },
+        {
+          "app_id": "6a68e35be799740015eabff2",
+          "app_name": "小童书",
+          "slogan": "大奖绘本搜索,收集,打卡",
+          "use_users": 52728,
+          "note_id": "6a833b250000000022031733"
+        },
+        {
+          "app_id": "6a9677a3ee1dff0015046010",
+          "app_name": "MoneyDance",
+          "slogan": "上班累了，就看着工资一点点涨",
+          "use_users": 1443,
+          "note_id": "6a8faa1a000000000302be5c"
+        },
+        {
+          "app_id": "6a9414127f0ea30015c25305",
+          "app_name": "摸鱼风险管理器",
+          "slogan": "是牛马就撑过300秒～",
+          "use_users": 1750,
+          "note_id": "6a96a2ba000000000d0244c5"
+        },
+        {
+          "app_id": "6a97f09af8fbb80015e3b4a3",
+          "app_name": "桌子zhuozi",
+          "slogan": "像做手工一样，做一页电子手帐",
+          "use_users": 715,
+          "note_id": "6a996110000000000b0028bc"
+        },
+        {
+          "app_id": "6a996d57ddc4cf00159dec66",
+          "app_name": "老板在你身后",
+          "slogan": "摸鱼被抓了吧哈哈",
+          "use_users": 287,
+          "note_id": "6a9bcb5a000000002b0005e5"
+        },
+        {
+          "app_id": "6a94e7cc7f0ea30015c25481",
+          "app_name": "肠胃日记",
+          "slogan": "专为肠胃病患者设计的健康档案",
+          "use_users": 164,
+          "note_id": "6a968482000000002502cbb5"
+        },
+        {
+          "app_id": "6a5f7c4ecb740c0015d40042",
+          "app_name": "Lucky打卡",
+          "slogan": "你坚持的样子，值得被看见",
+          "use_users": 5499,
+          "note_id": "6a600064000000001c00e4fa"
+        },
+        {
+          "app_id": "6a8b0202f994f90015162d41",
+          "app_name": "浮岛通路",
+          "slogan": "打开之前请确保明天不用上班",
+          "use_users": 1360,
+          "note_id": "6a8c3a2d0000000003029150"
+        },
+        {
+          "app_id": "6a909103e424b800151eb8f5",
+          "app_name": "无限暖暖版本奖励自查清单",
+          "slogan": "可记录1.0至今所有常驻奖励",
+          "use_users": 709,
+          "note_id": "6a91522c0000000003029804"
+        },
+        {
+          "app_id": "6a61ed2f479c1c00155cb30a",
+          "app_name": "牛New一绪选档助手",
+          "slogan": "牛New一绪选档助手",
+          "use_users": 7626,
+          "note_id": "6a59b835000000000f03306e"
+        },
+        {
+          "app_id": "6a8476bf2ee6700015adb694",
+          "app_name": "我超棒棒棒棒棒棒棒",
+          "slogan": "记录每一个值得肯定自己的瞬间",
+          "use_users": 12974,
+          "note_id": "6a85898a00000000220162e3"
+        },
+        {
+          "app_id": "6a96a8dfac2d1000153c4757",
+          "app_name": "打卡助手",
+          "slogan": "备考进度管理与高效复习工具",
+          "use_users": 229,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a84715d0106b3001577a0e9",
+          "app_name": "卡农-每日打卡",
+          "slogan": "极简习惯打卡工具",
+          "use_users": 4855,
+          "note_id": "6a859d0c0000000025002681"
+        },
+        {
+          "app_id": "6a7c3897182ae7001543c0a5",
+          "app_name": "重生之我又在设计院上班",
+          "slogan": "让大家都来设计院享福一天",
+          "use_users": 2968,
+          "note_id": "6a7c46a70000000022011677"
+        },
+        {
+          "app_id": "6a841f10e424b80015cf4872",
+          "app_name": "出门清单",
+          "slogan": "出门前勾一勾，再也不怕忘东西",
+          "use_users": 4974,
+          "note_id": "6a84279000000000270222c3"
+        },
+        {
+          "app_id": "6a9a33cea2887a0015b67a09",
+          "app_name": "我要准时下班EP02",
+          "slogan": "六点下班",
+          "use_users": 593,
+          "note_id": "6a9a87be0000000026022c9d"
+        },
+        {
+          "app_id": "6a60ea90fb15910015a6486c",
+          "app_name": "电子自习搭子",
+          "slogan": "陪你自习的番茄时钟",
+          "use_users": 13707,
+          "note_id": "6a6209e8000000000c015b90"
+        },
+        {
+          "app_id": "6a9aa233ddc4cf00159df07f",
+          "app_name": "CrossFit年卡回本计划",
+          "slogan": "计算你的单节课成本",
+          "use_users": 120,
+          "note_id": "6a9b6bbf0000000026038da0"
+        },
+        {
+          "app_id": "6a5b7792dddbe80015f65654",
+          "app_name": "修仙记事本",
+          "slogan": "记录你的修仙事迹",
+          "use_users": 29130,
+          "note_id": "6a5b801b000000000301f2d5"
+        },
+        {
+          "app_id": "6a93df17e29cdb0015d5ddea",
+          "app_name": "口红集",
+          "slogan": "记录自己已拥有和想买的口红们",
+          "use_users": 81,
+          "note_id": "6a97c8dc0000000011033a95"
+        },
+        {
+          "app_id": "6a8af1d02ee6700015adc5f8",
+          "app_name": "12 Twelve",
+          "slogan": "记录12个月的“最美好”",
+          "use_users": 803,
+          "note_id": "6a8afae40000000029018feb"
+        },
+        {
+          "app_id": "6a930ff0556c070015ed5cf8",
+          "app_name": "备课助手",
+          "slogan": "备课、进度更新、微课计划",
+          "use_users": 81,
+          "note_id": "6a954906000000002303c168"
+        },
+        {
+          "app_id": "6a906bd00106b30015b86d82",
+          "app_name": "兰友小站",
+          "slogan": "看根再浇，读懂养护信号",
+          "use_users": 94,
+          "note_id": "6a91708f000000002102dd7b"
+        }
+      ]
+    },
+    {
+      "key": "edu",
+      "label": "学习教育",
+      "icon": "📚",
+      "count": 60,
+      "items": [
+        {
+          "app_id": "6a93069f4045f30015095afd",
+          "app_name": "百化分练习",
+          "slogan": "训练资料分析百化分速算技巧",
+          "use_users": 16303,
+          "note_id": "6a952204000000001f001068"
+        },
+        {
+          "app_id": "6a993a4c3555e00015925545",
+          "app_name": "学科知识挑战 乙女版",
+          "slogan": "复习恋爱两手抓",
+          "use_users": 24719,
+          "note_id": "6a9a2517000000002a02f36c"
+        },
+        {
+          "app_id": "6a8339c0e44b190015f75c40",
+          "app_name": "西瓜资料分析复盘本",
+          "slogan": "西瓜资料复盘本——无纸化学习",
+          "use_users": 9185,
+          "note_id": "6a84650100000000250115f4"
+        },
+        {
+          "app_id": "6a93899f7f0ea30015c25166",
+          "app_name": "红楼一梦",
+          "slogan": "红楼梦人物诗词吃食药方大事记",
+          "use_users": 1913,
+          "note_id": "6a961bb1000000002a02cef2"
+        },
+        {
+          "app_id": "6a8eeed40106b30015b868ed",
+          "app_name": "成人本科学位英语刷题V3",
+          "slogan": "成人本科学位英语考试刷题",
+          "use_users": 2068,
+          "note_id": "6a92a45e0000000025024bd3"
+        },
+        {
+          "app_id": "6a8900552ee6700015adbf8a",
+          "app_name": "圆来如此 · 数学实验室",
+          "slogan": "直线与圆的位置关系学习",
+          "use_users": 3785,
+          "note_id": "6a94f7160000000008010c69"
+        },
+        {
+          "app_id": "6a86b7642ee6700015adbaa1",
+          "app_name": "快问快答",
+          "slogan": "30 秒数学反应挑战",
+          "use_users": 9314,
+          "note_id": "6a86ca29000000002800423d"
+        },
+        {
+          "app_id": "6a5753653883930015e4f0e6",
+          "app_name": "NING’S VEDIC印占",
+          "slogan": "基于星象体系的个人探索工具",
+          "use_users": 29406,
+          "note_id": "6a576c790000000015024fb6"
+        },
+        {
+          "app_id": "6a850f8ed5704c0015ef932d",
+          "app_name": "markdown 学习工坊",
+          "slogan": "玩转 markdown 语法",
+          "use_users": 3770,
+          "note_id": "6a866fb800000000160240f5"
+        },
+        {
+          "app_id": "6a9aa655eeb797001535bff3",
+          "app_name": "喜人粉籍资格考试",
+          "slogan": "全国统一喜人资格考试",
+          "use_users": 3908,
+          "note_id": "6a9b817e000000002b024287"
+        },
+        {
+          "app_id": "6a816ea19b57b900153ace92",
+          "app_name": "李清照",
+          "slogan": "点击入画李清照人生和她的诗词",
+          "use_users": 23578,
+          "note_id": "6a8179d10000000027021ef0"
+        },
+        {
+          "app_id": "6a8d6dbc0106b3001577b7c4",
+          "app_name": "大珠小珠落玉盘",
+          "slogan": "将这句古诗用3D具像化表达",
+          "use_users": 1507,
+          "note_id": "6a8da9e2000000000b024122"
+        },
+        {
+          "app_id": "6a8b15c8f994f90015162db5",
+          "app_name": "宝宝取名助手",
+          "slogan": "字有来处、名有据、名从典来。",
+          "use_users": 2163,
+          "note_id": "6a8b1dd90000000033023c38"
+        },
+        {
+          "app_id": "6a955c2be29cdb0015d5e2de",
+          "app_name": "墨华令",
+          "slogan": "国风卡牌大作，抽卡还原历史",
+          "use_users": 2474,
+          "note_id": "6a95b76c00000000110354ec"
+        },
+        {
+          "app_id": "6a7d99ca9b57b900153acd04",
+          "app_name": "四六级背单词",
+          "slogan": "让你随时随地备单词",
+          "use_users": 12079,
+          "note_id": "6a7dbaa000000000320211ac"
+        },
+        {
+          "app_id": "6a8fcb04e424b800151eb605",
+          "app_name": "独钓寒江雪",
+          "slogan": "在知识的海洋里面可以钓到什么",
+          "use_users": 852,
+          "note_id": "6a8e5621000000000601229e"
+        },
+        {
+          "app_id": "6a55947a6756e8001592d775",
+          "app_name": "《我的世界》英语单词学习系统",
+          "slogan": "小学生暑期英语单词学习系统",
+          "use_users": 9237,
+          "note_id": "6a59f85800000000050384d9"
+        },
+        {
+          "app_id": "6a8912249b57b900153adaf7",
+          "app_name": "锥妙锥肖 · 数学实验室",
+          "slogan": "圆锥曲线离心率学习",
+          "use_users": 4737,
+          "note_id": "6a8947f9000000002202305f"
+        },
+        {
+          "app_id": "6a8908372ba0fd0015a86911",
+          "app_name": "此起波伏 · 数学实验室",
+          "slogan": "三角函数图象变换学习",
+          "use_users": 3215,
+          "note_id": "6a94f63a000000001f01c873"
+        },
+        {
+          "app_id": "6a8f400d0106b30015b869ff",
+          "app_name": "教资刷题工具",
+          "slogan": "碎片时间快速n刷",
+          "use_users": 1059,
+          "note_id": "6a8fc380000000002501a7b1"
+        },
+        {
+          "app_id": "6a8f0cdb384ee40015946641",
+          "app_name": "无边落木萧萧下",
+          "slogan": "将古诗句制作成3D动画",
+          "use_users": 721,
+          "note_id": "6a9027f10000000024007078"
+        },
+        {
+          "app_id": "6a8404be9b57b900153ad032",
+          "app_name": "杜甫",
+          "slogan": "点击入画杜甫的人生和他的诗词",
+          "use_users": 2459,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a9066c84045f30015094387",
+          "app_name": "化学实验室",
+          "slogan": "简易化学实验室，体验奇妙反应",
+          "use_users": 511,
+          "note_id": "6a910f11000000002c03faac"
+        },
+        {
+          "app_id": "6a8d1ac10106b3001577b68b",
+          "app_name": "雅思口语快速6.5",
+          "slogan": "用数学公式答雅思口语",
+          "use_users": 475,
+          "note_id": "6a8bcf90000000002901b4f1"
+        },
+        {
+          "app_id": "6a8f08d1556c070015ed422e",
+          "app_name": "东风夜放花千树",
+          "slogan": "将古诗句制作成3D动画",
+          "use_users": 704,
+          "note_id": "6a8fc37a0000000028007fe5"
+        },
+        {
+          "app_id": "6a7313be8628ca0015fe85c3",
+          "app_name": "刷八卦，学单词！",
+          "slogan": "超强情境化学习",
+          "use_users": 6697,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a84434683a4890015981a63",
+          "app_name": "雪崩知识口袋书",
+          "slogan": "随时学习野雪与雪崩安全知识",
+          "use_users": 1428,
+          "note_id": "6a873d8b00000000230210a5"
+        },
+        {
+          "app_id": "6a8edfc1e29cdb0015d5b60d",
+          "app_name": "高校教师平台",
+          "slogan": "课程、学生工作、教学科研工作",
+          "use_users": 3359,
+          "note_id": "6a8ee0880000000026001b7d"
+        },
+        {
+          "app_id": "6a5b96df3883930015e4f1c3",
+          "app_name": "AIPM Wiki",
+          "slogan": "一个不断进化的共建AI知识库",
+          "use_users": 3881,
+          "note_id": "6a5ddce0000000000f00b89d"
+        },
+        {
+          "app_id": "6a84240b2ba0fd0015a85e5c",
+          "app_name": "纳兰性德",
+          "slogan": "点击入画纳兰性德的人生和诗词",
+          "use_users": 3713,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a85eabdb7bd4900156a3ac4",
+          "app_name": "中国历史之最（简易版）",
+          "slogan": "每天多懂一点中国历史",
+          "use_users": 4397,
+          "note_id": "6a8ac2a40000000024026e98"
+        },
+        {
+          "app_id": "6a8ca7b32ba0fd0015a87420",
+          "app_name": "大学英语四级备考（含真题）",
+          "slogan": "大学新生CET4备考必备",
+          "use_users": 939,
+          "note_id": "6a8d1ec10000000016022b57"
+        },
+        {
+          "app_id": "6a8886abb7bd4900156a40e7",
+          "app_name": "若拂·概率论知识图谱",
+          "slogan": "概率定义定理反例随手查",
+          "use_users": 521,
+          "note_id": "6a894c6e000000002a02eeab"
+        },
+        {
+          "app_id": "6a942f98384ee40015948e48",
+          "app_name": "词弹大作战",
+          "slogan": "在怪潮中背会单词",
+          "use_users": 563,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a5797d3f681fb00155dd447",
+          "app_name": "红宝书N5单词小程序",
+          "slogan": "同步背红宝书N5单词的小程序",
+          "use_users": 17845,
+          "note_id": "6a579d100000000015024bba"
+        },
+        {
+          "app_id": "6a902e17556c070015ed459b",
+          "app_name": "星夜雨阶",
+          "slogan": "划过星河，弹奏雨夜音阶",
+          "use_users": 693,
+          "note_id": "6a9055e50000000025027fa3"
+        },
+        {
+          "app_id": "6a89dc0cd5704c0015efa0ba",
+          "app_name": "造物主沙盒-像素版",
+          "slogan": "创建元素，形成不同的化学反应",
+          "use_users": 304,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a85b86d0106b3001577a34a",
+          "app_name": "美股指数历史统计分布",
+          "slogan": "从更量化的角度，了解市场",
+          "use_users": 986,
+          "note_id": "6a8d58f700000000220227b9"
+        },
+        {
+          "app_id": "6a8b2b2d2ee6700015adc743",
+          "app_name": "拾纹 · 博物花笺",
+          "slogan": "在古文物中，拾取纹样做花笺",
+          "use_users": 483,
+          "note_id": "6a8bce3c000000002803107b"
+        },
+        {
+          "app_id": "6a82c843e424b80015cf470a",
+          "app_name": "专升本高频词汇速记",
+          "slogan": "专升本高频词汇记忆小工具",
+          "use_users": 1763,
+          "note_id": "6a82daf60000000029031f73"
+        },
+        {
+          "app_id": "6a8eb2430106b30015b86787",
+          "app_name": "图感",
+          "slogan": "看图选风格，拼出好提示词",
+          "use_users": 218,
+          "note_id": "6a8f0cee000000001f003029"
+        },
+        {
+          "app_id": "6a959992e29cdb0015d5e3e1",
+          "app_name": "港深通勤时间管理助手",
+          "slogan": "根据历史数据帮您规划通勤时间",
+          "use_users": 74,
+          "note_id": "6a96c96e000000002b00275d"
+        },
+        {
+          "app_id": "6a9189f1e424b800151ebcd5",
+          "app_name": "深空天文知识基座",
+          "slogan": "深空天文初学者入门知识库",
+          "use_users": 77,
+          "note_id": "6a9241310000000026005ded"
+        },
+        {
+          "app_id": "6a87acae2ba0fd0015a8658b",
+          "app_name": "二次函数拖一拖",
+          "slogan": "看懂抛物线变化，生成学习卡",
+          "use_users": 454,
+          "note_id": "6a86f0ca0000000027028fe1"
+        },
+        {
+          "app_id": "6a554090fb15910015b1b373",
+          "app_name": "AI新手村提问力训练卡",
+          "slogan": "五格生成优质提示词",
+          "use_users": 2490,
+          "note_id": "6a4de47b000000000702b44c"
+        },
+        {
+          "app_id": "6a9a7d0912d71a0015f85934",
+          "app_name": "极简单词",
+          "slogan": "一分钟测词汇量，极简背单词！",
+          "use_users": 201,
+          "note_id": "6a9bfbe0000000000b0340a5"
+        },
+        {
+          "app_id": "6a9293687f0ea30015c2458d",
+          "app_name": "历史名场面",
+          "slogan": "AI历史纪实影像",
+          "use_users": 45,
+          "note_id": "6a96d2b4000000001001db7a"
+        },
+        {
+          "app_id": "6a97f5d4344fae0015322013",
+          "app_name": "音阶实唱",
+          "slogan": "看看自己音准的能力怎么样？",
+          "use_users": 42,
+          "note_id": "6a98e53e0000000028039955"
+        },
+        {
+          "app_id": "6a842e502ee6700015adb5c5",
+          "app_name": "知识便当墙",
+          "slogan": "粘贴长文，压缩成一盒知识便当",
+          "use_users": 453,
+          "note_id": "6a852cd5000000000502896e"
+        },
+        {
+          "app_id": "6a79bee491a2720015d90aaa",
+          "app_name": "巡历万国",
+          "slogan": "查看历史事件，关注事件因果",
+          "use_users": 3493,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a7beaf0a18d2d0015e0202a",
+          "app_name": "中国古文物数字博物馆",
+          "slogan": "中国古文物数字博物馆",
+          "use_users": 405,
+          "note_id": "6a7c754c000000003400ea4f"
+        },
+        {
+          "app_id": "6a54d83b6018fb00153c3ca2",
+          "app_name": "Vibe Coding 学习",
+          "slogan": "理解 Vibe Coding",
+          "use_users": 795,
+          "note_id": "6a55db79000000001603c282"
+        },
+        {
+          "app_id": "6a87e5dcc8b11e00153d6a6e",
+          "app_name": "乌鸦学语",
+          "slogan": "语言学习工具",
+          "use_users": 604,
+          "note_id": "6a8a8122000000001700a14f"
+        },
+        {
+          "app_id": "6a8fcf02384ee400159467ab",
+          "app_name": "一问·Prompt",
+          "slogan": "今天过得怎么样？",
+          "use_users": 266,
+          "note_id": "6a9004b1000000002c03d26b"
+        },
+        {
+          "app_id": "6a8461802ba0fd0015a85f2d",
+          "app_name": "学习小工具",
+          "slogan": "随机生成幼小衔接数学题卡。",
+          "use_users": 560,
+          "note_id": "6a86d7b600000000250041da"
+        },
+        {
+          "app_id": "6a75a5bb91a2720015d90a33",
+          "app_name": "威比的风格库",
+          "slogan": "汇集全笔记提示词，一键复制",
+          "use_users": 564,
+          "note_id": "6a7859a4000000002c007ad9"
+        },
+        {
+          "app_id": "6a890f3fe424b80015cf52c0",
+          "app_name": "赛前方案留档-今晚看球吗",
+          "slogan": "快速生成赛前方案留档卡和复盘",
+          "use_users": 438,
+          "note_id": "6a89556b00000000290267bd"
+        },
+        {
+          "app_id": "6a891cdaf994f900151626e5",
+          "app_name": "数学方程可视化小工具",
+          "slogan": "查看2D曲线和3D曲面",
+          "use_users": 95,
+          "note_id": "6a899c83000000002b0011c6"
+        },
+        {
+          "app_id": "6a987025a2887a0015b67396",
+          "app_name": "数学提前学一对一进度自测",
+          "slogan": "数学提前学进度，个性化学习",
+          "use_users": 27,
+          "note_id": "6a9bdb06000000001103a9a5"
+        },
+        {
+          "app_id": "6a9b0ea4ddc4cf00159df219",
+          "app_name": "Hangman",
+          "slogan": "把背单词变成猜单词",
+          "use_users": 34,
+          "note_id": "6a9bddd2000000002901a4a4"
+        }
+      ]
+    },
+    {
+      "key": "fun",
+      "label": "娱乐互动",
+      "icon": "🎉",
+      "count": 60,
+      "items": [
+        {
+          "app_id": "6a98fb2d3555e000159253b8",
+          "app_name": "阴湿恋人",
+          "slogan": "陪伴",
+          "use_users": 175937,
+          "note_id": "6a99a317000000002900ef4c"
+        },
+        {
+          "app_id": "6a89bc5d2ba0fd0015a86c5c",
+          "app_name": "手机灯牌",
+          "slogan": "手机秒变手持弹幕应援灯牌",
+          "use_users": 83720,
+          "note_id": "6a8c6cbc000000002800a786"
+        },
+        {
+          "app_id": "6a97b521ea512a001565c5fa",
+          "app_name": "Papier - 拼贴诗",
+          "slogan": "把碎片拼成诗",
+          "use_users": 34401,
+          "note_id": "6a97fdc80000000026030c58"
+        },
+        {
+          "app_id": "6a907028e3efb40015e024d5",
+          "app_name": "卡林巴·21键拇指琴",
+          "slogan": "卡林巴·21键拇指琴",
+          "use_users": 24766,
+          "note_id": "6a919956000000002501f566"
+        },
+        {
+          "app_id": "6a8a9658d5704c0015efa1aa",
+          "app_name": "养一片海",
+          "slogan": "90秒养出你的治愈海洋！",
+          "use_users": 132183,
+          "note_id": "6a8ae26d000000002603b437"
+        },
+        {
+          "app_id": "6a9077d0e29cdb0015d5bafa",
+          "app_name": "微醺酒馆",
+          "slogan": "用虚拟的微醺允许自己沉溺温柔",
+          "use_users": 23916,
+          "note_id": "6a91405a00000000070040e9"
+        },
+        {
+          "app_id": "6a88712dc8b11e00153d6bf3",
+          "app_name": "撞色博物馆",
+          "slogan": "你拍的颜色，古人叫它什么",
+          "use_users": 8914,
+          "note_id": "6a892c8a0000000033009893"
+        },
+        {
+          "app_id": "6a8d1cb8e424b80015cf5e02",
+          "app_name": "云端手写铺",
+          "slogan": "一句话，写成治愈手写卡片",
+          "use_users": 5689,
+          "note_id": "6a8d5219000000003302bd31"
+        },
+        {
+          "app_id": "6a914837556c070015ed4879",
+          "app_name": "假如出道，你会成为哪个明星？",
+          "slogan": "出道明星匹配，看看你会成为谁",
+          "use_users": 9101,
+          "note_id": "6a9130230000000026002fe2"
+        },
+        {
+          "app_id": "6a97327fad16f4001502e5f8",
+          "app_name": "查查你的亲友",
+          "slogan": "玩梗记人连线，一页搞定。",
+          "use_users": 4575,
+          "note_id": "6a994726000000000b00fde2"
+        },
+        {
+          "app_id": "6a73069de0d8d700156fded9",
+          "app_name": "卜卜盲盒！超级英雄系列登场！",
+          "slogan": "4系列！36个卜卜等你解锁！",
+          "use_users": 62714,
+          "note_id": "6a740f82000000002402e16a"
+        },
+        {
+          "app_id": "6a95951f0106b30015b89588",
+          "app_name": "海边生活家",
+          "slogan": "赶海逛集市做海鲜过治愈日子",
+          "use_users": 6099,
+          "note_id": "6a96d65a000000002b010db0"
+        },
+        {
+          "app_id": "6a9a4a11ddc4cf00159deed7",
+          "app_name": "嘟嘟扭蛋机",
+          "slogan": "抽肥嘟嘟盲盒，集梗图鉴",
+          "use_users": 5025,
+          "note_id": "6a9a938d0000000011032bfd"
+        },
+        {
+          "app_id": "6a96f745baf575001516db5b",
+          "app_name": "戒酒小酒馆",
+          "slogan": "快来小酒馆戒酒吧",
+          "use_users": 6856,
+          "note_id": "6a97bc9f00000000250375d1"
+        },
+        {
+          "app_id": "6a89420bd5704c0015ef9d1b",
+          "app_name": "赛博木鱼（暴击版）",
+          "slogan": "敲电子木鱼，攒赛博功德",
+          "use_users": 10569,
+          "note_id": "6a897914000000000b027ea4"
+        },
+        {
+          "app_id": "6a96b4c4e29cdb0015ecb5b6",
+          "app_name": "赛博烧香",
+          "slogan": "电子祈福，纯属发疯",
+          "use_users": 1959,
+          "note_id": "6a97976b000000002900c5ce"
+        },
+        {
+          "app_id": "6a924fcead16f4001557fa9b",
+          "app_name": "我的梦中小屋",
+          "slogan": "布置属于你的治愈小屋",
+          "use_users": 2270,
+          "note_id": "6a94e398000000001803dbdb"
+        },
+        {
+          "app_id": "6a7ec2e783a48900159816ce",
+          "app_name": "今日份治愈书单生成器",
+          "slogan": "选择心情，得到专属书单和金句",
+          "use_users": 4605,
+          "note_id": "6a7ecb7d000000000801056e"
+        },
+        {
+          "app_id": "6a8dce84e29cdb0015d5b27a",
+          "app_name": "今日功德结算中...",
+          "slogan": "来算算今天的功德～",
+          "use_users": 7258,
+          "note_id": "6a8ed3b70000000007007d5a"
+        },
+        {
+          "app_id": "6a881d75e44b190015f76669",
+          "app_name": "弹幕炮台",
+          "slogan": "选岔路升级武器轰堡垒",
+          "use_users": 2139,
+          "note_id": "6a8836c90000000017001b95"
+        },
+        {
+          "app_id": "6a593abf1b5ff80015594784",
+          "app_name": "爆炒剧情梗",
+          "slogan": "上千条剧情梗，随机生成新灵感",
+          "use_users": 11470,
+          "note_id": "6a5b8dd8000000000f0157cf"
+        },
+        {
+          "app_id": "6a896a94c8b11e00153d6e8c",
+          "app_name": "雨水拼贴诗",
+          "slogan": "自定义你的拼贴诗",
+          "use_users": 9932,
+          "note_id": "6a89a9350000000008012e2e"
+        },
+        {
+          "app_id": "6a565b653883930015e4f0c5",
+          "app_name": "生成文字指纹",
+          "slogan": "生成你的专属文字指纹",
+          "use_users": 61484,
+          "note_id": "6a56f5bb0000000021009f65"
+        },
+        {
+          "app_id": "6a8422b1e44b190015f75d72",
+          "app_name": "姓名盲盒",
+          "slogan": "随机遇见一个平行世界里的你",
+          "use_users": 3778,
+          "note_id": "6a8456b80000000025006702"
+        },
+        {
+          "app_id": "6a96543a7f0ea30015c25927",
+          "app_name": "梦华簿｜如果古人也发笔记",
+          "slogan": "六题生成你的古代主页",
+          "use_users": 2195,
+          "note_id": "6a9786e8000000001001f935"
+        },
+        {
+          "app_id": "6a6f5dbdf6b8a70015f8cfd2",
+          "app_name": "我的苏丹卡盒",
+          "slogan": "一个对抗无聊的自定义任务盲盒",
+          "use_users": 6512,
+          "note_id": "6a6f7031000000002403c10f"
+        },
+        {
+          "app_id": "6a8d5846f994f900151632f5",
+          "app_name": "盲盒救我狗命",
+          "slogan": "超魔性的开盲盒肉鸽！",
+          "use_users": 741,
+          "note_id": "6a882601000000001600a7c3"
+        },
+        {
+          "app_id": "6a5675bcfb15910015a646e4",
+          "app_name": "3D 虚拟陪伴宠物：曼波",
+          "slogan": "曼波：重大更新",
+          "use_users": 19883,
+          "note_id": "6a5708fa000000001100587a"
+        },
+        {
+          "app_id": "6a847f2eb7bd4900156a385c",
+          "app_name": "岐黄舌盲盒？？？",
+          "slogan": "刮开舌象，挑战六连诊",
+          "use_users": 752,
+          "note_id": "6a578cc5000000001603c774"
+        },
+        {
+          "app_id": "6a93d3dae3efb40015e045e7",
+          "app_name": "微醺调酒小工具",
+          "slogan": "有什么调什么，微醺不迷路",
+          "use_users": 218,
+          "note_id": "6a962c78000000001103b60a"
+        },
+        {
+          "app_id": "6a8a937b9b57b900153ae058",
+          "app_name": "猫meme梗图生成器",
+          "slogan": "用自家孩子生成猫meme梗图",
+          "use_users": 2811,
+          "note_id": "6a8bcf000000000014027d30"
+        },
+        {
+          "app_id": "6a8928632ee6700015adc032",
+          "app_name": "8-BIT 旋律工坊",
+          "slogan": "创作你的8-bit芯片音乐",
+          "use_users": 466,
+          "note_id": "6a8972590000000017001b37"
+        },
+        {
+          "app_id": "6a8428600106b3001577a02f",
+          "app_name": "【国风】古代五声：宫商角徵羽",
+          "slogan": "聆听我国传统音乐五种调式之美",
+          "use_users": 2346,
+          "note_id": "6a84583700000000220335b0"
+        },
+        {
+          "app_id": "6a96e7b0ea512a001565c38e",
+          "app_name": "我的明星女友",
+          "slogan": "模拟和女明星谈恋爱的故事",
+          "use_users": 377,
+          "note_id": "6a97cbf80000000026014e5d"
+        },
+        {
+          "app_id": "6a8446bab7bd4900156a37ba",
+          "app_name": "Picksy转盘扭蛋做决定",
+          "slogan": "一款可爱有趣的选择工具",
+          "use_users": 938,
+          "note_id": "6a8800f3000000002a030160"
+        },
+        {
+          "app_id": "6a93953dee1dff001504579e",
+          "app_name": "滚动字幕小工具",
+          "slogan": "横屏滚动字幕和应援灯牌",
+          "use_users": 201,
+          "note_id": "6a9597b7000000000d024570"
+        },
+        {
+          "app_id": "6a9ba7d0344fae0015aa2ffc",
+          "app_name": "月亮升起来的时候",
+          "slogan": "月亮拼贴诗",
+          "use_users": 402,
+          "note_id": "6a9bb273000000000b0011a8"
+        },
+        {
+          "app_id": "6a7d9a689b57b900153acd08",
+          "app_name": "GrokBot表情实验室",
+          "slogan": "探索GrokBot的各种反应",
+          "use_users": 4339,
+          "note_id": "6a7da9a3000000002800bdd0"
+        },
+        {
+          "app_id": "6a89a842f994f9001516295e",
+          "app_name": "饱饱自助餐",
+          "slogan": "慢慢吃不着急， 治愈系自助餐",
+          "use_users": 932,
+          "note_id": "6a8db4f0000000002503fd1f"
+        },
+        {
+          "app_id": "6a8a8230b7bd4900156a4666",
+          "app_name": "星援闪闪",
+          "slogan": "偶像应援灯牌小工具",
+          "use_users": 434,
+          "note_id": "6a8add810000000026039539"
+        },
+        {
+          "app_id": "6a7eec32b7bd4900156a344a",
+          "app_name": "薇藤的“甜蜜”练习曲？",
+          "slogan": "跟着会唱歌的玩偶的歌声弹奏吧",
+          "use_users": 997,
+          "note_id": "6a7f46ae000000002402d600"
+        },
+        {
+          "app_id": "6a872a180106b3001577a69a",
+          "app_name": "今天洗什么",
+          "slogan": "轻松清洗万物释放压力收获治愈",
+          "use_users": 1577,
+          "note_id": "6a8c50280000000024026f75"
+        },
+        {
+          "app_id": "6a5647ee427cef00154cfe8a",
+          "app_name": "心灵励志师",
+          "slogan": "一句心灵鸡汤，治愈每个女孩",
+          "use_users": 14341,
+          "note_id": "6a56f2e20000000011004229"
+        },
+        {
+          "app_id": "6a8bf5852ba0fd0015a8721a",
+          "app_name": "治愈我的牛马生活",
+          "slogan": "一句最适合此刻你的治愈文案♥",
+          "use_users": 374,
+          "note_id": "6a8d7b040000000026036c7c"
+        },
+        {
+          "app_id": "6a87cd6ac8b11e00153d6a3a",
+          "app_name": "大唐香料铺",
+          "slogan": "为夜客合一炉心事香",
+          "use_users": 726,
+          "note_id": "6a8813c0000000001d01e5f7"
+        },
+        {
+          "app_id": "6a8c6399c8b11e00153d76e3",
+          "app_name": "口袋妖怪弹珠台初代复刻",
+          "slogan": "还记得这个最经典的衍生作嘛",
+          "use_users": 171,
+          "note_id": "6a8cff56000000001700a622"
+        },
+        {
+          "app_id": "6a906390e3efb40015e024bd",
+          "app_name": "猫猫书",
+          "slogan": "用喵们的居家小瓜治愈一下内心",
+          "use_users": 765,
+          "note_id": "6a918463000000002501ed1b"
+        },
+        {
+          "app_id": "6a9789f4ea512a001565c521",
+          "app_name": "我的对象是明星",
+          "slogan": "自定义明星对象的恋爱互动剧本",
+          "use_users": 148,
+          "note_id": "6a97ec940000000011031d04"
+        },
+        {
+          "app_id": "6a92cc89e29cdb0015d5d210",
+          "app_name": "拼贴诗生成器",
+          "slogan": "来试试写下赛博拼贴诗吧",
+          "use_users": 318,
+          "note_id": "6a95251b0000000025027947"
+        },
+        {
+          "app_id": "6a8c1f79e44b190015f771c7",
+          "app_name": "Emosaic Space",
+          "slogan": "0代码自定义个人主页~",
+          "use_users": 1411,
+          "note_id": "6a8938ac0000000022023490"
+        },
+        {
+          "app_id": "6a8e95c1e3efb40015e01e38",
+          "app_name": "幼一稚de模版库",
+          "slogan": "应用模版、一键复刻我的产出！",
+          "use_users": 655,
+          "note_id": "6a8ebae000000000040287cb"
+        },
+        {
+          "app_id": "6a8ec7cc556c070015ed4148",
+          "app_name": "表情猜词",
+          "slogan": "看表情猜出隐藏成语",
+          "use_users": 281,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a8c6933c8b11e00153d76f4",
+          "app_name": "华语流行音乐数据库-作曲人",
+          "slogan": "华语流行音乐数据库",
+          "use_users": 328,
+          "note_id": "6a8d5683000000001a0266ae"
+        },
+        {
+          "app_id": "6a98c618ddc4cf00159de87b",
+          "app_name": "小厨娘的深夜食堂",
+          "slogan": "治愈小厨房🔥谁能连击20次",
+          "use_users": 226,
+          "note_id": "6a9963bd000000002700a100"
+        },
+        {
+          "app_id": "6a9963dba2887a0015b67808",
+          "app_name": "酒灵 家庭调酒助手",
+          "slogan": "输入心情，生成专属鸡尾酒",
+          "use_users": 43,
+          "note_id": "6a9a4b11000000002502e8b8"
+        },
+        {
+          "app_id": "6a7bf4099e1e380015b4df88",
+          "app_name": "三星堆交互博物馆（轻量版）",
+          "slogan": "一个三星堆文明交互博物馆",
+          "use_users": 1708,
+          "note_id": "6a7c21a10000000008012a27"
+        },
+        {
+          "app_id": "6a64b642fe8b01001593d3a2",
+          "app_name": "答案盲盒",
+          "slogan": "你负责提问，宇宙负责回答",
+          "use_users": 8431,
+          "note_id": "6a64ed190000000011012288"
+        },
+        {
+          "app_id": "6a83d21bb7bd4900156a3673",
+          "app_name": "手冲物语",
+          "slogan": "陪伴你手冲咖啡过程更有乐趣",
+          "use_users": 219,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a5f02a2427cef00154d001b",
+          "app_name": "发疯语录生成器",
+          "slogan": "当代打工人的精神嘴替",
+          "use_users": 6896,
+          "note_id": "6a5f468b000000001101b42e"
+        },
+        {
+          "app_id": "6a8489589b57b900153ad1a6",
+          "app_name": "功德木鱼",
+          "slogan": "敲一下，积一点",
+          "use_users": 464,
+          "note_id": "6a86c24d000000000c025fb8"
+        }
+      ]
+    },
+    {
+      "key": "other",
+      "label": "其他",
+      "icon": "✨",
+      "count": 60,
+      "items": [
+        {
+          "app_id": "6a8e857f384ee400159463f9",
+          "app_name": "Pretty Girl",
+          "slogan": "remine!! 一起变🪄",
+          "use_users": 825764,
+          "note_id": "6a8ec0f2000000002501e636"
+        },
+        {
+          "app_id": "6a8fcccb556c070015ed43c6",
+          "app_name": "中国牛能飞（可自定义角色）",
+          "slogan": "内置多种角色，可自定义角色",
+          "use_users": 192321,
+          "note_id": "6a8ff4160000000026007f8a"
+        },
+        {
+          "app_id": "6a952dbc7f0ea30015c255de",
+          "app_name": "环境保护意识调查问卷",
+          "slogan": "增强人们环保意识（？）",
+          "use_users": 178635,
+          "note_id": "6a96c14f000000002a02e36c"
+        },
+        {
+          "app_id": "6a848f8b0106b3001577a12a",
+          "app_name": "七宗罪 × 七美德",
+          "slogan": "14维度观察欲望、调节与善意",
+          "use_users": 551579,
+          "note_id": "6a86839c000000003300e86b"
+        },
+        {
+          "app_id": "6a984b26ddc4cf00159de75c",
+          "app_name": "ASMR直播间：我来当主播",
+          "slogan": "自己做ASMR，哄睡所有人",
+          "use_users": 83984,
+          "note_id": "6a992762000000001203fe53"
+        },
+        {
+          "app_id": "6a8c4fb5d5704c0015efa6d4",
+          "app_name": "小灶王",
+          "slogan": "爱与美食不可辜负 好好吃饭",
+          "use_users": 185061,
+          "note_id": "6a8ffbaf000000000402ac66"
+        },
+        {
+          "app_id": "6a8ac8352ee6700015adc573",
+          "app_name": "泳池派对",
+          "slogan": "在泳池中一决高下吧～",
+          "use_users": 86484,
+          "note_id": "6a8fb6080000000029036bad"
+        },
+        {
+          "app_id": "6a8da7f1ee1dff0015042ca3",
+          "app_name": "球球别停下",
+          "slogan": "轻轻一碰，球球变大",
+          "use_users": 90291,
+          "note_id": "6a8dbfa8000000002501c1d0"
+        },
+        {
+          "app_id": "6a8dbebc4045f30015093ad0",
+          "app_name": "OC灵感转盘",
+          "slogan": "没有灵感？来OC转盘转转！",
+          "use_users": 123837,
+          "note_id": "6a8e6ee30000000026004d84"
+        },
+        {
+          "app_id": "6a93a20be29cdb0015d5dd5b",
+          "app_name": "欢迎光临！小狗咖啡厅~",
+          "slogan": "来达成世界最佳小狗咖啡吧！",
+          "use_users": 27290,
+          "note_id": "6a95803200000000280065b1"
+        },
+        {
+          "app_id": "6a8f0e1be29cdb0015d5b6ce",
+          "app_name": "小馆正忙",
+          "slogan": "90秒手忙脚乱，做饭挑战！",
+          "use_users": 220400,
+          "note_id": "6a8fb320000000001f0050c1"
+        },
+        {
+          "app_id": "6a958e8ce3efb40015e04b97",
+          "app_name": "小小缝纫店",
+          "slogan": "拥有自己的缝纫店，做大做强！",
+          "use_users": 37986,
+          "note_id": "6a96ac84000000002a027dca"
+        },
+        {
+          "app_id": "6a8c604bd5704c0015efa70f",
+          "app_name": "我要喝奶茶2",
+          "slogan": "一杯不用长肉的虚拟奶茶",
+          "use_users": 250690,
+          "note_id": "6a75b422000000002800a75b"
+        },
+        {
+          "app_id": "6a87fee4e424b80015cf509a",
+          "app_name": "滑雪小冒险",
+          "slogan": "收集金币，逃离雪崩！",
+          "use_users": 86397,
+          "note_id": "6a882085000000003302881c"
+        },
+        {
+          "app_id": "6a8ff39b7f0ea30015c22dfc",
+          "app_name": "词喂喂",
+          "slogan": "背一个词，喂一口猫。完善版",
+          "use_users": 276249,
+          "note_id": "6a90dcfc000000001f00356e"
+        },
+        {
+          "app_id": "6a86c2b6e424b80015cf4dc5",
+          "app_name": "编个故事",
+          "slogan": "随便填词，看看会发生什么",
+          "use_users": 173818,
+          "note_id": "6a86e8360000000027031292"
+        },
+        {
+          "app_id": "6a905c007f0ea30015c22ff4",
+          "app_name": "入窑万彩·数字陶艺DIY",
+          "slogan": "入窑一色出窑万彩·陶艺DIY",
+          "use_users": 26589,
+          "note_id": "6a914dc3000000002003a757"
+        },
+        {
+          "app_id": "6a850abdc8b11e00153d63b5",
+          "app_name": "叠叠高",
+          "slogan": "点击叠高方块挑战你的极限高度",
+          "use_users": 79902,
+          "note_id": "6a88fa65000000001600ab93"
+        },
+        {
+          "app_id": "6a8eac89ee1dff0015042f40",
+          "app_name": "中国人能飞",
+          "slogan": "中国人能飞飞出地球，飞向宇宙",
+          "use_users": 26518,
+          "note_id": "6a8ec88d0000000028004e1d"
+        },
+        {
+          "app_id": "6a8dc04d556c070015ed3e31",
+          "app_name": "刚刚好",
+          "slogan": "点一下，看你有多准！",
+          "use_users": 30985,
+          "note_id": "6a8e650d000000002a0310e9"
+        },
+        {
+          "app_id": "6a86fd520106b3001577a629",
+          "app_name": "【ARG】永安温泉度假酒店",
+          "slogan": "忘掉思考，纯粹感受",
+          "use_users": 214914,
+          "note_id": "6a87d8d3000000002702afdf"
+        },
+        {
+          "app_id": "6a90514a7f0ea30015c22fd1",
+          "app_name": "挣他一个亿",
+          "slogan": "先定一个小目标",
+          "use_users": 19866,
+          "note_id": "6a9173d40000000008010e0c"
+        },
+        {
+          "app_id": "6a83f629e44b190015f75cd3",
+          "app_name": "像素盖房子",
+          "slogan": "看看你能在像素小镇盖多高?",
+          "use_users": 64462,
+          "note_id": "6a83fa55000000002701c385"
+        },
+        {
+          "app_id": "6a9669cd384ee40015949485",
+          "app_name": "阿玉开石坊：稀有玉髓任你开",
+          "slogan": "阿蚌姊妹篇，翡翠水晶任你出",
+          "use_users": 19916,
+          "note_id": "6a98529a0000000025037fdc"
+        },
+        {
+          "app_id": "6a92d9aead16f4001557fc7d",
+          "app_name": "同人属性图生成器",
+          "slogan": "生成自己的同人观念倾向属性图",
+          "use_users": 26138,
+          "note_id": "6a95144f00000000260036ba"
+        },
+        {
+          "app_id": "6a8ee52f0106b30015b868be",
+          "app_name": "狼人杀",
+          "slogan": "和AI来一次刺激的狼人杀",
+          "use_users": 75761,
+          "note_id": "6a91af2b0000000007005daf"
+        },
+        {
+          "app_id": "6a91992e556c070015ed4bfc",
+          "app_name": "梁又年给夏淼淼的专属",
+          "slogan": "学长，你太美好了",
+          "use_users": 19188,
+          "note_id": "6a92b9640000000008011149"
+        },
+        {
+          "app_id": "6a845f59e424b80015cf494b",
+          "app_name": "爽了吗",
+          "slogan": "大声发泄，释放情绪压力",
+          "use_users": 65175,
+          "note_id": "6a856838000000002c006326"
+        },
+        {
+          "app_id": "6a8efc50e424b800151eb458",
+          "app_name": "上课偷吃大赛",
+          "slogan": "下课铃前吃完，别被抓！",
+          "use_users": 55501,
+          "note_id": "6a8f92ce0000000026006588"
+        },
+        {
+          "app_id": "6a8dbc6be29cdb0015d5b241",
+          "app_name": "水钻贴一切",
+          "slogan": "水钻我贴我贴我贴贴贴",
+          "use_users": 120423,
+          "note_id": "6a8e7f33000000001e016853"
+        },
+        {
+          "app_id": "6a961c64ee1dff0015045ec9",
+          "app_name": "芭比梦幻星城",
+          "slogan": "体验芭比的世界",
+          "use_users": 21656,
+          "note_id": "6a96b408000000002b024608"
+        },
+        {
+          "app_id": "6a9a7c003555e0001592590e",
+          "app_name": "纸箱猫",
+          "slogan": "开箱收集独一无二的猫",
+          "use_users": 17946,
+          "note_id": "6a9ab2bd000000002b011bf6"
+        },
+        {
+          "app_id": "6a8d8515e29cdb0015d5b18a",
+          "app_name": "星球大作战",
+          "slogan": "吃光物质，成为宇宙最强！",
+          "use_users": 83676,
+          "note_id": "6a8fe25f000000002902aded"
+        },
+        {
+          "app_id": "6a9a8a0fa2887a0015b67c00",
+          "app_name": "热脸贱竹马不可能是阴湿男鬼！",
+          "slogan": "竹马哥你不对吧",
+          "use_users": 21064,
+          "note_id": "6a9bc3eb000000002902cba7"
+        },
+        {
+          "app_id": "6a8f17384045f30015093f7a",
+          "app_name": "切水果",
+          "slogan": "切水果做沙拉，乐趣顶呱呱",
+          "use_users": 43586,
+          "note_id": "6a93d870000000001803f02a"
+        },
+        {
+          "app_id": "6a8d212ab7bd4900156a4d37",
+          "app_name": "UNO!",
+          "slogan": "单机版UNO对战",
+          "use_users": 44966,
+          "note_id": "6a8d89c6000000002903c5c6"
+        },
+        {
+          "app_id": "6a928ed0e424b800151ecf23",
+          "app_name": "谁是汉堡王",
+          "slogan": "挑战100层，成为汉堡王！",
+          "use_users": 12235,
+          "note_id": "6a94ed64000000001803d39c"
+        },
+        {
+          "app_id": "6a8aeed69b57b900153ae12c",
+          "app_name": "借个角",
+          "slogan": "看准角度，一点就拐！",
+          "use_users": 47674,
+          "note_id": "6a8c39ea000000003301880d"
+        },
+        {
+          "app_id": "6a94e2f27f0ea30015c25471",
+          "app_name": "中国人会飞",
+          "slogan": "左右滑动，一路飞上月球",
+          "use_users": 48741,
+          "note_id": "6a968a48000000002a02f1b4"
+        },
+        {
+          "app_id": "6a98de52eeb797001535b867",
+          "app_name": "好运厨房2.0——白手起家",
+          "slogan": "接手好运厨房，实现你的暴富梦",
+          "use_users": 8777,
+          "note_id": "6a9934ee000000002901094d"
+        },
+        {
+          "app_id": "6a88569f0106b3001577a905",
+          "app_name": "饲",
+          "slogan": "你能成为合格的饲主吗",
+          "use_users": 141911,
+          "note_id": "6a890beb0000000016022e86"
+        },
+        {
+          "app_id": "6a968bcf67d8bd0015d520aa",
+          "app_name": "兰州拉面主理人",
+          "slogan": "一头牛，够你切几年？",
+          "use_users": 67015,
+          "note_id": "6a983c650000000011032cf5"
+        },
+        {
+          "app_id": "6a8fed3d4045f30015094163",
+          "app_name": "车珠子·合手串",
+          "slogan": "串出属于你的手串",
+          "use_users": 13447,
+          "note_id": "6a9064e50000000029034169"
+        },
+        {
+          "app_id": "6a945f8aee1dff00150459e6",
+          "app_name": "地铁末班车",
+          "slogan": "末班车上，第7个乘客是谁？",
+          "use_users": 18762,
+          "note_id": "6a944229000000002003b67f"
+        },
+        {
+          "app_id": "6a8d3a2a2ee6700015adcc91",
+          "app_name": "你要吃饭不？",
+          "slogan": "躲开猫店长偷偷吃饭",
+          "use_users": 22947,
+          "note_id": "6a8d9a1f000000002503e754"
+        },
+        {
+          "app_id": "6a901af0e3efb40015e023a3",
+          "app_name": "末班便利店",
+          "slogan": "看清门外的人再开门",
+          "use_users": 108859,
+          "note_id": "6a90446a000000001f0030f2"
+        },
+        {
+          "app_id": "6a94d9b9e424b800151ede5a",
+          "app_name": "谁是你命中的偏执深情者？番外",
+          "slogan": "6种深情人设剧情番外",
+          "use_users": 46399,
+          "note_id": "6a965f31000000001203f4a2"
+        },
+        {
+          "app_id": "6a8fb7b6e3efb40015e021d7",
+          "app_name": "有野人偷吃保险",
+          "slogan": "你同意吗？",
+          "use_users": 155984,
+          "note_id": "6a914f040000000004029cfb"
+        },
+        {
+          "app_id": "6a89c190c8b11e00153d700e",
+          "app_name": "不可回信",
+          "slogan": "多周目文游",
+          "use_users": 171669,
+          "note_id": "6a89c7a9000000003400d22a"
+        },
+        {
+          "app_id": "6a96a7d0ea512a001565c27d",
+          "app_name": "救救养鸡场",
+          "slogan": "天崩开局，一只鸡赚够200万",
+          "use_users": 33440,
+          "note_id": "6a97981400000000250377ae"
+        },
+        {
+          "app_id": "6a994d5aa2887a0015b677b0",
+          "app_name": "口袋小厨房",
+          "slogan": "采购食材，做料理，开图鉴！",
+          "use_users": 20256,
+          "note_id": "6a9a665c000000002802e649"
+        },
+        {
+          "app_id": "6a8ed177e29cdb0015d5b5dc",
+          "app_name": "乌龟对对碰",
+          "slogan": "好玩有趣的乌龟对对碰",
+          "use_users": 36918,
+          "note_id": "6a9aa644000000001001cacf"
+        },
+        {
+          "app_id": "6a703b45fc0d83001595ca70",
+          "app_name": "Q团外卖",
+          "slogan": "好吃您再来",
+          "use_users": 640825,
+          "note_id": "6a703e400000000035017551"
+        },
+        {
+          "app_id": "6a8ea0bd4045f30015093d13",
+          "app_name": "欢迎来到特调局",
+          "slogan": "入职特调局，这里的同事有点怪",
+          "use_users": 163702,
+          "note_id": "6a8f9935000000002c03dbd6"
+        },
+        {
+          "app_id": "6a982f42ddc4cf00159de6e2",
+          "app_name": "心动恋爱",
+          "slogan": "与爱豆模拟恋爱",
+          "use_users": 14768,
+          "note_id": "6a995acb000000002803b63d"
+        },
+        {
+          "app_id": "6a9533aae29cdb0015d5e218",
+          "app_name": "卷卷棉花糖",
+          "slogan": "亲手卷出你的3D棉花糖",
+          "use_users": 5670,
+          "note_id": "6a97b12e0000000011037b6b"
+        },
+        {
+          "app_id": "6a856b722ee6700015adb84b",
+          "app_name": "破网",
+          "slogan": "交互展示-拖动粉色鱼破开边界",
+          "use_users": 82536,
+          "note_id": "6a85a71b0000000033008fe4"
+        },
+        {
+          "app_id": "6a913fdb7f0ea30015c231a3",
+          "app_name": "马上就聘",
+          "slogan": "快来获得心仪的offer吧",
+          "use_users": 126553,
+          "note_id": "6a916620000000002501b417"
+        },
+        {
+          "app_id": "6a9485c8e29cdb0015d5dfdc",
+          "app_name": "GeoSurvivor 极限",
+          "slogan": "白昼击退聚怪，极夜伤害翻倍",
+          "use_users": 6472,
+          "note_id": "6a96af0600000000280020a7"
+        },
+        {
+          "app_id": "6a9292437f0ea30015c24585",
+          "app_name": "我的空岛农场——点点种菜",
+          "slogan": "体验MC空岛风格的点点收菜",
+          "use_users": 11712,
+          "note_id": "6a93d54c00000000080117da"
+        }
+      ]
+    }
+  ],
+  "useList": [
+    {
+      "app_id": "6a8854b72ba0fd0015a867d9",
+      "app_name": "测测你的灵魂像什么食物",
+      "slogan": "一共12道题，21种结果",
+      "use_users": 1103544,
+      "note_id": "6a890bab0000000028000e97"
+    },
+    {
+      "app_id": "6a8ffd36384ee40015946865",
+      "app_name": "理想型测试（阴湿版）",
+      "slogan": "沉浸式情感体验",
+      "use_users": 1018153,
+      "note_id": "6a902f100000000025027c8b"
+    },
+    {
+      "app_id": "6a69b8e34bd4cc001599e41d",
+      "app_name": "捡手机文学生成器",
+      "slogan": "聊天记录，论坛推特，轻松产粮",
+      "use_users": 970225,
+      "note_id": "6a69becb0000000001003dc0"
+    },
+    {
+      "app_id": "6a9151214045f30015094593",
+      "app_name": "开蚌直播间：稀有珍珠由你开",
+      "slogan": "开蚌拆珍珠，做首饰经营小游戏",
+      "use_users": 853664,
+      "note_id": "6a916fe20000000020030c01"
+    },
+    {
+      "app_id": "6a86aaed2ba0fd0015a86334",
+      "app_name": "烤肉模拟器",
+      "slogan": "烤出各种风味烤肉交付给客人！",
+      "use_users": 847744,
+      "note_id": "6a86c7af000000001402808b"
+    },
+    {
+      "app_id": "6a8e857f384ee400159463f9",
+      "app_name": "Pretty Girl",
+      "slogan": "remine!! 一起变🪄",
+      "use_users": 831719,
+      "note_id": "6a8ec0f2000000002501e636"
+    },
+    {
+      "app_id": "6a703b45fc0d83001595ca70",
+      "app_name": "Q团外卖",
+      "slogan": "好吃您再来",
+      "use_users": 644917,
+      "note_id": "6a703e400000000035017551"
+    },
+    {
+      "app_id": "6a896ba40106b3001577ac5c",
+      "app_name": "浮生扇影",
+      "slogan": "治愈系水墨漆扇DIY小游戏",
+      "use_users": 574082,
+      "note_id": "6a8a81ca000000003703cb6b"
+    },
+    {
+      "app_id": "6a848f8b0106b3001577a12a",
+      "app_name": "七宗罪 × 七美德",
+      "slogan": "14维度观察欲望、调节与善意",
+      "use_users": 556688,
+      "note_id": "6a86839c000000003300e86b"
+    },
+    {
+      "app_id": "6a83dbe42ee6700015adb4b3",
+      "app_name": "kpop爱豆模拟器-爱豆日记",
+      "slogan": "体验最真实的kpop模拟✨",
+      "use_users": 523677,
+      "note_id": "6a83e70b000000003302ee7a"
+    },
+    {
+      "app_id": "6a8c0196e44b190015f7716c",
+      "app_name": "梦回高三（高三模拟器）",
+      "slogan": "重生之我再活一次高三",
+      "use_users": 513607,
+      "note_id": "6a8c1669000000002b00294d"
+    },
+    {
+      "app_id": "6a8573aa9b57b900153ad339",
+      "app_name": "如果你是流浪猫，你能活几周呢",
+      "slogan": "流浪猫生存模拟器小游戏",
+      "use_users": 513238,
+      "note_id": "6a85ad5e000000002202ccd5"
+    },
+    {
+      "app_id": "6a62490fd8df040015f858ab",
+      "app_name": "后室漫游",
+      "slogan": "体验掉入后室的一天！",
+      "use_users": 507177,
+      "note_id": "6a62ae88000000000f008886"
+    },
+    {
+      "app_id": "6a865e9ee44b190015f76192",
+      "app_name": "花光马斯克的钱",
+      "slogan": "一万亿美元，你花得完吗",
+      "use_users": 506553,
+      "note_id": "6a86bdb400000000330183b2"
+    },
+    {
+      "app_id": "6a8c7af1f994f9001516316d",
+      "app_name": "困住小蚂蚁",
+      "slogan": "蚂蚁军团，金币赚到爽",
+      "use_users": 457723,
+      "note_id": "6a8d18d5000000003302b9b9"
+    },
+    {
+      "app_id": "6a83e8d09b57b900153acfe4",
+      "app_name": "戳泥泥 小游戏",
+      "slogan": "一款可以戳电子泥的解压小游戏",
+      "use_users": 447495,
+      "note_id": "6a83fd41000000002800b2ba"
+    },
+    {
+      "app_id": "6a87bea3f994f9001516236b",
+      "app_name": "围住小猫",
+      "slogan": "试试你能不能圈住小猫",
+      "use_users": 426047,
+      "note_id": "6a8ef0280000000021024837"
+    },
+    {
+      "app_id": "6a9161157f0ea30015c2325f",
+      "app_name": "疯狂妈妈CrazyMam",
+      "slogan": "一个家庭怪咖追逐生存音乐游戏",
+      "use_users": 407661,
+      "note_id": "6a91b1ec000000000303ff2e"
+    },
+    {
+      "app_id": "6a89540fe44b190015f7696e",
+      "app_name": "节奏大厨",
+      "slogan": "跟随音乐节奏做一道美食",
+      "use_users": 395194,
+      "note_id": "6a8b104f0000000033023a7f"
+    },
+    {
+      "app_id": "6a8e6b0cee1dff0015042db6",
+      "app_name": "他出轨了吗",
+      "slogan": "我把“查手机”做成了推理游戏",
+      "use_users": 395187,
+      "note_id": "6a8e77d1000000001803f1ca"
+    },
+    {
+      "app_id": "6a720fd8b88d260015e2d868",
+      "app_name": "塔罗抽牌｜49个牌阵+学习册",
+      "slogan": "感情|事业|找东西|生命数字",
+      "use_users": 371924,
+      "note_id": "6a72b9fa0000000027021f50"
+    },
+    {
+      "app_id": "6a8fdef54045f30015094126",
+      "app_name": "富豪排行榜",
+      "slogan": "点击触发随机事件，积累财富",
+      "use_users": 326246,
+      "note_id": "6a8ffc9c00000000240076f5"
+    },
+    {
+      "app_id": "6a892518e44b190015f768ab",
+      "app_name": "剪纸生花",
+      "slogan": "创作数字剪纸作品",
+      "use_users": 309439,
+      "note_id": "6a8956d2000000001801a46f"
+    },
+    {
+      "app_id": "6a8cfb60d5704c0015efa7e7",
+      "app_name": "挤痘｜解压小游戏",
+      "slogan": "六关卡解救强迫症；31日更新",
+      "use_users": 291794,
+      "note_id": "6a8ef279000000002c03cb28"
+    },
+    {
+      "app_id": "6a6ee9b8b0cdaa001530ed16",
+      "app_name": "跳吧，小球！",
+      "slogan": "转动糖果塔，帮小球蹦跶回家！",
+      "use_users": 290661,
+      "note_id": "6a6eeda3000000002403ee37"
+    },
+    {
+      "app_id": "6a893dc09b57b900153adb95",
+      "app_name": "推推屋丨喜欢的Ta→像素小屋",
+      "slogan": "捏人 对话 投喂 养成 社交",
+      "use_users": 287005,
+      "note_id": "6a868e5c000000003301b31f"
+    },
+    {
+      "app_id": "6a8672922ba0fd0015a8627b",
+      "app_name": "不要碰红色",
+      "slogan": "控制小球躲避障碍小游戏",
+      "use_users": 279753,
+      "note_id": "6a86ad46000000003303315c"
+    },
+    {
+      "app_id": "6a8ff39b7f0ea30015c22dfc",
+      "app_name": "词喂喂",
+      "slogan": "背一个词，喂一口猫。完善版",
+      "use_users": 278047,
+      "note_id": "6a90dcfc000000001f00356e"
+    },
+    {
+      "app_id": "6a786e1da372b4001533396a",
+      "app_name": "出道模拟器",
+      "slogan": "一起成为明星吧",
+      "use_users": 275951,
+      "note_id": "6a787e69000000003300c271"
+    },
+    {
+      "app_id": "6a846b052ee6700015adb679",
+      "app_name": "SUPER POWER",
+      "slogan": "和吴晓梅一起power up",
+      "use_users": 267870,
+      "note_id": "6a71b9c1000000002403d176"
+    },
+    {
+      "app_id": "6a87be0f2ee6700015adbce2",
+      "app_name": "火柴人闯关",
+      "slogan": "贴住墙就能往上爬",
+      "use_users": 259760,
+      "note_id": "6a88414b000000002202f350"
+    },
+    {
+      "app_id": "6a7964cb789d8f0015d5db78",
+      "app_name": "堆高高",
+      "slogan": "堆高高小游戏",
+      "use_users": 258478,
+      "note_id": "6a796dd30000000021022342"
+    },
+    {
+      "app_id": "6a902b9ae3efb40015e023e5",
+      "app_name": "恋综模拟器",
+      "slogan": "心动的信号～快来参加恋综吧！",
+      "use_users": 256869,
+      "note_id": "6a925f31000000002c03d900"
+    },
+    {
+      "app_id": "6a8c604bd5704c0015efa70f",
+      "app_name": "我要喝奶茶2",
+      "slogan": "一杯不用长肉的虚拟奶茶",
+      "use_users": 252257,
+      "note_id": "6a75b422000000002800a75b"
+    },
+    {
+      "app_id": "6a86c255e44b190015f762f9",
+      "app_name": "果冻啵啵爆",
+      "slogan": "解压小游戏，Q弹果冻超好玩",
+      "use_users": 247586,
+      "note_id": "6a86ea9e000000002402c6db"
+    },
+    {
+      "app_id": "6a86e503e424b80015cf4e43",
+      "app_name": "钢琴块大师",
+      "slogan": "点中琴块弹出整首曲",
+      "use_users": 237219,
+      "note_id": "6a8835a80000000028027310"
+    },
+    {
+      "app_id": "6a898c529b57b900153add48",
+      "app_name": "第五席",
+      "slogan": "五章沉浸式点击恐怖解谜",
+      "use_users": 235923,
+      "note_id": "6a8b2c7f0000000026038298"
+    },
+    {
+      "app_id": "6a8988d89b57b900153add38",
+      "app_name": "小心别被老师发现",
+      "slogan": "机房玩游戏模拟器",
+      "use_users": 234672,
+      "note_id": "6a899306000000002603b93d"
+    },
+    {
+      "app_id": "6a8af0dde44b190015f76e63",
+      "app_name": "拼豆小屋",
+      "slogan": "拼豆模拟器",
+      "use_users": 233016,
+      "note_id": "6a8ff564000000001f00705a"
+    },
+    {
+      "app_id": "6a8ad553f994f90015162c8b",
+      "app_name": "解压拼豆豆",
+      "slogan": "在线拼豆，解压不伤身",
+      "use_users": 232073,
+      "note_id": "6a8ad88e0000000033019fa5"
+    },
+    {
+      "app_id": "6a8426e7c8b11e00153d6232",
+      "app_name": "会停车吗你",
+      "slogan": "在坦克到达前完成倒车入库！",
+      "use_users": 231826,
+      "note_id": "6a848caa000000003301bb84"
+    },
+    {
+      "app_id": "6a85d3c59b57b900153ad42c",
+      "app_name": "《夜班》网页经营微恐小游戏",
+      "slogan": "夜间氛围的探索解谜小游戏",
+      "use_users": 229605,
+      "note_id": "6a806b45000000003300d400"
+    },
+    {
+      "app_id": "6a7fcff8b7bd4900156a3496",
+      "app_name": "方块谷",
+      "slogan": "一个益智解压小游戏",
+      "use_users": 229149,
+      "note_id": "6a7feb580000000027023f48"
+    },
+    {
+      "app_id": "6a8f0e1be29cdb0015d5b6ce",
+      "app_name": "小馆正忙",
+      "slogan": "90秒手忙脚乱，做饭挑战！",
+      "use_users": 221940,
+      "note_id": "6a8fb320000000001f0050c1"
+    },
+    {
+      "app_id": "6a86fd520106b3001577a629",
+      "app_name": "【ARG】永安温泉度假酒店",
+      "slogan": "忘掉思考，纯粹感受",
+      "use_users": 216085,
+      "note_id": "6a87d8d3000000002702afdf"
+    },
+    {
+      "app_id": "6a8beb0af994f90015162f5a",
+      "app_name": "骑手送外卖模拟器",
+      "slogan": "接单取餐，安全送到",
+      "use_users": 213778,
+      "note_id": "6a8e3df7000000001e0143b4"
+    },
+    {
+      "app_id": "6a8d39690106b3001577b6e8",
+      "app_name": "Haerin Dash",
+      "slogan": "Bunnies集合！",
+      "use_users": 207199,
+      "note_id": "6a8d5fc30000000016021c8f"
+    },
+    {
+      "app_id": "6a90d122ad16f4001557e62a",
+      "app_name": "清明上河图：我在汴京摆地摊",
+      "slogan": "在汴京街头摆摊搞钱，爽翻了！",
+      "use_users": 204667,
+      "note_id": "6a913ec70000000025026b45"
+    },
+    {
+      "app_id": "6a93dad3384ee40015948d23",
+      "app_name": "网暴模拟器",
+      "slogan": "希望我们都多些理智",
+      "use_users": 198328,
+      "note_id": "6a9673780000000025034653"
+    },
+    {
+      "app_id": "6a8fcccb556c070015ed43c6",
+      "app_name": "中国牛能飞（可自定义角色）",
+      "slogan": "内置多种角色，可自定义角色",
+      "use_users": 194345,
+      "note_id": "6a8ff4160000000026007f8a"
+    },
+    {
+      "app_id": "6a5e6ada427cef00154d0008",
+      "app_name": "摸鱼一下",
+      "slogan": "随手解压一下",
+      "use_users": 193576,
+      "note_id": "6a5efef0000000001f01f236"
+    },
+    {
+      "app_id": "6a86f9262ee6700015adbbc3",
+      "app_name": "地铁生存战",
+      "slogan": "挑战模式上线！真实早高峰通勤",
+      "use_users": 193398,
+      "note_id": "6a8aeecc000000003300e56d"
+    },
+    {
+      "app_id": "6a8c4fb5d5704c0015efa6d4",
+      "app_name": "小灶王",
+      "slogan": "爱与美食不可辜负 好好吃饭",
+      "use_users": 186450,
+      "note_id": "6a8ffbaf000000000402ac66"
+    },
+    {
+      "app_id": "6a574c851b5ff8001559471e",
+      "app_name": "今天玩什么",
+      "slogan": "随时开一局，轻松玩点不费脑的",
+      "use_users": 184721,
+      "note_id": "6a575638000000001603dae6"
+    },
+    {
+      "app_id": "6a8718ead5704c0015ef9864",
+      "app_name": "修仙人生模拟器",
+      "slogan": "随机出生，改写你的修仙人生",
+      "use_users": 180757,
+      "note_id": "6a87da7b000000002203eb5a"
+    },
+    {
+      "app_id": "6a952dbc7f0ea30015c255de",
+      "app_name": "环境保护意识调查问卷",
+      "slogan": "增强人们环保意识（？）",
+      "use_users": 179960,
+      "note_id": "6a96c14f000000002a02e36c"
+    },
+    {
+      "app_id": "6a98fb2d3555e000159253b8",
+      "app_name": "阴湿恋人",
+      "slogan": "陪伴",
+      "use_users": 177503,
+      "note_id": "6a99a317000000002900ef4c"
+    },
+    {
+      "app_id": "6a86c2b6e424b80015cf4dc5",
+      "app_name": "编个故事",
+      "slogan": "随便填词，看看会发生什么",
+      "use_users": 175225,
+      "note_id": "6a86e8360000000027031292"
+    },
+    {
+      "app_id": "6a7168805523010015f133b8",
+      "app_name": "跳一跳",
+      "slogan": "跳一跳小游戏",
+      "use_users": 174865,
+      "note_id": "6a7174f500000000320303bb"
+    },
+    {
+      "app_id": "6a89c190c8b11e00153d700e",
+      "app_name": "不可回信",
+      "slogan": "多周目文游",
+      "use_users": 172863,
+      "note_id": "6a89c7a9000000003400d22a"
+    },
+    {
+      "app_id": "6a950bf9e29cdb0015d5e0e8",
+      "app_name": "泳池后室 POOLROOMS",
+      "slogan": "在一片无边无际的泳池中探索",
+      "use_users": 171816,
+      "note_id": "6a967a1b0000000011036df1"
+    },
+    {
+      "app_id": "6a8ea0bd4045f30015093d13",
+      "app_name": "欢迎来到特调局",
+      "slogan": "入职特调局，这里的同事有点怪",
+      "use_users": 164705,
+      "note_id": "6a8f9935000000002c03dbd6"
+    },
+    {
+      "app_id": "6a8012fe9b57b900153acdf6",
+      "app_name": "恋爱模拟器",
+      "slogan": "要不要谈一场甜甜的恋爱",
+      "use_users": 160313,
+      "note_id": "6a801eac00000000280041f8"
+    },
+    {
+      "app_id": "6a8fb7b6e3efb40015e021d7",
+      "app_name": "有野人偷吃保险",
+      "slogan": "你同意吗？",
+      "use_users": 157920,
+      "note_id": "6a914f040000000004029cfb"
+    },
+    {
+      "app_id": "6a86c32fe424b80015cf4dcb",
+      "app_name": "云拼豆（3D模拟拼豆）",
+      "slogan": "摸鱼必备，在线玩拼豆",
+      "use_users": 151620,
+      "note_id": "6a87e74e0000000035016fa7"
+    },
+    {
+      "app_id": "6a8f08347f0ea30015c22bf2",
+      "app_name": "养一只小仓鼠",
+      "slogan": "来喂养一只可爱的小仓鼠吧！",
+      "use_users": 147223,
+      "note_id": "6a8f09c70000000026003591"
+    },
+    {
+      "app_id": "6a8863950106b3001577a932",
+      "app_name": "寻呼1996",
+      "slogan": "免费悬疑文字冒险解谜游戏",
+      "use_users": 147048,
+      "note_id": "6a86e717000000003a020606"
+    },
+    {
+      "app_id": "6a983d0852d5f4001518688b",
+      "app_name": "被病态上司看上了怎么办！",
+      "slogan": "又名：牛马模拟器（？）",
+      "use_users": 146486,
+      "note_id": "6a98fdbb000000002b0111b5"
+    },
+    {
+      "app_id": "6a88569f0106b3001577a905",
+      "app_name": "饲",
+      "slogan": "你能成为合格的饲主吗",
+      "use_users": 142935,
+      "note_id": "6a890beb0000000016022e86"
+    },
+    {
+      "app_id": "6a8873e60106b3001577a964",
+      "app_name": "密了个码",
+      "slogan": "烧脑解码大挑战",
+      "use_users": 142270,
+      "note_id": "6a907bd3000000001e016c82"
+    },
+    {
+      "app_id": "6a8afa7be424b80015cf5910",
+      "app_name": "摸鱼办公室",
+      "slogan": "躲老板，摸鱼到下班的小游戏",
+      "use_users": 140464,
+      "note_id": "6a8b83660000000033029e96"
+    },
+    {
+      "app_id": "6a89e854f994f90015162ae9",
+      "app_name": "挖耳屎模拟器",
+      "slogan": "模拟挖耳屎的视觉体验",
+      "use_users": 139075,
+      "note_id": "6a8a9171000000001402900b"
+    },
+    {
+      "app_id": "6a8a9658d5704c0015efa1aa",
+      "app_name": "养一片海",
+      "slogan": "90秒养出你的治愈海洋！",
+      "use_users": 133276,
+      "note_id": "6a8ae26d000000002603b437"
+    },
+    {
+      "app_id": "6a85a408b7bd4900156a3a32",
+      "app_name": "萌球生存记：你会越来越强",
+      "slogan": "探索+生存+种田",
+      "use_users": 133189,
+      "note_id": "6a868b1c000000003301cd88"
+    },
+    {
+      "app_id": "6a8c64c69b57b900153ae605",
+      "app_name": "NJZ音游-爆锤方猪",
+      "slogan": "Bunnies集合，爆锤方猪",
+      "use_users": 128371,
+      "note_id": "6a904552000000002503d246"
+    },
+    {
+      "app_id": "6a913fdb7f0ea30015c231a3",
+      "app_name": "马上就聘",
+      "slogan": "快来获得心仪的offer吧",
+      "use_users": 127224,
+      "note_id": "6a916620000000002501b417"
+    },
+    {
+      "app_id": "6a85e90fc8b11e00153d6603",
+      "app_name": "《恒明照相馆》网页恐怖小游戏",
+      "slogan": "视觉恐怖+轻解密",
+      "use_users": 126876,
+      "note_id": "6a85ddfc0000000033033260"
+    },
+    {
+      "app_id": "6a7b14b2950d1b00157413a7",
+      "app_name": "反弹琵琶",
+      "slogan": "重新弹响敦煌藏经洞出土的乐谱",
+      "use_users": 126097,
+      "note_id": "6a7b16d20000000027021833"
+    },
+    {
+      "app_id": "6a4fb4bc6018fb00153c3c9a",
+      "app_name": "汤姆里德尔日记本",
+      "slogan": "会回应你的魔法日记本！",
+      "use_users": 125540,
+      "note_id": "6a868914000000002202e6b4"
+    },
+    {
+      "app_id": "6a8dbebc4045f30015093ad0",
+      "app_name": "OC灵感转盘",
+      "slogan": "没有灵感？来OC转盘转转！",
+      "use_users": 125000,
+      "note_id": "6a8e6ee30000000026004d84"
+    },
+    {
+      "app_id": "6a96f6abf8fbb80015e3b0c4",
+      "app_name": "《你的性格测试》微恐",
+      "slogan": "感受文字魅力",
+      "use_users": 122419,
+      "note_id": "6a97b33e0000000029016bbd"
+    },
+    {
+      "app_id": "6a8dbc6be29cdb0015d5b241",
+      "app_name": "水钻贴一切",
+      "slogan": "水钻我贴我贴我贴贴贴",
+      "use_users": 121437,
+      "note_id": "6a8e7f33000000001e016853"
+    },
+    {
+      "app_id": "6a89b7d29b57b900153addec",
+      "app_name": "幸福小区守则",
+      "slogan": "多周目文游",
+      "use_users": 117134,
+      "note_id": "6a89c533000000002500681f"
+    },
+    {
+      "app_id": "6a85306e9b57b900153ad26b",
+      "app_name": "男友拼图",
+      "slogan": "「 一款男友风的拼图游戏 」",
+      "use_users": 115692,
+      "note_id": "6a91a9060000000020035713"
+    },
+    {
+      "app_id": "6a8bfeb22ba0fd0015a8724b",
+      "app_name": "豆豆藏宝阁——经营拼豆博物馆",
+      "slogan": "国风主题的拼豆博物馆经营游戏",
+      "use_users": 115117,
+      "note_id": "6a8d10c50000000022020f7d"
+    },
+    {
+      "app_id": "6a892cbe2ba0fd0015a869a0",
+      "app_name": "俄罗斯方块游戏机",
+      "slogan": "经典俄罗斯方块小游戏一点即玩",
+      "use_users": 113092,
+      "note_id": "6a8967740000000017000c98"
+    },
+    {
+      "app_id": "6a902d91e3efb40015e023f3",
+      "app_name": "接住猫猫",
+      "slogan": "接住猫猫 不要让猫猫掉队",
+      "use_users": 111864,
+      "note_id": "6a9111ec0000000024005d48"
+    },
+    {
+      "app_id": "6a958fa4ee1dff0015045de3",
+      "app_name": "测测他有多爱你？",
+      "slogan": "一个恋爱心理测试的互动文游",
+      "use_users": 111055,
+      "note_id": "6a9699ce000000002502ce39"
+    },
+    {
+      "app_id": "6a59e425a7aeb500154b3dc5",
+      "app_name": "let's显化-向宇宙下订单",
+      "slogan": "基于脑科学原理下单🛍️",
+      "use_users": 110464,
+      "note_id": "6a5a06b3000000000f008bc2"
+    },
+    {
+      "app_id": "6a901af0e3efb40015e023a3",
+      "app_name": "末班便利店",
+      "slogan": "看清门外的人再开门",
+      "use_users": 109682,
+      "note_id": "6a90446a000000001f0030f2"
+    },
+    {
+      "app_id": "6a7f477f83a489001598174f",
+      "app_name": "60秒躲闪战",
+      "slogan": "滑动屏幕保护小球，你能拿几分",
+      "use_users": 100656,
+      "note_id": "6a7fd1a300000000250053f1"
+    },
+    {
+      "app_id": "6a96767f7f0ea30015c259e0",
+      "app_name": "海边餐馆物语：钓鱼烹饪经营！",
+      "slogan": "海边开餐馆，试试你能坚持几天",
+      "use_users": 99234,
+      "note_id": "6a97b8a90000000028030094"
+    },
+    {
+      "app_id": "6a8ad826e424b80015cf587b",
+      "app_name": "Orbit",
+      "slogan": "体验爱豆视角weverse",
+      "use_users": 96633,
+      "note_id": "6a9bbea2000000001001d5ce"
+    },
+    {
+      "app_id": "6a888d130106b3001577a99a",
+      "app_name": "牛来贪吃蛇",
+      "slogan": "妈~妈~",
+      "use_users": 96162,
+      "note_id": "6a8987ae000000002802b884"
+    },
+    {
+      "app_id": "6a917cd7ad16f4001557e8a2",
+      "app_name": "H2H STYLE",
+      "slogan": "一起咕咕照片吧✨",
+      "use_users": 94306,
+      "note_id": "6a92937e00000000060104d5"
+    },
+    {
+      "app_id": "6a89cccd2ee6700015adc3c4",
+      "app_name": "大地图自由贪吃蛇",
+      "slogan": "经典贪吃蛇玩法升级！",
+      "use_users": 92979,
+      "note_id": "6a8aaf270000000017002c84"
+    },
+    {
+      "app_id": "6a89ee4bc8b11e00153d70f1",
+      "app_name": "小鳄鱼洗澡",
+      "slogan": "快来洗澡!机关模式上线!!!",
+      "use_users": 92365,
+      "note_id": "6a8d33cc000000002a025798"
+    },
+    {
+      "app_id": "6a8da7f1ee1dff0015042ca3",
+      "app_name": "球球别停下",
+      "slogan": "轻轻一碰，球球变大",
+      "use_users": 91036,
+      "note_id": "6a8dbfa8000000002501c1d0"
+    },
+    {
+      "app_id": "6a5ed670427cef00154d000e",
+      "app_name": "笔拼豆",
+      "slogan": "一键生成你的拼豆图纸",
+      "use_users": 90120,
+      "note_id": "6a5ee89d000000001f01ed46"
+    },
+    {
+      "app_id": "6a86b26a2ba0fd0015a8635a",
+      "app_name": "情绪中药铺",
+      "slogan": "情志疗愈 · 仅供娱乐",
+      "use_users": 88849,
+      "note_id": "6a917b5c000000002003edf9"
+    }
+  ],
+  "new7List": [
+    {
+      "app_id": "6a8854b72ba0fd0015a867d9",
+      "app_name": "测测你的灵魂像什么食物",
+      "slogan": "一共12道题，21种结果",
+      "active7d": 883638,
+      "cum_users": 1103544,
+      "note_id": "6a890bab0000000028000e97"
+    },
+    {
+      "app_id": "6a8ffd36384ee40015946865",
+      "app_name": "理想型测试（阴湿版）",
+      "slogan": "沉浸式情感体验",
+      "active7d": 845728,
+      "cum_users": 1018153,
+      "note_id": "6a902f100000000025027c8b"
+    },
+    {
+      "app_id": "6a9151214045f30015094593",
+      "app_name": "开蚌直播间：稀有珍珠由你开",
+      "slogan": "开蚌拆珍珠，做首饰经营小游戏",
+      "active7d": 844045,
+      "cum_users": 853664,
+      "note_id": "6a916fe20000000020030c01"
+    },
+    {
+      "app_id": "6a8e857f384ee400159463f9",
+      "app_name": "Pretty Girl",
+      "slogan": "remine!! 一起变🪄",
+      "active7d": 623312,
+      "cum_users": 831719,
+      "note_id": "6a8ec0f2000000002501e636"
+    },
+    {
+      "app_id": "6a69b8e34bd4cc001599e41d",
+      "app_name": "捡手机文学生成器",
+      "slogan": "聊天记录，论坛推特，轻松产粮",
+      "active7d": 606840,
+      "cum_users": 970225,
+      "note_id": "6a69becb0000000001003dc0"
+    },
+    {
+      "app_id": "6a86aaed2ba0fd0015a86334",
+      "app_name": "烤肉模拟器",
+      "slogan": "烤出各种风味烤肉交付给客人！",
+      "active7d": 538451,
+      "cum_users": 847744,
+      "note_id": "6a86c7af000000001402808b"
+    },
+    {
+      "app_id": "6a848f8b0106b3001577a12a",
+      "app_name": "七宗罪 × 七美德",
+      "slogan": "14维度观察欲望、调节与善意",
+      "active7d": 528098,
+      "cum_users": 556688,
+      "note_id": "6a86839c000000003300e86b"
+    },
+    {
+      "app_id": "6a8c0196e44b190015f7716c",
+      "app_name": "梦回高三（高三模拟器）",
+      "slogan": "重生之我再活一次高三",
+      "active7d": 510804,
+      "cum_users": 513607,
+      "note_id": "6a8c1669000000002b00294d"
+    },
+    {
+      "app_id": "6a83dbe42ee6700015adb4b3",
+      "app_name": "kpop爱豆模拟器-爱豆日记",
+      "slogan": "体验最真实的kpop模拟✨",
+      "active7d": 420961,
+      "cum_users": 523677,
+      "note_id": "6a83e70b000000003302ee7a"
+    },
+    {
+      "app_id": "6a9161157f0ea30015c2325f",
+      "app_name": "疯狂妈妈CrazyMam",
+      "slogan": "一个家庭怪咖追逐生存音乐游戏",
+      "active7d": 407661,
+      "cum_users": 407661,
+      "note_id": "6a91b1ec000000000303ff2e"
+    },
+    {
+      "app_id": "6a8e6b0cee1dff0015042db6",
+      "app_name": "他出轨了吗",
+      "slogan": "我把“查手机”做成了推理游戏",
+      "active7d": 388482,
+      "cum_users": 395187,
+      "note_id": "6a8e77d1000000001803f1ca"
+    },
+    {
+      "app_id": "6a8c7af1f994f9001516316d",
+      "app_name": "困住小蚂蚁",
+      "slogan": "蚂蚁军团，金币赚到爽",
+      "active7d": 367437,
+      "cum_users": 457723,
+      "note_id": "6a8d18d5000000003302b9b9"
+    },
+    {
+      "app_id": "6a703b45fc0d83001595ca70",
+      "app_name": "Q团外卖",
+      "slogan": "好吃您再来",
+      "active7d": 346636,
+      "cum_users": 644917,
+      "note_id": "6a703e400000000035017551"
+    },
+    {
+      "app_id": "6a62490fd8df040015f858ab",
+      "app_name": "后室漫游",
+      "slogan": "体验掉入后室的一天！",
+      "active7d": 328428,
+      "cum_users": 507177,
+      "note_id": "6a62ae88000000000f008886"
+    },
+    {
+      "app_id": "6a865e9ee44b190015f76192",
+      "app_name": "花光马斯克的钱",
+      "slogan": "一万亿美元，你花得完吗",
+      "active7d": 303045,
+      "cum_users": 506553,
+      "note_id": "6a86bdb400000000330183b2"
+    },
+    {
+      "app_id": "6a83e8d09b57b900153acfe4",
+      "app_name": "戳泥泥 小游戏",
+      "slogan": "一款可以戳电子泥的解压小游戏",
+      "active7d": 275467,
+      "cum_users": 447495,
+      "note_id": "6a83fd41000000002800b2ba"
+    },
+    {
+      "app_id": "6a87bea3f994f9001516236b",
+      "app_name": "围住小猫",
+      "slogan": "试试你能不能圈住小猫",
+      "active7d": 270233,
+      "cum_users": 426047,
+      "note_id": "6a8ef0280000000021024837"
+    },
+    {
+      "app_id": "6a8573aa9b57b900153ad339",
+      "app_name": "如果你是流浪猫，你能活几周呢",
+      "slogan": "流浪猫生存模拟器小游戏",
+      "active7d": 262152,
+      "cum_users": 513238,
+      "note_id": "6a85ad5e000000002202ccd5"
+    },
+    {
+      "app_id": "6a720fd8b88d260015e2d868",
+      "app_name": "塔罗抽牌｜49个牌阵+学习册",
+      "slogan": "感情|事业|找东西|生命数字",
+      "active7d": 255931,
+      "cum_users": 371924,
+      "note_id": "6a72b9fa0000000027021f50"
+    },
+    {
+      "app_id": "6a8ff39b7f0ea30015c22dfc",
+      "app_name": "词喂喂",
+      "slogan": "背一个词，喂一口猫。完善版",
+      "active7d": 246369,
+      "cum_users": 278047,
+      "note_id": "6a90dcfc000000001f00356e"
+    },
+    {
+      "app_id": "6a89540fe44b190015f7696e",
+      "app_name": "节奏大厨",
+      "slogan": "跟随音乐节奏做一道美食",
+      "active7d": 242095,
+      "cum_users": 395194,
+      "note_id": "6a8b104f0000000033023a7f"
+    },
+    {
+      "app_id": "6a8672922ba0fd0015a8627b",
+      "app_name": "不要碰红色",
+      "slogan": "控制小球躲避障碍小游戏",
+      "active7d": 240024,
+      "cum_users": 279753,
+      "note_id": "6a86ad46000000003303315c"
+    },
+    {
+      "app_id": "6a902b9ae3efb40015e023e5",
+      "app_name": "恋综模拟器",
+      "slogan": "心动的信号～快来参加恋综吧！",
+      "active7d": 238174,
+      "cum_users": 256869,
+      "note_id": "6a925f31000000002c03d900"
+    },
+    {
+      "app_id": "6a898c529b57b900153add48",
+      "app_name": "第五席",
+      "slogan": "五章沉浸式点击恐怖解谜",
+      "active7d": 232569,
+      "cum_users": 235923,
+      "note_id": "6a8b2c7f0000000026038298"
+    },
+    {
+      "app_id": "6a8fdef54045f30015094126",
+      "app_name": "富豪排行榜",
+      "slogan": "点击触发随机事件，积累财富",
+      "active7d": 232218,
+      "cum_users": 326246,
+      "note_id": "6a8ffc9c00000000240076f5"
+    },
+    {
+      "app_id": "6a85d3c59b57b900153ad42c",
+      "app_name": "《夜班》网页经营微恐小游戏",
+      "slogan": "夜间氛围的探索解谜小游戏",
+      "active7d": 217104,
+      "cum_users": 229605,
+      "note_id": "6a806b45000000003300d400"
+    },
+    {
+      "app_id": "6a86fd520106b3001577a629",
+      "app_name": "【ARG】永安温泉度假酒店",
+      "slogan": "忘掉思考，纯粹感受",
+      "active7d": 215080,
+      "cum_users": 216085,
+      "note_id": "6a87d8d3000000002702afdf"
+    },
+    {
+      "app_id": "6a893dc09b57b900153adb95",
+      "app_name": "推推屋丨喜欢的Ta→像素小屋",
+      "slogan": "捏人 对话 投喂 养成 社交",
+      "active7d": 208768,
+      "cum_users": 287005,
+      "note_id": "6a868e5c000000003301b31f"
+    },
+    {
+      "app_id": "6a896ba40106b3001577ac5c",
+      "app_name": "浮生扇影",
+      "slogan": "治愈系水墨漆扇DIY小游戏",
+      "active7d": 208586,
+      "cum_users": 574082,
+      "note_id": "6a8a81ca000000003703cb6b"
+    },
+    {
+      "app_id": "6a8ad553f994f90015162c8b",
+      "app_name": "解压拼豆豆",
+      "slogan": "在线拼豆，解压不伤身",
+      "active7d": 208521,
+      "cum_users": 232073,
+      "note_id": "6a8ad88e0000000033019fa5"
+    },
+    {
+      "app_id": "6a8beb0af994f90015162f5a",
+      "app_name": "骑手送外卖模拟器",
+      "slogan": "接单取餐，安全送到",
+      "active7d": 204911,
+      "cum_users": 213778,
+      "note_id": "6a8e3df7000000001e0143b4"
+    },
+    {
+      "app_id": "6a8f0e1be29cdb0015d5b6ce",
+      "app_name": "小馆正忙",
+      "slogan": "90秒手忙脚乱，做饭挑战！",
+      "active7d": 201593,
+      "cum_users": 221940,
+      "note_id": "6a8fb320000000001f0050c1"
+    },
+    {
+      "app_id": "6a90d122ad16f4001557e62a",
+      "app_name": "清明上河图：我在汴京摆地摊",
+      "slogan": "在汴京街头摆摊搞钱，爽翻了！",
+      "active7d": 201193,
+      "cum_users": 204667,
+      "note_id": "6a913ec70000000025026b45"
+    },
+    {
+      "app_id": "6a93dad3384ee40015948d23",
+      "app_name": "网暴模拟器",
+      "slogan": "希望我们都多些理智",
+      "active7d": 198328,
+      "cum_users": 198328,
+      "note_id": "6a9673780000000025034653"
+    },
+    {
+      "app_id": "6a8cfb60d5704c0015efa7e7",
+      "app_name": "挤痘｜解压小游戏",
+      "slogan": "六关卡解救强迫症；31日更新",
+      "active7d": 194991,
+      "cum_users": 291794,
+      "note_id": "6a8ef279000000002c03cb28"
+    },
+    {
+      "app_id": "6a6ee9b8b0cdaa001530ed16",
+      "app_name": "跳吧，小球！",
+      "slogan": "转动糖果塔，帮小球蹦跶回家！",
+      "active7d": 194794,
+      "cum_users": 290661,
+      "note_id": "6a6eeda3000000002403ee37"
+    },
+    {
+      "app_id": "6a87be0f2ee6700015adbce2",
+      "app_name": "火柴人闯关",
+      "slogan": "贴住墙就能往上爬",
+      "active7d": 188440,
+      "cum_users": 259760,
+      "note_id": "6a88414b000000002202f350"
+    },
+    {
+      "app_id": "6a846b052ee6700015adb679",
+      "app_name": "SUPER POWER",
+      "slogan": "和吴晓梅一起power up",
+      "active7d": 184441,
+      "cum_users": 267870,
+      "note_id": "6a71b9c1000000002403d176"
+    },
+    {
+      "app_id": "6a952dbc7f0ea30015c255de",
+      "app_name": "环境保护意识调查问卷",
+      "slogan": "增强人们环保意识（？）",
+      "active7d": 179960,
+      "cum_users": 179960,
+      "note_id": "6a96c14f000000002a02e36c"
+    },
+    {
+      "app_id": "6a98fb2d3555e000159253b8",
+      "app_name": "阴湿恋人",
+      "slogan": "陪伴",
+      "active7d": 177503,
+      "cum_users": 177503,
+      "note_id": "6a99a317000000002900ef4c"
+    },
+    {
+      "app_id": "6a8fcccb556c070015ed43c6",
+      "app_name": "中国牛能飞（可自定义角色）",
+      "slogan": "内置多种角色，可自定义角色",
+      "active7d": 174763,
+      "cum_users": 194345,
+      "note_id": "6a8ff4160000000026007f8a"
+    },
+    {
+      "app_id": "6a8af0dde44b190015f76e63",
+      "app_name": "拼豆小屋",
+      "slogan": "拼豆模拟器",
+      "active7d": 172405,
+      "cum_users": 233016,
+      "note_id": "6a8ff564000000001f00705a"
+    },
+    {
+      "app_id": "6a86e503e424b80015cf4e43",
+      "app_name": "钢琴块大师",
+      "slogan": "点中琴块弹出整首曲",
+      "active7d": 171837,
+      "cum_users": 237219,
+      "note_id": "6a8835a80000000028027310"
+    },
+    {
+      "app_id": "6a950bf9e29cdb0015d5e0e8",
+      "app_name": "泳池后室 POOLROOMS",
+      "slogan": "在一片无边无际的泳池中探索",
+      "active7d": 171816,
+      "cum_users": 171816,
+      "note_id": "6a967a1b0000000011036df1"
+    },
+    {
+      "app_id": "6a89c190c8b11e00153d700e",
+      "app_name": "不可回信",
+      "slogan": "多周目文游",
+      "active7d": 170070,
+      "cum_users": 172863,
+      "note_id": "6a89c7a9000000003400d22a"
+    },
+    {
+      "app_id": "6a8ea0bd4045f30015093d13",
+      "app_name": "欢迎来到特调局",
+      "slogan": "入职特调局，这里的同事有点怪",
+      "active7d": 163508,
+      "cum_users": 164705,
+      "note_id": "6a8f9935000000002c03dbd6"
+    },
+    {
+      "app_id": "6a892518e44b190015f768ab",
+      "app_name": "剪纸生花",
+      "slogan": "创作数字剪纸作品",
+      "active7d": 159362,
+      "cum_users": 309439,
+      "note_id": "6a8956d2000000001801a46f"
+    },
+    {
+      "app_id": "6a8fb7b6e3efb40015e021d7",
+      "app_name": "有野人偷吃保险",
+      "slogan": "你同意吗？",
+      "active7d": 157800,
+      "cum_users": 157920,
+      "note_id": "6a914f040000000004029cfb"
+    },
+    {
+      "app_id": "6a86c255e44b190015f762f9",
+      "app_name": "果冻啵啵爆",
+      "slogan": "解压小游戏，Q弹果冻超好玩",
+      "active7d": 156905,
+      "cum_users": 247586,
+      "note_id": "6a86ea9e000000002402c6db"
+    },
+    {
+      "app_id": "6a983d0852d5f4001518688b",
+      "app_name": "被病态上司看上了怎么办！",
+      "slogan": "又名：牛马模拟器（？）",
+      "active7d": 146486,
+      "cum_users": 146486,
+      "note_id": "6a98fdbb000000002b0111b5"
+    },
+    {
+      "app_id": "6a8d39690106b3001577b6e8",
+      "app_name": "Haerin Dash",
+      "slogan": "Bunnies集合！",
+      "active7d": 143537,
+      "cum_users": 207199,
+      "note_id": "6a8d5fc30000000016021c8f"
+    },
+    {
+      "app_id": "6a8012fe9b57b900153acdf6",
+      "app_name": "恋爱模拟器",
+      "slogan": "要不要谈一场甜甜的恋爱",
+      "active7d": 139782,
+      "cum_users": 160313,
+      "note_id": "6a801eac00000000280041f8"
+    },
+    {
+      "app_id": "6a786e1da372b4001533396a",
+      "app_name": "出道模拟器",
+      "slogan": "一起成为明星吧",
+      "active7d": 138287,
+      "cum_users": 275951,
+      "note_id": "6a787e69000000003300c271"
+    },
+    {
+      "app_id": "6a8f08347f0ea30015c22bf2",
+      "app_name": "养一只小仓鼠",
+      "slogan": "来喂养一只可爱的小仓鼠吧！",
+      "active7d": 136588,
+      "cum_users": 147223,
+      "note_id": "6a8f09c70000000026003591"
+    },
+    {
+      "app_id": "6a88569f0106b3001577a905",
+      "app_name": "饲",
+      "slogan": "你能成为合格的饲主吗",
+      "active7d": 136475,
+      "cum_users": 142935,
+      "note_id": "6a890beb0000000016022e86"
+    },
+    {
+      "app_id": "6a8c4fb5d5704c0015efa6d4",
+      "app_name": "小灶王",
+      "slogan": "爱与美食不可辜负 好好吃饭",
+      "active7d": 133344,
+      "cum_users": 186450,
+      "note_id": "6a8ffbaf000000000402ac66"
+    },
+    {
+      "app_id": "6a8c604bd5704c0015efa70f",
+      "app_name": "我要喝奶茶2",
+      "slogan": "一杯不用长肉的虚拟奶茶",
+      "active7d": 127501,
+      "cum_users": 252257,
+      "note_id": "6a75b422000000002800a75b"
+    },
+    {
+      "app_id": "6a8afa7be424b80015cf5910",
+      "app_name": "摸鱼办公室",
+      "slogan": "躲老板，摸鱼到下班的小游戏",
+      "active7d": 126108,
+      "cum_users": 140464,
+      "note_id": "6a8b83660000000033029e96"
+    },
+    {
+      "app_id": "6a85e90fc8b11e00153d6603",
+      "app_name": "《恒明照相馆》网页恐怖小游戏",
+      "slogan": "视觉恐怖+轻解密",
+      "active7d": 125520,
+      "cum_users": 126876,
+      "note_id": "6a85ddfc0000000033033260"
+    },
+    {
+      "app_id": "6a89e854f994f90015162ae9",
+      "app_name": "挖耳屎模拟器",
+      "slogan": "模拟挖耳屎的视觉体验",
+      "active7d": 124361,
+      "cum_users": 139075,
+      "note_id": "6a8a9171000000001402900b"
+    },
+    {
+      "app_id": "6a8dbebc4045f30015093ad0",
+      "app_name": "OC灵感转盘",
+      "slogan": "没有灵感？来OC转盘转转！",
+      "active7d": 123899,
+      "cum_users": 125000,
+      "note_id": "6a8e6ee30000000026004d84"
+    },
+    {
+      "app_id": "6a913fdb7f0ea30015c231a3",
+      "app_name": "马上就聘",
+      "slogan": "快来获得心仪的offer吧",
+      "active7d": 123198,
+      "cum_users": 127224,
+      "note_id": "6a916620000000002501b417"
+    },
+    {
+      "app_id": "6a96f6abf8fbb80015e3b0c4",
+      "app_name": "《你的性格测试》微恐",
+      "slogan": "感受文字魅力",
+      "active7d": 122419,
+      "cum_users": 122419,
+      "note_id": "6a97b33e0000000029016bbd"
+    },
+    {
+      "app_id": "6a86c32fe424b80015cf4dcb",
+      "app_name": "云拼豆（3D模拟拼豆）",
+      "slogan": "摸鱼必备，在线玩拼豆",
+      "active7d": 119723,
+      "cum_users": 151620,
+      "note_id": "6a87e74e0000000035016fa7"
+    },
+    {
+      "app_id": "6a8718ead5704c0015ef9864",
+      "app_name": "修仙人生模拟器",
+      "slogan": "随机出生，改写你的修仙人生",
+      "active7d": 117858,
+      "cum_users": 180757,
+      "note_id": "6a87da7b000000002203eb5a"
+    },
+    {
+      "app_id": "6a8c64c69b57b900153ae605",
+      "app_name": "NJZ音游-爆锤方猪",
+      "slogan": "Bunnies集合，爆锤方猪",
+      "active7d": 117001,
+      "cum_users": 128371,
+      "note_id": "6a904552000000002503d246"
+    },
+    {
+      "app_id": "6a89b7d29b57b900153addec",
+      "app_name": "幸福小区守则",
+      "slogan": "多周目文游",
+      "active7d": 116460,
+      "cum_users": 117134,
+      "note_id": "6a89c533000000002500681f"
+    },
+    {
+      "app_id": "6a8a9658d5704c0015efa1aa",
+      "app_name": "养一片海",
+      "slogan": "90秒养出你的治愈海洋！",
+      "active7d": 113485,
+      "cum_users": 133276,
+      "note_id": "6a8ae26d000000002603b437"
+    },
+    {
+      "app_id": "6a7b14b2950d1b00157413a7",
+      "app_name": "反弹琵琶",
+      "slogan": "重新弹响敦煌藏经洞出土的乐谱",
+      "active7d": 111537,
+      "cum_users": 126097,
+      "note_id": "6a7b16d20000000027021833"
+    },
+    {
+      "app_id": "6a86c2b6e424b80015cf4dc5",
+      "app_name": "编个故事",
+      "slogan": "随便填词，看看会发生什么",
+      "active7d": 111319,
+      "cum_users": 175225,
+      "note_id": "6a86e8360000000027031292"
+    },
+    {
+      "app_id": "6a958fa4ee1dff0015045de3",
+      "app_name": "测测他有多爱你？",
+      "slogan": "一个恋爱心理测试的互动文游",
+      "active7d": 111055,
+      "cum_users": 111055,
+      "note_id": "6a9699ce000000002502ce39"
+    },
+    {
+      "app_id": "6a902d91e3efb40015e023f3",
+      "app_name": "接住猫猫",
+      "slogan": "接住猫猫 不要让猫猫掉队",
+      "active7d": 110766,
+      "cum_users": 111864,
+      "note_id": "6a9111ec0000000024005d48"
+    },
+    {
+      "app_id": "6a8426e7c8b11e00153d6232",
+      "app_name": "会停车吗你",
+      "slogan": "在坦克到达前完成倒车入库！",
+      "active7d": 110558,
+      "cum_users": 231826,
+      "note_id": "6a848caa000000003301bb84"
+    },
+    {
+      "app_id": "6a8863950106b3001577a932",
+      "app_name": "寻呼1996",
+      "slogan": "免费悬疑文字冒险解谜游戏",
+      "active7d": 107913,
+      "cum_users": 147048,
+      "note_id": "6a86e717000000003a020606"
+    },
+    {
+      "app_id": "6a8988d89b57b900153add38",
+      "app_name": "小心别被老师发现",
+      "slogan": "机房玩游戏模拟器",
+      "active7d": 106843,
+      "cum_users": 234672,
+      "note_id": "6a899306000000002603b93d"
+    },
+    {
+      "app_id": "6a7964cb789d8f0015d5db78",
+      "app_name": "堆高高",
+      "slogan": "堆高高小游戏",
+      "active7d": 106454,
+      "cum_users": 258478,
+      "note_id": "6a796dd30000000021022342"
+    },
+    {
+      "app_id": "6a901af0e3efb40015e023a3",
+      "app_name": "末班便利店",
+      "slogan": "看清门外的人再开门",
+      "active7d": 103774,
+      "cum_users": 109682,
+      "note_id": "6a90446a000000001f0030f2"
+    },
+    {
+      "app_id": "6a86f9262ee6700015adbbc3",
+      "app_name": "地铁生存战",
+      "slogan": "挑战模式上线！真实早高峰通勤",
+      "active7d": 103571,
+      "cum_users": 193398,
+      "note_id": "6a8aeecc000000003300e56d"
+    },
+    {
+      "app_id": "6a85306e9b57b900153ad26b",
+      "app_name": "男友拼图",
+      "slogan": "「 一款男友风的拼图游戏 」",
+      "active7d": 102545,
+      "cum_users": 115692,
+      "note_id": "6a91a9060000000020035713"
+    },
+    {
+      "app_id": "6a574c851b5ff8001559471e",
+      "app_name": "今天玩什么",
+      "slogan": "随时开一局，轻松玩点不费脑的",
+      "active7d": 99732,
+      "cum_users": 184721,
+      "note_id": "6a575638000000001603dae6"
+    },
+    {
+      "app_id": "6a96767f7f0ea30015c259e0",
+      "app_name": "海边餐馆物语：钓鱼烹饪经营！",
+      "slogan": "海边开餐馆，试试你能坚持几天",
+      "active7d": 99234,
+      "cum_users": 99234,
+      "note_id": "6a97b8a90000000028030094"
+    },
+    {
+      "app_id": "6a7fcff8b7bd4900156a3496",
+      "app_name": "方块谷",
+      "slogan": "一个益智解压小游戏",
+      "active7d": 98961,
+      "cum_users": 229149,
+      "note_id": "6a7feb580000000027023f48"
+    },
+    {
+      "app_id": "6a8dbc6be29cdb0015d5b241",
+      "app_name": "水钻贴一切",
+      "slogan": "水钻我贴我贴我贴贴贴",
+      "active7d": 96232,
+      "cum_users": 121437,
+      "note_id": "6a8e7f33000000001e016853"
+    },
+    {
+      "app_id": "6a8ad826e424b80015cf587b",
+      "app_name": "Orbit",
+      "slogan": "体验爱豆视角weverse",
+      "active7d": 96147,
+      "cum_users": 96633,
+      "note_id": "6a9bbea2000000001001d5ce"
+    },
+    {
+      "app_id": "6a917cd7ad16f4001557e8a2",
+      "app_name": "H2H STYLE",
+      "slogan": "一起咕咕照片吧✨",
+      "active7d": 94306,
+      "cum_users": 94306,
+      "note_id": "6a92937e00000000060104d5"
+    },
+    {
+      "app_id": "6a912e26e424b800151eba2f",
+      "app_name": "小猫快跑",
+      "slogan": "小猫快跑小游戏",
+      "active7d": 85440,
+      "cum_users": 87320,
+      "note_id": "6a914cdf000000001f01df4a"
+    },
+    {
+      "app_id": "6a984b26ddc4cf00159de75c",
+      "app_name": "ASMR直播间：我来当主播",
+      "slogan": "自己做ASMR，哄睡所有人",
+      "active7d": 84879,
+      "cum_users": 84879,
+      "note_id": "6a992762000000001203fe53"
+    },
+    {
+      "app_id": "6a85a408b7bd4900156a3a32",
+      "app_name": "萌球生存记：你会越来越强",
+      "slogan": "探索+生存+种田",
+      "active7d": 81784,
+      "cum_users": 133189,
+      "note_id": "6a868b1c000000003301cd88"
+    },
+    {
+      "app_id": "6a8dbdd6556c070015ed3e21",
+      "app_name": "今晚的塔罗",
+      "slogan": "抽张牌，听听此刻的答案！",
+      "active7d": 80906,
+      "cum_users": 87818,
+      "note_id": "6a8ebc19000000001f006a78"
+    },
+    {
+      "app_id": "6a89cccd2ee6700015adc3c4",
+      "app_name": "大地图自由贪吃蛇",
+      "slogan": "经典贪吃蛇玩法升级！",
+      "active7d": 80125,
+      "cum_users": 92979,
+      "note_id": "6a8aaf270000000017002c84"
+    },
+    {
+      "app_id": "6a8d8515e29cdb0015d5b18a",
+      "app_name": "星球大作战",
+      "slogan": "吃光物质，成为宇宙最强！",
+      "active7d": 78058,
+      "cum_users": 84676,
+      "note_id": "6a8fe25f000000002902aded"
+    },
+    {
+      "app_id": "6a917455e29cdb0015d5bd9e",
+      "app_name": "审讯室模拟器文游",
+      "slogan": "被陷害后如何达成理想结局",
+      "active7d": 76835,
+      "cum_users": 76929,
+      "note_id": "6a918f230000000021024be7"
+    },
+    {
+      "app_id": "6a901e89e424b800151eb786",
+      "app_name": "宫里没有撤回键",
+      "slogan": "换装查案，五位男主等你选",
+      "active7d": 75664,
+      "cum_users": 88224,
+      "note_id": "6a90424d000000002a032f67"
+    },
+    {
+      "app_id": "6a9182caee1dff00150438be",
+      "app_name": "SMTI趣味人格测试",
+      "slogan": "不太正经的测试，看你是哪一型",
+      "active7d": 74967,
+      "cum_users": 75156,
+      "note_id": "6a9672ff00000000250343c0"
+    },
+    {
+      "app_id": "6a850abdc8b11e00153d63b5",
+      "app_name": "叠叠高",
+      "slogan": "点击叠高方块挑战你的极限高度",
+      "active7d": 74870,
+      "cum_users": 80789,
+      "note_id": "6a88fa65000000001600ab93"
+    },
+    {
+      "app_id": "6a8ac8352ee6700015adc573",
+      "app_name": "泳池派对",
+      "slogan": "在泳池中一决高下吧～",
+      "active7d": 74071,
+      "cum_users": 87221,
+      "note_id": "6a8fb6080000000029036bad"
+    },
+    {
+      "app_id": "6a90160be424b800151eb75c",
+      "app_name": "OC飞行小游戏模版",
+      "slogan": "导入OC绿幕背景图片替换人物",
+      "active7d": 71785,
+      "cum_users": 71785,
+      "note_id": "6a9254860000000026035110"
+    },
+    {
+      "app_id": "6a9161404045f3001509460d",
+      "app_name": "从荣格八维到MBTI",
+      "slogan": "取证告破你的MBTI悬案",
+      "active7d": 71517,
+      "cum_users": 75628,
+      "note_id": "6a91a0f6000000001f006145"
+    },
+    {
+      "app_id": "6a5e6ada427cef00154d0008",
+      "app_name": "摸鱼一下",
+      "slogan": "随手解压一下",
+      "active7d": 71119,
+      "cum_users": 193576,
+      "note_id": "6a5efef0000000001f01f236"
+    },
+    {
+      "app_id": "6a7168805523010015f133b8",
+      "app_name": "跳一跳",
+      "slogan": "跳一跳小游戏",
+      "active7d": 70914,
+      "cum_users": 174865,
+      "note_id": "6a7174f500000000320303bb"
+    }
+  ],
+  "todayList": [
+    {
+      "app_id": "6a9abce933dcf5001578d50d",
+      "app_name": "阿sueの美甲店💅🏻✨",
+      "slogan": "Let's搞搞漂亮💅🏻✨",
+      "gmt_create": "2026-09-05 10:05:12",
+      "use_users": 7701,
+      "nickname": "造梦事务所",
+      "note_id": "6a9bc19d00000000110301ee"
+    },
+    {
+      "app_id": "6a9aa655eeb797001535bff3",
+      "app_name": "喜人粉籍资格考试",
+      "slogan": "全国统一喜人资格考试",
+      "gmt_create": "2026-09-05 09:07:06",
+      "use_users": 3908,
+      "nickname": "4682B4",
+      "note_id": "6a9b817e000000002b024287"
+    },
+    {
+      "app_id": "6a9b3a4ff229450015bfe9d4",
+      "app_name": "房东模拟器",
+      "slogan": "收租一时爽，一直收一直爽！",
+      "gmt_create": "2026-09-05 13:21:47",
+      "use_users": 3163,
+      "nickname": "宇宙超级无敌可爱珊珊",
+      "note_id": "6a9badae000000002601a027"
+    },
+    {
+      "app_id": "6a9acb58344fae0015aa2d94",
+      "app_name": "子夜抉择馆",
+      "slogan": "解密/规则怪谈/选择",
+      "gmt_create": "2026-09-05 10:28:46",
+      "use_users": 2358,
+      "nickname": "黄元元",
+      "note_id": "6a9bbbf70000000029012578"
+    },
+    {
+      "app_id": "6a9a994b3555e000159259b8",
+      "app_name": "大学生牢底坐穿审判庭",
+      "slogan": "七宗罪，总有一款适合你",
+      "gmt_create": "2026-09-05 08:29:15",
+      "use_users": 1769,
+      "nickname": "小蘇打核",
+      "note_id": "6a9b96120000000027016528"
+    },
+    {
+      "app_id": "6a9a99aba2887a0015b67c64",
+      "app_name": "爱豆化妆师模拟器",
+      "slogan": "近距离和艺人接触的机会",
+      "gmt_create": "2026-09-05 08:26:42",
+      "use_users": 1730,
+      "nickname": "iOi",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9aed983555e00015925b30",
+      "app_name": "一勺小铺",
+      "slogan": "体验盲勺打包",
+      "gmt_create": "2026-09-05 11:51:06",
+      "use_users": 1359,
+      "nickname": "春长见",
+      "note_id": "6a9ba297000000002601be8d"
+    },
+    {
+      "app_id": "6a9aef7333dcf5001578d5f1",
+      "app_name": "糖豆人向前冲",
+      "slogan": "别失足！高空跳台大冒险",
+      "gmt_create": "2026-09-05 11:45:39",
+      "use_users": 1226,
+      "nickname": "快乐的男生一百分",
+      "note_id": "6a9bb0ad0000000026022e47"
+    },
+    {
+      "app_id": "6a9ad6ad12d71a0015f85aa8",
+      "app_name": "朱墙雪-宫斗剧情向",
+      "slogan": "皇帝死遁三年的白月光回来了",
+      "gmt_create": "2026-09-05 11:02:13",
+      "use_users": 1058,
+      "nickname": "一朵风中摇曳的毛毛花",
+      "note_id": "6a9b943e000000000d02603e"
+    },
+    {
+      "app_id": "6a994ae212d71a0015f854f0",
+      "app_name": "快来洗洗脑子！洗完捏捏放松下",
+      "slogan": "心情烦躁就来洗洗脑子缓解焦虑",
+      "gmt_create": "2026-09-05 10:30:50",
+      "use_users": 1047,
+      "nickname": "弗思Verse",
+      "note_id": "6a9b893f0000000029013497"
+    },
+    {
+      "app_id": "6a9b375ff229450015bfe9d0",
+      "app_name": "一串好运",
+      "slogan": "DIY水晶，运营你的店铺吧",
+      "gmt_create": "2026-09-05 13:16:38",
+      "use_users": 957,
+      "nickname": "张翼德",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9a8eb1ddc4cf00159df03c",
+      "app_name": "女巫的毒药",
+      "slogan": "来自翻牌吧，支持面对面游戏",
+      "gmt_create": "2026-09-05 11:21:10",
+      "use_users": 953,
+      "nickname": "翻牌吧",
+      "note_id": "6a9a5b44000000001001f36e"
+    },
+    {
+      "app_id": "6a9bb8aa52d5f40015187506",
+      "app_name": "视觉追踪",
+      "slogan": "盯住小球在哪里",
+      "gmt_create": "2026-09-05 16:33:06",
+      "use_users": 883,
+      "nickname": "继续哭不要停",
+      "note_id": "6a9bd780000000002600aef4"
+    },
+    {
+      "app_id": "6a9ae84a344fae0015aa2e16",
+      "app_name": "我靠种菜养猪开了家餐厅",
+      "slogan": "亲自打造自己的农家乐",
+      "gmt_create": "2026-09-05 11:22:02",
+      "use_users": 768,
+      "nickname": "地包天小狗",
+      "note_id": "6a9b9ad10000000012002bf4"
+    },
+    {
+      "app_id": "6a9bbaa3f229450015bfeb45",
+      "app_name": "玉兔追月",
+      "slogan": "玉兔跑酷，看你是否能追到月亮",
+      "gmt_create": "2026-09-05 16:35:52",
+      "use_users": 677,
+      "nickname": "蜡笔小钟",
+      "note_id": "6a9bdb29000000002902e673"
+    },
+    {
+      "app_id": "6a9afa2deeb797001535c10c",
+      "app_name": "黑市商人模拟器",
+      "slogan": "闯荡黑市，靠本事衣锦还乡",
+      "gmt_create": "2026-09-05 12:00:19",
+      "use_users": 548,
+      "nickname": "马桑gulong",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9a9527a2887a0015b67c4e",
+      "app_name": "测试你的本命鸟",
+      "slogan": "十个直觉题，测出你的本命鸟",
+      "gmt_create": "2026-09-05 08:16:54",
+      "use_users": 538,
+      "nickname": "江边的秘密基地",
+      "note_id": "6a9b74720000000029012fe7"
+    },
+    {
+      "app_id": "6a9b01aef229450015bfe95f",
+      "app_name": "商人传说轻量版",
+      "slogan": "买进卖出，赚差价。",
+      "gmt_create": "2026-09-05 12:29:44",
+      "use_users": 529,
+      "nickname": "疯王子",
+      "note_id": "6a9bc259000000002600a5f0"
+    },
+    {
+      "app_id": "6a9ad12352d5f40015187274",
+      "app_name": "小喵钓鱼",
+      "slogan": "一款休闲像素钓鱼小游戏",
+      "gmt_create": "2026-09-05 10:36:49",
+      "use_users": 526,
+      "nickname": "咖啡布丁pudding",
+      "note_id": "6a9bb16e000000002802f6b1"
+    },
+    {
+      "app_id": "6a999952ddc4cf00159ded24",
+      "app_name": "单词连连看",
+      "slogan": "连线拼写小学单词的闯关小游戏",
+      "gmt_create": "2026-09-05 08:05:20",
+      "use_users": 408,
+      "nickname": "～_～",
+      "note_id": "6a9ba112000000000b00fee4"
+    },
+    {
+      "app_id": "6a9ba7d0344fae0015aa2ffc",
+      "app_name": "月亮升起来的时候",
+      "slogan": "月亮拼贴诗",
+      "gmt_create": "2026-09-05 16:12:01",
+      "use_users": 402,
+      "nickname": "小简📷",
+      "note_id": "6a9bb273000000000b0011a8"
+    },
+    {
+      "app_id": "6a9ba6c4ea512a00157e0998",
+      "app_name": "别相信这只猫",
+      "slogan": "一个专门骗你的猫咪闯关游戏",
+      "gmt_create": "2026-09-05 16:09:27",
+      "use_users": 395,
+      "nickname": "沐羽AI设计＋",
+      "note_id": "6a9bdb95000000001103abe4"
+    },
+    {
+      "app_id": "6a9ab2f212d71a0015f85a31",
+      "app_name": "翡翠原石店：从小店开始变暴富",
+      "slogan": "开翡翠原石接各地订单",
+      "gmt_create": "2026-09-05 09:17:17",
+      "use_users": 395,
+      "nickname": "发现老婆和网络闺蜜私奔的那个夜晚",
+      "note_id": "6a9abfa30000000011030037"
+    },
+    {
+      "app_id": "6a9aba4c3555e00015925a52",
+      "app_name": "秋天outfits换装小屋",
+      "slogan": "秋日复古时尚女孩的穿搭日记",
+      "gmt_create": "2026-09-05 09:58:48",
+      "use_users": 388,
+      "nickname": "饺子肉",
+      "note_id": "6a9b94950000000026014450"
+    },
+    {
+      "app_id": "6a9ab976ddc4cf00159df0de",
+      "app_name": "游戏主播模拟器",
+      "slogan": "体验从新人到顶流的主播生涯~",
+      "gmt_create": "2026-09-05 10:11:53",
+      "use_users": 377,
+      "nickname": "Luciaaaaa",
+      "note_id": "6a9b9254000000002a0042ee"
+    },
+    {
+      "app_id": "6a9bb60052d5f400151874f3",
+      "app_name": "墨笔凌云 · 你能爬到多高",
+      "slogan": "和古风小生一起攻克难关",
+      "gmt_create": "2026-09-05 16:34:01",
+      "use_users": 374,
+      "nickname": "盛夏de背影",
+      "note_id": "6a9bc7d9000000002900ffe3"
+    },
+    {
+      "app_id": "6a9addcd52d5f400151872a7",
+      "app_name": "红旗连锁小卖部",
+      "slogan": "一个codex5.6小商店",
+      "gmt_create": "2026-09-05 11:09:02",
+      "use_users": 322,
+      "nickname": "Mummy-fei",
+      "note_id": "6a9ba6aa0000000026008db5"
+    },
+    {
+      "app_id": "6a9b78e033dcf5001578d712",
+      "app_name": "接住晚晚的小确幸",
+      "slogan": "移动小篮子🧺接住今日小确幸",
+      "gmt_create": "2026-09-05 14:28:06",
+      "use_users": 295,
+      "nickname": "林晚晚的幻颜日记",
+      "note_id": "6a9bca910000000012001505"
+    },
+    {
+      "app_id": "6a9b6ef13555e00015925c15",
+      "app_name": "猫狗守城大乱斗",
+      "slogan": "Q版卡通竖版塔防守城小游戏。",
+      "gmt_create": "2026-09-05 14:09:48",
+      "use_users": 290,
+      "nickname": "邓凯凯",
+      "note_id": "6a9bb7c30000000012000eaf"
+    },
+    {
+      "app_id": "6a9ad2df12d71a0015f85a94",
+      "app_name": "小恶魔行为风格测试",
+      "slogan": "测测你的内心住着什么",
+      "gmt_create": "2026-09-05 10:41:50",
+      "use_users": 289,
+      "nickname": "弗思Verse",
+      "note_id": "6a9b883e0000000028003504"
+    },
+    {
+      "app_id": "6a9ae5c852d5f400151872ca",
+      "app_name": "测测你是早春晴朗的谁？",
+      "slogan": "测测你是早春晴朗的谁？",
+      "gmt_create": "2026-09-05 11:19:48",
+      "use_users": 286,
+      "nickname": "叁号院",
+      "note_id": "6a9bbfdb000000000b00deea"
+    },
+    {
+      "app_id": "6a9af97b344fae0015aa2e51",
+      "app_name": "夯爆了评测排行榜小工具",
+      "slogan": "便利的大力评测",
+      "gmt_create": "2026-09-05 11:56:07",
+      "use_users": 276,
+      "nickname": "夏天来了换个 id",
+      "note_id": "6a9afc55000000002502cf42"
+    },
+    {
+      "app_id": "6a9b0168eeb797001535c123",
+      "app_name": "云端跳跃",
+      "slogan": "你能跳出去吗？",
+      "gmt_create": "2026-09-05 12:26:14",
+      "use_users": 258,
+      "nickname": "睡觉没",
+      "note_id": "6a9bacf4000000002502ec9e"
+    },
+    {
+      "app_id": "6a9ab60e12d71a0015f85a39",
+      "app_name": "后陡门演唱会总导演",
+      "slogan": "今晚，你是后陡门演唱会总导演",
+      "gmt_create": "2026-09-05 09:49:10",
+      "use_users": 246,
+      "nickname": "呵呵小",
+      "note_id": "6a9af684000000000d027921"
+    },
+    {
+      "app_id": "6a9bc879ea512a00157e0a2b",
+      "app_name": "月饼分分乐",
+      "slogan": "划一刀分月饼，蛋黄别切破",
+      "gmt_create": "2026-09-05 17:41:03",
+      "use_users": 243,
+      "nickname": "摸鱼游戏厅",
+      "note_id": "6a9bf600000000002b001d74"
+    },
+    {
+      "app_id": "6a9abb8ceeb797001535c03b",
+      "app_name": "不存在的13号房",
+      "slogan": "沉浸式旅馆恐怖解谜",
+      "gmt_create": "2026-09-05 10:05:04",
+      "use_users": 227,
+      "nickname": "黄二六",
+      "note_id": "6a9ae365000000001203fa62"
+    },
+    {
+      "app_id": "6a9b8109a2887a0015b67ee2",
+      "app_name": "你这瓜保熟不",
+      "slogan": "开局一个西瓜摊",
+      "gmt_create": "2026-09-05 14:56:53",
+      "use_users": 222,
+      "nickname": "小小北辰📸",
+      "note_id": "6a9bdf9e0000000025034721"
+    },
+    {
+      "app_id": "6a9b498d3555e00015925bdd",
+      "app_name": "躲避球（新）",
+      "slogan": "看你能坚持多久，晒出来！",
+      "gmt_create": "2026-09-05 13:36:25",
+      "use_users": 220,
+      "nickname": "欢乐李白",
+      "note_id": "6a9bd824000000002b025354"
+    },
+    {
+      "app_id": "6a9be0e5ddc4cf00159df4b3",
+      "app_name": "团团突围",
+      "slogan": "广告里的游戏，真的可以玩了~",
+      "gmt_create": "2026-09-05 19:35:17",
+      "use_users": 216,
+      "nickname": "小鱼丸",
+      "note_id": "6a9c0423000000002802c625"
+    },
+    {
+      "app_id": "6a9a9830a2887a0015b67c5a",
+      "app_name": "猫猫对对碰",
+      "slogan": "是可爱轻松的猫猫对对碰哟~",
+      "gmt_create": "2026-09-05 08:38:12",
+      "use_users": 207,
+      "nickname": "斐波那契",
+      "note_id": "6a9b7105000000002b0033d2"
+    },
+    {
+      "app_id": "6a9bccf9344fae0015aa30b9",
+      "app_name": "哈苏胶片模拟器",
+      "slogan": "用胶片记录人生美好瞬间",
+      "gmt_create": "2026-09-05 18:16:28",
+      "use_users": 201,
+      "nickname": "方寸开物",
+      "note_id": "6a9bf6cb0000000011031bc7"
+    },
+    {
+      "app_id": "6a9ba81733dcf5001578d7c1",
+      "app_name": "小兔子钓月饼",
+      "slogan": "快来看看谁钓的月饼多吧",
+      "gmt_create": "2026-09-05 21:30:20",
+      "use_users": 188,
+      "nickname": "爱读书的李博士",
+      "note_id": "6a9c1b96000000001103048b"
+    },
+    {
+      "app_id": "6a9ab3aa3555e00015925a3d",
+      "app_name": "花滑比赛分数计算器",
+      "slogan": "根据花滑sov计算总分",
+      "gmt_create": "2026-09-05 09:17:10",
+      "use_users": 188,
+      "nickname": "爱吃藤藤菜",
+      "note_id": "6a9beae7000000002b02585d"
+    },
+    {
+      "app_id": "6a9ade8833dcf5001578d594",
+      "app_name": "我们一起来割草",
+      "slogan": "滑动割草收水果，越割越大",
+      "gmt_create": "2026-09-05 11:17:49",
+      "use_users": 185,
+      "nickname": "AI研习官",
+      "note_id": "6a9c0c6b0000000012027b63"
+    },
+    {
+      "app_id": "6a9bbbaaddc4cf00159df3f9",
+      "app_name": "飞飞猫",
+      "slogan": "千万别碰到墙壁！",
+      "gmt_create": "2026-09-05 16:51:55",
+      "use_users": 182,
+      "nickname": "Imm",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a997fc7ea512a00157e0312",
+      "app_name": "卡车消消乐",
+      "slogan": "很重的猫咪消消乐小游戏",
+      "gmt_create": "2026-09-05 08:25:10",
+      "use_users": 181,
+      "nickname": "猴可爱来了",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9bdc03eeb797001535c3e5",
+      "app_name": "测测你的历史人格（事业版）",
+      "slogan": "20道选择看最像哪位历史人物",
+      "gmt_create": "2026-09-05 19:26:06",
+      "use_users": 179,
+      "nickname": "林落鸣",
+      "note_id": "6a9c193d0000000025037985"
+    },
+    {
+      "app_id": "6a9bdc1e344fae0015aa313b",
+      "app_name": "刮一刮大奖，乐一乐",
+      "slogan": "刮一刮大奖，乐一乐",
+      "gmt_create": "2026-09-05 19:24:17",
+      "use_users": 178,
+      "nickname": "旧闻速递",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9b9bda344fae0015aa2fbf",
+      "app_name": "大学生活费模拟器",
+      "slogan": "抽取你的生活费度过大学三十天",
+      "gmt_create": "2026-09-05 15:57:21",
+      "use_users": 176,
+      "nickname": "睡一觉就死",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9aef0b33dcf5001578d5ed",
+      "app_name": "SEATVIEW",
+      "slogan": "进场之前，先看看你的座位",
+      "gmt_create": "2026-09-05 11:49:27",
+      "use_users": 175,
+      "nickname": "放心交给我好了",
+      "note_id": "6a9ad981000000002802f2f7"
+    },
+    {
+      "app_id": "6a9acd93ddc4cf00159df153",
+      "app_name": "星辰幸存者",
+      "slogan": "进化你的武器，打败更多敌人！",
+      "gmt_create": "2026-09-05 10:44:06",
+      "use_users": 173,
+      "nickname": "你大爹是小鬼",
+      "note_id": "6a9b94830000000028033431"
+    },
+    {
+      "app_id": "6a9ab144f229450015bfe83e",
+      "app_name": "魔物观战席",
+      "slogan": "千人军势推演",
+      "gmt_create": "2026-09-05 09:19:26",
+      "use_users": 172,
+      "nickname": "摸鱼游戏厅",
+      "note_id": "6a9b9f46000000002b003a2a"
+    },
+    {
+      "app_id": "6a9a9a27ea512a00157e068b",
+      "app_name": "花少2人格测试",
+      "slogan": "猜猜你是花少二的谁",
+      "gmt_create": "2026-09-05 08:27:58",
+      "use_users": 170,
+      "nickname": "buzhidao",
+      "note_id": "6a9bad8b000000002803909f"
+    },
+    {
+      "app_id": "6a9a9f17eeb797001535bfd0",
+      "app_name": "世界正在变好的证据",
+      "slogan": "还有人爱着这个世界，真好啊！",
+      "gmt_create": "2026-09-05 08:38:07",
+      "use_users": 159,
+      "nickname": "林飞blabla",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9bd401ea512a00157e0a62",
+      "app_name": "鱼鱼物语",
+      "slogan": "钓鱼做菜，治愈系放置小游戏",
+      "gmt_create": "2026-09-05 19:12:56",
+      "use_users": 156,
+      "nickname": "最奶的龙",
+      "note_id": "6a9bfffd000000002a02ce39"
+    },
+    {
+      "app_id": "6a9bc489eeb797001535c340",
+      "app_name": "西游记（全文可查）",
+      "slogan": "八十一难+妖怪+法宝+神佛谱",
+      "gmt_create": "2026-09-05 17:30:14",
+      "use_users": 152,
+      "nickname": "浮生小记",
+      "note_id": "6a9be6cd00000000260177c9"
+    },
+    {
+      "app_id": "6a9adbf9eeb797001535c0a9",
+      "app_name": "一滑到底",
+      "slogan": "算路线的解谜小工具",
+      "gmt_create": "2026-09-05 11:19:40",
+      "use_users": 146,
+      "nickname": "便大浪",
+      "note_id": "6a9bc32d0000000026038e55"
+    },
+    {
+      "app_id": "6a9bd527ddc4cf00159df465",
+      "app_name": "挤地铁",
+      "slogan": "体验一下上班高峰期的地铁",
+      "gmt_create": "2026-09-05 18:50:49",
+      "use_users": 141,
+      "nickname": "梧桐的AI笔记",
+      "note_id": "6a9bfcc4000000002b025512"
+    },
+    {
+      "app_id": "6a9b9412ddc4cf00159df348",
+      "app_name": "粉笔排版小工具",
+      "slogan": "一个单纯的静态页面",
+      "gmt_create": "2026-09-05 15:40:43",
+      "use_users": 138,
+      "nickname": "行测小助理",
+      "note_id": "6a9c0623000000000d025f29"
+    },
+    {
+      "app_id": "6a9bd6eeddc4cf00159df472",
+      "app_name": "叠出神话史莱姆",
+      "slogan": "你见过史莱姆世界的希腊神话吗",
+      "gmt_create": "2026-09-05 18:55:17",
+      "use_users": 134,
+      "nickname": "智勇双全大聪明",
+      "note_id": "6a9c0bb30000000011031e6e"
+    },
+    {
+      "app_id": "6a9a955652d5f40015187187",
+      "app_name": "高情商回话",
+      "slogan": "教你如何轻松绷住",
+      "gmt_create": "2026-09-05 08:17:02",
+      "use_users": 132,
+      "nickname": "梧桐的AI笔记",
+      "note_id": "6a9bcf1a000000002601f088"
+    },
+    {
+      "app_id": "6a9ac212344fae0015aa2d71",
+      "app_name": "呆呆大作战",
+      "slogan": "合成卡片，成为呆呆之王！",
+      "gmt_create": "2026-09-05 10:17:56",
+      "use_users": 129,
+      "nickname": "簿簿",
+      "note_id": "6a9bd201000000001203492e"
+    },
+    {
+      "app_id": "6a9bfec9ddc4cf00159df522",
+      "app_name": "捏捏果冻",
+      "slogan": "捏捏果冻的解压小游戏",
+      "gmt_create": "2026-09-05 21:15:17",
+      "use_users": 127,
+      "nickname": "Way的AI创造社",
+      "note_id": "6a9c2ea10000000011033889"
+    },
+    {
+      "app_id": "6a9bdcfcddc4cf00159df49b",
+      "app_name": "企鹅快跑！",
+      "slogan": "gogogo！",
+      "gmt_create": "2026-09-05 19:26:12",
+      "use_users": 127,
+      "nickname": "Imm",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9a290c344fae0015aa2b15",
+      "app_name": "火星生存（文字版）",
+      "slogan": "火星生存小游戏，生存开发建造",
+      "gmt_create": "2026-09-05 10:27:57",
+      "use_users": 127,
+      "nickname": "秋月筑码",
+      "note_id": "6a9b88880000000028003611"
+    },
+    {
+      "app_id": "6a9aa233ddc4cf00159df07f",
+      "app_name": "CrossFit年卡回本计划",
+      "slogan": "计算你的单节课成本",
+      "gmt_create": "2026-09-05 08:43:44",
+      "use_users": 120,
+      "nickname": "辣味葵妮🌻",
+      "note_id": "6a9b6bbf0000000026038da0"
+    },
+    {
+      "app_id": "6a9b018633dcf5001578d625",
+      "app_name": "星陨VEGA",
+      "slogan": "像素风太阳系深空躲避游戏",
+      "gmt_create": "2026-09-05 12:31:51",
+      "use_users": 116,
+      "nickname": "阿冉",
+      "note_id": "6a9ba8400000000026021192"
+    },
+    {
+      "app_id": "6a9adb0ef229450015bfe8e3",
+      "app_name": "捡瓶子模拟器",
+      "slogan": "一个捡瓶子的赚钱买手机小游戏",
+      "gmt_create": "2026-09-05 11:07:01",
+      "use_users": 110,
+      "nickname": "贩卖人间破烂",
+      "note_id": "6a9b89b3000000000b00f841"
+    },
+    {
+      "app_id": "6a9b906052d5f40015187473",
+      "app_name": "明月生辰帖",
+      "slogan": "输入生日，测你出生那晚的月亮",
+      "gmt_create": "2026-09-05 15:27:22",
+      "use_users": 109,
+      "nickname": "＜猫屿智行＞",
+      "note_id": "6a9bd7a20000000012026be6"
+    },
+    {
+      "app_id": "6a9abaf5f229450015bfe865",
+      "app_name": "线团解忧馆",
+      "slogan": "解得了线团，却解不开你的心~",
+      "gmt_create": "2026-09-05 09:57:52",
+      "use_users": 109,
+      "nickname": "小鱼丸",
+      "note_id": "6a9bb6b2000000001001e64e"
+    },
+    {
+      "app_id": "6a9bc462ddc4cf00159df41c",
+      "app_name": "疯狂的打工人",
+      "slogan": "为了打卡上班不择手段",
+      "gmt_create": "2026-09-05 17:30:02",
+      "use_users": 104,
+      "nickname": "答案 3D",
+      "note_id": "6a9be8010000000029017a01"
+    },
+    {
+      "app_id": "6a9ba562a2887a0015b67f63",
+      "app_name": "哈利波特一年级摸底考",
+      "slogan": "随机十五题测霍格沃茨常识",
+      "gmt_create": "2026-09-05 16:10:44",
+      "use_users": 101,
+      "nickname": "小芝士薯",
+      "note_id": "6a9bf34e000000001001ec52"
+    },
+    {
+      "app_id": "6a9ae49852d5f400151872c2",
+      "app_name": "捞月成诗",
+      "slogan": "划三下，捞月成诗",
+      "gmt_create": "2026-09-05 11:16:26",
+      "use_users": 99,
+      "nickname": "方寸开物",
+      "note_id": "6a9ba8290000000026016e63"
+    },
+    {
+      "app_id": "6a9c09ba33dcf5001578d995",
+      "app_name": "清洁大王",
+      "slogan": "一款强迫症狂喜擦擦擦清洁游戏",
+      "gmt_create": "2026-09-05 22:06:55",
+      "use_users": 96,
+      "nickname": "手残冲浪手",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9be4bbea512a00157e0ac6",
+      "app_name": "这关有诈",
+      "slogan": "看似简单，步步有诈！",
+      "gmt_create": "2026-09-05 19:57:22",
+      "use_users": 93,
+      "nickname": "晓晓的脑洞局",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9b85333555e00015925c60",
+      "app_name": "页页成长",
+      "slogan": "日记记账与成长记录",
+      "gmt_create": "2026-09-05 15:04:56",
+      "use_users": 90,
+      "nickname": "星星",
+      "note_id": "6a9c08de00000000290110ea"
+    },
+    {
+      "app_id": "6a9bde7d52d5f400151875cc",
+      "app_name": "打地鼠（打工人版）",
+      "slogan": "打工人工位打地鼠",
+      "gmt_create": "2026-09-05 19:29:55",
+      "use_users": 88,
+      "nickname": "梧桐的AI笔记",
+      "note_id": "6a9bfddf00000000290144c7"
+    },
+    {
+      "app_id": "6a9c0b8033dcf5001578d9a3",
+      "app_name": "Q版泡泡堂",
+      "slogan": "泡泡堂，经典游戏",
+      "gmt_create": "2026-09-05 22:23:45",
+      "use_users": 87,
+      "nickname": "懒洋派",
+      "note_id": "6a9c2666000000002901503c"
+    },
+    {
+      "app_id": "6a9c0bd733dcf5001578d9ab",
+      "app_name": "宫斗莲",
+      "slogan": "休闲类宫斗文游",
+      "gmt_create": "2026-09-05 22:13:50",
+      "use_users": 85,
+      "nickname": "薄目敛",
+      "note_id": "6a72c30c0000000022031e9e"
+    },
+    {
+      "app_id": "6a9c11e6344fae0015aa3214",
+      "app_name": "电影审美等级测试",
+      "slogan": "给电影打分，测试电影审美等级",
+      "gmt_create": "2026-09-05 22:36:50",
+      "use_users": 83,
+      "nickname": "向往海",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9ba41bf229450015bfeacf",
+      "app_name": "省吃减肉",
+      "slogan": "外卖没来，但自律来了！",
+      "gmt_create": "2026-09-05 16:08:14",
+      "use_users": 83,
+      "nickname": "艾迪",
+      "note_id": "6a9c0d980000000025036ea6"
+    },
+    {
+      "app_id": "6a9a9cc13555e000159259ce",
+      "app_name": "蚊子杀手",
+      "slogan": "还在被蚊子困扰？快来打蚊子！",
+      "gmt_create": "2026-09-05 08:33:09",
+      "use_users": 73,
+      "nickname": "Gold Experience",
+      "note_id": "6a9b848e000000000b0006b8"
+    },
+    {
+      "app_id": "6a9bb5f9ddc4cf00159df3d3",
+      "app_name": "点点月饼，月满人间",
+      "slogan": "埋头就是点！",
+      "gmt_create": "2026-09-05 16:26:29",
+      "use_users": 65,
+      "nickname": "打游戏就别打我了",
+      "note_id": "6a9bdb2c0000000012036e1d"
+    },
+    {
+      "app_id": "6a9b4e8852d5f400151873b5",
+      "app_name": "小麦街面包房",
+      "slogan": "90秒经营面包店",
+      "gmt_create": "2026-09-05 13:50:10",
+      "use_users": 62,
+      "nickname": "上香",
+      "note_id": "6a9bb84d0000000026018253"
+    },
+    {
+      "app_id": "6a9c0f2b52d5f400151876a5",
+      "app_name": "核类美学情绪板（支持自定义）",
+      "slogan": "填写灵魂问卷生成专属情绪版",
+      "gmt_create": "2026-09-05 22:22:47",
+      "use_users": 60,
+      "nickname": "猫屿meow",
+      "note_id": "6a9c270f000000002902cf19"
+    },
+    {
+      "app_id": "6a9afc5b33dcf5001578d615",
+      "app_name": "毛团子消消庄园",
+      "slogan": "软萌三消，收集毛孩子！",
+      "gmt_create": "2026-09-05 12:07:21",
+      "use_users": 59,
+      "nickname": "年糕团子AI创研社",
+      "note_id": "6a9b98f00000000012024a74"
+    },
+    {
+      "app_id": "6a9aaae4f229450015bfe821",
+      "app_name": "豆摆数鸭子",
+      "slogan": "门前大桥下，游过一群鸭~",
+      "gmt_create": "2026-09-05 10:26:52",
+      "use_users": 57,
+      "nickname": "豆摆的世界",
+      "note_id": "6a9b83f500000000260161d4"
+    },
+    {
+      "app_id": "6a9adcea3555e00015925af4",
+      "app_name": "牛马等假期人格测试",
+      "slogan": "打工人的等放假版MBTI测试",
+      "gmt_create": "2026-09-05 14:09:47",
+      "use_users": 55,
+      "nickname": "阿泽与AI",
+      "note_id": "6a9bbf620000000025037597"
+    },
+    {
+      "app_id": "6a9ae932f229450015bfe923",
+      "app_name": "AI画的烟花盛宴美哭了",
+      "slogan": "用AI生成了一组烟花数字艺术",
+      "gmt_create": "2026-09-05 11:25:57",
+      "use_users": 55,
+      "nickname": "芯球",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9ad42d344fae0015aa2dae",
+      "app_name": "送礼救星",
+      "slogan": "不会送礼？我帮你",
+      "gmt_create": "2026-09-05 10:46:37",
+      "use_users": 55,
+      "nickname": "梧桐的AI笔记",
+      "note_id": "6a9bcc7100000000280323cc"
+    },
+    {
+      "app_id": "6a9bcf39ea512a00157e0a44",
+      "app_name": "嘴强王者·用魔法打败魔法",
+      "slogan": "拒绝网络暴力从你我做起！",
+      "gmt_create": "2026-09-05 18:44:37",
+      "use_users": 53,
+      "nickname": "哇哦🍁",
+      "note_id": "6a9c1604000000001203ea3d"
+    },
+    {
+      "app_id": "6a9bbe3f344fae0015aa306e",
+      "app_name": "听音练耳",
+      "slogan": "通过单音和读音模式练习音准",
+      "gmt_create": "2026-09-05 16:56:30",
+      "use_users": 53,
+      "nickname": "Battery Monitor",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9bdf3a33dcf5001578d8c8",
+      "app_name": "奔月兔兔",
+      "slogan": "陪小兔绕月奔跑，把月亮跑圆",
+      "gmt_create": "2026-09-05 19:42:41",
+      "use_users": 52,
+      "nickname": "宇宙速度X",
+      "note_id": "6a9c07c2000000002902d5fb"
+    },
+    {
+      "app_id": "6a9afec1344fae0015aa2e68",
+      "app_name": "星愿：童话围城",
+      "slogan": "童话风肉鸽游戏",
+      "gmt_create": "2026-09-05 12:18:27",
+      "use_users": 51,
+      "nickname": "momo",
+      "note_id": "6a9b99b90000000029012e1e"
+    },
+    {
+      "app_id": "6a9ad98333dcf5001578d578",
+      "app_name": "雨点消消乐",
+      "slogan": "超爽道具无限闯关三消游戏",
+      "gmt_create": "2026-09-05 11:05:36",
+      "use_users": 46,
+      "nickname": "沉睡的雨点",
+      "note_id": "6a9ba635000000002502c75b"
+    },
+    {
+      "app_id": "6a9be7e33555e00015925e10",
+      "app_name": "别踩错拍",
+      "slogan": "跟上节奏，别踩错拍",
+      "gmt_create": "2026-09-05 20:08:33",
+      "use_users": 44,
+      "nickname": "晓晓的脑洞局",
+      "note_id": ""
+    },
+    {
+      "app_id": "6a9bd5ee33dcf5001578d890",
+      "app_name": "无名村",
+      "slogan": "误入诡村，寻找失踪真相",
+      "gmt_create": "2026-09-05 19:17:00",
+      "use_users": 43,
+      "nickname": "一个路人",
+      "note_id": "6a9bd8ac000000000b03442d"
+    },
+    {
+      "app_id": "6a9a958cddc4cf00159df058",
+      "app_name": "西西弗斯骨牌",
+      "slogan": "你的巨石，是否已至山顶？",
+      "gmt_create": "2026-09-05 08:18:43",
+      "use_users": 42,
+      "nickname": "jove",
+      "note_id": "6a9b7904000000002502ca43"
+    },
+    {
+      "app_id": "6a9bd4f0f229450015bfebdc",
+      "app_name": "薯薯塔罗",
+      "slogan": "在牌面之间找到下一步",
+      "gmt_create": "2026-09-05 18:50:27",
+      "use_users": 40,
+      "nickname": "薯薯生活研究所",
+      "note_id": "6a9c0d2e000000002601a69e"
+    },
+    {
+      "app_id": "6a9aba1cddc4cf00159df0e4",
+      "app_name": "果味对对碰",
+      "slogan": "果味对对碰轻松玩双模式真解压",
+      "gmt_create": "2026-09-05 09:54:17",
+      "use_users": 40,
+      "nickname": "产品经理 | VibeCoding笔记",
+      "note_id": "6a9bff5d0000000028038b53"
+    }
+  ],
+  "keywordChecks": [
+    {
+      "keyword": "水晶球",
+      "matchedCount": 2,
+      "topMatches": [
+        {
+          "app_id": "6a8ea6e1ee1dff0015042f1c",
+          "app_name": "窥探水晶球里的另一条人生路",
+          "slogan": "大千世界中，你做了另一个选择",
+          "use_users": 0,
+          "note_id": "6a8ec6c700000000040297df"
+        },
+        {
+          "app_id": "6a897654c8b11e00153d6eac",
+          "app_name": "阿卡西读心水晶球",
+          "slogan": "一个从潜意识读心测试小工具。",
+          "use_users": 0,
+          "note_id": "6a8987c0000000002603b187"
+        }
+      ]
+    },
+    {
+      "keyword": "果冻",
+      "matchedCount": 4,
+      "topMatches": [
+        {
+          "app_id": "6a86c255e44b190015f762f9",
+          "app_name": "果冻啵啵爆",
+          "slogan": "解压小游戏，Q弹果冻超好玩",
+          "use_users": 245602,
+          "note_id": "6a86ea9e000000002402c6db"
+        },
+        {
+          "app_id": "6a8c2398b7bd4900156a4b62",
+          "app_name": "果冻叠叠乐",
+          "slogan": "搬运果冻，把同色叠成一列",
+          "use_users": 1516,
+          "note_id": "6a8cd8c5000000001702ecd1"
+        },
+        {
+          "app_id": "6a9bfec9ddc4cf00159df522",
+          "app_name": "捏捏果冻",
+          "slogan": "捏捏果冻的解压小游戏",
+          "use_users": 127,
+          "note_id": "6a9c2ea10000000011033889"
+        },
+        {
+          "app_id": "6a90facbee1dff0015043607",
+          "app_name": "果冻弹弹",
+          "slogan": "记住节奏弹向星星",
+          "use_users": 2,
+          "note_id": ""
+        }
+      ]
+    },
+    {
+      "keyword": "毛毡",
+      "matchedCount": 0,
+      "topMatches": []
+    },
+    {
+      "keyword": "刮画",
+      "matchedCount": 0,
+      "topMatches": []
+    },
+    {
+      "keyword": "万花筒",
+      "matchedCount": 3,
+      "topMatches": [
+        {
+          "app_id": "6a585a69427cef00154cff31",
+          "app_name": "万花筒织机",
+          "slogan": "万花筒织机",
+          "use_users": 30,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a99487da2887a0015b67795",
+          "app_name": "几何万花筒",
+          "slogan": "几何旋转，万花盛放",
+          "use_users": 0,
+          "note_id": ""
+        },
+        {
+          "app_id": "6a8fc842ee1dff0015043293",
+          "app_name": "万花筒自拍镜",
+          "slogan": "一个万花筒加摄像头的小玩具。",
+          "use_users": 0,
+          "note_id": ""
+        }
+      ]
+    },
+    {
+      "keyword": "沙画",
+      "matchedCount": 3,
+      "topMatches": [
+        {
+          "app_id": "6a924edead16f4001557fa93",
+          "app_name": "沙画消消消",
+          "slogan": "沙画消除，超解压治愈小游戏！",
+          "use_users": 1994,
+          "note_id": "6a94eda20000000025025114"
+        },
+        {
+          "app_id": "6a8c55bbe424b80015cf5cd5",
+          "app_name": "指尖沙画画台",
+          "slogan": "可以用手指体验沙画创作的画台",
+          "use_users": 1381,
+          "note_id": "6a8ab0080000000038003029"
+        },
+        {
+          "app_id": "6a8d48bae44b190015f77444",
+          "app_name": "指尖沙画画台2.0",
+          "slogan": "可以用手指体验沙画创作的画台",
+          "use_users": 0,
+          "note_id": ""
+        }
+      ]
+    },
+    {
+      "keyword": "玻璃",
+      "matchedCount": 8,
+      "topMatches": [
+        {
+          "app_id": "6a98e737f229450015bfe0f6",
+          "app_name": "玻璃维度——超解压弹珠砸玻璃",
+          "slogan": "弹珠，和没有尽头的玻璃世界。",
+          "use_users": 3712,
+          "note_id": "6a995673000000002700b1b3"
+        },
+        {
+          "app_id": "6a95c99d0106b30015b895e2",
+          "app_name": "苹果液态玻璃水印 - 超真实",
+          "slogan": "为照片添加质感的液态玻璃水印",
+          "use_users": 3613,
+          "note_id": "6a96a8e30000000029010f85"
+        },
+        {
+          "app_id": "6a88d5f1e424b80015cf523f",
+          "app_name": "专业折射玻璃UI演示",
+          "slogan": "需要配合作者源码和SKILL",
+          "use_users": 79,
+          "note_id": "6a89923100000000220223f4"
+        },
+        {
+          "app_id": "6a79c425af9fbc001552c395",
+          "app_name": "玻璃瓶内的小世界",
+          "slogan": "一个安全的独处空间",
+          "use_users": 14,
+          "note_id": "6a79ccbe000000002501548c"
+        }
+      ]
+    },
+    {
+      "keyword": "装瓶",
+      "matchedCount": 1,
+      "topMatches": [
+        {
+          "app_id": "6a8a9e48b7bd4900156a46b4",
+          "app_name": "液体装瓶大师",
+          "slogan": "倒液装瓶，挑战50关",
+          "use_users": 951,
+          "note_id": "6a8be6ff000000002202fb2c"
+        }
+      ]
+    },
+    {
+      "keyword": "拉花",
+      "matchedCount": 2,
+      "topMatches": [
+        {
+          "app_id": "6a93c0a44045f30015096589",
+          "app_name": "拉了个花~",
+          "slogan": "咖啡拉花模拟器",
+          "use_users": 2436,
+          "note_id": "6a96caac000000002901054b"
+        },
+        {
+          "app_id": "6a952c22e29cdb0015d5e1ca",
+          "app_name": "咖啡拉花一笔画",
+          "slogan": "一笔拉出不翻车的爱心",
+          "use_users": 0,
+          "note_id": ""
+        }
+      ]
+    },
+    {
+      "keyword": "地毯",
+      "matchedCount": 0,
+      "topMatches": []
+    },
+    {
+      "keyword": "糖画",
+      "matchedCount": 1,
+      "topMatches": [
+        {
+          "app_id": "6a80637cc8b11e00153d5f7c",
+          "app_name": "模拟经营之糖画大师傅",
+          "slogan": "自制oc小糖人就是今天！",
+          "use_users": 309,
+          "note_id": ""
+        }
+      ]
+    },
+    {
+      "keyword": "贴纸",
+      "matchedCount": 19,
+      "topMatches": [
+        {
+          "app_id": "6a8c4da12ee6700015adca93",
+          "app_name": "Y2K彩钻贴纸小工具",
+          "slogan": "给生活加一些布灵布灵✨",
+          "use_users": 48587,
+          "note_id": "6a8c68f6000000002a02c5ec"
+        },
+        {
+          "app_id": "6a67600c682cf0001539d903",
+          "app_name": "NJZ鼠标小跟班-指尖版",
+          "slogan": "和小跟班们拍照、贴贴纸做壁纸",
+          "use_users": 4756,
+          "note_id": "6a688586000000000402a90e"
+        },
+        {
+          "app_id": "6a67565bfe8b01001593d3ed",
+          "app_name": "撕贴工坊",
+          "slogan": "一个拟真的贴纸生成器",
+          "use_users": 480,
+          "note_id": "6a5eedaf000000000401e31f"
+        },
+        {
+          "app_id": "6a942b13e3efb40015e04717",
+          "app_name": "贴纸连连看",
+          "slogan": "快来玩轻松治愈的贴纸连连看吧",
+          "use_users": 203,
+          "note_id": ""
+        }
+      ]
+    },
+    {
+      "keyword": "赶海",
+      "matchedCount": 3,
+      "topMatches": [
+        {
+          "app_id": "6a96c687f8fbb80015e3afc6",
+          "app_name": "今天去赶海",
+          "slogan": "治愈系赶海收集经营小游戏",
+          "use_users": 14748,
+          "note_id": "6a9bea9b0000000028030fea"
+        },
+        {
+          "app_id": "6a95951f0106b30015b89588",
+          "app_name": "海边生活家",
+          "slogan": "赶海逛集市做海鲜过治愈日子",
+          "use_users": 6099,
+          "note_id": "6a96d65a000000002b010db0"
+        },
+        {
+          "app_id": "6a8b4e37e424b80015cf5a7b",
+          "app_name": "赶海",
+          "slogan": "手指滑动海浪—“赶海”",
+          "use_users": 4139,
+          "note_id": "6a8d1d0c000000001602219f"
+        }
+      ]
+    },
+    {
+      "keyword": "扭蛋",
+      "matchedCount": 5,
+      "topMatches": [
+        {
+          "app_id": "6a9a4a11ddc4cf00159deed7",
+          "app_name": "嘟嘟扭蛋机",
+          "slogan": "抽肥嘟嘟盲盒，集梗图鉴",
+          "use_users": 5025,
+          "note_id": "6a9a938d0000000011032bfd"
+        },
+        {
+          "app_id": "6a8446bab7bd4900156a37ba",
+          "app_name": "Picksy转盘扭蛋做决定",
+          "slogan": "一款可爱有趣的选择工具",
+          "use_users": 938,
+          "note_id": "6a8800f3000000002a030160"
+        },
+        {
+          "app_id": "6a746586950d1b00157412e4",
+          "app_name": "Hello WOD扭蛋机",
+          "slogan": "今天刷WOD了吗？来抽一个！",
+          "use_users": 157,
+          "note_id": "6a74a0a90000000025015a6e"
+        },
+        {
+          "app_id": "6a730d86a372b40015664f6b",
+          "app_name": "选题扭蛋机",
+          "slogan": "摇出标题与完整内容框架",
+          "use_users": 23,
+          "note_id": "6a7313ef0000000027021ca8"
+        }
+      ]
+    },
+    {
+      "keyword": "奶茶",
+      "matchedCount": 56,
+      "topMatches": [
+        {
+          "app_id": "6a8c604bd5704c0015efa70f",
+          "app_name": "我要喝奶茶2",
+          "slogan": "一杯不用长肉的虚拟奶茶",
+          "use_users": 250690,
+          "note_id": "6a75b422000000002800a75b"
+        },
+        {
+          "app_id": "6a75b2cb12281600150930af",
+          "app_name": "我要喝奶茶",
+          "slogan": "一杯不用长肉的虚拟奶茶",
+          "use_users": 73378,
+          "note_id": "6a87d62e000000002a03297f"
+        },
+        {
+          "app_id": "6a953dd7384ee4001594914f",
+          "app_name": "奶茶调配屋",
+          "slogan": "让喵喵来品鉴你的自制奶茶吧！",
+          "use_users": 57789,
+          "note_id": "6a97e80b0000000012037b96"
+        },
+        {
+          "app_id": "6a97187eea512a001565c43c",
+          "app_name": "奶茶吨吨吨",
+          "slogan": "可爱奶茶割草小游戏",
+          "use_users": 20934,
+          "note_id": "6a97eefb0000000011032d0a"
+        }
+      ]
+    },
+    {
+      "keyword": "陶艺",
+      "matchedCount": 8,
+      "topMatches": [
+        {
+          "app_id": "6a905c007f0ea30015c22ff4",
+          "app_name": "入窑万彩·数字陶艺DIY",
+          "slogan": "入窑一色出窑万彩·陶艺DIY",
+          "use_users": 26589,
+          "note_id": "6a914dc3000000002003a757"
+        },
+        {
+          "app_id": "6a9505aa4045f30015096865",
+          "app_name": "指尖上的陶艺（沉浸式版）",
+          "slogan": "陶瓷DIY，感受陶艺的魅力",
+          "use_users": 4161,
+          "note_id": "6a9666df000000000b00106e"
+        },
+        {
+          "app_id": "6a95bed5ee1dff0015045e88",
+          "app_name": "拼豆陶瓷杯｜新国风体验",
+          "slogan": "当拼豆遇上千年传统陶艺",
+          "use_users": 878,
+          "note_id": "6a96ad33000000002802f5f0"
+        },
+        {
+          "app_id": "6a92b46a4045f300150959c5",
+          "app_name": "陶艺手艺人",
+          "slogan": "陶艺手艺人手工搓陶",
+          "use_users": 98,
+          "note_id": "6a94f7c6000000000700619d"
+        }
+      ]
+    }
+  ]
+}

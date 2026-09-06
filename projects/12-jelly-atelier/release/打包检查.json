@@ -1,0 +1,35 @@
+{
+  "name": "果冻慢慢",
+  "description": "亲手做果冻收藏今天的甜蜜快乐",
+  "descriptionLength": 14,
+  "zipBytes": 656882,
+  "zipKiB": 641,
+  "sha256": "0b19ed28a76abec887f537af5516be764b3fb78a528b570a79c5ae7e3f26d48c",
+  "logo": {
+    "width": 1254,
+    "height": 1254
+  },
+  "checks": {
+    "rootIndex": true,
+    "classicExternalScript": true,
+    "noStartupFetch": true,
+    "capabilityScan": true,
+    "strictCspBrowserFlow": true,
+    "unitTests": "18/18",
+    "mobileWidths": [
+      375,
+      390,
+      430
+    ],
+    "safeArea": {
+      "top": 44,
+      "bottom": 20
+    },
+    "nativeContainerTested": false,
+    "customOutline": true,
+    "concaveLiquidSurface": true,
+    "customRecipeRestore": true,
+    "zipMatchesTestedFiles": true
+  },
+  "version": "1.1.0"
+}

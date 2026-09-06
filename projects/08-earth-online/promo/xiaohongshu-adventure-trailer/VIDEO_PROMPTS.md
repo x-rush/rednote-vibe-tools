@@ -1,53 +1,96 @@
-# 首尾帧图生视频提示词
+# H3 首尾帧图生视频提示词
 
-## 通用设置
+## 输出策略
 
-- 输出：9:16，1080 × 1920，24 或 25 fps。
-- 每段先用主观 `start-subjective.png` 到 `end-subjective.png` 生成 5–6 秒，再插入对应 `objective-reaction.png` 0.7–1.2 秒。
-- 图中的空白 HUD 只用于透视定位；中文和 XP 后期添加。
-- 角色锁定：18 岁中国男高中生，短黑发小呆毛，藏青白校服，灰色运动鞋，黑色背包，右肩橙色登山扣，左肩黄铜徽章。
-- 通用负面约束：不要改变面孔、年龄、发型、校服颜色或配件；不要多手、多指、断肢、肢体融合；不要生成可读文字、校徽、品牌、水印；不要浮夸表情；不要镜头闪烁、背景融化或角色瞬移。
+- 生成 5 条独立母片，不让模型在一条视频里跨地点、跨昼夜或硬切。
+- 画幅：9:16；建议 1080 × 1920；24 fps。
+- 模式：优先使用 H3 首尾帧模式。若平台支持额外主体参考，再附加主角三视图；若首尾帧模式不支持参考图，不必重复上传三视图，身份已经写入首尾帧。
+- 每段首尾各保留约 12 帧稳定状态，剪辑时从遮挡最深处或后期 HUD 中切换。
+- 所有中文、XP、徽章、按钮和扫描框后期添加。不要要求模型生成可读文字。
+- 原生音频若可用，只生成环境底噪和动作拟音；对白、系统音与音乐后期统一制作。
 
-## 01 镜像分身
+## 通用角色与负面约束
 
-输入：`frames/01-mirror-clone/start-subjective.png` → `frames/01-mirror-clone/end-subjective.png`
-
-```text
-Photorealistic vertical Chinese high-school deadpan comedy. Preserve the exact protagonist, wardrobe, backpack, orange carabiner and brass brooch. Slow controlled push-in toward the full-length mirror. The boy solemnly raises one palm, tilts his head slightly, then taps one shoulder with small safe movements. His real body pauses first; the reflected version appears to finish the final gesture two beats late, as a subtle subjective RPG illusion. The cyan-and-antique-gold HUD remains spatially anchored to the mirror, softly brightens at completion, with blank clean panels and no generated text. Natural daylight, realistic cloth and reflection, restrained acting, stable camera, 5.5 seconds. End exactly on the supplied completion frame.
-```
-
-后期做法：为了避免镜像穿帮，优先生成正常同步动作，再冻结真人半边并把镜中半边延后 8–12 帧。客观反打直接使用 `objective-reaction.png` 做轻微 2.5D 推近，不让镜像异常。
-
-## 02 现实 Bug 报告
-
-输入：`frames/02-reality-bugs/start-subjective.png` → `frames/02-reality-bugs/end-subjective.png`
+主角锁定为参考图中的 18 岁中国男高中生：短黑发小呆毛、藏青白校服、灰色运动鞋；校园段背黑色双肩包，右肩橙色登山扣、左肩黄铜徽章。保持冷面、克制，不做夸张表情。
 
 ```text
-Photorealistic vertical school-corridor RPG comedy. Preserve the exact protagonist and all fixed accessories. Begin with his point of view scanning three identical potted plants and a normal wall clock; make three subtle cyan targeting brackets appear one after another without text. He looks from the plants to the tile seam, crouches safely, places a transparent ruler along one ordinary floor seam, and writes one line in a small notebook. A passing student in the deep background slows down in mild confusion. The blank cyan-and-gold HUD gains three completion marks and settles into the supplied end frame. Natural daytime lighting, smooth gentle tilt down, no running, no obstruction of corridor, 5.5 seconds.
+Preserve the exact protagonist identity, age, face, short black cowlick hair, navy-and-white tracksuit and fixed accessories from the supplied frames. One continuous real-time shot with no internal cuts, no time lapse, no teleportation and no sudden camera acceleration. Maintain stable facial geometry, hands, clothing, props, lighting and background architecture. Use restrained deadpan acting. Do not generate readable text, logos, school emblems, watermarks or subtitles. No extra fingers, duplicate people, face swaps, morphing props, flicker, breathing walls, changing windows, floating objects or fantasy physics.
 ```
 
-客观反打：`objective-reaction.png` 只做极轻微手持漂移；移除所有 HUD 和扫描音，只保留尺子碰地的轻响。
+## 01 空气按钮与镜中秘密接头
 
-## 03 现实道具 RPG 鉴定
+输入：
 
-输入：`frames/03-object-rpg/start-subjective.png` → `frames/03-object-rpg/end-subjective.png`
+- 首帧：`frames/h3-masters/01-hook-contact-start.png`
+- 尾帧：`frames/h3-masters/01-hook-contact-end.png`
+- 时长：8.5 秒
 
 ```text
-Photorealistic vertical classroom deadpan comedy with a private RPG interface. Preserve the exact protagonist and trusted male classmate. The classmate voluntarily hands over an ordinary white rectangular eraser. The protagonist receives it carefully with both hands, rotates it once, then raises a small magnifying glass and studies the eraser with absurd archaeological seriousness. The classmate slowly opens one palm, waiting for it back, eyebrows slightly confused. A blank cyan-and-antique-gold item-identification HUD locks onto the eraser and fills with abstract non-text lines, then softly completes. Other students remain normal in the background. Subtle push-in, natural daylight, correct fingers and object continuity, 5.5 seconds, end on supplied frame.
+Photorealistic vertical Chinese high-school deadpan comedy, one continuous 8.5-second shot. Begin exactly on the supplied first frame and keep the same behind-left camera axis throughout. The boy is already facing the full-length mirror. He presses one invisible point in the empty air once with his raised index finger, then lowers that hand. The distinct female student on the real floor at far left glances at the empty-air gesture with mild confusion. The camera performs one very slow lateral glide to the right. The boy solemnly straightens his collar and brass badge, makes one simple compact code gesture with the same hand, then opens that hand and holds his palm just before the mirror without touching it. His one ordinary physical reflection remains exactly synchronized at all times. The female student gives one restrained side glance and calmly exits left during the second half; she never becomes a reflection or resembles the boy. The protagonist holds still. The camera continues in the same direction until the thick matte-black mirror frame passes close to the lens and occludes the right side of the picture as shown in the supplied endpoint. End exactly on the supplied last frame and hold steady. Natural daylight, realistic mirror physics, continuous identity and restrained acting. No visible HUD, glow or generated text.
 ```
 
-客观反打：使用 `objective-reaction.png`，面板全部消失；给同学摊手动作做 6–8 帧小幅循环即可。
+后期：00.8 秒后叠加状态读取；掌心停稳时显示 `身份确认：你确实是你`，不对镜像做任何延迟或变形；最后 6 帧用同色遮罩把右侧黑色镜框扩展至全屏，再从黑场揭开母片 02 的左侧立柱。
 
-## 04 影子 Boss 休战
+## 02 现实 Bug 调查
 
-输入：`frames/04-shadow-boss/start-subjective.png` → `frames/04-shadow-boss/end-subjective.png`
+输入：
+
+- 首帧：`frames/h3-masters/02-reality-bugs-start.png`
+- 尾帧：`frames/h3-masters/02-reality-bugs-end.png`
+- 时长：8 秒
 
 ```text
-Photorealistic vertical early-evening school courtyard, safe and well lit, students visible in the distance. Preserve the exact protagonist, clothing and accessories. He stands still well away from roads, stairs and water. A private blank cyan-and-antique-gold boss HUD hovers in his line of sight. He looks down at his own long ordinary shadow, takes three slow comfortable breaths, then extends one open hand toward it as if offering a diplomatic truce. The physical shadow remains plausible and follows his pose; only the subjective HUD treats it like a boss. The boss bar gently empties into a truce state with no generated words. Slow lateral camera drift, grounded night lighting, dry comedy, 5.5 seconds, end on the supplied frame.
+Photorealistic vertical school-corridor deadpan comedy, one continuous 8-second shot. Begin exactly on the supplied first frame with the near-lens dark pillar covering the left side. The camera glides slowly right in the same direction as the previous master shot, revealing the exact protagonist holding one transparent ruler and one small white spiral notebook. He notices three ordinary similar potted plants and a normal wall clock, then safely crouches beside one clear tile seam without blocking the corridor. The camera performs a gentle controlled tilt down. He aligns the ruler along the seam, writes one short illegible line in the notebook, and looks up when the clock second hand moves exactly one ordinary tick. He gives one tiny satisfied nod. A distinct female student passes only in the deep background and briefly slows; she never resembles the protagonist. The boy closes the notebook and raises its completely blank white back cover toward the lens until it fills about 80 percent of the picture. End exactly on the supplied last frame and hold. Stable daylight and architecture, no generated HUD or readable writing.
 ```
 
-客观反打：使用 `objective-reaction.png`，完全移除 HUD；确保远处同学只停顿观察，不靠近、不嘲弄，校园始终明亮且有人。
+后期：扫描框逐一锁定盆栽、砖缝和钟；尾部将白色封面放大到 105%，用 4 帧柔和白场连接母片 03 的白橡皮。
 
-## 片尾升级镜头
+## 03 民用遗物鉴定
 
-可用任一主观结束帧作虚化背景，后期自行制作 XP 动画，不建议让视频模型生成数字。顺序为 `+35`、`+35`、`+35`、`+20`，总计 `+125 XP`，进度条越过升级阈值后出现 `LEVEL UP · Lv.2`。升级光效只照亮主角眼睛和脸侧，不影响旁人或现实物体。
+输入：
+
+- 首帧：`frames/h3-masters/03-object-rpg-start.png`
+- 尾帧：`frames/h3-masters/03-object-rpg-end.png`
+- 时长：8 秒
+
+```text
+Photorealistic vertical classroom deadpan comedy, one continuous 8-second shot. Begin exactly on the supplied first frame with one ordinary white rectangular eraser close to the lens. The trusted male classmate slowly pulls his own eraser away from camera, revealing the exact protagonist seated behind it with two open empty palms. The two boys remain visibly different people throughout. The classmate voluntarily places the eraser into the protagonist's palms. The protagonist receives it, rotates the same single eraser once using only his hands, and inspects it with absurd archaeological seriousness. He never takes out a phone and never picks up another prop. The classmate calmly opens one empty palm. The protagonist finishes the silent appraisal and returns the same eraser to that open palm. The classmate is not required to react or perform anything else. Hold both distinct faces and the returned object stable. End exactly on the supplied last frame. Natural daylight, correct fingers and continuous object identity. No magnifying glass, phone, generated interface, text or magical glow.
+```
+
+后期：白橡皮首帧先放大约 135% 再回到原构图；结束前叠加青色权限卡，最后 8 帧扩展至全屏，为母片 04 提供数字遮挡。
+
+## 04 影子 Boss 谈判
+
+输入：
+
+- 首帧：`frames/h3-masters/04-shadow-boss-start-clean.png`
+- 尾帧：`frames/h3-masters/04-shadow-boss-end-physical.png`
+- 时长：8 秒
+
+```text
+Photorealistic vertical early-evening campus deadpan comedy, one continuous 8-second shot in a safe well-lit public courtyard. Begin exactly on the supplied first frame. The exact protagonist stands still on dry level pavement, well away from roads, stairs and water. He looks down at his own single ordinary shadow, assumes a restrained diplomatic posture, takes three slow comfortable breaths, then extends his left open hand. The physical shadow remains attached to both shoe soles and extends diagonally toward the lower-left, opposite the single warm lamp. Its body order must remain physically correct from near to far: shadow feet at the shoes, then two legs, hips, torso, shoulders and finally the head farthest toward the lower-left. The left-arm shadow branches from the shoulder and ends in one open hand; the right arm remains relaxed. The shadow never acts independently. After a short silent pause, the camera performs one slow controlled tilt downward from the same position. Finish exactly on the supplied last frame with shoes, pavement and the same single shadow dominating the composition. Hold the final frame steady. No other person, upright reversed silhouette, second shadow, horror transformation, generated interface or text.
+```
+
+后期：用上一段同一张青色权限卡覆盖开头 8 帧，再缩到左上角；结束时不加黑场，直接在影子最暗处匹配切到母片 05 的深色练习册。
+
+## 05 升级后重新连接主线
+
+输入：
+
+- 首帧：`frames/h3-masters/05-homework-resume-start.png`
+- 尾帧：`frames/h3-masters/05-homework-resume-end.png`
+- 时长：8 秒
+
+```text
+Photorealistic vertical home-desk deadpan comedy, one continuous locked-off 8-second shot. Begin exactly on the supplied first frame with the same matte dark-navy exercise book covering most of the view. Exactly one simple black pen is already visible, secured naturally between the boy's right hand and the book edge. The exact protagonist slowly lowers the book onto the wooden desk while retaining that same pen, opens the book once, and reveals the earlier work. The left page already contains several faint ordinary pencil workings and crossed-out attempts from his earlier study; they remain too small and soft to read. The right page has clear space to continue. He looks down calmly, uses his left hand to steady the page, rotates the same black pen into a normal writing grip, and begins one short new handwritten line with his right hand. He never reaches outside the frame and no new prop appears. This is renewed effort, not a completed solution or a triumphant moment. End exactly on the supplied last frame with the pen tip touching the page and hold stable for at least the final 12 frames. Preserve the warm desk lamp, shelves, room layout, face, uniform, accessories, notebook and restrained expression. No generated light effects, HUD, readable equations, readable text or private information. No blank notebook, finished homework, eye contact with camera, extra pen or malformed fingers.
+```
+
+后期：封面暗部与上一段影子做 4 帧亮度匹配；先叠加学习记录，再叠加升级与 XP；主角落笔时切换为 `主线重新连接` / `已写下下一步`；末尾冻结或延长最后 12 帧进入 CTA。
+
+## 失败重生成优先级
+
+1. 身份、脸或服装漂移：整段重生成，不用人脸替换掩盖。
+2. 手、橡皮、尺子或笔断裂：先缩小动作幅度再重生成。
+3. 镜面或影子违反物理：直接重生成，不能把物理穿帮当作剧情笑点。
+4. 背景轻微闪烁：可用稳定或局部遮罩修复；建筑结构变化则重生成。
+5. H3 自动生成乱码：放弃该条，不能用模糊遮盖后继续发布。

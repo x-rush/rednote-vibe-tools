@@ -72,6 +72,34 @@ describe('production quest content', () => {
     expect(replacements.filter((quest) => quest.steps.some((step) => /倒序|倒放|计时|彩排|排序|三轮|四段|三条/.test(step))).length).toBeGreaterThanOrEqual(10)
   })
 
+  it('makes the mirror quest a concrete secret-contact ritual without delayed-reflection rules', () => {
+    const mirrorQuest = content.content.tasks.find(({ questId }) => questId === 'quest-move-mirror-clone')
+    expect(mirrorQuest).toBeDefined()
+    if (!mirrorQuest) return
+
+    const authored = `${mirrorQuest.title}${mirrorQuest.description}${mirrorQuest.steps.join('')}${mirrorQuest.completionMethod}`
+    expect(authored).toMatch(/镜子.*秘密接头|秘密接头.*镜子/)
+    expect(mirrorQuest.steps).toHaveLength(3)
+    expect(mirrorQuest.steps[0]).toMatch(/站稳|空间/)
+    expect(mirrorQuest.steps[1]).toMatch(/衣领|徽章/)
+    expect(mirrorQuest.steps[2]).toMatch(/暗号|掌心/)
+    expect(authored).not.toMatch(/慢半拍|倒序|延迟/)
+  })
+
+  it('keeps the object-RPG quest voluntary for both in-person and text sharing', () => {
+    const objectRpgQuest = content.content.tasks.find(({ questId }) => questId === 'quest-connect-object-rpg')
+    expect(objectRpgQuest).toBeDefined()
+    if (!objectRpgQuest) return
+
+    const instructions = `${objectRpgQuest.description}${objectRpgQuest.steps.join('')}${objectRpgQuest.completionMethod}${objectRpgQuest.abandonRule}`
+    expect(objectRpgQuest.socialLevel).toBe('optional')
+    expect(objectRpgQuest.costRequired).toBe(false)
+    expect(instructions).toMatch(/自己的普通物品|对方自愿提供/)
+    expect(instructions).toMatch(/当面/)
+    expect(instructions).toMatch(/纯文字|发给/)
+    expect(instructions).toMatch(/拒绝|不回复|不参与/)
+  })
+
   it('adds proactive familiar-person quests without requiring a reply', () => {
     const proactive = proactiveSocialIds.map((questId) => content.content.tasks.find((quest) => quest.questId === questId))
     expect(proactive.every(Boolean)).toBe(true)

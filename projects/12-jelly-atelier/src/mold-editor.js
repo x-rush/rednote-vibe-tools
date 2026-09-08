@@ -1,3 +1,4 @@
+import {appendDrawingPoint,tidyStroke} from './drawing.js';
 import {prepareOutline} from './contour.js';
 import {createAtelier} from './scene.js';
 export function createMoldEditor(content,onUse){
@@ -11,11 +12,20 @@ export function createMoldEditor(content,onUse){
     if(keyboard){context.strokeStyle='#773049';context.lineWidth=.008;context.beginPath();context.arc(cursor.x,cursor.z,.035,0,Math.PI*2);context.stroke()}
     $('.draw-paper-label').hidden=raw.length>0;canvas.dataset.points=String(raw.length);canvas.dataset.valid=String(Boolean(result?.ok));$('#draw-use').disabled=!result?.ok;$('#draw-undo').disabled=!raw.length;
   }
-  function validate(explicitClose=false){result=prepareOutline(raw,content.customRules,{explicitClose});$('.draw-status').textContent=result.ok?(innerWidth<=640?d.mobileReady:d.ready):d[result.error];dialog.dataset.valid=String(result.ok);if(result.ok){preview??=createAtelier($('#mold-preview'),content,{preview:true});preview.setRecipe({mold:'custom',outline:result.outline,first:content.flavors[0].id,second:content.flavors[1].id,split:.45,toppings:[]},'mold',1);$('.draw-preview-wrap').classList.add('has-preview')}else $('.draw-preview-wrap').classList.remove('has-preview');paint();}
+  function validate(explicitClose=false){result=prepareOutline(raw,content.customRules,{explicitClose});if(!result.ok&&mode==='free'){const tidy=tidyStroke(raw),fixed=prepareOutline(tidy,content.customRules,{explicitClose});if(fixed.ok){raw=tidy;result=fixed;}}$('.draw-status').textContent=result.ok?(innerWidth<=640?d.mobileReady:d.ready):d[result.error];dialog.dataset.valid=String(result.ok);if(result.ok){preview??=createAtelier($('#mold-preview'),content,{preview:true});preview.setRecipe({mold:'custom',outline:result.outline,first:content.flavors[0].id,second:content.flavors[1].id,split:.45,toppings:[]},'mold',1);$('.draw-preview-wrap').classList.add('has-preview')}else $('.draw-preview-wrap').classList.remove('has-preview');paint();}
   function invalidate(){result=null;$('#draw-use').disabled=true;$('.draw-preview-wrap').classList.remove('has-preview');$('.draw-status').textContent='';dialog.dataset.valid='false';paint()}
-  canvas.addEventListener('pointerdown',event=>{if(event.button!==0||active!==null)return;keyboard=false;if(mode==='points'){if(raw.length>=content.customRules.maxInput)return;raw.push(point(event));validate(true);return}before=raw;raw=[point(event)];active=event.pointerId;canvas.setPointerCapture(active);invalidate()});
-  canvas.addEventListener('pointermove',event=>{if(active!==event.pointerId)return;const p=point(event);if(raw.length<content.customRules.maxInput&&Math.hypot(p.x-raw.at(-1).x,p.z-raw.at(-1).z)>.008){raw.push(p);paint()}});
-  canvas.addEventListener('pointerup',event=>{if(active!==event.pointerId)return;const p=point(event);if(raw.length<content.customRules.maxInput)raw.push(p);active=null;validate(false)});
+  canvas.addEventListener('pointerdown',event=>{if(event.button!==0||active!==null)return;keyboard=false;if(mode==='points'){if(raw.length>=content.customRules.maxInput)return;raw.push(point(event));validate(true);return}before=raw;const p=point(event);raw=raw.length&&!result?.ok&&Math.hypot(p.x-raw.at(-1).x,p.z-raw.at(-1).z)<.18?appendDrawingPoint(raw,p,content.customRules.maxInput):[p];active=event.pointerId;canvas.setPointerCapture(active);invalidate()});
+  canvas.addEventListener('pointermove',event=>{
+    if(active!==event.pointerId)return;const p=point(event),next=appendDrawingPoint(raw,p,content.customRules.maxInput);if(next===raw)return;raw=next;
+    const xs=raw.map(q=>q.x),zs=raw.map(q=>q.z);
+    if(raw.length>12&&Math.max(Math.max(...xs)-Math.min(...xs),Math.max(...zs)-Math.min(...zs))>.5&&Math.hypot(p.x-raw[0].x,p.z-raw[0].z)<content.customRules.closeDistance){
+      validate(true);if(result?.ok){active=null;$('.draw-status').textContent=d.snap;return;}
+      // A failed snap must not end pointer capture or freeze the unfinished stroke.
+      result=null;$('.draw-status').textContent=d.keepDrawing;
+    }
+    paint();
+  });
+  canvas.addEventListener('pointerup',event=>{if(active!==event.pointerId)return;raw=appendDrawingPoint(raw,point(event),content.customRules.maxInput);active=null;validate(true);if(result?.ok)$('.draw-status').textContent=d.autoClosed;});
   const cancelStroke=()=>{if(active!==null){active=null;raw=before;raw.length?validate(mode==='points'):invalidate()}};canvas.addEventListener('pointercancel',cancelStroke);canvas.addEventListener('lostpointercapture',cancelStroke);window.addEventListener('blur',cancelStroke);
   canvas.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','Enter'].includes(event.code))return;event.preventDefault();keyboard=true;mode='points';updateModes();if(event.code==='Space'||event.code==='Enter'){if(raw.length<content.customRules.maxInput){raw.push({...cursor});validate(true)}}else{cursor.x=Math.max(-.9,Math.min(.9,cursor.x+(event.code==='ArrowLeft'?-.05:event.code==='ArrowRight'?.05:0)));cursor.z=Math.max(-.9,Math.min(.9,cursor.z+(event.code==='ArrowUp'?-.05:event.code==='ArrowDown'?.05:0)));paint()}});
   function updateModes(){$('#draw-free').setAttribute('aria-pressed',String(mode==='free'));$('#draw-points').setAttribute('aria-pressed',String(mode==='points'))}

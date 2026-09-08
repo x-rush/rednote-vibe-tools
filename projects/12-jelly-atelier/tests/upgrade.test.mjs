@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {cleanRecipeCollection} from '../src/engine.js';
+import {prepareOutline,insideOutline} from '../src/contour.js';
+const c=JSON.parse(readFileSync(new URL('../src/content/content.json',import.meta.url)));
+const item={id:'six',createdAt:1,flavor:'peach',name:'彩虹不想上班',recipe:{mold:'flower',first:'peach',second:'grape',split:.5,toppings:[],layers:c.flavors.slice(0,6).map((f,i)=>({flavor:f.id,end:(i+1)/6}))}};
+test('six colours and a custom name survive storage without media payloads',()=>{const clean=cleanRecipeCollection([{...item,blob:'data:bad'}],c);assert.deepEqual(clean,[item]);assert.deepEqual(cleanRecipeCollection(JSON.parse(JSON.stringify(clean)),c),clean)});
+test('invalid layer boundaries, unknown colours and excessive layers are rejected',()=>{for(const layers of [[],item.recipe.layers.map(l=>({...l,end:.5})),Array.from({length:c.craft.maxLayers+1},(_,i)=>({flavor:'blue',end:(i+1)/(c.craft.maxLayers+1)})),item.recipe.layers.map(l=>({...l,flavor:'unknown'}))])assert.equal(cleanRecipeCollection([{...item,recipe:{...item.recipe,layers}}],c).length,0)});
+test('names are trimmed and bounded without interpreting markup',()=>{const result=cleanRecipeCollection([{...item,name:'  '+ '字'.repeat(40)+'  '}],c);assert.equal(result[0].name,'字'.repeat(20));assert.equal(cleanRecipeCollection([{...item,name:'<b>果冻</b>'}],c)[0].name,'<b>果冻</b>')});
+test('short overlapping closing tail is trimmed while preserving the main loop',()=>{const points=Array.from({length:81},(_,i)=>({x:.8*Math.cos(i/80*Math.PI*2),z:.8*Math.sin(i/80*Math.PI*2)}));points.push({x:.79,z:.03},{x:.82,z:-.03},{x:.8,z:0});const result=prepareOutline(points,c.customRules);assert(result.ok);assert(insideOutline({x:0,z:0},result.outline));assert(!prepareOutline([{x:-.8,z:-.8},{x:.8,z:.8},{x:.8,z:-.8},{x:-.8,z:.8}],c.customRules,{explicitClose:true}).ok)});

@@ -1,3 +1,5 @@
+import {raspberry,mintSprig,sugarStar,disposeToppings} from './toppings.js';
+import {smoothPressure,pressureAt} from './press.js';
 import {contourSolid,contourSurface} from './custom-geometry.js';
 import {customScale,interiorSpot} from './contour.js';
 import * as THREE from 'three';
@@ -20,7 +22,7 @@ export function createAtelier(element, content, callbacks) {
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   element.append(renderer.domElement);
   const scene=new THREE.Scene();
-  scene.background=new THREE.Color('#f5eee6');
+  scene.background=new THREE.Color(callbacks.showcase?'#f6ead8':'#f5eee6');
   scene.fog=new THREE.Fog('#f5eee6',16,32);
   const camera=new THREE.PerspectiveCamera(33,1,.1,60);
   const composer=new EffectComposer(renderer);
@@ -77,12 +79,12 @@ export function createAtelier(element, content, callbacks) {
   let base=Float32Array.from(pos.array);
   geometry.setAttribute("restHeight",new THREE.Float32BufferAttribute(Array.from({length:pos.count},(_,i)=>base[i*3+1]),1));
   const jellyMat=new THREE.MeshPhysicalMaterial({color:content.flavors[0].color,roughness:.1,metalness:0,transmission:.78,thickness:1.65,ior:1.38,attenuationColor:content.flavors[0].attenuation,attenuationDistance:1.45,clearcoat:1,clearcoatRoughness:.09,iridescence:.06,iridescenceIOR:1.3,envMapIntensity:1.25,side:THREE.FrontSide});
-  const liquidUniforms={uFill:{value:1.83},uSplit:{value:.98},uBottom:{value:new THREE.Color(content.flavors[0].color)},uTop:{value:new THREE.Color(content.flavors[1].color)}};
+  const liquidUniforms={uCount:{value:2},uEnds:{value:Array(content.craft.maxLayers).fill(1)},uColors:{value:Array.from({length:content.craft.maxLayers},()=>new THREE.Color('#ffffff'))},uFill:{value:1.83},uSplit:{value:.98},uBottom:{value:new THREE.Color(content.flavors[0].color)},uTop:{value:new THREE.Color(content.flavors[1].color)}};
   jellyMat.color.set('#ffffff');
   jellyMat.onBeforeCompile=shader=>{
     Object.assign(shader.uniforms,liquidUniforms);
     shader.vertexShader='attribute float restHeight; varying float vRestHeight;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvRestHeight=restHeight;');
-    shader.fragmentShader='varying float vRestHeight; uniform float uFill; uniform float uSplit; uniform vec3 uBottom; uniform vec3 uTop;\n'+shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nif(vRestHeight>uFill)discard; diffuseColor.rgb *= mix(uBottom,uTop,smoothstep(uSplit-.012,uSplit+.012,vRestHeight));');
+    shader.fragmentShader='varying float vRestHeight; uniform int uCount; uniform float uEnds[32]; uniform vec3 uColors[32]; uniform float uFill; uniform float uSplit; uniform vec3 uBottom; uniform vec3 uTop;\n'+shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nif(vRestHeight>uFill)discard; vec3 layerColor=uColors[0]; for(int i=1;i<32;i++){if(i<uCount)layerColor=mix(layerColor,uColors[i],smoothstep(.14+uEnds[i-1]*1.675-.006,.14+uEnds[i-1]*1.675+.006,vRestHeight));} diffuseColor.rgb *= layerColor;');
   };
   const jelly=new THREE.Mesh(geometry,jellyMat);jelly.castShadow=false;jelly.receiveShadow=true;group.add(jelly);
   const jellyGroup=new THREE.Group();group.add(jellyGroup);
@@ -96,15 +98,6 @@ export function createAtelier(element, content, callbacks) {
   for(let i=0;i<46;i++){const a=random()*Math.PI*2,r=.45+random()*.4;temp.position.set(Math.cos(a)*r,.35+random()*1.18,Math.sin(a)*r);temp.scale.setScalar(.008+random()*.021);temp.updateMatrix();bubbles.setMatrixAt(i,temp.matrix)}jellyGroup.add(bubbles);
 
   const garnish=new THREE.Group();garnish.position.y=1.82;group.add(garnish);
-  const berryMat=new THREE.MeshPhysicalMaterial({color:'#ad294b',roughness:.25,clearcoat:.65,clearcoatRoughness:.2});
-  function berry(x,y,z,size){const berryGroup=new THREE.Group();const berryRandom=mulberry32(89);for(let i=0;i<55;i++){const a=i*2.399963,b=Math.acos(1-2*(i+.5)/55);const bead=new THREE.Mesh(new THREE.SphereGeometry(.033,10,8),berryMat);bead.position.set(Math.cos(a)*Math.sin(b)*.135,Math.cos(b)*.15,Math.sin(a)*Math.sin(b)*.135);bead.scale.setScalar(.9+berryRandom()*.2);berryGroup.add(bead)}berryGroup.scale.setScalar(size);berryGroup.position.set(x,y,z);berryGroup.rotation.z=.28;garnish.add(berryGroup);}
-
-  const mintMat=new THREE.MeshPhysicalMaterial({color:'#577849',roughness:.46,side:THREE.DoubleSide,clearcoat:.2});
-  function leaf(x,y,z,angle,scale){const shape=new THREE.Shape();shape.moveTo(0,0);shape.bezierCurveTo(-.15,.10,-.22,.31,0,.52);shape.bezierCurveTo(.22,.30,.15,.09,0,0);const geo=new THREE.ShapeGeometry(shape,20);const p=geo.attributes.position;for(let i=0;i<p.count;i++)p.setZ(i,Math.sin(p.getY(i)*5)*.07+Math.abs(p.getX(i))*.15);geo.computeVertexNormals();const mesh=new THREE.Mesh(geo,mintMat);mesh.rotation.x=-Math.PI/2+.16;mesh.rotation.z=angle;mesh.scale.setScalar(scale);mesh.position.set(x,y,z);garnish.add(mesh);const curve=new THREE.CatmullRomCurve3([new THREE.Vector3(0,0,.005),new THREE.Vector3(0,.25,.065),new THREE.Vector3(0,.5,.045)]);const vein=new THREE.Mesh(new THREE.TubeGeometry(curve,18,.004,5,false),new THREE.MeshBasicMaterial({color:'#adc393'}));mesh.add(vein);}
-
-  function sugarStar(x,z){const shape=new THREE.Shape();for(let i=0;i<10;i++){const a=i*Math.PI/5,r=i%2?.055:.13;const px=Math.sin(a)*r,py=Math.cos(a)*r;i?shape.lineTo(px,py):shape.moveTo(px,py)}shape.closePath();const mesh=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:.024,bevelEnabled:true,bevelSegments:3,steps:1,bevelSize:.009,bevelThickness:.009}),gold);mesh.rotation.x=-Math.PI/2;mesh.rotation.z=x*5;mesh.position.set(x,.025,z);garnish.add(mesh);}
-
-
   const mold=new THREE.Group();group.add(mold);
   let moldGeo=geometry.clone();let moldPos=moldGeo.attributes.position;
   for(let i=0;i<moldPos.count;i++)moldPos.setXYZ(i,moldPos.getX(i)*1.055,moldPos.getY(i)*1.025+.018,moldPos.getZ(i)*1.055);
@@ -159,13 +152,17 @@ export function createAtelier(element, content, callbacks) {
     positions.needsUpdate=true;surface.position.y=y+.004;
     liquidUniforms.uFill.value=fillAmount>=1?2:.14+fillAmount*1.675;
     liquidUniforms.uSplit.value=.14+(craftStage==='pour1'?fillAmount:splitAmount)*1.675+.001;
-    surfaceMat.color.set(craftStage==='pour2'&&fillAmount>splitAmount+1e-6?secondColor:firstColor);
+    surfaceMat.color.copy(liquidUniforms.uColors.value[Math.max(0,liquidUniforms.uEnds.value.findIndex((end,i)=>i<liquidUniforms.uCount.value&&fillAmount<=end+1e-6))]);
   }
   let lastToppings=null;
   function setToppings(toppings){
     const signature=JSON.stringify(toppings);if(signature===lastToppings)return;lastToppings=signature;
-    for(const child of [...garnish.children]){child.traverse(o=>{if(o.isMesh){o.geometry.dispose();if(![berryMat,mintMat,gold].includes(o.material))o.material.dispose()}});garnish.remove(child)}
-    for(const t of toppings){if(t.kind==='berry')berry(t.x,.15,t.z,.9);else if(t.kind==='mint')leaf(t.x,.03,t.z,1.1,.65);else sugarStar(t.x,t.z);}
+    disposeToppings(garnish);
+    for(const [i,t] of toppings.entries()){
+      const seed=89+i*43+Math.round((t.x+2)*317+(t.z+2)*157);
+      const model=t.kind==='berry'?raspberry(seed):t.kind==='mint'?mintSprig(seed):sugarStar(seed);
+      model.position.set(t.x,.008,t.z);garnish.add(model);
+    }
   }
   outlineGeometry();updateSurface();
 
@@ -186,12 +183,40 @@ export function createAtelier(element, content, callbacks) {
   function resize(){width=element.clientWidth;height=element.clientHeight;if(!width||!height)return;renderer.setSize(width,height,false);composer.setSize(width,height);camera.aspect=width/height;camera.clearViewOffset();if(width>640&&!callbacks.preview)camera.setViewOffset(width,height,-width*.145,0,width,height);camera.updateProjectionMatrix();}
   const observer=new ResizeObserver(resize);observer.observe(element);resize();
   function pointerRay(event){const rect=element.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);return raycaster.intersectObject(jelly)[0];}
-  function poke(point=new THREE.Vector3(.4,1.35,1)){if(mode!=='ready')return false;const local=group.worldToLocal(point.clone());pokes.push({time,point:local});if(pokes.length>content.motion.maxPokes)pokes.shift();callbacks.onPoke?.();return true;}
-  element.addEventListener('pointerdown',event=>{const hit=pointerRay(event);if(craftStage==='decorate'&&hit){const point=group.worldToLocal(hit.point.clone());callbacks.onPlace?.({x:point.x,z:point.z,top:point.y>=1.74});return;}if(hit&&mode==='ready'){poke(hit.point);return}drag={x:event.clientX,angle:targetOrbit};element.setPointerCapture(event.pointerId);});
-  element.addEventListener('pointermove',event=>{hover.set(event.clientX/width-.5,event.clientY/height-.5);if(drag)targetOrbit=clamp(drag.angle+(event.clientX-drag.x)*.004,-.6,.6);element.style.cursor=(mode==='ready'||craftStage==='decorate')&&pointerRay(event)?'pointer':drag?'grabbing':'grab';});
-  function release(){drag=null;}element.addEventListener('pointerup',release);element.addEventListener('pointercancel',release);element.addEventListener('lostpointercapture',release);
+  function poke(point=new THREE.Vector3(.4,1.35,1),strength=content.motion.pokeStrength){if(mode!=='ready')return false;const local=group.worldToLocal(point.clone());pokes.push({time,point:local,strength});if(pokes.length>content.motion.maxPokes)pokes.shift();callbacks.onPoke?.();return true;}
+  let touchPoke=null,lastRub=-10,pressure=0,pressureTarget=0;
+  const pressPoint=new THREE.Vector3(),pressTarget=new THREE.Vector3(),rubOffset=new THREE.Vector3();
+  element.addEventListener('contextmenu',event=>event.preventDefault());
+  element.addEventListener('pointerdown',event=>{
+    if(event.button!==0||touchPoke||drag)return;event.preventDefault();element.setPointerCapture(event.pointerId);
+    const hit=pointerRay(event);
+    if(craftStage==='decorate'&&hit){const point=group.worldToLocal(hit.point.clone());callbacks.onPlace?.({x:point.x,z:point.z,top:point.y>=1.74});return;}
+    if(hit&&mode==='ready'){
+      poke(hit.point);pressTarget.copy(group.worldToLocal(hit.point.clone()));pressPoint.copy(pressTarget);rubOffset.set(0,0,0);pressureTarget=content.motion.holdDepth;
+      touchPoke={id:event.pointerId,start:time,x:event.clientX,y:event.clientY};lastRub=time;return;
+    }
+    drag={id:event.pointerId,x:event.clientX,angle:targetOrbit};
+  });
+  element.addEventListener('pointermove',event=>{
+    if(touchPoke?.id===event.pointerId){
+      const hit=pointerRay(event);pressureTarget=hit?content.motion.holdDepth:0;
+      if(hit){pressTarget.copy(group.worldToLocal(hit.point.clone()));
+        if(Math.hypot(event.clientX-touchPoke.x,event.clientY-touchPoke.y)>18&&time-lastRub>.3){callbacks.onPoke?.();lastRub=time;touchPoke.x=event.clientX;touchPoke.y=event.clientY;}
+      }
+    }
+    hover.set(event.clientX/width-.5,event.clientY/height-.5);
+    if(drag?.id===event.pointerId)targetOrbit=clamp(drag.angle+(event.clientX-drag.x)*.004,-.6,.6);
+    element.style.cursor=touchPoke?'grabbing':(mode==='ready'||craftStage==='decorate')&&pointerRay(event)?'pointer':drag?'grabbing':'grab';
+  });
+  function release(event){
+    if(event?.pointerId!==undefined&&event.pointerId!==(touchPoke?.id??drag?.id))return;
+    if(touchPoke&&mode==='ready'&&time-touchPoke.start>.16&&pressure>.03&&event?.type==='pointerup')poke(pressPoint.clone().applyMatrix4(group.matrixWorld),content.motion.pokeStrength*.65);
+    drag=null;touchPoke=null;pressureTarget=0;
+  }
+  element.addEventListener('pointerup',release);element.addEventListener('pointercancel',release);element.addEventListener('lostpointercapture',release);
+  window.addEventListener('blur',release);
   renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();callbacks.onContextLost?.();});
-  const resetFrameClock=()=>{last=performance.now()};document.addEventListener('visibilitychange',resetFrameClock);
+  const resetFrameClock=()=>{last=performance.now();if(document.hidden)release()};document.addEventListener('visibilitychange',resetFrameClock);
   let raf=0;
   function frame(now){raf=requestAnimationFrame(frame);const elapsed=(now-last)/1000,dt=Math.min(elapsed,.05);last=now;if(document.hidden||!element.clientWidth||!element.clientHeight)return;time+=elapsed;
     const duration=reduced.matches?content.motion.reducedUnmoldDuration:content.motion.unmoldDuration;
@@ -205,12 +230,16 @@ export function createAtelier(element, content, callbacks) {
     for(const drop of splashDrops){const d=drop.userData;drop.visible=!reduced.matches&&splashAge>0&&splashAge<.85;const t=clamp(splashAge,0,.85),r=1.18+t*d.speed;drop.position.set(Math.sin(d.angle)*r,.15+Math.max(0,d.up*t-2.5*t*t),Math.cos(d.angle)*r);drop.scale.setScalar(1-smooth((t-.5)/.35));}
     const garnishReveal=craftStage==='decorate'?1:mode==='unmolding'?1:mode==='ready'?1:0;garnish.scale.setScalar(garnishReveal);garnish.visible=garnishReveal>.001;
     while(pokes.length&&time-pokes[0].time>content.motion.pokeDuration)pokes.shift();
+    pressure=smoothPressure(pressure,pressureTarget,dt);
+    rubOffset.copy(pressTarget).sub(pressPoint).clampLength(0,.25);pressPoint.lerp(pressTarget,1-Math.exp(-dt*18));
     let totalWave=0;
     for(let i=0;i<pos.count;i++){const ix=i*3,x=base[ix],y=base[ix+1],z=base[ix+2],h=clamp((y-.14)/1.68),angle=Math.atan2(z,x);let wave=0,localPress=0;
-      for(const pk of pokes){const age=time-pk.time,dist=Math.hypot(x-pk.point.x,(y-pk.point.y)*.7,z-pk.point.z);wave+=pokeWave(age,h,dist)*(reduced.matches?.28:1);localPress+=Math.exp(-dist*dist*7)*Math.sin(clamp(age/.18)*Math.PI)*.14;}
+      for(const pk of pokes){const age=time-pk.time,dist=Math.hypot(x-pk.point.x,(y-pk.point.y)*.7,z-pk.point.z);wave+=pokeWave(age,h,dist)*pk.strength*(reduced.matches?.28:1);localPress+=Math.exp(-dist*dist*7)*Math.sin(clamp(age/.22)*Math.PI)*.14*pk.strength*(reduced.matches?.28:1);}
+      const held=pressureAt(x,y,z,pressPoint,pressure)*(reduced.matches?.45:1);localPress+=held;
+      wave=clamp(wave,-content.motion.maxDeform,content.motion.maxDeform);localPress=clamp(localPress,0,.34*h);
       const breathe=reduced.matches?0:Math.sin(time*1.5+h*1.5)*.0025*h;
       const bounce=state.bounce*(reduced.matches?.35:1);const sx=1+wave+Math.sin(angle*2+time*13)*wave*.23-bounce*.52+localPress*.2;
-      pos.setXYZ(i,x*sx+Math.sin(h*Math.PI*.55)*wave*.35,y+state.stretch*h+state.jellyLift+bounce*h+Math.cos(angle)*wave*.12+breathe-localPress,z*(1+wave-bounce*.52));totalWave=wave;
+      pos.setXYZ(i,x*sx+Math.sin(h*Math.PI*.55)*wave*.35+held*(-pressPoint.x*.3+rubOffset.x*1.8),y+state.stretch*h+state.jellyLift+bounce*h+Math.cos(angle)*wave*.12+breathe-localPress,z*(1+wave-bounce*.52)+held*(-pressPoint.z*.3+rubOffset.z*1.8));totalWave=wave;
     }
     pos.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingSphere();
     jelly.visible=fillAmount>.005;jellyGroup.visible=fillAmount>=1;surface.visible=fillAmount>.005&&fillAmount<1;
@@ -221,10 +250,10 @@ export function createAtelier(element, content, callbacks) {
     const px=pourPoint.x*(moldId==='custom'?customScale(fillAmount)/customScale(1):1),pz=pourPoint.z*(moldId==='custom'?customScale(fillAmount)/customScale(1):1);pitcher.position.set(px-.45,2.90,pz);stream.position.set(px,(2.84+surfaceY)/2,pz);stream.scale.y=2.84-surfaceY;stream.scale.x=1+Math.sin(time*20)*.1;
     if(pouring)callbacks.onPourFrame?.(elapsed);
     jellyGroup.position.y=state.jellyLift;jellyGroup.scale.y=1+state.stretch+state.bounce*.3;
-    garnish.position.y=1.82+state.jellyLift+state.stretch+state.bounce+totalWave;
+    garnish.position.y=-pressure*.22+1.82+state.jellyLift+state.stretch+state.bounce+totalWave;
     garnish.rotation.z=reduced.matches?0:pokes.reduce((v,pk)=>v+Math.sin((time-pk.time)*14)*Math.exp(-(time-pk.time)*2.8)*.075,0);
     orbit+=(targetOrbit-orbit)*Math.min(dt*5,1);group.rotation.y=orbit;
-    const mobile=width<=640;const distance=callbacks.preview?6:mobile?height/width*(moldId==='custom'?6.6:7.5):9.0;const elevation=callbacks.preview?8:moldId==='custom'?distance*.88:mobile?distance*.565:5.25;
+    const mobile=width<=640;const distance=callbacks.showcase?6.8:callbacks.preview?6:mobile?Math.max(7.4,height/width*(moldId==='custom'?6.6:7.5)):9.0;const elevation=callbacks.showcase?4.3:callbacks.preview?8:moldId==='custom'?distance*.88:mobile?distance*.565:5.25;
     camera.position.set(Math.sin(orbit*.16)*.4+(reduced.matches?0:hover.x*.10),elevation-state.camera*.35,distance-state.camera*.6);
     camera.lookAt(0,mobile?.91:.84,0);
     caustic.material.uniforms.time.value=time;
@@ -236,19 +265,24 @@ export function createAtelier(element, content, callbacks) {
       craftStage=stage;fillAmount=amount;splitAmount=recipe.split;
       const nextKey=recipe.mold+JSON.stringify(recipe.outline||[]);if(outlineKey!==nextKey){outlineKey=nextKey;moldId=recipe.mold;customOutline=recipe.outline||null;outlineGeometry();}
       const first=content.flavors.find(f=>f.id===recipe.first),second=content.flavors.find(f=>f.id===recipe.second);
+      const layers=recipe.layers?.length?recipe.layers:[{flavor:recipe.first,end:recipe.split},{flavor:recipe.second,end:1}];liquidUniforms.uCount.value=layers.length;for(let i=0;i<content.craft.maxLayers;i++){liquidUniforms.uEnds.value[i]=layers[i]?.end??1;liquidUniforms.uColors.value[i].set(content.flavors.find(f=>f.id===(layers[i]||layers.at(-1)).flavor).color)}
       firstColor=first.color;secondColor=second.color;liquidUniforms.uBottom.value.set(first.color);liquidUniforms.uTop.value.set(second.color);
       jellyMat.attenuationColor.set('#f8d9d1');jellyMat.attenuationDistance=3.5;
-      streamMat.color.set(stage==='pour2'?second.color:first.color);syrupMat.color.set(first.syrup);
+      streamMat.color.set(content.flavors.find(f=>f.id===(recipe.pourFlavor||recipe.second)).color);syrupMat.color.set(first.syrup);
       caustic.material.uniforms.tint.value.set(first.color);setToppings(recipe.toppings);updateSurface();
-      if(stage==='ready'){mode='ready';pokes.length=0;}
+      if(stage==='ready'){release();mode='ready';pokes.length=0;}
     },
     setFill(amount,split){fillAmount=amount;splitAmount=split;updateSurface();},
     setPouring(value){pouring=value;},
     unmold(done){if(mode==='unmolding')return;mode='unmolding';start=time;landed=false;onDone=done;},
-    reset(){mode='molded';craftStage='mold';pouring=false;fillAmount=0;updateSurface();pokes.length=0;garnish.visible=false;landed=false;onDone=null;targetOrbit=0;},
+    reset(){release();pressure=0;mode='molded';craftStage='mold';pouring=false;fillAmount=0;updateSurface();pokes.length=0;garnish.visible=false;landed=false;onDone=null;targetOrbit=0;},
+    shake(){const point=moldId==='custom'?(interiorSpot(customOutline)||pourPoint):{x:0,z:.6};return poke(new THREE.Vector3(point.x,1.4,point.z).applyMatrix4(group.matrixWorld),content.motion.shakeStrength);},
     poke(){const point=moldId==='custom'?(interiorSpot(customOutline)||pourPoint):{x:.45,z:.9};return poke(new THREE.Vector3(point.x,1.35,point.z).applyMatrix4(group.matrixWorld));},
-    setFlavor(flavor){jellyMat.color.set(flavor.color);jellyMat.attenuationColor.set(flavor.attenuation);syrupMat.color.set(flavor.syrup);berryMat.color.set(flavor.syrup);caustic.material.uniforms.tint.value.set(flavor.color);},
+    setFlavor(flavor){jellyMat.color.set(flavor.color);jellyMat.attenuationColor.set(flavor.attenuation);syrupMat.color.set(flavor.syrup);caustic.material.uniforms.tint.value.set(flavor.color);},
     get state(){return mode;},
-    dispose(){const geometries=new Set([preset.geometry,preset.moldGeo,preset.surfaceGeo]),materials=new Set();scene.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m)});for(const g of geometries)g.dispose();for(const m of materials)m.dispose();shadowTexture.dispose();document.removeEventListener('visibilitychange',resetFrameClock);cancelAnimationFrame(raf);observer.disconnect();env.dispose();composer.dispose();renderer.dispose();}
+    dispose(){release();window.removeEventListener('blur',release);const geometries=new Set([preset.geometry,preset.moldGeo,preset.surfaceGeo]),materials=new Set();scene.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m)});for(const g of geometries)g.dispose();for(const m of materials)m.dispose();shadowTexture.dispose();document.removeEventListener('visibilitychange',resetFrameClock);cancelAnimationFrame(raf);observer.disconnect();env.dispose();composer.dispose();renderer.dispose();}
   };
 }
+
+
+

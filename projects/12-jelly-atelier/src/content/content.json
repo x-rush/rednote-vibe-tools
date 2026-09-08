@@ -17,14 +17,14 @@
     "unmoldEnglish": "LET IT WOBBLE",
     "unmolding": "快乐正在脱模…",
     "ready": "戳戳果冻",
-    "readyHint": "轻触果冻，看柔软泛起涟漪",
+    "readyHint": "戳一戳，或者左右摇晃果冻",
     "startHint": "选择一个模具，开始你的甜品实验",
     "replay": "再做一只",
     "save": "收进甜品柜",
     "saved": "已放进甜品柜",
     "shelf": "我的甜品柜",
     "shelfEmpty": "还没有收藏。完成一次脱模，留住今天的柔软。",
-    "shelfDetail": "保存形状、两层配色与装饰位置。点「继续把玩」，重新打开你的作品。",
+    "shelfDetail": "给作品起个名字，陈列在灯光下。配方与名字保存在当前浏览器。",
     "close": "关闭",
     "soundOn": "关闭声音",
     "soundOff": "开启声音",
@@ -42,8 +42,16 @@
     "moldLabel": "01 · 手工花瓣模具",
     "materialLabel": "透光 · 柔软 · 有一点甜",
     "collectionLabel": "LITTLE JOYS, COLLECTED",
-    "instructions": "鼠标或手指轻触果冻 · 拖动空白处转动视角",
-    "sample": "自由制作 / 无限把玩"
+    "instructions": "轻戳会弹 · 按住揉一揉 · 松手慢慢回弹",
+    "sample": "自由制作 / 无限把玩",
+    "nameLabel": "给这只果冻起个名字",
+    "namePlaceholder": "例如：今天不想上班",
+    "rename": "改名字",
+    "nameSave": "保存名字",
+    "unnamed": "未命名的小果冻",
+    "nameLimit": 20,
+    "nameSaved": "名字已经放上铭牌",
+    "shake": "摇一摇"
   },
   "flavors": [
     {
@@ -81,6 +89,78 @@
       "swatch": "#edbc70",
       "syrup": "#cf8f34",
       "seed": 43
+    },
+    {
+      "id": "mint",
+      "name": "薄荷晴空",
+      "color": "#45c3a2",
+      "swatch": "#95dccc",
+      "attenuation": "#45c3a2",
+      "accent": "#673344",
+      "syrup": "#45c3a2",
+      "english": "MINT",
+      "note": "把喜欢的颜色，慢慢叠在一起。",
+      "seed": 62
+    },
+    {
+      "id": "blue",
+      "name": "海盐蓝",
+      "color": "#429ee6",
+      "swatch": "#95c9ed",
+      "attenuation": "#429ee6",
+      "accent": "#673344",
+      "syrup": "#429ee6",
+      "english": "BLUE",
+      "note": "把喜欢的颜色，慢慢叠在一起。",
+      "seed": 63
+    },
+    {
+      "id": "rose",
+      "name": "玫瑰莓果",
+      "color": "#e54060",
+      "swatch": "#ef8eaa",
+      "attenuation": "#e54060",
+      "accent": "#673344",
+      "syrup": "#e54060",
+      "english": "ROSE",
+      "note": "把喜欢的颜色，慢慢叠在一起。",
+      "seed": 64
+    },
+    {
+      "id": "lemon",
+      "name": "柠檬星光",
+      "color": "#edd84d",
+      "swatch": "#f3e899",
+      "attenuation": "#edd84d",
+      "accent": "#673344",
+      "syrup": "#edd84d",
+      "english": "LEMON",
+      "note": "把喜欢的颜色，慢慢叠在一起。",
+      "seed": 65
+    },
+    {
+      "id": "milk",
+      "name": "椰奶白",
+      "color": "#fff4df",
+      "swatch": "#f9eed8",
+      "attenuation": "#fff4df",
+      "accent": "#673344",
+      "syrup": "#fff4df",
+      "english": "MILK",
+      "note": "把喜欢的颜色，慢慢叠在一起。",
+      "seed": 66
+    },
+    {
+      "id": "tea",
+      "name": "抹茶青",
+      "color": "#91b548",
+      "swatch": "#c3d18c",
+      "attenuation": "#91b548",
+      "accent": "#673344",
+      "syrup": "#91b548",
+      "english": "TEA",
+      "note": "把喜欢的颜色，慢慢叠在一起。",
+      "seed": 67
     }
   ],
   "limits": {
@@ -90,7 +170,13 @@
     "unmoldDuration": 5.8,
     "reducedUnmoldDuration": 2.2,
     "maxPokes": 8,
-    "pokeDuration": 2.5
+    "pokeDuration": 2.5,
+    "pokeStrength": 2.2,
+    "shakeStrength": 3,
+    "maxDeform": 0.34,
+    "dragShakeDistance": 24,
+    "shakeCooldown": 0.16,
+    "holdDepth": 0.4
   },
   "sources": [
     {
@@ -112,7 +198,8 @@
     "pourRate": 0.22,
     "maxToppings": 8,
     "toppingRadius": 0.6,
-    "keyboardDose": 0.1
+    "keyboardDose": 0.1,
+    "maxLayers": 32
   },
   "molds": [
     {
@@ -154,23 +241,23 @@
   "workshop": {
     "steps": [
       "选模具",
-      "倒两层",
+      "叠颜色",
       "放装饰",
       "脱模玩"
     ],
     "moldTitle": "今天，做只小果冻。",
-    "moldHint": "选个模具，亲手倒入两层颜色，再放上小装饰。",
+    "moldHint": "选个模具，再把喜欢的颜色一层层倒进去。",
     "moldAction": "就做这个，开始倒",
-    "pour1Title": "第一层，倒多少由你。",
-    "pour1Hint": "按住就倒，松手就停。至少倒到 20%，最多 75%。",
-    "pour2Title": "第二层，换一种心情。",
-    "pour2Hint": "换个颜色，按住补满。两层比例由刚才的你决定。",
+    "pour1Title": "喜欢什么颜色，就倒一点。",
+    "pour1Hint": "按住倒入，松手就停。换颜色只影响下一次倒入，已经倒好的颜色不会变。",
+    "pour2Title": "喜欢什么颜色，就倒一点。",
+    "pour2Hint": "按住倒入，松手就停。换颜色只影响下一次倒入，已经倒好的颜色不会变。",
     "hold": "按住倒入",
     "holding": "正在倒入 · 松手就停",
     "dose": "轻点加 10%",
-    "nextLayer": "换第二层",
-    "firstLimit": "第一层已到 75%，可以换第二层了。",
-    "minimum": "先倒到 20%，再换第二层。",
+    "nextLayer": "倒下一层",
+    "firstLimit": "这一层倒好啦，可以换下一层了。",
+    "minimum": "先把这一层倒满，再换颜色。",
     "filled": "装满啦，来放点小装饰。",
     "decorateTitle": "最后，放一点小偏爱。",
     "decorateHint": "选一种装饰，再点果冻顶面。可以不放，也可以放满。",
@@ -179,7 +266,7 @@
     "toppingLimit": "已经放满 8 颗啦，可以撤回后再摆。",
     "placeHint": "点果冻顶面放装饰，也可以用「帮我放一颗」。",
     "readyTitle": "这是你做的小快乐。",
-    "readyHint": "戳一戳，看它晃。喜欢的话，收进甜品柜。",
+    "readyHint": "按住果冻会凹下去，滑动揉一揉，松手看它回弹。",
     "unmoldTitle": "让快乐，晃出来。",
     "unmoldHint": "轻轻提起模具，等一个软乎乎的落地。",
     "restart": "重新制作",
@@ -188,7 +275,7 @@
     "second": "上层",
     "progress": "模具装满进度",
     "toppingCount": "颗装饰",
-    "colorLabel": "这一层，选什么味道？",
+    "colorLabel": "接下来，倒什么颜色？",
     "moldLabel": "挑一个喜欢的形状",
     "topLabel": "挑装饰，点果冻摆放",
     "finishLabel": "你的独家配方",
@@ -196,7 +283,13 @@
     "restartHint": "新模具准备好了。",
     "noTopping": "原味留白",
     "startOver": "从头再做",
-    "keyboardHint": "也可聚焦按钮，按住空格或回车；轻点加量无需长按。"
+    "keyboardHint": "按住空格或回车倒入，松开停止。",
+    "layerCount": "想叠几层？",
+    "layerUnit": "层",
+    "layerTitle": "第 {n} 层，换一种心情。",
+    "layerProgress": "当前第 {n} / {total} 层",
+    "poured": "已经倒入",
+    "layerLimit": "颜色层数已满，可以继续倒入最后一种颜色。"
   },
   "listing": {
     "name": "果冻慢慢",
@@ -206,7 +299,7 @@
   "customRules": {
     "maxInput": 1024,
     "points": 96,
-    "closeDistance": 0.18,
+    "closeDistance": 0.24,
     "minSpan": 0.25,
     "minAreaRatio": 0.07,
     "toppingMargin": 0.06
@@ -217,7 +310,7 @@
     "entry": "自己画",
     "edit": "修改轮廓",
     "title": "画一个，只属于你的形状。",
-    "hint": "一笔绕回起点，松手自动修圆。也可以切换点选，逐点画轮廓。",
+    "hint": "画出轮廓，松手帮你自动闭合。小抖动会整理，没画完可以从末端接着画。",
     "free": "一笔画",
     "points": "点选画",
     "close": "闭合并预览",
@@ -232,9 +325,18 @@
     "keyboard": "方向键移动圆点，空格落点；画好后点击闭合。",
     "few": "至少画出三个不同的点。",
     "open": "还差一点闭合，把线画回起点附近。",
-    "cross": "线条交叉了，红色线段需要调整。",
+    "cross": "这里有较大的交叉，可撤回调整，或从末端接着画。",
     "thin": "轮廓太小或太细，画得胖一点试试。",
     "invalid": "这一笔没有完成，请重新画。",
-    "noSpace": "这个位置放不下装饰，换个宽一点的位置。"
+    "noSpace": "这个位置放不下装饰，换个宽一点的位置。",
+    "snap": "已吸附起点，松手即可预览",
+    "keepDrawing": "继续画，松手后帮你闭合。",
+    "autoClosed": "已自动闭合，模具准备好了。"
+  },
+  "sound": {
+    "defaultEnabled": true,
+    "volume": 0.3,
+    "pourVolume": 0.25,
+    "maxVoices": 5
   }
 }

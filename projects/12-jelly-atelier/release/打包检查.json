@@ -1,35 +1,17 @@
 {
-  "name": "果冻慢慢",
-  "description": "亲手做果冻收藏今天的甜蜜快乐",
-  "descriptionLength": 14,
-  "zipBytes": 656882,
-  "zipKiB": 641,
-  "sha256": "0b19ed28a76abec887f537af5516be764b3fb78a528b570a79c5ae7e3f26d48c",
-  "logo": {
-    "width": 1254,
-    "height": 1254
-  },
-  "checks": {
-    "rootIndex": true,
-    "classicExternalScript": true,
-    "noStartupFetch": true,
-    "capabilityScan": true,
-    "strictCspBrowserFlow": true,
-    "unitTests": "18/18",
-    "mobileWidths": [
-      375,
-      390,
-      430
-    ],
-    "safeArea": {
-      "top": 44,
-      "bottom": 20
-    },
-    "nativeContainerTested": false,
-    "customOutline": true,
-    "concaveLiquidSurface": true,
-    "customRecipeRestore": true,
-    "zipMatchesTestedFiles": true
-  },
-  "version": "1.1.0"
+  "lint": true,
+  "responsiveWidths": [
+    375,
+    390,
+    430
+  ],
+  "nativeContainerTested": false,
+  "offlineCapabilityScan": true,
+  "safeAreaTop": 44,
+  "bytes": 667698,
+  "sha256": "d25133c04b44a36e8c5c4d4fce7b5ddaf27c8ddf8d1a43b1bf58c8f1f4b27a9f",
+  "package": "guodong-manman-1.5.2.zip",
+  "version": "1.5.2",
+  "tests": 33,
+  "build": true
 }

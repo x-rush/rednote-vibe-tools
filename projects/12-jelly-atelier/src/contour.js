@@ -11,6 +11,13 @@ export function prepareOutline(raw,rules,{explicitClose=false}={}){
   if(points.length<3)return {ok:false,error:'few'};
   if(!explicitClose&&distance(points[0],points.at(-1))>rules.closeDistance)return {ok:false,error:'open'};
   if(distance(points[0],points.at(-1))<.025)points.pop();
+  // Trim only a short return tail near the starting point. Interior crossings
+  // remain errors; a bow tie must never silently become a different mold.
+  if(points.length>12){
+    const start=points[0],tailStart=Math.floor(points.length*.75);
+    const near=points.findIndex((p,i)=>i>=tailStart&&distance(p,start)<rules.closeDistance);
+    if(near>=0&&points.slice(near).every(p=>distance(p,start)<rules.closeDistance*1.5))points=points.slice(0,near+1);
+  }
   if(points.length<3)return {ok:false,error:'few'};
   const crossing=crossingEdges(points);if(crossing)return {ok:false,error:'cross',crossing};
   const xs=points.map(p=>p.x),zs=points.map(p=>p.z),w=Math.max(...xs)-Math.min(...xs),h=Math.max(...zs)-Math.min(...zs),span=Math.max(w,h);

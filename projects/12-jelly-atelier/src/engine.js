@@ -44,7 +44,9 @@ export function cleanRecipe(raw, content) {
     content.toppings.some(kind => kind.id === t.kind) && Number.isFinite(t.x) && Number.isFinite(t.z) &&
     toppingFits({...raw,outline},t,content)).slice(0, content.craft.maxToppings)
     .map(({kind,x,z}) => ({kind,x,z})) : [];
-  return {mold:raw.mold,first:raw.first,second:raw.second,split:raw.split,toppings,...(outline?{outline}: {})};
+  let layers;
+  if(raw.layers!==undefined){if(!Array.isArray(raw.layers)||raw.layers.length<1||raw.layers.length>content.craft.maxLayers||raw.layers.some(l=>!l||!content.flavors.some(f=>f.id===l.flavor)||!Number.isFinite(l.end)||l.end<=0||l.end>1)||raw.layers.some((l,i)=>i&&l.end<=raw.layers[i-1].end)||Math.abs(raw.layers.at(-1).end-1)>1e-6)return null;layers=raw.layers.map(({flavor,end})=>({flavor,end}));}
+  return {mold:raw.mold,first:raw.first,second:raw.second,split:raw.split,toppings,...(outline?{outline}: {}),...(layers?{layers}:{})};
 }
 export function cleanRecipeCollection(raw, content) {
   const base = cleanCollection(raw, content.flavors.map(f => f.id), content.limits.collection);
@@ -52,7 +54,7 @@ export function cleanRecipeCollection(raw, content) {
     const original = raw.find(x => x?.id === item.id);
     const recipe = original.recipe ? cleanRecipe(original.recipe, content) :
       {mold:content.molds[0].id,first:item.flavor,second:item.flavor,split:.5,toppings:[]};
-    return recipe ? [{...item,recipe}] : [];
+    return recipe ? [{...item,recipe,...(typeof original.name==='string'?{name:original.name.trim().slice(0,content.ui.nameLimit)}:{})}] : [];
   });
 }
 

@@ -27,13 +27,14 @@ const bundle=await rolldown({input:resolve(project,'src/app.js'),plugins:[{
 }],treeshake:true});
 const license=await readFile(resolve(project,'vendor/package/LICENSE'),'utf8');
 await bundle.write({file:resolve(dest,'assets/app.js'),format:'iife',minify:true,banner:`/*! Three.js 0.180.0 — MIT License\n${license}\nOffline build: XR subsystem replaced by an inactive adapter. */`,sourcemap:false});await bundle.close();
-let html=await readFile(resolve(project,'index.html'),'utf8');html=html.replace(/<script type="importmap">[\s\S]*?<\/script>/,'').replace('<script type="module" src="./src/app.js"></script>','<script src="./assets/app.js"></script>').replace('./src/style.css','./assets/style.css').replace('./src/assets/logo.png','./assets/logo.png');
+let html=await readFile(resolve(project,'index.html'),'utf8');html=html.replace(/<script type="importmap">[\s\S]*?<\/script>/,'').replace('<script type="module" src="./src/app.js"></script>','<script src="./assets/app.js"></script>').replace('./src/style.css','./assets/style.css').replace('./src/polish.css','./assets/polish.css').replace('./src/assets/logo.png','./assets/logo.png');
 await writeFile(resolve(dest,'index.html'),html);
 const css=(await readFile(resolve(project,'src/style.css'),'utf8')).replace("@import url('./scene.css');",await readFile(resolve(project,'src/scene.css'),'utf8'));
 await writeFile(resolve(dest,'assets/style.css'),css);
+await copyFile(resolve(project,'src/polish.css'),resolve(dest,'assets/polish.css'));
 await copyFile(resolve(project,'src/assets/logo.png'),resolve(dest,'assets/logo.png'));
 await copyFile(resolve(project,'src/assets/logo.png'),resolve(project,'release/果冻慢慢-logo.png'));
-await writeFile(resolve(project,'release/上架资料.json'),JSON.stringify({...content.listing,descriptionLength:14,logo:'果冻慢慢-logo.png',package:'guodong-manman-1.1.0.zip'},null,2));
+await writeFile(resolve(project,'release/上架资料.json'),JSON.stringify({...content.listing,descriptionLength:14,logo:'果冻慢慢-logo.png',package:'guodong-manman-1.5.2.zip'},null,2));
 await writeFile(resolve(dest,'assets/licenses.json'),JSON.stringify({three:{version:'0.180.0',license,modification:'Build removes unused WebXR subsystem; ordinary WebGL rendering retained.'}},null,2));
 // Validate the exact output, not just source files.
 const js=await readFile(resolve(dest,'assets/app.js'),'utf8');
@@ -44,3 +45,6 @@ for(const match of html.matchAll(/(?:src|href)="([^"]+)"/g)){if(!match[1].starts
 const allowed=new Set(['.html','.js','.css','.png','.jpg','.jpeg','.gif','.webp','.svg','.woff','.woff2','.json']);
 async function walk(dir){for(const entry of await readdir(dir,{withFileTypes:true})){const p=resolve(dir,entry.name);if(entry.isDirectory())await walk(p);else if(!allowed.has(extname(p)))throw Error(`Unsupported package file ${p}`);}}await walk(dest);
 console.log('Offline IIFE build and capability checks passed:',dest);
+
+
+

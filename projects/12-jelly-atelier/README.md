@@ -54,3 +54,7 @@
 - 最新上传包：`release/guodong-manman-1.1.0.zip`，656,882 字节。1.0.0 ZIP 保留作为旧版本。
 
 主要代码：`src/contour.js`（清理、闭合、自交检测、平滑、内部位置判断）、`src/custom-geometry.js`（凹形网格）、`src/mold-editor.js`（画板与预览）。新增测试为 `tests/contour.test.mjs`。
+
+## 1.2.0 展柜与多层迭代
+
+支持 2～6 层等高果冻、9 种颜色、起点吸附闭合、真实配方展柜预览和作品命名。旧两层收藏保留原配比。详情见 [迭代说明](release/1.2.0-迭代说明.md)。最新离线包为 `release/guodong-manman-1.2.0.zip`。

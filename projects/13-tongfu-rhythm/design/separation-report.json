@@ -1,0 +1,15 @@
+{
+  "model": "UVR_MDXNET_Main.onnx",
+  "modelTailMd5": "53c4baf4d12c3e6c3831bb8f5b532b93",
+  "sha256": "8289784cda38543ff431add4070662813311a8cccfc0112ca82f76d9dba2b4ca",
+  "metadata": {
+    "compensate": 1.043,
+    "mdx_dim_f_set": 3072,
+    "mdx_dim_t_set": 8,
+    "mdx_n_fft_scale_set": 7680,
+    "primary_stem": "Vocals"
+  },
+  "samples": 4326390,
+  "sampleRate": 44100,
+  "reconstructionMaxError": 0.0
+}

@@ -1,0 +1,13 @@
+import {cp,mkdir,rm,lstat} from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const dist=path.resolve(root,'dist');
+if(path.dirname(dist)!==path.resolve(root)||path.basename(dist)!=='dist')throw Error('Unsafe build directory');
+const existing=await lstat(dist).catch(e=>{if(e.code!=='ENOENT')throw e;});
+if(existing?.isSymbolicLink())throw Error('Build directory must not be a link');
+await rm(dist,{recursive:true,force:true});
+await mkdir(dist,{recursive:true});
+for(const f of ['index.html','src'])await cp(path.join(root,f),path.join(dist,f),{recursive:true});
+await cp(path.join(root,'public'),dist,{recursive:true});
+console.log('Static build ready: dist/');

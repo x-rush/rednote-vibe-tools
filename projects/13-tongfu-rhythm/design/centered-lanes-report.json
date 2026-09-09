@@ -1,0 +1,371 @@
+{
+  "revision": 9,
+  "total": 243,
+  "rap": 120,
+  "moved": 60,
+  "middleLaneCount": 118,
+  "changes": [
+    {
+      "id": "v8-smile-0",
+      "time": 32.795,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-smile-2",
+      "time": 33.045,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-smile-4",
+      "time": 33.42,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-response-a-1",
+      "time": 33.92,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-response-a-3",
+      "time": 34.17,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-cry-0",
+      "time": 34.795,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-cry-2",
+      "time": 35.045,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-cry-4",
+      "time": 35.42,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-response-b-1",
+      "time": 35.92,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-response-b-3",
+      "time": 36.17,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-lead-qing-0",
+      "time": 36.795,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-lead-qing-2",
+      "time": 37.045,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-lead-qing-4",
+      "time": 37.42,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-qing-0",
+      "time": 37.67,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-qing-1",
+      "time": 37.92,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-road-1",
+      "time": 38.92,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-road-3",
+      "time": 39.42,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-road-5",
+      "time": 40.17,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-lead-greeting-0",
+      "time": 40.545,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-greeting-0",
+      "time": 40.67,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-greeting-2",
+      "time": 41.17,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-where-1",
+      "time": 41.92,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-where-3",
+      "time": 42.42,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-reply-0",
+      "time": 42.795,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-reply-2",
+      "time": 43.17,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-jianghu-1",
+      "time": 44.045,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-jianghu-3",
+      "time": 44.42,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-enyuan-0",
+      "time": 44.67,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-enyuan-1",
+      "time": 44.92,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-recognition-1",
+      "time": 45.92,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-recognition-3",
+      "time": 46.295,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-arrival-0",
+      "time": 46.795,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-call-lai-0",
+      "time": 47.795,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-call-lai-2",
+      "time": 48.17,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-call-shuo-0",
+      "time": 49.295,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-call-shuo-2",
+      "time": 49.92,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-hardship-0",
+      "time": 51.295,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-hardship-2",
+      "time": 51.92,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-hardship-4",
+      "time": 52.545,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-confidant-1",
+      "time": 53.17,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-confidant-3",
+      "time": 53.67,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-affection-0",
+      "time": 54.295,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-affection-2",
+      "time": 54.67,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-affection-4",
+      "time": 55.17,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-attachment-1",
+      "time": 56.42,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-loneliness-0",
+      "time": 56.795,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-loneliness-2",
+      "time": 57.17,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-loneliness-4",
+      "time": 57.92,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-loneliness-6",
+      "time": 58.42,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-coming-going-1",
+      "time": 58.92,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-coming-going-3",
+      "time": 59.42,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-question-0",
+      "time": 59.795,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-question-2",
+      "time": 60.17,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-smile-again-1",
+      "time": 60.92,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-smile-again-2",
+      "time": 61.17,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-joy-0",
+      "time": 61.295,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-joy-2",
+      "time": 61.67,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-joy-4",
+      "time": 62.17,
+      "before": 0,
+      "after": 1
+    },
+    {
+      "id": "v8-toast-1",
+      "time": 63.795,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "id": "v8-toast-3",
+      "time": 64.295,
+      "before": 3,
+      "after": 2
+    }
+  ],
+  "timingsUnchanged": true,
+  "humanListeningApproved": false
+}

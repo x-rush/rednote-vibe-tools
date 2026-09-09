@@ -1,0 +1,1016 @@
+{
+  "method": "Neighbourhood check only; ASR cannot establish musical correctness. No note moved by this check.",
+  "humanListeningApproved": false,
+  "beyond80ms": [
+    {
+      "id": "v8-call-lai-0",
+      "time": 47.795,
+      "nearestWordStart": 47.7,
+      "distanceMs": 95.0,
+      "needsListening": true,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v4-rap-9-3",
+      "time": 48.76,
+      "nearestWordStart": 48.88,
+      "distanceMs": -120.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v5-callout-shuo",
+      "time": 50.53,
+      "nearestWordStart": 50.42,
+      "distanceMs": 110.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v4-rap-10-3",
+      "time": 50.76,
+      "nearestWordStart": 50.66,
+      "distanceMs": 100.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-toast-3",
+      "time": 64.295,
+      "nearestWordStart": 64.18,
+      "distanceMs": 115.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-toast-4",
+      "time": 64.545,
+      "nearestWordStart": 64.44,
+      "distanceMs": 105.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    }
+  ],
+  "notes": [
+    {
+      "id": "v8-smile-0",
+      "time": 32.795,
+      "nearestWordStart": 32.8,
+      "distanceMs": -5.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-smile-1",
+      "time": 32.92,
+      "nearestWordStart": 32.94,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-smile-2",
+      "time": 33.045,
+      "nearestWordStart": 33.12,
+      "distanceMs": -75.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-smile-3",
+      "time": 33.17,
+      "nearestWordStart": 33.22,
+      "distanceMs": -50.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-smile-4",
+      "time": 33.42,
+      "nearestWordStart": 33.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-a-0",
+      "time": 33.795,
+      "nearestWordStart": 33.8,
+      "distanceMs": -5.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-response-a-1",
+      "time": 33.92,
+      "nearestWordStart": 33.92,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-a-2",
+      "time": 34.045,
+      "nearestWordStart": 34.04,
+      "distanceMs": 5.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-a-3",
+      "time": 34.17,
+      "nearestWordStart": 34.18,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-a-4",
+      "time": 34.42,
+      "nearestWordStart": 34.44,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-cry-0",
+      "time": 34.795,
+      "nearestWordStart": 34.84,
+      "distanceMs": -45.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-cry-1",
+      "time": 34.92,
+      "nearestWordStart": 34.94,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-cry-2",
+      "time": 35.045,
+      "nearestWordStart": 35.1,
+      "distanceMs": -55.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-cry-3",
+      "time": 35.17,
+      "nearestWordStart": 35.22,
+      "distanceMs": -50.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-cry-4",
+      "time": 35.42,
+      "nearestWordStart": 35.44,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-b-0",
+      "time": 35.795,
+      "nearestWordStart": 35.8,
+      "distanceMs": -5.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-b-1",
+      "time": 35.92,
+      "nearestWordStart": 35.88,
+      "distanceMs": 40.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-b-2",
+      "time": 36.045,
+      "nearestWordStart": 35.98,
+      "distanceMs": 65.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-b-3",
+      "time": 36.17,
+      "nearestWordStart": 36.18,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-response-b-4",
+      "time": 36.42,
+      "nearestWordStart": 36.44,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-lead-qing-0",
+      "time": 36.795,
+      "nearestWordStart": 36.76,
+      "distanceMs": 35.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-lead-qing-1",
+      "time": 36.92,
+      "nearestWordStart": 36.96,
+      "distanceMs": -40.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-lead-qing-2",
+      "time": 37.045,
+      "nearestWordStart": 36.98,
+      "distanceMs": 65.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-lead-qing-3",
+      "time": 37.17,
+      "nearestWordStart": 37.12,
+      "distanceMs": 50.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-lead-qing-4",
+      "time": 37.42,
+      "nearestWordStart": 37.44,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-qing-0",
+      "time": 37.67,
+      "nearestWordStart": 37.66,
+      "distanceMs": 10.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-qing-1",
+      "time": 37.92,
+      "nearestWordStart": 37.94,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-qing-2",
+      "time": 38.17,
+      "nearestWordStart": 38.1,
+      "distanceMs": 70.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-qing-3",
+      "time": 38.42,
+      "nearestWordStart": 38.38,
+      "distanceMs": 40.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-road-0",
+      "time": 38.795,
+      "nearestWordStart": 38.8,
+      "distanceMs": -5.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-road-1",
+      "time": 38.92,
+      "nearestWordStart": 38.92,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-road-2",
+      "time": 39.17,
+      "nearestWordStart": 39.18,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-road-3",
+      "time": 39.42,
+      "nearestWordStart": 39.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-road-4",
+      "time": 39.67,
+      "nearestWordStart": 39.64,
+      "distanceMs": 30.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-road-5",
+      "time": 40.17,
+      "nearestWordStart": 40.14,
+      "distanceMs": 30.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-lead-greeting-0",
+      "time": 40.545,
+      "nearestWordStart": 40.58,
+      "distanceMs": -35.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-greeting-0",
+      "time": 40.67,
+      "nearestWordStart": 40.68,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-greeting-1",
+      "time": 40.92,
+      "nearestWordStart": 40.96,
+      "distanceMs": -40.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-greeting-2",
+      "time": 41.17,
+      "nearestWordStart": 41.18,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-greeting-3",
+      "time": 41.42,
+      "nearestWordStart": 41.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-where-0",
+      "time": 41.67,
+      "nearestWordStart": 41.68,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-where-1",
+      "time": 41.92,
+      "nearestWordStart": 41.92,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-where-2",
+      "time": 42.17,
+      "nearestWordStart": 42.14,
+      "distanceMs": 30.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-where-3",
+      "time": 42.42,
+      "nearestWordStart": 42.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-reply-0",
+      "time": 42.795,
+      "nearestWordStart": 42.76,
+      "distanceMs": 35.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-reply-1",
+      "time": 42.92,
+      "nearestWordStart": 42.88,
+      "distanceMs": 40.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-reply-2",
+      "time": 43.17,
+      "nearestWordStart": 43.22,
+      "distanceMs": -50.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-reply-3",
+      "time": 43.42,
+      "nearestWordStart": 43.38,
+      "distanceMs": 40.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-jianghu-0",
+      "time": 43.795,
+      "nearestWordStart": 43.84,
+      "distanceMs": -45.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-jianghu-1",
+      "time": 44.045,
+      "nearestWordStart": 44.08,
+      "distanceMs": -35.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-jianghu-2",
+      "time": 44.17,
+      "nearestWordStart": 44.22,
+      "distanceMs": -50.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-jianghu-3",
+      "time": 44.42,
+      "nearestWordStart": 44.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-enyuan-0",
+      "time": 44.67,
+      "nearestWordStart": 44.68,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-enyuan-1",
+      "time": 44.92,
+      "nearestWordStart": 44.94,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-enyuan-2",
+      "time": 45.17,
+      "nearestWordStart": 45.18,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-enyuan-3",
+      "time": 45.42,
+      "nearestWordStart": 45.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-recognition-0",
+      "time": 45.795,
+      "nearestWordStart": 45.72,
+      "distanceMs": 75.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-recognition-1",
+      "time": 45.92,
+      "nearestWordStart": 45.92,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-recognition-2",
+      "time": 46.045,
+      "nearestWordStart": 46.08,
+      "distanceMs": -35.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-recognition-3",
+      "time": 46.295,
+      "nearestWordStart": 46.24,
+      "distanceMs": 55.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-recognition-4",
+      "time": 46.545,
+      "nearestWordStart": 46.58,
+      "distanceMs": -35.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-arrival-0",
+      "time": 46.795,
+      "nearestWordStart": 46.8,
+      "distanceMs": -5.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-arrival-1",
+      "time": 47.17,
+      "nearestWordStart": 47.16,
+      "distanceMs": 10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-call-lai-0",
+      "time": 47.795,
+      "nearestWordStart": 47.7,
+      "distanceMs": 95.0,
+      "needsListening": true,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-call-lai-1",
+      "time": 48.045,
+      "nearestWordStart": 48.0,
+      "distanceMs": 45.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-call-lai-2",
+      "time": 48.17,
+      "nearestWordStart": 48.14,
+      "distanceMs": 30.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v4-rap-9-2",
+      "time": 48.52,
+      "nearestWordStart": 48.44,
+      "distanceMs": 80.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v4-rap-9-3",
+      "time": 48.76,
+      "nearestWordStart": 48.88,
+      "distanceMs": -120.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-call-shuo-0",
+      "time": 49.295,
+      "nearestWordStart": 49.26,
+      "distanceMs": 35.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-call-shuo-1",
+      "time": 49.67,
+      "nearestWordStart": 49.72,
+      "distanceMs": -50.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-call-shuo-2",
+      "time": 49.92,
+      "nearestWordStart": 49.92,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-call-shuo-3",
+      "time": 50.17,
+      "nearestWordStart": 50.12,
+      "distanceMs": 50.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v5-callout-shuo",
+      "time": 50.53,
+      "nearestWordStart": 50.42,
+      "distanceMs": 110.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v4-rap-10-3",
+      "time": 50.76,
+      "nearestWordStart": 50.66,
+      "distanceMs": 100.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-hardship-0",
+      "time": 51.295,
+      "nearestWordStart": 51.24,
+      "distanceMs": 55.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-hardship-1",
+      "time": 51.67,
+      "nearestWordStart": 51.7,
+      "distanceMs": -30.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-hardship-2",
+      "time": 51.92,
+      "nearestWordStart": 51.94,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-hardship-3",
+      "time": 52.17,
+      "nearestWordStart": 52.2,
+      "distanceMs": -30.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-hardship-4",
+      "time": 52.545,
+      "nearestWordStart": 52.54,
+      "distanceMs": 5.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-confidant-0",
+      "time": 52.92,
+      "nearestWordStart": 52.92,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-confidant-1",
+      "time": 53.17,
+      "nearestWordStart": 53.14,
+      "distanceMs": 30.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-confidant-2",
+      "time": 53.42,
+      "nearestWordStart": 53.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-confidant-3",
+      "time": 53.67,
+      "nearestWordStart": 53.64,
+      "distanceMs": 30.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-affection-0",
+      "time": 54.295,
+      "nearestWordStart": 54.26,
+      "distanceMs": 35.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-affection-1",
+      "time": 54.42,
+      "nearestWordStart": 54.44,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-affection-2",
+      "time": 54.67,
+      "nearestWordStart": 54.62,
+      "distanceMs": 50.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-affection-3",
+      "time": 54.92,
+      "nearestWordStart": 54.92,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-affection-4",
+      "time": 55.17,
+      "nearestWordStart": 55.16,
+      "distanceMs": 10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-affection-5",
+      "time": 55.42,
+      "nearestWordStart": 55.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-attachment-0",
+      "time": 56.17,
+      "nearestWordStart": 56.22,
+      "distanceMs": -50.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-attachment-1",
+      "time": 56.42,
+      "nearestWordStart": 56.44,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-loneliness-0",
+      "time": 56.795,
+      "nearestWordStart": 56.82,
+      "distanceMs": -25.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-loneliness-1",
+      "time": 56.92,
+      "nearestWordStart": 56.9,
+      "distanceMs": 20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-loneliness-2",
+      "time": 57.17,
+      "nearestWordStart": 57.16,
+      "distanceMs": 10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-loneliness-3",
+      "time": 57.42,
+      "nearestWordStart": 57.4,
+      "distanceMs": 20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-loneliness-4",
+      "time": 57.92,
+      "nearestWordStart": 57.88,
+      "distanceMs": 40.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-loneliness-5",
+      "time": 58.17,
+      "nearestWordStart": 58.14,
+      "distanceMs": 30.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-loneliness-6",
+      "time": 58.42,
+      "nearestWordStart": 58.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-coming-going-0",
+      "time": 58.67,
+      "nearestWordStart": 58.66,
+      "distanceMs": 10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-coming-going-1",
+      "time": 58.92,
+      "nearestWordStart": 58.96,
+      "distanceMs": -40.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-coming-going-2",
+      "time": 59.17,
+      "nearestWordStart": 59.18,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-coming-going-3",
+      "time": 59.42,
+      "nearestWordStart": 59.44,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-question-0",
+      "time": 59.795,
+      "nearestWordStart": 59.76,
+      "distanceMs": 35.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-question-1",
+      "time": 59.92,
+      "nearestWordStart": 59.88,
+      "distanceMs": 40.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-question-2",
+      "time": 60.17,
+      "nearestWordStart": 60.18,
+      "distanceMs": -10.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-question-3",
+      "time": 60.42,
+      "nearestWordStart": 60.44,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-smile-again-0",
+      "time": 60.67,
+      "nearestWordStart": 60.62,
+      "distanceMs": 50.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-smile-again-1",
+      "time": 60.92,
+      "nearestWordStart": 60.94,
+      "distanceMs": -20.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-smile-again-2",
+      "time": 61.17,
+      "nearestWordStart": 61.2,
+      "distanceMs": -30.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-joy-0",
+      "time": 61.295,
+      "nearestWordStart": 61.26,
+      "distanceMs": 35.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-joy-1",
+      "time": 61.42,
+      "nearestWordStart": 61.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-joy-2",
+      "time": 61.67,
+      "nearestWordStart": 61.7,
+      "distanceMs": -30.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-joy-3",
+      "time": 61.92,
+      "nearestWordStart": 61.92,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-joy-4",
+      "time": 62.17,
+      "nearestWordStart": 62.24,
+      "distanceMs": -70.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-joy-5",
+      "time": 62.42,
+      "nearestWordStart": 62.48,
+      "distanceMs": -60.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-toast-0",
+      "time": 63.42,
+      "nearestWordStart": 63.42,
+      "distanceMs": 0.0,
+      "needsListening": false,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-toast-1",
+      "time": 63.795,
+      "nearestWordStart": 63.84,
+      "distanceMs": -45.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment-short.json"
+    },
+    {
+      "id": "v8-toast-2",
+      "time": 64.045,
+      "nearestWordStart": 64.0,
+      "distanceMs": 45.0,
+      "needsListening": false,
+      "source": "vocal-word-alignment.json"
+    },
+    {
+      "id": "v8-toast-3",
+      "time": 64.295,
+      "nearestWordStart": 64.18,
+      "distanceMs": 115.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    },
+    {
+      "id": "v8-toast-4",
+      "time": 64.545,
+      "nearestWordStart": 64.44,
+      "distanceMs": 105.0,
+      "needsListening": true,
+      "source": "word-alignment.json"
+    }
+  ]
+}

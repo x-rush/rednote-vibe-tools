@@ -1,0 +1,41 @@
+{
+  "method": "local accompaniment attack correlation around existing 120 BPM grid; not listening approval",
+  "segments": [
+    {
+      "start": 1,
+      "end": 16,
+      "gridShiftMs": 10,
+      "strength": 1.152
+    },
+    {
+      "start": 33,
+      "end": 40,
+      "gridShiftMs": 15,
+      "strength": 2.141
+    },
+    {
+      "start": 40,
+      "end": 48,
+      "gridShiftMs": 15,
+      "strength": 1.895
+    },
+    {
+      "start": 48,
+      "end": 56,
+      "gridShiftMs": 15,
+      "strength": 1.578
+    },
+    {
+      "start": 56,
+      "end": 64,
+      "gridShiftMs": 15,
+      "strength": 1.884
+    },
+    {
+      "start": 73,
+      "end": 94,
+      "gridShiftMs": 15,
+      "strength": 1.594
+    }
+  ]
+}

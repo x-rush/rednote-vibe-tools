@@ -1,0 +1,16 @@
+{
+  "skillVersion": "1.6.0",
+  "title": "武林外传：同福客栈风波再起",
+  "zipBytes": 16542773,
+  "zipLimit": 10485760,
+  "officialDirectoryAudit": "PASS:21 files; size checks only",
+  "releaseReady": false,
+  "blockers": [
+    "audio extension absent from whitelist",
+    "module scripts and fetch loading",
+    "ES2017/Chrome61 syntax and CSS fallbacks incomplete",
+    "studio file import/download unavailable",
+    "zip exceeds 10MiB"
+  ],
+  "testsPassed": 24
+}

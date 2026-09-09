@@ -1,0 +1,35 @@
+{
+  "revision": 11,
+  "before": {
+    "notes": 120,
+    "switches": 104,
+    "transitions": 119,
+    "laneCounts": [
+      0,
+      64,
+      54,
+      2
+    ],
+    "maxRepeated": 3,
+    "maxAlternating": 9,
+    "errors": [
+      "Repeated lane run: v8-qing-1",
+      "Unbroken alternation: v8-where-3"
+    ]
+  },
+  "after": {
+    "notes": 131,
+    "switches": 85,
+    "transitions": 130,
+    "laneCounts": [
+      32,
+      35,
+      36,
+      28
+    ],
+    "maxRepeated": 2,
+    "maxAlternating": 6,
+    "errors": []
+  },
+  "humanListeningApproved": false
+}

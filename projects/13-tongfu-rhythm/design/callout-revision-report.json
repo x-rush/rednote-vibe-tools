@@ -1,0 +1,38 @@
+{
+  "changes": [
+    {
+      "word": "来",
+      "id": "v4-rap-9-2",
+      "previousTime": 48.5946,
+      "time": 48.52,
+      "shiftMs": -74.6,
+      "amplitude": 0.07357051826242589
+    },
+    {
+      "word": "吧",
+      "id": "v4-rap-9-3",
+      "previousTime": 48.9039,
+      "time": 48.76,
+      "shiftMs": -143.9,
+      "amplitude": 0.05788328698243981
+    },
+    {
+      "word": "说",
+      "id": "v5-callout-shuo",
+      "previousTime": null,
+      "time": 50.53,
+      "shiftMs": null,
+      "amplitude": 0.01895659872794451
+    },
+    {
+      "word": "吧",
+      "id": "v4-rap-10-3",
+      "previousTime": 50.9492,
+      "time": 50.76,
+      "shiftMs": -189.2,
+      "amplitude": 0.05638086115417077
+    }
+  ],
+  "unchangedOtherNotes": true,
+  "humanListeningApproved": false
+}

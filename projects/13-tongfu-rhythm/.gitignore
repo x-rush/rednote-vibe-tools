@@ -1,0 +1,14 @@
+dist/
+design/*.wav
+design/source-audio.m4a
+design/*source.html
+design/*stream.json
+design/bilibili-source.json
+test-results/
+design/drafts/
+
+# Reproducible packaging intermediates
+release/package/
+release/audio-probe/
+release/verse-lab/
+release/*.mp3

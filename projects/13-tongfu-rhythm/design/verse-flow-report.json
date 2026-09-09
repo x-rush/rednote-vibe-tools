@@ -1,0 +1,15 @@
+{
+  "revision": 11,
+  "total": 256,
+  "verseNotes": 131,
+  "phrases": 28,
+  "range": [
+    32.7,
+    64.7
+  ],
+  "minInterval": 0.125,
+  "humanListeningApproved": false,
+  "method": "Authored phrase rhythm without waveform snapping; explicit continuity fills, short hold tails and two tap chords.",
+  "originalOutsideRapNotesPreserved": true,
+  "extraOutsideRapNotes": 2
+}

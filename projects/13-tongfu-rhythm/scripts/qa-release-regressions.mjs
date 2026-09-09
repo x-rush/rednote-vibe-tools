@@ -1,0 +1,25 @@
+import {pathToFileURL} from 'node:url';
+import {readFile,writeFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const {chromium}=await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE));
+const browser=await chromium.launch({channel:'chrome',headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+const C=JSON.parse(await readFile('src/content/content.json','utf8'));
+const context=await browser.newContext();
+await context.addInitScript(C=>{
+ localStorage.setItem('tongfu-rhythm-v1',JSON.stringify({settings:{volume:'invalid'},syncVersion:3}));
+ localStorage.setItem('tongfu-chart-draft-v1',JSON.stringify({notes:C.notes,audioSha256:C.track.audioSha256,timingPoints:[{bpm:120,time:'bad'}],review:'bad'}));
+ const AC=window.AudioContext;window.AudioContext=class extends AC{constructor(...a){super(...a);window.qaCtx=this;}createBufferSource(){const s=super.createBufferSource(),start=s.start.bind(s);s.start=(when,offset=0,...a)=>{window.qaStart={when,offset};return start(when,offset,...a);};return s;}};
+},C);
+const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+const base=process.env.QA_BASE_URL||'http://127.0.0.1:4314';
+await page.goto(base+'/?draft=1');await page.click('#practice');await page.waitForSelector('#notes');
+assert.equal(await page.evaluate(()=>window.qaStart.offset),16);
+await page.waitForFunction(()=>document.querySelector('#countdown').hidden);
+assert.equal(await page.locator('#score').textContent(),'000000');
+assert.notEqual(await page.locator('#judgment').textContent(),C.ui.miss);
+await page.click('#pause');for(const width of [375,390,430]){await page.setViewportSize({width,height:844});await page.evaluate(()=>{document.documentElement.style.setProperty('--safe-area-inset-top','32px');document.documentElement.style.setProperty('--safe-area-inset-bottom','20px');});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);assert.ok(await page.locator('#pause').evaluate(e=>e.getBoundingClientRect().top>=32));assert.ok(await page.locator('.lane-key').first().evaluate(e=>e.getBoundingClientRect().bottom<=innerHeight-20));}await page.click('#pause-settings');assert.equal(await page.locator('#volume').inputValue(),'0.75');
+await page.goto(base+'/?studio=1');await page.click('#load');await page.click('#mark');await page.click('#save');
+const draft=await page.evaluate(()=>JSON.parse(localStorage.getItem('tongfu-chart-draft-v1')));
+assert.deepEqual(draft.timingPoints,C.timingPoints);assert.equal(draft.review['-1'],true);assert.deepEqual(errors,[]);
+await writeFile('test-results/release-regressions.json',JSON.stringify({draftPracticeStartsAt16:true,noInstantMiss:true,invalidVolumeRecovered:true,malformedStudioStateRecovered:true,errors},null,2));
+console.log('Release edge cases passed.');await browser.close();

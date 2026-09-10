@@ -34,7 +34,6 @@
 - **了解玩法**：打开上表对应目录，先读项目 README；没有 README 的项目可从设计说明和 `src/content/content.json` 开始。
 - **研究实现**：阅读项目 `src/`、`package.json` 和测试文件。部分项目采用 React + TypeScript + Vite，部分采用原生 JavaScript 与自定义构建脚本。
 - **了解制作过程**：查看 [产品文档索引](docs/README.md) 和各项目的设计、实现规划及验证记录。历史规划不等同于当前功能清单。
-- **分享仓库**：查看 [小红书介绍笔记](XIAOHONGSHU-NOTE.md)。
 
 ## 本地运行
 
@@ -81,7 +80,6 @@ pnpm build
 | `prep/` | 机器可读准备清单 |
 | `design/` | 共用设计资料 |
 | `AGENTS.md` | 协作范围与开发约束 |
-| `XIAOHONGSHU-NOTE.md` | 仓库介绍笔记 |
 
 ## 开发约定
 

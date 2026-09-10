@@ -20,3 +20,7 @@ projects/*/research/source-masters/
 projects/*/research/generated/
 projects/*/research/alternatives/
 playwright
+
+# Local-only Xiaohongshu note and cover
+/XIAOHONGSHU-NOTE.md
+/XIAOHONGSHU-COVER*.png

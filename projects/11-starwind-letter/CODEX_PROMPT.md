@@ -4,31 +4,31 @@
 
 ---
 
-你要在当前仓库中完整实现一个新项目：`projects/10-starwind-letter`（星风来信）。
+你要在当前仓库中完整实现一个新项目：`projects/11-starwind-letter`（星风来信）。
 
 先不要凭印象写代码。请完整阅读以下文件：
 
 - 仓库根目录 `AGENTS.md`
-- `projects/10-starwind-letter/AGENTS.md`
-- `projects/10-starwind-letter/README.md`
-- `projects/10-starwind-letter/PROJECT_BRIEF.md`
-- `projects/10-starwind-letter/UX_SPEC.md`
-- `projects/10-starwind-letter/MOTION_SPEC.md`
-- `projects/10-starwind-letter/VISUAL_REFERENCE.md`
-- `projects/10-starwind-letter/CONTENT_SPEC.md`
-- `projects/10-starwind-letter/IMPLEMENTATION_PLAN.md`
+- `projects/11-starwind-letter/AGENTS.md`
+- `projects/11-starwind-letter/README.md`
+- `projects/11-starwind-letter/PROJECT_BRIEF.md`
+- `projects/11-starwind-letter/UX_SPEC.md`
+- `projects/11-starwind-letter/MOTION_SPEC.md`
+- `projects/11-starwind-letter/VISUAL_REFERENCE.md`
+- `projects/11-starwind-letter/CONTENT_SPEC.md`
+- `projects/11-starwind-letter/IMPLEMENTATION_PLAN.md`
 
 还必须使用你可用的本地图片查看工具，逐张实际查看以下参考图，不能只读取文件名或依赖文字转述：
 
-- `projects/10-starwind-letter/references/01-curtain-closed.jpg`
-- `projects/10-starwind-letter/references/02-wind-opening.jpg`
-- `projects/10-starwind-letter/references/03-stars-entering.jpg`
+- `projects/11-starwind-letter/references/01-curtain-closed.jpg`
+- `projects/11-starwind-letter/references/02-wind-opening.jpg`
+- `projects/11-starwind-letter/references/03-stars-entering.jpg`
 
 这些图片是社交平台视频的三个连续截图。只参考中央深蓝色艺术画面；忽略并禁止实现手机状态栏、平台导航、作者头像、关注、点赞、评论、进度条和黑色上下区域。原始截图仅作设计参考，不能直接作为成品背景或运行时素材展示。
 
 然后检查同仓库现有子项目的技术栈、构建脚本、测试配置和目录惯例。只借鉴工程结构，不复制其他项目的业务内容或视觉资产。
 
-你的文件写入范围严格限制为 `projects/10-starwind-letter`。不要修改任何其他 `projects/*`、根 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml`、`docs/` 或 `prep/`。不得新增依赖；如果确实无法使用现有依赖完成，先停止并报告，不要自行安装或改锁文件。注意工作区可能存在其他人的未提交修改，必须保留并避开。
+你的文件写入范围严格限制为 `projects/11-starwind-letter`。不要修改任何其他 `projects/*`、根 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml`、`docs/` 或 `prep/`。不得新增依赖；如果确实无法使用现有依赖完成，先停止并报告，不要自行安装或改锁文件。注意工作区可能存在其他人的未提交修改，必须保留并避开。
 
 目标是实现一个手机竖屏、纯前端静态运行的互动动画：
 
@@ -73,7 +73,7 @@
 
 请按 `IMPLEMENTATION_PLAN.md` 分阶段工作。先完成可验证的静态构图和状态机，再实现复杂动效；不要一开始就堆粒子。为内容规则、随机去重、状态转换、连续点击锁定、重置清理、reduced-motion 和“窗户打开前主角星不能进入室内”编写测试。不得删除或削弱测试来通过检查。
 
-完成后必须在 `projects/10-starwind-letter` 内运行：
+完成后必须在 `projects/11-starwind-letter` 内运行：
 
 ```bash
 pnpm lint && pnpm test && pnpm build

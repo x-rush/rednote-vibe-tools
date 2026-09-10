@@ -8,13 +8,13 @@
 
 **Tech Stack:** React 19, React DOM 19, TypeScript 6, Vite 8, Vitest 4, SVG, Canvas 2D, Web Audio API, CSS
 
-**Spec:** `projects/10-starwind-letter/DESIGN.md`
+**Spec:** `projects/11-starwind-letter/DESIGN.md`
 
 ## Global Constraints
 
-- Only modify `projects/10-starwind-letter`; root files, every other `projects/*`, `docs/`, and `prep/` are read-only.
+- Only modify `projects/11-starwind-letter`; root files, every other `projects/*`, `docs/`, and `prep/` are read-only.
 - Do not add dependencies. Use the exact dependency family and scripts already present in sibling React/Vite projects.
-- `pnpm-lock.yaml` currently has no `projects/10-starwind-letter` importer. Do not edit it; report the required importer to the workspace controller before dependency installation.
+- `pnpm-lock.yaml` currently has no `projects/11-starwind-letter` importer. Do not edit it; report the required importer to the workspace controller before dependency installation.
 - The product is a pure static frontend with no backend, runtime CDN, required external API, Service Worker, or unconfirmed device API.
 - All business phrases live in `src/content/content.json`; do not persist images, Base64, audio, video, or Blob data.
 - Users do not type, drag the curtain, control the window, or catch stars. One click selects a phrase; the remaining main animation is automatic.
@@ -26,7 +26,7 @@
 ## Planned File Structure
 
 ```text
-projects/10-starwind-letter/
+projects/11-starwind-letter/
 ├── index.html                         # Static entry document and deep-blue loading background
 ├── package.json                       # Existing workspace toolchain only
 ├── tsconfig.json
@@ -79,18 +79,18 @@ projects/10-starwind-letter/
 ### Task 1: Scaffold the Static App and Validate All Phrase Content
 
 **Files:**
-- Create: `projects/10-starwind-letter/package.json`
-- Create: `projects/10-starwind-letter/tsconfig.json`
-- Create: `projects/10-starwind-letter/tsconfig.app.json`
-- Create: `projects/10-starwind-letter/tsconfig.node.json`
-- Create: `projects/10-starwind-letter/vite.config.ts`
-- Create: `projects/10-starwind-letter/index.html`
-- Create: `projects/10-starwind-letter/src/main.tsx`
-- Create: `projects/10-starwind-letter/src/App.tsx`
-- Create: `projects/10-starwind-letter/src/App.css`
-- Create: `projects/10-starwind-letter/src/content/content.json`
-- Create: `projects/10-starwind-letter/src/content/messages.ts`
-- Test: `projects/10-starwind-letter/src/content/messages.test.ts`
+- Create: `projects/11-starwind-letter/package.json`
+- Create: `projects/11-starwind-letter/tsconfig.json`
+- Create: `projects/11-starwind-letter/tsconfig.app.json`
+- Create: `projects/11-starwind-letter/tsconfig.node.json`
+- Create: `projects/11-starwind-letter/vite.config.ts`
+- Create: `projects/11-starwind-letter/index.html`
+- Create: `projects/11-starwind-letter/src/main.tsx`
+- Create: `projects/11-starwind-letter/src/App.tsx`
+- Create: `projects/11-starwind-letter/src/App.css`
+- Create: `projects/11-starwind-letter/src/content/content.json`
+- Create: `projects/11-starwind-letter/src/content/messages.ts`
+- Test: `projects/11-starwind-letter/src/content/messages.test.ts`
 
 **Interfaces:**
 - Consumes: The 60 numbered phrases and five moods in `CONTENT_SPEC.md`.
@@ -102,7 +102,7 @@ Use the exact sibling-project versions and scripts:
 
 ```json
 {
-  "name": "10-starwind-letter",
+  "name": "11-starwind-letter",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -239,7 +239,7 @@ Expected: both commands exit 0 and `dist/index.html` uses relative assets.
 - [ ] **Step 6: Commit the scaffold and content slice**
 
 ```bash
-git add projects/10-starwind-letter/package.json projects/10-starwind-letter/tsconfig*.json projects/10-starwind-letter/vite.config.ts projects/10-starwind-letter/index.html projects/10-starwind-letter/src/main.tsx projects/10-starwind-letter/src/App.tsx projects/10-starwind-letter/src/App.css projects/10-starwind-letter/src/content
+git add projects/11-starwind-letter/package.json projects/11-starwind-letter/tsconfig*.json projects/11-starwind-letter/vite.config.ts projects/11-starwind-letter/index.html projects/11-starwind-letter/src/main.tsx projects/11-starwind-letter/src/App.tsx projects/11-starwind-letter/src/App.css projects/11-starwind-letter/src/content
 git commit -m "feat(starwind-letter): scaffold app and add star messages"
 ```
 
@@ -248,11 +248,11 @@ git commit -m "feat(starwind-letter): scaffold app and add star messages"
 ### Task 2: Implement Deterministic Selection and the Experience State Machine
 
 **Files:**
-- Create: `projects/10-starwind-letter/src/domain/types.ts`
-- Create: `projects/10-starwind-letter/src/domain/random.ts`
-- Test: `projects/10-starwind-letter/src/domain/random.test.ts`
-- Create: `projects/10-starwind-letter/src/experience/machine.ts`
-- Test: `projects/10-starwind-letter/src/experience/machine.test.ts`
+- Create: `projects/11-starwind-letter/src/domain/types.ts`
+- Create: `projects/11-starwind-letter/src/domain/random.ts`
+- Test: `projects/11-starwind-letter/src/domain/random.test.ts`
+- Create: `projects/11-starwind-letter/src/experience/machine.ts`
+- Test: `projects/11-starwind-letter/src/experience/machine.test.ts`
 
 **Interfaces:**
 - Consumes: `StarMessage` and `Mood` from `src/content/messages.ts`.
@@ -322,7 +322,7 @@ Expected: lint, all tests, and build exit 0.
 - [ ] **Step 5: Commit the pure domain slice**
 
 ```bash
-git add projects/10-starwind-letter/src/domain projects/10-starwind-letter/src/experience/machine.ts projects/10-starwind-letter/src/experience/machine.test.ts
+git add projects/11-starwind-letter/src/domain projects/11-starwind-letter/src/experience/machine.ts projects/11-starwind-letter/src/experience/machine.test.ts
 git commit -m "feat(starwind-letter): add selection and experience state machine"
 ```
 
@@ -331,8 +331,8 @@ git commit -m "feat(starwind-letter): add selection and experience state machine
 ### Task 3: Add the Unified Timeline with Pause, Resume, and Reset
 
 **Files:**
-- Create: `projects/10-starwind-letter/src/experience/timeline.ts`
-- Test: `projects/10-starwind-letter/src/experience/timeline.test.ts`
+- Create: `projects/11-starwind-letter/src/experience/timeline.ts`
+- Test: `projects/11-starwind-letter/src/experience/timeline.test.ts`
 
 **Interfaces:**
 - Consumes: `ExperienceState` and the automatic `advance` event.
@@ -394,7 +394,7 @@ Expected: all tests pass with no hanging timers.
 - [ ] **Step 5: Commit the timeline**
 
 ```bash
-git add projects/10-starwind-letter/src/experience/timeline.ts projects/10-starwind-letter/src/experience/timeline.test.ts
+git add projects/11-starwind-letter/src/experience/timeline.ts projects/11-starwind-letter/src/experience/timeline.test.ts
 git commit -m "feat(starwind-letter): add synchronized experience timeline"
 ```
 
@@ -403,13 +403,13 @@ git commit -m "feat(starwind-letter): add synchronized experience timeline"
 ### Task 4: Lock the Perspective Geometry and Static Scene Before Animation
 
 **Files:**
-- Create: `projects/10-starwind-letter/src/scene/geometry.ts`
-- Test: `projects/10-starwind-letter/src/scene/geometry.test.ts`
-- Create: `projects/10-starwind-letter/src/scene/WindowLayer.tsx`
-- Test: `projects/10-starwind-letter/src/scene/WindowLayer.test.tsx`
-- Create: `projects/10-starwind-letter/src/scene/Scene.tsx`
-- Modify: `projects/10-starwind-letter/src/App.css`
-- Modify: `projects/10-starwind-letter/src/App.tsx`
+- Create: `projects/11-starwind-letter/src/scene/geometry.ts`
+- Test: `projects/11-starwind-letter/src/scene/geometry.test.ts`
+- Create: `projects/11-starwind-letter/src/scene/WindowLayer.tsx`
+- Test: `projects/11-starwind-letter/src/scene/WindowLayer.test.tsx`
+- Create: `projects/11-starwind-letter/src/scene/Scene.tsx`
+- Modify: `projects/11-starwind-letter/src/App.css`
+- Modify: `projects/11-starwind-letter/src/App.tsx`
 
 **Interfaces:**
 - Consumes: timeline `stageProgress` and the fixed 390×844 design coordinates.
@@ -483,7 +483,7 @@ Run the dev server and capture 390×844. Compare against `references/01-curtain-
 - [ ] **Step 7: Commit the approved static scene**
 
 ```bash
-git add projects/10-starwind-letter/src/scene projects/10-starwind-letter/src/App.tsx projects/10-starwind-letter/src/App.css
+git add projects/11-starwind-letter/src/scene projects/11-starwind-letter/src/App.tsx projects/11-starwind-letter/src/App.css
 git commit -m "feat(starwind-letter): establish perspective night-window scene"
 ```
 
@@ -492,10 +492,10 @@ git commit -m "feat(starwind-letter): establish perspective night-window scene"
 ### Task 5: Add the Phrase Carousel Without Disturbing the Scene
 
 **Files:**
-- Create: `projects/10-starwind-letter/src/ui/PhraseCarousel.tsx`
-- Test: `projects/10-starwind-letter/src/ui/PhraseCarousel.test.tsx`
-- Modify: `projects/10-starwind-letter/src/App.tsx`
-- Modify: `projects/10-starwind-letter/src/App.css`
+- Create: `projects/11-starwind-letter/src/ui/PhraseCarousel.tsx`
+- Test: `projects/11-starwind-letter/src/ui/PhraseCarousel.test.tsx`
+- Modify: `projects/11-starwind-letter/src/App.tsx`
+- Modify: `projects/11-starwind-letter/src/App.css`
 
 **Interfaces:**
 - Consumes: `messages`, `ExperienceState`, selected message ID, and timeline sample.
@@ -546,7 +546,7 @@ Expected: exit 0.
 - [ ] **Step 6: Commit the complete selection vertical slice**
 
 ```bash
-git add projects/10-starwind-letter/src/ui/PhraseCarousel.tsx projects/10-starwind-letter/src/ui/PhraseCarousel.test.tsx projects/10-starwind-letter/src/App.tsx projects/10-starwind-letter/src/App.css
+git add projects/11-starwind-letter/src/ui/PhraseCarousel.tsx projects/11-starwind-letter/src/ui/PhraseCarousel.test.tsx projects/11-starwind-letter/src/App.tsx projects/11-starwind-letter/src/App.css
 git commit -m "feat(starwind-letter): integrate unobtrusive star phrase selection"
 ```
 
@@ -555,11 +555,11 @@ git commit -m "feat(starwind-letter): integrate unobtrusive star phrase selectio
 ### Task 6: Animate the Strand Curtain and Weighted Window Opening
 
 **Files:**
-- Create: `projects/10-starwind-letter/src/scene/curtain.ts`
-- Test: `projects/10-starwind-letter/src/scene/curtain.test.ts`
-- Create: `projects/10-starwind-letter/src/scene/CurtainLayer.tsx`
-- Modify: `projects/10-starwind-letter/src/scene/WindowLayer.tsx`
-- Modify: `projects/10-starwind-letter/src/scene/Scene.tsx`
+- Create: `projects/11-starwind-letter/src/scene/curtain.ts`
+- Test: `projects/11-starwind-letter/src/scene/curtain.test.ts`
+- Create: `projects/11-starwind-letter/src/scene/CurtainLayer.tsx`
+- Modify: `projects/11-starwind-letter/src/scene/WindowLayer.tsx`
+- Modify: `projects/11-starwind-letter/src/scene/Scene.tsx`
 
 **Interfaces:**
 - Consumes: seeded random source and `TimelineSample`.
@@ -608,7 +608,7 @@ Capture the wind peak near 2.9s and the open frame near 4.25s at 390×844. Compa
 - [ ] **Step 6: Commit the animated architectural scene**
 
 ```bash
-git add projects/10-starwind-letter/src/scene
+git add projects/11-starwind-letter/src/scene
 git commit -m "feat(starwind-letter): animate wind-driven curtain and window"
 ```
 
@@ -617,11 +617,11 @@ git commit -m "feat(starwind-letter): animate wind-driven curtain and window"
 ### Task 7: Add Two-Layer Stars with Verifiable Window Crossing
 
 **Files:**
-- Create: `projects/10-starwind-letter/src/particles/system.ts`
-- Test: `projects/10-starwind-letter/src/particles/system.test.ts`
-- Create: `projects/10-starwind-letter/src/particles/renderer.ts`
-- Create: `projects/10-starwind-letter/src/particles/ParticleCanvases.tsx`
-- Modify: `projects/10-starwind-letter/src/scene/Scene.tsx`
+- Create: `projects/11-starwind-letter/src/particles/system.ts`
+- Test: `projects/11-starwind-letter/src/particles/system.test.ts`
+- Create: `projects/11-starwind-letter/src/particles/renderer.ts`
+- Create: `projects/11-starwind-letter/src/particles/ParticleCanvases.tsx`
+- Modify: `projects/11-starwind-letter/src/scene/Scene.tsx`
 
 **Interfaces:**
 - Consumes: `WINDOW_PORTAL`, sash open progress, timeline sample, selected mood, and seeded random source.
@@ -702,7 +702,7 @@ Capture at least three consecutive points of one hero star: visible outside near
 - [ ] **Step 7: Commit the particle vertical slice**
 
 ```bash
-git add projects/10-starwind-letter/src/particles projects/10-starwind-letter/src/scene/Scene.tsx
+git add projects/11-starwind-letter/src/particles projects/11-starwind-letter/src/scene/Scene.tsx
 git commit -m "feat(starwind-letter): send layered stars through the window"
 ```
 
@@ -711,13 +711,13 @@ git commit -m "feat(starwind-letter): send layered stars through the window"
 ### Task 8: Complete Audio, Focus Safety, Reduced Motion, Result, and Replay
 
 **Files:**
-- Create: `projects/10-starwind-letter/src/audio/controller.ts`
-- Test: `projects/10-starwind-letter/src/audio/controller.test.ts`
-- Create: `projects/10-starwind-letter/src/ui/SoundToggle.tsx`
-- Create: `projects/10-starwind-letter/src/ui/ReplayControl.tsx`
-- Modify: `projects/10-starwind-letter/src/App.tsx`
-- Modify: `projects/10-starwind-letter/src/App.css`
-- Modify: `projects/10-starwind-letter/src/experience/timeline.test.ts`
+- Create: `projects/11-starwind-letter/src/audio/controller.ts`
+- Test: `projects/11-starwind-letter/src/audio/controller.test.ts`
+- Create: `projects/11-starwind-letter/src/ui/SoundToggle.tsx`
+- Create: `projects/11-starwind-letter/src/ui/ReplayControl.tsx`
+- Modify: `projects/11-starwind-letter/src/App.tsx`
+- Modify: `projects/11-starwind-letter/src/App.css`
+- Modify: `projects/11-starwind-letter/src/experience/timeline.test.ts`
 
 **Interfaces:**
 - Consumes: experience transitions, timeline stage changes, and browser visibility events.
@@ -785,7 +785,7 @@ In the browser, replay ten consecutive runs. Confirm each run owns one clock and
 - [ ] **Step 7: Commit the resilient complete experience**
 
 ```bash
-git add projects/10-starwind-letter/src/audio projects/10-starwind-letter/src/ui/SoundToggle.tsx projects/10-starwind-letter/src/ui/ReplayControl.tsx projects/10-starwind-letter/src/App.tsx projects/10-starwind-letter/src/App.css projects/10-starwind-letter/src/experience
+git add projects/11-starwind-letter/src/audio projects/11-starwind-letter/src/ui/SoundToggle.tsx projects/11-starwind-letter/src/ui/ReplayControl.tsx projects/11-starwind-letter/src/App.tsx projects/11-starwind-letter/src/App.css projects/11-starwind-letter/src/experience
 git commit -m "feat(starwind-letter): complete resilient starwind experience"
 ```
 
@@ -794,11 +794,11 @@ git commit -m "feat(starwind-letter): complete resilient starwind experience"
 ### Task 9: Perform Mobile Visual QA, Tune Without Scope Expansion, and Verify Release
 
 **Files:**
-- Modify: `projects/10-starwind-letter/src/App.css`
-- Modify only if evidence requires: `projects/10-starwind-letter/src/scene/geometry.ts`
-- Modify only if evidence requires: `projects/10-starwind-letter/src/scene/curtain.ts`
-- Modify only if evidence requires: `projects/10-starwind-letter/src/particles/system.ts`
-- Create: `projects/10-starwind-letter/VISUAL_QA.md`
+- Modify: `projects/11-starwind-letter/src/App.css`
+- Modify only if evidence requires: `projects/11-starwind-letter/src/scene/geometry.ts`
+- Modify only if evidence requires: `projects/11-starwind-letter/src/scene/curtain.ts`
+- Modify only if evidence requires: `projects/11-starwind-letter/src/particles/system.ts`
+- Create: `projects/11-starwind-letter/VISUAL_QA.md`
 
 **Interfaces:**
 - Consumes: the complete app and the three reference images.
@@ -836,13 +836,13 @@ Run: `pnpm lint && pnpm test && pnpm build`
 
 Expected: all three commands exit 0. Read the full output and report exact test counts and build result.
 
-Run: `git diff --check -- projects/10-starwind-letter`
+Run: `git diff --check -- projects/11-starwind-letter`
 
 Expected: no whitespace errors.
 
 - [ ] **Step 6: Commit QA evidence and final tuning**
 
 ```bash
-git add projects/10-starwind-letter/src projects/10-starwind-letter/VISUAL_QA.md
+git add projects/11-starwind-letter/src projects/11-starwind-letter/VISUAL_QA.md
 git commit -m "test(starwind-letter): verify mobile visual experience"
 ```

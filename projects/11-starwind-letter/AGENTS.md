@@ -1,6 +1,6 @@
 # 星风来信开发约束
 
-本 Agent 只允许修改 `projects/10-starwind-letter`。根工作区、其他 `projects/*`、根 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml`、`docs/` 与 `prep/` 均为只读。不得新增依赖；如确需依赖，先报告理由，等待总控统一处理。
+本 Agent 只允许修改 `projects/11-starwind-letter`。根工作区、其他 `projects/*`、根 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml`、`docs/` 与 `prep/` 均为只读。不得新增依赖；如确需依赖，先报告理由，等待总控统一处理。
 
 项目必须是纯前端静态构建：无后端、无运行时 CDN、无必需外部 API。业务内容只允许放在 `src/content/content.json`。可使用 `localStorage` 保存音效开关、是否看过引导等结构化偏好；禁止保存用户图片、Base64、音视频或 Blob。不依赖 Service Worker、Node API 或未经确认的设备 API（包括麦克风、陀螺仪、摄像头和振动）。
 

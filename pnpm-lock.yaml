@@ -280,7 +280,7 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@24.13.3)(vite@8.2.2(@types/node@24.13.3))
 
-  projects/09-fish-among-lotus:
+  projects/10-fish-among-lotus:
     dependencies:
       react:
         specifier: ^19.2.8
@@ -348,7 +348,7 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@24.13.3)(vite@8.2.2(@types/node@24.13.3))
 
-  projects/10-starwind-letter:
+  projects/11-starwind-letter:
     dependencies:
       react:
         specifier: ^19.2.8
@@ -382,7 +382,7 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@24.13.3)(vite@8.2.2(@types/node@24.13.3))
 
-  projects/11-tomato-garden: {}
+  projects/12-tomato-garden: {}
 
 packages:
 

@@ -8,11 +8,11 @@
 
 **Tech Stack:** React 19, TypeScript 6, Vite 8, SVG, Canvas 2D, Vitest, Playwright CLI; no new dependencies.
 
-**Spec:** `projects/10-starwind-letter/STARWIND_REDESIGN.md`
+**Spec:** `projects/11-starwind-letter/STARWIND_REDESIGN.md`
 
 ## Global Constraints
 
-- Modify only `projects/10-starwind-letter`; do not edit the root package files, lockfile, `docs/`, `prep/`, or another project.
+- Modify only `projects/11-starwind-letter`; do not edit the root package files, lockfile, `docs/`, `prep/`, or another project.
 - Pure static frontend: no backend, runtime CDN, required external API, Service Worker, Node runtime API, or unconfirmed device API.
 - Business copy remains in `src/content/content.json`; do not persist user images, Base64, audio/video, or Blob data.
 - Do not add dependencies.
@@ -193,7 +193,7 @@ Expected: both files PASS.
 - [ ] **Step 8: Commit Task 1**
 
 ```bash
-git add projects/10-starwind-letter/src/experience
+git add projects/11-starwind-letter/src/experience
 git commit -m "refactor(starwind-letter): simplify wind narrative states"
 ```
 
@@ -311,7 +311,7 @@ Expected: both files PASS.
 - [ ] **Step 8: Commit Task 2**
 
 ```bash
-git add projects/10-starwind-letter/src/scene/geometry.ts projects/10-starwind-letter/src/scene/geometry.test.ts projects/10-starwind-letter/src/scene/WindowLayer.tsx projects/10-starwind-letter/src/scene/WindowLayer.test.tsx
+git add projects/11-starwind-letter/src/scene/geometry.ts projects/11-starwind-letter/src/scene/geometry.test.ts projects/11-starwind-letter/src/scene/WindowLayer.tsx projects/11-starwind-letter/src/scene/WindowLayer.test.tsx
 git commit -m "feat(starwind-letter): reveal a fixed moonlit opening"
 ```
 
@@ -421,7 +421,7 @@ Expected: both files PASS.
 - [ ] **Step 8: Commit Task 3**
 
 ```bash
-git add projects/10-starwind-letter/src/scene/curtain.ts projects/10-starwind-letter/src/scene/curtain.test.ts projects/10-starwind-letter/src/scene/CurtainLayer.tsx projects/10-starwind-letter/src/scene/CurtainLayer.test.tsx
+git add projects/11-starwind-letter/src/scene/curtain.ts projects/11-starwind-letter/src/scene/curtain.test.ts projects/11-starwind-letter/src/scene/CurtainLayer.tsx projects/11-starwind-letter/src/scene/CurtainLayer.test.tsx
 git commit -m "feat(starwind-letter): propagate endless wind through curtain"
 ```
 
@@ -574,7 +574,7 @@ Expected: all spatial, reduced-motion, landing, reset and continuous-emission te
 - [ ] **Step 8: Commit Task 4**
 
 ```bash
-git add projects/10-starwind-letter/src/particles
+git add projects/11-starwind-letter/src/particles
 git commit -m "feat(starwind-letter): stream bounded stars after result"
 ```
 
@@ -757,7 +757,7 @@ Expected: all UI tests PASS and no test references `PhraseCarousel`.
 - [ ] **Step 9: Commit Task 5**
 
 ```bash
-git add projects/10-starwind-letter/src/ui projects/10-starwind-letter/src/App.css
+git add projects/11-starwind-letter/src/ui projects/11-starwind-letter/src/App.css
 git commit -m "feat(starwind-letter): carry the phrase in on starlight"
 ```
 
@@ -896,7 +896,7 @@ Expected: exit 0 and Vite emits `dist/index.html` plus hashed CSS/JS assets.
 - [ ] **Step 9: Commit Task 6**
 
 ```bash
-git add projects/10-starwind-letter/src
+git add projects/11-starwind-letter/src
 git commit -m "feat(starwind-letter): orchestrate the endless starwind scene"
 ```
 
@@ -1015,7 +1015,7 @@ Expected: no output.
 
 Run from the worktree root: `git status --short`
 
-Expected: only intended `projects/10-starwind-letter` documentation and release assets are modified.
+Expected: only intended `projects/11-starwind-letter` documentation and release assets are modified.
 
 - [ ] **Step 8: Request independent code review and fix all Critical/Important findings**
 
@@ -1024,7 +1024,7 @@ Provide the reviewer the approved spec, this plan, base SHA and current HEAD. Re
 - [ ] **Step 9: Commit Task 7**
 
 ```bash
-git add projects/10-starwind-letter
+git add projects/11-starwind-letter
 git commit -m "docs(starwind-letter): verify the star-borne letter scene"
 ```
 
@@ -1032,4 +1032,4 @@ git commit -m "docs(starwind-letter): verify the star-borne letter scene"
 
 ## Completion Gate
 
-The implementation is complete only when all seven task commits exist, the full lint/test/build commands pass on the final tree, independent review has no unresolved Critical or Important finding, the 60-second browser result still emits new stars under the configured cap, and all changed paths remain under `projects/10-starwind-letter`.
+The implementation is complete only when all seven task commits exist, the full lint/test/build commands pass on the final tree, independent review has no unresolved Critical or Important finding, the 60-second browser result still emits new stars under the configured cap, and all changed paths remain under `projects/11-starwind-letter`.

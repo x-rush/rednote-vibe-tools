@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- Modify only `projects/09-fish-among-lotus`.
+- Modify only `projects/10-fish-among-lotus`.
 - Add no dependencies and do not modify the workspace lockfile.
 - Keep all business copy in `src/content/content.json`.
 - Use no backend, runtime CDN, required external API, image persistence, Base64, audio, video, Blob, Service Worker, Node runtime API, or unconfirmed device API.

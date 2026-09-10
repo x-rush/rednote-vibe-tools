@@ -22,7 +22,7 @@
 
 ## 技术边界
 
-只修改 projects/13-tongfu-rhythm。无新增依赖、根锁文件变更、外部运行时 API。业务内容统一 content.json。仅保存结构化设置及成绩，禁止音视频持久化。Web Audio 由用户点击启动，Pointer Events 实现多指输入。375/390/430 CSS px 与模拟非零顶部安全区验收。
+只修改 projects/14-tongfu-rhythm。无新增依赖、根锁文件变更、外部运行时 API。业务内容统一 content.json。仅保存结构化设置及成绩，禁止音视频持久化。Web Audio 由用户点击启动，Pointer Events 实现多指输入。375/390/430 CSS px 与模拟非零顶部安全区验收。
 
 ## 首版音乐编排
 

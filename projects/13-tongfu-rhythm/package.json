@@ -1,1 +1,0 @@
-{"name":"13-tongfu-rhythm","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"node scripts/serve.mjs","preview":"node scripts/serve.mjs dist","lint":"node scripts/lint.mjs","test":"node --test tests/*.test.mjs","build":"node scripts/build.mjs"}}

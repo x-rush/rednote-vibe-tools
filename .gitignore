@@ -22,5 +22,5 @@ projects/*/research/alternatives/
 playwright
 
 # Local-only Xiaohongshu note and cover
-/XIAOHONGSHU-NOTE.md
+/XIAOHONGSHU-NOTE.*
 /XIAOHONGSHU-COVER*.png

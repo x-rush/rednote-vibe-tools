@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {trackballPoint,pinchZoom,boundedOrbit} from '../src/orbit.js';
+import * as THREE from '../vendor/package/build/three.module.js';
+test('orbit stays above the plate, keeps full horizontal rotation and reverses immediately at the limit',()=>{let a=boundedOrbit(0,.45,0,-10000);assert.equal(a.elevation,.12);assert.ok(boundedOrbit(a.yaw,a.elevation,0,1).elevation>a.elevation);a=boundedOrbit(0,.45,0,10000);assert.equal(a.elevation,Math.PI/2-.04);assert.ok(boundedOrbit(a.yaw,a.elevation,0,-1).elevation<a.elevation);assert.ok(Math.abs(boundedOrbit(0,.45,2000,0).yaw)>Math.PI*2);for(const dy of [-1e5,0,1e5]){const v=boundedOrbit(0,.45,0,dy),q=new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.atan2(3.3,6.6)-v.elevation,v.yaw,0,'YXZ'));assert.ok(new THREE.Vector3(0,3.3,6.6).applyQuaternion(q).y>0);}});
+test('trackball and pinch stay finite at edges, and zoom is bounded',()=>{for(const [x,y] of [[0,0],[200,244],[400,844],[-100,-100]]){const point=trackballPoint(x,y,{width:390,height:240,left:0,top:44});assert.ok(point.every(Number.isFinite));assert.ok(Math.abs(Math.hypot(...point)-1)<1e-9);}assert.equal(pinchZoom(1,100,200),.5);assert.equal(pinchZoom(1,100,1000),.45);assert.equal(pinchZoom(1,100,10),1.8);assert.equal(pinchZoom(1,0,0),1);});

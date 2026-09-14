@@ -1,23 +1,9 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import {createSound} from '../src/sound.js';
-
-test('audio starts on interaction, has soft envelopes, and cancels pouring on mute or suspension',t=>{
-  t.mock.timers.enable({apis:['setInterval','setTimeout']});
-  const nodes=[];let contexts=0;
-  const param=()=>({value:0,events:[],setValueAtTime(v,time){this.events.push(['set',v,time])},linearRampToValueAtTime(v,time){this.events.push(['linear',v,time])},exponentialRampToValueAtTime(v,time){this.events.push(['exp',v,time])},cancelScheduledValues(){},setTargetAtTime(v,time){this.events.push(['target',v,time])}});
-  function node(type){const n={type,gain:param(),frequency:param(),Q:param(),threshold:param(),knee:param(),ratio:param(),attack:param(),release:param(),connect(){},disconnect(){},start(){},stop(){this.stopped=true}};nodes.push(n);return n}
-  t.mock.method(globalThis,'setInterval',globalThis.setInterval);
-  const previous=globalThis.AudioContext;
-  globalThis.AudioContext=class{constructor(){contexts++;this.currentTime=1;this.sampleRate=8000;this.state='running';this.destination={}}createDynamicsCompressor(){return node('compressor')}createOscillator(){return node('osc')}createGain(){return node('gain')}createBuffer(){return {getChannelData:()=>new Float32Array(16000)}}createBufferSource(){return node('source')}createBiquadFilter(){return node('filter')}suspend(){this.state='suspended';return Promise.resolve()}resume(){this.state='running';return Promise.resolve()}};
-  t.after(()=>{if(previous)globalThis.AudioContext=previous;else delete globalThis.AudioContext});
-  const sound=createSound({volume:.3,pourVolume:.25,maxVoices:5});
-  sound.setEnabled(true);assert.equal(contexts,0);
-  sound.impact();assert.equal(contexts,1);
-  const envelope=nodes.find(n=>n.type==='gain');assert.deepEqual(envelope.gain.events[0],['set',0,1]);assert.ok(envelope.gain.events[1][2]>=1.04);
-  sound.startPour();sound.startPour();assert.equal(nodes.filter(n=>n.type==='source').length,1);
-  t.mock.timers.tick(400);assert.ok(nodes.filter(n=>n.frequency.events.length).length>=4);
-  sound.setEnabled(false);const count=nodes.length;t.mock.timers.tick(1000);assert.equal(nodes.length,count);assert.ok(nodes.find(n=>n.type==='source').stopped);
-  sound.impact();assert.equal(nodes.length,count);
-  sound.setEnabled(true);sound.startPour();sound.suspend();const suspendedCount=nodes.length;t.mock.timers.tick(1000);assert.equal(nodes.length,suspendedCount);
+import test from 'node:test';import assert from 'node:assert/strict';import {createSound} from '../src/sound.js';import {jellyImpact,liquidStream} from '../src/sound-texture.js';
+test('audio initializes on interaction, reuses the pour buffer, and stops all sources on mute and suspension',t=>{
+ let contexts=0,buffers=0;const nodes=[];const param=()=>({value:0,setValueAtTime(){},linearRampToValueAtTime(){},cancelScheduledValues(){},setTargetAtTime(){}});
+ function node(){const n={threshold:param(),knee:param(),ratio:param(),attack:param(),release:param(),gain:param(),connect(){},disconnect(){},start(){},stop(time){assert.ok(Number.isFinite(time));this.stopped=true}};nodes.push(n);return n;}
+ const old=globalThis.AudioContext;globalThis.AudioContext=class{constructor(){contexts++;this.currentTime=1;this.sampleRate=8000;this.state='running';this.destination={}}createDynamicsCompressor(){return node()}createGain(){return node()}createBufferSource(){const n=node();n.source=true;return n}createBuffer(ch,length,rate){buffers++;const data=new Float32Array(length);return {duration:length/rate,getChannelData:()=>data}}suspend(){this.state='suspended';return Promise.resolve()}resume(){return Promise.resolve()}};t.after(()=>{if(old)globalThis.AudioContext=old;else delete globalThis.AudioContext});
+ const sound=createSound({volume:.3,pourVolume:.25,maxVoices:2});sound.setEnabled(true);assert.equal(contexts,0);sound.impact();assert.equal(contexts,1);sound.startPour();sound.startPour();assert.equal(nodes.filter(n=>n.source).length,2);const count=buffers;sound.stopPour();sound.startPour();assert.equal(buffers,count);sound.setEnabled(false);assert.ok(nodes.filter(n=>n.source).every(n=>n.stopped));const before=nodes.length;sound.impact();sound.startPour();assert.equal(nodes.length,before);sound.setEnabled(true);sound.startPour();sound.suspend();assert.ok(nodes.filter(n=>n.source).every(n=>n.stopped));
 });
+test('generated liquid and jelly sounds are deterministic, finite, click-free at endpoints and below clipping',()=>{for(const make of [jellyImpact,liquidStream]){const a=make(8000),b=make(8000);assert.deepEqual(a,b);let peak=0,power=0;for(const x of a){assert.ok(Number.isFinite(x));peak=Math.max(peak,Math.abs(x));power+=x*x;}assert.ok(peak<1&&peak>.02);assert.ok(power>0);assert.equal(Math.abs(a[0]),0);assert.ok(Math.abs(a.at(-1))<.001);}});
+test('duang rings out after the initial press and fades rather than ending with a hard transient',()=>{const a=jellyImpact(8000);const rms=(start,end)=>Math.sqrt(a.slice(start,end).reduce((v,x)=>v+x*x,0)/(end-start));assert.ok(rms(1600,2400)>.01);assert.ok(rms(5000,5800)<rms(1600,2400));});

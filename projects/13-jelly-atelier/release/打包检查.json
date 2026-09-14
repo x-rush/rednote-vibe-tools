@@ -1,17 +1,19 @@
 {
-  "lint": true,
   "responsiveWidths": [
     375,
     390,
     430
   ],
+  "bytes": 1806596,
   "nativeContainerTested": false,
   "offlineCapabilityScan": true,
+  "artifactAudit": true,
+  "tests": 48,
+  "lint": true,
+  "sha256": "0ac91d3f7bdab813d4b07f376598b9bdfd5233da3df20647a3312f97250c7680",
+  "package": "guodong-manman-2.0.48.zip",
+  "build": true,
+  "chrome61Tested": false,
   "safeAreaTop": 44,
-  "bytes": 667698,
-  "sha256": "d25133c04b44a36e8c5c4d4fce7b5ddaf27c8ddf8d1a43b1bf58c8f1f4b27a9f",
-  "package": "guodong-manman-1.5.2.zip",
-  "version": "1.5.2",
-  "tests": 33,
-  "build": true
+  "version": "2.0.48"
 }

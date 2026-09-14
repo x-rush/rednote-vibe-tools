@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {saveCardToAlbum} from '../src/album.js';
+const data='data:image/png;base64,aGVsbG8=';
+test('album uses full data URI and the native temporary file path',async()=>{const calls=[];await saveCardToAlbum({async writeTempFile(p){calls.push(p);return {filePath:'/tmp/card.png'}},async saveImageToPhotosAlbum(p){calls.push(p);return {errMsg:'saveImageToPhotosAlbum:ok'}}},data);assert.deepEqual(calls,[{data},{filePath:'/tmp/card.png'}]);});
+test('album supports documented data URI fallback without temporary-file API',async()=>{let got;await saveCardToAlbum({async saveImageToPhotosAlbum(p){got=p}},data);assert.deepEqual(got,{filePath:data});});
+test('album never reports successful save after preparation failure or native denial',async()=>{let saved=false;await assert.rejects(saveCardToAlbum({async writeTempFile(){return {}},async saveImageToPhotosAlbum(){saved=true}},data));assert.equal(saved,false);await assert.rejects(saveCardToAlbum({async saveImageToPhotosAlbum(){return {errMsg:'saveImageToPhotosAlbum:fail denied'}}},data));await assert.rejects(saveCardToAlbum(null,data));});

@@ -1,0 +1,1 @@
+export function pickSticker(stickers,p){for(const back of [false,true])for(let i=stickers.length-1;i>=0;i--){const t=stickers[i];if(Boolean(t.back)!==back)continue;const dx=p.x-t.x,dy=p.y-t.y,x=dx*Math.cos(t.rotation)+dy*Math.sin(t.rotation),y=-dx*Math.sin(t.rotation)+dy*Math.cos(t.rotation);if(Math.abs(x)<95*t.scale&&Math.abs(y)<85*t.scale)return i;}return -1;}

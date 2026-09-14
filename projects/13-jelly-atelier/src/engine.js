@@ -1,3 +1,4 @@
+import {cleanDecoration} from './decorations.js';
 import {validSavedOutline,toppingFits} from './contour.js';
 export const clamp = (x, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, x));
 export const smooth = x => { x = clamp(x); return x * x * (3 - 2 * x); };
@@ -43,7 +44,7 @@ export function cleanRecipe(raw, content) {
   const toppings = Array.isArray(raw.toppings) ? raw.toppings.filter(t => t &&
     content.toppings.some(kind => kind.id === t.kind) && Number.isFinite(t.x) && Number.isFinite(t.z) &&
     toppingFits({...raw,outline},t,content)).slice(0, content.craft.maxToppings)
-    .map(({kind,x,z}) => ({kind,x,z})) : [];
+    .map(t => cleanDecoration(t,content)) : [];
   let layers;
   if(raw.layers!==undefined){if(!Array.isArray(raw.layers)||raw.layers.length<1||raw.layers.length>content.craft.maxLayers||raw.layers.some(l=>!l||!content.flavors.some(f=>f.id===l.flavor)||!Number.isFinite(l.end)||l.end<=0||l.end>1)||raw.layers.some((l,i)=>i&&l.end<=raw.layers[i-1].end)||Math.abs(raw.layers.at(-1).end-1)>1e-6)return null;layers=raw.layers.map(({flavor,end})=>({flavor,end}));}
   return {mold:raw.mold,first:raw.first,second:raw.second,split:raw.split,toppings,...(outline?{outline}: {}),...(layers?{layers}:{})};
@@ -67,6 +68,9 @@ export function moldPoint(angle, radius, mold) {
     x: snap(radius * Math.sin(angle) ** 3),
     z: snap(-radius * (13*Math.cos(angle)-5*Math.cos(2*angle)-2*Math.cos(3*angle)-Math.cos(4*angle))/17)
   };
+  if(mold==='round')return {x:snap(Math.cos(angle)*radius),z:snap(Math.sin(angle)*radius)};
+  if(mold==='square'){const r=.9/Math.pow(Math.pow(Math.abs(Math.cos(angle)),4)+Math.pow(Math.abs(Math.sin(angle)),4),.25);return {x:snap(Math.cos(angle)*radius*r),z:snap(Math.sin(angle)*radius*r)};}
+  if(['clover','blossom','cloud','bear'].includes(mold)){let r=1;if(mold==='clover')r=.94+.17*Math.cos(4*angle);if(mold==='blossom')r=.94+.12*Math.sin(6*angle);if(mold==='cloud')r=.99+.035*Math.cos(3*angle)+.12*Math.cos(5*angle);if(mold==='bear'){const bump=a=>Math.exp(-Math.pow(Math.atan2(Math.sin(angle-a),Math.cos(angle-a))/.30,2));r=.88+.38*(bump(-2.30)+bump(-.84));}return {x:snap(Math.cos(angle)*radius*r*(mold==='cloud'?1.1:1)),z:snap(Math.sin(angle)*radius*r*(mold==='cloud'?.92:1))};}
   const ribs = mold === 'star' ? .84 + .16*Math.cos(angle*5) : 1 + .065*Math.cos(angle*12);
   return {x:snap(Math.cos(angle)*radius*ribs),z:snap(Math.sin(angle)*radius*ribs)};
 }

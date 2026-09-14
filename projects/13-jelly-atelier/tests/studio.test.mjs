@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {cleanRecipeCollection} from '../src/engine.js';
+import {cleanDecoration,decorationFits,nextPhrase,findDecorationSpot} from '../src/decorations.js';
+const content=JSON.parse(readFileSync(new URL('../src/content/content.json',import.meta.url)));
+const recipe={mold:'flower',first:'peach',second:'grape',split:.5,toppings:[{kind:'number',x:.1,z:-.1,rotation:1,scale:1.2,color:content.studio.colors[0],digits:'018',lit:false,seed:123}],layers:[{flavor:'peach',end:1}]};
+test('candle transforms, grouped digits and flame state survive repeated shelf saves',()=>{const item={id:'candle',flavor:'peach',createdAt:1,name:'生日快乐',recipe};assert.deepEqual(cleanRecipeCollection([item],content),[item]);assert.deepEqual(cleanRecipeCollection(JSON.parse(JSON.stringify([item])),content),[item]);});
+test('decoration metadata excludes media and invalid numeric or colour payloads',()=>{assert.deepEqual(cleanDecoration({kind:'number',x:0,z:0,scale:Infinity,rotation:NaN,color:'url(secret)',digits:'<b>',seed:-1,lit:'true',blob:'data:image'},content),{kind:'number',x:0,z:0});const clean=cleanDecoration({kind:'number',x:0,z:0,scale:9,rotation:-1,digits:'000'},content);assert.equal(clean.scale,1.5);assert.ok(clean.rotation>0&&clean.rotation<Math.PI*2);assert.equal(clean.digits,'000');});
+test('sized decorations do not cross the placement boundary',()=>{assert.equal(decorationFits(recipe,{kind:'number',digits:'100',x:0,z:0,scale:1},content),true);assert.equal(decorationFits(recipe,{kind:'number',digits:'100',x:.5,z:0,scale:1.5},content),false);});
+test('warm phrases never immediately repeat and wrap across all choices',()=>{for(let i=0;i<content.share.phrases.length;i++){for(const value of [0,.2,.5,.999]){const next=nextPhrase(i,content.share.phrases.length,()=>value);assert.notEqual(next,i);assert.ok(next>=0&&next<content.share.phrases.length);}}assert.equal(nextPhrase(0,1),0);});
+
+test('automatic placement searches free supported space without modifying existing decorations',()=>{const r={...recipe,toppings:[]},draft={kind:'raspberry',scale:1};draft.kind=content.toppings.find(t=>t.category==='fruit').id;const first=findDecorationSpot(r,draft,content);assert.ok(first);assert.ok(decorationFits(r,{...draft,...first},content));r.toppings.push({...draft,...first});const before=JSON.stringify(r),second=findDecorationSpot(r,draft,content);assert.ok(second);assert.ok(Math.hypot(second.x-first.x,second.z-first.z)>.2);assert.equal(JSON.stringify(r),before);assert.ok(decorationFits(r,{...draft,...second},content));});

@@ -24,17 +24,19 @@ const bundle=await rolldown({input:resolve(project,'src/app.js'),plugins:[{
       return code.slice(0,start)+`class WebXRManager extends EventDispatcher {constructor(){super();this.enabled=false;this.isPresenting=false;}getEnvironmentBlendMode(){return 'opaque';}setAnimationLoop(){}dispose(){}}\n`+code.slice(end);
     }
   }
-}],treeshake:true});
+}],transform:{target:["es2017","chrome61"]},treeshake:true});
 const license=await readFile(resolve(project,'vendor/package/LICENSE'),'utf8');
 await bundle.write({file:resolve(dest,'assets/app.js'),format:'iife',minify:true,banner:`/*! Three.js 0.180.0 — MIT License\n${license}\nOffline build: XR subsystem replaced by an inactive adapter. */`,sourcemap:false});await bundle.close();
 let html=await readFile(resolve(project,'index.html'),'utf8');html=html.replace(/<script type="importmap">[\s\S]*?<\/script>/,'').replace('<script type="module" src="./src/app.js"></script>','<script src="./assets/app.js"></script>').replace('./src/style.css','./assets/style.css').replace('./src/polish.css','./assets/polish.css').replace('./src/assets/logo.png','./assets/logo.png');
 await writeFile(resolve(dest,'index.html'),html);
 const css=(await readFile(resolve(project,'src/style.css'),'utf8')).replace("@import url('./scene.css');",await readFile(resolve(project,'src/scene.css'),'utf8'));
 await writeFile(resolve(dest,'assets/style.css'),css);
-await copyFile(resolve(project,'src/polish.css'),resolve(dest,'assets/polish.css'));
+await writeFile(resolve(dest,'assets/polish.css'),(await readFile(resolve(project,'src/polish.css'),'utf8')).replaceAll('./assets/card-font.woff','./card-font.woff'));
+await copyFile(resolve(project,'src/assets/card-font.woff'),resolve(dest,'assets/card-font.woff'));
+await writeFile(resolve(dest,'assets/card-font-license.json'),JSON.stringify({name:'ZCOOL KuaiLe',license:await readFile(resolve(project,'src/assets/card-font-license.txt'),'utf8')}));
 await copyFile(resolve(project,'src/assets/logo.png'),resolve(dest,'assets/logo.png'));
 await copyFile(resolve(project,'src/assets/logo.png'),resolve(project,'release/果冻慢慢-logo.png'));
-await writeFile(resolve(project,'release/上架资料.json'),JSON.stringify({...content.listing,descriptionLength:14,logo:'果冻慢慢-logo.png',package:'guodong-manman-1.5.2.zip'},null,2));
+await writeFile(resolve(project,'release/上架资料.json'),JSON.stringify({...content.listing,descriptionLength:14,logo:'果冻慢慢-logo.png',package:'guodong-manman-2.0.48.zip'},null,2));
 await writeFile(resolve(dest,'assets/licenses.json'),JSON.stringify({three:{version:'0.180.0',license,modification:'Build removes unused WebXR subsystem; ordinary WebGL rendering retained.'}},null,2));
 // Validate the exact output, not just source files.
 const js=await readFile(resolve(dest,'assets/app.js'),'utf8');

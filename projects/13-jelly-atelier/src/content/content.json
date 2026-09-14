@@ -196,7 +196,7 @@
     "minFirst": 0.2,
     "maxFirst": 0.75,
     "pourRate": 0.22,
-    "maxToppings": 8,
+    "maxToppings": 18,
     "toppingRadius": 0.6,
     "keyboardDose": 0.1,
     "maxLayers": 32
@@ -219,23 +219,182 @@
       "name": "星星",
       "symbol": "☆",
       "note": "把星星摘下来，放进甜品盘。"
+    },
+    {
+      "id": "round",
+      "name": "圆圆布丁",
+      "symbol": "○",
+      "note": "圆滚滚的，怎么配色都可爱。"
+    },
+    {
+      "id": "square",
+      "name": "软软方糖",
+      "symbol": "▢",
+      "note": "把喜欢的颜色，叠成一块软方糖。"
+    },
+    {
+      "id": "clover",
+      "name": "幸运四叶",
+      "symbol": "♧",
+      "note": "做一份小小的幸运。"
+    },
+    {
+      "id": "blossom",
+      "name": "六瓣小花",
+      "symbol": "❀",
+      "note": "让甜品盘里开一朵花。"
+    },
+    {
+      "id": "cloud",
+      "name": "云朵枕头",
+      "symbol": "☁",
+      "note": "今天的云，是软乎乎的。"
+    },
+    {
+      "id": "bear",
+      "name": "小熊脑袋",
+      "symbol": "ʕ",
+      "note": "给小熊挑一件彩色外衣。"
     }
   ],
   "toppings": [
     {
       "id": "berry",
       "name": "树莓",
-      "symbol": "●"
+      "symbol": "●",
+      "category": "fruit"
     },
     {
       "id": "mint",
       "name": "薄荷",
-      "symbol": "❧"
+      "symbol": "❧",
+      "category": "flower"
     },
     {
       "id": "gold",
       "name": "金糖星",
-      "symbol": "✦"
+      "symbol": "✦",
+      "category": "sweet"
+    },
+    {
+      "id": "strawberry",
+      "name": "半颗草莓",
+      "symbol": "◒",
+      "category": "fruit"
+    },
+    {
+      "id": "blueberry",
+      "name": "蓝莓",
+      "symbol": "●",
+      "category": "fruit"
+    },
+    {
+      "id": "cherry",
+      "name": "樱桃",
+      "symbol": "♧",
+      "category": "fruit"
+    },
+    {
+      "id": "orange",
+      "name": "小橘瓣",
+      "symbol": "◔",
+      "category": "fruit"
+    },
+    {
+      "id": "cream",
+      "name": "奶油小花",
+      "symbol": "❦",
+      "category": "sweet"
+    },
+    {
+      "id": "sprinkles",
+      "name": "彩色糖针",
+      "symbol": "⁙",
+      "category": "sweet"
+    },
+    {
+      "id": "heartCandy",
+      "name": "爱心软糖",
+      "symbol": "♡",
+      "category": "sweet"
+    },
+    {
+      "id": "bear",
+      "name": "小熊饼干",
+      "symbol": "ʕ",
+      "category": "sweet"
+    },
+    {
+      "id": "daisy",
+      "name": "雏菊糖花",
+      "symbol": "✿",
+      "category": "flower"
+    },
+    {
+      "id": "candle",
+      "name": "细长蜡烛",
+      "symbol": "♨",
+      "category": "candle"
+    },
+    {
+      "id": "spiral",
+      "name": "螺旋蜡烛",
+      "symbol": "〰",
+      "category": "candle"
+    },
+    {
+      "id": "number",
+      "name": "数字蜡烛",
+      "symbol": "18",
+      "category": "candle"
+    },
+    {
+      "id": "heartCandle",
+      "name": "爱心蜡烛",
+      "symbol": "♥",
+      "category": "candle"
+    },
+    {
+      "id": "starCandle",
+      "name": "星星蜡烛",
+      "symbol": "★",
+      "category": "candle"
+    },
+    {
+      "id": "flowerCandle",
+      "name": "小花蜡烛",
+      "symbol": "❀",
+      "category": "candle"
+    },
+    {
+      "id": "bow",
+      "name": "奶油蝴蝶结",
+      "symbol": "୨୧",
+      "category": "sweet"
+    },
+    {
+      "id": "cloud",
+      "name": "云朵棉花糖",
+      "symbol": "☁",
+      "category": "sweet"
+    },
+    {
+      "id": "sakura",
+      "name": "樱花糖片",
+      "symbol": "❀",
+      "category": "flower"
+    },
+    {
+      "id": "peachSlice",
+      "name": "蜜桃小切片",
+      "symbol": "◡",
+      "category": "fruit"
+    },
+    {
+      "id": "moon",
+      "name": "月牙奶糖",
+      "symbol": "☾",
+      "category": "sweet"
     }
   ],
   "workshop": {
@@ -260,7 +419,7 @@
     "minimum": "先把这一层倒满，再换颜色。",
     "filled": "装满啦，来放点小装饰。",
     "decorateTitle": "最后，放一点小偏爱。",
-    "decorateHint": "选一种装饰，再点果冻顶面。可以不放，也可以放满。",
+    "decorateHint": "轻点放饰品，拖动饰品换位置；拖动其他位置转视角，双指缩放。",
     "center": "帮我放一颗",
     "undo": "撤回一颗",
     "toppingLimit": "已经放满 8 颗啦，可以撤回后再摆。",
@@ -289,7 +448,42 @@
     "layerTitle": "第 {n} 层，换一种心情。",
     "layerProgress": "当前第 {n} / {total} 层",
     "poured": "已经倒入",
-    "layerLimit": "颜色层数已满，可以继续倒入最后一种颜色。"
+    "layerLimit": "颜色层数已满，可以继续倒入最后一种颜色。",
+    "inspirationTitle": "配色没灵感？试试这些",
+    "inspirations": [
+      {
+        "name": "草莓奶冻",
+        "colors": [
+          "rose",
+          "milk",
+          "peach"
+        ]
+      },
+      {
+        "name": "海边的云",
+        "colors": [
+          "blue",
+          "milk",
+          "mint"
+        ]
+      },
+      {
+        "name": "春日花园",
+        "colors": [
+          "tea",
+          "milk",
+          "lemon"
+        ]
+      },
+      {
+        "name": "葡萄小夜曲",
+        "colors": [
+          "grape",
+          "milk",
+          "rose"
+        ]
+      }
+    ]
   },
   "listing": {
     "name": "果冻慢慢",
@@ -338,5 +532,335 @@
     "volume": 0.3,
     "pourVolume": 0.25,
     "maxVoices": 5
+  },
+  "studio": {
+    "categories": [
+      [
+        "fruit",
+        "水果"
+      ],
+      [
+        "sweet",
+        "奶油与糖果"
+      ],
+      [
+        "flower",
+        "花与叶"
+      ],
+      [
+        "candle",
+        "蜡烛"
+      ]
+    ],
+    "colors": [
+      "#ed789e",
+      "#efc451",
+      "#68bb94",
+      "#6dace4",
+      "#ad86d8"
+    ],
+    "colorNames": [
+      "蜜桃粉",
+      "奶油黄",
+      "薄荷绿",
+      "晴空蓝",
+      "葡萄紫"
+    ],
+    "edit": "摆装饰",
+    "inspect": "转着看",
+    "poke": "揉一揉",
+    "editAgain": "调整装饰",
+    "finish": "装饰好了",
+    "saveChanges": "保存修改",
+    "share": "做张小卡片",
+    "front": "正面",
+    "top": "俯视",
+    "side": "侧面",
+    "reset": "恢复视角",
+    "zoomIn": "放大",
+    "zoomOut": "缩小",
+    "rotate": "转向",
+    "size": "大小",
+    "copy": "复制",
+    "remove": "删除",
+    "light": "点亮",
+    "extinguish": "熄灭",
+    "lightAll": "点亮蜡烛",
+    "offAll": "熄灭蜡烛",
+    "digits": "自定义蜡烛数字",
+    "digitError": "写 1–3 位数字就好。",
+    "split": "拆开数字",
+    "add": "放一个",
+    "color": "蜡烛颜色",
+    "selected": "已选中",
+    "none": "轻点放置 · 拖饰品移动 · 拖其他位置转视角",
+    "placeHint": "点饰品选中，拖「挪一挪」手柄摆放；空白处转视角，双指缩放。",
+    "viewHint": "单指环绕与俯视，双指缩放与平移；视角保持在盘子上方。",
+    "invalid": "这里放不稳，已保留原来的位置。",
+    "copied": "已复制，可以拖到喜欢的位置。",
+    "saved": "作品修改已保存",
+    "discard": "取消修改",
+    "small": "小",
+    "medium": "中",
+    "large": "大",
+    "digitPlaceholder": "例如 6、18、520",
+    "digitHint": "输入 1–3 位数字后放置；选中已有数字蜡烛时，修改会直接生效。",
+    "digitUpdated": "已更新这支蜡烛的数字。",
+    "moldViewHint": "拖动模具换个角度看，双指缩放；选形状时也能自由环绕。",
+    "digitChoices": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "digitQuickTitle": "挑一个数字蜡烛",
+    "digitChoiceLabel": "{digit} 号数字蜡烛",
+    "digitChosen": "已选数字 {digit}，轻点果冻顶面放置，也可以点「帮我放一颗」。",
+    "placementSelected": "待放：{name}",
+    "placementAction": "帮我放一颗",
+    "numberPlacement": "「{digit}」数字蜡烛",
+    "raiseView": "视角抬高",
+    "lowerView": "视角降低",
+    "placingView": "摆放视角",
+    "placedList": "已放饰品 · {count} 件",
+    "overlapTitle": "这里叠着几件饰品，选一个来调整",
+    "moveHandle": "挪一挪",
+    "moveHandleLabel": "拖动手柄，移动当前选中的饰品",
+    "emptyPlaced": "还没有放上饰品",
+    "selectionHint": "拖动预览里的移动手柄，或用下方箭头微调。",
+    "autoPlaceLabel": "自动放置{name}",
+    "placementFull": "装饰放满啦",
+    "hideTools": "收起工具",
+    "showTools": "展开工具",
+    "modeLabel": "果冻操作模式",
+    "frameUp": "取景↑",
+    "frameDown": "取景↓",
+    "candleColorSelected": "给选中的蜡烛换颜色",
+    "candleColorNext": "下一支蜡烛的颜色",
+    "candleColorSelectedHint": "点色块，选中的蜡烛会立即换色。",
+    "candleColorNextHint": "选好颜色再放蜡烛，已放好的蜡烛不会变色。",
+    "unmoldAction": "脱模，看看成品",
+    "finishEditing": "完成装饰",
+    "deselect": "取消选中",
+    "roomLightsOn": "开灯",
+    "roomLightsOff": "关灯"
+  },
+  "share": {
+    "title": "把这只小快乐送出去",
+    "name": "果冻的名字",
+    "namePlaceholder": "给今天的小快乐起个名字",
+    "message": "想说的话",
+    "shuffle": "换一句",
+    "template": "卡片样式",
+    "templates": [
+      "贴在信笺上",
+      "寄一张明信片"
+    ],
+    "save": "保存到相册",
+    "close": "收起卡片",
+    "success": "小卡片已保存到相册",
+    "fallback": "这里可以预览卡片。在小红书小工具内打开后，可直接保存到相册；也可以截屏留念。",
+    "error": "暂时没能保存，请稍后再试。",
+    "renderError": "卡片暂时没生成出来，请关闭后重试。",
+    "working": "正在做好这张小卡片…",
+    "signature": "果冻慢慢 · 亲手做的一点小快乐",
+    "angle": "推荐角度",
+    "currentAngle": "当前角度",
+    "phrases": [
+      "给你留了一只，颜色是慢慢挑的。",
+      "不用急着回消息，先忙你的。",
+      "今天有没有吃到喜欢的东西？",
+      "没什么事，就是想给你看看这个。",
+      "如果刚好有空，就坐一会儿吧。",
+      "今天这只，想送给你。",
+      "不知道你喜欢什么颜色，就多放了几种。",
+      "看到一个小东西，觉得你会喜欢。",
+      "等你有空了，再跟我说说今天。",
+      "窗边的位置，给你留着。",
+      "路上慢一点，到了再说。",
+      "没有特别的理由，就是想起你了。",
+      "吃不到有点可惜，但确实是给你做的。",
+      "这只不用放冰箱，你留着就行。",
+      "挑了半天颜色，最后还是想给你看看。",
+      "给你放了一颗小星星。",
+      "水还温着，想喝的时候喝一点。",
+      "要是想聊两句，我在。",
+      "今天的晚饭，想吃点什么？",
+      "忙完这阵，一起出去走走。",
+      "这边有个空位，要不要坐？",
+      "看到好看的颜色，顺手给你留了一点。",
+      "今天风有点大，回去的时候慢点走。",
+      "没想好说什么，先把这个给你。",
+      "下次见面，给你带点好吃的。",
+      "今天也给自己留点喜欢的颜色吧。",
+      "刚刚看见一朵云，想给你看看。",
+      "回来的时候，给我讲讲路上的事。",
+      "你喜欢的那一份，我记着呢。",
+      "不着急，我们慢慢来。",
+      "想听你讲讲最近的小事。",
+      "今天这颗树莓，特意留给你。",
+      "如果路过花店，替我看看今天的花。",
+      "这个颜色，让我想起你。",
+      "没有大事，一点小东西送给你。",
+      "有空的时候，我们一起散个步。",
+      "你先坐，我去倒杯水。",
+      "等会儿见，路上不用赶。",
+      "今天有没有遇见什么有趣的事？",
+      "给你加了一片小叶子。",
+      "要不要一起吃个晚饭？",
+      "好久没见，想跟你坐着聊会儿。",
+      "你说的那件小事，我还记得。",
+      "不想说话也可以，一起待一会儿。",
+      "这只做得有点歪，希望你不介意。",
+      "顺手做了一个，想分给你。",
+      "今天的阳光不错，想起你喜欢晒太阳。",
+      "还没想好名字，等你来取。",
+      "留一点时间，吃点喜欢的。",
+      "这个小角落，给你留着。",
+      "给你挑了一颗最小的星星。",
+      "等天气合适，我们出去走走。",
+      "想吃什么，下次见面一起去。",
+      "你慢慢选，我等着。",
+      "这份小东西，希望你刚好喜欢。",
+      "坐累了的话，换个舒服的姿势吧。",
+      "今天没有什么新鲜事，还是想和你聊聊。",
+      "回到家了，就先歇一会儿。",
+      "蜡烛给你点好了。",
+      "这只的名字，想让你来取。"
+    ],
+    "art": {
+      "edition": "A LITTLE LETTER",
+      "postTitle": "寄一份小甜。",
+      "letterTitle": "今天的小小心意。",
+      "postSubtitle": "POSTCARD / MADE WITH A LITTLE JOY",
+      "letterSubtitle": "SOMETHING SOFT, JUST FOR YOU.",
+      "unnamed": "一只慢慢做好的果冻",
+      "footer": "JELLY ATELIER · LITTLE JOYS",
+      "signoff": "慢慢做，慢慢喜欢。",
+      "postMark": "TO YOU",
+      "quietFooter": "made slowly, with love.",
+      "recipient": "给你：",
+      "postLabel": "A POSTCARD FOR YOU",
+      "letterLabel": "A LITTLE LETTER",
+      "photoCaption": "a little sweetness, made by me."
+    }
+  },
+  "collage": {
+    "entry": "自由拼贴 · 照片与贴纸",
+    "title": "把小快乐贴进画面",
+    "tabs": [
+      "背景",
+      "贴纸",
+      "果冻"
+    ],
+    "upload": "选择背景图片",
+    "clear": "换回奶油背景",
+    "hint": [
+      "拖动画面调整背景，缩放调整裁切。",
+      "点选贴纸后拖动摆放，可调整大小、转向和前后层。",
+      "拖动画面移动果冻，滑动角度条转动欣赏。"
+    ],
+    "size": "大小",
+    "rotate": "转向",
+    "angle": "环绕角度",
+    "tilt": "俯视角度",
+    "front": "放在果冻前",
+    "back": "放在果冻后",
+    "remove": "移除贴纸",
+    "empty": "选一张贴纸，放在哪里都可以。",
+    "limit": "先整理一下，最多放 24 张贴纸。",
+    "error": "这张图片没有读成功，换一张 JPG 或 PNG 试试。",
+    "privacy": "背景图片仅用于本次编辑，关闭后不会保存在作品中。",
+    "preview": "查看成品",
+    "edit": "继续编辑",
+    "stickers": [
+      {
+        "id": "crown",
+        "name": "小王冠"
+      },
+      {
+        "id": "heart",
+        "name": "小心心"
+      },
+      {
+        "id": "smile",
+        "name": "笑眯眯"
+      },
+      {
+        "id": "shy",
+        "name": "有点害羞"
+      },
+      {
+        "id": "sleep",
+        "name": "困困了"
+      },
+      {
+        "id": "surprise",
+        "name": "小惊讶"
+      },
+      {
+        "id": "wink",
+        "name": "眨眨眼"
+      },
+      {
+        "id": "star",
+        "name": "小星星"
+      }
+    ]
+  },
+  "recipeDisplay": {
+    "stats": "{layers} 层配色 · {colors} 种颜色 · {toppings} 颗装饰",
+    "layers": "一层一层的小心思 · 从底到顶",
+    "layer": "第 {n} 层",
+    "toppings": "最后加上的小偏爱",
+    "expand": "看看分层配方与装饰"
+  },
+  "cardDecor": {
+    "add": "加点贴纸",
+    "background": "换照片背景",
+    "hint": "拖动贴纸移动，拖右下角缩放，拖上方圆柄旋转。点空白处收起边框。",
+    "backgroundHint": "只替换果冻照片内的背景，保留信纸与胶带。图片仅用于本次编辑。",
+    "size": "大小",
+    "rotate": "转向",
+    "remove": "删除贴纸",
+    "done": "摆好了",
+    "choose": "选择图片",
+    "reset": "恢复原背景",
+    "horizontal": "左右位置",
+    "vertical": "上下位置",
+    "error": "图片没有读成功，换一张试试。",
+    "stickers": [
+      {
+        "id": "sparkle",
+        "name": "Bling bling"
+      },
+      {
+        "id": "heart",
+        "name": "小心心"
+      },
+      {
+        "id": "crown",
+        "name": "小王冠"
+      },
+      {
+        "id": "sideGrin",
+        "name": "斜眼笑"
+      },
+      {
+        "id": "shy",
+        "name": "有点害羞"
+      },
+      {
+        "id": "squeeze",
+        "name": "挤挤眼"
+      }
+    ],
+    "opacity": "背景透明度"
   }
 }

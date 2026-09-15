@@ -1,0 +1,16 @@
+dist/
+qa/*.png
+qa/*.json
+
+# Generated releases, note materials and obsolete QA output
+release/
+qa/*.log
+qa/layout-compact/
+
+# Obsolete art and local full-resolution reference material
+assets/candidates/
+assets/references/
+assets/portraits-v2/*.png
+assets/logo/flower-wolf-original.png
+assets/logo/flower-wolf.svg
+assets/logo/README.md

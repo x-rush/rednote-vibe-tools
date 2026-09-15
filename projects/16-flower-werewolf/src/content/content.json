@@ -1,0 +1,1566 @@
+{
+  "schemaVersion": 1,
+  "status": "implemented-v1",
+  "product": {
+    "workingTitle": "花少有狼",
+    "season": "花儿与少年2026 / 第八季",
+    "asOf": "2026-09-15",
+    "mode": "solo-local-rule-agents",
+    "modeConfirmedByUser": true,
+    "notice": "非官方趣味创作。化名、插画与游戏人格为原创设定；图鉴原文摘录附来源，对局发言为规则模拟，不代表真人言行。"
+  },
+  "sources": [
+    {
+      "id": "lineup",
+      "publisher": "湖南卫视官方微博（新浪展示页）",
+      "publishedAt": "2026-09-02",
+      "url": "https://sina.cn/news/detail/5338663803424653.html",
+      "supports": [
+        "七人阵容",
+        "9月4日首映篇",
+        "9月11日起正片"
+      ]
+    },
+    {
+      "id": "launch",
+      "publisher": "津云新闻及嵌入的嘉宾公开博文",
+      "publishedAt": "2026-09-02",
+      "url": "https://www.sina.cn/news/detail/5338668086592704.html",
+      "supports": [
+        "丑话说在前预热主题",
+        "部分嘉宾公开自述"
+      ],
+      "excludes": [
+        "未观看视频的逐字内容",
+        "推荐流中的传闻"
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "id": "guest-1",
+      "alias": "铃姐",
+      "aliasCandidates": [
+        "铃姐"
+      ],
+      "aliasStatus": "nickname-or-screen-role",
+      "researchOnly": {
+        "referencePerson": "吴君如",
+        "sourceId": "lineup",
+        "portraitReferenceVerified": true,
+        "portraitReferenceUrl": "https://www.sina.cn/news/detail/5339399446595449.html",
+        "referenceScope": "Published photograph viewed; illustration interpretation, not likeness certification or endorsement."
+      },
+      "fictionalArchetype": "大姐",
+      "portrait": {
+        "status": "reference-based-editorial-illustration",
+        "path": "assets/portraits/guest-1.webp",
+        "description": "参考本人认证账号头像的短发与笑容；红色外套、记录本和背景为原创，并非本季造型复刻。",
+        "isVerifiedSeasonOutfit": false
+      },
+      "quotes": [
+        {
+          "id": "guest-1-opening-01",
+          "phase": "opening",
+          "text": "开场先集合，谁也别把逻辑落在酒店。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-1-suspect-01",
+          "phase": "suspect",
+          "text": "你这发言转了三次车，还没到重点。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": "matching-public-evidence"
+        },
+        {
+          "id": "guest-1-defend-01",
+          "phase": "defend",
+          "text": "我催的是进度，不是你们的投票。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-1-vote-01",
+          "phase": "vote",
+          "text": "先把理由说齐，再把手举齐。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-1-eliminated-01",
+          "phase": "eliminated",
+          "text": "人可以退场，账得给我说清楚。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-1-win-01",
+          "phase": "win",
+          "text": "这趟车坐对了，回程我来喊集合。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        }
+      ],
+      "profile": {
+        "order": "大姐",
+        "aliasOrigin": "代表角色梗：借用电影《妖铃铃》中的角色称呼，不是明星原名，也不是本季节目昵称。",
+        "clues": [
+          "利落短发",
+          "开怀笑容",
+          "旅行记录本"
+        ],
+        "referenceNote": "参考本人认证账号头像的短发与笑容；红色外套、记录本和背景为原创，并非本季造型复刻。"
+      }
+    },
+    {
+      "id": "guest-2",
+      "alias": "大美桃",
+      "aliasCandidates": [
+        "大美桃"
+      ],
+      "aliasStatus": "nickname-or-screen-role",
+      "researchOnly": {
+        "referencePerson": "殷桃",
+        "sourceId": "lineup",
+        "portraitReferenceVerified": true,
+        "portraitReferenceUrl": "https://www.sina.cn/news/detail/5338647466870362.html",
+        "referenceScope": "Published photograph viewed; illustration interpretation, not likeness certification or endorsement."
+      },
+      "fictionalArchetype": "二姐",
+      "portrait": {
+        "status": "reference-based-editorial-illustration",
+        "path": "assets/portraits/guest-2.webp",
+        "description": "参考本季本人官宣海报的双辫、流苏上衣和墨镜；保留造型线索，背景与插画比例为原创。",
+        "isVerifiedSeasonOutfit": false
+      },
+      "quotes": [
+        {
+          "id": "guest-2-opening-01",
+          "phase": "opening",
+          "text": "行李可以少一件，线索不能漏一条。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-2-suspect-01",
+          "phase": "suspect",
+          "text": "你这句话，和上一轮装的不是同一个包。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": "matching-public-evidence"
+        },
+        {
+          "id": "guest-2-defend-01",
+          "phase": "defend",
+          "text": "我忘的是东西，不是刚才谁投了谁。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-2-vote-01",
+          "phase": "vote",
+          "text": "别看包装，先看看里面有没有道理。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-2-eliminated-01",
+          "phase": "eliminated",
+          "text": "我的票留在这里，你们接着拆。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-2-win-01",
+          "phase": "win",
+          "text": "箱子合上了，这局也圆满了。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        }
+      ],
+      "profile": {
+        "order": "二姐",
+        "aliasOrigin": "已有昵称：使用公开资料中记录的“大美桃”，不是简单替换姓名中的字，也不标为本季节目独创称呼。",
+        "clues": [
+          "双辫",
+          "流苏上衣",
+          "手持墨镜"
+        ],
+        "referenceNote": "参考本季本人官宣海报的双辫、流苏上衣和墨镜；保留造型线索，背景与插画比例为原创。"
+      }
+    },
+    {
+      "id": "guest-3",
+      "alias": "湘琴同学",
+      "aliasCandidates": [
+        "湘琴同学"
+      ],
+      "aliasStatus": "nickname-or-screen-role",
+      "researchOnly": {
+        "referencePerson": "林依晨",
+        "sourceId": "lineup",
+        "portraitReferenceVerified": true,
+        "portraitReferenceUrl": "https://www.sina.cn/news/detail/5338647455074805.html",
+        "referenceScope": "Published photograph viewed; illustration interpretation, not likeness certification or endorsement."
+      },
+      "fictionalArchetype": "三姐",
+      "portrait": {
+        "status": "reference-based-editorial-illustration",
+        "path": "assets/portraits/guest-3.webp",
+        "description": "参考本季本人官宣海报的发型、黄色望远镜与耳饰；背景为原创，不代表实际到访地点。",
+        "isVerifiedSeasonOutfit": false
+      },
+      "quotes": [
+        {
+          "id": "guest-3-opening-01",
+          "phase": "opening",
+          "text": "先列重点，我们争取准时天亮。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-3-suspect-01",
+          "phase": "suspect",
+          "text": "你把时间线倒回去，这里接不上。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": "matching-public-evidence"
+        },
+        {
+          "id": "guest-3-defend-01",
+          "phase": "defend",
+          "text": "发言简短不等于信息缺席。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-3-vote-01",
+          "phase": "vote",
+          "text": "倒计时之前，把理由讲完。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-3-eliminated-01",
+          "phase": "eliminated",
+          "text": "我先下车，时间线你们继续核。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-3-win-01",
+          "phase": "win",
+          "text": "效率拉满，今天提前收工。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        }
+      ],
+      "profile": {
+        "order": "三姐",
+        "aliasOrigin": "代表角色衍生名：来自《恶作剧之吻》的湘琴角色记忆；“同学”是游戏化加工，不是本季节目昵称。",
+        "clues": [
+          "半扎长发",
+          "黄色望远镜",
+          "金色耳饰"
+        ],
+        "referenceNote": "参考本季本人官宣海报的发型、黄色望远镜与耳饰；背景为原创，不代表实际到访地点。"
+      }
+    },
+    {
+      "id": "guest-4",
+      "alias": "小黄鸭",
+      "aliasCandidates": [
+        "小黄鸭"
+      ],
+      "aliasStatus": "nickname-or-screen-role",
+      "researchOnly": {
+        "referencePerson": "周冬雨",
+        "sourceId": "lineup",
+        "portraitReferenceVerified": true,
+        "portraitReferenceUrl": "https://www.sina.cn/news/detail/5338648428153683.html",
+        "referenceScope": "Published photograph viewed; illustration interpretation, not likeness certification or endorsement."
+      },
+      "fictionalArchetype": "四姐",
+      "portrait": {
+        "status": "reference-based-editorial-illustration",
+        "path": "assets/portraits/guest-4.webp",
+        "description": "参考本季官宣海报上方短发肖像的发型与轮廓；记录本和背景为原创，未复刻下方羽饰造型。",
+        "isVerifiedSeasonOutfit": false
+      },
+      "quotes": [
+        {
+          "id": "guest-4-opening-01",
+          "phase": "opening",
+          "text": "天气先不管，今天谁的逻辑漏雨？",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-4-suspect-01",
+          "phase": "suspect",
+          "text": "你刚刚这句，伞都替你撑不住。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": "matching-public-evidence"
+        },
+        {
+          "id": "guest-4-defend-01",
+          "phase": "defend",
+          "text": "我只是话少，别自动给我配剧情。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-4-vote-01",
+          "phase": "vote",
+          "text": "这票我想明白了，不是随风飘的。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-4-eliminated-01",
+          "phase": "eliminated",
+          "text": "我收伞了，你们继续看天气。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-4-win-01",
+          "phase": "win",
+          "text": "雨停了，身份也终于晒出来了。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        }
+      ],
+      "profile": {
+        "order": "四姐",
+        "aliasOrigin": "已有昵称：用“小黄鸭”这一辨识线索认人；不把昵称含义延伸为真人性格或狼人身份。",
+        "clues": [
+          "短碎发",
+          "细长眉眼",
+          "赭色旅行衫"
+        ],
+        "referenceNote": "参考本季官宣海报上方短发肖像的发型与轮廓；记录本和背景为原创，未复刻下方羽饰造型。"
+      }
+    },
+    {
+      "id": "guest-5",
+      "alias": "可颂包",
+      "aliasCandidates": [
+        "可颂包"
+      ],
+      "aliasStatus": "original-game-alias",
+      "researchOnly": {
+        "referencePerson": "王可",
+        "sourceId": "lineup",
+        "portraitReferenceVerified": true,
+        "portraitReferenceUrl": "https://www.sina.cn/news/detail/5342279690619788.html",
+        "referenceScope": "Published photograph viewed; illustration interpretation, not likeness certification or endorsement."
+      },
+      "fictionalArchetype": "小妹",
+      "portrait": {
+        "status": "reference-based-editorial-illustration",
+        "path": "assets/portraits/guest-5.webp",
+        "description": "参考本人认证账号头像的中分束发、心形耳饰和浅蓝围巾；非本季服装考据，记录本为原创。",
+        "isVerifiedSeasonOutfit": false
+      },
+      "quotes": [
+        {
+          "id": "guest-5-opening-01",
+          "phase": "opening",
+          "text": "我把本子翻开了，谁先说？",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-5-suspect-01",
+          "phase": "suspect",
+          "text": "等一下，这里和我的记录对不上。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": "matching-public-evidence"
+        },
+        {
+          "id": "guest-5-defend-01",
+          "phase": "defend",
+          "text": "看起来好说话，不代表随便背锅。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-5-vote-01",
+          "phase": "vote",
+          "text": "我跟理由走，不跟音量走。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-5-eliminated-01",
+          "phase": "eliminated",
+          "text": "记录留给你们，别把重点翻过去。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-5-win-01",
+          "phase": "win",
+          "text": "今天这页，可以贴一颗胜利贴纸。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        }
+      ],
+      "profile": {
+        "order": "小妹",
+        "aliasOrigin": "游戏原创昵称：取名字中的“可”，衍生成旅行补给主题的“可颂包”。不是已核实的粉丝称呼、节目梗，也不代表本人爱吃可颂。",
+        "clues": [
+          "中分束发",
+          "心形耳饰",
+          "浅蓝围巾"
+        ],
+        "referenceNote": "参考本人认证账号头像的中分束发、心形耳饰和浅蓝围巾；非本季服装考据，记录本为原创。"
+      }
+    },
+    {
+      "id": "guest-6",
+      "alias": "为子",
+      "aliasCandidates": [
+        "为子"
+      ],
+      "aliasStatus": "nickname-or-screen-role",
+      "researchOnly": {
+        "referencePerson": "邓为",
+        "sourceId": "lineup",
+        "portraitReferenceVerified": true,
+        "portraitReferenceUrl": "https://www.sina.cn/news/detail/5339384586962751.html",
+        "referenceScope": "Published photograph viewed; illustration interpretation, not likeness certification or endorsement."
+      },
+      "fictionalArchetype": "大哥",
+      "portrait": {
+        "status": "reference-based-editorial-illustration",
+        "path": "assets/portraits/guest-6.webp",
+        "description": "参考本人首日录制自拍中的蓬松短发、浅色衬衫与收音麦；插画背景为原创。",
+        "isVerifiedSeasonOutfit": false
+      },
+      "quotes": [
+        {
+          "id": "guest-6-opening-01",
+          "phase": "opening",
+          "text": "等一下，我先把路线和线索分清。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-6-suspect-01",
+          "phase": "suspect",
+          "text": "这条路走不通，你的理由也是。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": "matching-public-evidence"
+        },
+        {
+          "id": "guest-6-defend-01",
+          "phase": "defend",
+          "text": "我还在组织语言，不是在组织狼队。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-6-vote-01",
+          "phase": "vote",
+          "text": "我想好了，这票有我自己的理由。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-6-eliminated-01",
+          "phase": "eliminated",
+          "text": "下一站你们走，别忘了回看这一轮。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-6-win-01",
+          "phase": "win",
+          "text": "路上绕了一点，终点没走错。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        }
+      ],
+      "profile": {
+        "order": "大哥",
+        "aliasOrigin": "亲昵称呼：本季相关公开讨论中出现了“为子”的叫法；尚未核对原片时间码，不作为节目逐字台词收录。",
+        "clues": [
+          "蓬松短发",
+          "浓眉轮廓",
+          "浅色衬衫"
+        ],
+        "referenceNote": "参考本人首日录制自拍中的蓬松短发、浅色衬衫与收音麦；插画背景为原创。"
+      }
+    },
+    {
+      "id": "guest-7",
+      "alias": "肃国公",
+      "aliasCandidates": [
+        "肃国公"
+      ],
+      "aliasStatus": "nickname-or-screen-role",
+      "researchOnly": {
+        "referencePerson": "王星越",
+        "sourceId": "lineup",
+        "portraitReferenceVerified": true,
+        "portraitReferenceUrl": "https://www.sina.cn/news/detail/5341588194069348.html",
+        "referenceScope": "Published photograph viewed; illustration interpretation, not likeness certification or endorsement."
+      },
+      "fictionalArchetype": "小弟",
+      "portrait": {
+        "status": "reference-based-editorial-illustration",
+        "path": "assets/portraits/guest-7.webp",
+        "description": "参考本人花船自拍前景人物的墨镜、黑白叠穿与花环；背景为插画重绘，非节目现场复刻。",
+        "isVerifiedSeasonOutfit": false
+      },
+      "quotes": [
+        {
+          "id": "guest-7-opening-01",
+          "phase": "opening",
+          "text": "先报站，今天的重点是哪一位？",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-7-suspect-01",
+          "phase": "suspect",
+          "text": "你这段起得很高，落点在哪里？",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": "matching-public-evidence"
+        },
+        {
+          "id": "guest-7-defend-01",
+          "phase": "defend",
+          "text": "我接话快，但没替别人写台词。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-7-vote-01",
+          "phase": "vote",
+          "text": "这次不看气氛，看证据。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-7-eliminated-01",
+          "phase": "eliminated",
+          "text": "我先到站，下一轮记得接上。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        },
+        {
+          "id": "guest-7-win-01",
+          "phase": "win",
+          "text": "星星归位，这局终于对上号。",
+          "provenance": "original-game-writing",
+          "publicSafe": true,
+          "requires": null
+        }
+      ],
+      "profile": {
+        "order": "小弟",
+        "aliasOrigin": "代表角色梗：借用《墨雨云间》中萧蘅的角色身份认人；不是明星原名，也不是本季节目中的真实职务。",
+        "clues": [
+          "黑色墨镜",
+          "黑白叠穿",
+          "花环手饰"
+        ],
+        "referenceNote": "参考本人花船自拍前景人物的墨镜、黑白叠穿与花环；背景为插画重绘，非节目现场复刻。"
+      }
+    }
+  ],
+  "rulesDraft": {
+    "status": "implemented-v1",
+    "seats": 7,
+    "assignment": "independent-shuffles-without-replacement",
+    "roles": [
+      "wolf",
+      "wolf",
+      "seer",
+      "witch",
+      "villager",
+      "villager",
+      "villager"
+    ],
+    "win": {
+      "good": "all-wolves-eliminated",
+      "wolves": "living-wolves-greater-than-or-equal-to-living-good",
+      "allDead": "draw"
+    },
+    "witch": {
+      "heal": 1,
+      "poison": 1,
+      "maxPotionsPerNight": 1,
+      "selfHeal": "first-night-only"
+    },
+    "vote": {
+      "selfVote": false,
+      "abstain": true,
+      "tie": "one-runoff-then-no-elimination"
+    },
+    "deathReveal": "game-end"
+  },
+  "quotePolicy": {
+    "verified": "verifiedQuotes 仅收录已核对本人认证账号的短篇原文摘录；不宣称是节目口播。",
+    "simulation": "quoteSets 为历史原创模拟文案，保留作开发资料，不再显示为嘉宾金句，也不在对局中追加。",
+    "restriction": "不把粉丝转述、营销号改写或生成内容作为嘉宾原话。"
+  },
+  "ui": {
+    "volume": "VOL. 08",
+    "stampEnglish": "LET THE GAME BEGIN",
+    "castEnglish": "THE TRAVEL CAST",
+    "castCount": "07 / 07",
+    "cardBackEnglish": "YOUR SECRET / YOUR JOURNEY",
+    "yourTurnEnglish": "YOUR TURN",
+    "voteEnglish": "ONE PERSON / ONE VOTE",
+    "diaryEnglish": "TRAVEL DIARY",
+    "nightEnglish": "GOOD NIGHT, TRAVELERS",
+    "brand": "花少有狼",
+    "eyebrow": "旅行搭子，今晚有点不对劲。",
+    "edition": "2026 · 新季旅行特别篇",
+    "home": "出发大厅",
+    "cast": "嘉宾图鉴",
+    "rules": "玩法说明",
+    "journal": "旅行手账",
+    "heroSmall": "一场旅行，七种演技。",
+    "heroTitle": "白天一起旅行，",
+    "heroAccent": "天黑各怀心事。",
+    "heroBody": "抽一张嘉宾卡，藏好你的身份。\n和六位旅行搭子过招，听发言、找破绽，把狼送下车。",
+    "start": "抽卡出发",
+    "resume": "继续上次旅程",
+    "heroNote": "1 人就能玩 · 7 位角色同桌 · 每局双重随机",
+    "stamp": "七人已就位",
+    "ticketTitle": "本次行程",
+    "ticketFrom": "白天的好朋友",
+    "ticketTo": "晚上的嫌疑人",
+    "ticketCode": "BOARDING PASS / NO. 016",
+    "feature1": "嘉宾随机",
+    "feature1Body": "这次抽到谁，就替谁开口。",
+    "feature2": "身份随机",
+    "feature2Body": "同一张脸，下一局可能就是狼。",
+    "feature3": "认真盘，放肆笑",
+    "feature3Body": "你的发言，会影响桌上的风向。",
+    "castTitle": "这趟旅行，谁和你同桌？",
+    "castBody": "七位旅行伙伴，每局身份独立随机。点击卡片查看化名来历与头像参考说明；昵称、造型与狼人身份无关。",
+    "castLabel": "本季嘉宾卡",
+    "moreQuote": "查看原文出处",
+    "close": "收起来",
+    "original": "公开博文摘录，不冒充节目口播；游戏发言另行模拟。",
+    "cardHint": "点击查看角色卡",
+    "rulesTitle": "三分钟，学会和搭子斗智斗勇。",
+    "rulesSub": "一个人开局，六位搭子自动回应。没有固定剧情，也没有固定坏人。",
+    "back": "返回大厅",
+    "newGame": "重新开局",
+    "newConfirm": "重新抽卡会结束当前旅程，确定重新出发吗？",
+    "cancel": "再想想",
+    "confirm": "确定",
+    "seat": "{n} 号",
+    "you": "你",
+    "alive": "在旅途中",
+    "dead": "已下车",
+    "hidden": "身份未公开",
+    "dayLabel": "第 {day} 天",
+    "nightLabel": "第 {day} 夜",
+    "roundLabel": "第 {day} 轮",
+    "living": "{n} 人在场",
+    "viewIdentity": "我的身份",
+    "hideIdentity": "收好身份",
+    "dealTitle": "你的旅行身份，已送达。",
+    "dealBody": "嘉宾和狼人杀身份分别随机分配。翻开看看，这一局你是谁？",
+    "reveal": "翻开我的角色卡",
+    "sealed": "仅你可见的登机牌",
+    "begin": "收好身份 · 天黑请闭眼",
+    "roleSide": "你的秘密身份",
+    "teamWolf": "狼人阵营",
+    "teamGood": "好人阵营",
+    "allies": "你的狼队友",
+    "privateNotes": "你的私密线索",
+    "noChecks": "还没有查验记录。",
+    "checkLine": "第 {day} 夜查验 {target}：{result}",
+    "checkGood": "非狼人",
+    "checkWolf": "狼人",
+    "nightTitle": "月亮上班了，搭子们闭眼。",
+    "nightBody": "白天的话先收好，今晚各自行动。",
+    "nightWolf": "你是狼人，选择今晚的目标。",
+    "nightSeer": "你是预言家，查验一位搭子。",
+    "nightWitch": "你是女巫，今晚要不要出手？",
+    "nightVillager": "你是平民，安心休息，天亮一起找线索。",
+    "nightDead": "你已下车，可以继续旁观这段旅程。",
+    "nightCommit": "确认行动 · 等待天亮",
+    "nightWait": "休息好了 · 看看天亮",
+    "target": "选择一位搭子",
+    "noTarget": "先选择目标",
+    "skipCheck": "今晚不查验",
+    "witchVictim": "今晚被袭击的是：{target}",
+    "witchUnknown": "解药已用完，今晚的袭击信息不再向你公开。",
+    "witchSelf": "首夜之后不能自救，仍可选择毒药或不用药。",
+    "potionSkip": "暂时不用药",
+    "potionHeal": "使用解药",
+    "potionPoison": "使用毒药",
+    "potionStock": "解药 {heal} 瓶 / 毒药 {poison} 瓶",
+    "nightPrivacy": "夜间结果会统一结算，不提前透露其他人的行动。",
+    "dayTitle": "天亮了，听听谁的话有破绽。",
+    "discussTitle": "轮到你开口了",
+    "discussBody": "选立场、点对象。引用手账里的证据，比空口怀疑更有分量。",
+    "actionAccuse": "质疑",
+    "actionSupport": "支持",
+    "actionDefend": "自我辩护",
+    "actionClaim": "跳预言家",
+    "actionSkip": "先听一轮",
+    "claimHint": "这是公开声称，不等于系统认证。其他人也可能说谎。",
+    "claimGood": "声称 TA 是好人",
+    "claimWolf": "声称 TA 是狼人",
+    "evidence": "带上证据",
+    "evidenceNone": "暂无证据，先试探一下",
+    "evidenceOptional": "不用证据，表达怀疑",
+    "speak": "说出我的看法",
+    "speakSkip": "本轮先听 · 进入投票",
+    "evidenceTitle": "公开线索手账",
+    "evidenceBody": "只记录真实发生的发言与投票；线索不等于定罪。",
+    "noEvidence": "暂时没有明确的公开矛盾。先听发言，看看谁在声称身份。",
+    "current": "本轮讨论",
+    "history": "全部记录",
+    "voteTitle": "大家回应了。现在，这票投给谁？",
+    "voteBody": "回看回应和票型，再做自己的决定。也可以弃票。",
+    "runoffTitle": "平票加赛 · 再投一次",
+    "runoffBody": "仅在平票搭子中选择，再次平票则本轮无人下车。",
+    "vote": "确认投票",
+    "abstain": "本轮弃票",
+    "roundEndTitle": "这一轮，先告一段落。",
+    "next": "继续旅程 · 进入下一夜",
+    "spectate": "旁观下一步",
+    "fastForward": "快进到最终复盘",
+    "deadNotice": "你已经下车，本局无法继续发言和投票。",
+    "overTitle": "旅程结束，身份揭晓。",
+    "win": "这一局，你赢了。",
+    "lose": "这一次，差一点。",
+    "draw": "这一局，同归于尽。",
+    "goodWin": "好人阵营胜利",
+    "wolfWin": "狼人阵营胜利",
+    "drawWin": "双方同时出局",
+    "overBody": "看看谁陪你演到了最后。所有身份和夜间行动，现在公开。",
+    "again": "再抽一张 · 重新出发",
+    "resultCard": "本局旅行纪念卡",
+    "resultHint": "截图留下这次旅程，下一局再见。",
+    "recap": "回看这趟旅程",
+    "actionCount": "你发言 {n} 次",
+    "voteCount": "你投票 {n} 次",
+    "nightAudit": "夜间行动揭晓",
+    "auditNight": "第 {day} 夜：袭击 {kill}；解药{heal}；毒药 {poison}",
+    "used": "已使用",
+    "unused": "未使用",
+    "nobody": "无人",
+    "recapChoice": "第 {day} 天，你{action}{target}",
+    "lockedTitle": "你的旅程还在这里。",
+    "lockedBody": "存档已恢复，身份暂时收好。准备好后继续。",
+    "unlock": "我准备好了 · 继续",
+    "storageWarning": "浏览器暂时无法保存进度，当前页面仍可正常游玩。",
+    "corruptSave": "旧存档无法恢复，可以重新抽卡出发。",
+    "changedSave": "另一页面更新了旅程。请返回大厅后重新载入，避免覆盖。",
+    "error": "这一步没有成功，请重新选择合法目标。",
+    "loadingError": "暂时无法载入旅行资料，请刷新页面重试。",
+    "retry": "重新加载",
+    "galleryTitle": "嘉宾角色卡",
+    "footerTag": "花少有狼 · 一个人的七人旅行局",
+    "footerNote": "所有角色台词为原创趣味创作；嘉宾与阵营每局独立随机。",
+    "footerMeta": "本地存档 / 无需登录",
+    "logMore": "展开本轮所有发言",
+    "logLess": "收起较早发言",
+    "clueCount": "{n} 条公开线索",
+    "roleCount": "2 狼 / 1 预言家 / 1 女巫 / 3 平民",
+    "roleTag": "随机身份",
+    "portraitAlt": "{name}的真人参考旅行插画",
+    "noActions": "这局还没有留下你的公开发言。",
+    "skipLabel": "选择先听",
+    "supportLabel": "支持",
+    "accuseLabel": "质疑",
+    "defendLabel": "为自己辩护",
+    "claimLabel": "声称查验",
+    "auto": "旅程播报",
+    "says": "发言",
+    "response": "回应",
+    "system": "旅途动态",
+    "ballotLabel": "公开票型",
+    "evidenceLabel": "证据",
+    "dayNav": "日间讨论",
+    "nightNav": "夜间行动",
+    "voteNav": "投票时刻",
+    "finishedNav": "旅行复盘",
+    "dealNav": "秘密登机牌",
+    "detailRole": "身份牌每局重新分配",
+    "help": "看规则",
+    "continue": "继续",
+    "changedReturn": "返回并载入最新存档",
+    "quoteHide": "收起出处",
+    "simulationNotice": "以下为规则驱动的原创游戏对话，不是节目原话，不代表明星的真实性格、观点或行为。旅行小剧场不作为狼人证据。",
+    "quoteSource": "打开来源页面",
+    "quoteHeading": "公开原文摘录",
+    "readDiscussion": "阅读发言",
+    "goAction": "前往行动区",
+    "privateCheckHint": "昨夜查验已记录，仅你可见",
+    "viewCheck": "查看私密结果",
+    "aliasLabel": "昵称与角色梗解码",
+    "referenceLabel": "头像参考依据",
+    "voiceLabel": "本局表达风格 · 原创",
+    "portraitBoundary": "参考公开照片的插画化再创作，不是本人照片、授权形象或真人性格模拟。化名与狼人身份无关。",
+    "guideLabel": "本日带队：{name}",
+    "journeyBoundary": "原创旅行小剧场 · 可跳过 · 不产生狼人证据，不改变身份或票数",
+    "journeyWait": "白天发言前，存活玩家可做一次旅行选择；也可以直接继续推理。"
+  },
+  "templates": {
+    "night": "天黑了，七位旅人各自回房。",
+    "dawn": "天亮了，{targets} 已下车。身份暂不公开。",
+    "peace": "昨夜平安，所有在场搭子都平安醒来。",
+    "trial": "我先留意 {target}。目前没有实锤，想听听 TA 怎么说。",
+    "evidenceAccuse": "我想问问 {target}：{evidence}",
+    "support": "这一轮，我暂时支持 {target}，但后面的发言我也会继续听。",
+    "defend": "先别急着投我，请把发言和票型放在一起看。",
+    "claim": "我声称自己是预言家，查验 {target} 的结果是{result}。",
+    "skip": "这一轮我先听大家说，投票时再作判断。",
+    "claimResponse": "这是你的声称，不是已公开的真相。大家也看看其他人的说法。",
+    "evidenceResponse": "这条记录我认，但记录里的矛盾不等于狼人身份。请结合前后发言再判断。",
+    "trialResponse": "你可以怀疑我，但现在还没有具体证据。先把其他发言一起听完。",
+    "supportResponse": "谢谢你的支持，不过你也要保留自己的判断。",
+    "leanTarget": "听完这段交锋，我现在更想留意 {target}。投票前我会再想一下。",
+    "reserve": "这段回应我听到了，但我还保留判断，暂时更留意 {target}。",
+    "ballot": "{actor} → {target}",
+    "abstain": "{actor} → 弃票",
+    "tally": "本轮票数：{counts}",
+    "noVotes": "全员弃票。",
+    "runoff": "{targets} 平票，进入一次复投。",
+    "eliminate": "{target} 被票选下车，身份暂不公开。",
+    "noElimination": "复投仍平票或全部弃票，本轮无人下车。",
+    "flip": "第 {day} 天，{target} 先支持 {other}，随后却投给了 TA。",
+    "contradict": "{target} 对 {other} 给出过互相矛盾的查验声称。",
+    "rival": "{target} 与 {other} 都声称自己是预言家，至少一方在说谎。",
+    "finish": "本局结束：{result}。",
+    "count": "{target} {n} 票",
+    "privateCheck": "第 {day} 夜，查验 {target}：{result}。",
+    "responseflip": "这条票型记录确实是我的。我后来改了判断；你可以质疑我变票，但不能只凭变票就确定我是狼。",
+    "responsecontradict": "我前后报出的结果矛盾，这点我解释不清。请大家把这条记录和后续票型一起判断。",
+    "responserival": "有人和我争预言家身份，说明我们之中至少有人在说谎。别只看谁先开口，继续对照查验和票型。",
+    "goodClaimResponse": "你报我好人，我记下了，但我不会因此直接认定你是预言家。"
+  },
+  "roles": {
+    "wolf": {
+      "name": "狼人",
+      "subtitle": "白天混进旅行团，夜里悄悄出手。",
+      "description": "你知道狼队友。每夜选择一位非狼搭子袭击；白天可伪装、质疑或跳预言家。当存活狼人不少于好人时获胜。",
+      "symbol": "moon"
+    },
+    "seer": {
+      "name": "预言家",
+      "subtitle": "看见真相，也要让别人相信你。",
+      "description": "每夜可查验一位其他存活搭子，得知是否为狼人。白天可以公开声称查验，其他人不会自动相信你。消灭全部狼人获胜。",
+      "symbol": "eye"
+    },
+    "witch": {
+      "name": "女巫",
+      "subtitle": "一瓶救人，一瓶送人下车。",
+      "description": "全局各一瓶解药和毒药，每夜最多用一瓶。只有首夜可以自救；解药耗尽后不再知道被袭击者。消灭全部狼人获胜。",
+      "symbol": "flask"
+    },
+    "villager": {
+      "name": "平民",
+      "subtitle": "没有超能力，但有自己的判断。",
+      "description": "夜里休息，白天依据发言和票型寻找狼人。引用证据质疑、支持可信搭子，或保留判断。消灭全部狼人获胜。",
+      "symbol": "sun"
+    }
+  },
+  "rules": [
+    {
+      "title": "01 · 两次随机，才开演",
+      "body": "七张嘉宾牌与身份牌独立打乱。你随机扮演一位嘉宾，其余六位自动参与。没有谁永远是好人，也没有谁被写死成狼。"
+    },
+    {
+      "title": "02 · 天黑，各自行动",
+      "body": "狼人选择目标；预言家查验；女巫可救或毒，每夜最多一瓶、仅首夜自救；平民休息。所有夜间效果完成后统一结算。"
+    },
+    {
+      "title": "03 · 发言真的有影响",
+      "body": "听完首轮讨论后，你可以质疑、支持、辩护或跳预言家。公开证据会影响电脑的怀疑与信任，对方会回应，但不会保证跟你投票。"
+    },
+    {
+      "title": "04 · 说自己是，不一定就是",
+      "body": "查验声称可以是真的，也可以是谎话。手账只证明某人说过什么，不替任何人认证身份。电脑只使用自己的合法信息作判断。"
+    },
+    {
+      "title": "05 · 一人一票，平票加赛",
+      "body": "投给一位其他存活搭子，也可弃票。最高票并列则复投一次，再平票无人出局。出局时不翻身份，终局统一揭晓。"
+    },
+    {
+      "title": "06 · 哪边赢，就到站",
+      "body": "狼人全灭，好人获胜；存活狼数不少于好人数，狼人获胜；同时全灭则平局。你出局后可以旁观快进，也可以重新开始。"
+    }
+  ],
+  "quoteSets": {
+    "guest-1": {
+      "opening": [
+        "开场先集合，谁也别把逻辑落在酒店。",
+        "我先热个场，大家把话说明白。",
+        "旅行团集合，今天谁先报线索？",
+        "行李先放下，脑子带上桌。"
+      ],
+      "suspect": [
+        "你这发言转了三次车，还没到重点。",
+        "这段路线打结了，咱们当面解。",
+        "话可以拐弯，记录可不会。",
+        "先别催别人，解释一下这站。"
+      ],
+      "defend": [
+        "我催的是进度，不是你们的投票。",
+        "声音大只是好找人，不是阵营。",
+        "别把热场当控场，先看理由。",
+        "我可以慢点说，你们认真点听。"
+      ],
+      "vote": [
+        "先把理由说齐，再把手举齐。",
+        "集合可以跟队，投票得有主意。",
+        "票就一张，我先想明白再交。",
+        "这一站，咱们用票说话。"
+      ],
+      "eliminated": [
+        "人可以退场，账得给我说清楚。",
+        "我先去候车，你们别掉队。",
+        "这一程到这了，后面的路仔细走。",
+        "我的麦放下了，线索别放下。"
+      ],
+      "win": [
+        "这趟车坐对了，回程我来喊集合。",
+        "收队！这一程没白费嗓子。",
+        "行程圆满，给大家加一道菜。",
+        "这局的纪念照，站近一点。"
+      ]
+    },
+    "guest-2": {
+      "opening": [
+        "行李可以少一件，线索不能漏一条。",
+        "先把线索摊开，再慢慢打包。",
+        "我给今天的发言留了一个口袋。",
+        "大家慢慢说，我把细节收好。"
+      ],
+      "suspect": [
+        "这个说法，得拆开包再看一眼。",
+        "这处接缝，得重新缝一下。",
+        "解释可以轻装，证据不能丢。",
+        "这个细节卡在拉链里了。"
+      ],
+      "defend": [
+        "别把我的旅行包，装成别人的故事。",
+        "可疑不等于有罪，先检查标签。",
+        "我包里有什么，不能靠猜包装。",
+        "别急着把我寄走，理由还没写完。"
+      ],
+      "vote": [
+        "别看包装，先看看里面有没有道理。",
+        "票不是随手塞的，我再理一理。",
+        "带走谁之前，先核一下清单。",
+        "这回我按记录来，不按眼缘。"
+      ],
+      "eliminated": [
+        "我的票留在这里，你们接着拆。",
+        "我先把行李搬下去，记录别扔。",
+        "下一程认真一点，别走散了。",
+        "这一局先收包，回头见。"
+      ],
+      "win": [
+        "箱子合上了，这局也圆满了。",
+        "证据都归位了，终于能安心出发。",
+        "这一程的收获，装了满满一包。",
+        "给胜利贴个标签，带回家。"
+      ]
+    },
+    "guest-3": {
+      "opening": [
+        "先列重点，我们争取准时天亮。",
+        "咱们一人一个重点，别同时开导航。",
+        "时钟在走，线索也该动起来。",
+        "先对时间，再对说法。"
+      ],
+      "suspect": [
+        "你把时间线倒回去，这里接不上。",
+        "这一处先暂停，别跳下一段。",
+        "前后步骤对不上，重排一下。",
+        "省时间的办法，是把这里讲清楚。"
+      ],
+      "defend": [
+        "发言简短不等于信息缺席。",
+        "我把话压缩了，没把逻辑省略。",
+        "别按语速判人，按内容来。",
+        "我可以重说一次，别替我添字。"
+      ],
+      "vote": [
+        "倒计时之前，把理由讲完。",
+        "不赶票，赶的是弄明白。",
+        "想清楚再按，比重来有效率。",
+        "这一票，先过一遍时间线。"
+      ],
+      "eliminated": [
+        "我先下车，时间线你们继续核。",
+        "我的这一程结束了，后面别漏步骤。",
+        "时钟交给你们，慢慢想也可以。",
+        "到站了，记得复盘这一天。"
+      ],
+      "win": [
+        "效率拉满，今天提前收工。",
+        "流程跑通了，大家辛苦。",
+        "该休息了，这局时间花得值。",
+        "最后一处也对上了，收表。"
+      ]
+    },
+    "guest-4": {
+      "opening": [
+        "天气先不管，今天谁的逻辑漏雨？",
+        "先听听风声，不急着下结论。",
+        "我把伞放这儿，大家继续。",
+        "今天的预报，要靠大家自己看。"
+      ],
+      "suspect": [
+        "你刚刚这句，伞都替你撑不住。",
+        "这处有点漏，先补上再走。",
+        "别拿天气挡话题，解释这一句。",
+        "记录没被雨冲走，咱们翻回来。"
+      ],
+      "defend": [
+        "我只是话少，别自动给我配剧情。",
+        "小雨不是暴风，别替我升级。",
+        "脸上没写答案，回去看发言。",
+        "我可以解释，别忙着配雷声。"
+      ],
+      "vote": [
+        "这票我想明白了，不是随风飘的。",
+        "风往哪边吹，和我投谁是两回事。",
+        "先把雨雾拨开，再认路。",
+        "伞可以借，判断自己做。"
+      ],
+      "eliminated": [
+        "我收伞了，你们继续看天气。",
+        "这一站下点小雨，下局再见。",
+        "先去屋檐下等你们，慢慢盘。",
+        "我这边暂停，镜头交给你们。"
+      ],
+      "win": [
+        "雨停了，身份也终于晒出来了。",
+        "天放晴了，这趟没白淋。",
+        "收伞收工，下一局换种天气。",
+        "这张合照，终于不用躲雨了。"
+      ]
+    },
+    "guest-5": {
+      "opening": [
+        "我把本子翻开了，谁先说？",
+        "今天这页先空着，等大家填线索。",
+        "我负责记，你们负责说清楚。",
+        "先别翻篇，刚开场呢。"
+      ],
+      "suspect": [
+        "等一下，这里和我的记录对不上。",
+        "这个地方我要画个问号。",
+        "本子不会脑补，这段得你解释。",
+        "前面那页还在，翻回去看看。"
+      ],
+      "defend": [
+        "看起来好说话，不代表随便背锅。",
+        "我的表情不是证据，看笔记。",
+        "别给我乱贴标签，还没写完呢。",
+        "先听完整句，再画重点。"
+      ],
+      "vote": [
+        "我跟理由走，不跟音量走。",
+        "这一票，我要认真落笔。",
+        "先画重点，再圈人名。",
+        "记录先看完，不急着交卷。"
+      ],
+      "eliminated": [
+        "记录留给你们，别把重点翻过去。",
+        "这页先到这里，后面你们来写。",
+        "我去贴纪念照，线索继续记。",
+        "本子不合上，你们接着盘。"
+      ],
+      "win": [
+        "今天这页，可以贴一颗胜利贴纸。",
+        "结尾写好了，这本值得收藏。",
+        "这一程的重点，终于圈对了。",
+        "把这页折个角，下回还想看。"
+      ]
+    },
+    "guest-6": {
+      "opening": [
+        "等一下，我先把路线和线索分清。",
+        "先看清路口，再决定往哪走。",
+        "我听着，大家把方向说明白。",
+        "不急，先把这张图展开。"
+      ],
+      "suspect": [
+        "这条路走不通，你的理由也是。",
+        "这里多绕了一圈，为什么？",
+        "先别换目的地，解释这处路口。",
+        "路线在这儿，咱们按记录走。"
+      ],
+      "defend": [
+        "我还在组织语言，不是在组织狼队。",
+        "稍微等我一下，别替我填答案。",
+        "走得慢不等于走错了。",
+        "我有自己的路线，先听完。"
+      ],
+      "vote": [
+        "我想好了，这票有我自己的理由。",
+        "投票之前，再确认一次方向。",
+        "不跟着热闹走，跟着线索走。",
+        "路可以问人，这票自己决定。"
+      ],
+      "eliminated": [
+        "下一站你们走，别忘了回看这一轮。",
+        "我先停在这里，路线图留下。",
+        "这一程告一段落，你们继续。",
+        "回程再聊，前面的路看仔细。"
+      ],
+      "win": [
+        "路上绕了一点，终点没走错。",
+        "路线对上了，终于可以放下地图。",
+        "慢慢走也能到，这局到了。",
+        "到站了，大家都辛苦。"
+      ]
+    },
+    "guest-7": {
+      "opening": [
+        "先报站，今天的重点是哪一位？",
+        "我来接个话，大家接着往下盘。",
+        "这趟车，线索都上齐了吗？",
+        "先把故事听完整，再挑重点。"
+      ],
+      "suspect": [
+        "你这段起得很高，落点在哪里？",
+        "这句没接上，先别往下演。",
+        "前面的伏笔，现在解释一下。",
+        "记录还在这儿，不能直接跳场。"
+      ],
+      "defend": [
+        "我接话快，但没替别人写台词。",
+        "别按出场气势猜身份。",
+        "这一段让我自己说完。",
+        "我能接梗，不代表接所有锅。"
+      ],
+      "vote": [
+        "这次不看气氛，看证据。",
+        "票投出去之前，先把线接上。",
+        "我按自己的判断，不按谁抢镜。",
+        "这一轮，该给观点一个落点。"
+      ],
+      "eliminated": [
+        "我先到站，下一轮记得接上。",
+        "镜头往后转，你们继续。",
+        "这局先谢幕，下一局再出场。",
+        "我把话留这儿，回头记得看。"
+      ],
+      "win": [
+        "星星归位，这局终于对上号。",
+        "最后一幕，终于接上了。",
+        "这局有来有回，下局继续。",
+        "终点的合照，给我留个位置。"
+      ]
+    }
+  },
+  "nonGoals": [
+    "online-multiplayer",
+    "external-llm-api",
+    "free-text-understanding",
+    "cross-season-cast"
+  ],
+  "verifiedQuotes": {
+    "guest-1": {
+      "text": "既然大家都是 i 人，那我也 i 一下吧",
+      "url": "https://www.sina.cn/news/detail/5339399446595449.html",
+      "date": "2026-09-04",
+      "context": "首播公开博文",
+      "sourceType": "本人认证账号公开博文 · 新浪展示页",
+      "verifiedAt": "2026-09-15"
+    },
+    "guest-2": {
+      "text": "咱把“不行的”说在前，旅途中就“样样都行”",
+      "url": "https://www.sina.cn/news/detail/5338647466870362.html",
+      "date": "2026-09-02",
+      "context": "官宣公开博文",
+      "sourceType": "本人认证账号公开博文 · 新浪展示页",
+      "verifiedAt": "2026-09-15"
+    },
+    "guest-3": {
+      "text": "必要時候我會急，讓我們一起把效率拉起來",
+      "url": "https://www.sina.cn/news/detail/5338647455074805.html",
+      "date": "2026-09-02",
+      "context": "官宣公开博文",
+      "sourceType": "本人认证账号公开博文 · 新浪展示页",
+      "verifiedAt": "2026-09-15"
+    },
+    "guest-4": {
+      "text": "别看句句都在“婉拒”，最后都得“真香”！",
+      "url": "https://www.sina.cn/news/detail/5338648428153683.html",
+      "date": "2026-09-02",
+      "context": "官宣公开博文",
+      "sourceType": "本人认证账号公开博文 · 新浪展示页",
+      "verifiedAt": "2026-09-15"
+    },
+    "guest-5": {
+      "text": "跳啊跳啊跳，我们的舞姿很曼妙",
+      "url": "https://www.sina.cn/news/detail/5342279690619788.html",
+      "date": "2026-09-12",
+      "context": "旅途公开博文",
+      "sourceType": "本人认证账号公开博文 · 新浪展示页",
+      "verifiedAt": "2026-09-15"
+    },
+    "guest-6": {
+      "text": "第一天录制，有点紧张",
+      "url": "https://www.sina.cn/news/detail/5339384586962751.html",
+      "date": "2026-09-04",
+      "context": "录制分享公开博文",
+      "sourceType": "本人认证账号公开博文 · 新浪展示页",
+      "verifiedAt": "2026-09-15"
+    },
+    "guest-7": {
+      "text": "接着奏乐接着舞",
+      "url": "https://www.sina.cn/news/detail/5341588194069348.html",
+      "date": "2026-09-10",
+      "context": "旅途公开博文",
+      "sourceType": "本人认证账号公开博文 · 新浪展示页",
+      "verifiedAt": "2026-09-15"
+    }
+  },
+  "travel": {
+    "notice": "All scenes are original game fiction; choices only affect travel journal, never hidden identities, suspicion scores or votes.",
+    "scenes": [
+      {
+        "id": "budget",
+        "title": "经费只够选一项",
+        "body": "今天的自由活动预算有限，团队要决定把钱花在哪。",
+        "choices": [
+          {
+            "label": "一起吃顿当地餐",
+            "outcome": "大家围坐下来，把餐费逐项记进小本本。",
+            "reply": "吃得开心，也把账记明白。"
+          },
+          {
+            "label": "留给下一站交通",
+            "outcome": "交通备用金留住了，今晚用简单晚餐解决。",
+            "reply": "先留一点余地，明天不慌。"
+          }
+        ]
+      },
+      {
+        "id": "meeting",
+        "title": "集合地点说三遍",
+        "body": "广场上有两个相似的入口，队伍决定怎样约定集合。",
+        "choices": [
+          {
+            "label": "原地等齐再出发",
+            "outcome": "大家先清点人数，再一起离开。",
+            "reply": "人齐了再走，风景不会跑。"
+          },
+          {
+            "label": "画一张集合点小图",
+            "outcome": "地图上圈好了入口，所有人复述了一遍。",
+            "reply": "地图收好，别只记得旁边的咖啡。"
+          }
+        ]
+      },
+      {
+        "id": "food",
+        "title": "补给站的选择题",
+        "body": "长距离步行之前，背包还能放一点补给。",
+        "choices": [
+          {
+            "label": "多带饮水",
+            "outcome": "大家分担饮水，把背包重新整理好。",
+            "reply": "先照顾体力，再讨论怎么走。"
+          },
+          {
+            "label": "分一份轻便零食",
+            "outcome": "零食分成小份，约好休息时再打开。",
+            "reply": "补给有了，包装也记得带走。"
+          }
+        ]
+      },
+      {
+        "id": "room",
+        "title": "房间分配大会",
+        "body": "住处有安静的小房间，也有方便聊天的公共区域。",
+        "choices": [
+          {
+            "label": "先问睡眠习惯",
+            "outcome": "每个人先说需求，大家协商安排。",
+            "reply": "先把需求说出来，比事后猜心思好。"
+          },
+          {
+            "label": "抽签后自愿调换",
+            "outcome": "签抽完后留了一轮协商，没人被强行安排。",
+            "reply": "抽签是开始，协商也要有。"
+          }
+        ]
+      },
+      {
+        "id": "map",
+        "title": "地图朝哪边",
+        "body": "导航给了两条路线，今天还留得出一点自由时间。",
+        "choices": [
+          {
+            "label": "沿主路稳稳走",
+            "outcome": "队伍沿主路出发，约好定时清点人数。",
+            "reply": "不急这一分钟，把队伍带齐。"
+          },
+          {
+            "label": "先问路再选支路",
+            "outcome": "问清方向后大家共同决定，保留原路返回方案。",
+            "reply": "先问清楚，别把猜测当路标。"
+          }
+        ]
+      },
+      {
+        "id": "boat",
+        "title": "花船上的话筒",
+        "body": "旅途休息时，大家想在船上留下一点共同回忆。",
+        "choices": [
+          {
+            "label": "轮流说一句祝福",
+            "outcome": "话筒依次传递，每个人都得到开口的机会。",
+            "reply": "今天的愿望是，后面每一站都顺利。"
+          },
+          {
+            "label": "一起拍张旅行合照",
+            "outcome": "大家收好随身物品，定格了一张合照。",
+            "reply": "镜头看这里，记得把队友也拍进去。"
+          }
+        ]
+      },
+      {
+        "id": "camp",
+        "title": "夜色里的营地",
+        "body": "天快暗了，收拾公共区域需要一点分工。",
+        "choices": [
+          {
+            "label": "两人一组收拾",
+            "outcome": "大家两人一组，把公共区域整理干净。",
+            "reply": "互相搭把手，早点收工。"
+          },
+          {
+            "label": "先列清单再认领",
+            "outcome": "清单逐项划掉，遗漏的东西最后一起补上。",
+            "reply": "任务写清楚，谁都不用猜。"
+          }
+        ]
+      },
+      {
+        "id": "photo",
+        "title": "最后一张明信片",
+        "body": "这一站即将结束，团队想给下一站的自己留句话。",
+        "choices": [
+          {
+            "label": "写下最想感谢的事",
+            "outcome": "大家把感谢写进手账，给今天留一个温柔结尾。",
+            "reply": "能一起走这一段，就值得记一笔。"
+          },
+          {
+            "label": "写下下次要记住的事",
+            "outcome": "新的提醒夹进地图，留给下一站翻看。",
+            "reply": "经验带走，包袱放轻一点。"
+          }
+        ]
+      }
+    ]
+  },
+  "dialogueVariants": {
+    "trial": [
+      "我先留意 {target}。目前没有实锤，想听听 TA 怎么说。",
+      "{target}，这一轮你最在意谁的发言？我现在只是试探，还没有指向你的证据。",
+      "我想先听{target}说说判断依据。先提问，不急着给身份下结论。",
+      "先把问题交给{target}：你准备从哪里找线索？我暂时没有实证。",
+      "{target}，聊聊你的思路吧。我目前只是留意你，不代表已经认定你是狼。"
+    ],
+    "evidenceAccuse": [
+      "我想问问 {target}：{evidence}",
+      "{target}，我们看这一条：{evidence}。你怎样解释这件事？",
+      "我对{target}的疑问不是凭感觉，而是这条公开记录：{evidence}。想听当事人回应。",
+      "先把记录摆出来：{evidence}。{target}，请回应这一点，不用急着谈别人的身份。",
+      "{target}，我引用的是本局记录：{evidence}。这值得解释，但我不会把疑点直接当成结论。"
+    ],
+    "support": [
+      "这一轮，我暂时支持 {target}，但后面的发言我也会继续听。",
+      "我暂时站{target}这边。这只是当前立场，不是替对方担保身份。",
+      "这一轮先支持{target}，如果后面出现相反的公开线索，我会重新考虑。",
+      "目前我愿意支持{target}，但支持和确认好人是两回事。",
+      "先给{target}一点支持，其他人的意见我也会听，不把路走死。"
+    ],
+    "defend": [
+      "先别急着投我，请把发言和票型放在一起看。",
+      "如果要怀疑我，请指出具体哪句话、哪一票有问题，我们逐条聊。",
+      "先别用发言长短判断我的身份。有疑问可以直接问我。",
+      "我希望大家看具体依据，不要因为有人提了我的名字就跟着投。",
+      "请把对我的怀疑说具体些。只给结论的话，我也不知道该回应哪一条。"
+    ],
+    "claim": [
+      "我声称自己是预言家，查验 {target} 的结果是{result}。",
+      "我报身份：我声称自己是预言家，对{target}的查验结果是{result}。",
+      "我的预言家声明是：查验了{target}，结果为{result}。请把这条发言记下来。",
+      "我在这里声称预言家身份，报出的查验是{target}为{result}。",
+      "先记录我的声明：我是预言家，查验{target}得到{result}。这是我本轮报出的结果。"
+    ],
+    "skip": [
+      "这一轮我先听大家说，投票时再作判断。",
+      "信息还不够，我这一轮先不增加判断，继续听。",
+      "我先把发言机会让出来，暂时不站队。",
+      "这轮我没有要补充的内容，先听其他人的理由。",
+      "我暂时保留意见，不为了开口就随便指一个人。"
+    ],
+    "claimResponse": [
+      "这是你的声称，不是已公开的真相。大家也看看其他人的说法。",
+      "你给我报了查验，但发言中的声明还不是公开验证。大家别把这两件事混为一谈。",
+      "你说查过我，我听到了。不过仅凭这一句话，还不能确定你的预言家身份。",
+      "先把你的声明留在记录里，再和其他信息对照，不能报出结果就自动算数。",
+      "对我的查验说法已经公开了，但说法是否可信，仍需要大家判断。"
+    ],
+    "evidenceResponse": [
+      "这条记录我认，但记录里的矛盾不等于狼人身份。请结合前后发言再判断。",
+      "这条记录可以讨论，但请把记录本身和身份推断分开。",
+      "我回应的是这条公开记录，不是承认狼人身份；还需要结合其他信息。",
+      "这确实是值得追问的地方，不过一个疑点还不能直接替代身份判断。",
+      "我们围绕这条记录说，不要把它扩大成没有依据的其他指控。"
+    ],
+    "trialResponse": [
+      "你可以怀疑我，但现在还没有具体证据。先把其他发言一起听完。",
+      "你想听我的回应可以，但请把试探和实证分清楚。",
+      "被你留意不等于身份已经确定。你有什么具体问题，可以继续问。",
+      "现在对我还只是试探，我希望大家不要把重复的怀疑当成新证据。",
+      "我听到你的怀疑了。先保留这个问题，也给其他人说话的机会。"
+    ],
+    "supportResponse": [
+      "谢谢你的支持，不过你也要保留自己的判断。",
+      "这份支持我收到了，但别因为支持过我，就放弃检查后面的信息。",
+      "谢谢，不过我们各自判断就好。支持不等于已经互相确认身份。",
+      "我记下你的立场了。后面有不同看法，也可以直接提出来。",
+      "收到。大家还是看发言和记录，不要把有人支持当成身份凭证。"
+    ],
+    "leanTarget": [
+      "听完这段交锋，我现在更想留意 {target}。投票前我会再想一下。",
+      "这段讨论之后，我暂时更关注{target}，但还没到直接定身份的时候。",
+      "我的注意力现在放在{target}身上，想再看看相关的公开记录。",
+      "听完双方，我这一轮更倾向留意{target}；这仍然只是判断，不是查验。",
+      "我先把{target}列为关注对象，投票前还会结合其他信息。"
+    ],
+    "reserve": [
+      "这段回应我听到了，但我还保留判断，暂时更留意 {target}。",
+      "这段交锋还不足以让我下结论。我暂时留意{target}，但保留调整空间。",
+      "我还没完全判断清楚，当前更关注{target}，不急着把话说满。",
+      "双方的回应都记下了。我暂时关注{target}，仍然保留意见。",
+      "我不想只凭这一轮交锋跟票。目前先留意{target}，再看整体信息。"
+    ],
+    "responseflip": [
+      "这条票型记录确实是我的。支持与投票不一致值得质疑，但不能只凭这一点确定我是狼。",
+      "支持和投票的记录不同，这个疑点确实存在。但仅靠这一点，还不能确认我的身份。",
+      "你指出的是我支持过对方却又投给对方的记录。请把这条记录和其他发言一起看。",
+      "这条前后立场不一致的记录我听到了。大家可以质疑，但别把疑点直接写成查验结果。",
+      "记录中的支持与投票确实不一致；这需要大家判断，不等于我的身份已经公开。"
+    ],
+    "responsecontradict": [
+      "我前后报出的结果矛盾，这点我解释不清。请大家把这条记录和后续票型一起判断。",
+      "这两次查验声明对不上，我不能说它们同时成立。请大家保留这条矛盾记录。",
+      "我报出的结果前后冲突，这一点无法用重复声明消除。",
+      "你引用的查验矛盾已经在公开记录里，我不能把它说成没有发生。",
+      "两种相反的查验说法不能都成立。这个问题确实在我的发言里。"
+    ],
+    "responserival": [
+      "有人和我争预言家身份，说明我们之中至少有人在说谎。别只看谁先开口，继续对照查验和票型。",
+      "我们都声称预言家，但这局只有一个预言家。请比较声明，不要只看谁说得响。",
+      "撞身份的情况已经出现，至少有一方的声明不实。单靠先后顺序分不出来。",
+      "对方也报了预言家，这两份身份声明不能同时为真。大家继续核对信息。",
+      "争身份本身不是对某一个人的查验结果。请把双方各自的声明分别记清楚。"
+    ],
+    "goodClaimResponse": [
+      "你报我好人，我记下了，但我不会因此直接认定你是预言家。",
+      "你报我好人，不意味着我就能反过来确认你的身份；这条声明先记下。",
+      "这份好人查验声明我收到了，但我不会因此直接替你背书。",
+      "你给我的结果是好人，大家仍要判断这份查验声明是否可信。",
+      "被你报成好人，不等于我们互相确认了身份。我会继续看公开信息。"
+    ]
+  },
+  "scorecard": {
+    "title": "散场明信片",
+    "subtitle": "刚才各有阵营，散场还是搭子。",
+    "save": "保存到相册",
+    "saving": "正在保存…",
+    "saved": "已保存到相册",
+    "failed": "未能保存，请检查相册权限后重试，也可以截图保存。",
+    "fallback": "当前环境不支持保存到相册，可直接截图保存战绩卡。",
+    "loading": "战绩卡生成中",
+    "error": "战绩卡图片生成失败，仍可查看下方文字战绩。",
+    "win": "所属阵营获胜",
+    "lose": "所属阵营落败",
+    "draw": "本局平局",
+    "alive": "存活至结束",
+    "dead": "中途下车",
+    "days": "对局天数",
+    "votes": "有效投票",
+    "hits": "投给狼人",
+    "abstain": "弃票次数",
+    "note": "投票统计包含复投；投给狼人不等于独立找出狼人。",
+    "notice": "原创模拟对局，不代表真人行为。",
+    "identity": "本局随机身份",
+    "heading": "天亮了，这一局也到站了。",
+    "eyebrow": "花少有狼 / 旅行的最后一页",
+    "departure": "这一趟，你以「{alias}」的名字出发。",
+    "identityLine": "口袋里的身份牌是：{role}。",
+    "supportLine": "第 {day} 天，你在发言里支持了{target}。",
+    "supportedLine": "第 {day} 天，{actor}在发言里支持了你。",
+    "wolfReveal": "翻牌才知道，对方这局拿的是狼人牌。",
+    "goodReveal": "翻牌之后，对方属于好人阵营。",
+    "travelLine": "这趟旅行，你还选择了「{choice}」。",
+    "finishLine": "这一局在第 {day} 天结束。",
+    "aliveLine": "你留在了场上，直到最后一张牌揭晓。",
+    "exitLine": "你在第 {day} 天下车，故事又往前走了一段。",
+    "winEnding": "收好身份牌，我们下一站见。",
+    "loseEnding": "旅行允许绕路，下一局允许重来。",
+    "wolfEnding": "散场以后，不用再藏身份了。",
+    "drawEnding": "没有分出胜负，也到了说下次见的时候。",
+    "smallNote": "本局真实记录 · 原创模拟对局，不代表真人行为。"
+  }
+}

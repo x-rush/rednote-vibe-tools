@@ -1,0 +1,13 @@
+{
+  "name": "@xiaohongshu/16-flower-werewolf",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node tools.mjs dev",
+    "preview": "node tools.mjs preview",
+    "lint": "node tools.mjs lint",
+    "test": "node --test tests/engine.test.mjs tests/audit.test.mjs",
+    "build": "node tools.mjs build"
+  }
+}

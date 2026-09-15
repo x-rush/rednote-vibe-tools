@@ -1,0 +1,14 @@
+# build artifacts
+
+# Local-only obsolete assets, note material, and generated previews
+/dist/
+/minitool-dist/
+/artifacts/*.png
+/release/audit-*.png
+/release/csp-*.png
+/release/fallback-*.png
+/release/file-*.png
+/release/xiaohongshu-note/
+/release/roomish-xiaohongshu-note.zip
+/release/logo-roomish.png
+/src/brand.svg

@@ -1,0 +1,56 @@
+import {readFile,writeFile,mkdir,rm,readdir,cp,stat} from 'node:fs/promises';
+import {resolve,dirname,join,sep} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {createRequire} from 'node:module';
+import {deflateRawSync} from 'node:zlib';
+import assert from 'node:assert/strict';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),workspace=resolve(root,'../..'),require=createRequire(import.meta.url),store=join(workspace,'node_modules/.pnpm');
+const installed=await readdir(store);
+function installedPackage(name,entry){const folder=installed.find(n=>n.startsWith(name+'@'));assert(folder,`Existing workspace tool missing: ${name}`);return join(store,folder,'node_modules',name,entry);}
+const ts=require(installedPackage('typescript','lib/typescript.js'));
+const postcss=require(installedPackage('postcss','lib/postcss.js'));
+const {rolldown}=await import(pathToFileURL(installedPackage('rolldown','dist/index.mjs')).href);
+const out=resolve(root,'minitool-dist');assert.equal(out,root+sep+'minitool-dist');await rm(out,{recursive:true,force:true});await mkdir(join(out,'assets'),{recursive:true});
+const content=JSON.parse((await readFile(join(root,'src/content/content.json'),'utf8')).replace(/^\uFEFF/,''));
+Object.assign(content.ui,{exportImage:'查看 / 保存设计图',exportCSV:'查看清单文本',exportJSON:'查看方案文本',importJSON:'粘贴方案文本',importPaste:'导入这份方案',textHelp:'选中文字后使用系统文本选择操作保留内容；容器不支持文件下载。方案可粘贴回这里继续编辑。',imageHelp:'设计图已生成。容器内可点击保存到相册；普通浏览器可直接查看。',saveAlbum:'保存到相册',savedAlbum:'已保存到相册',albumUnavailable:'当前环境没有提供相册接口，设计图仍可查看。',flatMode:'已启用轻量平面视图，仍可摆放家具和编辑方案。'});
+await writeFile(join(out,'assets/content.js'),'window.ROOMISH_CONTENT='+JSON.stringify(content)+';');
+await cp(join(root,'packaging-assets/furniture'),join(out,'assets/furniture'),{recursive:true});
+await cp(join(root,'src/logo-roomish.png'),join(out,'assets/logo-roomish.png'));
+await writeFile(join(out,'assets/licenses.json'),JSON.stringify({three:{version:'0.186.0',license:await readFile(join(root,'src/vendor/package/LICENSE'),'utf8')}}));
+const replace=(s,find,value)=>{assert(s.includes(find),'Container adaptation source changed: '+find.slice(0,70));return s.replace(find,value);};
+let source=await readFile(join(root,'src/app.js'),'utf8');
+source=replace(source,'./src/logo-roomish.png','./assets/logo-roomish.png');
+source=replace(source,"import {RoomScene} from './scene.js';","import './container-compat.js';\nimport {RoomScene} from './container-scene.js';");
+source=source.replace(/^const catalog=await fetch[^\n]+$/m,'const catalog=window.ROOMISH_CONTENT;');assert(!/^const catalog=await/m.test(source));
+source=replace(source,'function download(blob,filename){', 'function download_REMOVED(blob,filename){');source=source.replace(/^function download_REMOVED[^\n]+$/m,`let albumData='';\nfunction showText(text,title){openModal(esc(title),'<p class="micro">'+U.textHelp+'</p><textarea class="transfer-text" readonly aria-label="'+U.exportJSON+'">'+esc(text)+'</textarea>');}`);
+source=replace(source,"case 'json':download(new Blob([JSON.stringify(plan,null,2)],{type:'application/json'}),safeFilename()+'.json');break;","case 'json':showText(JSON.stringify(plan,null,2),U.exportJSON);break;");
+source=replace(source,"download(new Blob(['\\ufeff'+rows.map(row=>row.map(csvCell).join(',')).join('\\r\\n')],{type:'text/csv;charset=utf-8'}),safeFilename()+'.csv');","showText(rows.map(row=>row.map(csvCell).join(',')).join('\\r\\n'),U.exportCSV);");
+// Image export uses the shared Skill JSBridge flow in app.js.
+source=replace(source,"case 'import':$('#import-file').click();break;",`case 'import':openModal(U.importJSON,'<p class="micro">'+U.textHelp+'</p><textarea id="import-text" class="transfer-text" aria-label="'+U.importJSON+'"></textarea>'+button('import-paste',U.importPaste,'check','primary'));break;\ncase 'import-paste':try{const text=$('#import-text').value;if(text.length>2000000)throw new Error();const imported=validatePlan(JSON.parse(text),catalog);persist();imported.id=uid();blockedStorage=false;loadPlan(imported);toast('imported');}catch{toast('importError');}break;`);
+source=replace(source,'<input type="file" id="import-file" accept=".json,application/json" hidden>','');
+source=source.replace(/^\$\('#import-file'\)\.addEventListener[^\n]+\n/m,'');
+source=source.replace(/function safeFilename\(\)[^\n]+\n/,'');
+source+="\n$('#modal').addEventListener('close',()=>{albumData='';});\n";
+// Keep the catalog data separate from app parsing; there are no local fetches in the container.
+const bundle=await rolldown({input:join(root,'src/app.js'),plugins:[{name:'offline-container',load(id){if(id===join(root,'src/app.js')||id.replaceAll('\\','/')===join(root,'src/app.js').replaceAll('\\','/'))return source;},transform(code,id){if(!id.endsWith('.js'))return null;code=code.replace('Math.min(devicePixelRatio,1.75)','Math.min(devicePixelRatio,1.5)');return{code:ts.transpileModule(code,{fileName:id,compilerOptions:{target:ts.ScriptTarget.ES2017,module:ts.ModuleKind.ESNext,removeComments:true,importHelpers:false}}).outputText,map:null};}}],treeshake:true});
+await bundle.write({file:join(out,'assets/app.js'),format:'iife',name:'RoomishOffline',minify:false,sourcemap:false});await bundle.close();
+const raw=await readFile(join(out,'assets/app.js'),'utf8');
+const final=ts.transpileModule(raw,{compilerOptions:{target:ts.ScriptTarget.ES2017,module:ts.ModuleKind.None,removeComments:true}}).outputText;
+for(const banned of [/\bfetch\s*\(/,/\bXMLHttpRequest\b/,/\bnew\s+Worker\s*\(/,/\beval\s*\(/,/\bnew\s+Function\s*\(/,/\bWebAssembly\b/,/\.download\s*=/,/\bimport\s*\(/,/\bexport\s+(?:const|class|function|\{)/])assert(!banned.test(final),'Forbidden container capability: '+banned);
+const ast=ts.createSourceFile('app.js',final,ts.ScriptTarget.ES2017,true,ts.ScriptKind.JS);assert.equal(ast.parseDiagnostics.length,0,'Container JS parse error');
+function checkSyntax(n){assert(!ts.isPrivateIdentifier(n)&&!ts.isBigIntLiteral(n)&&!ts.isSpreadAssignment(n)&&!n.questionDotToken,'Untranspiled modern JS syntax');ts.forEachChild(n,checkSyntax);}checkSyntax(ast);
+await writeFile(join(out,'assets/app.js'),final);
+let css=await readFile(join(root,'src/style.css'),'utf8');css=css.replace(/100dvh/g,'var(--app-height,100vh)').replace(/\binset:0/g,'top:0;right:0;bottom:0;left:0').replace(/width:min\(820px,calc\(100vw - 32px\)\)/g,'width:calc(100vw - 32px);max-width:820px').replace(/#([0-9a-f]{8}|[0-9a-f]{4})\b/gi,(_m,h)=>{if(h.length===4)h=h.split('').map(c=>c+c).join('');return`rgba(${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)},${+(parseInt(h.slice(6,8),16)/255).toFixed(3)})`;});
+const sheet=postcss.parse(css),directions=new Map();sheet.walkRules(rule=>{rule.walkDecls('flex-direction',d=>directions.set(rule.selector,d.value));});
+sheet.walkRules(rule=>{rule.walkDecls('gap',d=>{d.cloneBefore({prop:'grid-gap'});const parts=d.value.split(/\s+/),vertical=directions.get(rule.selector)==='column',fallback=postcss.rule({selector:rule.selectors.map(s=>'html.no-flex-gap '+s+' > * + *').join(',')});fallback.append({prop:vertical?'margin-top':'margin-left',value:parts[vertical?0:1]||parts[0]});rule.after(fallback);});});
+css=sheet.toString()+`\n:root{--safe-top:var(--safe-area-inset-top,0px);--safe-bottom:var(--safe-area-inset-bottom,0px)}@supports(padding:env(safe-area-inset-top)){:root{--safe-top:var(--safe-area-inset-top,env(safe-area-inset-top,0px));--safe-bottom:var(--safe-area-inset-bottom,env(safe-area-inset-bottom,0px))}}html,body{height:100%;touch-action:manipulation}body{-webkit-touch-callout:none}button:focus,input:focus,select:focus,textarea:focus{outline:2px solid #a76345;outline-offset:2px}.library-content,.inspector,.table-scroll{-webkit-overflow-scrolling:touch}.flat-canvas{touch-action:none}.transfer-text{width:100%;height:260px;max-height:45vh;resize:vertical;box-sizing:border-box;border:1px solid #dedfd0;border-radius:8px;background:#fffdf6;padding:12px;color:#46523a;font-size:12px;line-height:1.6;user-select:text;-webkit-user-select:text}.export-preview{width:100%;max-height:60vh;object-fit:contain}dialog:not([open]){display:none}dialog[open]{position:fixed;top:0;right:0;bottom:auto;left:0;z-index:80}dialog{background:#fcfaf5}body .app-shell{height:100vh;height:var(--app-height,100vh)}\n`;
+await writeFile(join(out,'assets/style.css'),css);
+await writeFile(join(out,'index.html'),`<!DOCTYPE html>\n<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><meta name="theme-color" content="#f5f2eb"><title>${content.title} · ROOMISH</title><link rel="icon" href="./assets/logo-roomish.png" type="image/png"><link rel="stylesheet" href="./assets/style.css"></head><body><div id="app"></div><script src="./assets/content.js"></script><script src="./assets/app.js"></script></body></html>`);
+// ZIP writer uses only Node standard-library compression, no package installation.
+const crcTable=Array.from({length:256},(_,n)=>{for(let k=0;k<8;k++)n=n&1?0xedb88320^(n>>>1):n>>>1;return n>>>0;});
+function crc32(buf){let c=0xffffffff;for(const v of buf)c=crcTable[(c^v)&255]^(c>>>8);return(c^0xffffffff)>>>0;}
+async function files(dir,prefix=''){let result=[];for(const entry of await readdir(dir,{withFileTypes:true})){const name=prefix+entry.name;if(entry.isDirectory())result.push(...await files(join(dir,entry.name),name+'/'));else result.push(name);}return result.sort();}
+const names=await files(out),local=[],central=[];let offset=0;const manifest=[];
+for(const name of names){assert(/\.(html|css|js|json|svg|png)$/.test(name));const data=await readFile(join(out,name)),packed=deflateRawSync(data,{level:9}),nb=Buffer.from(name),crc=crc32(data),lh=Buffer.alloc(30);lh.writeUInt32LE(0x04034b50);lh.writeUInt16LE(20,4);lh.writeUInt16LE(0x800,6);lh.writeUInt16LE(8,8);lh.writeUInt16LE(33,12);lh.writeUInt32LE(crc,14);lh.writeUInt32LE(packed.length,18);lh.writeUInt32LE(data.length,22);lh.writeUInt16LE(nb.length,26);local.push(lh,nb,packed);const ch=Buffer.alloc(46);ch.writeUInt32LE(0x02014b50);ch.writeUInt16LE(20,4);ch.writeUInt16LE(20,6);ch.writeUInt16LE(0x800,8);ch.writeUInt16LE(8,10);ch.writeUInt16LE(33,14);ch.writeUInt32LE(crc,16);ch.writeUInt32LE(packed.length,20);ch.writeUInt32LE(data.length,24);ch.writeUInt16LE(nb.length,28);ch.writeUInt32LE(offset,42);central.push(ch,nb);offset+=lh.length+nb.length+packed.length;manifest.push({name,bytes:data.length});}
+const directory=Buffer.concat(central),end=Buffer.alloc(22);end.writeUInt32LE(0x06054b50);end.writeUInt16LE(names.length,8);end.writeUInt16LE(names.length,10);end.writeUInt32LE(directory.length,12);end.writeUInt32LE(offset,16);const zip=Buffer.concat([...local,directory,end]);assert(zip.length<=10*1024*1024);assert(names.includes('index.html'));
+await mkdir(join(root,'release'),{recursive:true});const zipPath=join(root,'release/roomish-1.0.0-minitool.zip');await writeFile(zipPath,zip);await writeFile(join(root,'release/package-manifest.json'),JSON.stringify({zip:zipPath,bytes:zip.length,files:manifest,syntax:'ES2017 / Chrome 61 target',network:false,deviceVerification:'Chrome 61 / Android 8.1 / native bridge: not tested on device'},null,2));console.log(JSON.stringify({zip:zipPath,bytes:zip.length,files:names.length},null,2));

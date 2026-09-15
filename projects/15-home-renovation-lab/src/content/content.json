@@ -1,0 +1,897 @@
+{
+  "title": "住进想象",
+  "subtitle": "把喜欢的生活，一点点摆进去。",
+  "version": "1.0.0",
+  "ui": {
+    "brand": "ROOMISH",
+    "project": "我的原木小家",
+    "local": "保存在这台设备",
+    "saved": "已自动保存",
+    "unsaved": "保存失败，请导出方案备份",
+    "loading": "正在为你打开一个小家…",
+    "furniture": "家具",
+    "materials": "材质",
+    "layouts": "户型",
+    "styles": "灵感",
+    "all": "全部",
+    "search": "找一件喜欢的家具",
+    "beginner": "新手模式",
+    "advanced": "进阶模式",
+    "finish": "完成设计",
+    "back": "继续装修",
+    "undo": "撤销",
+    "redo": "重做",
+    "plans": "我的方案",
+    "overview": "全屋",
+    "top": "俯视",
+    "inside": "进入体验",
+    "reset": "视角复位",
+    "compare": "前后对比",
+    "before": "改造之前",
+    "after": "我的改造",
+    "baseline": "将当前设为对比起点",
+    "day": "日光",
+    "night": "暖夜",
+    "hint": "点选家具再拖动 · 拖动空白旋转 · 双指缩放",
+    "placeHint": "点击地面放置，底部可取消",
+    "walkHint": "拖动环顾 · 点击地面移动 · 选房间快速切换",
+    "selectHint": "点选一个房间或家具，开始改造",
+    "objects": "件家具",
+    "rooms": "个空间",
+    "unmeasured": "参考尺寸，非实测",
+    "sample": "示例尺寸",
+    "partial": "已标定小计",
+    "area": "室内面积",
+    "room": "房间",
+    "floor": "地面",
+    "wall": "墙面",
+    "rotate": "旋转",
+    "duplicate": "复制",
+    "remove": "删除",
+    "color": "颜色",
+    "width": "宽",
+    "depth": "深",
+    "height": "高",
+    "angle": "角度",
+    "apply": "应用",
+    "close": "关闭",
+    "cancel": "取消",
+    "name": "名称",
+    "measured": "这些尺寸来自实际测量",
+    "measureHelp": "宽度、进深的单位均为米；进深指房间前后长度，不是层高。未确认实测时仅作布局参考；确认后按宽 × 深计算房间平面面积，不等同于建筑面积。",
+    "roomHelp": "开启后直接拖动房间；俯视下拖动右下角圆点调整大小。选中房间后，点击「名称 / 尺寸」打开属性。",
+    "addRoom": "添加房间",
+    "blank": "从空白开始",
+    "templateHelp": "六种生活底稿，随时改成你的样子。当前方案会先保存。",
+    "materialHelp": "先选房间，再挑一块喜欢的材质。",
+    "styleHelp": "保留家具位置，一键换一种生活气质。",
+    "inventory": "家具与材料清单",
+    "exportImage": "导出设计图",
+    "exportCSV": "导出清单 CSV",
+    "exportJSON": "导出方案 JSON",
+    "importJSON": "导入方案",
+    "saveCopy": "另存一版",
+    "clear": "清空家具",
+    "savedPlans": "本地方案",
+    "open": "打开",
+    "empty": "这里还没有内容",
+    "noResults": "没有找到，试试其他关键词",
+    "snapshotTitle": "这就是，我喜欢的家。",
+    "snapshotSubtitle": "每一处摆放，都有自己的生活想象。",
+    "snapshotTip": "旋转看看全屋，或走进去，感受刚刚布置好的空间。",
+    "count": "数量",
+    "material": "材料",
+    "size": "规格",
+    "location": "使用位置",
+    "quantity": "用量",
+    "unitPrice": "单价（选填）",
+    "subtotal": "已填写项小计",
+    "total": "已填写范围合计",
+    "pending": "待标定",
+    "priceHelp": "不含未填项、人工及施工费用；金额仅按你填写的单价计算。",
+    "deleteAsk": "确认删除？此操作可撤销。",
+    "planDeleteAsk": "删除这份本地方案？",
+    "clearAsk": "清空当前方案中的家具？可撤销恢复。",
+    "loaded": "已打开方案",
+    "copied": "已保留原版，开始尝试另一种搭配",
+    "changed": "已更新",
+    "added": "已加入你的家",
+    "invalidPlacement": "这个位置放不下，试着移开一点",
+    "invalidRoom": "房间不能重叠，尺寸须在 1.5–16 之间",
+    "invalidNumber": "请输入有效范围内的数字",
+    "importError": "方案格式不正确或版本不支持，当前设计未改变",
+    "imported": "方案已导入",
+    "exported": "已发起下载",
+    "webglError": "这台设备暂时无法打开 3D 空间。请尝试支持 WebGL 2 的浏览器；仍可导出本地方案。",
+    "useTemplate": "住进这一套",
+    "roomEdit": "调整户型",
+    "objectEdit": "摆放家具",
+    "snap": "自动吸附",
+    "wallHeight": "墙高",
+    "wallThickness": "墙厚",
+    "buildingArea": "建筑面积（用户填写）",
+    "addDoor": "添加门",
+    "addWindow": "添加窗户",
+    "openings": "门窗",
+    "north": "后墙",
+    "south": "前墙",
+    "west": "左墙",
+    "east": "右墙",
+    "openingTip": "选择墙面及位置；共享墙门洞自动贯通。",
+    "offset": "沿墙位置",
+    "sill": "离地高度",
+    "door": "门洞",
+    "window": "窗户",
+    "textureScale": "纹理尺度",
+    "textureAngle": "纹理方向",
+    "walkBlocked": "前方有墙或家具，请换一个落点",
+    "walkNoSpace": "房间内没有足够的站立空间",
+    "viewCorner": "从门边看",
+    "viewCenter": "从房间中央看",
+    "limit": "已达到当前方案容量上限",
+    "help": "怎么玩",
+    "helpText": "先试着换个沙发颜色，或把椅子挪到窗边。家具面板点选后，在地面点一下放置。灵感里可以整屋换风格。随时撤销，放心尝试。",
+    "roomDeleted": "房间及其家具已移除，可撤销恢复",
+    "emptyRoom": "至少保留一个房间",
+    "storageCorrupt": "本地记录无法读取，已打开示例；未覆盖原记录，请另存或导出。",
+    "newRoomName": "新空间",
+    "newPlanName": "我的自由小家",
+    "light": "光线",
+    "selection": "正在调整",
+    "roomNav": "看看这个房间",
+    "density": "低多边形 · 自由搭配",
+    "savedLabel": "本地自动保存",
+    "choose": "选择",
+    "footer": "你的生活，没有标准答案。",
+    "surface": "应用位置",
+    "planSuffix": " · 另一版",
+    "real": "已录入尺寸",
+    "emptyPlans": "当前设计会自动出现在这里",
+    "dayTitle": "午后的小家",
+    "nightTitle": "灯亮，回家。",
+    "wallHint": "添加门窗后可在下方修改宽高和位置",
+    "deleteOpening": "移除门窗",
+    "roomSizeChanged": "房间已调整；越界家具会显示红色，请重新摆放",
+    "memory": "对比起点已更新",
+    "downloadFailed": "下载失败，请重试",
+    "notReady": "请先退出体验或对比再编辑",
+    "constructionNote": "用于空间搭配与室内面积参考，不推算建筑面积或施工工程量。",
+    "confirmedHeight": "墙高已核实，用于计算墙面用量",
+    "wallQuantityHint": "墙面用量需要房间尺寸和墙高均已确认；可在进阶模式中填写。",
+    "introLabel": "MAKE ROOM FOR YOU",
+    "sceneLabel": "YOUR LITTLE WORLD / 01",
+    "emptyLabel": "A HOME, BY YOU",
+    "experimentLabel": "TRY ANOTHER LIFE",
+    "objectsLabel": "OBJECTS",
+    "addNextRoom": "继续添加房间",
+    "collapseRoomEditor": "收起面板",
+    "editRoomProperties": "名称 / 尺寸",
+    "finishLayout": "开始装修",
+    "roomWidthMeters": "宽度（米）",
+    "roomDepthMeters": "进深（米）",
+    "focusSelectedRoom": "聚焦房间",
+    "placeDoorHint": "轻点墙面开门 · 拖门移动 · 拖空白调整视角",
+    "doorWallHint": "请点击选中房间的墙边，而不是房间中央。",
+    "doorBlocked": "这里放不下门，或与已有门窗重叠，请换个位置。",
+    "doorAdded": "门已添加，可直接拖动调整位置",
+    "viewMenu": "视角",
+    "moreSettings": "更多",
+    "roomSettings": "房间设置",
+    "endPlacing": "结束放置",
+    "roomSaved": "房间修改已保存",
+    "moveDoor": "调整门",
+    "repositionDoor": "重新定位",
+    "moveDoorHint": "点击新的墙边位置；取消会保留原门",
+    "doorMoved": "门已移动，可撤销",
+    "adjustCamera": "调整视角",
+    "resumeDoor": "返回放置",
+    "doorCameraHint": "拖动画布、双指缩放调整视角，完成后返回放置",
+    "noDoors": "当前房间还没有门，请先添加。",
+    "dragDoorHint": "按住门洞拖动即可移动，拖空白处调整视角",
+    "saveAlbum": "保存到相册",
+    "savedAlbum": "已保存到相册",
+    "imageHelp": "点击保存到相册，通过小红书容器保存设计图。普通浏览器仅提供预览。",
+    "albumUnavailable": "请在小红书小工具内保存到相册，当前浏览器仅支持预览。",
+    "albumFailed": "图片未保存，请检查相册权限后重试。"
+  },
+  "categories": [
+    "客厅",
+    "卧室",
+    "餐厨",
+    "卫浴",
+    "装饰"
+  ],
+  "roomNames": [
+    "客厅",
+    "卧室",
+    "厨房",
+    "卫生间",
+    "阳台",
+    "书房",
+    "餐厅"
+  ],
+  "palette": [
+    "#d9cbb5",
+    "#b77859",
+    "#829184",
+    "#e8dfce",
+    "#56615d",
+    "#c4a578",
+    "#9caabd",
+    "#c79995"
+  ],
+  "materials": [
+    {
+      "id": "oak",
+      "name": "自然橡木",
+      "color": "#c9aa7e",
+      "pattern": "wood",
+      "roughness": 0.85
+    },
+    {
+      "id": "walnut",
+      "name": "烟熏胡桃",
+      "color": "#80634d",
+      "pattern": "wood",
+      "roughness": 0.85
+    },
+    {
+      "id": "ash",
+      "name": "浅白蜡木",
+      "color": "#dbccad",
+      "pattern": "wood",
+      "roughness": 0.85
+    },
+    {
+      "id": "tile",
+      "name": "奶白方砖",
+      "color": "#dfdcd0",
+      "pattern": "tile",
+      "roughness": 0.45
+    },
+    {
+      "id": "sage-tile",
+      "name": "鼠尾草小砖",
+      "color": "#99aaa0",
+      "pattern": "tile",
+      "roughness": 0.45
+    },
+    {
+      "id": "clay-tile",
+      "name": "陶土砖",
+      "color": "#bd866b",
+      "pattern": "tile",
+      "roughness": 0.45
+    },
+    {
+      "id": "marble",
+      "name": "云雾石材",
+      "color": "#e4e1d9",
+      "pattern": "stone",
+      "roughness": 0.85
+    },
+    {
+      "id": "concrete",
+      "name": "微水泥",
+      "color": "#bdbbb1",
+      "pattern": "stone",
+      "roughness": 0.85
+    },
+    {
+      "id": "cream",
+      "name": "奶油白墙漆",
+      "color": "#eee5d4",
+      "pattern": "paint",
+      "roughness": 0.85
+    },
+    {
+      "id": "sage",
+      "name": "灰绿墙漆",
+      "color": "#a1afa0",
+      "pattern": "paint",
+      "roughness": 0.85
+    },
+    {
+      "id": "blush",
+      "name": "杏粉墙漆",
+      "color": "#d7b5a4",
+      "pattern": "paint",
+      "roughness": 0.85
+    },
+    {
+      "id": "stripe",
+      "name": "亚麻条纹壁纸",
+      "color": "#d9d0bc",
+      "pattern": "stripe",
+      "roughness": 0.85
+    }
+  ],
+  "furniture": [
+    {
+      "id": "sofa",
+      "name": "云朵三人沙发",
+      "category": "客厅",
+      "model": "sofa",
+      "w": 2.5,
+      "d": 0.95,
+      "h": 0.88,
+      "color": "#d9cbb5"
+    },
+    {
+      "id": "loveseat",
+      "name": "松绿双人沙发",
+      "category": "客厅",
+      "model": "sofa",
+      "w": 1.8,
+      "d": 0.85,
+      "h": 0.84,
+      "color": "#829184"
+    },
+    {
+      "id": "armchair",
+      "name": "窗边休闲椅",
+      "category": "客厅",
+      "model": "chair",
+      "w": 0.8,
+      "d": 0.82,
+      "h": 0.86,
+      "color": "#b77859"
+    },
+    {
+      "id": "coffee",
+      "name": "圆角橡木茶几",
+      "category": "客厅",
+      "model": "coffee",
+      "w": 1.15,
+      "d": 0.65,
+      "h": 0.4,
+      "color": "#c4a578"
+    },
+    {
+      "id": "roundtable",
+      "name": "小圆边几",
+      "category": "客厅",
+      "model": "round",
+      "w": 0.5,
+      "d": 0.5,
+      "h": 0.5,
+      "color": "#80634d"
+    },
+    {
+      "id": "tv",
+      "name": "落地电视组合",
+      "category": "客厅",
+      "model": "tv",
+      "w": 1.7,
+      "d": 0.38,
+      "h": 1.35,
+      "color": "#c4a578"
+    },
+    {
+      "id": "bookcase",
+      "name": "格子书架",
+      "category": "客厅",
+      "model": "shelf",
+      "w": 1,
+      "d": 0.35,
+      "h": 1.75,
+      "color": "#c4a578"
+    },
+    {
+      "id": "bed",
+      "name": "亚麻双人床",
+      "category": "卧室",
+      "model": "bed",
+      "w": 1.65,
+      "d": 2.1,
+      "h": 0.95,
+      "color": "#e8dfce"
+    },
+    {
+      "id": "singlebed",
+      "name": "日光单人床",
+      "category": "卧室",
+      "model": "bed",
+      "w": 1.05,
+      "d": 2,
+      "h": 0.86,
+      "color": "#9caabd"
+    },
+    {
+      "id": "nightstand",
+      "name": "床头小柜",
+      "category": "卧室",
+      "model": "cabinet",
+      "w": 0.45,
+      "d": 0.42,
+      "h": 0.5,
+      "color": "#c4a578"
+    },
+    {
+      "id": "wardrobe",
+      "name": "百叶衣柜",
+      "category": "卧室",
+      "model": "wardrobe",
+      "w": 1.4,
+      "d": 0.55,
+      "h": 2.1,
+      "color": "#d9cbb5"
+    },
+    {
+      "id": "desk",
+      "name": "靠窗书桌",
+      "category": "卧室",
+      "model": "desk",
+      "w": 1.1,
+      "d": 0.55,
+      "h": 0.76,
+      "color": "#c4a578"
+    },
+    {
+      "id": "dining",
+      "name": "四人餐桌",
+      "category": "餐厨",
+      "model": "table",
+      "w": 1.3,
+      "d": 0.8,
+      "h": 0.76,
+      "color": "#c4a578"
+    },
+    {
+      "id": "chair",
+      "name": "弧背餐椅",
+      "category": "餐厨",
+      "model": "chair",
+      "w": 0.46,
+      "d": 0.48,
+      "h": 0.84,
+      "color": "#829184"
+    },
+    {
+      "id": "kitchen",
+      "name": "一字橱柜",
+      "category": "餐厨",
+      "model": "kitchen",
+      "w": 1.8,
+      "d": 0.6,
+      "h": 0.9,
+      "color": "#829184"
+    },
+    {
+      "id": "fridge",
+      "name": "复古冰箱",
+      "category": "餐厨",
+      "model": "fridge",
+      "w": 0.65,
+      "d": 0.65,
+      "h": 1.7,
+      "color": "#e8dfce"
+    },
+    {
+      "id": "island",
+      "name": "料理岛台",
+      "category": "餐厨",
+      "model": "island",
+      "w": 1.2,
+      "d": 0.7,
+      "h": 0.9,
+      "color": "#d9cbb5"
+    },
+    {
+      "id": "vanity",
+      "name": "悬空洗手台",
+      "category": "卫浴",
+      "model": "sink",
+      "w": 0.8,
+      "d": 0.48,
+      "h": 0.85,
+      "color": "#c4a578"
+    },
+    {
+      "id": "toilet",
+      "name": "极简马桶",
+      "category": "卫浴",
+      "model": "toilet",
+      "w": 0.42,
+      "d": 0.68,
+      "h": 0.76,
+      "color": "#ecebe5"
+    },
+    {
+      "id": "shower",
+      "name": "玻璃淋浴间",
+      "category": "卫浴",
+      "model": "shower",
+      "w": 0.9,
+      "d": 0.9,
+      "h": 2,
+      "color": "#abc5bd"
+    },
+    {
+      "id": "rug",
+      "name": "柔软编织地毯",
+      "category": "装饰",
+      "model": "rug",
+      "w": 2.5,
+      "d": 1.8,
+      "h": 0.025,
+      "color": "#e8dfce",
+      "overlay": true
+    },
+    {
+      "id": "plant",
+      "name": "一盆橄榄树",
+      "category": "装饰",
+      "model": "plant",
+      "w": 0.55,
+      "d": 0.55,
+      "h": 1.45,
+      "color": "#829184"
+    },
+    {
+      "id": "lamp",
+      "name": "蘑菇落地灯",
+      "category": "装饰",
+      "model": "lamp",
+      "w": 0.45,
+      "d": 0.45,
+      "h": 1.6,
+      "color": "#e8dfce"
+    },
+    {
+      "id": "art",
+      "name": "落地抽象画",
+      "category": "装饰",
+      "model": "art",
+      "w": 0.7,
+      "d": 0.12,
+      "h": 1.1,
+      "color": "#b77859"
+    },
+    {
+      "id": "bench",
+      "name": "窗边长凳",
+      "category": "装饰",
+      "model": "bench",
+      "w": 1.1,
+      "d": 0.4,
+      "h": 0.45,
+      "color": "#c4a578"
+    },
+    {
+      "id": "pouf",
+      "name": "软软小坐墩",
+      "category": "客厅",
+      "model": "pouf",
+      "w": 0.6,
+      "d": 0.6,
+      "h": 0.4,
+      "color": "#b77859"
+    }
+  ],
+  "templates": [
+    {
+      "id": "one",
+      "name": "一室一厅",
+      "tag": "一个人的松弛生活",
+      "rooms": [
+        [
+          "客厅",
+          0,
+          0,
+          4.8,
+          4.2,
+          "living"
+        ],
+        [
+          "卧室",
+          4.8,
+          0,
+          3.4,
+          4.2,
+          "bedroom"
+        ],
+        [
+          "厨房",
+          0,
+          4.2,
+          3,
+          2.4,
+          "kitchen"
+        ],
+        [
+          "卫生间",
+          3,
+          4.2,
+          2,
+          2.4,
+          "bath"
+        ],
+        [
+          "阳台",
+          5,
+          4.2,
+          3.2,
+          2.4,
+          "balcony"
+        ]
+      ]
+    },
+    {
+      "id": "studio",
+      "name": "开放单间",
+      "tag": "小空间，也有大想象",
+      "rooms": [
+        [
+          "起居室",
+          0,
+          0,
+          5.8,
+          5.2,
+          "studio"
+        ],
+        [
+          "卫生间",
+          5.8,
+          0,
+          2,
+          2.4,
+          "bath"
+        ]
+      ]
+    },
+    {
+      "id": "two",
+      "name": "两室一厅",
+      "tag": "为喜欢的人留一间房",
+      "rooms": [
+        [
+          "客厅",
+          0,
+          0,
+          4.8,
+          4.4,
+          "living"
+        ],
+        [
+          "主卧",
+          4.8,
+          0,
+          3.4,
+          4.4,
+          "bedroom"
+        ],
+        [
+          "次卧",
+          4.8,
+          4.4,
+          3.4,
+          3.2,
+          "bedroom"
+        ],
+        [
+          "厨房",
+          0,
+          4.4,
+          2.6,
+          3.2,
+          "kitchen"
+        ],
+        [
+          "卫生间",
+          2.6,
+          4.4,
+          2.2,
+          3.2,
+          "bath"
+        ]
+      ]
+    },
+    {
+      "id": "dining",
+      "name": "两室两厅",
+      "tag": "好好吃饭，好好生活",
+      "rooms": [
+        [
+          "客厅",
+          0,
+          0,
+          4.8,
+          4.4,
+          "living"
+        ],
+        [
+          "主卧",
+          4.8,
+          0,
+          3.6,
+          4.4,
+          "bedroom"
+        ],
+        [
+          "餐厅",
+          0,
+          4.4,
+          3.1,
+          3.4,
+          "dining"
+        ],
+        [
+          "厨房",
+          3.1,
+          4.4,
+          2.4,
+          3.4,
+          "kitchen"
+        ],
+        [
+          "次卧",
+          8.4,
+          0,
+          3.2,
+          4.4,
+          "bedroom"
+        ],
+        [
+          "卫生间",
+          5.5,
+          4.4,
+          2.9,
+          3.4,
+          "bath"
+        ]
+      ]
+    },
+    {
+      "id": "family",
+      "name": "三室两厅",
+      "tag": "装得下全家人的日常",
+      "rooms": [
+        [
+          "客厅",
+          0,
+          0,
+          5,
+          4.6,
+          "living"
+        ],
+        [
+          "主卧",
+          5,
+          0,
+          3.5,
+          4.6,
+          "bedroom"
+        ],
+        [
+          "儿童房",
+          8.5,
+          0,
+          3.2,
+          4.6,
+          "bedroom"
+        ],
+        [
+          "餐厅",
+          0,
+          4.6,
+          3.1,
+          3.4,
+          "dining"
+        ],
+        [
+          "厨房",
+          3.1,
+          4.6,
+          2.4,
+          3.4,
+          "kitchen"
+        ],
+        [
+          "卫生间",
+          5.5,
+          4.6,
+          2.4,
+          3.4,
+          "bath"
+        ],
+        [
+          "书房",
+          7.9,
+          4.6,
+          3.8,
+          3.4,
+          "study"
+        ]
+      ]
+    },
+    {
+      "id": "ell",
+      "name": "转角小家",
+      "tag": "把风景，留在转角处",
+      "rooms": [
+        [
+          "客厅",
+          0,
+          0,
+          4.8,
+          4.4,
+          "living"
+        ],
+        [
+          "卧室",
+          4.8,
+          0,
+          3.4,
+          4.4,
+          "bedroom"
+        ],
+        [
+          "厨房",
+          0,
+          4.4,
+          2.6,
+          2.6,
+          "kitchen"
+        ],
+        [
+          "卫生间",
+          2.6,
+          4.4,
+          2.2,
+          2.6,
+          "bath"
+        ],
+        [
+          "阳台",
+          0,
+          7,
+          4.8,
+          1.8,
+          "balcony"
+        ]
+      ]
+    }
+  ],
+  "styles": [
+    {
+      "id": "natural",
+      "name": "林间原木",
+      "tag": "温暖 / 松弛 / 有呼吸感",
+      "floor": "oak",
+      "wall": "cream",
+      "colors": [
+        "#d9cbb5",
+        "#829184",
+        "#b77859"
+      ],
+      "background": "#d8d9c5"
+    },
+    {
+      "id": "cream",
+      "name": "奶油日记",
+      "tag": "柔软 / 明亮 / 慢生活",
+      "floor": "ash",
+      "wall": "cream",
+      "colors": [
+        "#e8dfce",
+        "#c79995",
+        "#d9cbb5"
+      ],
+      "background": "#eadbd0"
+    },
+    {
+      "id": "modern",
+      "name": "城市留白",
+      "tag": "克制 / 安静 / 有秩序",
+      "floor": "concrete",
+      "wall": "sage",
+      "colors": [
+        "#56615d",
+        "#9caabd",
+        "#d9cbb5"
+      ],
+      "background": "#cbd5d3"
+    }
+  ]
+}

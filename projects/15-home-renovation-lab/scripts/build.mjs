@@ -1,0 +1,11 @@
+import {cp,mkdir,rm,readFile,writeFile} from 'node:fs/promises';
+import {resolve,sep} from 'node:path';
+const project=resolve('.'),target=resolve('dist');
+if(target!==project+sep+'dist')throw new Error('Invalid build directory');
+await rm(target,{recursive:true,force:true});
+await mkdir(target,{recursive:true});
+await cp('src',resolve(target,'src'),{recursive:true});
+await cp('index.html',resolve(target,'index.html'));
+const content=JSON.parse((await readFile('src/content/content.json','utf8')).replace(/^\uFEFF/,''));
+await writeFile(resolve(target,'manifest.json'),JSON.stringify({project:content.title,version:content.version,renderer:'Three.js 0.186.0',runtime:'static browser modules'},null,2));
+console.log('Static build ready: dist/');

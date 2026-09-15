@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "checks": [
+    "render",
+    "26 furniture assets",
+    "style changes",
+    "undo and redo",
+    "before-after",
+    "measurement",
+    "inventory pricing",
+    "walkthrough",
+    "PNG download",
+    "reload recovery",
+    "raycast furniture placement",
+    "furniture rotation",
+    "pointer drag",
+    "furniture deletion",
+    "add room",
+    "resize room",
+    "advanced mode",
+    "opening editing",
+    "wall height confirmation",
+    "375/390/430 widths",
+    "28px safe area",
+    "JSON download and import",
+    "media stripped from imports",
+    "invalid import preserves state",
+    "plan copy",
+    "open plan from showcase",
+    "no external runtime requests"
+  ],
+  "mobile": [
+    {
+      "width": 375,
+      "scroll": 375,
+      "brand": 41.296875,
+      "top": 108,
+      "canvas": 716
+    },
+    {
+      "width": 390,
+      "scroll": 390,
+      "brand": 41.296875,
+      "top": 108,
+      "canvas": 716
+    },
+    {
+      "width": 430,
+      "scroll": 430,
+      "brand": 41.296875,
+      "top": 108,
+      "canvas": 716
+    }
+  ],
+  "errors": [],
+  "external": []
+}

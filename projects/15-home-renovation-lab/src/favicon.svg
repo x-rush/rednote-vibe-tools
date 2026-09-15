@@ -1,0 +1,6 @@
+# 02-something
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="Home Renovation Lab icon">
+  <rect x="6" y="10" width="36" height="24" rx="4" fill="#6f6a55"/>
+  <path d="M4 19l20-11 20 11" stroke="#6f6a55" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 34h16" stroke="#f8f7f2" stroke-width="3"/>
+</svg>

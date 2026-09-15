@@ -1,0 +1,5 @@
+import {createRequire} from 'node:module';
+import {mkdir,writeFile} from 'node:fs/promises';
+const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_PACKAGE||'playwright');
+const browser=await chromium.launch({channel:'chrome',headless:true});
+try{const page=await browser.newPage();await page.goto(process.env.ART_SOURCE_URL||'http://127.0.0.1:4515',{waitUntil:'networkidle'});await page.waitForSelector('.furniture-card img');const images=await page.locator('.furniture-card').evaluateAll(cards=>cards.map(c=>({id:c.dataset.id,src:c.querySelector('img').src})));await mkdir('packaging-assets/furniture',{recursive:true});for(const image of images){if(!/^[a-z]+$/.test(image.id)||!image.src.startsWith('data:image/png;base64,'))throw new Error('Unexpected art source');await writeFile(`packaging-assets/furniture/${image.id}.png`,Buffer.from(image.src.split(',')[1],'base64'));}console.log(`Generated ${images.length} local model thumbnails.`);}finally{await browser.close();}

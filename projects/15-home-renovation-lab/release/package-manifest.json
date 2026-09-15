@@ -1,0 +1,137 @@
+{
+  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.0.0-minitool.zip",
+  "bytes": 1198123,
+  "files": [
+    {
+      "name": "assets/app.js",
+      "bytes": 1453404
+    },
+    {
+      "name": "assets/content.js",
+      "bytes": 14399
+    },
+    {
+      "name": "assets/furniture/armchair.png",
+      "bytes": 5882
+    },
+    {
+      "name": "assets/furniture/art.png",
+      "bytes": 3996
+    },
+    {
+      "name": "assets/furniture/bed.png",
+      "bytes": 5668
+    },
+    {
+      "name": "assets/furniture/bench.png",
+      "bytes": 3299
+    },
+    {
+      "name": "assets/furniture/bookcase.png",
+      "bytes": 4962
+    },
+    {
+      "name": "assets/furniture/chair.png",
+      "bytes": 3820
+    },
+    {
+      "name": "assets/furniture/coffee.png",
+      "bytes": 3624
+    },
+    {
+      "name": "assets/furniture/desk.png",
+      "bytes": 3833
+    },
+    {
+      "name": "assets/furniture/dining.png",
+      "bytes": 3743
+    },
+    {
+      "name": "assets/furniture/fridge.png",
+      "bytes": 2861
+    },
+    {
+      "name": "assets/furniture/island.png",
+      "bytes": 4001
+    },
+    {
+      "name": "assets/furniture/kitchen.png",
+      "bytes": 4244
+    },
+    {
+      "name": "assets/furniture/lamp.png",
+      "bytes": 2485
+    },
+    {
+      "name": "assets/furniture/loveseat.png",
+      "bytes": 5197
+    },
+    {
+      "name": "assets/furniture/nightstand.png",
+      "bytes": 4499
+    },
+    {
+      "name": "assets/furniture/plant.png",
+      "bytes": 4942
+    },
+    {
+      "name": "assets/furniture/pouf.png",
+      "bytes": 3899
+    },
+    {
+      "name": "assets/furniture/roundtable.png",
+      "bytes": 3398
+    },
+    {
+      "name": "assets/furniture/rug.png",
+      "bytes": 3991
+    },
+    {
+      "name": "assets/furniture/shower.png",
+      "bytes": 3278
+    },
+    {
+      "name": "assets/furniture/singlebed.png",
+      "bytes": 5143
+    },
+    {
+      "name": "assets/furniture/sofa.png",
+      "bytes": 4690
+    },
+    {
+      "name": "assets/furniture/toilet.png",
+      "bytes": 3835
+    },
+    {
+      "name": "assets/furniture/tv.png",
+      "bytes": 4073
+    },
+    {
+      "name": "assets/furniture/vanity.png",
+      "bytes": 4962
+    },
+    {
+      "name": "assets/furniture/wardrobe.png",
+      "bytes": 2923
+    },
+    {
+      "name": "assets/licenses.json",
+      "bytes": 1150
+    },
+    {
+      "name": "assets/logo-roomish.png",
+      "bytes": 849000
+    },
+    {
+      "name": "assets/style.css",
+      "bytes": 39576
+    },
+    {
+      "name": "index.html",
+      "bytes": 479
+    }
+  ],
+  "syntax": "ES2017 / Chrome 61 target",
+  "network": false,
+  "deviceVerification": "Chrome 61 / Android 8.1 / native bridge: not tested on device"
+}

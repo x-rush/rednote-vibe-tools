@@ -1,3 +1,5 @@
+// ROOMISH: match pointer coordinates to the rotated app viewport.
+import {viewportRect} from '../../../../../orientation.js';
 import {
 	Controls,
 	MOUSE,
@@ -1065,7 +1067,7 @@ class OrbitControls extends Controls {
 
 		this._performCursorZoom = true;
 
-		const rect = this.domElement.getBoundingClientRect();
+		const rect = viewportRect( this.domElement );
 		const dx = x - rect.left;
 		const dy = y - rect.top;
 		const w = rect.width;

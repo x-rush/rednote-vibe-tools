@@ -1,3 +1,4 @@
+import {improveTemplate} from './circulation.js';
 export const clone = value => JSON.parse(JSON.stringify(value));
 export const uid = () => globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 export const round = (n, p = 2) => Math.round(n * 10 ** p) / 10 ** p;
@@ -19,7 +20,7 @@ export function placement(plan,item,catalog){
 }
 export function itemFrom(def,room,x,z,angle=0){return{id:uid(),catalogId:def.id,roomId:room.id,x,z,w:def.w,d:def.d,h:def.h,color:def.color,angle};}
 export function findSpot(plan,def,room,catalog){for(let z=room.z+def.d/2+0.12;z<room.z+room.d-def.d/2;z+=0.22)for(let x=room.x+def.w/2+0.12;x<room.x+room.w-def.w/2;x+=0.22){const o=itemFrom(def,room,round(x),round(z));if(placement(plan,o,catalog))return o;}return null;}
-export function makePlan(template,catalog){
+export function makePlan(template,catalog,legacy=false){
   const plan={schemaVersion:1,id:uid(),name:template.name,mode:'beginner',wallHeight:2.65,wallHeightMeasured:false,wallThickness:0.14,buildingArea:null,rooms:[],items:[],openings:[],prices:{},style:'natural',updatedAt:Date.now()};
   plan.rooms=template.rooms.map(([name,x,z,w,d,kind])=>({id:uid(),name,x,z,w,d,kind,measured:false,floor:['bath','kitchen'].includes(kind)?'tile':'oak',wall:'cream',textureScale:1,textureAngle:0}));
   const add=(id,r,x,z,angle=0)=>{const def=catalog.furniture.find(f=>f.id===id),o=itemFrom(def,r,r.x+x,r.z+z,angle);if(placement(plan,o,catalog))plan.items.push(o);};
@@ -32,36 +33,53 @@ export function makePlan(template,catalog){
     else if(r.kind==='study'){add('desk',r,w/2,0.45);add('chair',r,w/2,1.1);add('bookcase',r,w/2,d-0.35);add('plant',r,w-0.4,0.4);}
     else{add('bench',r,w/2,0.4);add('plant',r,0.42,d-0.45);add('plant',r,w-0.42,d-0.45);add('roundtable',r,w/2,d-0.5);}
   }
-  for(const wall of walls(plan)){
+ 
+ if(!legacy&&Array.isArray(template.furnishings)){
+  plan.items=[];
+  plan.rooms.forEach((r,index)=>{
+   for(const [id,a,b,anchor,angle=0] of template.furnishings[index]||[]){
+    let x=r.w*a,z=b;
+    if(anchor==='south')z=r.d-b;
+    else if(anchor==='center'){x=r.w*a;z=r.d*b;}
+    else if(anchor==='center-north')z=r.d/2-b;
+    else if(anchor==='center-south')z=r.d/2+b;
+    else if(anchor==='west'){x=a;z=b;}
+    else if(anchor==='northwest'){x=a;z=b;}
+    else if(anchor==='northeast'){x=r.w-a;z=b;}
+    else if(anchor==='southeast'){x=r.w-a;z=r.d-b;}
+    add(id,r,x,z,angle);
+   }
+  });
+ }
+ for(const wall of walls(plan)){
     if(wall.rooms.length===2&&wall.length>1.15)plan.openings.push({id:uid(),roomId:wall.rooms[0],side:wall.sides[0],offset:round((wall.start+wall.end)/2-wall.origin),w:0.9,h:2.15,sill:0,type:'door'});
     else if(wall.rooms.length===1&&wall.length>2.4&&['north','west'].includes(wall.sides[0]))plan.openings.push({id:uid(),roomId:wall.rooms[0],side:wall.sides[0],offset:round((wall.start+wall.end)/2-wall.origin),w:Math.min(1.65,wall.length-0.7),h:1.15,sill:1,type:'window'});
-  }return plan;
+  }return legacy==='raw'?plan:improveTemplate(plan,catalog);
 }
 export function walls(plan){
-  const raw=[];for(const r of plan.rooms)for(const [side,axis,line,start,end]of[['north','x',r.z,r.x,r.x+r.w],['south','x',r.z+r.d,r.x,r.x+r.w],['west','z',r.x,r.z,r.z+r.d],['east','z',r.x+r.w,r.z,r.z+r.d]])raw.push({side,axis,line:round(line),start:round(start),end:round(end),roomId:r.id,origin:start});
-  const groups=new Map();for(const a of raw){const key=`${a.axis}:${a.line}`;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(a);}const result=[];
-  for(const list of groups.values()){const points=[...new Set(list.flatMap(a=>[a.start,a.end]))].sort((a,b)=>a-b);for(let i=0;i<points.length-1;i++){const start=points[i],end=points[i+1],mid=(start+end)/2,cover=list.filter(a=>a.start<mid&&a.end>mid);if(!cover.length)continue;result.push({axis:cover[0].axis,line:cover[0].line,start,end,length:end-start,rooms:cover.map(a=>a.roomId),sides:cover.map(a=>a.side),origins:cover.map(a=>a.origin),origin:cover[0].origin});}}return result;
+  const raw=[];
+  for(const r of plan.rooms)for(const [side,axis,line,start,end]of[['north','x',r.z,r.x,r.x+r.w],['south','x',r.z+r.d,r.x,r.x+r.w],['west','z',r.x,r.z,r.z+r.d],['east','z',r.x+r.w,r.z,r.z+r.d]])raw.push({side,axis,line:round(line,3),start:round(start,3),end:round(end,3),roomId:r.id,origin:start});
+  const groups=[],opposite={north:'south',south:'north',west:'east',east:'west'},tolerance=(plan.wallThickness||.14)+.001;
+  for(const a of raw){
+    const group=groups.find(list=>list[0].axis===a.axis&&list.every(b=>Math.abs(a.line-b.line)<=tolerance)&&list.some(b=>Math.abs(a.line-b.line)<.001||(b.roomId!==a.roomId&&opposite[b.side]===a.side&&Math.min(a.end,b.end)>Math.max(a.start,b.start)&&(['south','east'].includes(b.side)?a.line>=b.line-.011:a.line<=b.line+.011))));
+    if(group)group.push(a);else groups.push([a]);
+  }
+  const result=[];
+  for(const list of groups){const points=[...new Set(list.flatMap(a=>[a.start,a.end]))].sort((a,b)=>a-b);
+    for(let i=0;i<points.length-1;i++){const start=points[i],end=points[i+1],mid=(start+end)/2,cover=list.filter(a=>a.start<mid&&a.end>mid);if(!cover.length)continue;
+      const lo=Math.min(...cover.map(a=>a.line)),hi=Math.max(...cover.map(a=>a.line));
+      result.push({axis:cover[0].axis,line:(lo+hi)/2,thickness:(plan.wallThickness||.14)+hi-lo,start,end,length:end-start,rooms:cover.map(a=>a.roomId),sides:cover.map(a=>a.side),origins:cover.map(a=>a.origin),origin:cover[0].origin});
+    }
+  }return result;
 }
 export function wallOpenings(plan,wall){
-  const opposite={north:'south',south:'north',west:'east',east:'west'};
-  return plan.openings.flatMap(o=>{
-    const owner=plan.rooms.find(r=>r.id===o.roomId);if(!owner)return[];
-    const horizontal=o.side==='north'||o.side==='south',axis=horizontal?'x':'z';if(wall.axis!==axis)return[];
-    const origin=horizontal?owner.x:owner.z,center=origin+o.offset;
-    const line=horizontal?owner.z+(o.side==='south'?owner.d:0):owner.x+(o.side==='east'?owner.w:0);
-    const ownIndex=wall.rooms.indexOf(o.roomId),owned=ownIndex>=0&&wall.sides[ownIndex]===o.side;
-    // A door cuts both facing wall slabs when their physical thickness overlaps.
-    // Keep one opening ID so moving or deleting it updates both room faces.
-    const tolerance=Math.max(.001,plan.wallThickness||.14)+.001;
-    const shared=!owned&&Math.abs(wall.line-line)<=tolerance&&wall.rooms.some((id,i)=>{
-      if(id===owner.id||wall.sides[i]!==opposite[o.side])return false;
-      const other=plan.rooms.find(r=>r.id===id);if(!other)return false;
-      const toward=o.side==='north'?other.z+other.d<=owner.z+.011:o.side==='south'?other.z>=owner.z+owner.d-.011:o.side==='west'?other.x+other.w<=owner.x+.011:other.x>=owner.x+owner.w-.011;
-      return toward;
-    });
-    if(!owned&&!shared)return[];
-    return center-o.w/2>=wall.start-.001&&center+o.w/2<=wall.end+.001?[{...o,center}]:[];
-  });
+  return plan.openings.flatMap(o=>{const i=wall.rooms.findIndex((id,j)=>id===o.roomId&&wall.sides[j]===o.side);if(i<0)return[];const center=wall.origins[i]+o.offset;return center-o.w/2>=wall.start-.001&&center+o.w/2<=wall.end+.001?[{...o,center}]:[];});
+}
+export function outsideItems(plan){return plan.items.filter(o=>{const r=plan.rooms.find(r=>r.id===o.roomId);return !r||!corners(o).every(p=>p.x>=r.x+.04&&p.x<=r.x+r.w-.04&&p.z>=r.z+.04&&p.z<=r.z+r.d-.04);});}
+export function removeRoom(plan,id){
+  const segments=walls(plan);
+  plan.openings=plan.openings.flatMap(o=>{if(o.roomId!==id)return[o];const wall=segments.find(w=>w.rooms.some(r=>r!==id)&&wallOpenings({...plan,openings:[o]},w).length);if(!wall)return[];const i=wall.rooms.findIndex(r=>r!==id),center=wallOpenings({...plan,openings:[o]},wall)[0].center;return[{...o,roomId:wall.rooms[i],side:wall.sides[i],offset:round(center-wall.origins[i],3)}];});
+  plan.rooms=plan.rooms.filter(r=>r.id!==id);plan.items=plan.items.filter(o=>o.roomId!==id);plan.openings=plan.openings.filter(o=>validOpening(plan,o));
 }
 export function validOpening(plan,o){
   if(!plan.rooms.some(r=>r.id===o.roomId)||!['north','south','west','east'].includes(o.side)||!['door','window'].includes(o.type)||![o.offset,o.w,o.h,o.sill].every(Number.isFinite)||o.w<0.4||o.h<0.3||o.sill<0||o.sill+o.h>plan.wallHeight-0.05)return false;
@@ -92,7 +110,8 @@ export function csvCell(value){let s=String(value??'');if(/^[\s]*[=+@-]/.test(s)
 export function walkable(plan,x,z,catalog){const r=roomAt(plan,x,z,0.12);if(!r)return false;const avatar={x,z,w:0.28,d:0.28,angle:0};return !plan.items.some(o=>!catalog.furniture.find(f=>f.id===o.catalogId)?.overlay&&overlap(avatar,o));}
 export function canWalk(plan,from,to,catalog){
   const dx=to.x-from.x,dz=to.z-from.z,steps=Math.ceil(Math.hypot(dx,dz)/0.06);let previous=roomAt(plan,from.x,from.z);
-  for(let i=1;i<=steps;i++){const x=from.x+dx*i/steps,z=from.z+dz*i/steps,r=roomAt(plan,x,z);if(!r)return false;const avatar={x,z,w:0.25,d:0.25,angle:0};if(plan.items.some(o=>!catalog.furniture.find(f=>f.id===o.catalogId)?.overlay&&overlap(avatar,o)))return false;
+  for(let i=1;i<=steps;i++){const x=from.x+dx*i/steps,z=from.z+dz*i/steps;let r=roomAt(plan,x,z);
+    if(!r){const bridge=walls(plan).find(w=>w.rooms.length>1&&Math.abs((w.axis==='x'?z:x)-w.line)<=w.thickness/2&&wallOpenings(plan,w).some(o=>o.type==='door'&&Math.abs((w.axis==='x'?x:z)-o.center)<o.w/2-.14));if(!bridge)return false;r=plan.rooms.find(room=>room.id===(bridge.rooms.includes(previous?.id)?previous.id:bridge.rooms[0]));}const avatar={x,z,w:0.25,d:0.25,angle:0};if(plan.items.some(o=>!catalog.furniture.find(f=>f.id===o.catalogId)?.overlay&&overlap(avatar,o)))return false;
     if(previous&&r.id!==previous.id){const shared=walls(plan).filter(w=>w.rooms.includes(r.id)&&w.rooms.includes(previous.id));if(!shared.some(w=>wallOpenings(plan,w).some(o=>o.type==='door'&&Math.abs((w.axis==='x'?x:z)-o.center)<o.w/2-0.14)))return false;}previous=r;
   }return walkable(plan,to.x,to.z,catalog);
 }

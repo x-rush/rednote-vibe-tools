@@ -1,0 +1,30 @@
+import {createServer} from 'node:http';
+import {readFile,writeFile} from 'node:fs/promises';
+import {resolve,extname} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createRequire} from 'node:module';
+import assert from 'node:assert/strict';
+const {chromium}=createRequire(import.meta.url)('C:/Users/77958/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const root=resolve('minitool-dist'),out=resolve('artifacts/mobile-acceptance'),results=[];
+const server=createServer(async(req,res)=>{try{const file=resolve(root,'.'+(req.url==='/'?'/index.html':new URL(req.url,'http://localhost').pathname));assert.ok(file.startsWith(root));const bytes=await readFile(file);res.writeHead(200,{'Content-Type':({'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.json':'application/json'})[extname(file)]||'application/octet-stream','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'"});res.end(bytes);}catch{res.writeHead(404);res.end();}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));const browser=await chromium.launch({channel:'chrome',headless:true});
+try{
+ for(const mode of ['file','csp','fallback']){
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:1});
+  await context.addInitScript(({flat})=>{window.fetch=()=>{throw Error('Network disabled')};window.XMLHttpRequest=undefined;window.ResizeObserver=undefined;Object.fromEntries=undefined;Object.hasOwn=undefined;String.prototype.replaceAll=undefined;Array.prototype.flatMap=undefined;window.__bridge=[];window.xhs={miniTool:{writeTempFile:async o=>{window.__bridge.push({api:'writeTempFile',prefix:o.data.slice(0,23),size:o.data.length});return{filePath:'/mock/offline.jpg'}},saveImageToPhotosAlbum:async o=>{window.__bridge.push({api:'saveImageToPhotosAlbum',...o});return{}}}};if(flat){const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type==='webgl2'?null:get.call(this,type,...args)}}},{flat:mode==='fallback'});
+  const page=await context.newPage(),errors=[],external=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url())&&!r.url().startsWith('http://127.0.0.1:'))external.push(r.url())});
+  try{
+   await page.goto(mode==='file'?pathToFileURL(resolve(root,'index.html')).href:`http://127.0.0.1:${server.address().port}/`,{waitUntil:'networkidle'});await page.waitForSelector('.furniture-card img',{state:'attached'});await page.waitForTimeout(400);
+   const stats=await page.evaluate(()=>window.ROOMISH_RENDER_STATS);assert.ok(stats);if(mode==='fallback')assert.equal(stats.renderer,'canvas2d');else{assert.notEqual(stats.renderer,'canvas2d','3D must not immediately degrade on the default furnished template');assert.ok(stats.calls<=100);assert.ok(stats.triangles<=100000);assert.ok(stats.pixels<=2000000);}
+   const click=async s=>{await page.locator(s+':visible').first().tap({timeout:5000});await page.waitForTimeout(100)};
+   for(const width of [375,390,430]){await page.setViewportSize({width,height:844});await page.evaluate(()=>{document.documentElement.style.setProperty('--safe-area-inset-top','28px');document.documentElement.style.setProperty('--safe-area-inset-bottom','16px')});await page.waitForTimeout(120);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);assert.ok(await page.locator('.brand').evaluate(e=>e.getBoundingClientRect().top>=28));}
+   await click('[data-action="mobile-menu"]');await click('#modal [data-action="capture"]');await page.waitForSelector('.export-preview');await click('[data-action="save-album"]');const bridge=await page.evaluate(()=>window.__bridge);assert.equal(bridge.length,2);assert.equal(bridge[0].prefix,'data:image/jpeg;base64,');assert.equal(bridge[1].filePath,'/mock/offline.jpg');await click('[data-action="close-modal"]');
+   await click('#mobile-launch [data-action="tab-layouts"]');await click('[data-action="blank"]');await click('#mobile-context [data-action="room-properties"]');await page.locator('#room-form [name="w"]').fill('5.5');await click('#mobile-context [data-action="room-properties"]');await page.waitForTimeout(300);assert.equal(await page.evaluate(()=>{const db=JSON.parse(localStorage.getItem('roomish-project-15-v1'));return db.plans.find(p=>p.id===db.active).rooms[0].w}),5.5);
+   await click('.orientation-toggle');assert.ok(await page.locator('body').evaluate(e=>e.classList.contains('forced-landscape')));await page.screenshot({path:out+'/package-'+mode+'.png'});await click('.orientation-toggle');
+   if(mode==='csp'){await page.evaluate(()=>{const canvas=document.querySelector('#viewport canvas'),gl=canvas.getContext('webgl2');gl.getExtension('WEBGL_lose_context').loseContext()});await page.waitForFunction(()=>window.ROOMISH_RENDER_STATS.renderer==='canvas2d');}
+   assert.deepEqual(errors,[]);assert.deepEqual(external,[]);results.push({mode,passed:true,stats,bridge,checks:['offline load','missing API fallbacks','mobile widths 375/390/430','safe area','JPEG preview and album contract','room property save','CSS landscape',...(mode==='csp'?['WebGL context-loss fallback']:[])]});console.log(JSON.stringify(results.at(-1)));
+  }catch(e){await page.screenshot({path:out+'/package-failed-'+mode+'.png'}).catch(()=>{});const stats=await page.evaluate(()=>window.ROOMISH_RENDER_STATS).catch(()=>null);results.push({mode,passed:false,error:e.message,stats,errors,external});console.log(JSON.stringify(results.at(-1)));}
+  await context.close();
+ }
+ if(results.some(r=>!r.passed))process.exitCode=1;
+}finally{await browser.close();await new Promise(r=>server.close(r));await writeFile(out+'/package-report.json',JSON.stringify({results,limits:['Not actual Xiaohongshu WebView','No physical-device FPS data','Native album permissions mocked']},null,2));}

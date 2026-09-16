@@ -1,0 +1,101 @@
+{
+  "results": [
+    {
+      "mode": "file",
+      "passed": true,
+      "stats": {
+        "tier": 0,
+        "calls": 27,
+        "triangles": 25682,
+        "pixels": 277290,
+        "textures": 6
+      },
+      "bridge": [
+        {
+          "api": "writeTempFile",
+          "prefix": "data:image/jpeg;base64,",
+          "size": 21187
+        },
+        {
+          "api": "saveImageToPhotosAlbum",
+          "filePath": "/mock/offline.jpg"
+        }
+      ],
+      "checks": [
+        "offline load",
+        "missing API fallbacks",
+        "mobile widths 375/390/430",
+        "safe area",
+        "JPEG preview and album contract",
+        "room property save",
+        "CSS landscape"
+      ]
+    },
+    {
+      "mode": "csp",
+      "passed": true,
+      "stats": {
+        "tier": 0,
+        "calls": 27,
+        "triangles": 25682,
+        "pixels": 297960,
+        "textures": 6
+      },
+      "bridge": [
+        {
+          "api": "writeTempFile",
+          "prefix": "data:image/jpeg;base64,",
+          "size": 21187
+        },
+        {
+          "api": "saveImageToPhotosAlbum",
+          "filePath": "/mock/offline.jpg"
+        }
+      ],
+      "checks": [
+        "offline load",
+        "missing API fallbacks",
+        "mobile widths 375/390/430",
+        "safe area",
+        "JPEG preview and album contract",
+        "room property save",
+        "CSS landscape",
+        "WebGL context-loss fallback"
+      ]
+    },
+    {
+      "mode": "fallback",
+      "passed": true,
+      "stats": {
+        "tier": 2,
+        "renderer": "canvas2d",
+        "reason": "webgl-unavailable"
+      },
+      "bridge": [
+        {
+          "api": "writeTempFile",
+          "prefix": "data:image/jpeg;base64,",
+          "size": 24527
+        },
+        {
+          "api": "saveImageToPhotosAlbum",
+          "filePath": "/mock/offline.jpg"
+        }
+      ],
+      "checks": [
+        "offline load",
+        "missing API fallbacks",
+        "mobile widths 375/390/430",
+        "safe area",
+        "JPEG preview and album contract",
+        "room property save",
+        "CSS landscape"
+      ]
+    }
+  ],
+  "limits": [
+    "Not actual Xiaohongshu WebView",
+    "No physical-device FPS data",
+    "Native album permissions mocked"
+  ]
+}

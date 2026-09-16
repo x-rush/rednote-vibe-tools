@@ -1,30 +1,30 @@
 {
   "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.0.0-minitool.zip",
-  "bytes": 1198123,
+  "bytes": 1214410,
   "files": [
     {
       "name": "assets/app.js",
-      "bytes": 1453404
+      "bytes": 1511792
     },
     {
       "name": "assets/content.js",
-      "bytes": 14399
+      "bytes": 18216
     },
     {
       "name": "assets/furniture/armchair.png",
-      "bytes": 5882
+      "bytes": 6141
     },
     {
       "name": "assets/furniture/art.png",
-      "bytes": 3996
+      "bytes": 4073
     },
     {
       "name": "assets/furniture/bed.png",
-      "bytes": 5668
+      "bytes": 5976
     },
     {
       "name": "assets/furniture/bench.png",
-      "bytes": 3299
+      "bytes": 3329
     },
     {
       "name": "assets/furniture/bookcase.png",
@@ -32,31 +32,31 @@
     },
     {
       "name": "assets/furniture/chair.png",
-      "bytes": 3820
+      "bytes": 3986
     },
     {
       "name": "assets/furniture/coffee.png",
-      "bytes": 3624
+      "bytes": 3751
     },
     {
       "name": "assets/furniture/desk.png",
-      "bytes": 3833
+      "bytes": 3919
     },
     {
       "name": "assets/furniture/dining.png",
-      "bytes": 3743
+      "bytes": 3749
     },
     {
       "name": "assets/furniture/fridge.png",
-      "bytes": 2861
+      "bytes": 2919
     },
     {
       "name": "assets/furniture/island.png",
-      "bytes": 4001
+      "bytes": 4422
     },
     {
       "name": "assets/furniture/kitchen.png",
-      "bytes": 4244
+      "bytes": 4613
     },
     {
       "name": "assets/furniture/lamp.png",
@@ -64,15 +64,15 @@
     },
     {
       "name": "assets/furniture/loveseat.png",
-      "bytes": 5197
+      "bytes": 5553
     },
     {
       "name": "assets/furniture/nightstand.png",
-      "bytes": 4499
+      "bytes": 4953
     },
     {
       "name": "assets/furniture/plant.png",
-      "bytes": 4942
+      "bytes": 5007
     },
     {
       "name": "assets/furniture/pouf.png",
@@ -84,7 +84,7 @@
     },
     {
       "name": "assets/furniture/rug.png",
-      "bytes": 3991
+      "bytes": 2264
     },
     {
       "name": "assets/furniture/shower.png",
@@ -92,27 +92,27 @@
     },
     {
       "name": "assets/furniture/singlebed.png",
-      "bytes": 5143
+      "bytes": 5361
     },
     {
       "name": "assets/furniture/sofa.png",
-      "bytes": 4690
+      "bytes": 5051
     },
     {
       "name": "assets/furniture/toilet.png",
-      "bytes": 3835
+      "bytes": 3827
     },
     {
       "name": "assets/furniture/tv.png",
-      "bytes": 4073
+      "bytes": 4310
     },
     {
       "name": "assets/furniture/vanity.png",
-      "bytes": 4962
+      "bytes": 5321
     },
     {
       "name": "assets/furniture/wardrobe.png",
-      "bytes": 2923
+      "bytes": 3137
     },
     {
       "name": "assets/licenses.json",
@@ -124,7 +124,7 @@
     },
     {
       "name": "assets/style.css",
-      "bytes": 39576
+      "bytes": 52407
     },
     {
       "name": "index.html",

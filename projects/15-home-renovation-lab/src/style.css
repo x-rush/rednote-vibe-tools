@@ -37,3 +37,89 @@
 .dragging-door #viewport{cursor:grabbing}.dragging-door #viewport:after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;border:3px solid #727d61}.door-drag-invalid #viewport:after{border-color:#a76345}
 
 .export-preview{display:block;width:100%;max-height:55vh;object-fit:contain;border-radius:10px}#modal-content>.primary[data-action="save-album"]{width:100%;min-height:48px}
+
+.mobile-menu-button{display:none}.mobile-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mobile-menu-grid button,.room-side-picker button{min-height:48px;white-space:normal}.room-side-picker{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.mobile-menu-button{display:inline-flex}.top-actions .icon-button{min-width:34px;padding:6px}.topbar{padding-left:10px;padding-right:10px}.brand small{letter-spacing:1px}#mobile-context{gap:6px}#mobile-context>button{min-width:60px;font-size:12px}.mobile-menu-grid{grid-template-columns:1fr}.mobile-properties .inspector .micro{line-height:1.5}.mobile-properties .inspector details summary{min-height:44px;display:flex;align-items:center;font-size:12px}}
+
+/* Keep the toggle available in every editing state; rotate inside the container. */
+.orientation-toggle{position:fixed;left:8px;top:calc(50% + var(--safe-area-inset-top, env(safe-area-inset-top, 0px)));z-index:35;min-width:44px;min-height:44px;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);font-size:12px;box-shadow:0 3px 12px #343c3214;touch-action:manipulation}
+body.forced-landscape{overflow:hidden}.forced-landscape #app{position:fixed;left:0;top:0;width:var(--rotation-width);height:var(--rotation-height);transform-origin:0 0;transform:translateX(var(--physical-width)) rotate(90deg)}
+body.forced-landscape #app .app-shell{width:100%;height:100%!important;padding-left:var(--safe-area-inset-top,env(safe-area-inset-top,0px));padding-right:var(--safe-area-inset-bottom,env(safe-area-inset-bottom,0px))}
+.forced-landscape .topbar{min-height:52px;padding:4px 12px;gap:8px}.forced-landscape .brand{min-width:0;flex:1;font-size:16px}.forced-landscape .project-heading,.forced-landscape .separator,.forced-landscape .desktop-label,.forced-landscape .scene-heading,.forced-landscape .scene-bottom,.forced-landscape .scene-tools,.forced-landscape .room-nav,.forced-landscape .layout-controls,.forced-landscape .app-footer{display:none!important}
+body.forced-landscape .studio{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;position:relative;min-height:0}.forced-landscape.drawer-open .studio,.forced-landscape.mobile-properties .studio{grid-template-columns:minmax(0,1fr) 250px}
+body.forced-landscape .workspace{grid-column:1;grid-row:1;min-width:0;min-height:0;height:100%}.forced-landscape .library,.forced-landscape .inspector.has-selection{display:none}.forced-landscape.drawer-open .library,.forced-landscape.mobile-properties:not(.drawer-open) .inspector.has-selection{display:flex;position:static;grid-column:2;grid-row:1;width:250px;height:100%;min-height:0;max-height:none;border-radius:0;box-shadow:none;flex-direction:column}.forced-landscape.mobile-properties:not(.drawer-open) .inspector.has-selection{display:block;overflow:auto}.forced-landscape .library-intro,.forced-landscape .library-footer{display:none}.forced-landscape .tabs{padding:0 5px}.forced-landscape .tabs button{min-height:44px;font-size:11px;flex-direction:row}.forced-landscape .tabs button svg{display:none}.forced-landscape .furniture-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.forced-landscape #mobile-dock{display:block;grid-row:2;grid-column:1/-1;padding:4px 56px;background:var(--panel);border-top:1px solid var(--line)}.forced-landscape #mobile-context{gap:5px;flex-wrap:nowrap}.forced-landscape .dock-selection{width:auto;max-width:220px;flex:1;gap:6px}.forced-landscape #mobile-context>button{min-width:65px;min-height:44px;flex:1;padding:7px;font-size:12px}.forced-landscape #mobile-context .dock-caption{flex:2;max-width:50%;font-size:11px}.forced-landscape #mobile-dock .mobile-launch{margin:0;position:static;box-shadow:none;border:0}.forced-landscape #mobile-dock .mobile-launch button{min-height:44px;flex-direction:row;padding:6px}.forced-landscape.mobile-selected #mobile-launch,.forced-landscape.drawer-open #mobile-launch{display:none}
+.forced-landscape .mobile-view-access{display:flex;top:8px;right:8px}.forced-landscape .view-toolbar{top:56px}.forced-landscape .orientation-toggle{position:absolute;left:calc(8px + var(--safe-area-inset-top,env(safe-area-inset-top,0px)));top:calc(50% + var(--safe-area-inset-top,env(safe-area-inset-top,0px)))}.forced-landscape .toast{position:absolute;top:auto;bottom:64px}.forced-landscape .inspector-header,.forced-landscape .room-flow-actions{position:static}
+body.forced-landscape dialog[open]{position:fixed;width:calc(var(--rotation-width) - 64px);max-width:820px;max-height:calc(var(--rotation-height) - 32px);left:50%;top:50%;right:auto;bottom:auto;margin:0;transform:translate(-50%,-50%) rotate(90deg);transform-origin:center;padding:16px}
+.forced-landscape .finished .studio{grid-template-columns:1fr}
+
+#outside-notice{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;background:#f5e7d6;color:#765335;border-radius:12px;font-size:12px}#outside-notice[hidden]{display:none}#outside-notice>span{flex:1;min-width:95px}#outside-notice button{min-height:44px;padding:8px 10px}#outside-notice svg{width:16px;height:16px}
+
+/* Keep destructive room actions inside properties, not in the main dock. */
+@media(max-width:700px){.mobile-room-selected .inspector .object-actions{display:flex;border-top:1px solid var(--line);border-bottom:0;padding:12px 0 0;margin:12px 0}.mobile-room-selected .inspector .object-actions button:not([data-action="delete-room"]){display:none}.mobile-room-selected .inspector .object-actions [data-action="delete-room"]{min-height:44px;flex-direction:row;font-size:12px;color:#945538;border:1px solid #dac5b6}}
+
+/* Landscape is a workspace layout, not a stretched portrait toolbar. */
+body.forced-landscape .topbar{min-height:48px;padding:2px 10px}
+body.forced-landscape .brand small{display:none}
+body.forced-landscape.drawer-open .studio,body.forced-landscape.mobile-properties .studio{grid-template-columns:minmax(0,1fr) 236px}
+body.forced-landscape.drawer-open .library,body.forced-landscape.mobile-properties:not(.drawer-open) .inspector.has-selection{width:236px}
+body.forced-landscape #mobile-dock{display:flex;align-items:center;justify-content:space-between;padding:4px 8px 4px 56px;min-width:0;min-height:54px}
+body.forced-landscape #mobile-context{flex:0 1 auto;min-width:0;overflow-x:auto;flex-wrap:nowrap;gap:4px;scrollbar-width:thin}
+body.forced-landscape #mobile-context>button{flex:0 0 auto;min-width:52px;min-height:44px;padding:6px 9px;white-space:nowrap}
+body.forced-landscape .dock-selection{flex:0 0 auto;max-width:150px;width:auto;gap:4px}
+body.forced-landscape .dock-selection strong{max-width:78px;font-size:12px}
+body.forced-landscape .dock-selection button{min-width:44px;width:44px;padding:8px}
+body.forced-landscape .dock-selection button span{display:none}
+body.forced-landscape #mobile-dock #mobile-launch{display:flex!important;flex:0 0 auto;width:auto;margin:0 0 0 8px;padding:0 0 0 8px;border-left:1px solid var(--line);gap:2px}
+body.forced-landscape #mobile-dock #mobile-launch button{flex:0 0 auto;min-width:52px;min-height:44px;padding:6px 8px;font-size:12px}
+body.forced-landscape #mobile-launch button svg{display:none}
+body.forced-landscape.finished #mobile-dock #mobile-launch,body.forced-landscape.walking #mobile-dock #mobile-launch{display:none!important}
+body.forced-landscape .orientation-toggle{top:auto;bottom:5px;left:calc(6px + var(--safe-area-inset-top,env(safe-area-inset-top,0px)));min-width:44px;min-height:44px;border-radius:8px;box-shadow:none}
+body.forced-landscape .furniture-image{height:68px}
+body.forced-landscape .library-content{padding:10px;overscroll-behavior-y:contain}
+body.forced-landscape .categories{margin:8px 0}
+body.forced-landscape .furniture-card strong{font-size:11px}
+body.forced-landscape #outside-notice{position:absolute;left:8px;bottom:60px;max-width:340px;z-index:27}
+body.forced-landscape .finished .workspace{grid-column:1}
+
+/* Avoid the host back corner locally, without sacrificing the whole canvas edge. */
+.app-shell{padding-top:0}
+@media(max-width:700px){
+body:not(.forced-landscape) .topbar{padding-left:64px}
+body:not(.forced-landscape) .brand{font-size:14px;letter-spacing:1px;min-width:0}
+body:not(.forced-landscape) .brand-mark{display:none}
+body:not(.forced-landscape) .brand small{letter-spacing:0}
+}
+body.forced-landscape #app .app-shell{padding-top:0;padding-left:var(--safe-area-inset-top,env(safe-area-inset-top,0px));padding-right:var(--safe-area-inset-bottom,env(safe-area-inset-bottom,0px))}
+body.forced-landscape #mobile-dock{padding-left:64px;padding-right:56px}
+body.forced-landscape .orientation-toggle{left:auto;right:calc(6px + var(--safe-area-inset-bottom,env(safe-area-inset-bottom,0px)));top:auto;bottom:5px}
+
+/* Floating landscape tools leave the canvas at full available height. */
+#floating-tools{display:none}#door-warning{position:absolute;left:12px;bottom:14px;z-index:11;display:flex;align-items:center;max-width:calc(100% - 24px);padding:6px 10px;border:1px solid #e0cfb6;border-radius:12px;background:#fcf6e9;color:#876234;font-size:12px}#door-warning[hidden]{display:none}#door-warning button{min-height:44px;margin-left:8px;white-space:nowrap}
+body.forced-landscape .studio{grid-template-rows:minmax(0,1fr)}
+body.forced-landscape #mobile-dock{display:none!important}
+body.forced-landscape #floating-tools{position:absolute;display:flex;align-items:center;right:64px;bottom:12px;z-index:20;max-width:calc(100% - 132px);overflow-x:auto;border-radius:12px;box-shadow:0 3px 16px #343c3214;background:#fcfaf5f2;padding:4px}
+body.forced-landscape #floating-tools:empty{display:none}
+body.forced-landscape #floating-tools button{flex-shrink:0;min-width:44px;min-height:44px;padding:8px 10px;font-size:12px;margin-left:4px}
+body.forced-landscape #floating-tools button:first-child{margin-left:0}
+body.forced-landscape #floating-tools .quiet{border:0}
+body.forced-landscape #floating-tools svg{width:16px;height:16px}
+body.forced-landscape .orientation-toggle{bottom:16px}
+body.forced-landscape #door-warning{left:64px;bottom:76px;max-width:calc(100% - 140px)}
+body.forced-landscape #outside-notice{display:none}
+body.walking #mobile-dock,body.walking .mobile-view-access,body.walking .view-toolbar,body.walking .scene-tools,body.walking .top-actions,body.walking .layout-controls{display:none!important}
+body.walking .walk-controls{bottom:14px;padding:4px;border:1px solid var(--line);box-shadow:0 3px 16px #343c3214}
+body.walking .walk-controls button{min-height:44px;font-size:12px}
+body.forced-landscape.walking .walk-controls{right:64px;left:auto;transform:none;bottom:12px}
+body.forced-landscape #floating-tools:empty{padding:0;box-shadow:none}
+
+/* Room actions use a small card instead of the full-width general dialog. */
+dialog.room-actions-dialog{width:360px;max-width:calc(100vw - 32px);padding:12px;border-radius:16px}
+.room-actions-dialog .modal-header{margin-bottom:10px;gap:8px;min-height:44px}
+.room-actions-dialog .modal-header h2{font-size:17px;line-height:1.4}
+.room-actions-dialog .modal-header .icon-button{min-width:44px;min-height:44px;padding:10px}
+.room-actions-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-gap:8px}
+.room-actions-grid button{min-width:0;min-height:52px;padding:10px 8px;font-size:12px;line-height:1.4;justify-content:flex-start;text-align:left}
+.room-actions-grid button svg{width:17px;height:17px}
+.room-actions-grid button span{min-width:0;white-space:normal}
+.room-actions-grid [data-action="delete-room"]{grid-column:1/-1;min-height:44px;margin-top:4px;justify-content:center;color:#945538;background:#f7eee7;border-color:#e6d5c8}
+body.forced-landscape dialog.room-actions-dialog[open]{width:360px;max-width:calc(var(--rotation-width) - 64px);max-height:calc(var(--rotation-height) - 32px);padding:12px;border-radius:16px;overflow-y:auto}

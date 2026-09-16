@@ -280,7 +280,7 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@24.13.3)(vite@8.2.2(@types/node@24.13.3))
 
-  projects/10-fish-among-lotus:
+  projects/09-proto-cell:
     dependencies:
       react:
         specifier: ^19.2.8
@@ -314,7 +314,7 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@24.13.3)(vite@8.2.2(@types/node@24.13.3))
 
-  projects/09-proto-cell:
+  projects/10-fish-among-lotus:
     dependencies:
       react:
         specifier: ^19.2.8
@@ -383,6 +383,14 @@ importers:
         version: 4.1.11(@types/node@24.13.3)(vite@8.2.2(@types/node@24.13.3))
 
   projects/12-tomato-garden: {}
+
+  projects/13-jelly-atelier: {}
+
+  projects/14-tongfu-rhythm: {}
+
+  projects/15-home-renovation-lab: {}
+
+  projects/16-flower-werewolf: {}
 
 packages:
 

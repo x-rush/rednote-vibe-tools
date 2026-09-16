@@ -16,8 +16,8 @@
     "all": "全部",
     "search": "找一件喜欢的家具",
     "beginner": "新手模式",
-    "advanced": "进阶模式",
-    "finish": "完成设计",
+    "advanced": "更多设置",
+    "finish": "看效果",
     "back": "继续装修",
     "undo": "撤销",
     "redo": "重做",
@@ -32,10 +32,10 @@
     "baseline": "将当前设为对比起点",
     "day": "日光",
     "night": "暖夜",
-    "hint": "点选家具再拖动 · 拖动空白旋转 · 双指缩放",
+    "hint": "轻点选中，拖动已选对象；拖空白调整视角。",
     "placeHint": "点击地面放置，底部可取消",
-    "walkHint": "拖动环顾 · 点击地面移动 · 选房间快速切换",
-    "selectHint": "点选一个房间或家具，开始改造",
+    "walkHint": "点地面走动，拖动画面转头；“去哪里”可直接切换房间。",
+    "selectHint": "选个房间或家具，试着改一改",
     "objects": "件家具",
     "rooms": "个空间",
     "unmeasured": "参考尺寸，非实测",
@@ -59,10 +59,10 @@
     "name": "名称",
     "measured": "这些尺寸来自实际测量",
     "measureHelp": "宽度、进深的单位均为米；进深指房间前后长度，不是层高。未确认实测时仅作布局参考；确认后按宽 × 深计算房间平面面积，不等同于建筑面积。",
-    "roomHelp": "开启后直接拖动房间；俯视下拖动右下角圆点调整大小。选中房间后，点击「名称 / 尺寸」打开属性。",
+    "roomHelp": "选中房间后拖动位置；拖墙边或角点改大小，贴边时会出现对齐线。",
     "addRoom": "添加房间",
     "blank": "从空白开始",
-    "templateHelp": "六种生活底稿，随时改成你的样子。当前方案会先保存。",
+    "templateHelp": "六套清爽布局，优先留出门口和走动空间。选择模板前会保存当前方案。",
     "materialHelp": "先选房间，再挑一块喜欢的材质。",
     "styleHelp": "保留家具位置，一键换一种生活气质。",
     "inventory": "家具与材料清单",
@@ -112,7 +112,7 @@
     "buildingArea": "建筑面积（用户填写）",
     "addDoor": "添加门",
     "addWindow": "添加窗户",
-    "openings": "门窗",
+    "openings": "门窗详细设置",
     "north": "后墙",
     "south": "前墙",
     "west": "左墙",
@@ -124,7 +124,7 @@
     "window": "窗户",
     "textureScale": "纹理尺度",
     "textureAngle": "纹理方向",
-    "walkBlocked": "前方有墙或家具，请换一个落点",
+    "walkBlocked": "这里暂时走不到，试试附近地面，或用“去哪里”切换房间。",
     "walkNoSpace": "房间内没有足够的站立空间",
     "viewCorner": "从门边看",
     "viewCenter": "从房间中央看",
@@ -139,7 +139,7 @@
     "light": "光线",
     "selection": "正在调整",
     "roomNav": "看看这个房间",
-    "density": "低多边形 · 自由搭配",
+    "density": "搭户型 · 摆家具 · 换材质",
     "savedLabel": "本地自动保存",
     "choose": "选择",
     "footer": "你的生活，没有标准答案。",
@@ -166,14 +166,14 @@
     "addNextRoom": "继续添加房间",
     "collapseRoomEditor": "收起面板",
     "editRoomProperties": "名称 / 尺寸",
-    "finishLayout": "开始装修",
+    "finishLayout": "去装修",
     "roomWidthMeters": "宽度（米）",
     "roomDepthMeters": "进深（米）",
     "focusSelectedRoom": "聚焦房间",
-    "placeDoorHint": "轻点墙面开门 · 拖门移动 · 拖空白调整视角",
+    "placeDoorHint": "点墙开门，拖门挪位置，拖空白换视角",
     "doorWallHint": "请点击选中房间的墙边，而不是房间中央。",
     "doorBlocked": "这里放不下门，或与已有门窗重叠，请换个位置。",
-    "doorAdded": "门已添加，可直接拖动调整位置",
+    "doorAdded": "门放好了，按住就能挪",
     "viewMenu": "视角",
     "moreSettings": "更多",
     "roomSettings": "房间设置",
@@ -182,7 +182,7 @@
     "moveDoor": "调整门",
     "repositionDoor": "重新定位",
     "moveDoorHint": "点击新的墙边位置；取消会保留原门",
-    "doorMoved": "门已移动，可撤销",
+    "doorMoved": "位置已更新，不满意可以撤销",
     "adjustCamera": "调整视角",
     "resumeDoor": "返回放置",
     "doorCameraHint": "拖动画布、双指缩放调整视角，完成后返回放置",
@@ -192,7 +192,30 @@
     "savedAlbum": "已保存到相册",
     "imageHelp": "点击保存到相册，通过小红书容器保存设计图。普通浏览器仅提供预览。",
     "albumUnavailable": "请在小红书小工具内保存到相册，当前浏览器仅支持预览。",
-    "albumFailed": "图片未保存，请检查相册权限后重试。"
+    "albumFailed": "图片未保存，请检查相册权限后重试。",
+    "menuTitle": "方案与工具",
+    "switchAdvanced": "切换到进阶模式",
+    "switchBeginner": "切换到新手模式",
+    "addAdjacentRoom": "在房间哪一侧添加？",
+    "adjacentHelp": "新房间会贴边生成，不改变现有房间尺寸。",
+    "addTonorth": "上方",
+    "addTosouth": "下方",
+    "addTowest": "左侧",
+    "addToeast": "右侧",
+    "adjacentBlocked": "这一侧空间不足或与其他房间重叠，请换个方向。",
+    "measureShort": "先按喜欢的大小搭，实测尺寸可以稍后补。",
+    "landscapeMode": "横屏",
+    "portraitMode": "竖屏",
+    "outsideCount": "件家具超出房间",
+    "locateOutside": "找到它",
+    "deleteRoomContents": "件家具会随房间一起移除；与保留房间共用的门会保留。",
+    "roomBlocksOpening": "这个调整会挤掉门窗或让门窗重叠，请先调整门窗，或保留当前尺寸。",
+    "changesSaved": "修改已保存",
+    "deleteRoom": "删除这个房间",
+    "openStudio": "装修",
+    "walkRooms": "去哪里",
+    "exitExperience": "退出体验",
+    "doorFurnitureWarning": "有家具靠近门口，可能影响通行"
   },
   "categories": [
     "客厅",
@@ -615,6 +638,102 @@
           2.4,
           "balcony"
         ]
+      ],
+      "furnishings": [
+        [
+          [
+            "sofa",
+            0.5,
+            0.65,
+            "north"
+          ],
+          [
+            "coffee",
+            0.5,
+            1.8,
+            "north"
+          ],
+          [
+            "tv",
+            0.5,
+            0.32,
+            "south"
+          ],
+          [
+            "rug",
+            0.5,
+            0.5,
+            "center"
+          ]
+        ],
+        [
+          [
+            "bed",
+            0.5,
+            1.14,
+            "north"
+          ],
+          [
+            "wardrobe",
+            0.5,
+            0.38,
+            "south"
+          ],
+          [
+            "nightstand",
+            0.38,
+            0.65,
+            "west"
+          ]
+        ],
+        [
+          [
+            "kitchen",
+            0.5,
+            0.38,
+            "north"
+          ],
+          [
+            "fridge",
+            0.43,
+            0.43,
+            "southeast"
+          ]
+        ],
+        [
+          [
+            "shower",
+            0.55,
+            0.55,
+            "northwest"
+          ],
+          [
+            "toilet",
+            0.38,
+            0.6,
+            "northeast"
+          ],
+          [
+            "vanity",
+            0.5,
+            0.32,
+            "south"
+          ]
+        ],
+        [
+          [
+            "bench",
+            0.5,
+            0.3,
+            "north"
+          ],
+          [
+            "plant",
+            0.4,
+            0.4,
+            "southeast"
+          ]
+        ]
       ]
     },
     {
@@ -637,6 +756,54 @@
           2,
           2.4,
           "bath"
+        ]
+      ],
+      "furnishings": [
+        [
+          [
+            "loveseat",
+            0.26,
+            0.6,
+            "north"
+          ],
+          [
+            "coffee",
+            0.26,
+            1.7,
+            "north"
+          ],
+          [
+            "singlebed",
+            0.82,
+            1.12,
+            "south"
+          ],
+          [
+            "wardrobe",
+            0.84,
+            0.38,
+            "north"
+          ]
+        ],
+        [
+          [
+            "shower",
+            0.55,
+            0.55,
+            "northwest"
+          ],
+          [
+            "toilet",
+            0.38,
+            0.6,
+            "northeast"
+          ],
+          [
+            "vanity",
+            0.5,
+            0.32,
+            "south"
+          ]
         ]
       ]
     },
@@ -684,6 +851,108 @@
           2.2,
           3.2,
           "bath"
+        ]
+      ],
+      "furnishings": [
+        [
+          [
+            "sofa",
+            0.5,
+            0.65,
+            "north"
+          ],
+          [
+            "coffee",
+            0.5,
+            1.8,
+            "north"
+          ],
+          [
+            "tv",
+            0.5,
+            0.32,
+            "south"
+          ],
+          [
+            "rug",
+            0.5,
+            0.5,
+            "center"
+          ]
+        ],
+        [
+          [
+            "bed",
+            0.5,
+            1.14,
+            "north"
+          ],
+          [
+            "wardrobe",
+            0.5,
+            0.38,
+            "south"
+          ],
+          [
+            "nightstand",
+            0.38,
+            0.65,
+            "west"
+          ]
+        ],
+        [
+          [
+            "bed",
+            0.5,
+            1.14,
+            "north"
+          ],
+          [
+            "wardrobe",
+            0.5,
+            0.38,
+            "south"
+          ],
+          [
+            "nightstand",
+            0.38,
+            0.65,
+            "west"
+          ]
+        ],
+        [
+          [
+            "kitchen",
+            0.5,
+            0.38,
+            "north"
+          ],
+          [
+            "fridge",
+            0.43,
+            0.43,
+            "southeast"
+          ]
+        ],
+        [
+          [
+            "shower",
+            0.55,
+            0.55,
+            "northwest"
+          ],
+          [
+            "toilet",
+            0.38,
+            0.6,
+            "northeast"
+          ],
+          [
+            "vanity",
+            0.5,
+            0.32,
+            "south"
+          ]
         ]
       ]
     },
@@ -739,6 +1008,129 @@
           2.9,
           3.4,
           "bath"
+        ]
+      ],
+      "furnishings": [
+        [
+          [
+            "sofa",
+            0.5,
+            0.65,
+            "north"
+          ],
+          [
+            "coffee",
+            0.5,
+            1.8,
+            "north"
+          ],
+          [
+            "tv",
+            0.5,
+            0.32,
+            "south"
+          ],
+          [
+            "rug",
+            0.5,
+            0.5,
+            "center"
+          ]
+        ],
+        [
+          [
+            "bed",
+            0.5,
+            1.14,
+            "north"
+          ],
+          [
+            "wardrobe",
+            0.5,
+            0.38,
+            "south"
+          ],
+          [
+            "nightstand",
+            0.38,
+            0.65,
+            "west"
+          ]
+        ],
+        [
+          [
+            "dining",
+            0.5,
+            0.5,
+            "center"
+          ],
+          [
+            "chair",
+            0.5,
+            0.85,
+            "center-north"
+          ],
+          [
+            "chair",
+            0.5,
+            0.85,
+            "center-south",
+            180
+          ]
+        ],
+        [
+          [
+            "kitchen",
+            0.5,
+            0.38,
+            "north"
+          ],
+          [
+            "fridge",
+            0.43,
+            0.43,
+            "southeast"
+          ]
+        ],
+        [
+          [
+            "bed",
+            0.5,
+            1.14,
+            "north"
+          ],
+          [
+            "wardrobe",
+            0.5,
+            0.38,
+            "south"
+          ],
+          [
+            "nightstand",
+            0.38,
+            0.65,
+            "west"
+          ]
+        ],
+        [
+          [
+            "shower",
+            0.55,
+            0.55,
+            "northwest"
+          ],
+          [
+            "toilet",
+            0.38,
+            0.6,
+            "northeast"
+          ],
+          [
+            "vanity",
+            0.5,
+            0.32,
+            "south"
+          ]
         ]
       ]
     },
@@ -803,6 +1195,150 @@
           3.4,
           "study"
         ]
+      ],
+      "furnishings": [
+        [
+          [
+            "sofa",
+            0.5,
+            0.65,
+            "north"
+          ],
+          [
+            "coffee",
+            0.5,
+            1.8,
+            "north"
+          ],
+          [
+            "tv",
+            0.5,
+            0.32,
+            "south"
+          ],
+          [
+            "rug",
+            0.5,
+            0.5,
+            "center"
+          ]
+        ],
+        [
+          [
+            "bed",
+            0.5,
+            1.14,
+            "north"
+          ],
+          [
+            "wardrobe",
+            0.5,
+            0.38,
+            "south"
+          ],
+          [
+            "nightstand",
+            0.38,
+            0.65,
+            "west"
+          ]
+        ],
+        [
+          [
+            "bed",
+            0.5,
+            1.14,
+            "north"
+          ],
+          [
+            "wardrobe",
+            0.5,
+            0.38,
+            "south"
+          ],
+          [
+            "nightstand",
+            0.38,
+            0.65,
+            "west"
+          ]
+        ],
+        [
+          [
+            "dining",
+            0.5,
+            0.5,
+            "center"
+          ],
+          [
+            "chair",
+            0.5,
+            0.85,
+            "center-north"
+          ],
+          [
+            "chair",
+            0.5,
+            0.85,
+            "center-south",
+            180
+          ]
+        ],
+        [
+          [
+            "kitchen",
+            0.5,
+            0.38,
+            "north"
+          ],
+          [
+            "fridge",
+            0.43,
+            0.43,
+            "southeast"
+          ]
+        ],
+        [
+          [
+            "shower",
+            0.55,
+            0.55,
+            "northwest"
+          ],
+          [
+            "toilet",
+            0.38,
+            0.6,
+            "northeast"
+          ],
+          [
+            "vanity",
+            0.5,
+            0.32,
+            "south"
+          ]
+        ],
+        [
+          [
+            "desk",
+            0.5,
+            0.35,
+            "north"
+          ],
+          [
+            "chair",
+            0.5,
+            1.05,
+            "north",
+            180
+          ],
+          [
+            "bookcase",
+            0.5,
+            0.27,
+            "south"
+          ]
+        ]
       ]
     },
     {
@@ -849,6 +1385,102 @@
           4.8,
           1.8,
           "balcony"
+        ]
+      ],
+      "furnishings": [
+        [
+          [
+            "sofa",
+            0.5,
+            0.65,
+            "north"
+          ],
+          [
+            "coffee",
+            0.5,
+            1.8,
+            "north"
+          ],
+          [
+            "tv",
+            0.5,
+            0.32,
+            "south"
+          ],
+          [
+            "rug",
+            0.5,
+            0.5,
+            "center"
+          ]
+        ],
+        [
+          [
+            "bed",
+            0.5,
+            1.14,
+            "north"
+          ],
+          [
+            "wardrobe",
+            0.5,
+            0.38,
+            "south"
+          ],
+          [
+            "nightstand",
+            0.38,
+            0.65,
+            "west"
+          ]
+        ],
+        [
+          [
+            "kitchen",
+            0.5,
+            0.38,
+            "north"
+          ],
+          [
+            "fridge",
+            0.43,
+            0.43,
+            "southeast"
+          ]
+        ],
+        [
+          [
+            "shower",
+            0.55,
+            0.55,
+            "northwest"
+          ],
+          [
+            "toilet",
+            0.38,
+            0.6,
+            "northeast"
+          ],
+          [
+            "vanity",
+            0.5,
+            0.32,
+            "south"
+          ]
+        ],
+        [
+          [
+            "bench",
+            0.5,
+            0.3,
+            "north"
+          ],
+          [
+            "plant",
+            0.4,
+            0.4,
+            "southeast"
+          ]
         ]
       ]
     }

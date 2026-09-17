@@ -123,3 +123,283 @@ dialog.room-actions-dialog{width:360px;max-width:calc(100vw - 32px);padding:12px
 .room-actions-grid button span{min-width:0;white-space:normal}
 .room-actions-grid [data-action="delete-room"]{grid-column:1/-1;min-height:44px;margin-top:4px;justify-content:center;color:#945538;background:#f7eee7;border-color:#e6d5c8}
 body.forced-landscape dialog.room-actions-dialog[open]{width:360px;max-width:calc(var(--rotation-width) - 64px);max-height:calc(var(--rotation-height) - 32px);padding:12px;border-radius:16px;overflow-y:auto}
+
+/* Keep the compact brand visible without increasing the mobile header height. */
+@media (max-width: 760px) {
+  .topbar .brand-mark { display: inline-flex; width: 28px; height: 28px; min-width: 28px; flex: 0 0 28px; }
+  .topbar .brand-mark img, .topbar .brand-mark svg { width: 100%; height: 100%; object-fit: contain; }
+}
+
+/* Natural and button-driven landscape share the same workspace geometry. */
+.natural-landscape .topbar{min-height:52px;padding:4px 12px;gap:8px}
+.natural-landscape .brand{min-width:0;flex:1;font-size:16px}
+.natural-landscape .project-heading,.natural-landscape .separator,.natural-landscape .desktop-label,.natural-landscape .scene-heading,.natural-landscape .scene-bottom,.natural-landscape .scene-tools,.natural-landscape .room-nav,.natural-landscape .layout-controls,.natural-landscape .app-footer{display:none!important}
+body.natural-landscape .studio{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;position:relative;min-height:0}
+.natural-landscape.drawer-open .studio,.natural-landscape.mobile-properties .studio{grid-template-columns:minmax(0,1fr) 250px}
+body.natural-landscape .workspace{grid-column:1;grid-row:1;min-width:0;min-height:0;height:100%}
+.natural-landscape .library,.natural-landscape .inspector.has-selection{display:none}
+.natural-landscape.drawer-open .library,.natural-landscape.mobile-properties:not(.drawer-open) .inspector.has-selection{display:flex;position:static;grid-column:2;grid-row:1;width:250px;height:100%;min-height:0;max-height:none;border-radius:0;box-shadow:none;flex-direction:column}
+.natural-landscape.mobile-properties:not(.drawer-open) .inspector.has-selection{display:block;overflow:auto}
+.natural-landscape .library-intro,.natural-landscape .library-footer{display:none}
+.natural-landscape .tabs{padding:0 5px}
+.natural-landscape .tabs button{min-height:44px;font-size:11px;flex-direction:row}
+.natural-landscape .tabs button svg{display:none}
+.natural-landscape .furniture-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.natural-landscape #mobile-dock{display:block;grid-row:2;grid-column:1/-1;padding:4px 56px;background:var(--panel);border-top:1px solid var(--line)}
+.natural-landscape #mobile-context{gap:5px;flex-wrap:nowrap}
+.natural-landscape .dock-selection{width:auto;max-width:220px;flex:1;gap:6px}
+.natural-landscape #mobile-context>button{min-width:65px;min-height:44px;flex:1;padding:7px;font-size:12px}
+.natural-landscape #mobile-context .dock-caption{flex:2;max-width:50%;font-size:11px}
+.natural-landscape #mobile-dock .mobile-launch{margin:0;position:static;box-shadow:none;border:0}
+.natural-landscape #mobile-dock .mobile-launch button{min-height:44px;flex-direction:row;padding:6px}
+.natural-landscape.mobile-selected #mobile-launch,.natural-landscape.drawer-open #mobile-launch{display:none}
+.natural-landscape .mobile-view-access{display:flex;top:8px;right:8px}
+.natural-landscape .view-toolbar{top:56px}
+.natural-landscape .toast{position:absolute;top:auto;bottom:64px}
+.natural-landscape .inspector-header,.natural-landscape .room-flow-actions{position:static}
+.natural-landscape .finished .studio{grid-template-columns:1fr}
+body.natural-landscape .brand small{display:none}
+body.natural-landscape.drawer-open .studio,body.natural-landscape.mobile-properties .studio{grid-template-columns:minmax(0,1fr) 236px}
+body.natural-landscape.drawer-open .library,body.natural-landscape.mobile-properties:not(.drawer-open) .inspector.has-selection{width:236px}
+body.natural-landscape #mobile-dock{display:flex;align-items:center;justify-content:space-between;padding:4px 8px 4px 56px;min-width:0;min-height:54px}
+body.natural-landscape #mobile-context{flex:0 1 auto;min-width:0;overflow-x:auto;flex-wrap:nowrap;gap:4px;scrollbar-width:thin}
+body.natural-landscape #mobile-context>button{flex:0 0 auto;min-width:52px;min-height:44px;padding:6px 9px;white-space:nowrap}
+body.natural-landscape .dock-selection{flex:0 0 auto;max-width:150px;width:auto;gap:4px}
+body.natural-landscape .dock-selection strong{max-width:78px;font-size:12px}
+body.natural-landscape .dock-selection button{min-width:44px;width:44px;padding:8px}
+body.natural-landscape .dock-selection button span{display:none}
+body.natural-landscape #mobile-dock #mobile-launch{display:flex!important;flex:0 0 auto;width:auto;margin:0 0 0 8px;padding:0 0 0 8px;border-left:1px solid var(--line);gap:2px}
+body.natural-landscape #mobile-dock #mobile-launch button{flex:0 0 auto;min-width:52px;min-height:44px;padding:6px 8px;font-size:12px}
+body.natural-landscape #mobile-launch button svg{display:none}
+body.natural-landscape.finished #mobile-dock #mobile-launch,body.natural-landscape.walking #mobile-dock #mobile-launch{display:none!important}
+body.natural-landscape .furniture-image{height:68px}
+body.natural-landscape .library-content{padding:10px;overscroll-behavior-y:contain}
+body.natural-landscape .categories{margin:8px 0}
+body.natural-landscape .furniture-card strong{font-size:11px}
+body.natural-landscape #outside-notice{position:absolute;left:8px;bottom:60px;max-width:340px;z-index:27}
+body.natural-landscape .finished .workspace{grid-column:1}
+body:not(.natural-landscape) .topbar{padding-left:64px}
+body:not(.natural-landscape) .brand{font-size:14px;letter-spacing:1px;min-width:0}
+body:not(.natural-landscape) .brand-mark{display:none}
+body:not(.natural-landscape) .brand small{letter-spacing:0}
+body.natural-landscape #mobile-dock{padding-left:64px;padding-right:56px}
+body.natural-landscape .studio{grid-template-rows:minmax(0,1fr)}
+body.natural-landscape #mobile-dock{display:none!important}
+body.natural-landscape #floating-tools{position:absolute;display:flex;align-items:center;right:64px;bottom:12px;z-index:20;max-width:calc(100% - 132px);overflow-x:auto;border-radius:12px;box-shadow:0 3px 16px #343c3214;background:#fcfaf5f2;padding:4px}
+body.natural-landscape #floating-tools:empty{display:none}
+body.natural-landscape #floating-tools button{flex-shrink:0;min-width:44px;min-height:44px;padding:8px 10px;font-size:12px;margin-left:4px}
+body.natural-landscape #floating-tools button:first-child{margin-left:0}
+body.natural-landscape #floating-tools .quiet{border:0}
+body.natural-landscape #floating-tools svg{width:16px;height:16px}
+body.natural-landscape #door-warning{left:64px;bottom:76px;max-width:calc(100% - 140px)}
+body.natural-landscape #outside-notice{display:none}
+body.natural-landscape.walking .walk-controls{right:64px;left:auto;transform:none;bottom:12px}
+body.natural-landscape #floating-tools:empty{padding:0;box-shadow:none}
+
+/* One active panel, one action group. */
+.library-panel-header,.inspector-complete{display:none}
+.inspector-scroll{min-height:0}
+body.compact-mode .topbar{gap:6px;padding-right:8px}
+body.compact-mode .brand{min-width:0;gap:6px;font-size:13px;letter-spacing:1px;flex:1}
+body.compact-mode .topbar .brand-mark{display:inline-flex;width:28px;height:28px;min-width:28px;flex:0 0 28px;border-radius:8px}
+body.compact-mode .brand-mark img{transform:none}
+body.compact-mode .brand small{font-size:8px;letter-spacing:0}
+body.compact-mode .top-actions{gap:2px;flex-shrink:0}
+body.compact-mode .top-actions .icon-button{width:44px;min-width:44px;min-height:44px;padding:10px}
+body.compact-mode .top-actions [data-action="redo"]{display:none}
+body.compact-mode .top-actions .primary{min-height:44px;padding:8px;font-size:12px;margin:0;gap:4px}
+body.compact-mode.finished .top-actions [data-action="undo"],body.compact-mode.finished .top-actions [data-action="mobile-menu"]{display:none}
+body.compact-mode .mobile-menu-button{display:inline-flex}
+body.compact-mode .project-heading,body.compact-mode .separator,body.compact-mode .desktop-label{display:none}
+body.compact-mode .library-panel-header{display:flex;align-items:center;justify-content:space-between;flex:none;min-height:48px;padding:0 12px;border-bottom:1px solid var(--line);font-size:12px}
+body.compact-mode .library-panel-header button{min-width:44px;min-height:44px}
+body.compact-mode.mobile-properties #mobile-dock{display:none!important}
+body.compact-mode.mobile-properties .inspector.has-selection{display:flex!important;flex-direction:column;overflow:hidden;padding:0;max-height:46%}
+body.compact-mode .inspector-scroll{overflow-y:auto;overscroll-behavior:contain;flex:1;padding:12px 16px}
+body.compact-mode .inspector-complete{display:flex;flex:none;padding:8px 12px calc(8px + var(--safe-bottom));background:var(--panel);border-top:1px solid var(--line)}
+body.compact-mode .inspector-complete button{width:100%;min-height:44px}
+body.compact-mode #room-form>button[type="submit"]{display:none}
+body.compact-mode .inspector-header{position:static}
+body.compact-mode .inspector-header button{min-width:44px;min-height:44px}
+body.compact-mode .field input,body.compact-mode .field select{min-height:44px;font-size:16px}
+body.compact-mode .orientation-toggle{position:absolute;left:auto;top:auto;right:10px;bottom:calc(12px + var(--safe-bottom));z-index:20;min-width:44px;min-height:44px}
+body.compact-mode .finish-card{display:flex;align-items:center;gap:8px;min-width:0;width:max-content;max-width:calc(100% - 82px);padding:4px;left:12px;right:auto;transform:none;bottom:calc(12px + var(--safe-bottom));background:#fcfaf5f2;border:1px solid var(--line);box-shadow:0 3px 16px #343c3214;border-radius:12px}
+body.compact-mode .finish-card button{min-height:44px;font-size:12px;padding:8px 12px}
+body.compact-mode.finished #mobile-dock{display:none!important}
+body.compact-mode.walking .walk-controls{left:12px;right:auto;transform:none;bottom:calc(12px + var(--safe-bottom));max-width:calc(100% - 82px)}
+body.modal-open .orientation-toggle,body.modal-open #floating-tools{visibility:hidden}
+body.compact-mode .mobile-menu-grid{grid-template-columns:1fr}
+body.compact-mode .mobile-menu-grid button{min-height:48px}
+body.compact-mode .inventory-table{overflow:visible}
+body.compact-mode .inventory-table table,body.compact-mode .inventory-table tbody{display:block;width:100%;min-width:0}
+body.compact-mode .inventory-table thead{display:none}
+body.compact-mode .inventory-table tr{display:block;margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fffdf7}
+body.compact-mode .inventory-table td{display:block;border:0;padding:5px 0;white-space:normal;overflow-wrap:anywhere;font-size:12px}
+body.compact-mode .inventory-table td strong{font-size:14px;white-space:normal}
+body.compact-mode .inventory-table td[data-label]::before{content:attr(data-label);display:inline-block;min-width:64px;color:var(--muted);margin-right:8px}
+.inventory-price summary{cursor:pointer;min-height:44px;line-height:44px;font-size:12px}
+.inventory-price input{min-height:44px;font-size:16px;max-width:100%}
+body.compact-mode .inventory-tools{margin-bottom:12px}
+body.compact-mode .inventory-tools button{min-height:44px}
+@media(max-width:700px){
+ body.compact-mode:not(.forced-landscape):not(.natural-landscape) #tabs{display:none}
+ body.compact-mode:not(.forced-landscape):not(.natural-landscape).drawer-open .library{height:40%;max-height:44%;min-height:160px}
+ body.compact-mode:not(.forced-landscape) .topbar{padding-left:64px}
+ body.compact-mode:not(.forced-landscape) .brand>span:last-child{font-size:11px;letter-spacing:0}
+ body.compact-mode .top-actions [data-action="finish"] svg{display:none}
+}
+body.natural-landscape .app-shell{height:100vh;height:100dvh;padding-left:var(--safe-area-inset-left,env(safe-area-inset-left,0px));padding-right:var(--safe-area-inset-right,env(safe-area-inset-right,0px))}
+body.natural-landscape .topbar{padding-left:64px;padding-top:calc(2px + var(--safe-area-inset-top,env(safe-area-inset-top,0px)));min-height:calc(48px + var(--safe-area-inset-top,env(safe-area-inset-top,0px)))}
+body.natural-landscape .mobile-view-access{position:absolute;right:8px;top:8px;z-index:9;gap:6px}
+body.natural-landscape .mobile-view-access button{background:var(--panel);min-height:44px;font-size:12px;padding:8px 10px}
+body.natural-landscape .view-toolbar{display:none;left:auto;right:8px;top:56px;transform:none;z-index:10}
+body.natural-landscape.views-open .view-toolbar{display:flex;flex-direction:column}
+body.natural-landscape .view-toolbar button{min-height:44px}
+body.natural-landscape .inspector .room-flow-actions,body.natural-landscape .inspector .object-actions{display:none}
+body.natural-landscape .library-content{overflow:auto;flex:1;min-height:0}
+body.natural-landscape .search-field{display:none}
+body.natural-landscape .categories{display:flex;overflow:auto;flex-wrap:nowrap}
+body.natural-landscape .categories button{flex-shrink:0;min-height:44px}
+body.natural-landscape .placing{display:none!important}
+body.natural-landscape .mobile-launch{display:none}
+body.natural-landscape #floating-tools{right:12px;max-width:calc(100% - 24px)}
+body.natural-landscape #door-warning{left:12px;bottom:76px}
+body.forced-landscape.mobile-properties .inspector.has-selection,body.natural-landscape.mobile-properties .inspector.has-selection{max-height:none}
+body.forced-landscape .inspector-complete,body.natural-landscape .inspector-complete{padding-bottom:8px}
+body.natural-landscape .toast{top:auto;bottom:70px;max-width:calc(100vw - 40px)}
+body.natural-landscape .finish-card,body.forced-landscape .finish-card{bottom:12px}
+body.natural-landscape dialog[open]{width:600px;max-width:calc(100vw - 32px);max-height:calc(100vh - 24px - var(--safe-area-inset-top,env(safe-area-inset-top,0px)))}
+body.compact-mode dialog .modal-header .icon-button{min-width:44px;min-height:44px}
+
+/* The keyboard may resize available space, but does not change the editing mode. */
+body.compact-mode:not(.forced-landscape) .app-shell{height:var(--available-height,100vh)!important}
+body.inspector-collapsed #inspector{display:none!important}
+/* Short action menus do not need the width of an inventory or image preview. */
+body.forced-landscape dialog.compact-actions-dialog[open],body.natural-landscape dialog.compact-actions-dialog[open]{width:300px!important;min-width:0!important;max-width:calc(var(--rotation-width,100vw) - 32px)!important;padding:16px!important;box-sizing:border-box}
+body.forced-landscape .compact-actions-dialog .mobile-menu-grid,body.natural-landscape .compact-actions-dialog .mobile-menu-grid,body.forced-landscape .compact-actions-dialog .room-actions-grid,body.natural-landscape .compact-actions-dialog .room-actions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-gap:8px;gap:8px;min-width:0}
+body.forced-landscape .compact-actions-dialog .mobile-menu-grid button,body.natural-landscape .compact-actions-dialog .mobile-menu-grid button,body.forced-landscape .compact-actions-dialog .room-actions-grid button,body.natural-landscape .compact-actions-dialog .room-actions-grid button{min-width:0;min-height:44px;padding:10px 8px;white-space:normal;line-height:1.5;font-size:12px}
+body.forced-landscape .compact-actions-dialog .modal-header,body.natural-landscape .compact-actions-dialog .modal-header{gap:8px;margin-bottom:12px}
+#quick-history{position:absolute;left:12px;top:calc(104px + var(--safe-area-inset-top,env(safe-area-inset-top,0px)));z-index:15;display:flex;align-items:center;gap:6px;max-width:calc(100% - 24px)}
+#quick-history[hidden],#draft-notice[hidden],#draft-summary[hidden]{display:none!important}
+#quick-history .tool-round{width:44px;height:44px;flex:none}
+#draft-summary{font-size:11px;color:#795337;background:#fff8ea;padding:7px 9px;border-radius:8px}
+#draft-notice{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px;background:#fff3da;color:#795337;border-radius:8px;font-size:12px;line-height:1.6;margin-bottom:10px}
+#draft-notice .quiet{min-height:40px}
+body.drawer-open #quick-history,body.mobile-properties #quick-history,body.modal-open #quick-history{display:none}
+body.forced-landscape #quick-history,body.natural-landscape #quick-history{top:auto;left:12px;bottom:calc(12px + var(--safe-area-inset-bottom,env(safe-area-inset-bottom,0px)))}
+body.forced-landscape #quick-history{left:var(--host-rotated-clearance,88px)}
+body.forced-landscape #floating-tools,body.natural-landscape #floating-tools{max-width:calc(100% - 130px)}
+/* Host controls occupy physical screen corners, independently of system insets. */
+body.compact-mode:not(.forced-landscape) .topbar{padding-left:var(--host-edge-clearance,60px)!important;padding-right:var(--host-edge-clearance,60px)!important;gap:8px!important}
+body.compact-mode:not(.forced-landscape) .brand{min-width:0!important;flex:1;gap:5px!important;font-size:13px!important;letter-spacing:.5px!important}
+body.compact-mode:not(.forced-landscape) .brand-mark{flex:none;width:28px!important;height:30px!important}
+body.compact-mode:not(.forced-landscape) .brand-mark img{width:28px;height:28px}
+body.compact-mode:not(.forced-landscape) .brand small{display:none!important}
+body.compact-mode:not(.forced-landscape) .top-actions{flex:none;gap:4px!important}
+body.compact-mode:not(.forced-landscape) .top-actions [data-action="undo"],body.compact-mode:not(.forced-landscape) .top-actions [data-action="redo"],body.compact-mode:not(.forced-landscape) .top-actions .separator,body.compact-mode:not(.forced-landscape) .top-actions [data-action="plans"]{display:none!important}
+body.compact-mode:not(.forced-landscape) .top-actions .primary{padding:10px!important}
+body.forced-landscape .topbar{padding-left:var(--host-rotated-clearance,88px)!important;padding-right:var(--host-rotated-clearance,88px)!important}
+
+/* Landscape inventory uses rows rather than the portrait card layout. */
+body.natural-landscape dialog.inventory-dialog[open],
+body.forced-landscape dialog.inventory-dialog[open]{
+ width:680px;max-width:calc(var(--rotation-width,100vw) - 32px);
+ padding:14px 18px;box-sizing:border-box;overflow:hidden;
+}
+body.natural-landscape .inventory-dialog #modal-content,
+body.forced-landscape .inventory-dialog #modal-content{
+ display:grid;grid-template-columns:minmax(0,1fr) auto;
+ grid-template-rows:auto auto minmax(56px,1fr) auto auto;
+ gap:8px 14px;max-height:calc(var(--rotation-height,100dvh) - 76px - var(--safe-area-inset-top,env(safe-area-inset-top,0px)));
+ min-height:0;
+}
+body.natural-landscape .inventory-dialog .modal-header,
+body.forced-landscape .inventory-dialog .modal-header{grid-column:1/-1;grid-row:1;margin:0;gap:12px}
+body.natural-landscape .inventory-dialog .inventory-tools,
+body.forced-landscape .inventory-dialog .inventory-tools{grid-column:1;grid-row:2;margin:0;gap:8px;align-items:center}
+body.natural-landscape .inventory-dialog .inventory-total,
+body.forced-landscape .inventory-dialog .inventory-total{grid-column:2;grid-row:2;padding:0;gap:10px;align-self:center;white-space:nowrap}
+body.natural-landscape .inventory-dialog .inventory-total strong,
+body.forced-landscape .inventory-dialog .inventory-total strong{font-size:22px}
+body.natural-landscape .inventory-dialog .inventory-table,
+body.forced-landscape .inventory-dialog .inventory-table{
+ grid-column:1/-1;grid-row:3;min-height:0;overflow:auto;
+ overscroll-behavior:contain;touch-action:pan-x pan-y;
+ border:1px solid var(--line);border-radius:10px;background:#fffdf7;
+}
+body.natural-landscape .inventory-dialog .inventory-table table,
+body.forced-landscape .inventory-dialog .inventory-table table{display:table;width:100%;min-width:440px;table-layout:fixed;border-collapse:collapse}
+body.natural-landscape .inventory-dialog .inventory-table thead,
+body.forced-landscape .inventory-dialog .inventory-table thead{display:table-header-group;background:var(--panel)}
+body.natural-landscape .inventory-dialog .inventory-table tbody,
+body.forced-landscape .inventory-dialog .inventory-table tbody{display:table-row-group}
+body.natural-landscape .inventory-dialog .inventory-table tr,
+body.forced-landscape .inventory-dialog .inventory-table tr{display:table-row;margin:0;padding:0;border:0;border-radius:0;background:transparent}
+body.natural-landscape .inventory-dialog .inventory-table td,
+body.forced-landscape .inventory-dialog .inventory-table td,
+body.natural-landscape .inventory-dialog .inventory-table th,
+body.forced-landscape .inventory-dialog .inventory-table th{
+ display:table-cell;padding:8px 10px;border:0;border-bottom:1px solid var(--line);
+ text-align:left;vertical-align:middle;font-size:12px;line-height:1.5;
+ white-space:normal;overflow-wrap:anywhere;
+}
+body.natural-landscape .inventory-dialog .inventory-table th,
+body.forced-landscape .inventory-dialog .inventory-table th{font-weight:500;color:var(--muted)}
+body.natural-landscape .inventory-dialog .inventory-table th:first-child,
+body.forced-landscape .inventory-dialog .inventory-table th:first-child{width:24%}
+body.natural-landscape .inventory-dialog .inventory-table th:last-child,
+body.forced-landscape .inventory-dialog .inventory-table th:last-child{width:22%}
+body.natural-landscape .inventory-dialog .inventory-table td strong,
+body.forced-landscape .inventory-dialog .inventory-table td strong{font-size:12px;font-weight:500}
+body.natural-landscape .inventory-dialog .inventory-table td[data-label]::before,
+body.forced-landscape .inventory-dialog .inventory-table td[data-label]::before{display:none}
+body.natural-landscape .inventory-dialog .inventory-table tbody tr:last-child td,
+body.forced-landscape .inventory-dialog .inventory-table tbody tr:last-child td{border-bottom:0}
+body.natural-landscape .inventory-dialog .inventory-price input,
+body.forced-landscape .inventory-dialog .inventory-price input{width:100%;min-width:0;box-sizing:border-box}
+body.natural-landscape .inventory-dialog #modal-content>p.micro,
+body.forced-landscape .inventory-dialog #modal-content>p.micro{grid-column:1/-1;margin:0;font-size:10px;line-height:1.5}
+body.natural-landscape .inventory-dialog #modal-content>p.micro:first-of-type,
+body.forced-landscape .inventory-dialog #modal-content>p.micro:first-of-type{grid-row:4}
+body.natural-landscape .inventory-dialog #modal-content>p.micro:last-child,
+body.forced-landscape .inventory-dialog #modal-content>p.micro:last-child{grid-row:5}
+
+/* Shared dialog shell: only the body scrolls, never the close or primary action. */
+body #modal[open]{box-sizing:border-box;width:480px;max-width:calc(var(--rotation-width,100vw) - 32px);max-height:calc(var(--rotation-height,100dvh) - 60px - var(--safe-area-inset-top,env(safe-area-inset-top,0px)));padding:16px;overflow:hidden}
+body #modal #modal-content{display:flex;flex-direction:column;gap:10px;min-height:0;max-height:calc(var(--rotation-height,100dvh) - 94px - var(--safe-area-inset-top,env(safe-area-inset-top,0px)))}
+body #modal .modal-header{flex:none;margin:0;gap:12px}
+body #modal .modal-header h2{font-size:18px;line-height:1.4;margin:0;min-width:0}
+body #modal .modal-header .icon-button{flex:none;min-width:44px;min-height:44px}
+body #modal .modal-body{min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y;padding:2px;scroll-padding:8px}
+body #modal .modal-body>p:first-child{margin-top:0}
+body #modal .mobile-menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+body #modal .mobile-menu-grid button{min-height:48px;white-space:normal;padding:10px 8px;font-size:12px}
+body #modal .saved-plan{gap:8px}
+body #modal .saved-plan>div{min-width:0;overflow-wrap:anywhere}
+body #modal .saved-plan button{flex:none;min-height:44px}
+body #modal .modal-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;flex:none}
+body #modal .inventory-tools{margin:0;gap:6px}
+body #modal .inventory-tools button{min-height:44px;padding:8px;font-size:11px}
+body #modal .inventory-total{padding:0;gap:8px;font-size:11px}
+body #modal .inventory-total strong{font-size:20px}
+body #modal .inventory-notes{margin:0 0 8px;color:var(--muted);font-size:11px}
+body #modal .inventory-notes summary{cursor:pointer;min-height:36px;display:list-item;line-height:36px}
+body #modal .inventory-notes p{margin:6px 0;line-height:1.6}
+body #modal .inventory-table{overflow:visible;max-height:none}
+body #modal .inventory-price summary{min-height:36px;line-height:36px}
+body #modal .modal-footer{flex:none;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+body #modal .modal-footer button{min-height:44px}
+body #modal.image-dialog .export-preview{display:block;width:100%;height:auto;max-height:calc(var(--rotation-height,100dvh) - 230px);object-fit:contain;margin:0;background:#eaece1}
+body #modal.image-dialog .micro{margin:8px 0 0;line-height:1.5}
+body.natural-landscape #modal[open],body.forced-landscape #modal[open]{width:460px}
+body.natural-landscape #modal.compact-actions-dialog[open],body.forced-landscape #modal.compact-actions-dialog[open]{width:340px!important}
+body.natural-landscape #modal.inventory-dialog[open],body.forced-landscape #modal.inventory-dialog[open]{width:680px}
+body.natural-landscape #modal.image-dialog[open],body.forced-landscape #modal.image-dialog[open]{width:560px}
+body.natural-landscape #modal .inventory-table td,body.forced-landscape #modal .inventory-table td{padding:4px 8px}
+body.natural-landscape #modal .inventory-table th,body.forced-landscape #modal .inventory-table th{padding:6px 8px}
+body.natural-landscape #modal .help-art,body.forced-landscape #modal .help-art{display:none}
+body #modal .room-side-picker button{min-height:44px;white-space:normal}
+.swatch.checker{background-color:var(--swatch);background-image:conic-gradient(#f4ecdc 25%,transparent 0 50%,#f4ecdc 0 75%,transparent 0);background-size:24px 24px}
+.swatch.terrazzo{background-color:var(--swatch);background-image:radial-gradient(ellipse at 20% 30%,#a88670 0 2px,transparent 3px),radial-gradient(ellipse at 70% 65%,#f4eee1 0 3px,transparent 4px);background-size:17px 23px,29px 19px}
+.swatch.herringbone{background-color:var(--swatch);background-image:repeating-linear-gradient(45deg,transparent 0 8px,#6c50332b 9px 10px),repeating-linear-gradient(-45deg,transparent 0 18px,#f4e6cc55 19px 20px)}
+.swatch.linen{background-color:var(--swatch);background-image:repeating-linear-gradient(0deg,transparent 0 2px,#fff3 3px 4px),repeating-linear-gradient(90deg,transparent 0 3px,#765f3922 4px 5px)}

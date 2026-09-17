@@ -1,0 +1,183 @@
+[
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "draft-not-implicitly-saved",
+    "attempt": 1,
+    "pass": true,
+    "before": 5,
+    "afterClose": 5,
+    "afterMenu": 5
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "draft-invalid-other-tools",
+    "attempt": 1,
+    "pass": true,
+    "toast": "已打开方案"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "save-reload",
+    "attempt": 1,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "desktop-collapsed-space",
+    "attempt": 1,
+    "pass": true,
+    "note": "Not applicable"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "finish-inventory",
+    "attempt": 1,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "draft-not-implicitly-saved",
+    "attempt": 1,
+    "pass": true,
+    "before": 5,
+    "afterClose": 5,
+    "afterMenu": 5
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "draft-invalid-other-tools",
+    "attempt": 1,
+    "pass": true,
+    "toast": "已打开方案"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "save-reload",
+    "attempt": 1,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "desktop-collapsed-space",
+    "attempt": 1,
+    "pass": true,
+    "note": "Not applicable"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "finish-inventory",
+    "attempt": 1,
+    "pass": true
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "draft-not-implicitly-saved",
+    "attempt": 1,
+    "pass": true,
+    "before": 5,
+    "afterClose": 5,
+    "afterMenu": 5
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "draft-invalid-other-tools",
+    "attempt": 1,
+    "pass": true,
+    "toast": "已打开方案"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "save-reload",
+    "attempt": 1,
+    "pass": true
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "desktop-collapsed-space",
+    "attempt": 1,
+    "pass": true,
+    "note": "Not applicable"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "finish-inventory",
+    "attempt": 1,
+    "pass": true
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "draft-not-implicitly-saved",
+    "attempt": 1,
+    "pass": true,
+    "before": 5,
+    "afterClose": 5,
+    "afterMenu": 5
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "draft-invalid-other-tools",
+    "attempt": 1,
+    "pass": true,
+    "toast": "已打开方案"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "save-reload",
+    "attempt": 1,
+    "pass": true
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "desktop-collapsed-space",
+    "attempt": 1,
+    "pass": true,
+    "unusedRight": 0,
+    "columns": "290px 990px"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "finish-inventory",
+    "attempt": 1,
+    "pass": true
+  }
+]

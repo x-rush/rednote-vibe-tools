@@ -1,0 +1,92 @@
+{
+  "styleSwitches": 12,
+  "samples": [
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    },
+    {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 277290,
+      "textures": 6
+    }
+  ],
+  "contextLossFallback": true,
+  "errors": [],
+  "limits": "Desktop browser sample only; not physical-device FPS or long-duration memory test"
+}

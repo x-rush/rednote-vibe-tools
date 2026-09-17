@@ -1,0 +1,1910 @@
+[
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 510
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 472,
+    "dialogClientHeight": 508,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 752
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 3614,
+    "dialogClientHeight": 750,
+    "table": {
+      "client": 3339,
+      "scroll": 3339
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 229.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 192,
+    "dialogClientHeight": 228,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 400.96875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 353,
+    "dialogClientHeight": 399,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 248
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 222,
+    "dialogClientHeight": 246,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 270
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 232,
+    "dialogClientHeight": 268,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 390
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 352,
+    "dialogClientHeight": 388,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 317.390625
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 279,
+    "dialogClientHeight": 315,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 239.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 238,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 270
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 232,
+    "dialogClientHeight": 268,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "portrait",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 343,
+      "h": 656.1875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 618,
+    "dialogClientHeight": 654,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 256,
+      "y": 40,
+      "w": 300,
+      "h": 290
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 256,
+    "dialogClientHeight": 288,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 66,
+      "y": 40,
+      "w": 680,
+      "h": 309
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 279,
+    "dialogClientHeight": 307,
+    "table": {
+      "client": 112,
+      "scroll": 1081
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 106,
+      "y": 40,
+      "w": 600,
+      "h": 245.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 194,
+    "dialogClientHeight": 244,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 106,
+      "y": 40,
+      "w": 600,
+      "h": 331
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 335,
+    "dialogClientHeight": 329,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 256,
+      "y": 40,
+      "w": 300,
+      "h": 242
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 208,
+    "dialogClientHeight": 240,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 256,
+      "y": 40,
+      "w": 300,
+      "h": 186
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 256,
+      "y": 40,
+      "w": 300,
+      "h": 238
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 204,
+    "dialogClientHeight": 236,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 106,
+      "y": 40,
+      "w": 600,
+      "h": 331
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 285,
+    "dialogClientHeight": 329,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 106,
+      "y": 40,
+      "w": 600,
+      "h": 253.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 252,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 256,
+      "y": 40,
+      "w": 300,
+      "h": 186
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "natural",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 106,
+      "y": 40,
+      "w": 600,
+      "h": 331
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 357,
+    "dialogClientHeight": 329,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 42.5,
+      "y": 256,
+      "w": 290,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 256,
+    "dialogClientHeight": 288,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 33,
+      "y": 66,
+      "w": 309,
+      "h": 680
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 279,
+    "dialogClientHeight": 307,
+    "table": {
+      "client": 112,
+      "scroll": 1081
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 74.6015625,
+      "y": 32,
+      "w": 225.796875,
+      "h": 748
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 192,
+    "dialogClientHeight": 224,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 16,
+      "y": 32,
+      "w": 343,
+      "h": 748
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 300,
+    "dialogClientHeight": 341,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 66.5,
+      "y": 256,
+      "w": 242,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 208,
+    "dialogClientHeight": 240,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 94.5,
+      "y": 256,
+      "w": 186,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 68.5,
+      "y": 256,
+      "w": 238,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 204,
+    "dialogClientHeight": 236,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 30.8046875,
+      "y": 32,
+      "w": 313.390625,
+      "h": 748
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 279,
+    "dialogClientHeight": 311,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 69.6015625,
+      "y": 32,
+      "w": 235.796875,
+      "h": 748
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 234,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 94.5,
+      "y": 256,
+      "w": 186,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 375,
+    "mode": "forced",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 16,
+      "y": 32,
+      "w": 343,
+      "h": 748
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 446,
+    "dialogClientHeight": 341,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 510
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 472,
+    "dialogClientHeight": 508,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 784
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 3614,
+    "dialogClientHeight": 782,
+    "table": {
+      "client": 3339,
+      "scroll": 3339
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 229.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 192,
+    "dialogClientHeight": 228,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 400.96875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 353,
+    "dialogClientHeight": 399,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 248
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 222,
+    "dialogClientHeight": 246,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 270
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 232,
+    "dialogClientHeight": 268,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 390
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 352,
+    "dialogClientHeight": 388,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 317.390625
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 279,
+    "dialogClientHeight": 315,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 239.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 238,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 270
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 232,
+    "dialogClientHeight": 268,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "portrait",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 358,
+      "h": 673.78125
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 636,
+    "dialogClientHeight": 672,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 272,
+      "y": 40,
+      "w": 300,
+      "h": 290
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 256,
+    "dialogClientHeight": 288,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 82,
+      "y": 40,
+      "w": 680,
+      "h": 324
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 294,
+    "dialogClientHeight": 322,
+    "table": {
+      "client": 127,
+      "scroll": 1081
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 122,
+      "y": 40,
+      "w": 600,
+      "h": 245.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 194,
+    "dialogClientHeight": 244,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 122,
+      "y": 40,
+      "w": 600,
+      "h": 346
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 335,
+    "dialogClientHeight": 344,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 272,
+      "y": 40,
+      "w": 300,
+      "h": 242
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 208,
+    "dialogClientHeight": 240,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 272,
+      "y": 40,
+      "w": 300,
+      "h": 186
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 272,
+      "y": 40,
+      "w": 300,
+      "h": 238
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 204,
+    "dialogClientHeight": 236,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 122,
+      "y": 40,
+      "w": 600,
+      "h": 337.390625
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 285,
+    "dialogClientHeight": 335,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 122,
+      "y": 40,
+      "w": 600,
+      "h": 253.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 252,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 272,
+      "y": 40,
+      "w": 300,
+      "h": 186
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "natural",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 122,
+      "y": 40,
+      "w": 600,
+      "h": 346
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 359,
+    "dialogClientHeight": 344,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 50,
+      "y": 272,
+      "w": 290,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 256,
+    "dialogClientHeight": 288,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 33,
+      "y": 82,
+      "w": 324,
+      "h": 680
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 294,
+    "dialogClientHeight": 322,
+    "table": {
+      "client": 127,
+      "scroll": 1081
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 82.1015625,
+      "y": 32,
+      "w": 225.796875,
+      "h": 780
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 192,
+    "dialogClientHeight": 224,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 22.90625,
+      "y": 32,
+      "w": 344.1875,
+      "h": 780
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 300,
+    "dialogClientHeight": 342,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 74,
+      "y": 272,
+      "w": 242,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 208,
+    "dialogClientHeight": 240,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 102,
+      "y": 272,
+      "w": 186,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 76,
+      "y": 272,
+      "w": 238,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 204,
+    "dialogClientHeight": 236,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 38.3046875,
+      "y": 32,
+      "w": 313.390625,
+      "h": 780
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 279,
+    "dialogClientHeight": 311,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 77.1015625,
+      "y": 32,
+      "w": 235.796875,
+      "h": 780
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 234,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 102,
+      "y": 272,
+      "w": 186,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 390,
+    "mode": "forced",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 16,
+      "y": 32,
+      "w": 358,
+      "h": 780
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 461,
+    "dialogClientHeight": 356,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 510
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 472,
+    "dialogClientHeight": 508,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 872
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 3614,
+    "dialogClientHeight": 870,
+    "table": {
+      "client": 3339,
+      "scroll": 3339
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 229.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 192,
+    "dialogClientHeight": 228,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 374.578125
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 327,
+    "dialogClientHeight": 373,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 35,
+      "y": 40,
+      "w": 360,
+      "h": 248
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 222,
+    "dialogClientHeight": 246,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 270
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 232,
+    "dialogClientHeight": 268,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 390
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 352,
+    "dialogClientHeight": 388,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 317.390625
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 279,
+    "dialogClientHeight": 315,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 239.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 238,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 270
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 232,
+    "dialogClientHeight": 268,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "portrait",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 16,
+      "y": 40,
+      "w": 398,
+      "h": 702.390625
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 664,
+    "dialogClientHeight": 700,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 316,
+      "y": 40,
+      "w": 300,
+      "h": 290
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 256,
+    "dialogClientHeight": 288,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 126,
+      "y": 40,
+      "w": 680,
+      "h": 364
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 334,
+    "dialogClientHeight": 362,
+    "table": {
+      "client": 167,
+      "scroll": 1081
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 166,
+      "y": 40,
+      "w": 600,
+      "h": 245.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 194,
+    "dialogClientHeight": 244,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 166,
+      "y": 40,
+      "w": 600,
+      "h": 386
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 335,
+    "dialogClientHeight": 384,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 316,
+      "y": 40,
+      "w": 300,
+      "h": 242
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 208,
+    "dialogClientHeight": 240,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 316,
+      "y": 40,
+      "w": 300,
+      "h": 186
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 316,
+      "y": 40,
+      "w": 300,
+      "h": 238
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 204,
+    "dialogClientHeight": 236,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 166,
+      "y": 40,
+      "w": 600,
+      "h": 337.390625
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 285,
+    "dialogClientHeight": 335,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 166,
+      "y": 40,
+      "w": 600,
+      "h": 253.796875
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 252,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 316,
+      "y": 40,
+      "w": 300,
+      "h": 186
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "natural",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 166,
+      "y": 40,
+      "w": 600,
+      "h": 386
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 363,
+    "dialogClientHeight": 384,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "mobile-menu",
+    "title": "方案与工具",
+    "box": {
+      "x": 70,
+      "y": 316,
+      "w": 290,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 256,
+    "dialogClientHeight": 288,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "inventory",
+    "title": "家具与材料清单",
+    "box": {
+      "x": 33,
+      "y": 126,
+      "w": 364,
+      "h": 680
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 334,
+    "dialogClientHeight": 362,
+    "table": {
+      "client": 167,
+      "scroll": 1081
+    },
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "plans",
+    "title": "本地方案",
+    "box": {
+      "x": 102.1015625,
+      "y": 56,
+      "w": 225.796875,
+      "h": 820
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 192,
+    "dialogClientHeight": 224,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "help",
+    "title": "怎么玩",
+    "box": {
+      "x": 42.90625,
+      "y": 56,
+      "w": 344.1875,
+      "h": 820
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 300,
+    "dialogClientHeight": 342,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "room-actions",
+    "title": "房间设置",
+    "box": {
+      "x": 94,
+      "y": 316,
+      "w": 242,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 208,
+    "dialogClientHeight": 240,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "item-actions",
+    "title": "正在调整",
+    "box": {
+      "x": 122,
+      "y": 316,
+      "w": 186,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "walk-rooms",
+    "title": "去哪里",
+    "box": {
+      "x": 96,
+      "y": 316,
+      "w": 238,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 204,
+    "dialogClientHeight": 236,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "manage-doors",
+    "title": "调整门",
+    "box": {
+      "x": 58.3046875,
+      "y": 56,
+      "w": 313.390625,
+      "h": 820
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 279,
+    "dialogClientHeight": 311,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "add-room-shortcut",
+    "title": "在房间哪一侧添加？",
+    "box": {
+      "x": 97.1015625,
+      "y": 56,
+      "w": 235.796875,
+      "h": 820
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 202,
+    "dialogClientHeight": 234,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "finish-tools",
+    "title": "作品与清单",
+    "box": {
+      "x": 122,
+      "y": 316,
+      "w": 186,
+      "h": 300
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 152,
+    "dialogClientHeight": 184,
+    "table": null,
+    "closeWorks": true
+  },
+  {
+    "w": 430,
+    "mode": "forced",
+    "action": "capture",
+    "title": "导出设计图",
+    "box": {
+      "x": 16,
+      "y": 56,
+      "w": 398,
+      "h": 820
+    },
+    "closeVisible": true,
+    "overflow": false,
+    "horizontalOverflow": false,
+    "contentHeight": 480,
+    "dialogClientHeight": 396,
+    "table": null,
+    "closeWorks": true
+  }
+]

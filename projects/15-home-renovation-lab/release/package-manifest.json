@@ -1,14 +1,14 @@
 {
-  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.0.0-minitool.zip",
-  "bytes": 1214410,
+  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.2.0-minitool.zip",
+  "bytes": 1291675,
   "files": [
     {
       "name": "assets/app.js",
-      "bytes": 1511792
+      "bytes": 1536684
     },
     {
       "name": "assets/content.js",
-      "bytes": 18216
+      "bytes": 26965
     },
     {
       "name": "assets/furniture/armchair.png",
@@ -19,6 +19,10 @@
       "bytes": 4073
     },
     {
+      "name": "assets/furniture/bathtub.png",
+      "bytes": 3611
+    },
+    {
       "name": "assets/furniture/bed.png",
       "bytes": 5976
     },
@@ -27,12 +31,20 @@
       "bytes": 3329
     },
     {
+      "name": "assets/furniture/bluelamp.png",
+      "bytes": 2523
+    },
+    {
       "name": "assets/furniture/bookcase.png",
       "bytes": 4962
     },
     {
       "name": "assets/furniture/chair.png",
       "bytes": 3986
+    },
+    {
+      "name": "assets/furniture/chaise.png",
+      "bytes": 5292
     },
     {
       "name": "assets/furniture/coffee.png",
@@ -63,12 +75,32 @@
       "bytes": 2485
     },
     {
+      "name": "assets/furniture/longdesk.png",
+      "bytes": 3269
+    },
+    {
       "name": "assets/furniture/loveseat.png",
       "bytes": 5553
     },
     {
+      "name": "assets/furniture/lowbench.png",
+      "bytes": 3730
+    },
+    {
+      "name": "assets/furniture/lowshelf.png",
+      "bytes": 5571
+    },
+    {
+      "name": "assets/furniture/mirror.png",
+      "bytes": 2672
+    },
+    {
       "name": "assets/furniture/nightstand.png",
       "bytes": 4953
+    },
+    {
+      "name": "assets/furniture/olivepouf.png",
+      "bytes": 3819
     },
     {
       "name": "assets/furniture/plant.png",
@@ -77,6 +109,14 @@
     {
       "name": "assets/furniture/pouf.png",
       "bytes": 3899
+    },
+    {
+      "name": "assets/furniture/readingchair.png",
+      "bytes": 5671
+    },
+    {
+      "name": "assets/furniture/rounddining.png",
+      "bytes": 3445
     },
     {
       "name": "assets/furniture/roundtable.png",
@@ -91,16 +131,36 @@
       "bytes": 3278
     },
     {
+      "name": "assets/furniture/sideboard.png",
+      "bytes": 3489
+    },
+    {
       "name": "assets/furniture/singlebed.png",
       "bytes": 5361
+    },
+    {
+      "name": "assets/furniture/slimcabinet.png",
+      "bytes": 3420
+    },
+    {
+      "name": "assets/furniture/smallplant.png",
+      "bytes": 5654
     },
     {
       "name": "assets/furniture/sofa.png",
       "bytes": 5051
     },
     {
+      "name": "assets/furniture/terracottarug.png",
+      "bytes": 2042
+    },
+    {
       "name": "assets/furniture/toilet.png",
       "bytes": 3827
+    },
+    {
+      "name": "assets/furniture/trolley.png",
+      "bytes": 6731
     },
     {
       "name": "assets/furniture/tv.png",
@@ -115,6 +175,10 @@
       "bytes": 3137
     },
     {
+      "name": "assets/furniture/washer.png",
+      "bytes": 3875
+    },
+    {
       "name": "assets/licenses.json",
       "bytes": 1150
     },
@@ -124,7 +188,7 @@
     },
     {
       "name": "assets/style.css",
-      "bytes": 52407
+      "bytes": 82326
     },
     {
       "name": "index.html",

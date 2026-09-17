@@ -1,0 +1,636 @@
+[
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-invalid-draft",
+    "pass": true,
+    "closed": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing inspector-collapsed",
+      "w": ""
+    },
+    "opened": {
+      "panel": "flex",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "w": ""
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "name": "collapse-reopen-through-menu",
+    "pass": true,
+    "note": "Floating room menu not present in this layout",
+    "errors": []
+  },
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-library",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "",
+      "classes": "compact-mode inspector-collapsed"
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "name": "complete-settings",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "修改已保存",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing",
+      "w": "6"
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-properties-desktop",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing inspector-collapsed",
+      "w": "5"
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "name": "escape-dialog",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"inventory\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "375-portrait-escape-dialog.png"
+  },
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "name": "saved-dimensions-reload",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#room-form button[type=\"submit\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"submit\" class=\"primary\">应用</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    5 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "errors": [],
+    "screenshot": "375-portrait-saved-dimensions-reload.png"
+  },
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "name": "host-overlap",
+    "pass": false,
+    "intersections": [
+      {
+        "action": "mobile-menu",
+        "rect": {
+          "x": 323,
+          "y": 35,
+          "w": 44,
+          "h": 44
+        }
+      }
+    ],
+    "note": "Conservative simulated host rectangles, not device measurement",
+    "errors": [],
+    "screenshot": "375-portrait-host-overlap.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-invalid-draft",
+    "pass": true,
+    "closed": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing inspector-collapsed",
+      "w": ""
+    },
+    "opened": {
+      "panel": "flex",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "w": ""
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "collapse-reopen-through-menu",
+    "pass": true,
+    "note": "Floating room menu not present in this layout",
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-library",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "",
+      "classes": "compact-mode inspector-collapsed"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "complete-settings",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "修改已保存",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing",
+      "w": "6"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-properties-desktop",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing inspector-collapsed",
+      "w": "5"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "escape-dialog",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"inventory\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-portrait-escape-dialog.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "saved-dimensions-reload",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#room-form button[type=\"submit\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"submit\" class=\"primary\">应用</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    5 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-portrait-saved-dimensions-reload.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "host-overlap",
+    "pass": false,
+    "intersections": [
+      {
+        "action": "mobile-menu",
+        "rect": {
+          "x": 338,
+          "y": 35,
+          "w": 44,
+          "h": 44
+        }
+      }
+    ],
+    "note": "Conservative simulated host rectangles, not device measurement",
+    "errors": [],
+    "screenshot": "390-portrait-host-overlap.png"
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-invalid-draft",
+    "pass": true,
+    "closed": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing inspector-collapsed",
+      "w": ""
+    },
+    "opened": {
+      "panel": "flex",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "w": ""
+    },
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "name": "collapse-reopen-through-menu",
+    "pass": true,
+    "note": "Floating room menu not present in this layout",
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-library",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "",
+      "classes": "compact-mode inspector-collapsed"
+    },
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "name": "complete-settings",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "修改已保存",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing",
+      "w": "6"
+    },
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "name": "close-properties-desktop",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing inspector-collapsed",
+      "w": "5"
+    },
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "name": "escape-dialog",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"inventory\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "430-portrait-escape-dialog.png"
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "name": "saved-dimensions-reload",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#room-form button[type=\"submit\"]')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"submit\" class=\"primary\">应用</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    5 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "errors": [],
+    "screenshot": "430-portrait-saved-dimensions-reload.png"
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "name": "host-overlap",
+    "pass": false,
+    "intersections": [
+      {
+        "action": "mobile-menu",
+        "rect": {
+          "x": 378,
+          "y": 35,
+          "w": 44,
+          "h": 44
+        }
+      }
+    ],
+    "note": "Conservative simulated host rectangles, not device measurement",
+    "errors": [],
+    "screenshot": "430-portrait-host-overlap.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "close-invalid-draft",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-forced-close-invalid-draft.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "collapse-reopen-through-menu",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-forced-collapse-reopen-through-menu.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "close-library",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-furniture\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-forced-close-library.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "complete-settings",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-forced-complete-settings.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "close-properties-desktop",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-forced-close-properties-desktop.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "escape-dialog",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"inventory\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-forced-escape-dialog.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "saved-dimensions-reload",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "390-forced-saved-dimensions-reload.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "host-overlap",
+    "pass": true,
+    "intersections": [],
+    "note": "Conservative simulated host rectangles, not device measurement",
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "close-invalid-draft",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "844-natural-close-invalid-draft.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "collapse-reopen-through-menu",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "844-natural-collapse-reopen-through-menu.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "close-library",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-furniture\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "844-natural-close-library.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "complete-settings",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "844-natural-complete-settings.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "close-properties-desktop",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "844-natural-close-properties-desktop.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "escape-dialog",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"inventory\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "844-natural-escape-dialog.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "saved-dimensions-reload",
+    "pass": false,
+    "error": "locator.click: Timeout 2500ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "844-natural-saved-dimensions-reload.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "host-overlap",
+    "pass": false,
+    "intersections": [
+      {
+        "action": "mobile-menu",
+        "rect": {
+          "x": 792,
+          "y": 30,
+          "w": 44,
+          "h": 44
+        }
+      }
+    ],
+    "note": "Conservative simulated host rectangles, not device measurement",
+    "errors": [],
+    "screenshot": "844-natural-host-overlap.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "close-invalid-draft",
+    "pass": true,
+    "closed": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "mobile-selected mobile-room-selected layout-editing inspector-collapsed",
+      "w": ""
+    },
+    "opened": {
+      "panel": "block",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "w": ""
+    },
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "collapse-reopen-through-menu",
+    "pass": true,
+    "note": "Floating room menu not present in this layout",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "close-library",
+    "pass": true,
+    "note": "Desktop library is persistent",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "complete-settings",
+    "pass": true,
+    "note": "Desktop uses Apply, no completion control",
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "close-properties-desktop",
+    "pass": true,
+    "state": {
+      "panel": "none",
+      "drawer": false,
+      "modal": false,
+      "toast": "已打开方案",
+      "classes": "mobile-selected mobile-room-selected layout-editing inspector-collapsed",
+      "w": "5"
+    },
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "escape-dialog",
+    "pass": true,
+    "state": {
+      "panel": "block",
+      "drawer": false,
+      "modal": false,
+      "toast": "",
+      "classes": ""
+    },
+    "modalClass": false,
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "saved-dimensions-reload",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "host-overlap",
+    "pass": true,
+    "note": "Host overlays not applicable",
+    "errors": []
+  }
+]

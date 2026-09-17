@@ -1,0 +1,112 @@
+[
+  {
+    "mode": "portrait",
+    "attempt": 1,
+    "name": "unselected-door-orbit",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "mode": "portrait",
+    "attempt": 1,
+    "name": "flow-error",
+    "pass": false,
+    "error": "locator.tap: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"blank\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "native-portrait-1-flow-error.png"
+  },
+  {
+    "mode": "portrait",
+    "attempt": 2,
+    "name": "unselected-door-orbit",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "mode": "portrait",
+    "attempt": 2,
+    "name": "real-layout-save",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "mode": "portrait",
+    "attempt": 2,
+    "name": "real-close-reopen-draft",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "mode": "portrait",
+    "attempt": 2,
+    "name": "closed-draft-menu",
+    "pass": false,
+    "toast": "房间不能重叠，尺寸须在 1.5–16 之间",
+    "errors": [],
+    "screenshot": "native-portrait-2-closed-draft-menu.png"
+  },
+  {
+    "mode": "forced",
+    "attempt": 1,
+    "name": "unselected-door-orbit",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "mode": "forced",
+    "attempt": 1,
+    "name": "flow-error",
+    "pass": false,
+    "error": "locator.tap: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"room-properties\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "native-forced-1-flow-error.png"
+  },
+  {
+    "mode": "forced",
+    "attempt": 2,
+    "name": "unselected-door-orbit",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "mode": "forced",
+    "attempt": 2,
+    "name": "flow-error",
+    "pass": false,
+    "error": "locator.tap: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"room-properties\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "native-forced-2-flow-error.png"
+  },
+  {
+    "mode": "natural",
+    "attempt": 1,
+    "name": "unselected-door-orbit",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "mode": "natural",
+    "attempt": 1,
+    "name": "flow-error",
+    "pass": false,
+    "error": "locator.tap: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"blank\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "native-natural-1-flow-error.png"
+  },
+  {
+    "mode": "natural",
+    "attempt": 2,
+    "name": "unselected-door-orbit",
+    "pass": true,
+    "errors": []
+  },
+  {
+    "mode": "natural",
+    "attempt": 2,
+    "name": "flow-error",
+    "pass": false,
+    "error": "locator.tap: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"blank\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "native-natural-2-flow-error.png"
+  }
+]

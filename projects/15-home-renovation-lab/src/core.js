@@ -34,7 +34,7 @@ export function makePlan(template,catalog,legacy=false){
     else{add('bench',r,w/2,0.4);add('plant',r,0.42,d-0.45);add('plant',r,w-0.42,d-0.45);add('roundtable',r,w/2,d-0.5);}
   }
  
- if(!legacy&&Array.isArray(template.furnishings)){
+ if((!legacy||legacy==='previous')&&Array.isArray(template.furnishings)){
   plan.items=[];
   plan.rooms.forEach((r,index)=>{
    for(const [id,a,b,anchor,angle=0] of template.furnishings[index]||[]){
@@ -54,7 +54,13 @@ export function makePlan(template,catalog,legacy=false){
  for(const wall of walls(plan)){
     if(wall.rooms.length===2&&wall.length>1.15)plan.openings.push({id:uid(),roomId:wall.rooms[0],side:wall.sides[0],offset:round((wall.start+wall.end)/2-wall.origin),w:0.9,h:2.15,sill:0,type:'door'});
     else if(wall.rooms.length===1&&wall.length>2.4&&['north','west'].includes(wall.sides[0]))plan.openings.push({id:uid(),roomId:wall.rooms[0],side:wall.sides[0],offset:round((wall.start+wall.end)/2-wall.origin),w:Math.min(1.65,wall.length-0.7),h:1.15,sill:1,type:'window'});
-  }return legacy==='raw'?plan:improveTemplate(plan,catalog);
+  }if(!legacy&&template.layout){
+  // Current templates are validated authored layouts, not a best-effort furniture filter.
+  plan.items=[];plan.openings=plan.openings.filter(o=>o.type==='window');
+  for(const [index,side,offset] of template.layout.doors){const opening={id:uid(),roomId:plan.rooms[index].id,side,offset,w:.9,h:2.15,sill:0,type:'door'};if(!validOpening(plan,opening))throw new Error('Invalid template doorway: '+template.id);plan.openings.push(opening);}
+  template.layout.items.forEach((items,index)=>{for(const [id,x,z,angle=0] of items){const count=plan.items.length;add(id,plan.rooms[index],x,z,angle);if(plan.items.length!==count+1)throw new Error('Invalid template furniture: '+template.id+'/'+id);}});
+  return plan;
+ }return legacy==='raw'?plan:improveTemplate(plan,catalog);
 }
 export function walls(plan){
   const raw=[];

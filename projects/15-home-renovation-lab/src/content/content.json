@@ -1,11 +1,14 @@
 {
   "title": "住进想象",
   "subtitle": "把喜欢的生活，一点点摆进去。",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "ui": {
     "brand": "ROOMISH",
     "project": "我的原木小家",
     "local": "保存在这台设备",
+    "draftPending": "有修改未应用",
+    "draftHelp": "修改尚未应用。点完成保存；收起可继续编辑，刷新会丢失未应用内容。",
+    "discardDraft": "放弃未应用修改",
     "saved": "已自动保存",
     "unsaved": "保存失败，请导出方案备份",
     "loading": "正在为你打开一个小家…",
@@ -34,7 +37,7 @@
     "night": "暖夜",
     "hint": "轻点选中，拖动已选对象；拖空白调整视角。",
     "placeHint": "点击地面放置，底部可取消",
-    "walkHint": "点地面走动，拖动画面转头；“去哪里”可直接切换房间。",
+    "walkHint": "点地面走动，拖动画面边走边看；点“停止”停下，“去哪里”可切换房间。",
     "selectHint": "选个房间或家具，试着改一改",
     "objects": "件家具",
     "rooms": "个空间",
@@ -62,7 +65,7 @@
     "roomHelp": "选中房间后拖动位置；拖墙边或角点改大小，贴边时会出现对齐线。",
     "addRoom": "添加房间",
     "blank": "从空白开始",
-    "templateHelp": "六套清爽布局，优先留出门口和走动空间。选择模板前会保存当前方案。",
+    "templateHelp": "六套完整生活布局，保留必要家具，也为门口和走动留出空间。选择模板前会保存当前方案。",
     "materialHelp": "先选房间，再挑一块喜欢的材质。",
     "styleHelp": "保留家具位置，一键换一种生活气质。",
     "inventory": "家具与材料清单",
@@ -214,8 +217,15 @@
     "deleteRoom": "删除这个房间",
     "openStudio": "装修",
     "walkRooms": "去哪里",
+    "stopWalking": "停止",
     "exitExperience": "退出体验",
-    "doorFurnitureWarning": "有家具靠近门口，可能影响通行"
+    "doorFurnitureWarning": "有家具靠近门口，可能影响通行",
+    "completeSettings": "完成",
+    "finishMore": "更多",
+    "finishToolsTitle": "作品与清单",
+    "panelTitle": "装修操作台",
+    "priceDetails": "填写单价（选填）",
+    "inventoryNotes": "用量与计价说明"
   },
   "categories": [
     "客厅",
@@ -327,6 +337,90 @@
       "color": "#d9d0bc",
       "pattern": "stripe",
       "roughness": 0.85
+    },
+    {
+      "id": "honeywood",
+      "name": "蜂蜜橡木",
+      "pattern": "wood",
+      "color": "#c59a61",
+      "roughness": 0.88
+    },
+    {
+      "id": "darkwood",
+      "name": "深可可木",
+      "pattern": "wood",
+      "color": "#695344",
+      "roughness": 0.88
+    },
+    {
+      "id": "herringbone",
+      "name": "人字拼木地板",
+      "pattern": "herringbone",
+      "color": "#b79972",
+      "roughness": 0.88
+    },
+    {
+      "id": "ivoryterrazzo",
+      "name": "奶白水磨石",
+      "pattern": "terrazzo",
+      "color": "#e1dace",
+      "roughness": 0.88
+    },
+    {
+      "id": "sandterrazzo",
+      "name": "暖砂水磨石",
+      "pattern": "terrazzo",
+      "color": "#c5b39c",
+      "roughness": 0.88
+    },
+    {
+      "id": "checker",
+      "name": "奶咖棋盘砖",
+      "pattern": "checker",
+      "color": "#c3a385",
+      "roughness": 0.48
+    },
+    {
+      "id": "bluechecker",
+      "name": "雾蓝棋盘砖",
+      "pattern": "checker",
+      "color": "#8fa6ae",
+      "roughness": 0.48
+    },
+    {
+      "id": "bluetile",
+      "name": "海盐蓝砖",
+      "pattern": "tile",
+      "color": "#98b4bc",
+      "roughness": 0.48
+    },
+    {
+      "id": "foresttile",
+      "name": "森林绿砖",
+      "pattern": "tile",
+      "color": "#637e70",
+      "roughness": 0.48
+    },
+    {
+      "id": "linen",
+      "name": "细织亚麻壁布",
+      "pattern": "linen",
+      "color": "#d5c6af",
+      "roughness": 0.88
+    },
+    {
+      "id": "warmwhite",
+      "name": "暖白墙漆",
+      "pattern": "paint",
+      "color": "#f0ebdf",
+      "roughness": 0.88
+    },
+    {
+      "id": "mistblue",
+      "name": "雾蓝墙漆",
+      "pattern": "paint",
+      "color": "#acbdc6",
+      "roughness": 0.88
     }
   ],
   "furniture": [
@@ -590,6 +684,167 @@
       "d": 0.6,
       "h": 0.4,
       "color": "#b77859"
+    },
+    {
+      "id": "chaise",
+      "name": "午后贵妃椅",
+      "category": "客厅",
+      "model": "chaise",
+      "w": 0.88,
+      "d": 1.65,
+      "h": 0.82,
+      "color": "#c6aa8a"
+    },
+    {
+      "id": "sideboard",
+      "name": "藤色餐边柜",
+      "category": "餐厨",
+      "model": "sideboard",
+      "w": 1.4,
+      "d": 0.42,
+      "h": 0.85,
+      "color": "#b99a72"
+    },
+    {
+      "id": "mirror",
+      "name": "拱顶穿衣镜",
+      "category": "卧室",
+      "model": "mirror",
+      "w": 0.65,
+      "d": 0.28,
+      "h": 1.72,
+      "color": "#ba9873"
+    },
+    {
+      "id": "washer",
+      "name": "滚筒洗衣机",
+      "category": "卫浴",
+      "model": "washer",
+      "w": 0.6,
+      "d": 0.62,
+      "h": 0.85,
+      "color": "#e5e6df"
+    },
+    {
+      "id": "bathtub",
+      "name": "独立泡澡浴缸",
+      "category": "卫浴",
+      "model": "bathtub",
+      "w": 0.78,
+      "d": 1.65,
+      "h": 0.62,
+      "color": "#eee9df"
+    },
+    {
+      "id": "trolley",
+      "name": "双层咖啡推车",
+      "category": "餐厨",
+      "model": "trolley",
+      "w": 0.65,
+      "d": 0.42,
+      "h": 0.8,
+      "color": "#9aa991"
+    },
+    {
+      "id": "readingchair",
+      "name": "焦糖阅读椅",
+      "category": "客厅",
+      "model": "chair",
+      "w": 0.72,
+      "d": 0.78,
+      "h": 0.9,
+      "color": "#b87952"
+    },
+    {
+      "id": "rounddining",
+      "name": "两人圆餐桌",
+      "category": "餐厨",
+      "model": "round",
+      "w": 0.95,
+      "d": 0.95,
+      "h": 0.75,
+      "color": "#ab8864"
+    },
+    {
+      "id": "lowbench",
+      "name": "玄关换鞋凳",
+      "category": "装饰",
+      "model": "bench",
+      "w": 0.85,
+      "d": 0.35,
+      "h": 0.42,
+      "color": "#a1876b"
+    },
+    {
+      "id": "slimcabinet",
+      "name": "窄身玄关柜",
+      "category": "客厅",
+      "model": "cabinet",
+      "w": 0.7,
+      "d": 0.32,
+      "h": 0.95,
+      "color": "#ddd5c5"
+    },
+    {
+      "id": "longdesk",
+      "name": "双人工作长桌",
+      "category": "卧室",
+      "model": "desk",
+      "w": 1.8,
+      "d": 0.6,
+      "h": 0.75,
+      "color": "#aa8762"
+    },
+    {
+      "id": "lowshelf",
+      "name": "矮书柜",
+      "category": "客厅",
+      "model": "shelf",
+      "w": 1.15,
+      "d": 0.3,
+      "h": 0.95,
+      "color": "#ad906e"
+    },
+    {
+      "id": "olivepouf",
+      "name": "橄榄绿脚凳",
+      "category": "客厅",
+      "model": "pouf",
+      "w": 0.55,
+      "d": 0.55,
+      "h": 0.36,
+      "color": "#7f8968"
+    },
+    {
+      "id": "bluelamp",
+      "name": "雾蓝落地灯",
+      "category": "装饰",
+      "model": "lamp",
+      "w": 0.4,
+      "d": 0.4,
+      "h": 1.5,
+      "color": "#8cabb4"
+    },
+    {
+      "id": "terracottarug",
+      "name": "陶红长地毯",
+      "category": "装饰",
+      "model": "rug",
+      "w": 1.6,
+      "d": 2.4,
+      "h": 0.025,
+      "color": "#bd8068",
+      "overlay": true
+    },
+    {
+      "id": "smallplant",
+      "name": "窗边小绿植",
+      "category": "装饰",
+      "model": "plant",
+      "w": 0.38,
+      "d": 0.38,
+      "h": 0.72,
+      "color": "#718564"
     }
   ],
   "templates": [
@@ -734,6 +989,167 @@
             "southeast"
           ]
         ]
+      ],
+      "layout": {
+        "doors": [
+          [
+            0,
+            "east",
+            3.4
+          ],
+          [
+            0,
+            "south",
+            0.8
+          ],
+          [
+            0,
+            "south",
+            3.8
+          ],
+          [
+            1,
+            "south",
+            1.2
+          ]
+        ],
+        "items": [
+          [
+            [
+              "sofa",
+              2.33,
+              0.55,
+              0
+            ],
+            [
+              "tv",
+              2.33,
+              3.87,
+              180
+            ],
+            [
+              "coffee",
+              2.26,
+              1.8,
+              0
+            ],
+            [
+              "plant",
+              3.96,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ],
+            [
+              "rug",
+              2.4,
+              2.1,
+              0
+            ]
+          ],
+          [
+            [
+              "bed",
+              1.71,
+              1.13,
+              0
+            ],
+            [
+              "wardrobe",
+              2.96,
+              3.38,
+              270
+            ],
+            [
+              "plant",
+              2.76,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ]
+          ],
+          [
+            [
+              "kitchen",
+              2.58,
+              0.98,
+              270
+            ],
+            [
+              "fridge",
+              0.41,
+              2.01,
+              90
+            ]
+          ],
+          [
+            [
+              "shower",
+              0.53,
+              1.73,
+              0
+            ],
+            [
+              "toilet",
+              1.49,
+              0.42,
+              0
+            ],
+            [
+              "vanity",
+              1.48,
+              1.92,
+              180
+            ]
+          ],
+          [
+            [
+              "bench",
+              2.18,
+              0.28,
+              0
+            ],
+            [
+              "plant",
+              0.36,
+              1.36,
+              0
+            ]
+          ]
+        ]
+      },
+      "requiredItems": [
+        [
+          "sofa",
+          "tv",
+          "coffee"
+        ],
+        [
+          "bed",
+          "wardrobe"
+        ],
+        [
+          "kitchen",
+          "fridge"
+        ],
+        [
+          "shower",
+          "toilet",
+          "vanity"
+        ],
+        [
+          "bench"
+        ]
       ]
     },
     {
@@ -804,6 +1220,94 @@
             0.32,
             "south"
           ]
+        ]
+      ],
+      "layout": {
+        "doors": [
+          [
+            0,
+            "east",
+            1.7
+          ]
+        ],
+        "items": [
+          [
+            [
+              "singlebed",
+              2.81,
+              1.08,
+              0
+            ],
+            [
+              "loveseat",
+              4.38,
+              0.51,
+              0
+            ],
+            [
+              "wardrobe",
+              1.58,
+              0.36,
+              0
+            ],
+            [
+              "coffee",
+              4.41,
+              1.65,
+              90
+            ],
+            [
+              "plant",
+              0.56,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.31,
+              1.31,
+              0
+            ],
+            [
+              "rug",
+              2.9,
+              2.6,
+              0
+            ]
+          ],
+          [
+            [
+              "shower",
+              0.53,
+              0.53,
+              0
+            ],
+            [
+              "toilet",
+              1.29,
+              0.42,
+              0
+            ],
+            [
+              "vanity",
+              1.52,
+              1.88,
+              270
+            ]
+          ]
+        ]
+      },
+      "requiredItems": [
+        [
+          "singlebed",
+          "loveseat",
+          "wardrobe",
+          "coffee"
+        ],
+        [
+          "shower",
+          "toilet",
+          "vanity"
         ]
       ]
     },
@@ -953,6 +1457,180 @@
             0.32,
             "south"
           ]
+        ]
+      ],
+      "layout": {
+        "doors": [
+          [
+            0,
+            "east",
+            3.6
+          ],
+          [
+            0,
+            "south",
+            0.8
+          ],
+          [
+            0,
+            "south",
+            3.8
+          ],
+          [
+            1,
+            "south",
+            1
+          ]
+        ],
+        "items": [
+          [
+            [
+              "sofa",
+              2.33,
+              0.55,
+              0
+            ],
+            [
+              "tv",
+              2.33,
+              4.07,
+              180
+            ],
+            [
+              "coffee",
+              2.26,
+              1.8,
+              0
+            ],
+            [
+              "plant",
+              3.96,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ],
+            [
+              "rug",
+              2.4,
+              2.2,
+              0
+            ]
+          ],
+          [
+            [
+              "bed",
+              1.71,
+              1.13,
+              0
+            ],
+            [
+              "wardrobe",
+              0.36,
+              2.38,
+              90
+            ],
+            [
+              "plant",
+              2.76,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ]
+          ],
+          [
+            [
+              "singlebed",
+              2.01,
+              1.08,
+              0
+            ],
+            [
+              "wardrobe",
+              0.36,
+              1.78,
+              90
+            ],
+            [
+              "plant",
+              2.76,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              3.11,
+              0.91,
+              0
+            ]
+          ],
+          [
+            [
+              "kitchen",
+              0.38,
+              1.98,
+              90
+            ],
+            [
+              "fridge",
+              2.21,
+              2.81,
+              180
+            ]
+          ],
+          [
+            [
+              "shower",
+              0.53,
+              2.53,
+              0
+            ],
+            [
+              "toilet",
+              0.49,
+              0.42,
+              0
+            ],
+            [
+              "vanity",
+              0.32,
+              1.28,
+              90
+            ]
+          ]
+        ]
+      },
+      "requiredItems": [
+        [
+          "sofa",
+          "tv",
+          "coffee"
+        ],
+        [
+          "bed",
+          "wardrobe"
+        ],
+        [
+          "singlebed",
+          "wardrobe"
+        ],
+        [
+          "kitchen",
+          "fridge"
+        ],
+        [
+          "shower",
+          "toilet",
+          "vanity"
         ]
       ]
     },
@@ -1131,6 +1809,210 @@
             0.32,
             "south"
           ]
+        ]
+      ],
+      "layout": {
+        "doors": [
+          [
+            0,
+            "east",
+            3.6
+          ],
+          [
+            0,
+            "south",
+            0.8
+          ],
+          [
+            2,
+            "east",
+            2.6
+          ],
+          [
+            1,
+            "south",
+            2.8
+          ],
+          [
+            1,
+            "east",
+            3.5
+          ]
+        ],
+        "items": [
+          [
+            [
+              "sofa",
+              2.33,
+              0.55,
+              0
+            ],
+            [
+              "tv",
+              2.33,
+              4.07,
+              180
+            ],
+            [
+              "coffee",
+              2.26,
+              1.8,
+              0
+            ],
+            [
+              "plant",
+              3.96,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ],
+            [
+              "rug",
+              2.4,
+              2.2,
+              0
+            ]
+          ],
+          [
+            [
+              "bed",
+              1.71,
+              1.13,
+              0
+            ],
+            [
+              "wardrobe",
+              0.36,
+              2.38,
+              90
+            ],
+            [
+              "plant",
+              2.76,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ]
+          ],
+          [
+            [
+              "dining",
+              1.53,
+              1.68,
+              0
+            ],
+            [
+              "chair",
+              1.51,
+              2.52,
+              180
+            ],
+            [
+              "chair",
+              2.52,
+              1.71,
+              270
+            ]
+          ],
+          [
+            [
+              "kitchen",
+              1.18,
+              0.38,
+              0
+            ],
+            [
+              "fridge",
+              2.01,
+              3.01,
+              180
+            ]
+          ],
+          [
+            [
+              "singlebed",
+              1.61,
+              1.08,
+              0
+            ],
+            [
+              "wardrobe",
+              0.36,
+              0.78,
+              90
+            ],
+            [
+              "plant",
+              2.36,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.91,
+              0.31,
+              0
+            ]
+          ],
+          [
+            [
+              "shower",
+              0.53,
+              0.53,
+              0
+            ],
+            [
+              "toilet",
+              1.29,
+              0.42,
+              0
+            ],
+            [
+              "vanity",
+              0.32,
+              1.88,
+              90
+            ]
+          ]
+        ]
+      },
+      "requiredItems": [
+        [
+          "sofa",
+          "tv",
+          "coffee"
+        ],
+        [
+          "bed",
+          "wardrobe"
+        ],
+        [
+          "dining",
+          "chair",
+          "chair"
+        ],
+        [
+          "kitchen",
+          "fridge"
+        ],
+        [
+          "singlebed",
+          "wardrobe"
+        ],
+        [
+          "shower",
+          "toilet",
+          "vanity"
         ]
       ]
     },
@@ -1339,6 +2221,240 @@
             "south"
           ]
         ]
+      ],
+      "layout": {
+        "doors": [
+          [
+            0,
+            "east",
+            3.7
+          ],
+          [
+            0,
+            "south",
+            0.8
+          ],
+          [
+            3,
+            "east",
+            2.6
+          ],
+          [
+            1,
+            "south",
+            1.8
+          ],
+          [
+            1,
+            "east",
+            3.7
+          ],
+          [
+            2,
+            "south",
+            2.2
+          ]
+        ],
+        "items": [
+          [
+            [
+              "sofa",
+              2.53,
+              0.55,
+              0
+            ],
+            [
+              "tv",
+              2.53,
+              4.27,
+              180
+            ],
+            [
+              "coffee",
+              2.46,
+              1.8,
+              0
+            ],
+            [
+              "plant",
+              0.96,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              4.11,
+              0.31,
+              0
+            ],
+            [
+              "rug",
+              2.5,
+              2.3,
+              0
+            ]
+          ],
+          [
+            [
+              "bed",
+              1.71,
+              1.13,
+              0
+            ],
+            [
+              "wardrobe",
+              3.16,
+              2.38,
+              270
+            ],
+            [
+              "plant",
+              2.76,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ]
+          ],
+          [
+            [
+              "singlebed",
+              1.61,
+              1.08,
+              0
+            ],
+            [
+              "wardrobe",
+              0.36,
+              0.78,
+              90
+            ],
+            [
+              "plant",
+              2.36,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.9,
+              0.31,
+              0
+            ]
+          ],
+          [
+            [
+              "dining",
+              1.53,
+              1.68,
+              0
+            ],
+            [
+              "chair",
+              1.51,
+              2.52,
+              180
+            ],
+            [
+              "chair",
+              2.52,
+              1.71,
+              270
+            ]
+          ],
+          [
+            [
+              "kitchen",
+              1.18,
+              0.38,
+              0
+            ],
+            [
+              "fridge",
+              2.01,
+              3.01,
+              180
+            ]
+          ],
+          [
+            [
+              "shower",
+              0.53,
+              2.73,
+              0
+            ],
+            [
+              "toilet",
+              0.49,
+              0.42,
+              0
+            ],
+            [
+              "vanity",
+              0.32,
+              1.28,
+              90
+            ]
+          ],
+          [
+            [
+              "desk",
+              1.63,
+              0.36,
+              0
+            ],
+            [
+              "chair",
+              0.72,
+              0.31,
+              90
+            ],
+            [
+              "bookcase",
+              0.26,
+              0.78,
+              90
+            ]
+          ]
+        ]
+      },
+      "requiredItems": [
+        [
+          "sofa",
+          "tv",
+          "coffee"
+        ],
+        [
+          "bed",
+          "wardrobe"
+        ],
+        [
+          "singlebed",
+          "wardrobe"
+        ],
+        [
+          "dining",
+          "chair",
+          "chair"
+        ],
+        [
+          "kitchen",
+          "fridge"
+        ],
+        [
+          "shower",
+          "toilet",
+          "vanity"
+        ],
+        [
+          "desk",
+          "chair",
+          "bookcase"
+        ]
       ]
     },
     {
@@ -1482,6 +2598,167 @@
             "southeast"
           ]
         ]
+      ],
+      "layout": {
+        "doors": [
+          [
+            0,
+            "east",
+            3.6
+          ],
+          [
+            0,
+            "south",
+            0.8
+          ],
+          [
+            0,
+            "south",
+            3.8
+          ],
+          [
+            2,
+            "south",
+            0.8
+          ]
+        ],
+        "items": [
+          [
+            [
+              "sofa",
+              2.33,
+              0.55,
+              0
+            ],
+            [
+              "tv",
+              2.33,
+              4.07,
+              180
+            ],
+            [
+              "coffee",
+              2.26,
+              1.8,
+              0
+            ],
+            [
+              "plant",
+              3.96,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ],
+            [
+              "rug",
+              2.4,
+              2.2,
+              0
+            ]
+          ],
+          [
+            [
+              "bed",
+              1.71,
+              1.13,
+              0
+            ],
+            [
+              "wardrobe",
+              0.36,
+              2.38,
+              90
+            ],
+            [
+              "plant",
+              2.76,
+              0.36,
+              0
+            ],
+            [
+              "lamp",
+              0.71,
+              0.31,
+              0
+            ]
+          ],
+          [
+            [
+              "kitchen",
+              2.18,
+              0.98,
+              270
+            ],
+            [
+              "fridge",
+              2.21,
+              2.21,
+              270
+            ]
+          ],
+          [
+            [
+              "shower",
+              0.53,
+              1.93,
+              0
+            ],
+            [
+              "toilet",
+              0.49,
+              0.42,
+              0
+            ],
+            [
+              "vanity",
+              1.72,
+              2.08,
+              270
+            ]
+          ],
+          [
+            [
+              "bench",
+              2.43,
+              0.28,
+              0
+            ],
+            [
+              "plant",
+              1.56,
+              0.36,
+              0
+            ]
+          ]
+        ]
+      },
+      "requiredItems": [
+        [
+          "sofa",
+          "tv",
+          "coffee"
+        ],
+        [
+          "bed",
+          "wardrobe"
+        ],
+        [
+          "kitchen",
+          "fridge"
+        ],
+        [
+          "shower",
+          "toilet",
+          "vanity"
+        ],
+        [
+          "bench"
+        ]
       ]
     }
   ],
@@ -1524,6 +2801,90 @@
         "#d9cbb5"
       ],
       "background": "#cbd5d3"
+    },
+    {
+      "id": "japandi",
+      "name": "侘寂茶室",
+      "tag": "亚麻 / 浅木 / 安静",
+      "floor": "herringbone",
+      "wall": "linen",
+      "colors": [
+        "#c5b39d",
+        "#7f8968",
+        "#e4dccd"
+      ],
+      "background": "#d5cabb",
+      "wetFloor": "ivoryterrazzo"
+    },
+    {
+      "id": "retro",
+      "name": "中古咖啡馆",
+      "tag": "胡桃 / 陶红 / 复古",
+      "floor": "darkwood",
+      "wall": "warmwhite",
+      "colors": [
+        "#b87952",
+        "#747e62",
+        "#c6aa8a"
+      ],
+      "background": "#c5aa8e",
+      "wetFloor": "checker"
+    },
+    {
+      "id": "coastal",
+      "name": "海盐假日",
+      "tag": "雾蓝 / 暖白 / 轻盈",
+      "floor": "ash",
+      "wall": "mistblue",
+      "colors": [
+        "#9cb8c3",
+        "#ece7d9",
+        "#c3ad8c"
+      ],
+      "background": "#cadcdb",
+      "wetFloor": "bluetile"
+    },
+    {
+      "id": "garden",
+      "name": "绿意慢居",
+      "tag": "森林绿 / 木色 / 松弛",
+      "floor": "honeywood",
+      "wall": "cream",
+      "colors": [
+        "#718564",
+        "#d7c7ae",
+        "#b98769"
+      ],
+      "background": "#c5d0b6",
+      "wetFloor": "foresttile"
+    },
+    {
+      "id": "gallery",
+      "name": "暖白画廊",
+      "tag": "留白 / 石材 / 少量黑",
+      "floor": "ivoryterrazzo",
+      "wall": "warmwhite",
+      "colors": [
+        "#e7e0d3",
+        "#59615c",
+        "#b98f73"
+      ],
+      "background": "#e5dfd4",
+      "wetFloor": "ivoryterrazzo"
+    },
+    {
+      "id": "playful",
+      "name": "周末拼色",
+      "tag": "棋盘 / 杏粉 / 明快",
+      "floor": "checker",
+      "wall": "blush",
+      "colors": [
+        "#8fa6ae",
+        "#b97e66",
+        "#d4bf84"
+      ],
+      "background": "#dfc9b8",
+      "wetFloor": "bluechecker"
     }
   ]
 }

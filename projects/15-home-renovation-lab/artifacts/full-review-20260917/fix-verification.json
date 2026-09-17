@@ -1,0 +1,79 @@
+[
+  {
+    "width": 375,
+    "height": 844,
+    "mode": "portrait",
+    "checks": [
+      "host corner clearance",
+      "door highlight survives style and undo",
+      "Escape closes and preserves draft",
+      "invalid draft does not block modal",
+      "explicit save commits draft"
+    ],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "checks": [
+      "host corner clearance",
+      "door highlight survives style and undo",
+      "Escape closes and preserves draft",
+      "invalid draft does not block modal",
+      "explicit save commits draft"
+    ],
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 844,
+    "mode": "portrait",
+    "checks": [
+      "host corner clearance",
+      "door highlight survives style and undo",
+      "Escape closes and preserves draft",
+      "invalid draft does not block modal",
+      "explicit save commits draft"
+    ],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "checks": [
+      "host corner clearance",
+      "door highlight survives style and undo",
+      "Escape closes and preserves draft",
+      "invalid draft does not block modal",
+      "explicit save commits draft"
+    ],
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "checks": [
+      "host corner clearance",
+      "door highlight survives style and undo",
+      "Escape closes and preserves draft",
+      "invalid draft does not block modal",
+      "explicit save commits draft"
+    ],
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "checks": [
+      "door highlight survives style and undo",
+      "Escape closes and preserves draft",
+      "invalid draft does not block modal",
+      "explicit save commits draft"
+    ],
+    "errors": []
+  }
+]

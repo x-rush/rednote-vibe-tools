@@ -1,0 +1,221 @@
+[
+  {
+    "mode": "file",
+    "width": 375,
+    "passed": true,
+    "metrics": {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 266625,
+      "textures": 6
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  },
+  {
+    "mode": "file",
+    "width": 390,
+    "passed": true,
+    "metrics": {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 297960,
+      "textures": 6
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  },
+  {
+    "mode": "file",
+    "width": 430,
+    "passed": true,
+    "metrics": {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 328520,
+      "textures": 6
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  },
+  {
+    "mode": "csp",
+    "width": 375,
+    "passed": true,
+    "metrics": {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 286500,
+      "textures": 6
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  },
+  {
+    "mode": "csp",
+    "width": 390,
+    "passed": true,
+    "metrics": {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 297960,
+      "textures": 6
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  },
+  {
+    "mode": "csp",
+    "width": 430,
+    "passed": true,
+    "metrics": {
+      "tier": 0,
+      "calls": 34,
+      "triangles": 20642,
+      "pixels": 328520,
+      "textures": 6
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  },
+  {
+    "mode": "fallback",
+    "width": 375,
+    "passed": true,
+    "metrics": {
+      "tier": 2,
+      "renderer": "canvas2d",
+      "reason": "webgl-unavailable"
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  },
+  {
+    "mode": "fallback",
+    "width": 390,
+    "passed": true,
+    "metrics": {
+      "tier": 2,
+      "renderer": "canvas2d",
+      "reason": "webgl-unavailable"
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  },
+  {
+    "mode": "fallback",
+    "width": 430,
+    "passed": true,
+    "metrics": {
+      "tier": 2,
+      "renderer": "canvas2d",
+      "reason": "webgl-unavailable"
+    },
+    "checks": [
+      "offline boot and logo",
+      "legacy API fallbacks",
+      "draft notice and discard",
+      "close/reopen draft",
+      "keyboard simulation",
+      "quick undo/redo",
+      "landscape export",
+      "album refusal and retry mock",
+      "saved state reload"
+    ],
+    "errors": [],
+    "network": []
+  }
+]

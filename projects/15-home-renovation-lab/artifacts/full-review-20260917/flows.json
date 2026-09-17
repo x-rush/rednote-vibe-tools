@@ -1,0 +1,520 @@
+[
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "inventory-close",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "compact-mode",
+      "toast": "",
+      "panel": "none",
+      "editRoomButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 6,
+    "height": 844,
+    "mode": "portrait",
+    "name": "dimension-save-reload",
+    "attempt": 1,
+    "pass": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "collapsed-draft-menu-trap",
+    "attempt": 1,
+    "pass": false,
+    "state": {
+      "modal": false,
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "房间不能重叠，尺寸须在 1.5–16 之间",
+      "panel": "flex",
+      "w": "",
+      "editRoomButtons": 0
+    },
+    "errors": [],
+    "screenshot": "flow-390-portrait-collapsed-draft-menu-trap-1.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "collapsed-draft-menu-trap",
+    "attempt": 2,
+    "pass": false,
+    "state": {
+      "modal": false,
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "房间不能重叠，尺寸须在 1.5–16 之间",
+      "panel": "flex",
+      "w": "",
+      "editRoomButtons": 0
+    },
+    "errors": [],
+    "screenshot": "flow-390-portrait-collapsed-draft-menu-trap-2.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "escape-closes-settings",
+    "attempt": 1,
+    "pass": false,
+    "state": {
+      "modal": false,
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "已打开方案",
+      "panel": "flex",
+      "w": "5",
+      "editRoomButtons": 0
+    },
+    "errors": [],
+    "screenshot": "flow-390-portrait-escape-closes-settings-1.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "escape-closes-settings",
+    "attempt": 2,
+    "pass": false,
+    "state": {
+      "modal": false,
+      "classes": "compact-mode mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "已打开方案",
+      "panel": "flex",
+      "w": "5",
+      "editRoomButtons": 0
+    },
+    "errors": [],
+    "screenshot": "flow-390-portrait-escape-closes-settings-2.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "desktop-reopen-settings",
+    "attempt": 1,
+    "pass": true,
+    "note": "Desktop-only check",
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "finish-preview-tools",
+    "attempt": 1,
+    "pass": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "portrait",
+    "name": "walk-exit-tools",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "compact-mode finished",
+      "toast": "点地面走动，拖动画面边走边看；点“停止”停下，“去哪里”可切换房间。",
+      "panel": "none",
+      "editRoomButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "inventory-close",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "compact-mode forced-landscape",
+      "toast": "",
+      "panel": "none",
+      "editRoomButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "dimension-save-reload",
+    "attempt": 1,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-390-forced-dimension-save-reload-1.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "dimension-save-reload",
+    "attempt": 2,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-390-forced-dimension-save-reload-2.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "collapsed-draft-menu-trap",
+    "attempt": 1,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-390-forced-collapsed-draft-menu-trap-1.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "collapsed-draft-menu-trap",
+    "attempt": 2,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-390-forced-collapsed-draft-menu-trap-2.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "escape-closes-settings",
+    "attempt": 1,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-390-forced-escape-closes-settings-1.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "escape-closes-settings",
+    "attempt": 2,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-390-forced-escape-closes-settings-2.png"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "desktop-reopen-settings",
+    "attempt": 1,
+    "pass": true,
+    "note": "Desktop-only check",
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "finish-preview-tools",
+    "attempt": 1,
+    "pass": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "mode": "forced",
+    "name": "walk-exit-tools",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "compact-mode forced-landscape finished",
+      "toast": "点地面走动，拖动画面边走边看；点“停止”停下，“去哪里”可切换房间。",
+      "panel": "none",
+      "editRoomButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "inventory-close",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "natural-landscape compact-mode",
+      "toast": "",
+      "panel": "none",
+      "editRoomButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "dimension-save-reload",
+    "attempt": 1,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-844-natural-dimension-save-reload-1.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "dimension-save-reload",
+    "attempt": 2,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-844-natural-dimension-save-reload-2.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "collapsed-draft-menu-trap",
+    "attempt": 1,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-844-natural-collapsed-draft-menu-trap-1.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "collapsed-draft-menu-trap",
+    "attempt": 2,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-844-natural-collapsed-draft-menu-trap-2.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "escape-closes-settings",
+    "attempt": 1,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-844-natural-escape-closes-settings-1.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "escape-closes-settings",
+    "attempt": 2,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"tab-layouts\"]:visible').first()\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-844-natural-escape-closes-settings-2.png"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "desktop-reopen-settings",
+    "attempt": 1,
+    "pass": true,
+    "note": "Desktop-only check",
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "finish-preview-tools",
+    "attempt": 1,
+    "pass": true,
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "mode": "natural",
+    "name": "walk-exit-tools",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "natural-landscape compact-mode finished",
+      "toast": "点地面走动，拖动画面边走边看；点“停止”停下，“去哪里”可切换房间。",
+      "panel": "none",
+      "editRoomButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "inventory-close",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "",
+      "toast": "",
+      "panel": "block",
+      "editRoomButtons": 0
+    },
+    "errors": []
+  },
+  {
+    "width": 6,
+    "height": 900,
+    "mode": "desktop",
+    "name": "dimension-save-reload",
+    "attempt": 1,
+    "pass": true,
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "collapsed-draft-menu-trap",
+    "attempt": 1,
+    "pass": false,
+    "state": {
+      "modal": false,
+      "classes": "mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "房间不能重叠，尺寸须在 1.5–16 之间",
+      "panel": "block",
+      "w": "",
+      "editRoomButtons": 1
+    },
+    "errors": [],
+    "screenshot": "flow-1280-desktop-collapsed-draft-menu-trap-1.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "collapsed-draft-menu-trap",
+    "attempt": 2,
+    "pass": false,
+    "state": {
+      "modal": false,
+      "classes": "mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "房间不能重叠，尺寸须在 1.5–16 之间",
+      "panel": "block",
+      "w": "",
+      "editRoomButtons": 1
+    },
+    "errors": [],
+    "screenshot": "flow-1280-desktop-collapsed-draft-menu-trap-2.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "escape-closes-settings",
+    "attempt": 1,
+    "pass": false,
+    "state": {
+      "modal": false,
+      "classes": "mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "已打开方案",
+      "panel": "block",
+      "w": "5",
+      "editRoomButtons": 1
+    },
+    "errors": [],
+    "screenshot": "flow-1280-desktop-escape-closes-settings-1.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "escape-closes-settings",
+    "attempt": 2,
+    "pass": false,
+    "state": {
+      "modal": false,
+      "classes": "mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "已打开方案",
+      "panel": "block",
+      "w": "5",
+      "editRoomButtons": 1
+    },
+    "errors": [],
+    "screenshot": "flow-1280-desktop-escape-closes-settings-2.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "desktop-reopen-settings",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "mobile-selected mobile-room-selected layout-editing mobile-properties room-properties-open",
+      "toast": "已打开方案",
+      "panel": "block",
+      "w": "5",
+      "editRoomButtons": 1
+    },
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "finish-preview-tools",
+    "attempt": 1,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"inventory\"]:visible').first()\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"quiet\" title=\"家具与材料清单\" aria-label=\"家具与材料清单\" data-action=\"inventory\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" id=\"modal\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" id=\"modal\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    6 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" id=\"modal\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-1280-desktop-finish-preview-tools-1.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "finish-preview-tools",
+    "attempt": 2,
+    "pass": false,
+    "error": "locator.click: Timeout 3000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"inventory\"]:visible').first()\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"quiet\" title=\"家具与材料清单\" aria-label=\"家具与材料清单\" data-action=\"inventory\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" id=\"modal\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" id=\"modal\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    6 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <dialog open=\"\" id=\"modal\">…</dialog> intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+    "errors": [],
+    "screenshot": "flow-1280-desktop-finish-preview-tools-2.png"
+  },
+  {
+    "width": 1280,
+    "height": 900,
+    "mode": "desktop",
+    "name": "walk-exit-tools",
+    "attempt": 1,
+    "pass": true,
+    "state": {
+      "modal": false,
+      "classes": "finished",
+      "toast": "点地面走动，拖动画面边走边看；点“停止”停下，“去哪里”可切换房间。",
+      "panel": "none",
+      "editRoomButtons": 0
+    },
+    "errors": []
+  }
+]

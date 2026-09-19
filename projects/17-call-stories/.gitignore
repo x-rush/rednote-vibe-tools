@@ -1,0 +1,7 @@
+dist/
+qa/output/
+qa/profile/
+qa/*.png
+qa/studio-report.json
+qa/.audio-tools/
+qa/.audio-models/

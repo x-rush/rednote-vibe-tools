@@ -1,0 +1,39 @@
+{
+  "name": "捡手机文学局",
+  "description": "来电聊天朋友圈，轻松写故事",
+  "descriptionCharacters": 13,
+  "skill": "minitool-zip-builder 1.6.0",
+  "bytes": 193471,
+  "sha256": "6089202e294d0d6224fc1dac158d9acd4a6d76cd69258293adcbdbf24106fb14",
+  "entry": "index.html",
+  "scripts": "app.js, classic IIFE, target chrome61",
+  "checks": [
+    "pnpm lint",
+    "pnpm test: 19 passed",
+    "pnpm build",
+    "375 / 390 / 430 CSS px and 844 x 390 landscape",
+    "24px safe area and host-button overlays",
+    "PNG chat and Moments export with uploaded photos inspected",
+    "45-message pagination; native bridge payload; permission failure; no image persistence",
+    "Directory and ZIP budget audits: zero warnings",
+    "ZIP entry names checked; no modules, source maps, node_modules or build config",
+    "Forbidden API output scan passed",
+    "ZIP全部28个文件通过用户提供的严格后缀白名单",
+    "真实铃声 Web Audio 解码/循环/延迟/停止；解码期间取消竞态单元测试",
+    "通话返回聊天不显示保存按钮；紧凑顶部通过375/390/430与宿主覆盖层检查",
+    "所有页面统一收紧顶部；聊天按钮恢复40px宽度及两侧布局；宿主模拟触摸余量按安全区加可配置48px计算",
+    "全局顶部再次缩小12px；来电头像上移16px；按钮宽度保持40px",
+    "私聊/群聊切换、群名与昵称渲染在375/390/430通过；分离草稿与通话私聊归档单元测试通过",
+    "依据用户参考图调整聊天气泡、昵称、输入栏和通话视觉；截图已查看；18项测试及全流程浏览器验证通过",
+    "星期/月日＋时分组合下拉；星期预览浏览器验证；月末日期修正与时间格式单元测试",
+    "时间统一显示周一至周日，选项、预览及导出使用同一格式"
+  ],
+  "limitations": [
+    "小红书真机相册保存、Chrome 61 JS/CSS 兼容性和性能未实测",
+    "普通浏览器展示 PNG 预览，电脑可右键另存为；小红书使用已文档化相册接口",
+    "铃声素材公开发布授权尚未确认；本包用于本地验收",
+    "剧情配音仍待提供",
+    "新的 Web Audio 播放链路尚待小红书真机验收；已在浏览器验证"
+  ],
+  "audioPackaging": "项目14方案：原音频Base64编入JS，Uint8Array + decodeAudioData，ZIP无MP3等不支持文件"
+}

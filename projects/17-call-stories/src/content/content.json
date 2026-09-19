@@ -1,0 +1,555 @@
+{
+  "product": {
+    "name": "捡手机文学局",
+    "tagline": "来电聊天朋友圈，轻松写故事",
+    "heroLines": [
+      "在吗？有句话想对你说。",
+      "你说，我在听。"
+    ]
+  },
+  "ui": {
+    "tabs": [
+      "创作",
+      "聊天",
+      "朋友圈",
+      "人物库"
+    ],
+    "saveImage": "保存图片",
+    "generating": "正在生成…",
+    "imagePreview": "图片预览",
+    "browserSave": "图片已生成。电脑上右键图片另存为；在小红书内可直接保存到相册。",
+    "closePreview": "关闭预览",
+    "saved": "已保存 {count} 张图片到相册",
+    "saveFailed": "保存未完成，请检查相册权限后重试。",
+    "partialSave": "已保存 {count} 张，其余未完成，请重试。",
+    "privateChat": "一对一私聊",
+    "groupChat": "多人群聊",
+    "groupMembers": "群成员",
+    "memberInUse": "这位成员正在发言，请先修改对应消息。",
+    "voiceUnavailable": "通话声音暂时无法播放，可以继续无声体验。",
+    "currentCall": "这通电话，等你接起",
+    "startCall": "开始来电",
+    "momentActions": "点赞或评论",
+    "like": "赞",
+    "unlike": "取消",
+    "comment": "评论",
+    "commentPerson": "评论人物",
+    "commentPlaceholder": "写下评论…",
+    "cancel": "取消",
+    "send": "发送"
+  },
+  "avatars": [
+    {
+      "id": "sun",
+      "label": "听风",
+      "path": "./assets/avatars/sun.svg"
+    },
+    {
+      "id": "leaf",
+      "label": "阿橙",
+      "path": "./assets/avatars/leaf.svg"
+    },
+    {
+      "id": "moon",
+      "label": "晚灯",
+      "path": "./assets/avatars/moon.svg"
+    },
+    {
+      "id": "peach",
+      "label": "桃桃",
+      "path": "./assets/avatars/peach.svg"
+    },
+    {
+      "id": "cloud",
+      "label": "晴天",
+      "path": "./assets/avatars/cloud.svg"
+    },
+    {
+      "id": "star",
+      "label": "星野",
+      "path": "./assets/avatars/star.svg"
+    },
+    {
+      "id": "guest-01",
+      "label": "喝茶",
+      "path": "./assets/avatars/guest-01.svg"
+    },
+    {
+      "id": "guest-02",
+      "label": "慢河",
+      "path": "./assets/avatars/guest-02.svg"
+    },
+    {
+      "id": "guest-03",
+      "label": "寄信",
+      "path": "./assets/avatars/guest-03.svg"
+    },
+    {
+      "id": "guest-04",
+      "label": "宵夜",
+      "path": "./assets/avatars/guest-04.svg"
+    },
+    {
+      "id": "guest-05",
+      "label": "追星",
+      "path": "./assets/avatars/guest-05.svg"
+    },
+    {
+      "id": "guest-06",
+      "label": "秋日",
+      "path": "./assets/avatars/guest-06.svg"
+    },
+    {
+      "id": "guest-07",
+      "label": "薄荷",
+      "path": "./assets/avatars/guest-07.svg"
+    },
+    {
+      "id": "guest-08",
+      "label": "胶片",
+      "path": "./assets/avatars/guest-08.svg"
+    },
+    {
+      "id": "guest-09",
+      "label": "手账",
+      "path": "./assets/avatars/guest-09.svg"
+    },
+    {
+      "id": "guest-10",
+      "label": "纸船",
+      "path": "./assets/avatars/guest-10.svg"
+    },
+    {
+      "id": "guest-11",
+      "label": "海盐",
+      "path": "./assets/avatars/guest-11.svg"
+    },
+    {
+      "id": "guest-12",
+      "label": "森林",
+      "path": "./assets/avatars/guest-12.svg"
+    },
+    {
+      "id": "guest-13",
+      "path": "./assets/avatars/guest-13.svg",
+      "label": "午后"
+    },
+    {
+      "id": "guest-14",
+      "path": "./assets/avatars/guest-14.svg",
+      "label": "微风"
+    },
+    {
+      "id": "guest-15",
+      "path": "./assets/avatars/guest-15.svg",
+      "label": "奶茶"
+    },
+    {
+      "id": "guest-16",
+      "path": "./assets/avatars/guest-16.svg",
+      "label": "小岛"
+    },
+    {
+      "id": "guest-17",
+      "path": "./assets/avatars/guest-17.svg",
+      "label": "散步"
+    },
+    {
+      "id": "guest-18",
+      "path": "./assets/avatars/guest-18.svg",
+      "label": "晴窗"
+    }
+  ],
+  "people": [
+    {
+      "id": "self",
+      "name": "我",
+      "relation": "自己的角色",
+      "avatar": "leaf"
+    },
+    {
+      "id": "basketball",
+      "name": "阿野",
+      "relation": "认识很久的球友",
+      "avatar": "sun"
+    },
+    {
+      "id": "overtime",
+      "name": "林主管",
+      "relation": "项目负责人",
+      "avatar": "moon"
+    },
+    {
+      "id": "miss-you",
+      "name": "小满",
+      "relation": "正在慢慢靠近的人",
+      "avatar": "peach"
+    },
+    {
+      "id": "tea-lamp",
+      "name": "阿宁",
+      "relation": "朋友",
+      "avatar": "guest-01"
+    },
+    {
+      "id": "river",
+      "name": "小周同学",
+      "relation": "朋友",
+      "avatar": "guest-02"
+    },
+    {
+      "id": "guest-cloud",
+      "name": "晚点回消息",
+      "relation": "朋友",
+      "avatar": "guest-03"
+    },
+    {
+      "id": "noodle",
+      "name": "一颗栗子",
+      "relation": "朋友",
+      "avatar": "guest-04"
+    },
+    {
+      "id": "comet",
+      "name": "橘子汽水",
+      "relation": "朋友",
+      "avatar": "guest-05"
+    },
+    {
+      "id": "station",
+      "name": "小鱼",
+      "relation": "朋友",
+      "avatar": "guest-06"
+    },
+    {
+      "id": "mint",
+      "name": "今天早睡",
+      "relation": "朋友",
+      "avatar": "guest-07"
+    },
+    {
+      "id": "camera",
+      "name": "木木",
+      "relation": "朋友",
+      "avatar": "guest-08"
+    },
+    {
+      "id": "notebook",
+      "name": "慢半拍",
+      "relation": "朋友",
+      "avatar": "guest-09"
+    },
+    {
+      "id": "boat",
+      "name": "周末见",
+      "relation": "朋友",
+      "avatar": "guest-10"
+    },
+    {
+      "id": "sea-salt",
+      "name": "山山",
+      "relation": "朋友",
+      "avatar": "guest-11"
+    },
+    {
+      "id": "forest",
+      "name": "小陈不加班",
+      "relation": "朋友",
+      "avatar": "guest-12"
+    }
+  ],
+  "callScripts": [
+    {
+      "id": "basketball",
+      "title": "朋友约打球",
+      "optionLabel": "朋友约打球 · 男声",
+      "voice": "轻松带笑的青年男声",
+      "prompt": "像给很熟的朋友打电话约打球，随口说，轻松直接。按短语自然连读，寒暄和语气词轻轻带过，六点稍微说清楚，句尾干脆，不拖腔，不逐字重读，不要播音腔或夸张表演。",
+      "autoEnd": true,
+      "segments": [
+        {
+          "file": "basketball-01.mp3",
+          "text": "喂，干嘛呢？下午打球去啊。",
+          "pause": 5
+        },
+        {
+          "file": "basketball-02.mp3",
+          "text": "六点老地方，我带球你带水。",
+          "pause": 4
+        },
+        {
+          "file": "basketball-03.mp3",
+          "text": "那待会儿见啊。",
+          "pause": 2
+        }
+      ],
+      "voiceName": "温暖阿虎 2.0"
+    },
+    {
+      "id": "dinner",
+      "title": "朋友约饭",
+      "optionLabel": "朋友约饭 · 女声",
+      "voice": "自然爽朗的青年女声",
+      "prompt": "成年女性给很熟的朋友打电话约饭。饿了，顺口直接叫朋友出来，轻松爽快，正常音量，稍有兴致。短语连读，语气词轻带，不请求不客套，不幼态，不逐字念稿，不夸张兴奋。",
+      "autoEnd": true,
+      "segments": [
+        {
+          "file": "dinner-01.mp3",
+          "text": "喂，出来吃饭走，我都饿了。",
+          "pause": 5
+        },
+        {
+          "file": "dinner-02.mp3",
+          "text": "就上次那家，六点啊。我今天得多点两个菜。",
+          "pause": 5
+        },
+        {
+          "file": "dinner-03.mp3",
+          "text": "我换个衣服就出门。待会儿见啊。",
+          "pause": 2
+        }
+      ],
+      "voiceName": "小何 2.0"
+    },
+    {
+      "id": "work",
+      "title": "公司临时有事",
+      "optionLabel": "临时加班 · 女声",
+      "voice": "清晰平稳的成熟女声",
+      "prompt": "成年女同事给熟悉的同事打电话，临时协调晚上到公司确认材料。平实清楚、语气自然有分寸，像日常交代事情。时间和任务说清楚，其他短语顺畅连读，给对方安排的余地。不是客服播报，不逐字重读，不撒娇，不朗诵。",
+      "autoEnd": true,
+      "segments": [
+        {
+          "file": "work-01.mp3",
+          "text": "喂，现在方便说两句吗？公司这边临时有点事情，想问问你晚上能不能过来一下。",
+          "pause": 6
+        },
+        {
+          "file": "work-02.mp3",
+          "text": "主要是把明天要用的材料再确认一下，预计一个小时左右。你先看看自己的安排。",
+          "pause": 5
+        },
+        {
+          "file": "work-03.mp3",
+          "text": "要是不方便，晚点告诉我就行，我再协调。那先这样。",
+          "pause": 2
+        }
+      ],
+      "voiceName": "Vivi 2.0"
+    },
+    {
+      "id": "miss-you",
+      "title": "只是想你了",
+      "optionLabel": "想你了 · 女声",
+      "voice": "略带娇羞、轻轻撒娇的成年女声",
+      "prompt": "成年女性给熟悉的恋人打电话，主动说想他，有一点娇羞，又想让对方多陪自己一会儿。正常聊天音量稍轻，声音亲近柔和，短语连读。开头轻轻说喂，有点想你了带一点不好意思，就给你打个电话自然轻快地接过去，像在掩饰害羞。第二句前半随口说，只有电话先别挂嘛带一点软软的撒娇和舍不得，末尾嘛轻轻收住。保持成年女性日常说话的声音，不夹嗓子，不幼态，不逐字拖长，不刻意喘息、笑出声或用朗诵腔。",
+      "autoEnd": false,
+      "segments": [
+        {
+          "file": "miss-you-01.mp3",
+          "text": "喂，有点想你了，就给你打个电话。",
+          "pause": 4
+        },
+        {
+          "file": "miss-you-02.mp3",
+          "text": "也没什么事，你忙你的。电话先别挂嘛。",
+          "pause": 0
+        }
+      ],
+      "voiceName": "魅力女友 2.0"
+    },
+    {
+      "id": "downstairs",
+      "title": "楼下等你",
+      "optionLabel": "楼下等你 · 男声",
+      "voice": "温和踏实的青年男声",
+      "prompt": "给熟悉的人打电话，说自己快到楼下了。正常说话音量，松弛亲近，短语连读，关心是顺口提醒，不是朗诵。不要刻意拖慢，不逐字重读，句尾自然。",
+      "autoEnd": true,
+      "segments": [
+        {
+          "file": "downstairs-01.mp3",
+          "text": "喂，我快到了。你慢慢收拾，不用着急。",
+          "pause": 5
+        },
+        {
+          "file": "downstairs-02.mp3",
+          "text": "我就在楼下等你，出门之前看看东西有没有带齐。",
+          "pause": 5
+        },
+        {
+          "file": "downstairs-03.mp3",
+          "text": "外面有点风，记得带件外套。那我先挂了，待会儿见。",
+          "pause": 2
+        }
+      ],
+      "voiceName": "温暖阿虎 2.0"
+    },
+    {
+      "id": "company",
+      "title": "陪你待会儿",
+      "optionLabel": "陪你待会儿 · 男声",
+      "voice": "低声放松的青年男声",
+      "prompt": "成年男性给熟悉亲近的人随手打电话，像平常聊天，轻松自然。正常音量，短语连读。也没什么事轻快带过；电话先这么放着吧是随口提议；我陪你待会儿平常地收尾。不用安抚口吻，不刻意压低声音，不深情朗诵，不逐字重读，不拖长语气词，不添加笑声。",
+      "autoEnd": false,
+      "segments": [
+        {
+          "file": "company-01.mp3",
+          "text": "喂，也没什么事，就想给你打个电话。",
+          "pause": 3
+        },
+        {
+          "file": "company-02.mp3",
+          "text": "电话先这么放着吧，我陪你待会儿。",
+          "pause": 0
+        }
+      ],
+      "voiceName": "温暖阿虎 2.0"
+    }
+  ],
+  "audioFiles": [],
+  "defaults": {
+    "chatTitle": "",
+    "chatTime": "周一 18:08",
+    "momentText": "今天最后一球终于投进了。虽然有人差点把鞋忘了。🏀",
+    "momentTime": "2分钟前",
+    "newPerson": "新朋友",
+    "newMessage": "写一句想说的话",
+    "newComment": "写一句评论",
+    "messages": [
+      {
+        "personId": "basketball",
+        "text": "周六下午三点，老地方。"
+      },
+      {
+        "personId": "self",
+        "text": "收到，运动鞋这次肯定带。"
+      },
+      {
+        "personId": "basketball",
+        "text": "这话我截图了啊 😂"
+      }
+    ],
+    "callDeclined": "已拒绝",
+    "callDuration": "通话时长",
+    "groupTitle": "周末一起玩"
+  },
+  "comments": [
+    "这条一定要点个赞。",
+    "记录生活的小美好。",
+    "下次一起呀！",
+    "看到这里，心情都变好了。",
+    "今天也要开开心心。",
+    "这个瞬间值得记住。",
+    "我来啦 👋",
+    "等你更新后续。"
+  ],
+  "nicknames": [
+    "阿宁",
+    "小周同学",
+    "晚点回消息",
+    "一颗栗子",
+    "橘子汽水",
+    "小鱼",
+    "今天早睡",
+    "木木",
+    "慢半拍",
+    "周末见",
+    "山山",
+    "小陈不加班",
+    "月亮放假",
+    "路过人间",
+    "有空喝茶",
+    "半杯拿铁",
+    "许小愿",
+    "南风",
+    "听雨",
+    "小陆",
+    "芝士年糕",
+    "阿夏",
+    "养只小猫",
+    "白桃乌龙",
+    "小林在路上",
+    "七七",
+    "日落之前",
+    "小熊打烊",
+    "一只团子",
+    "晚安小狗",
+    "柚子",
+    "不想起床"
+  ],
+  "ringtone": {
+    "file": "incoming-ring.mp3",
+    "label": "来电铃声",
+    "blocked": "铃声未能播放，请返回设置后重试。"
+  },
+  "timePicker": {
+    "weekdays": [
+      "周一",
+      "周二",
+      "周三",
+      "周四",
+      "周五",
+      "周六",
+      "周日"
+    ],
+    "formats": [
+      {
+        "value": "weekday",
+        "label": "周几＋时间"
+      },
+      {
+        "value": "date",
+        "label": "月日＋时间"
+      }
+    ],
+    "defaults": {
+      "format": "weekday",
+      "weekday": 1,
+      "month": 1,
+      "day": 1,
+      "hour": 18,
+      "minute": 8
+    }
+  },
+  "momentTimePicker": {
+    "formats": [
+      {
+        "value": "now",
+        "label": "刚刚"
+      },
+      {
+        "value": "minutes",
+        "label": "几分钟前"
+      },
+      {
+        "value": "hours",
+        "label": "几小时前"
+      },
+      {
+        "value": "days",
+        "label": "几天前"
+      },
+      {
+        "value": "yesterday",
+        "label": "昨天 + 时间"
+      },
+      {
+        "value": "weekday",
+        "label": "周几 + 时间"
+      },
+      {
+        "value": "date",
+        "label": "月日 + 时间"
+      }
+    ],
+    "defaults": {
+      "format": "minutes",
+      "amount": 2,
+      "month": 9,
+      "day": 18,
+      "weekday": 5,
+      "hour": 18,
+      "minute": 0
+    }
+  }
+}

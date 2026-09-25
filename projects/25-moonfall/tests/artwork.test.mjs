@@ -81,3 +81,30 @@ test('glints follow traveled distance through differently sized path segments', 
     assert.equal(s.distances.length,s.points.length);
   }
 });
+
+test('water falls vertically until it meets a modeled rock ledge', () => {
+  const flow=globalThis.MoonFlow;
+  const falls=flow.sections.filter(s=>s.kind==='freefall'||s.kind==='drop');
+  const strands=flow.create(38);
+  assert.equal(falls.length,4);
+  for(const section of falls){
+    const anchors=flow.route.slice(section.from,section.to+1);
+    assert.ok(anchors.every(p=>p[0]===anchors[0][0]),'a fall center must stay on one vertical line');
+    const curtain=strands.filter(s=>s.kind===section.kind&&Math.abs(s.points[0][2]-anchors[0][3])<1e-8);
+    assert.equal(curtain.length,section.count,'each modeled fall must contain its own water strands');
+    for(const stream of curtain){
+      const xs=stream.points.map(p=>p[0]);
+      assert.ok(Math.max(...xs)-Math.min(...xs)<.01,'a freefall strand must not turn in air');
+      for(let i=1;i<stream.points.length;i++)assert.ok(stream.points[i][1]>stream.points[i-1][1],'a detached strand must fall downward');
+    }
+  }
+  for(const [i,ledge] of flow.ledges.entries()){
+    const slope=flow.sections.filter(s=>s.kind==='slope')[i];
+    assert.deepEqual(ledge[0],flow.route[slope.from].slice(0,2));
+    assert.deepEqual(ledge.at(-1),flow.route[slope.to].slice(0,2));
+  }
+  for(const stream of strands.filter(s=>s.branch)){
+    const xs=stream.points.map(p=>p[0]);
+    assert.ok(Math.max(...xs)-Math.min(...xs)<.01,'detached strands keep falling vertically');
+  }
+});

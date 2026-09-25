@@ -41,7 +41,7 @@
       mist(c,reduced.matches?0:performance.now()/1000,false);
       if (started) {
         const descent=ease((filmTime-PULLBACK_END)/(MOON_END-PULLBACK_END));
-        c.drawImage(layers.moon,714-210,p.lerp(-230,166,descent)-210);
+        c.drawImage(layers.moon,735-210,p.lerp(-230,300,descent)-210);
         scene.classList.toggle('has-moon',descent>.97);
       }
       c.drawImage(layers.terrain,0,0);
@@ -66,7 +66,7 @@
       c.save();c.globalCompositeOperation='screen';c.lineCap='round';c.lineJoin='round';
       // Broad local reflection only behind the reached portion of the river.
       c.beginPath();let first=true;
-      for(const a of MoonFlow.route){if(a[4]>progress)break;if(first){c.moveTo(a[0],a[1]);first=false;}else c.lineTo(a[0],a[1]);}
+      for(const a of MoonFlow.route){if(a[3]>progress)break;if(first){c.moveTo(a[0],a[1]);first=false;}else c.lineTo(a[0],a[1]);}
       c.strokeStyle='rgba(111,177,239,.012)';c.lineWidth=44;c.shadowColor='rgba(151,205,255,.2)';c.shadowBlur=20;c.stroke();c.shadowBlur=0;
       for(const strand of threads) {
         const pts=strand.points,head=progress>=.999?1:progress-strand.delay;

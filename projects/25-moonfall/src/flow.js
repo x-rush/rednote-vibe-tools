@@ -1,88 +1,103 @@
-/* Uneven luminous rivulets sharing one downhill arrival clock. */
+/* Gravity-led moonwater: straight freefall, then bends only where it meets a ledge. */
 (() => {
   'use strict';
   const route=[
-    [710,282,104,0],[712,335,91,0],[703,385,78,1],[689,426,57,3],
-    [661,449,78,13],[644,468,60,4],[637,497,80,3],[611,525,97,14],
-    [592,550,73,7],[591,585,134,20],[580,616,112,8],[563,654,123,4],
-    [553,709,141,2],[536,756,147,3],[520,793,166,6],[474,820,89,5],
-    [433,842,71,10],[396,860,121,12],[348,884,97,6],[298,908,135,9],
-    [280,951,113,3],[239,980,151,8],[177,1004,132,4],[113,1040,177,6],
-    [43,1075,195,5],[-37,1120,225,5]
+    [735,425,96],[735,468,96],[735,520,96],
+    [703,543,112],[674,564,96],[674,617,96],[674,666,96],
+    [645,686,145],[618,716,154],[618,790,154],[618,890,154],[618,1015,154],
+    [570,1030,181],[520,1045,166],[468,1060,148],[468,1104,148],
+    [440,1120,160],[386,1124,174],[322,1156,189],[235,1171,205],
+    [120,1200,221],[-60,1230,246]
   ];
-  let total=0;route[0][4]=0;
-  for(let i=1;i<route.length;i++){total+=Math.hypot(route[i][0]-route[i-1][0],route[i][1]-route[i-1][1]);route[i][4]=total;}
-  route.forEach(p=>p[4]/=total);
-  const pools=[7,15,20].map(i=>({x:route[i][0],y:route[i][1],width:route[i][2],at:route[i][4],warm:i===15}));
+  const sections=[
+    {kind:'freefall',from:0,to:2,count:72,dim:.88},
+    {kind:'slope',from:2,to:4,count:58,dim:.70},
+    {kind:'drop',from:4,to:6,count:63,dim:.78},
+    {kind:'slope',from:6,to:8,count:64,dim:.69},
+    {kind:'drop',from:8,to:11,count:142,dim:1},
+    {kind:'slope',from:11,to:14,count:87,dim:.76},
+    {kind:'drop',from:14,to:15,count:35,dim:.48},
+    {kind:'slope',from:15,to:21,count:99,dim:.68}
+  ];
+  let routeLength=0;route[0][3]=0;
+  for(let i=1;i<route.length;i++){
+    routeLength+=Math.hypot(route[i][0]-route[i-1][0],route[i][1]-route[i-1][1]);
+    route[i][3]=routeLength;
+  }
+  route.forEach(p=>p[3]/=routeLength);
+  const pools=[4,8,11,15].map((i)=>({x:route[i][0],y:route[i][1],width:route[i][2],at:route[i][3],warm:i===15}));
+  const ledges=[
+    [[735,520],[703,543],[674,564]],
+    [[674,666],[645,686],[618,716]],
+    [[618,1015],[570,1030],[520,1045],[468,1060]],
+    [[468,1104],[440,1120],[386,1124],[322,1156],[235,1171],[120,1200],[-60,1230]]
+  ];
+  const ledgeStarts=[2,6,11,15];
+  const fallingSegments=new Set([0,1,4,5,8,9,10,14]);
+  function rockProfile(segment,t) {
+    const e=Math.sin(Math.PI*t);
+    return [e*(2.7*Math.sin(t*6.28+segment*.8)+1.4*Math.sin(t*12.56+segment*1.4)),
+      e*(6*Math.sin(t*6.28+segment*1.7)+2.5*Math.sin(t*12.56+segment*.8))];
+  }
   function create(seed=38) {
-    let state=seed>>>0;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
+    let state=seed>>>0;
+    const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
     const streams=[];
-    function strand(knots,dim,tail=false,trim=false,branch=false) {
-      const phase=random()*Math.PI*2,points=[];
+    function addStrand(knots,kind,dim,phase) {
+      const points=[];
       for(let i=0;i<knots.length-1;i++) {
-        const a=knots[Math.max(0,i-1)],b=knots[i],c=knots[i+1],d=knots[Math.min(knots.length-1,i+2)];
-        const steps=Math.max(3,Math.ceil(Math.hypot(c[0]-b[0],c[1]-b[1])/2.4));
-        for(let k=0;k<steps;k++) {
-          const t=k/steps,t2=t*t,t3=t2*t;
-          const xy=[0,1].map(axis=>(2*t3-3*t2+1)*b[axis]+(t3-2*t2+t)*.32*(c[axis]-a[axis])+(-2*t3+3*t2)*c[axis]+(t3-t2)*.32*(d[axis]-b[axis]));
-          xy[0]+=Math.sin((i+t)*9+phase)*.55;
-          points.push([...xy,b[2]+(c[2]-b[2])*t]);
+        const a=knots[i],b=knots[i+1];
+        const falling=kind==='branch'||(kind==='main'&&fallingSegments.has(a[3]))||kind==='freefall'||kind==='drop';
+        const steps=Math.max(2,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/2.5));
+        for(let j=0;j<steps;j++) {
+          const t=j/steps,turn=falling?0:Math.sin(Math.PI*t);
+          const bed=falling?[0,0]:rockProfile(a[3],t);
+          const x=a[0]+(b[0]-a[0])*t+bed[0]+turn*Math.sin(phase+i*1.9)*1.25;
+          const y=a[1]+(b[1]-a[1])*t+bed[1]+turn*Math.sin(phase+i*2.3)*1.65;
+          points.push([x,y,a[2]+(b[2]-a[2])*t]);
         }
       }
-      points.push(knots.at(-1));
-      const start=trim?Math.floor(random()*.10*points.length):0;
-      const end=trim?Math.max(start+4,Math.floor(points.length*(.68+random()*.32))):points.length;
-      const bright=random()<.14;
-      const visible=points.slice(start,end),distances=[0];
-      for(let i=1;i<visible.length;i++)distances.push(distances[i-1]+Math.hypot(visible[i][0]-visible[i-1][0],visible[i][1]-visible[i-1][1]));
-      streams.push({points:visible,distances,length:distances.at(-1),phase,delay:random()*.021,speed:10+random()*14,sway:.15+random()*.5,
-        alpha:(bright?.84:.16+random()**2*.46)*dim,width:bright?1.35:.32+random()*.56,bright,droplet:random()<.28,tail,branch});
+      points.push(knots.at(-1).slice(0,3));
+      const distances=[0];
+      for(let i=1;i<points.length;i++)distances.push(distances[i-1]+Math.hypot(points[i][0]-points[i-1][0],points[i][1]-points[i-1][1]));
+      const bright=random()<.085;
+      streams.push({points,distances,length:distances.at(-1),kind,branch:kind==='branch',phase,
+        delay:random()*.016,speed:10+random()*14,sway:fallingSegments.has(knots[0][3])?0:.12,
+        alpha:(bright?.68:.13+random()**2*.40)*dim,width:bright?1.05:.28+random()*.50,
+        bright,droplet:random()<.28});
     }
-    function bundle(anchors,amount,dim=1,mode='fall') {
-      for(let j=0;j<amount;j++) {
-        // Unequal small clusters leave dark gaps; they are not parallel copies of a band.
-        const centers=[-.4,-.16,.12,.36],lane=random()<.28?random()-.5:centers[Math.floor(random()*4)]+(random()-.5)*.115;
-        const phase=random()*6.28,drift=(random()-.5)*.22,ledge=random()*21;
-        const knots=anchors.map((a,i)=>{
-          const u=i/(anchors.length-1),prev=anchors[Math.max(0,i-1)],next=anchors[Math.min(anchors.length-1,i+1)];
-          const dx=next[0]-prev[0],dy=next[1]-prev[1],len=Math.hypot(dx,dy)||1;
-          const changingLane=lane+Math.sin(u*Math.PI)*drift+Math.sin(i*.76+phase)*.035;
-          const spread=changingLane*a[2];
-          const lip=(Math.sin(lane*25+i*.9)*.7+Math.sin(lane*53)*.3)*a[3];
-          return [a[0]+(.5+.5*Math.abs(dy)/len)*spread,
-            a[1]-dx/len*spread*(mode==='surface'?.65:.3)-lip+Math.sin(u*Math.PI)*(random()-.5)*ledge,a[4]];
-        });
-        strand(knots,dim,random()<.20,true);
+    function ribbon(from,to,count,dim,kind) {
+      for(let j=0;j<count;j++) {
+        const phase=random()*Math.PI*2;
+        // Small uneven groups make curtains porous without changing the fall direction.
+        const lane=random()-.5;
+        const knots=[];
+        for(let i=from;i<=to;i++) {
+          const a=route[i],x=a[0]+lane*a[2];
+          // The moon is round; rock lips and impact points are uneven across the curtain.
+          const moonEdge=i===0?300+Math.sqrt(126**2-(x-735)**2)-425:0;
+          const contact=[2,4,6,8,11,14,15].includes(i);
+          const lip=contact?Math.sin(lane*29+i*1.7)*10+Math.sin(lane*61-i)*6:
+            fallingSegments.has(i)||fallingSegments.has(i-1)?0:
+              Math.sin(i*1.47+lane*24)*5+Math.sin(lane*48+i)*3;
+          const y=a[1]+moonEdge+lip;
+          knots.push([x,y,a[3],i]);
+        }
+        addStrand(knots,kind,dim,phase);
       }
     }
-    bundle(route,12,.18,'surface');
-    bundle(route.slice(0,5),93,.95);
-    bundle(route.slice(3,9),49,.86,'surface');
-    bundle(route.slice(6,11),43,.82);
-    bundle(route.slice(9,16),118,.92);
-    bundle(route.slice(14,21),69,.84,'surface');
-    bundle(route.slice(19),73,.65,'surface');
-    // Branches peel off rock lips and continue downhill beyond the visible canvas.
-    for(const [index,count,reach,spread] of [[3,11,144,79],[7,14,169,101],[10,19,277,149],[14,22,225,198],[18,12,157,155]]) {
+    ribbon(0,route.length-1,20,.17,'main');
+    for(const section of sections)ribbon(section.from,section.to,section.count,section.dim,section.kind);
+    // Detached side threads leave a real lip and descend vertically beyond the frame.
+    for(const [index,count] of [[11,14],[14,13],[15,12]]) {
       const a=route[index];
       for(let j=0;j<count;j++) {
-        const side=random()<.23?-1:1,startX=a[0]+(random()-.3)*a[2]*.7;
-        const endX=startX+side*(14+random()*spread),fall=reach*(.45+random()*.55);
-        const arrival=Math.min(.995,a[4]+fall/total);
-        const knots=[[startX,a[1],a[4]],[startX+side*16,a[1]+fall*.19,a[4]+(arrival-a[4])*.2],
-          [endX,a[1]+fall*.63,a[4]+(arrival-a[4])*.67],[endX-12-random()*30,a[1]+fall,arrival]];
-        // Unequal lengths and slopes lead to separate outlets at the left or bottom edge.
-        const towardLeft=random()<.55;
-        while(knots.at(-1)[0]>-75 && knots.at(-1)[1]<1260) {
-          const last=knots.at(-1),drop=65+random()*100;
-          knots.push([last[0]-(towardLeft?65+random()*115:12+random()*56),last[1]+drop,0]);
-        }
-        // Retiming the entire connected branch prevents a pause at its former endpoint.
-        let length=0;const distances=[0];
-        for(let k=1;k<knots.length;k++){length+=Math.hypot(knots[k][0]-knots[k-1][0],knots[k][1]-knots[k-1][1]);distances.push(length);}
-        const outletTime=.94+random()*.032;
-        knots.forEach((p,k)=>{p[2]=a[4]+(outletTime-a[4])*distances[k]/length;});
-        strand(knots,.24+random()*.28,false,false,true);
+        const phase=random()*Math.PI*2;
+        const x=a[0]+(random()-.45)*a[2]*1.18;
+        const endY=1230+random()*65,arrival=.95+random()*.025;
+        const knots=[[x,a[1],a[3],index],[x,a[1]+(endY-a[1])*.39,a[3]+(arrival-a[3])*.39,index],
+          [x,a[1]+(endY-a[1])*.72,a[3]+(arrival-a[3])*.72,index],[x,endY,arrival,index]];
+        addStrand(knots,'branch',.18+random()*.28,phase);
       }
     }
     return streams;
@@ -95,5 +110,5 @@
     const t=span?(d-stream.distances[lo-1])/span:0;
     return a.map((v,i)=>v+(b[i]-v)*t);
   }
-  globalThis.MoonFlow=Object.freeze({create,route,pools,sampleDistance});
+  globalThis.MoonFlow=Object.freeze({create,route,sections,pools,ledges,ledgeStarts,rockProfile,sampleDistance});
 })();

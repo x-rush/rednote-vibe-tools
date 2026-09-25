@@ -1,3 +1,4 @@
+/* global MoonFlow */
 /* Code-drawn black mountain silhouettes, lunar albedo and mist. */
 (() => {
   'use strict';
@@ -17,7 +18,7 @@
     const sky=c.createLinearGradient(0,0,100,H);
     sky.addColorStop(0,'#04132d');sky.addColorStop(.45,'#163862');sky.addColorStop(1,'#0b203b');
     c.fillStyle=sky;c.fillRect(0,0,W,H);
-    const halo=c.createRadialGradient(712,163,60,700,220,650);
+    const halo=c.createRadialGradient(735,300,60,722,330,650);
     halo.addColorStop(0,'rgba(80,124,178,.24)');halo.addColorStop(1,'rgba(45,76,124,0)');c.fillStyle=halo;c.fillRect(0,0,W,H);
     for(let i=0;i<135;i++) {
       const x=hash(i,9)*W,y=hash(i,4)*800,r=hash(i,2)>.95?1.2:.3+hash(i,3)*.5;
@@ -38,14 +39,19 @@
     silhouette(tc,[[-30,1090],[30,1022],[80,982],[123,988],[165,883],[213,832],[244,788],
       [265,799],[283,765],[309,775],[337,683],[359,541],[386,458],[404,449],[428,472],
       [450,484],[470,469],[493,481],[510,431],[522,364],[548,369],[574,410],[599,385],
-      [620,425],[640,437],[666,413],[691,389],[720,372],[748,335],[782,269],[805,255],
-      [831,274],[851,310],[877,326],[919,372],[960,1240],[-30,1240]],'#08080c');
+      [620,425],[643,454],[666,461],[688,490],[709,502],[735,518],[753,506],
+      [774,461],[797,421],[826,392],[851,403],[878,425],[919,469],
+      [960,1240],[-30,1240]],'#08080c');
     silhouette(tc,[[915,427],[862,501],[824,526],[810,613],[778,684],[750,832],
       [700,910],[687,1062],[622,1210],[950,1240]],'#07070a');
-    const fc=foreground.getContext('2d');
-    // Small ledges intermittently occlude strands, rather than repeating boulders.
-    silhouette(fc,[[632,472],[648,467],[662,473],[652,486],[635,490]],'#08080c');
-    silhouette(fc,[[497,783],[508,762],[525,756],[542,772],[549,793],[522,805]],'#08080c');
+    // A dark fractured face sits directly behind the long fall.
+    silhouette(tc,[[548,704],[573,697],[612,713],[650,702],[687,722],[704,783],
+      [690,852],[708,916],[680,990],[636,1028],[587,1034],[542,1062]],'#0b0c11');
+    const fractures=[[570,729,559,828],[654,744,672,836],[594,801,578,903],
+      [685,859,671,976],[551,921,538,1011],[629,892,616,993]];
+    for(const [x1,y1,x2,y2] of fractures){tc.beginPath();tc.moveTo(x1,y1);tc.lineTo(x2,y2);
+      tc.strokeStyle='rgba(92,110,135,.09)';tc.lineWidth=1;tc.stroke();}
+    MoonFlow.ledges.forEach((path,i)=>drawLedge(tc,path,i));
     return {background,terrain,foreground,moon:makeMoon(),mist:makeMist()};
   }
   function silhouette(c,points,color) {
@@ -55,6 +61,38 @@
       c.quadraticCurveTo(a[0],a[1],(a[0]+b[0])*.5,(a[1]+b[1])*.5);
     }
     c.lineTo(...points.at(-1));c.closePath();c.fillStyle=color;c.fill();
+  }
+  function drawLedge(c,path,index) {
+    const side=55+index*12,last=path.at(-1),bed=[];
+    for(let segment=0;segment<path.length-1;segment++) {
+      for(let j=0;j<12;j++) {
+        const t=j/12,a=path[segment],b=path[segment+1];
+        const relief=MoonFlow.rockProfile(MoonFlow.ledgeStarts[index]+segment,t);
+        bed.push([a[0]+(b[0]-a[0])*t+relief[0],a[1]+(b[1]-a[1])*t+relief[1]]);
+      }
+    }
+    bed.push(last);
+    const upper=bed.map((p,i)=>[p[0]+side+Math.sin(i*.36+index)*7,p[1]-23-Math.cos(i*.51+index)*5]);
+    const lower=bed.map((p,i)=>[p[0]-side+Math.cos(i*.41+index)*10,p[1]+19+Math.sin(i*.47+index)*6]);
+    c.beginPath();c.moveTo(...upper[0]);
+    for(const p of upper.slice(1))c.lineTo(...p);
+    for(const p of lower.reverse())c.lineTo(...p);
+    c.closePath();c.fillStyle=index%2?'#0e0e14':'#0b0c12';c.fill();
+    c.beginPath();c.moveTo(last[0]-side,last[1]+11);c.lineTo(last[0]+side,last[1]-24);
+    c.lineTo(last[0]+side-12,last[1]+47+index*13);c.lineTo(last[0]-side-21,last[1]+73+index*12);
+    c.closePath();c.fillStyle='#06070b';c.fill();
+    // Mineral facets near the wet groove reveal relief without texturing the whole mountain.
+    for(let j=0;j<50;j++) {
+      const p=bed[(j*7)%bed.length],dx=(hash(j,index)-.5)*side*1.9;
+      const x=p[0]+dx,y=p[1]+(hash(j+1,index)-.5)*50;
+      c.beginPath();c.moveTo(x,y);c.lineTo(x-1-hash(j+2,index)*9,y+2+hash(j+3,index)*7);
+      c.strokeStyle=`rgba(96,115,140,${.055+hash(j+4,index)*.085})`;c.lineWidth=.5;c.stroke();
+    }
+    for(let j=0;j<bed.length-4;j+=7) {
+      const a=bed[j],b=bed[j+3];
+      c.beginPath();c.moveTo(...a);c.lineTo(...b);
+      c.strokeStyle='rgba(139,166,195,.12)';c.lineWidth=1;c.stroke();
+    }
   }
   function makeMoon() {
     const out=canvas(420,420),c=out.getContext('2d'),cx=210,cy=210,r=126;

@@ -1,0 +1,14 @@
+{
+  "name": "21-lakeside-stone-skipping",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node tools.mjs dev",
+    "preview": "node tools.mjs preview",
+    "lint": "node tools.mjs lint",
+    "test": "node tools.mjs test",
+    "build": "node tools.mjs build",
+    "qa": "node qa/browser-check.mjs"
+  }
+}

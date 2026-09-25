@@ -1,0 +1,33 @@
+{
+  "passed": 27,
+  "results": [
+    "375 simultaneous districts",
+    "375 zoom and overview",
+    "375 pan without accidental selection",
+    "375 large building drag commits only on confirmation",
+    "375 invalid drag and cancellation preserve placement",
+    "375 native two finger pinch",
+    "375 zoom limits",
+    "375 drag survives reload",
+    "375 native touch drag across districts",
+    "390 simultaneous districts",
+    "390 zoom and overview",
+    "390 pan without accidental selection",
+    "390 large building drag commits only on confirmation",
+    "390 invalid drag and cancellation preserve placement",
+    "390 native two finger pinch",
+    "390 zoom limits",
+    "390 drag survives reload",
+    "390 native touch drag across districts",
+    "430 simultaneous districts",
+    "430 zoom and overview",
+    "430 pan without accidental selection",
+    "430 large building drag commits only on confirmation",
+    "430 invalid drag and cancellation preserve placement",
+    "430 native two finger pinch",
+    "430 zoom limits",
+    "430 drag survives reload",
+    "430 native touch drag across districts"
+  ],
+  "errors": []
+}

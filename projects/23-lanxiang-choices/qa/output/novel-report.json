@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checkedAt": "2026-09-25T04:19:56.459Z",
+  "checks": [
+    "Unread stop, read-only skip and stable dialogue restore",
+    "Nine-character gallery; event images remain locked",
+    "Entrance and rollback restore the correct people",
+    "Epilogue precedes ending; seen event image persists and unlocks",
+    "Family opening renders both parents",
+    "Gallery responsive at 375/390/430 widths",
+    "Typing click completes before advancing",
+    "Modal cancels auto reading",
+    "Auto reading stops at choices without selecting"
+  ],
+  "errors": []
+}

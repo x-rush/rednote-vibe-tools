@@ -1,0 +1,620 @@
+{
+  "passed": true,
+  "checkedAt": "2026-09-25T09:38:50.165Z",
+  "checks": [
+    {
+      "name": "home-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "about-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "story-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "object-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "departure-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "settings-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "large-text-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "history-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "letter-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "book-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "home-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "about-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "story-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "object-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "departure-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "settings-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "large-text-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "history-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "letter-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "book-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "home-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "about-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "story-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "object-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "departure-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "settings-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "large-text-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "history-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "letter-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "book-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-context-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-sprites-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-choices-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-clues-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-expression-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-log-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-large-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-landscape-375",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-landscape-modal-375",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-context-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-sprites-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-choices-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-clues-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-expression-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-log-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-large-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-landscape-390",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-landscape-modal-390",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-context-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-sprites-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-choices-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-clues-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-expression-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-log-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-large-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-landscape-430",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "vn-landscape-modal-430",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_together",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_respect",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_waiting",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_rescue",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_borrowed",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_shelter",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_pact",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_caution",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_alone",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_refusal",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_shared",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_lamp",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_bridge",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_visit",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_near",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_slow",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_steady",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_window",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "end_own",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-ending",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-home",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-history",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-story",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "desktop-story",
+      "width": 1440,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "desktop-home",
+      "width": 1440,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "corrupt-save",
+      "passed": true
+    },
+    {
+      "name": "storage-denied-still-playable",
+      "passed": true
+    },
+    {
+      "name": "file-protocol-classic-offline",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "limits": [
+    "Small-red-book real-device host untested",
+    "Chrome 61 runtime untested; ES2017 baseline code inspected",
+    "CSS simulated rotation is not implemented; real landscape viewport tested"
+  ]
+}

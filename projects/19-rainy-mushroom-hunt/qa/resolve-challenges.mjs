@@ -1,0 +1,3 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {generate,normalize,pick,observe,challengeProgress} from '../.cache/model.mjs';
+const path='src/content/content.json',c=JSON.parse(await readFile(path,'utf8'));for(const ch of c.challenges){for(let seed=ch.seed;seed<ch.seed+10000;seed++){const s=normalize({forest:generate(seed),patch:0,basket:[]});for(let i=0;i<s.forest.patches.length;i++){s.patch=i;const p=s.forest.patches[i];p.leaves.forEach(l=>{l.moved=true;l.x=-1;});for(const m of p.mushrooms){observe(s,m);pick(s,m);}}if(challengeProgress(s,ch.id)>=ch.target){ch.seed=seed;break;}if(seed===ch.seed+9999)throw Error(ch.id+' unreachable');}}await writeFile(path,JSON.stringify(c,null,2)+'\n');console.log(c.challenges.map(c=>c.id+':'+c.seed).join('\n'));

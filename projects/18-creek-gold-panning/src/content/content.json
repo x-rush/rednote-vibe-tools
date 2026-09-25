@@ -1,0 +1,1966 @@
+{
+  "meta": {
+    "title": "溪边淘金",
+    "eyebrow": "山溪 · 午后微光"
+  },
+  "copy": {
+    "pick": "这一铲，会藏着什么？",
+    "scoop": "选择一处砂纹按住划动；取半铲或满铲后松手",
+    "wash": "让水沿着盘底转起来",
+    "washing": "先缓慢绕几圈，让重料沉底；再轻倾洗走表层砂，松手回平",
+    "warning": "盘倾得太陡，标本开始滑动 · 立即松手回平",
+    "bottle": "收藏瓶",
+    "soundOff": "声音 · 关",
+    "soundOn": "声音 · 开",
+    "resume": "继续淘洗",
+    "paused": "溪流等你回来",
+    "close": "回到盘边",
+    "result": "这一盘，都收好了",
+    "gold": "粒金",
+    "unknown": "尚未发现",
+    "muteError": "声音暂不可用，可以继续无声淘洗",
+    "saveError": "本次无法保存，页面关闭后可能丢失",
+    "ready": "看见露出的标本可逐颗拾取；空处仍可轻轻精洗",
+    "units": "克",
+    "pausedNote": "动作与水流已暂停",
+    "emptyBottle": "瓶子还空着，去淘第一盘吧。",
+    "orbitSettle": "水先流动，重料慢慢沉底 · 需要连续几圈",
+    "orbitWash": "轻压近侧盘沿，洗去一层；松手回平再分层",
+    "orbitRest": "表层轻砂正在流出 · 松手回平，再让重料沉底",
+    "orbitFast": "动作放慢一点，水和砂需要跟上",
+    "nextHint": "轻点空盘，回到溪边再取一铲",
+    "pickup": "拾取盘底发现",
+    "picked": "已收入收藏",
+    "valueTitle": "收藏价值",
+    "valueNote": "游戏内收藏评价，不对应真实收购价格",
+    "continuePick": "继续寻找",
+    "foundTitle": "你发现了",
+    "bottleHint": "小瓶看收藏 · 手记看成绩",
+    "collectionInfo": "收藏图鉴 · 已发现",
+    "loading": "砂砾落入盘底",
+    "loadingHint": "铲中的砂正滑进淘金盘",
+    "immerse": "先让溪水浸过砂层",
+    "immerseHint": "按住盘心向下拖入溪水，浸满后松手提起",
+    "refill": "水快流尽了 · 从远侧盘沿向下拖，重新浸水",
+    "filled": "水已浸满，松手提盘",
+    "journal": "淘金手记",
+    "journalHint": "左侧手记选地点 · 右侧小瓶看收藏",
+    "sites": "沿溪探索",
+    "challenges": "技巧挑战",
+    "records": "淘洗记录",
+    "daily": "今日溪流",
+    "free": "自由探索",
+    "replay": "同样本重洗",
+    "replayNote": "练习成绩单独记录，不重复增加收藏",
+    "tutorial": "首次练习样本 · 三粒细金砂",
+    "progress": "完成挑战",
+    "retention": "金粒保留率",
+    "clean": "洁净度",
+    "largest": "最大金粒",
+    "noLoss": "无流失盘数",
+    "historyEmpty": "每一盘的地点、手法与发现会记在这里",
+    "complete": "已完成",
+    "choose": "去这里取样",
+    "backJournal": "返回手记",
+    "collectionSeries": "收藏系列",
+    "samples": "处取样点",
+    "mode": "当前",
+    "smallScoop": "小半铲已够 · 松手取样，也可继续舀满",
+    "fullScoop": "满铲了 · 松手装盘",
+    "practicePicked": "已记录练习发现",
+    "mineralPicked": "已收入矿物收藏盒",
+    "assistOn": "慢速辅助 · 开",
+    "assistOff": "慢速辅助 · 关",
+    "reduceOn": "减弱动画 · 开",
+    "reduceOff": "减弱动画 · 关",
+    "assistHint": "盘内缓慢划动帮助分层；近侧盘沿下拖倾洗",
+    "recent": "最近 20 盘",
+    "dayNote": "按本地日期固定样本；重玩只记录练习成绩",
+    "chooseAfter": "收好这一盘，再换一处溪岸",
+    "resultHint": "轻点空盘返回溪边；打开手记看本盘成绩",
+    "pointsHint": "先观察三处砂纹，再选一处取样",
+    "newTechnique": "新技巧已记入手记",
+    "noNew": "手法与结果已记入手记",
+    "loss": "流失",
+    "panCount": "已完成淘洗",
+    "settings": "声音与动作",
+    "unknownHint": "换一处沉积带，轻洗后观察盘底",
+    "replayReady": "按原取样量复现本盘；手法由你重新决定",
+    "mineralBox": "矿物收藏盒",
+    "settingsNote": "按你的习惯调整，收藏与产出不受影响",
+    "guideSettle": "缓慢绕圈，让重料沉底",
+    "guideRinse": "重料稳住了，轻倾洗去表层",
+    "guidePour": "盘沿正降低，轻砂随水流出",
+    "guideRefill": "盘里水少了，先补水",
+    "guideSettleHint": "连续缓慢绕几圈；单转一圈通常还不充分",
+    "guideRinseHint": "轻拖近侧盘沿向下，少量冲洗后松手回平",
+    "guidePourHint": "只洗走一层，沉降不足时回平再绕圈",
+    "guideRefillHint": "按住远侧上沿向下拖住，水满后松手",
+    "guideWater": "水量",
+    "guideSand": "轻砂已洗去",
+    "guideSettled": "分层",
+    "guideRim": "轻拖这里，让近侧盘沿降低 ↓",
+    "guideTop": "这里向下拖住补水 ↓",
+    "exposed": "已有标本露出 · 停手后可点击拾取",
+    "guideRecover": "表层已洗去，回平重新分层",
+    "guideRecoverHint": "松手让盘回平，缓慢绕圈后再洗下一层"
+  },
+  "locations": [
+    {
+      "id": "shallows",
+      "name": "浅滩细沙",
+      "hint": "浅水缓流，细沙容易洗净",
+      "empty": 0.15,
+      "mud": 0.8,
+      "color": "#a39b73",
+      "coarse": 0,
+      "leaves": 0,
+      "goldKinds": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "points": [
+        "水边细砂",
+        "卵石背后",
+        "浅槽砂纹"
+      ],
+      "image": "assets/creek-light.webp",
+      "waterEdge": [
+        [
+          0.18,
+          0.12
+        ],
+        [
+          0.64,
+          0.09
+        ],
+        [
+          0.77,
+          0.15
+        ],
+        [
+          0.82,
+          0.27
+        ],
+        [
+          1,
+          0.3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.18,
+          1
+        ],
+        [
+          0.2,
+          0.6
+        ],
+        [
+          0.15,
+          0.5
+        ],
+        [
+          0.24,
+          0.28
+        ]
+      ]
+    },
+    {
+      "id": "crevice",
+      "name": "石缝黑沙",
+      "hint": "湿石夹缝，黑砂沉积得更厚",
+      "empty": 0.25,
+      "mud": 1.2,
+      "color": "#444d4a",
+      "coarse": 0,
+      "leaves": 0,
+      "goldKinds": [
+        0,
+        1,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        7
+      ],
+      "points": [
+        "石隙入口",
+        "暗色砂层",
+        "背水凹处"
+      ],
+      "image": "assets/creek-crevice.webp",
+      "waterEdge": [
+        [
+          0,
+          0.145
+        ],
+        [
+          1,
+          0.145
+        ],
+        [
+          1,
+          0.395
+        ],
+        [
+          0.77,
+          0.47
+        ],
+        [
+          0.68,
+          0.64
+        ],
+        [
+          0.77,
+          0.77
+        ],
+        [
+          0.73,
+          0.84
+        ],
+        [
+          0.35,
+          0.85
+        ],
+        [
+          0.2,
+          0.65
+        ],
+        [
+          0.34,
+          0.49
+        ],
+        [
+          0.32,
+          0.34
+        ],
+        [
+          0,
+          0.22
+        ]
+      ]
+    },
+    {
+      "id": "bend",
+      "name": "河弯砂洲",
+      "hint": "水流转弯，细碎金砂藏在沙层里",
+      "empty": 0.1,
+      "mud": 0.9,
+      "color": "#b4a27c",
+      "coarse": 0,
+      "leaves": 0,
+      "goldKinds": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        6
+      ],
+      "points": [
+        "弧岸内侧",
+        "浅色细纹",
+        "水线边缘"
+      ],
+      "image": "assets/creek-bend.webp",
+      "waterEdge": [
+        [
+          0.44,
+          0.095
+        ],
+        [
+          1,
+          0.1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.49,
+          1
+        ],
+        [
+          0.36,
+          0.67
+        ],
+        [
+          0.19,
+          0.52
+        ],
+        [
+          0.02,
+          0.32
+        ],
+        [
+          0.08,
+          0.21
+        ],
+        [
+          0.51,
+          0.15
+        ]
+      ]
+    },
+    {
+      "id": "pool",
+      "name": "缓流石窝",
+      "hint": "粗砂砾下，也许有一片金光",
+      "empty": 0.2,
+      "mud": 1.1,
+      "color": "#777c70",
+      "coarse": 3,
+      "leaves": 0,
+      "goldKinds": [
+        0,
+        1,
+        2,
+        2,
+        3,
+        6,
+        7,
+        7
+      ],
+      "points": [
+        "石窝中央",
+        "粗砾边缘",
+        "背水细砂"
+      ],
+      "image": "assets/creek-pool.webp",
+      "waterEdge": [
+        [
+          0.18,
+          0.185
+        ],
+        [
+          0.49,
+          0.17
+        ],
+        [
+          0.58,
+          0.19
+        ],
+        [
+          0.79,
+          0.19
+        ],
+        [
+          1,
+          0.22
+        ],
+        [
+          1,
+          0.34
+        ],
+        [
+          0.88,
+          0.37
+        ],
+        [
+          0.9,
+          0.46
+        ],
+        [
+          1,
+          0.48
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.26,
+          1
+        ],
+        [
+          0.25,
+          0.64
+        ],
+        [
+          0.09,
+          0.6
+        ],
+        [
+          0.17,
+          0.49
+        ],
+        [
+          0,
+          0.42
+        ],
+        [
+          0,
+          0.3
+        ],
+        [
+          0.18,
+          0.27
+        ]
+      ]
+    },
+    {
+      "id": "moss",
+      "name": "苔岸浅槽",
+      "hint": "苔藓与根须边，注意非金属闪光",
+      "empty": 0.2,
+      "mud": 1,
+      "color": "#67715b",
+      "coarse": 0,
+      "leaves": 4,
+      "goldKinds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "points": [
+        "根须旁边",
+        "落叶下方",
+        "苔岸水线"
+      ],
+      "image": "assets/creek-moss.webp",
+      "waterEdge": [
+        [
+          0.13,
+          0.18
+        ],
+        [
+          1,
+          0.19
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.4,
+          1
+        ],
+        [
+          0.29,
+          0.72
+        ],
+        [
+          0.35,
+          0.6
+        ],
+        [
+          0.21,
+          0.43
+        ],
+        [
+          0.32,
+          0.4
+        ],
+        [
+          0.24,
+          0.35
+        ],
+        [
+          0,
+          0.36
+        ],
+        [
+          0,
+          0.22
+        ]
+      ]
+    },
+    {
+      "id": "rain",
+      "name": "雨后砾滩",
+      "hint": "新冲开的砂纹，每铲各有不同",
+      "empty": 0.16,
+      "mud": 1,
+      "color": "#8e8a7b",
+      "coarse": 2,
+      "leaves": 0,
+      "goldKinds": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "points": [
+        "新冲细纹",
+        "混合砾层",
+        "浅水小槽"
+      ],
+      "image": "assets/creek-rain.webp",
+      "waterEdge": [
+        [
+          0.09,
+          0.18
+        ],
+        [
+          0.58,
+          0.15
+        ],
+        [
+          1,
+          0.205
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.69,
+          1
+        ],
+        [
+          0.44,
+          0.73
+        ],
+        [
+          0.29,
+          0.59
+        ],
+        [
+          0.07,
+          0.47
+        ],
+        [
+          0.05,
+          0.3
+        ],
+        [
+          0.28,
+          0.255
+        ],
+        [
+          0.06,
+          0.24
+        ]
+      ]
+    }
+  ],
+  "items": [
+    {
+      "name": "细金砂",
+      "gold": true,
+      "color": "#e8bd52",
+      "description": "细小、不规则的金色颗粒，放大后能看见细碎的棱面。",
+      "value": "基础收藏",
+      "valueNote": "小而细碎，适合一点点积累成一瓶金砂。",
+      "knowledge": {
+        "identity": "自然金 · 游戏形态记录",
+        "subtitle": "Gold · Au",
+        "appearance": "细小、不规则的金色颗粒，放大后能看见细碎的棱面。",
+        "origin": "岩石中的金可随围岩风化、侵蚀而释放，再在重力分选作用下形成砂金富集。八种外观是游戏收藏分类，不是八种不同矿物。",
+        "lookalike": "黄铁矿、黄铜矿和风化云母都可能产生类似金色的外观。仅凭一处金光不能确认黄金。",
+        "use": "黄金具有装饰与工业用途。真实价值需要重量、纯度等信息；本游戏的形态评级和重量不能换算成收购价格。",
+        "sources": [
+          "gold",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "圆钝金粒",
+      "gold": true,
+      "color": "#dbb250",
+      "description": "边缘圆钝，表面有柔和的金属亮面。",
+      "value": "常见收藏",
+      "valueNote": "形态饱满，适合作为第一批金粒收藏。",
+      "knowledge": {
+        "identity": "自然金 · 游戏形态记录",
+        "subtitle": "Gold · Au",
+        "appearance": "边缘圆钝，表面有柔和的金属亮面。",
+        "origin": "岩石中的金可随围岩风化、侵蚀而释放，再在重力分选作用下形成砂金富集。八种外观是游戏收藏分类，不是八种不同矿物。",
+        "lookalike": "黄铁矿、黄铜矿和风化云母都可能产生类似金色的外观。仅凭一处金光不能确认黄金。",
+        "use": "黄金具有装饰与工业用途。真实价值需要重量、纯度等信息；本游戏的形态评级和重量不能换算成收购价格。",
+        "sources": [
+          "gold",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "扁金片",
+      "gold": true,
+      "color": "#f4d777",
+      "description": "薄而扁平，转动时会出现一整片亮面。",
+      "value": "少见收藏",
+      "valueNote": "片形完整时更有观赏性。",
+      "knowledge": {
+        "identity": "自然金 · 游戏形态记录",
+        "subtitle": "Gold · Au",
+        "appearance": "薄而扁平，转动时会出现一整片亮面。",
+        "origin": "岩石中的金可随围岩风化、侵蚀而释放，再在重力分选作用下形成砂金富集。八种外观是游戏收藏分类，不是八种不同矿物。",
+        "lookalike": "黄铁矿、黄铜矿和风化云母都可能产生类似金色的外观。仅凭一处金光不能确认黄金。",
+        "use": "黄金具有装饰与工业用途。真实价值需要重量、纯度等信息；本游戏的形态评级和重量不能换算成收购价格。",
+        "sources": [
+          "gold",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "长条金粒",
+      "gold": true,
+      "color": "#deb256",
+      "description": "细长的轮廓与普通圆粒不同，亮面沿长边展开。",
+      "value": "少见收藏",
+      "valueNote": "独特比例让它在收藏瓶中很容易辨认。",
+      "knowledge": {
+        "identity": "自然金 · 游戏形态记录",
+        "subtitle": "Gold · Au",
+        "appearance": "细长的轮廓与普通圆粒不同，亮面沿长边展开。",
+        "origin": "岩石中的金可随围岩风化、侵蚀而释放，再在重力分选作用下形成砂金富集。八种外观是游戏收藏分类，不是八种不同矿物。",
+        "lookalike": "黄铁矿、黄铜矿和风化云母都可能产生类似金色的外观。仅凭一处金光不能确认黄金。",
+        "use": "黄金具有装饰与工业用途。真实价值需要重量、纯度等信息；本游戏的形态评级和重量不能换算成收购价格。",
+        "sources": [
+          "gold",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "分叉金粒",
+      "gold": true,
+      "color": "#eac763",
+      "description": "分叉的轮廓像微小枝杈，凹处颜色更深。",
+      "value": "特别收藏",
+      "valueNote": "轮廓独特，是形态收藏中的亮点。",
+      "knowledge": {
+        "identity": "自然金 · 游戏形态记录",
+        "subtitle": "Gold · Au",
+        "appearance": "分叉的轮廓像微小枝杈，凹处颜色更深。",
+        "origin": "岩石中的金可随围岩风化、侵蚀而释放，再在重力分选作用下形成砂金富集。八种外观是游戏收藏分类，不是八种不同矿物。",
+        "lookalike": "黄铁矿、黄铜矿和风化云母都可能产生类似金色的外观。仅凭一处金光不能确认黄金。",
+        "use": "黄金具有装饰与工业用途。真实价值需要重量、纯度等信息；本游戏的形态评级和重量不能换算成收购价格。",
+        "sources": [
+          "gold",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "蜂窝状金粒",
+      "gold": true,
+      "color": "#dcb350",
+      "description": "表面布满细小凹窝，明暗层次丰富。",
+      "value": "特别收藏",
+      "valueNote": "值得放大观察的纹理标本。",
+      "knowledge": {
+        "identity": "自然金 · 游戏形态记录",
+        "subtitle": "Gold · Au",
+        "appearance": "表面布满细小凹窝，明暗层次丰富。",
+        "origin": "岩石中的金可随围岩风化、侵蚀而释放，再在重力分选作用下形成砂金富集。八种外观是游戏收藏分类，不是八种不同矿物。",
+        "lookalike": "黄铁矿、黄铜矿和风化云母都可能产生类似金色的外观。仅凭一处金光不能确认黄金。",
+        "use": "黄金具有装饰与工业用途。真实价值需要重量、纯度等信息；本游戏的形态评级和重量不能换算成收购价格。",
+        "sources": [
+          "gold",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "弧边金片",
+      "gold": true,
+      "color": "#efcd70",
+      "description": "薄片边缘弯曲，像一小段金色月牙。",
+      "value": "少见收藏",
+      "valueNote": "弧形外观比普通细砂更有辨识度。",
+      "knowledge": {
+        "identity": "自然金 · 游戏形态记录",
+        "subtitle": "Gold · Au",
+        "appearance": "薄片边缘弯曲，像一小段金色月牙。",
+        "origin": "岩石中的金可随围岩风化、侵蚀而释放，再在重力分选作用下形成砂金富集。八种外观是游戏收藏分类，不是八种不同矿物。",
+        "lookalike": "黄铁矿、黄铜矿和风化云母都可能产生类似金色的外观。仅凭一处金光不能确认黄金。",
+        "use": "黄金具有装饰与工业用途。真实价值需要重量、纯度等信息；本游戏的形态评级和重量不能换算成收购价格。",
+        "sources": [
+          "gold",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "粗团金粒",
+      "gold": true,
+      "color": "#bf913b",
+      "description": "粗厚的不规则团块，有较强的体积感。",
+      "value": "特别收藏",
+      "valueNote": "在这套游戏收藏中属于醒目的大颗粒。",
+      "knowledge": {
+        "identity": "自然金 · 游戏形态记录",
+        "subtitle": "Gold · Au",
+        "appearance": "粗厚的不规则团块，有较强的体积感。",
+        "origin": "岩石中的金可随围岩风化、侵蚀而释放，再在重力分选作用下形成砂金富集。八种外观是游戏收藏分类，不是八种不同矿物。",
+        "lookalike": "黄铁矿、黄铜矿和风化云母都可能产生类似金色的外观。仅凭一处金光不能确认黄金。",
+        "use": "黄金具有装饰与工业用途。真实价值需要重量、纯度等信息；本游戏的形态评级和重量不能换算成收购价格。",
+        "sources": [
+          "gold",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "透明晶粒",
+      "gold": false,
+      "color": "#bbcaca",
+      "description": "透亮的小晶粒，棱边比中心更明亮。",
+      "value": "观察收藏",
+      "valueNote": "价值在于通透感与棱面的光影。",
+      "knowledge": {
+        "identity": "石英 · 无色外观",
+        "subtitle": "Quartz · SiO₂",
+        "appearance": "透明或半透明，局部带玻璃般反光。观察边缘的透光与内部裂隙，别只看最亮的一面。",
+        "origin": "石英可见于多类岩石。含石英岩石风化、侵蚀后，较耐风化的颗粒能留在土壤、河流和海滩沉积物中。游戏里的地点分布是探索设定。",
+        "lookalike": "透明玻璃和其他无色矿物也可能很像，单凭透明度不能确认石英。",
+        "use": "石英既可作为观赏材料，也有工业用途；电子工业使用经过控制生长的高纯石英晶体。溪中一颗漂亮晶粒并不等同于工业级或宝石级材料。",
+        "sources": [
+          "quartz"
+        ]
+      }
+    },
+    {
+      "name": "乳白晶粒",
+      "gold": false,
+      "color": "#ddd6c1",
+      "description": "带乳白色的晶粒，光线柔和地散开。",
+      "value": "基础收藏",
+      "valueNote": "适合与透明晶粒并排比较。",
+      "knowledge": {
+        "identity": "石英 · 乳白外观",
+        "subtitle": "Milky quartz · SiO₂",
+        "appearance": "乳白、略透光，外观像一滴凝住的溪水；保留自然缺口，不是抛光白珠。",
+        "origin": "石英可见于多类岩石。含石英岩石风化、侵蚀后，较耐风化的颗粒能留在土壤、河流和海滩沉积物中。游戏里的地点分布是探索设定。",
+        "lookalike": "白色长石和其他浅色石粒也可相似，白色不是独有标志。",
+        "use": "石英既可作为观赏材料，也有工业用途；电子工业使用经过控制生长的高纯石英晶体。溪中一颗漂亮晶粒并不等同于工业级或宝石级材料。",
+        "sources": [
+          "quartz"
+        ]
+      }
+    },
+    {
+      "name": "烟灰晶粒",
+      "gold": false,
+      "color": "#768480",
+      "description": "烟灰色调的小晶粒，亮边衬出深色中心。",
+      "value": "观察收藏",
+      "valueNote": "色调克制，适合补全晶粒系列。",
+      "knowledge": {
+        "identity": "石英 · 烟色外观",
+        "subtitle": "Smoky quartz · SiO₂",
+        "appearance": "灰褐色透光感，薄边比厚处亮。它与完全不透光的黑砂有不同的观感。",
+        "origin": "石英可见于多类岩石。含石英岩石风化、侵蚀后，较耐风化的颗粒能留在土壤、河流和海滩沉积物中。游戏里的地点分布是探索设定。",
+        "lookalike": "烟色玻璃、其他深色矿物可能相似；深浅颜色不能证明天然来源。",
+        "use": "石英既可作为观赏材料，也有工业用途；电子工业使用经过控制生长的高纯石英晶体。溪中一颗漂亮晶粒并不等同于工业级或宝石级材料。",
+        "sources": [
+          "quartz",
+          "rose"
+        ]
+      }
+    },
+    {
+      "name": "粉晶粒",
+      "gold": false,
+      "color": "#c5a299",
+      "description": "浅粉色的小晶粒，表面有细微亮面。",
+      "value": "少见收藏",
+      "valueNote": "柔和色彩是它的收藏特点。",
+      "knowledge": {
+        "identity": "蔷薇石英 · 粉晶外观",
+        "subtitle": "Rose quartz · SiO₂",
+        "appearance": "柔和浅粉与朦胧透光感，留意不均匀的色泽。小颗粒的粉色往往很淡。",
+        "origin": "蔷薇石英常见于伟晶岩，也见于热液脉。典型的朦胧粉色与细微包裹体有关；溪中这颗是用于展示的游戏外观。",
+        "lookalike": "粉红色石头不都属于蔷薇石英，也不能凭颜色判断是否染色。",
+        "use": "常用于珠子、弧面或雕刻。颜色和观感有欣赏价值，不能把一颗游戏粉晶的评级当成实际珠宝估价。",
+        "sources": [
+          "rose"
+        ]
+      }
+    },
+    {
+      "name": "紫晶粒",
+      "gold": false,
+      "color": "#94869c",
+      "description": "带紫色调的晶粒，棱面有深浅变化。",
+      "value": "少见收藏",
+      "valueNote": "为矿石收藏增加一抹颜色。",
+      "knowledge": {
+        "identity": "紫水晶 · 紫色石英",
+        "subtitle": "Amethyst · SiO₂",
+        "appearance": "淡紫色到较深的紫色区域，边缘透亮。紫水晶是石英的紫色变种。",
+        "origin": "石英可见于多类岩石。含石英岩石风化、侵蚀后，较耐风化的颗粒能留在土壤、河流和海滩沉积物中。游戏里的地点分布是探索设定。",
+        "lookalike": "其他紫色矿物和玻璃也会有相似色调；一张图不能判断矿物种类或品质。",
+        "use": "紫水晶可用作宝石与观赏标本。游戏呈现未经切磨的晶粒外观，不能由游戏大小推定现实宝石品质或售价。",
+        "sources": [
+          "amethyst"
+        ]
+      }
+    },
+    {
+      "name": "红褐石",
+      "gold": false,
+      "color": "#995f4c",
+      "description": "红褐色小石块，纹理与金色颗粒不同。",
+      "value": "基础收藏",
+      "valueNote": "记录这一盘砂里的颜色差异。",
+      "knowledge": {
+        "identity": "红褐石 · 外观记录",
+        "subtitle": "未定岩石类型",
+        "appearance": "红褐表面、圆钝边缘与细小色斑，是这颗游戏溪石的观察重点。",
+        "origin": "岩石是矿物等组成的集合体。溪中石粒记录了来源与搬运的痕迹，但这张游戏外观图不足以还原具体产地和形成史。",
+        "lookalike": "红褐色不能单独证明赤铁矿，也不能据此判断含铁量。",
+        "use": "收藏价值来自纹样、形态和本次发现的经历。本游戏未确定矿物成分，不赋予宝石级别、功效或市场报价。",
+        "sources": [
+          "rocks"
+        ]
+      }
+    },
+    {
+      "name": "绿纹石",
+      "gold": false,
+      "color": "#6f8e72",
+      "description": "带绿色纹理的小石块，色带分布不均。",
+      "value": "观察收藏",
+      "valueNote": "主要欣赏纹路与色带。",
+      "knowledge": {
+        "identity": "绿纹石 · 外观记录",
+        "subtitle": "未定岩石类型",
+        "appearance": "绿色底色中穿过浅纹，湿润后纹路更加醒目。收藏的是这组自然纹样。",
+        "origin": "岩石是矿物等组成的集合体。溪中石粒记录了来源与搬运的痕迹，但这张游戏外观图不足以还原具体产地和形成史。",
+        "lookalike": "有绿色或白纹不等于翡翠、玉石或孔雀石；本标本不作这些命名。",
+        "use": "收藏价值来自纹样、形态和本次发现的经历。本游戏未确定矿物成分，不赋予宝石级别、功效或市场报价。",
+        "sources": [
+          "rocks"
+        ]
+      }
+    },
+    {
+      "name": "黑亮砂粒",
+      "gold": false,
+      "color": "#303a3a",
+      "description": "深色、细小而发亮的颗粒。",
+      "value": "基础收藏",
+      "valueNote": "可以对照观察深色砂与金色颗粒的区别。",
+      "knowledge": {
+        "identity": "黑亮砂粒 · 外观记录",
+        "subtitle": "未定矿物颗粒",
+        "appearance": "细小、深色、表面有亮点。关注它与浅色砂粒的明暗差别。",
+        "origin": "岩石是矿物等组成的集合体。溪中石粒记录了来源与搬运的痕迹，但这张游戏外观图不足以还原具体产地和形成史。",
+        "lookalike": "黑色重砂可能由不同矿物组成；未测定磁性和其他性质，不直接称为磁铁矿。",
+        "use": "收藏价值来自纹样、形态和本次发现的经历。本游戏未确定矿物成分，不赋予宝石级别、功效或市场报价。",
+        "sources": [
+          "rocks"
+        ]
+      }
+    },
+    {
+      "name": "云母薄片",
+      "gold": false,
+      "color": "#aca791",
+      "description": "薄片状，转动时会闪过浅色亮光。",
+      "value": "观察收藏",
+      "valueNote": "闪光并不代表是金粒；这一片作为纹理收藏。",
+      "knowledge": {
+        "identity": "云母族 · 薄片外观",
+        "subtitle": "Mica group",
+        "appearance": "薄片层叠，转向光线时出现片状闪光。云母是一族具有层状结构的硅酸盐矿物。",
+        "origin": "云母可产于片岩、伟晶岩等岩石，也可见于砂矿沉积。层状结构让它常呈薄片，淘洗时会呈现不同于团块金粒的轻巧外观。",
+        "lookalike": "风化云母也可能闪现金色；闪光并不能证明发现黄金。",
+        "use": "云母材料可用于电气绝缘，以及涂料、建材等。具体用途取决于品种和加工质量，单片闪亮云母不等于黄金。",
+        "sources": [
+          "mica",
+          "fools"
+        ]
+      }
+    },
+    {
+      "name": "条纹卵石",
+      "gold": false,
+      "color": "#838775",
+      "description": "表面有条纹的小卵石，边缘较圆润。",
+      "value": "观察收藏",
+      "valueNote": "条纹形态是它的独特之处。",
+      "knowledge": {
+        "identity": "条纹卵石 · 外观记录",
+        "subtitle": "未定岩石类型",
+        "appearance": "圆磨外形配浅深条纹，值得观察纹带的宽窄和转折。",
+        "origin": "岩石是矿物等组成的集合体。溪中石粒记录了来源与搬运的痕迹，但这张游戏外观图不足以还原具体产地和形成史。",
+        "lookalike": "条纹不能单独证明玛瑙或某一种岩石，先保留形态描述。",
+        "use": "收藏价值来自纹样、形态和本次发现的经历。本游戏未确定矿物成分，不赋予宝石级别、功效或市场报价。",
+        "sources": [
+          "rocks"
+        ]
+      }
+    }
+  ],
+  "tuning": {
+    "scoopTravel": 0.7,
+    "tiltRate": 0.18,
+    "settleRate": 0.12,
+    "dangerSeconds": 1.2,
+    "collectMud": 0.06
+  },
+  "storageKey": "creek-gold:current",
+  "layout": {
+    "hostWidth": 88,
+    "hostHeight": 76,
+    "hostOffset": 16,
+    "hostMargin": 20
+  },
+  "audio": {
+    "gain": 0.18,
+    "groups": {
+      "water": [
+        "water-0",
+        "water-1",
+        "water-2"
+      ],
+      "sand": [
+        "sand-0",
+        "sand-1",
+        "sand-2"
+      ],
+      "pick": [
+        "pick-0",
+        "pick-1",
+        "pick-2"
+      ]
+    },
+    "assets": [
+      {
+        "id": "pick-0",
+        "file": "assets/audio/pick-0.wav"
+      },
+      {
+        "id": "pick-1",
+        "file": "assets/audio/pick-1.wav"
+      },
+      {
+        "id": "pick-2",
+        "file": "assets/audio/pick-2.wav"
+      },
+      {
+        "id": "sand-0",
+        "file": "assets/audio/sand-0.wav"
+      },
+      {
+        "id": "sand-1",
+        "file": "assets/audio/sand-1.wav"
+      },
+      {
+        "id": "sand-2",
+        "file": "assets/audio/sand-2.wav"
+      },
+      {
+        "id": "water-0",
+        "file": "assets/audio/water-0.wav"
+      },
+      {
+        "id": "water-1",
+        "file": "assets/audio/water-1.wav"
+      },
+      {
+        "id": "water-2",
+        "file": "assets/audio/water-2.wav"
+      }
+    ],
+    "credits": "水与砂拟音：Peludo / RNAn（CC0，rnan.itch.io）；玻璃轻碰：Kenney Impact Sounds（CC0，kenney.nl）。已裁切、转单声道并淡入淡出。"
+  },
+  "visuals": {
+    "creek": "assets/creek-light.webp",
+    "pan": "assets/worn-pan.webp",
+    "sand": "assets/wet-sand.webp",
+    "specimens": "assets/specimens.webp"
+  },
+  "challenges": [
+    {
+      "id": "skill-1",
+      "location": 0,
+      "name": "第一铲",
+      "hint": "选一点砂纹取样，并完成这一盘。",
+      "conditions": [
+        {
+          "metric": "sample",
+          "min": 1
+        }
+      ],
+      "seed": 10001
+    },
+    {
+      "id": "skill-2",
+      "location": 0,
+      "name": "初见金光",
+      "hint": "温和淘洗，拾起至少一颗金粒。",
+      "conditions": [
+        {
+          "metric": "gold",
+          "min": 1
+        }
+      ],
+      "seed": 23992
+    },
+    {
+      "id": "skill-3",
+      "location": 0,
+      "name": "洗净浅砂",
+      "hint": "让这盘的洁净度达到 94%。",
+      "conditions": [
+        {
+          "metric": "clean",
+          "min": 0.94
+        }
+      ],
+      "seed": 37983
+    },
+    {
+      "id": "skill-4",
+      "location": 0,
+      "name": "一粒不落",
+      "hint": "将有金样本中的金粒全部保留下来。",
+      "conditions": [
+        {
+          "metric": "gold",
+          "min": 1
+        },
+        {
+          "metric": "retention",
+          "min": 1
+        }
+      ],
+      "seed": 51974
+    },
+    {
+      "id": "skill-5",
+      "location": 1,
+      "name": "黑砂下的重粒",
+      "hint": "充分绕圈分层后，露出并收好金粒。",
+      "conditions": [
+        {
+          "metric": "settled",
+          "min": 0.9
+        },
+        {
+          "metric": "gold",
+          "min": 1
+        }
+      ],
+      "seed": 65965
+    },
+    {
+      "id": "skill-6",
+      "location": 1,
+      "name": "两次分层",
+      "hint": "分层后倾洗，回平重新分层，再倾洗。",
+      "conditions": [
+        {
+          "metric": "cycles",
+          "min": 2
+        }
+      ],
+      "seed": 79956
+    },
+    {
+      "id": "skill-7",
+      "location": 1,
+      "name": "净去黑砂",
+      "hint": "洗净厚重砂层，洁净度达到 94%。",
+      "conditions": [
+        {
+          "metric": "clean",
+          "min": 0.94
+        },
+        {
+          "metric": "settled",
+          "min": 0.9
+        }
+      ],
+      "seed": 93947
+    },
+    {
+      "id": "skill-8",
+      "location": 1,
+      "name": "同盘进步",
+      "hint": "从记录重洗同一样本，金粒保留率超过此前最佳。",
+      "conditions": [
+        {
+          "metric": "improved",
+          "min": 0.01
+        }
+      ],
+      "seed": 107938
+    },
+    {
+      "id": "skill-9",
+      "location": 2,
+      "name": "细金现身",
+      "hint": "在河弯样本里拾起一粒细金砂。",
+      "conditions": [
+        {
+          "metric": "fine",
+          "min": 1
+        }
+      ],
+      "seed": 121929
+    },
+    {
+      "id": "skill-10",
+      "location": 2,
+      "name": "轻手细洗",
+      "hint": "最高倾角力度不超过 70%，洗净这一盘。",
+      "conditions": [
+        {
+          "metric": "maxTilt",
+          "max": 0.7
+        },
+        {
+          "metric": "clean",
+          "min": 0.94
+        }
+      ],
+      "seed": 135920
+    },
+    {
+      "id": "skill-11",
+      "location": 2,
+      "name": "回手救金",
+      "hint": "出现盘沿预警后松手回平，最终拾起该颗金粒。",
+      "conditions": [
+        {
+          "metric": "rescued",
+          "min": 1
+        }
+      ],
+      "seed": 149911
+    },
+    {
+      "id": "skill-12",
+      "location": 2,
+      "name": "成簇留下",
+      "hint": "不猛倾，收好至少三粒金砂。",
+      "conditions": [
+        {
+          "metric": "gold",
+          "min": 3
+        },
+        {
+          "metric": "maxTilt",
+          "max": 0.87
+        }
+      ],
+      "seed": 163902
+    },
+    {
+      "id": "skill-13",
+      "location": 3,
+      "name": "粗砾先行",
+      "hint": "边绕圈边短促倾洗，移走三份粗砾。",
+      "conditions": [
+        {
+          "metric": "coarse",
+          "min": 2.99
+        }
+      ],
+      "seed": 177893
+    },
+    {
+      "id": "skill-14",
+      "location": 3,
+      "name": "片状微光",
+      "hint": "从石窝样本中拾起一片金片。",
+      "conditions": [
+        {
+          "metric": "flake",
+          "min": 1
+        }
+      ],
+      "seed": 191885
+    },
+    {
+      "id": "skill-15",
+      "location": 3,
+      "name": "守住重粒",
+      "hint": "找到并保留一颗粗团金粒。",
+      "conditions": [
+        {
+          "metric": "heavy",
+          "min": 1
+        }
+      ],
+      "seed": 206367
+    },
+    {
+      "id": "skill-16",
+      "location": 3,
+      "name": "粗细分层",
+      "hint": "移开粗砾，至少两次分层倾洗后洗净。",
+      "conditions": [
+        {
+          "metric": "coarse",
+          "min": 2.99
+        },
+        {
+          "metric": "cycles",
+          "min": 2
+        },
+        {
+          "metric": "clean",
+          "min": 0.94
+        }
+      ],
+      "seed": 219866
+    },
+    {
+      "id": "skill-17",
+      "location": 4,
+      "name": "漂去叶屑",
+      "hint": "温和倾洗，让四份浮叶随水流出。",
+      "conditions": [
+        {
+          "metric": "leaves",
+          "min": 3.99
+        },
+        {
+          "metric": "maxTilt",
+          "max": 0.87
+        }
+      ],
+      "seed": 233857
+    },
+    {
+      "id": "skill-18",
+      "location": 4,
+      "name": "另一种闪光",
+      "hint": "拾起一片云母，认识非金属的闪光。",
+      "conditions": [
+        {
+          "metric": "mica",
+          "min": 1
+        }
+      ],
+      "seed": 247855
+    },
+    {
+      "id": "skill-19",
+      "location": 4,
+      "name": "岸边矿物",
+      "hint": "拾起至少一颗伴生矿物。",
+      "conditions": [
+        {
+          "metric": "mineral",
+          "min": 1
+        }
+      ],
+      "seed": 261839
+    },
+    {
+      "id": "skill-20",
+      "location": 4,
+      "name": "干净入藏",
+      "hint": "漂去叶屑后洗净，并收好一颗矿物。",
+      "conditions": [
+        {
+          "metric": "leaves",
+          "min": 3.99
+        },
+        {
+          "metric": "clean",
+          "min": 0.94
+        },
+        {
+          "metric": "mineral",
+          "min": 1
+        }
+      ],
+      "seed": 275830
+    },
+    {
+      "id": "skill-21",
+      "location": 5,
+      "name": "半铲试探",
+      "hint": "取不超过六成的一小铲，并完成淘洗。",
+      "conditions": [
+        {
+          "metric": "amount",
+          "max": 0.6
+        }
+      ],
+      "seed": 289821
+    },
+    {
+      "id": "skill-22",
+      "location": 5,
+      "name": "满铲探寻",
+      "hint": "舀到满铲后松手，完成一整盘。",
+      "conditions": [
+        {
+          "metric": "amount",
+          "min": 0.95
+        }
+      ],
+      "seed": 303812
+    },
+    {
+      "id": "skill-23",
+      "location": 5,
+      "name": "两点比较",
+      "hint": "在雨后砾滩的两个不同点各完成一盘。",
+      "conditions": [
+        {
+          "metric": "points",
+          "min": 2
+        }
+      ],
+      "seed": 317803
+    },
+    {
+      "id": "skill-24",
+      "location": 5,
+      "name": "净砂留金",
+      "hint": "洗净雨后混合砂，同时保住全部金粒。",
+      "conditions": [
+        {
+          "metric": "clean",
+          "min": 0.94
+        },
+        {
+          "metric": "gold",
+          "min": 1
+        },
+        {
+          "metric": "retention",
+          "min": 1
+        }
+      ],
+      "seed": 331794
+    }
+  ],
+  "collections": [
+    {
+      "name": "细粒金光",
+      "kinds": [
+        0,
+        1
+      ],
+      "sites": 0
+    },
+    {
+      "name": "薄片微光",
+      "kinds": [
+        2,
+        6
+      ],
+      "sites": 0
+    },
+    {
+      "name": "粗粒纹理",
+      "kinds": [
+        5,
+        7
+      ],
+      "sites": 0
+    },
+    {
+      "name": "枝杈轮廓",
+      "kinds": [
+        3,
+        4
+      ],
+      "sites": 0
+    },
+    {
+      "name": "八种金样",
+      "kinds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sites": 0
+    },
+    {
+      "name": "沿溪六处",
+      "kinds": [],
+      "sites": 6
+    }
+  ],
+  "discoveryHints": [
+    "浅滩与河弯常见细金砂，慢慢倾洗更容易保留。",
+    "浅滩与河弯常见细金砂，慢慢倾洗更容易保留。",
+    "在石窝与石缝多观察金属亮面；厚砂要先分层。",
+    "在石窝与石缝多观察金属亮面；厚砂要先分层。",
+    "在石窝与石缝多观察金属亮面；厚砂要先分层。",
+    "在石窝与石缝多观察金属亮面；厚砂要先分层。",
+    "在石窝与石缝多观察金属亮面；厚砂要先分层。",
+    "在石窝与石缝多观察金属亮面；厚砂要先分层。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。",
+    "苔岸与新冲砾滩有多种伴生外观，洗净后逐颗观察。"
+  ],
+  "mineralGuide": {
+    "labels": {
+      "identity": "它是什么",
+      "appearance": "仔细看看",
+      "origin": "从岩石到溪流",
+      "lookalike": "容易混淆",
+      "use": "用途与价值",
+      "source": "科普来源",
+      "location": "寻找线索",
+      "art": "图中为艺术化游戏标本，外观不能替代实物鉴定。",
+      "browse": "溪石小课堂",
+      "back": "返回标本",
+      "overview": "认识盘底的发现",
+      "overviewNote": "先认识材质，再带着观察线索去溪边寻找。课堂浏览不会增加收藏。"
+    },
+    "sources": [
+      {
+        "id": "quartz",
+        "title": "MEC · Quartz",
+        "url": "https://mineralseducationcoalition.org/minerals-database/quartz/"
+      },
+      {
+        "id": "rose",
+        "title": "GIA · Rose Quartz Description",
+        "url": "https://www.gia.edu/rose-quartz-description"
+      },
+      {
+        "id": "amethyst",
+        "title": "GIA · Amethyst Description",
+        "url": "https://www.gia.edu/amethyst-description"
+      },
+      {
+        "id": "mica",
+        "title": "MEC · Mica",
+        "url": "https://mineralseducationcoalition.org/minerals-database/mica/"
+      },
+      {
+        "id": "gold",
+        "title": "USGS · Gold",
+        "url": "https://pubs.usgs.gov/gip/prospect1/goldgip.html"
+      },
+      {
+        "id": "fools",
+        "title": "USGS · What is Fool’s Gold?",
+        "url": "https://www.usgs.gov/faqs/what-fools-gold"
+      },
+      {
+        "id": "rocks",
+        "title": "BGS · Rocks and minerals",
+        "url": "https://www.bgs.ac.uk/discovering-geology/rocks-and-minerals/"
+      }
+    ]
+  },
+  "atmosphere": {
+    "reeds": [
+      {
+        "x": 0.015,
+        "y": 0.96,
+        "height": 0.23,
+        "spread": 0.11,
+        "count": 26,
+        "lean": 0.38,
+        "color": "#344b2a",
+        "light": "#b8bd79",
+        "heads": false
+      },
+      {
+        "x": 0.99,
+        "y": 0.88,
+        "height": 0.16,
+        "spread": 0.08,
+        "count": 17,
+        "lean": -0.35,
+        "color": "#3d512c",
+        "light": "#b4b986",
+        "heads": false
+      }
+    ],
+    "sun": 0.61,
+    "strength": 0.42
+  },
+  "environmentMotion": [
+    {
+      "water": [
+        [
+          0.18,
+          0.12
+        ],
+        [
+          0.64,
+          0.09
+        ],
+        [
+          0.77,
+          0.15
+        ],
+        [
+          0.82,
+          0.27
+        ],
+        [
+          1,
+          0.3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.18,
+          1
+        ],
+        [
+          0.2,
+          0.6
+        ],
+        [
+          0.15,
+          0.5
+        ],
+        [
+          0.24,
+          0.28
+        ]
+      ],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.93,
+          0.22,
+          0.08,
+          0.2
+        ],
+        [
+          0.04,
+          0.63,
+          0.055,
+          0.22
+        ]
+      ],
+      "flow": 1.2,
+      "waves": 1.15,
+      "mist": 0,
+      "rain": 0,
+      "current": [
+        0.008,
+        0.055
+      ],
+      "surface": 0.27
+    },
+    {
+      "water": [
+        [
+          0,
+          0.145
+        ],
+        [
+          1,
+          0.145
+        ],
+        [
+          1,
+          0.395
+        ],
+        [
+          0.77,
+          0.47
+        ],
+        [
+          0.68,
+          0.64
+        ],
+        [
+          0.77,
+          0.77
+        ],
+        [
+          0.73,
+          0.84
+        ],
+        [
+          0.35,
+          0.85
+        ],
+        [
+          0.2,
+          0.65
+        ],
+        [
+          0.34,
+          0.49
+        ],
+        [
+          0.32,
+          0.34
+        ],
+        [
+          0,
+          0.22
+        ]
+      ],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.93,
+          0.22,
+          0.08,
+          0.2
+        ],
+        [
+          0.04,
+          0.63,
+          0.055,
+          0.22
+        ]
+      ],
+      "flow": 1.4,
+      "waves": 1.3,
+      "mist": 0,
+      "rain": 0,
+      "current": [
+        -0.012,
+        0.07
+      ],
+      "surface": 0.32
+    },
+    {
+      "water": [
+        [
+          0.44,
+          0.095
+        ],
+        [
+          1,
+          0.1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.49,
+          1
+        ],
+        [
+          0.36,
+          0.67
+        ],
+        [
+          0.19,
+          0.52
+        ],
+        [
+          0.02,
+          0.32
+        ],
+        [
+          0.08,
+          0.21
+        ],
+        [
+          0.51,
+          0.15
+        ]
+      ],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.93,
+          0.22,
+          0.08,
+          0.2
+        ],
+        [
+          0.04,
+          0.63,
+          0.055,
+          0.22
+        ]
+      ],
+      "flow": 0.85,
+      "waves": 0.95,
+      "mist": 0,
+      "rain": 0,
+      "current": [
+        0.015,
+        0.06
+      ],
+      "surface": 0.3
+    },
+    {
+      "water": [
+        [
+          0.18,
+          0.185
+        ],
+        [
+          0.49,
+          0.17
+        ],
+        [
+          0.58,
+          0.19
+        ],
+        [
+          0.79,
+          0.19
+        ],
+        [
+          1,
+          0.22
+        ],
+        [
+          1,
+          0.34
+        ],
+        [
+          0.88,
+          0.37
+        ],
+        [
+          0.9,
+          0.46
+        ],
+        [
+          1,
+          0.48
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.26,
+          1
+        ],
+        [
+          0.25,
+          0.64
+        ],
+        [
+          0.09,
+          0.6
+        ],
+        [
+          0.17,
+          0.49
+        ],
+        [
+          0,
+          0.42
+        ],
+        [
+          0,
+          0.3
+        ],
+        [
+          0.18,
+          0.27
+        ]
+      ],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.93,
+          0.22,
+          0.08,
+          0.2
+        ],
+        [
+          0.04,
+          0.63,
+          0.055,
+          0.22
+        ]
+      ],
+      "flow": 0.65,
+      "waves": 0.8,
+      "mist": 0.025,
+      "rain": 0,
+      "current": [
+        0.006,
+        0.035
+      ],
+      "surface": 0.2
+    },
+    {
+      "water": [
+        [
+          0.13,
+          0.18
+        ],
+        [
+          1,
+          0.19
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.4,
+          1
+        ],
+        [
+          0.29,
+          0.72
+        ],
+        [
+          0.35,
+          0.6
+        ],
+        [
+          0.21,
+          0.43
+        ],
+        [
+          0.32,
+          0.4
+        ],
+        [
+          0.24,
+          0.35
+        ],
+        [
+          0,
+          0.36
+        ],
+        [
+          0,
+          0.22
+        ]
+      ],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.93,
+          0.22,
+          0.08,
+          0.2
+        ],
+        [
+          0.04,
+          0.63,
+          0.055,
+          0.22
+        ]
+      ],
+      "flow": 0.8,
+      "waves": 1,
+      "mist": 0,
+      "rain": 0,
+      "current": [
+        -0.01,
+        0.045
+      ],
+      "surface": 0.23
+    },
+    {
+      "water": [
+        [
+          0.09,
+          0.18
+        ],
+        [
+          0.58,
+          0.15
+        ],
+        [
+          1,
+          0.205
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0.69,
+          1
+        ],
+        [
+          0.44,
+          0.73
+        ],
+        [
+          0.29,
+          0.59
+        ],
+        [
+          0.07,
+          0.47
+        ],
+        [
+          0.05,
+          0.3
+        ],
+        [
+          0.28,
+          0.255
+        ],
+        [
+          0.06,
+          0.24
+        ]
+      ],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.93,
+          0.22,
+          0.08,
+          0.2
+        ],
+        [
+          0.04,
+          0.63,
+          0.055,
+          0.22
+        ]
+      ],
+      "flow": 1,
+      "waves": 1.1,
+      "mist": 0.025,
+      "rain": 0.8,
+      "current": [
+        0.01,
+        0.065
+      ],
+      "surface": 0.3
+    }
+  ]
+}

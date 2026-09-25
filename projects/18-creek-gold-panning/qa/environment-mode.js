@@ -1,0 +1,1 @@
+if(sessionStorage.getItem('qa-no-webgl')==='1'){const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type==='webgl'||type==='experimental-webgl'?null:original.call(this,type,...args);};}

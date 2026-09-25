@@ -392,6 +392,24 @@ importers:
 
   projects/16-flower-werewolf: {}
 
+  projects/17-call-stories: {}
+
+  projects/18-creek-gold-panning: {}
+
+  projects/19-rainy-mushroom-hunt: {}
+
+  projects/20-tidal-beachcombing: {}
+
+  projects/21-lakeside-stone-skipping: {}
+
+  projects/22-wild-pond-fishing: {}
+
+  projects/23-lanxiang-choices: {}
+
+  projects/24-ming-garden: {}
+
+  projects/25-moonfall: {}
+
 packages:
 
   '@jridgewell/sourcemap-codec@1.5.5':

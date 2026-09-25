@@ -1,0 +1,5366 @@
+{
+  "version": 1,
+  "title": "一枝春信",
+  "subtitle": "古风互动故事",
+  "brief": "在旧院里，写下自己的去处",
+  "volume": "把人生交还自己",
+  "hook": "一场家事，把每个人推到门前。\n为两个人，留一条回去的路。",
+  "intro": "有人请你传话，有人等你回话。\n这一回，知枝和青禾一起商量去处。",
+  "notice": "原创古风互动故事 · 人物与场景为 AI 插画",
+  "context": "许知枝随父母在顾府做针线，青禾与她同住。陆府秋宴将至，陆清晏让两人兼顾前院礼单与内院旧差；顾景衡却要知枝留意东阁里的一册旧账。两边都没写清交接，她们得自己商量能走的路。",
+  "ui": {
+    "start": "进入故事",
+    "continue": "接着上次的选择",
+    "restart": "再走另一条路",
+    "book": "命运册",
+    "back": "返回故事",
+    "close": "合上",
+    "home": "回到庭院",
+    "history": "回看与重选",
+    "about": "故事从何而来",
+    "next": "继续往下走",
+    "choicePrompt": "这一次，你想怎么做？",
+    "look": "这些东西，你一直带在心里",
+    "remember": "你记住了",
+    "unseen": "还有一种人生，等你亲自走到",
+    "unlocked": "已走过",
+    "endingLabel": "你走到了这个结局",
+    "keepsake": "留下这封信",
+    "captureTitle": "给另一个自己的信",
+    "captureHint": "可以截图留下这封信。信与结局均为本作原创。",
+    "rewind": "从这里重新选择",
+    "historyEmpty": "你还没有做出选择。",
+    "historyHint": "回到某次选择时，此后的经历会重写。已收集的结局会保留。",
+    "newTitle": "再走一次，会有不同吗？",
+    "newBody": "重新开始当前篇章，覆盖这条路线。已收集的结局会保留。",
+    "newConfirm": "重启这一篇",
+    "cancel": "留在此刻",
+    "large": "大字阅读",
+    "motion": "静止画面",
+    "settings": "阅读设置",
+    "saveFail": "本次进度无法保存，仍可继续游玩；关闭页面后可能丢失。",
+    "saveReset": "旧进度无法完整读取，已回到庭院。",
+    "saved": "选择已记下",
+    "count": "种人生",
+    "endingHint": "有的路赢在提前布局，有的路只能临场救急。回看选择，可以试出另一种后果。",
+    "unknownEnding": "未走到的结局",
+    "path": "你来时的路",
+    "chapter": "此刻",
+    "footer": "原创古风互动故事",
+    "returnEnding": "返回结局",
+    "aboutTitle": "这座院子的故事",
+    "sourceLabel": "故事背景",
+    "originalLabel": "创作说明",
+    "originalBody": "本作从早期互动剧情构思重写为独立的架空古风故事。人物姓名、家族关系、秋宴缘由、对白和分支结局均以本作设定为准；不代表任何影视作品的后续情节。",
+    "privacy": "只在本机尝试保存选择与已解锁结局，不联网、不上传。宿主可能清理本地记录。",
+    "imageCredit": "角色、表情、场景与事件画卷均为本作 AI 插画。",
+    "inspectTitle": "那一晚的桌上",
+    "finalChoice": "这一笔，会留在你的人生里。",
+    "chapterSelect": "选择篇章",
+    "chapterWarning": "切换篇章会重新开始当前路线，已收集的结局保留。",
+    "chapterConfirm": "从这里开始",
+    "nextBeat": "继续",
+    "previousBeat": "上一段",
+    "choicesReady": "做出选择",
+    "readLog": "对白回看",
+    "narrator": "旁白",
+    "thought": "知枝 · 心声",
+    "clues": "手中筹码",
+    "clueEmpty": "此刻还没有争取到退路。每一次选择，都会留下后果。",
+    "castCredit": "角色立绘与表情为本作 AI 插画；服饰为本作视觉设定。",
+    "sourceNote": "架空故事设定；分支为本作创作。",
+    "agencyLabel": "原创分支 · 由你选择",
+    "skipRead": "略过已读",
+    "nothingRead": "这一段还没读过，先听听他们怎么说。",
+    "gallery": "人物与画卷",
+    "galleryNote": "角色为原创视觉设定。事件画卷仅在亲历后点亮。",
+    "lockedArt": "尚未亲历的画面",
+    "epilogue": "余波",
+    "finishStory": "收录这个结局",
+    "clickDialogue": "轻点对白继续",
+    "allHistory": "已走过的对白",
+    "auto": "自动",
+    "autoStop": "暂停",
+    "instant": "文字立即显示",
+    "music": "背景音乐",
+    "voices": "人物语气音",
+    "audioRetry": "重试声音",
+    "audioHint": "轻声入戏。音乐与人物声音可分别关闭；语气音只在少量情绪节点出现。",
+    "audioStartHint": "进入后有轻声配乐，可在设置中关闭。",
+    "audioCredits": "声音素材",
+    "audioCreditNote": "配乐使用独立授权素材。",
+    "audioEnabled": "已开启",
+    "audioDisabled": "已关闭"
+  },
+  "sources": [],
+  "items": [
+    {
+      "id": "money",
+      "icon": "coins",
+      "name": "碎银",
+      "short": "六年的分量",
+      "text": "布包里，有整银，也有磨得发亮的小银角。你记得母亲说过，她不爱吃鱼。后来你才发现，她只是总等你吃完。今晚，这些银子终于有了一个去处。"
+    },
+    {
+      "id": "needle",
+      "icon": "needle",
+      "name": "旧针线",
+      "short": "母亲的手艺",
+      "text": "针包的边角起了毛。你跟着母亲学会补衣、收边，也学会把疼的那根手指藏在袖子里。出门以后，这门手艺能不能养活你，还要一针一线试出来。"
+    },
+    {
+      "id": "bowl",
+      "icon": "bowl",
+      "name": "第三只碗",
+      "short": "一直留着的位置",
+      "text": "三只碗中，只有你这只没有缺口。许父每回盛饭都会先拿它。你从前以为，报恩就是永远留下。可他们拼命攒钱，却是为了让你走。"
+    }
+  ],
+  "start": "night",
+  "nodes": {
+    "night": {
+      "act": "那一晚",
+      "place": "金陵 · 许家小院",
+      "title": "只够一个人走",
+      "speaker": "许父",
+      "quote": "别数了。够你的，就够了。",
+      "paragraphs": [
+        "够了就别再摸了。你爹昨夜数了三回，今早又数了一回。",
+        "哪有三回。",
+        "母亲没有揭穿他。她把针插回针包，像终于做完了一件不许出错的大事。",
+        "那你们呢？",
+        "我们还在这儿。你出门了，也还是我们闺女。",
+        "父亲把银子推过来，手却没立刻松开。母亲坐在灯下，拆掉你袖口旧得发白的线。",
+        "他们说得很轻，像怕惊动一个攒了六年的梦。你明白：明天去问离府手续的，是你一个人的名字。"
+      ],
+      "inspect": true,
+      "choices": [
+        {
+          "id": "leave",
+          "text": "我先出去，再想办法接你们。",
+          "hint": "接受他们给你的第一步",
+          "to": "leave_gate",
+          "set": {
+            "route": "leave"
+          },
+          "echo": "你没有把银子推回去。母亲的针，终于停了下来。"
+        },
+        {
+          "id": "stay",
+          "text": "再等等。我想三个人一起走。",
+          "hint": "把团聚留在眼前",
+          "to": "stay_morning",
+          "set": {
+            "route": "stay"
+          },
+          "echo": "父亲点了头。你却看见，他悄悄把准备好的包袱放回了床底。"
+        },
+        {
+          "id": "ask",
+          "text": "先别交钱。我要把出路问明白。",
+          "hint": "在承诺之前，弄清代价",
+          "to": "ask_office",
+          "set": {
+            "route": "ask"
+          },
+          "echo": "你把银子重新包好。这一晚，谁也没有得到一个轻松的答案。"
+        }
+      ],
+      "cast": [
+        "father",
+        "mother"
+      ],
+      "beats": [
+        {
+          "speaker": "许父",
+          "text": "别数了。够你的，就够了。",
+          "character": "father",
+          "id": "night-v1-0"
+        },
+        {
+          "speaker": "许母",
+          "text": "够了就别再摸了。你爹昨夜数了三回，今早又数了一回。",
+          "character": "mother",
+          "id": "night-v3-1"
+        },
+        {
+          "speaker": "许父",
+          "text": "哪有三回。",
+          "character": "father",
+          "id": "night-v3-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "母亲没有揭穿他。她把针插回针包，像终于做完了一件不许出错的大事。",
+          "id": "night-v3-3",
+          "audio": {
+            "id": "female-sighs",
+            "character": "mother"
+          }
+        },
+        {
+          "speaker": "知枝",
+          "text": "那你们呢？",
+          "cast": [
+            "lanxiang",
+            "mother"
+          ],
+          "character": "lanxiang",
+          "id": "night-v3-4"
+        },
+        {
+          "speaker": "许母",
+          "text": "我们还在这儿。你出门了，也还是我们闺女。",
+          "character": "mother",
+          "id": "night-v3-5"
+        },
+        {
+          "speaker": "旁白",
+          "text": "父亲把银子推过来，手却没立刻松开。母亲坐在灯下，拆掉你袖口旧得发白的线。",
+          "id": "night-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他们说得很轻，像怕惊动一个攒了六年的梦。你明白：明天去问离府手续的，是你一个人的名字。",
+          "id": "night-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "leave_gate": {
+      "act": "离开以后",
+      "place": "数日后 · 城门内",
+      "title": "自由没有替你铺好路",
+      "speaker": "母亲",
+      "quote": "外头冷了就添衣。别拿不吃饭省钱。",
+      "paragraphs": [
+        "娘，带子已经系好了。",
+        "我知道。",
+        "她仍把那个结捋了一遍。直到你抬起头，她才慢慢松手。",
+        "在这条故事分支里，几经交涉，你的离府请求终于获准。薄薄一张文书，是家里几乎全部的积蓄。",
+        "父亲送你到巷口，只站了片刻便转身，说铺里不能迟到。母亲送得更远，一直替你整那根根本没歪的包袱带。"
+      ],
+      "choices": [
+        {
+          "id": "promise",
+          "text": "过年之前，我一定接你们出来。",
+          "hint": "给他们一个盼头",
+          "to": "leave_shop",
+          "set": {
+            "promise": true
+          },
+          "echo": "母亲笑了。你第一次发现，许诺比银子轻，也比银子沉。"
+        },
+        {
+          "id": "honest",
+          "text": "我不知道要多久，但每月都会来信。",
+          "hint": "把能做到的事说出口",
+          "to": "leave_shop",
+          "set": {
+            "honest": true,
+            "promise": false
+          },
+          "echo": "她替你把带子系紧：那就先把头一个月过好。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "mother"
+      ],
+      "beats": [
+        {
+          "speaker": "母亲",
+          "text": "外头冷了就添衣。别拿不吃饭省钱。",
+          "character": "mother",
+          "id": "leave_gate-v1-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "娘，带子已经系好了。",
+          "character": "lanxiang",
+          "id": "leave_gate-v3-1"
+        },
+        {
+          "speaker": "许母",
+          "text": "我知道。",
+          "character": "mother",
+          "id": "leave_gate-v3-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她仍把那个结捋了一遍。直到你抬起头，她才慢慢松手。",
+          "id": "leave_gate-v3-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "在这条故事分支里，几经交涉，你的离府请求终于获准。薄薄一张文书，是家里几乎全部的积蓄。",
+          "id": "leave_gate-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "父亲送你到巷口，只站了片刻便转身，说铺里不能迟到。母亲送得更远，一直替你整那根根本没歪的包袱带。",
+          "id": "leave_gate-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "leave_shop": {
+      "act": "离开以后",
+      "place": "半月后 · 绣铺后院",
+      "title": "第一笔自己的工钱",
+      "speaker": "掌柜",
+      "quote": "手艺还生。肯练，我就留你。",
+      "paragraphs": [
+        "你找到了绣铺的试工，晚上借住在窄窄的后间。补坏的衣角要拆了重做，日子远没有临行时想得体面。",
+        "掌柜摆出两种办法：按件结工钱，慢些却不欠账；或者先支一笔钱，但半年里都要从工钱中抵扣。"
+      ],
+      "choices": [
+        {
+          "id": "piece",
+          "text": "按件结。我先把日子站稳。",
+          "hint": "留住支配自己时间的余地",
+          "to": "leave_letter",
+          "set": {
+            "debt": false
+          },
+          "echo": "你领到的钱很少。但这一次，没有谁能替你决定它的去处。"
+        },
+        {
+          "id": "advance",
+          "text": "我想先支钱，但把期限写清。",
+          "hint": "尽早寄钱回家，也背上承诺",
+          "to": "leave_letter",
+          "set": {
+            "debt": true
+          },
+          "echo": "你逐项问清工价与扣款，按下手印。新日子没有锁，却有了期限。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "keeper"
+      ],
+      "beats": [
+        {
+          "speaker": "掌柜",
+          "text": "手艺还生。肯练，我就留你。",
+          "character": "keeper",
+          "id": "leave_shop-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你找到了绣铺的试工，晚上借住在窄窄的后间。补坏的衣角要拆了重做，日子远没有临行时想得体面。",
+          "id": "leave_shop-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "掌柜摆出两种办法：按件结工钱，慢些却不欠账；或者先支一笔钱，但半年里都要从工钱中抵扣。",
+          "id": "leave_shop-v1-2"
+        }
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "leave_letter": {
+      "act": "离开以后",
+      "place": "入冬 · 油灯下",
+      "title": "信里没有说疼",
+      "speaker": "父亲的来信",
+      "quote": "家中都好。你娘说，今年不怎么冷。",
+      "paragraphs": [
+        "托人带来的家信旁，夹着母亲替你补好的护腕。针脚比从前疏，线头有两处打了结。你想起她一入冬就裂开的手。",
+        "明日要交一批绣活。你若赶回去，便会错过交货；若留下，至少能把这笔钱挣到。你把信翻过来，背面一片空白。"
+      ],
+      "choices": [
+        {
+          "id": "askhelp",
+          "text": "告诉同住的阿岑，请她与我分工。",
+          "hint": "第一次承认自己顾不过来",
+          "to": "leave_help",
+          "set": {
+            "help": true
+          },
+          "echo": "阿岑没有立刻答应。她也有一盏等着交货钱才续得起的灯。"
+        },
+        {
+          "id": "finish",
+          "text": "把这批做完，再带工钱回家。",
+          "hint": "把想念先缝进针脚里",
+          "to": "leave_finish",
+          "set": {
+            "help": false
+          },
+          "echo": "你将家信放到灯下，捻好了下一根线。"
+        },
+        {
+          "id": "return",
+          "text": "先回去。欠下的交期，当面商量。",
+          "hint": "这一次先陪在他们身边",
+          "to": "leave_return",
+          "set": {
+            "help": false
+          },
+          "echo": "你没有偷偷离开。天还没亮，便去敲掌柜的门。"
+        }
+      ],
+      "cast": [
+        "lanxiang"
+      ],
+      "beats": [
+        {
+          "speaker": "父亲的来信",
+          "text": "家中都好。你娘说，今年不怎么冷。",
+          "character": null,
+          "id": "leave_letter-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "托人带来的家信旁，夹着母亲替你补好的护腕。针脚比从前疏，线头有两处打了结。你想起她一入冬就裂开的手。",
+          "id": "leave_letter-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "明日要交一批绣活。你若赶回去，便会错过交货；若留下，至少能把这笔钱挣到。你把信翻过来，背面一片空白。",
+          "id": "leave_letter-v1-2"
+        }
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "leave_help": {
+      "act": "有人同行",
+      "place": "绣铺 · 两盏灯之间",
+      "title": "求助也要给人留选择",
+      "speaker": "阿岑",
+      "quote": "我能接一半。可我的那份工钱，不能少。",
+      "paragraphs": [
+        "我不是想让你白做……",
+        "我那边也等着交租。替你做的这些，工钱得分给我，不能等你家办妥离府以后。",
+        "她没有收走绣架。价钱说清楚了，那张空凳子依旧是留给你的。",
+        "你原本想把整笔工钱寄回去。分出去一半，家里离府的日子又要往后挪。",
+        "阿岑把自己的绣架搬近一点，却还没接过你的活。她在等你答话，不是在等你道谢。"
+      ],
+      "choices": [
+        {
+          "id": "share",
+          "text": "一半工钱归你。回来我也替你顶一次。",
+          "hint": "把人情变成双方都能承受的约定",
+          "to": "leave_home",
+          "set": {
+            "partner": true
+          },
+          "echo": "她接过绣绷。你终于能在天亮时出门，而不是在心里出门。"
+        },
+        {
+          "id": "alone",
+          "text": "这笔钱我还不能分，还是我做完。",
+          "hint": "承担自己的决定，不勉强她",
+          "to": "leave_finish",
+          "set": {
+            "partner": false
+          },
+          "echo": "阿岑把热水往你这边推了推。没有帮完工的人，也不一定就是不在乎你。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "acen"
+      ],
+      "beats": [
+        {
+          "speaker": "阿岑",
+          "text": "我能接一半。可我的那份工钱，不能少。",
+          "character": "acen",
+          "id": "leave_help-v1-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "我不是想让你白做……",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "leave_help-v3-1"
+        },
+        {
+          "speaker": "阿岑",
+          "text": "我那边也等着交租。替你做的这些，工钱得分给我，不能等你家办妥离府以后。",
+          "character": "acen",
+          "id": "leave_help-v3-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她没有收走绣架。价钱说清楚了，那张空凳子依旧是留给你的。",
+          "id": "leave_help-v3-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你原本想把整笔工钱寄回去。分出去一半，家里离府的日子又要往后挪。",
+          "id": "leave_help-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "阿岑把自己的绣架搬近一点，却还没接过你的活。她在等你答话，不是在等你道谢。",
+          "id": "leave_help-v1-2"
+        }
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "leave_home": {
+      "act": "回家那天",
+      "place": "许家 · 熟悉的灶边",
+      "title": "空碗还在原处",
+      "speaker": "母亲",
+      "quote": "信都写了家中好，怎么还跑一趟？",
+      "paragraphs": [
+        "娘，手伸给我看看。",
+        "有什么好看的，灶灰还没洗净。",
+        "你没再催。她把碗放下，终于伸出手。指节的裂口里沾着一点线絮。",
+        "我给你挑出来。",
+        "她的手确实裂了。你把带来的护手膏放下，没有问她为什么不说。她也没问，你的钱为何比信里预计的少。",
+        "吃饭时，父亲把第三只碗拿出来，熟练得仿佛你只是出去打了桶水。",
+        "你低下头：过年前接你们走，我大概做不到了。父亲舀汤的手一停，随后说，做不到的日子可以改，人别不回来。",
+        "这月的钱少些。我请人分了活，才能回来。",
+        "你把绣铺的难处一件件说了。母亲听到你交了朋友，反倒比听到工钱时更高兴。"
+      ],
+      "variants": [
+        {
+          "when": {
+            "promise": true
+          },
+          "text": "你低下头：过年前接你们走，我大概做不到了。父亲舀汤的手一停，随后说，做不到的日子可以改，人别不回来。"
+        },
+        {
+          "when": {
+            "honest": true
+          },
+          "text": "你把绣铺的难处一件件说了。母亲听到你交了朋友，反倒比听到工钱时更高兴。"
+        }
+      ],
+      "choices": [
+        {
+          "id": "plan",
+          "text": "把账摊开，我们一起慢慢算。",
+          "hint": "让家人也参与这份未来",
+          "to": "end_shared",
+          "echo": "你们第一次商量的，不是谁再忍一忍，而是怎样让每个人都过得下去。"
+        },
+        {
+          "id": "hide",
+          "text": "只说好事，别让他们替我操心。",
+          "hint": "把最难的话留在自己这里",
+          "to": "end_lamp",
+          "echo": "一顿饭吃得很热闹。只有你知道，有些话又被带回了城里。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "mother"
+      ],
+      "beats": [
+        {
+          "speaker": "母亲",
+          "text": "信都写了家中好，怎么还跑一趟？",
+          "character": "mother",
+          "id": "leave_home-v1-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "娘，手伸给我看看。",
+          "character": "lanxiang",
+          "id": "leave_home-v3-1"
+        },
+        {
+          "speaker": "许母",
+          "text": "有什么好看的，灶灰还没洗净。",
+          "character": "mother",
+          "id": "leave_home-v3-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你没再催。她把碗放下，终于伸出手。指节的裂口里沾着一点线絮。",
+          "id": "leave_home-v3-3"
+        },
+        {
+          "speaker": "知枝",
+          "text": "我给你挑出来。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "leave_home-v3-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她的手确实裂了。你把带来的护手膏放下，没有问她为什么不说。她也没问，你的钱为何比信里预计的少。",
+          "id": "leave_home-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "吃饭时，父亲把第三只碗拿出来，熟练得仿佛你只是出去打了桶水。",
+          "id": "leave_home-v1-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你低下头：过年前接你们走，我大概做不到了。父亲舀汤的手一停，随后说，做不到的日子可以改，人别不回来。",
+          "when": {
+            "promise": true
+          },
+          "id": "leave_home-v1-3"
+        },
+        {
+          "id": "leave_home-honest-v9",
+          "speaker": "知枝",
+          "text": "这月的钱少些。我请人分了活，才能回来。",
+          "when": {
+            "promise": false
+          },
+          "character": "lanxiang"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把绣铺的难处一件件说了。母亲听到你交了朋友，反倒比听到工钱时更高兴。",
+          "when": {
+            "honest": true
+          },
+          "id": "leave_home-v1-4"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "leave_finish": {
+      "act": "灯还亮着",
+      "place": "交货后的清晨",
+      "title": "迟到的那一顿饭",
+      "speaker": "你",
+      "quote": "爹，娘，今次只能寄这些。",
+      "paragraphs": [
+        "你按时交了货，把钱、护手膏和一封信托人送回去。母亲的手慢慢好起来；你错过的，是一次本来可以坐在一起的晚饭。",
+        "自由后的日子并没有忽然宽裕。你开始明白，照顾家人有许多种办法，可每一种都不能把另一种完全替掉。"
+      ],
+      "choices": [
+        {
+          "id": "truth",
+          "text": "再添一句：其实我很想家。",
+          "hint": "让他们知道，你也需要被惦记",
+          "to": "end_bridge",
+          "echo": "写完这句，你没有划掉。"
+        },
+        {
+          "id": "good",
+          "text": "写：一切都好，不必挂念。",
+          "hint": "用自己的沉默换他们片刻安心",
+          "to": "end_lamp",
+          "echo": "信封封好。明明写了两页，你仍觉得少写了一句。"
+        }
+      ],
+      "cast": [
+        "lanxiang"
+      ],
+      "beats": [
+        {
+          "speaker": "你",
+          "text": "爹，娘，今次只能寄这些。",
+          "character": "lanxiang",
+          "id": "leave_finish-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你按时交了货，把钱、护手膏和一封信托人送回去。母亲的手慢慢好起来；你错过的，是一次本来可以坐在一起的晚饭。",
+          "id": "leave_finish-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "自由后的日子并没有忽然宽裕。你开始明白，照顾家人有许多种办法，可每一种都不能把另一种完全替掉。",
+          "id": "leave_finish-v1-2"
+        }
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "leave_return": {
+      "act": "回头的代价",
+      "place": "绣铺门口",
+      "title": "离开，是可以商量的吗",
+      "speaker": "掌柜",
+      "quote": "你有难处，铺子也有交期。",
+      "paragraphs": [
+        "你说明缘由，拿出已经做好的部分。掌柜沉默许久，终于愿意重新安排交货，但这次误期的工钱要减。",
+        "你明白，这不是一场只要勇敢就会赢的选择。你要回家，也要承担自己留下的缺口。",
+        "你还领过预支款。掌柜把未抵扣的数目写在纸上：想离开绣铺，需要另订偿还办法；若只是告假，回来继续做。",
+        "你没有预支款。扣去这次误期的工钱，之后要不要回来，仍由你决定。"
+      ],
+      "variants": [
+        {
+          "when": {
+            "debt": true
+          },
+          "text": "你还领过预支款。掌柜把未抵扣的数目写在纸上：想离开绣铺，需要另订偿还办法；若只是告假，回来继续做。"
+        },
+        {
+          "when": {
+            "debt": false
+          },
+          "text": "你没有预支款。扣去这次误期的工钱，之后要不要回来，仍由你决定。"
+        }
+      ],
+      "choices": [
+        {
+          "id": "short",
+          "text": "告三日假，回来把余下的做好。",
+          "hint": "给眼前的牵挂一个明确归期",
+          "to": "end_visit",
+          "echo": "你把回来的日期写在纸上，这一次，没有说一个自己无法兑现的期限。"
+        },
+        {
+          "id": "move",
+          "text": "重新谈清结算，我想回家附近做工。",
+          "hint": "把生活搬回彼此看得见的地方",
+          "routes": [
+            {
+              "when": {
+                "debt": true
+              },
+              "to": "end_slow"
+            },
+            {
+              "to": "end_near"
+            }
+          ],
+          "echo": "你开始重新算路费、工钱与住处。回家不是结尾，是另一段生活的开头。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "keeper"
+      ],
+      "beats": [
+        {
+          "speaker": "掌柜",
+          "text": "你有难处，铺子也有交期。",
+          "character": "keeper",
+          "id": "leave_return-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你说明缘由，拿出已经做好的部分。掌柜沉默许久，终于愿意重新安排交货，但这次误期的工钱要减。",
+          "id": "leave_return-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你明白，这不是一场只要勇敢就会赢的选择。你要回家，也要承担自己留下的缺口。",
+          "id": "leave_return-v1-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你还领过预支款。掌柜把未抵扣的数目写在纸上：想离开绣铺，需要另订偿还办法；若只是告假，回来继续做。",
+          "when": {
+            "debt": true
+          },
+          "id": "leave_return-v1-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你没有预支款。扣去这次误期的工钱，之后要不要回来，仍由你决定。",
+          "when": {
+            "debt": false
+          },
+          "id": "leave_return-v1-4"
+        }
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "stay_morning": {
+      "act": "留下以后",
+      "place": "第二日 · 灶前",
+      "title": "他们不需要你证明孝顺",
+      "speaker": "母亲",
+      "quote": "银子攒够了，你又不肯走。心里到底怕什么？",
+      "paragraphs": [
+        "你们救了我，我怎么能只想着自己？",
+        "救都救了，还能跟你算这个？先把往后的日子过好。",
+        "母亲没有伸手拿针。她看着你，像这句话值得等一个真正的回答。",
+        "母亲把针线递给你，说得很平静。你却忽然答不上来。",
+        "救命的恩、六年的饭、每次偷偷留给你的好东西，像一本没有写出来的账。可她从来没让你还。"
+      ],
+      "choices": [
+        {
+          "id": "fear",
+          "text": "我怕走了，就成了忘恩的人。",
+          "hint": "承认那个一直不敢说的念头",
+          "to": "stay_work",
+          "set": {
+            "truth": true
+          },
+          "echo": "母亲按住你的手：我们攒钱，是想你有得选。不是换你留一辈子。"
+        },
+        {
+          "id": "want",
+          "text": "我想留下，但也想有自己的工钱。",
+          "hint": "把陪伴和自己的生活一起留下",
+          "to": "stay_work",
+          "set": {
+            "truth": true
+          },
+          "echo": "她将针包推给你：那就一起想办法。"
+        },
+        {
+          "id": "silent",
+          "text": "不说这些了，我替你把衣服补好。",
+          "hint": "先用做事盖住心里的难处",
+          "to": "stay_work",
+          "set": {
+            "truth": false
+          },
+          "echo": "她松开了手。你们并肩坐着，谁也没有再提那个包袱。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "mother"
+      ],
+      "beats": [
+        {
+          "speaker": "母亲",
+          "text": "银子攒够了，你又不肯走。心里到底怕什么？",
+          "character": "mother",
+          "id": "stay_morning-v1-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "你们救了我，我怎么能只想着自己？",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "stay_morning-v3-1"
+        },
+        {
+          "speaker": "许母",
+          "text": "救都救了，还能跟你算这个？先把往后的日子过好。",
+          "character": "mother",
+          "id": "stay_morning-v3-2",
+          "audio": {
+            "id": "female-sighs",
+            "character": "mother"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "母亲没有伸手拿针。她看着你，像这句话值得等一个真正的回答。",
+          "id": "stay_morning-v3-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "母亲把针线递给你，说得很平静。你却忽然答不上来。",
+          "id": "stay_morning-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "救命的恩、六年的饭、每次偷偷留给你的好东西，像一本没有写出来的账。可她从来没让你还。",
+          "id": "stay_morning-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "stay_work": {
+      "act": "留下以后",
+      "place": "数日后 · 院门口",
+      "title": "好消息也可能有价钱",
+      "speaker": "父亲",
+      "quote": "有人说，交一笔钱，就能替咱们说上话。",
+      "paragraphs": [
+        "一道招人入府的消息传来，家里又紧张起来。有人替你们引见中间人，说能免去入府当差，也许还能办妥离府。",
+        "他不肯留下收据，只说这事不能声张。父亲看着你的眼神，让你明白，他愿意再赌一次。"
+      ],
+      "choices": [
+        {
+          "id": "verify",
+          "text": "先问清谁能作主，钱不要交。",
+          "hint": "拿得出办法，才谈得上希望",
+          "to": "stay_terms",
+          "set": {
+            "paid": false
+          },
+          "echo": "你留住了钱，也失去了那句现成的保证。接下来，只能自己去问。"
+        },
+        {
+          "id": "pay",
+          "text": "先交一小部分，换一次见面。",
+          "hint": "拿有限积蓄争取机会",
+          "to": "stay_terms",
+          "set": {
+            "paid": true
+          },
+          "echo": "见面没有等来。退钱时，对方只说已经打点过了。你把这笔损失记下，没有再追着交第二笔。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "father"
+      ],
+      "beats": [
+        {
+          "speaker": "父亲",
+          "text": "有人说，交一笔钱，就能替咱们说上话。",
+          "character": "father",
+          "id": "stay_work-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "一道招人入府的消息传来，家里又紧张起来。有人替你们引见中间人，说能免去入府当差，也许还能办妥离府。",
+          "id": "stay_work-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他不肯留下收据，只说这事不能声张。父亲看着你的眼神，让你明白，他愿意再赌一次。",
+          "id": "stay_work-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "stay_terms": {
+      "act": "一纸约定",
+      "place": "顾府 · 外院",
+      "title": "承诺要落在纸上",
+      "speaker": "旁白",
+      "quote": "先前交出去的钱没换来准话。中间人说还得再添，父亲摸了摸钱袋，这回没有解开。你们另去找能回话的管事。",
+      "paragraphs": [
+        "缺个做针线的。工钱可另计，其余的事，我不敢替主家答应。",
+        "你和父亲终于问到真正管事的人。对方只愿意递交你们的请求，同时让你试做针线。何时能离府，他没有给日期。",
+        "这是一个能挣钱的机会，也意味着你会更深地留在顾府的规矩里。父亲没有替你回答。"
+      ],
+      "choices": [
+        {
+          "id": "terms",
+          "text": "先写清工价、休息和结算，再试做。",
+          "hint": "不把模糊的愿望当成已经兑现",
+          "to": "stay_evening",
+          "set": {
+            "terms": true
+          },
+          "echo": "管事不肯全部答应，你们反复谈过，至少把工价与结算日写了下来。"
+        },
+        {
+          "id": "please",
+          "text": "先做好，总会有人看见的。",
+          "hint": "用表现争取未来的机会",
+          "to": "stay_evening",
+          "set": {
+            "terms": false
+          },
+          "echo": "你领到了第一份活。关于离府的请求，仍只有一句再等等。"
+        }
+      ],
+      "cast": [
+        "lanxiang"
+      ],
+      "beats": [
+        {
+          "id": "stay_terms-paid-v9",
+          "speaker": "旁白",
+          "text": "先前交出去的钱没换来准话。中间人说还得再添，父亲摸了摸钱袋，这回没有解开。你们另去找能回话的管事。",
+          "when": {
+            "paid": true
+          }
+        },
+        {
+          "speaker": "管事",
+          "text": "缺个做针线的。工钱可另计，其余的事，我不敢替主家答应。",
+          "character": null,
+          "id": "stay_terms-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你和父亲终于问到真正管事的人。对方只愿意递交你们的请求，同时让你试做针线。何时能离府，他没有给日期。",
+          "id": "stay_terms-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "这是一个能挣钱的机会，也意味着你会更深地留在顾府的规矩里。父亲没有替你回答。",
+          "id": "stay_terms-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "stay_evening": {
+      "act": "半年以后",
+      "place": "许家 · 晚饭时分",
+      "title": "你还记得为何留下吗",
+      "speaker": "父亲",
+      "quote": "你以前说一起走。现在还算数吗？",
+      "paragraphs": [
+        "你越来越熟悉针线房的活，能带回的工钱也渐渐多了。但院门里外的杂事，常把一家人的晚饭错开。",
+        "那包离府要用的钱又厚了一点。你伸手去拿，才发现父亲想问的不是银子。"
+      ],
+      "choices": [
+        {
+          "id": "boundary",
+          "text": "算数。但不能只让我一个人扛着。",
+          "hint": "把共同的愿望，重新交给三个人",
+          "routes": [
+            {
+              "when": {
+                "terms": true
+              },
+              "to": "end_steady"
+            },
+            {
+              "to": "end_window"
+            }
+          ],
+          "echo": "你说起工钱，也说起疲惫。父亲听完，把你的碗添满了。"
+        },
+        {
+          "id": "endure",
+          "text": "再让我多做些，很快就好了。",
+          "hint": "仍想独自撑住这个承诺",
+          "to": "end_window",
+          "echo": "你又把那个日子往后挪了一点。这次，你自己听见了。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "father"
+      ],
+      "beats": [
+        {
+          "speaker": "父亲",
+          "text": "你以前说一起走。现在还算数吗？",
+          "character": "father",
+          "id": "stay_evening-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你越来越熟悉针线房的活，能带回的工钱也渐渐多了。但院门里外的杂事，常把一家人的晚饭错开。",
+          "id": "stay_evening-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "那包离府要用的钱又厚了一点。你伸手去拿，才发现父亲想问的不是银子。",
+          "id": "stay_evening-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "ask_office": {
+      "act": "另一种走法",
+      "place": "次日 · 铺子外",
+      "title": "先问清那扇门",
+      "speaker": "父亲",
+      "quote": "你问这些，会不会让人觉得咱们不知足？",
+      "paragraphs": [
+        "你不急着把银子交出去，先请父亲陪你问明离府的手续。你想知道：谁能作主，钱交给谁，得到的凭据是什么。",
+        "回来的路上，父亲走得慢。你发现他的担心并非多余：他仍要在这里做工，明天还得面对同一批人。"
+      ],
+      "choices": [
+        {
+          "id": "together",
+          "text": "我先跟爹商量，再一起去问。",
+          "hint": "爹能说上话，也得在第二日面对管事",
+          "to": "ask_offer",
+          "set": {
+            "witness": true
+          },
+          "echo": "你们把要问的话写在纸上。父亲添了一句：别漏了你娘的名字。"
+        },
+        {
+          "id": "alone",
+          "text": "我自己问，不让爹夹在中间。",
+          "hint": "保护他，也独自承担交涉",
+          "to": "ask_offer",
+          "set": {
+            "witness": false
+          },
+          "echo": "你走进门时才发现，想保护一个人，有时也会把他留在消息之外。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "father"
+      ],
+      "beats": [
+        {
+          "speaker": "父亲",
+          "text": "你问这些，会不会让人觉得咱们不知足？",
+          "character": "father",
+          "id": "ask_office-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你不急着把银子交出去，先请父亲陪你问明离府的手续。你想知道：谁能作主，钱交给谁，得到的凭据是什么。",
+          "id": "ask_office-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "回来的路上，父亲走得慢。你发现他的担心并非多余：他仍要在这里做工，明天还得面对同一批人。",
+          "id": "ask_office-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "ask_offer": {
+      "act": "另一种走法",
+      "place": "三日后 · 茶棚",
+      "title": "有人替你着急",
+      "speaker": "中间人",
+      "quote": "你一个姑娘，慢慢问，要问到哪年？",
+      "paragraphs": [
+        "对方说能替三个人一并疏通，催你今晚交钱。他说，你若不信，就当错过这次机会。",
+        "你想起母亲收起针包时的笑。越想带她走，越难对一句好听的话说不。"
+      ],
+      "choices": [
+        {
+          "id": "refuse",
+          "text": "没有凭据，这钱不交。",
+          "hint": "容许一次希望落空",
+          "to": "ask_small",
+          "set": {
+            "risk": false
+          },
+          "echo": "他转身走了。茶棚一下安静得让你怀疑，自己是不是把出路也赶走了。"
+        },
+        {
+          "id": "risk",
+          "text": "只付问路的钱，不再追加。",
+          "hint": "为机会试一次，也守住止损线",
+          "to": "ask_small",
+          "set": {
+            "risk": true
+          },
+          "echo": "后来并没有消息。你失去一笔银子，却终于不再相信再加一点就能办成。"
+        }
+      ],
+      "cast": [
+        "lanxiang"
+      ],
+      "beats": [
+        {
+          "speaker": "中间人",
+          "text": "你一个姑娘，慢慢问，要问到哪年？",
+          "character": null,
+          "id": "ask_offer-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "对方说能替三个人一并疏通，催你今晚交钱。他说，你若不信，就当错过这次机会。",
+          "id": "ask_offer-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你想起母亲收起针包时的笑。越想带她走，越难对一句好听的话说不。",
+          "id": "ask_offer-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "ask_small": {
+      "act": "能走的一步",
+      "place": "数日后 · 许家",
+      "title": "没有三个人一起走的保证",
+      "speaker": "母亲",
+      "quote": "那就把能办的先办。别让银子等成一辈子。",
+      "paragraphs": [
+        "直接问来的答复并不圆满：可以先递交你的离府请求，父母的要另谈。你想要的，是三个人一起离开；眼前得到的，却仍只有你的一扇门。",
+        "你已经问清了手续，也知道外头一家绣铺愿意给试工。未来还没有保证，但终于有了几步能看见的路。"
+      ],
+      "choices": [
+        {
+          "id": "step",
+          "text": "我先出去，但每一步都与你们商量。",
+          "hint": "允许一家人分开走向同一个愿望",
+          "routes": [
+            {
+              "when": {
+                "risk": true
+              },
+              "to": "ask_delay"
+            },
+            {
+              "to": "ask_depart"
+            }
+          ],
+          "echo": "你把打听到的事逐项说给他们听。谁也没有再把不知道说成一定。"
+        },
+        {
+          "id": "wait",
+          "text": "先留下，按问清的办法继续攒钱。",
+          "hint": "愿意等，但不再只等一个承诺",
+          "to": "end_steady",
+          "echo": "你们约好每月算一次账，留出吃饭、看病的钱。离府很重要，眼前的人也重要。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "mother"
+      ],
+      "beats": [
+        {
+          "speaker": "母亲",
+          "text": "那就把能办的先办。别让银子等成一辈子。",
+          "character": "mother",
+          "id": "ask_small-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "直接问来的答复并不圆满：可以先递交你的离府请求，父母的要另谈。你想要的，是三个人一起离开；眼前得到的，却仍只有你的一扇门。",
+          "id": "ask_small-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你已经问清了手续，也知道外头一家绣铺愿意给试工。未来还没有保证，但终于有了几步能看见的路。",
+          "id": "ask_small-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "ask_delay": {
+      "act": "晚一点出发",
+      "place": "入秋 · 许家窗前",
+      "title": "把缺口一点点补上",
+      "speaker": "你",
+      "quote": "这次慢一些，也算在往前走。",
+      "paragraphs": [
+        "失去的问路钱让离府再往后推。你与母亲多接了些零活，没有再向任何人买一个保证。",
+        "数月后，当积蓄重新够数，你们照核实过的办法递交了请求。外头的试工还要重新找，但你记得，自己已经学会问路。"
+      ],
+      "choices": [
+        {
+          "id": "go",
+          "text": "带上针包，走那条问清的路。",
+          "to": "ask_depart",
+          "echo": "出发晚了几个月。你没有因此把自己的人生判成失败。"
+        }
+      ],
+      "cast": [
+        "lanxiang"
+      ],
+      "beats": [
+        {
+          "speaker": "你",
+          "text": "这次慢一些，也算在往前走。",
+          "character": "lanxiang",
+          "id": "ask_delay-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "失去的问路钱让离府再往后推。你与母亲多接了些零活，没有再向任何人买一个保证。",
+          "id": "ask_delay-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "数月后，当积蓄重新够数，你们照核实过的办法递交了请求。外头的试工还要重新找，但你记得，自己已经学会问路。",
+          "id": "ask_delay-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "ask_depart": {
+      "act": "出发那日",
+      "place": "城门 · 晨光",
+      "title": "把谁的愿望带在身上",
+      "speaker": "父亲",
+      "quote": "这回，不用说什么时候接我们。",
+      "paragraphs": [
+        "离府获准以后，你将文书收好，第一次用自己的名字去找差事。母亲往包袱里放针包，父亲往你手里塞一块饼。",
+        "一路上你替他们想过许多事。临到分别，他们却问你：知枝，你自己想过什么样的日子？"
+      ],
+      "choices": [
+        {
+          "id": "own",
+          "text": "我想开间小铺。门由我自己开。",
+          "hint": "第一次为自己的愿望起名",
+          "to": "end_own",
+          "echo": "母亲点头：那你的铺里，给我留个放针线的地方。"
+        },
+        {
+          "id": "family",
+          "text": "我想每次回家，都还能坐在一起吃饭。",
+          "hint": "为自由留一个能回去的地方",
+          "to": "end_bridge",
+          "echo": "父亲把饼又往你手里塞了塞：那就记得回来，别光记得寄钱。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "father"
+      ],
+      "beats": [
+        {
+          "speaker": "父亲",
+          "text": "这回，不用说什么时候接我们。",
+          "character": "father",
+          "id": "ask_depart-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "离府获准以后，你将文书收好，第一次用自己的名字去找差事。母亲往包袱里放针包，父亲往你手里塞一块饼。",
+          "id": "ask_depart-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "一路上你替他们想过许多事。临到分别，他们却问你：知枝，你自己想过什么样的日子？",
+          "id": "ask_depart-v1-2"
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "a_door": {
+      "title": "他在等你低头",
+      "place": "顾府 · 外书房前",
+      "act": "第一幕 · 银子还没捂热",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "赔给锦云坊客人的银子还揣在怀里。母亲给你时，把布包翻了个底朝天。离家时怀砚等在门外，只说大爷要见你。",
+          "expression": "neutral",
+          "id": "a_door-v1-0"
+        },
+        {
+          "speaker": "青禾",
+          "text": "你的膝盖……还疼不疼？",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_door-v1-1"
+        },
+        {
+          "speaker": "知枝",
+          "text": "别蹲着了，地上凉。",
+          "character": "lanxiang",
+          "id": "a_door-v3-2"
+        },
+        {
+          "speaker": "青禾",
+          "text": "知道凉，怎么还在廊下等那么久。",
+          "character": "xiaolian",
+          "id": "a_door-v3-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "话一出口，她自己先住了声。你们都知道，那不是想起来便能起来的地方。",
+          "reactions": {
+            "lanxiang": "vulnerable",
+            "xiaolian": "vulnerable"
+          },
+          "id": "a_door-v3-4"
+        },
+        {
+          "speaker": "青禾",
+          "text": "我给你留了点吃的。等你出来。",
+          "character": "xiaolian",
+          "expression": "neutral",
+          "id": "a_door-v3-5"
+        },
+        {
+          "speaker": "旁白",
+          "text": "青禾蹲下身，替你抚平揉皱的裙摆。升等换来的新衣还硬着领口，管事却催你们去前院候差。她摸了摸袖边，低声问：往后究竟听谁的吩咐？",
+          "expression": "neutral",
+          "id": "a_door-v1-2"
+        },
+        {
+          "speaker": "青禾",
+          "text": "我这会儿看着这衣裳，心里就发慌。",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_door-v1-3"
+        },
+        {
+          "speaker": "知枝 · 心声",
+          "text": "锦云坊的赔银还在怀里，袖口也沾着灰。书房里那位又要我办事；若青禾跟着我走，谁替她挡下一句问话？",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_door-v1-4"
+        },
+        {
+          "speaker": "怀砚",
+          "text": "知枝姑娘，别让大爷久等。",
+          "expression": "neutral",
+          "id": "a_door-v1-5",
+          "character": "jiugao",
+          "cast": [
+            "lanxiang",
+            "jiugao"
+          ]
+        }
+      ],
+      "speaker": "旁白",
+      "quote": "赔给锦云坊客人的银子还揣在怀里。母亲给你时，把布包翻了个底朝天。离家时怀砚等在门外，只说大爷要见你。",
+      "paragraphs": [
+        "你的膝盖……还疼不疼？",
+        "别蹲着了，地上凉。",
+        "知道凉，怎么还在廊下等那么久。",
+        "话一出口，她自己先住了声。你们都知道，那不是想起来便能起来的地方。",
+        "我给你留了点吃的。等你出来。",
+        "青禾蹲下身，替你抚平揉皱的裙摆。升等换来的新衣还硬着领口，管事却催你们去前院候差。她摸了摸袖边，低声问：往后究竟听谁的吩咐？",
+        "我这会儿看着这衣裳，心里就发慌。",
+        "锦云坊的赔银还在怀里，袖口也沾着灰。书房里那位又要我办事；若青禾跟着我走，谁替她挡下一句问话？",
+        "知枝姑娘，别让大爷久等。"
+      ],
+      "choices": [
+        {
+          "id": "confide",
+          "text": "告诉青禾：我怕答应了说不清的差事。",
+          "hint": "怀砚还在门口等；你只有这一会儿能同她说话",
+          "echo": "青禾没说“别怕”。她把你的袖口攥紧了些：你出来后，来找我。",
+          "to": "a_study",
+          "set": {
+            "ally": true
+          }
+        },
+        {
+          "id": "conceal",
+          "text": "说没事，让她先回去。",
+          "hint": "她留在廊下，不知道书房里将谈什么",
+          "echo": "她松开你的袖子，站在廊下看着你。你没有回头。",
+          "to": "a_study",
+          "set": {
+            "ally": false
+          }
+        }
+      ],
+      "background": "courtyard",
+      "music": "ripples"
+    },
+    "a_study": {
+      "title": "书房里的另一道差",
+      "place": "顾府 · 外书房",
+      "act": "第二幕 · 外书房",
+      "cast": [
+        "lanxiang"
+      ],
+      "beats": [
+        {
+          "speaker": "顾景衡",
+          "text": "锦云坊那一声，倒叫得巧。",
+          "expression": "neutral",
+          "character": "lin",
+          "id": "a_study-v1-0",
+          "cast": [
+            "lanxiang",
+            "lin"
+          ]
+        },
+        {
+          "speaker": "旁白",
+          "text": "你垂着眼。桌边的灯太亮，照得怀里那包碎银无处可藏。他没有问你看见了哪张账签。",
+          "expression": "neutral",
+          "id": "a_study-v1-1"
+        },
+        {
+          "speaker": "顾景衡",
+          "text": "秋宴那天，她若去东阁取旧账，来回我一声。",
+          "expression": "neutral",
+          "character": "lin",
+          "id": "a_study-v1-2"
+        },
+        {
+          "speaker": "知枝",
+          "text": "我若被发现呢？",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_study-v1-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他没有立即回答。你听见茶盖轻轻碰了一下杯沿。",
+          "reactions": {
+            "lanxiang": "vulnerable"
+          },
+          "id": "a_study-v3-4"
+        },
+        {
+          "speaker": "知枝 · 心声",
+          "text": "他不必知道这包银子是怎么攒的。可我知道。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "a_study-v3-5"
+        },
+        {
+          "speaker": "顾景衡",
+          "text": "这道差若办不成，你在我这里的差事就得另算。",
+          "expression": "neutral",
+          "character": "lin",
+          "id": "a_study-v1-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你指尖扣住布包的结。这里头是母亲方才倒出来的钱。你不愿让她的心意白费，也不甘心只剩一句“是”。",
+          "expression": "neutral",
+          "id": "a_study-v1-5"
+        }
+      ],
+      "speaker": "顾景衡",
+      "quote": "锦云坊那一声，倒叫得巧。",
+      "paragraphs": [
+        "你垂着眼。桌边的灯太亮，照得怀里那包碎银无处可藏。他没有问你看见了哪张账签。",
+        "秋宴那天，她若去东阁取旧账，来回我一声。",
+        "我若被发现呢？",
+        "他没有立即回答。你听见茶盖轻轻碰了一下杯沿。",
+        "他不必知道这包银子是怎么攒的。可我知道。",
+        "这道差若办不成，你在我这里的差事就得另算。",
+        "你指尖扣住布包的结。这里头是母亲方才倒出来的钱。你不愿让她的心意白费，也不甘心只剩一句“是”。"
+      ],
+      "choices": [
+        {
+          "id": "negotiate",
+          "text": "大爷既要我办差，先说我怎样平安回来。",
+          "hint": "用他需要的回话，换明确的接应",
+          "echo": "",
+          "to": "a_terms"
+        },
+        {
+          "id": "obey",
+          "text": "我听大爷吩咐。先容我回去收拾。",
+          "hint": "先接下差事，把退路留到临场",
+          "echo": "他让你起来。你等了一会儿，没等到一句关于你如何脱身的话。",
+          "to": "a_eve",
+          "set": {
+            "cover": false,
+            "named": false
+          }
+        },
+        {
+          "id": "refuse",
+          "text": "锦云坊的事我能说。秋宴那道差，我不接。",
+          "hint": "拒绝继续卷入，承担眼前的后果",
+          "echo": "",
+          "to": "a_refusal"
+        }
+      ],
+      "background": "study",
+      "music": "eastern-thought"
+    },
+    "a_terms": {
+      "title": "别只说“自有安排”",
+      "place": "顾府 · 外书房",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "lin"
+      ],
+      "beats": [
+        {
+          "speaker": "顾景衡",
+          "text": "你在同我讲条件？",
+          "expression": "neutral",
+          "character": "lin",
+          "id": "a_terms-v1-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "她若发现我替您递话，头一件事便是换人。秋宴那天，我便连她何时去东阁都看不见。",
+          "expression": "intense",
+          "character": "lanxiang",
+          "id": "a_terms-v1-1"
+        },
+        {
+          "speaker": "顾景衡",
+          "text": "我要的消息，你还一字没给。",
+          "character": "lin",
+          "id": "a_terms-v3-2"
+        },
+        {
+          "speaker": "知枝",
+          "text": "锦云坊那次，她先叫我们守着。我能看见人往哪儿去，却不能自己离差。您的人若只等消息、不接人，我就只能回去替她守门。",
+          "character": "lanxiang",
+          "expression": "intense",
+          "id": "a_terms-v3-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他敲茶盖的手停了。你没有抬头；方才那句话，已经把自己能替他做什么、不能做什么，一并露了出去。",
+          "reactions": {
+            "lin": "vulnerable"
+          },
+          "id": "a_terms-v3-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他把茶盖扣回去。你没有追问那册旧账里的差额，也没有说出自己在锦云坊见过的另一张账签。你只盯住眼前这一道差事。",
+          "expression": "neutral",
+          "id": "a_terms-v1-2"
+        },
+        {
+          "id": "a_terms-v5-risk",
+          "speaker": "顾景衡",
+          "character": "lin",
+          "expression": "intense",
+          "text": "我可以调人。消息若是假的，别拿这句话来挡。"
+        },
+        {
+          "speaker": "知枝",
+          "text": "得了消息，先让怀砚把人调开，再办您的事。调到哪里、带谁走，请当着他的面说。",
+          "expression": "intense",
+          "character": "lanxiang",
+          "id": "a_terms-v1-3"
+        },
+        {
+          "speaker": "顾景衡",
+          "text": "怀砚。",
+          "expression": "intense",
+          "character": "lin",
+          "id": "a_terms-v1-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "门开了。你知道，这不是一张能保你一世的凭据。可至少到了那一天，执行这句话的人也听见了。",
+          "expression": "neutral",
+          "id": "a_terms-v1-5",
+          "cast": [
+            "lanxiang",
+            "jiugao"
+          ]
+        },
+        {
+          "speaker": "怀砚",
+          "text": "大爷，您吩咐。",
+          "character": "jiugao",
+          "id": "a_terms-v3-9"
+        },
+        {
+          "speaker": "旁白",
+          "text": "怀砚站在门内。带走你，是护住递消息的人；再带走青禾，你还得给他一个肯点头的缘故。",
+          "id": "a_terms-v3-10"
+        }
+      ],
+      "speaker": "顾景衡",
+      "quote": "你在同我讲条件？",
+      "paragraphs": [
+        "她若发现我替您递话，头一件事便是换人。秋宴那天，我便连她何时去东阁都看不见。",
+        "我要的消息，你还一字没给。",
+        "锦云坊那次，她先叫我们守着。我能看见人往哪儿去，却不能自己离差。您的人若只等消息、不接人，我就只能回去替她守门。",
+        "他敲茶盖的手停了。你没有抬头；方才那句话，已经把自己能替他做什么、不能做什么，一并露了出去。",
+        "他把茶盖扣回去。你没有追问那册旧账里的差额，也没有说出自己在锦云坊见过的另一张账签。你只盯住眼前这一道差事。",
+        "我可以调人。消息若是假的，别拿这句话来挡。",
+        "得了消息，先让怀砚把人调开，再办您的事。调到哪里、带谁走，请当着他的面说。",
+        "怀砚。",
+        "门开了。你知道，这不是一张能保你一世的凭据。可至少到了那一天，执行这句话的人也听见了。",
+        "大爷，您吩咐。",
+        "怀砚站在门内。带走你，是护住递消息的人；再带走青禾，你还得给他一个肯点头的缘故。"
+      ],
+      "choices": [
+        {
+          "id": "both",
+          "text": "青禾与我守一处。独留她，回头问的还是我。",
+          "hint": "一并调人，动静更大；她也能作证你去了哪里",
+          "echo": "顾景衡看了怀砚一眼：得了实信，先把这两个调开。别叫陆家的人先问出什么。",
+          "to": "a_eve",
+          "set": {
+            "cover": true,
+            "named": true
+          }
+        },
+        {
+          "id": "self",
+          "text": "先带我出去。青禾还在廊下等我。",
+          "hint": "接应更容易藏住；留下的人却不在保证里",
+          "echo": "怀砚复述了一遍差事。他说出的名字，只有知枝。",
+          "to": "a_eve",
+          "set": {
+            "cover": true,
+            "named": false
+          }
+        }
+      ],
+      "background": "study",
+      "music": "eastern-thought"
+    },
+    "a_refusal": {
+      "title": "拒绝之后，另找去处",
+      "place": "顾府 · 门槛前",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "lin"
+      ],
+      "beats": [
+        {
+          "speaker": "顾景衡",
+          "text": "你不愿意，我便换个人。",
+          "expression": "neutral",
+          "character": "lin",
+          "id": "a_refusal-v1-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你刚松了半口气，他又叫住怀砚：换她去洗晒房，不必再往内院走。原先的轮班也要重新排。",
+          "expression": "neutral",
+          "id": "a_refusal-v1-1"
+        },
+        {
+          "speaker": "知枝 · 心声",
+          "text": "他说得很轻。与青禾分开、原先的安排被打乱，却都要我自己来承担。",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_refusal-v1-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "门槛就在脚下。你可以走过去，也可以转身，把方才没谈成的退路再谈一次。",
+          "expression": "neutral",
+          "id": "a_refusal-v1-3"
+        }
+      ],
+      "speaker": "顾景衡",
+      "quote": "你不愿意，我便换个人。",
+      "paragraphs": [
+        "你刚松了半口气，他又叫住怀砚：换她去洗晒房，不必再往内院走。原先的轮班也要重新排。",
+        "他说得很轻。与青禾分开、原先的安排被打乱，却都要我自己来承担。",
+        "门槛就在脚下。你可以走过去，也可以转身，把方才没谈成的退路再谈一次。"
+      ],
+      "choices": [
+        {
+          "id": "hold",
+          "text": "认下调差，但不认这道传话差。",
+          "hint": "保住拒绝；失去眼前照应青禾的便利",
+          "echo": "",
+          "to": "end_refusal"
+        },
+        {
+          "id": "reopen",
+          "text": "转身：要我接差，就先安排接应。",
+          "hint": "承认处境，不撤掉自己的条件",
+          "echo": "",
+          "to": "a_terms"
+        }
+      ],
+      "background": "study",
+      "music": null
+    },
+    "a_eve": {
+      "title": "那匹绸缎还压在笸箩里",
+      "place": "顾府 · 赴宴前夕",
+      "act": "第三幕 · 两个丫鬟的打算",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "beats": [
+        {
+          "speaker": "青禾",
+          "text": "我留的吃食都凉了。你还吃不吃？",
+          "when": {
+            "ally": true
+          },
+          "character": "xiaolian",
+          "id": "a_eve-v3-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "吃。边吃边同你说。",
+          "when": {
+            "ally": true
+          },
+          "character": "lanxiang",
+          "id": "a_eve-v3-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "青禾没有像往常一样替你挪凳子。你自己坐下，听见凳脚在地上轻响。",
+          "when": {
+            "ally": false
+          },
+          "reactions": {
+            "xiaolian": "vulnerable"
+          },
+          "id": "a_eve-v3-2"
+        },
+        {
+          "id": "a_eve-v5-carriage",
+          "speaker": "旁白",
+          "text": "回内院时，你见怀砚拦住陆家来送秋宴礼单的跟车人。你只听清“东阁”“谁收账”几个字。他见你便住了口。你不知道他问到了什么，只记住了那跟车人的脸。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "陆家秋宴在即。陆清晏点了你与青禾随行。针线笸箩里，还压着升等时分到的衣料。",
+          "expression": "neutral",
+          "id": "a_eve-v1-0"
+        },
+        {
+          "speaker": "青禾",
+          "text": "这衣裳我还没敢裁。升了等，就得同时听两边的差么？",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_eve-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她捏着布角，不再往下说。升等那日，陆清晏当着顾老夫人的面说，让你们到前院候差，内院的秋宴礼单也不能误。你们想问清由谁交接，名字却已经写上了名册。",
+          "expression": "neutral",
+          "id": "a_eve-v1-2"
+        },
+        {
+          "speaker": "知枝 · 心声",
+          "text": "顾景衡的接应只管这一回。过了这一回，两边都要回话的难处仍在。",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_eve-v1-3"
+        },
+        {
+          "speaker": "青禾",
+          "text": "你昨夜不是答应，出来就来找我吗？",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "when": {
+            "ally": true
+          },
+          "id": "a_eve-v1-4"
+        },
+        {
+          "speaker": "青禾",
+          "text": "你说没事，可你从书房回来，一直没睡。",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "when": {
+            "ally": false
+          },
+          "id": "a_eve-v1-5"
+        }
+      ],
+      "speaker": "青禾",
+      "quote": "我留的吃食都凉了。你还吃不吃？",
+      "paragraphs": [
+        "吃。边吃边同你说。",
+        "青禾没有像往常一样替你挪凳子。你自己坐下，听见凳脚在地上轻响。",
+        "回内院时，你见怀砚拦住陆家来送秋宴礼单的跟车人。你只听清“东阁”“谁收账”几个字。他见你便住了口。你不知道他问到了什么，只记住了那跟车人的脸。",
+        "陆家秋宴在即。陆清晏点了你与青禾随行。针线笸箩里，还压着升等时分到的衣料。",
+        "这衣裳我还没敢裁。升了等，就得同时听两边的差么？",
+        "她捏着布角，不再往下说。升等那日，陆清晏当着顾老夫人的面说，让你们到前院候差，内院的秋宴礼单也不能误。你们想问清由谁交接，名字却已经写上了名册。",
+        "顾景衡的接应只管这一回。过了这一回，两边都要回话的难处仍在。",
+        "你昨夜不是答应，出来就来找我吗？",
+        "你说没事，可你从书房回来，一直没睡。"
+      ],
+      "choices": [
+        {
+          "id": "plan",
+          "text": "先和青禾商量：若被支开，去哪里会合。",
+          "hint": "青禾也在赴宴名单上",
+          "echo": "",
+          "routes": [
+            {
+              "when": {
+                "ally": true
+              },
+              "to": "a_plan"
+            },
+            {
+              "to": "a_mistrust"
+            }
+          ]
+        },
+        {
+          "id": "zhao",
+          "text": "去求陆清晏调差，拿一件能核实的见闻交换。",
+          "hint": "试着从另一边理清前院差事",
+          "echo": "",
+          "to": "a_zhao"
+        },
+        {
+          "id": "wait",
+          "text": "等当天看情形，暂时不再多说。",
+          "hint": "赴宴的日子已经定下",
+          "echo": "",
+          "to": "a_banquet",
+          "set": {
+            "ready": false
+          }
+        }
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "a_mistrust": {
+      "title": "你说是为我好",
+      "place": "顾府 · 灯下",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "beats": [
+        {
+          "speaker": "知枝",
+          "text": "若有变故，你别等我，先往人多的地方去。",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_mistrust-v1-0"
+        },
+        {
+          "speaker": "青禾",
+          "text": "出了事，才告诉我该往哪儿跑？",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_mistrust-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你伸手去拉她。她没有躲，却也没有像从前那样握回来。",
+          "expression": "neutral",
+          "id": "a_mistrust-v1-2"
+        },
+        {
+          "speaker": "知枝",
+          "text": "我怕你知道了，连累你。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "a_mistrust-v3-3"
+        },
+        {
+          "speaker": "青禾",
+          "text": "可明日我也得跟着去。你什么都不说，叫我往哪儿躲？若你迟迟不来，我又该找谁？",
+          "character": "xiaolian",
+          "expression": "vulnerable",
+          "id": "a_mistrust-v3-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她拧着袖口的线头，指甲把那根线拽得发白。你先前只替她选了方向，没替她留下一句能用的话。",
+          "id": "a_mistrust-v3-5"
+        },
+        {
+          "speaker": "青禾",
+          "text": "我怕是怕。你告诉我，我才知道怎么办。",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_mistrust-v1-3"
+        }
+      ],
+      "speaker": "知枝",
+      "quote": "若有变故，你别等我，先往人多的地方去。",
+      "paragraphs": [
+        "出了事，才告诉我该往哪儿跑？",
+        "你伸手去拉她。她没有躲，却也没有像从前那样握回来。",
+        "我怕你知道了，连累你。",
+        "可明日我也得跟着去。你什么都不说，叫我往哪儿躲？若你迟迟不来，我又该找谁？",
+        "她拧着袖口的线头，指甲把那根线拽得发白。你先前只替她选了方向，没替她留下一句能用的话。",
+        "我怕是怕。你告诉我，我才知道怎么办。"
+      ],
+      "choices": [
+        {
+          "id": "repair",
+          "text": "把书房里的要求与自己的答复，都告诉她。",
+          "hint": "她等着你把没说完的话说完",
+          "echo": "你说完，她倒了杯水，自己先喝了一口：好。现在让我想。",
+          "to": "a_plan",
+          "set": {
+            "ally": true
+          }
+        },
+        {
+          "id": "protect",
+          "text": "还是让她照我的话做。",
+          "hint": "你仍担心她知道得太多",
+          "echo": "青禾应了。那一声太轻，你分不清她是听懂了，还是不想再问。",
+          "to": "a_banquet",
+          "set": {
+            "ready": false
+          }
+        }
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "a_plan": {
+      "title": "她也有一个主意",
+      "place": "顾府 · 灯下",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "beats": [
+        {
+          "speaker": "青禾",
+          "text": "茶房缺个看炉子的。我替他们搬过炭，那位婶子说，忙不过来时叫我。",
+          "expression": "intense",
+          "character": "xiaolian",
+          "id": "a_plan-v1-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "你怎么知道缺人？",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_plan-v1-1",
+          "audio": {
+            "id": "female-hmm",
+            "character": "lanxiang"
+          }
+        },
+        {
+          "speaker": "青禾",
+          "text": "送东西时瞧见的。可她也说了，不敢从少奶奶跟前抢人。得有人交代，才肯收。",
+          "expression": "intense",
+          "character": "xiaolian",
+          "id": "a_plan-v1-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "青禾把茶房换班的时辰、缺耳炭筐摆在哪里，都说得清清楚楚。你原以为她只是在等你回来。",
+          "expression": "neutral",
+          "id": "a_plan-v1-3"
+        },
+        {
+          "speaker": "知枝",
+          "text": "你一个人去问，会不会惹人疑心？",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "a_plan-v3-4"
+        },
+        {
+          "speaker": "青禾",
+          "text": "帮忙洗杯盏，又不是什么体面的差。谁还同我抢？",
+          "character": "xiaolian",
+          "expression": "intense",
+          "id": "a_plan-v3-5",
+          "audio": {
+            "id": "female-giggle",
+            "character": "xiaolian"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "你也笑了一下。笑意很快过去了，可屋里那股让人透不过气的静，终于松了松。",
+          "reactions": {
+            "lanxiang": "neutral"
+          },
+          "id": "a_plan-v3-6"
+        },
+        {
+          "speaker": "青禾",
+          "text": "若有人放我们走，就去茶房。我认得那只缺耳的炭筐，也认得叫我帮忙的人。到了那里，总比空口说借过强。",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_plan-v1-4"
+        }
+      ],
+      "speaker": "青禾",
+      "quote": "茶房缺个看炉子的。我替他们搬过炭，那位婶子说，忙不过来时叫我。",
+      "paragraphs": [
+        "你怎么知道缺人？",
+        "送东西时瞧见的。可她也说了，不敢从少奶奶跟前抢人。得有人交代，才肯收。",
+        "青禾把茶房换班的时辰、缺耳炭筐摆在哪里，都说得清清楚楚。你原以为她只是在等你回来。",
+        "你一个人去问，会不会惹人疑心？",
+        "帮忙洗杯盏，又不是什么体面的差。谁还同我抢？",
+        "你也笑了一下。笑意很快过去了，可屋里那股让人透不过气的静，终于松了松。",
+        "若有人放我们走，就去茶房。我认得那只缺耳的炭筐，也认得叫我帮忙的人。到了那里，总比空口说借过强。"
+      ],
+      "choices": [
+        {
+          "id": "public",
+          "text": "去茶房。她若不敢收人，我们再当面求。",
+          "hint": "有人认得青禾，但尚无人肯承担调差的责任",
+          "echo": "青禾跑去问了话。回来时，她朝你点点头：到时去帮着洗杯盏。",
+          "to": "a_banquet",
+          "set": {
+            "ready": true,
+            "teaWitness": false
+          }
+        },
+        {
+          "id": "nearby",
+          "text": "别先应下茶房。我回来找你，再一起走。",
+          "hint": "少惊动一处人；临时离开却没有现成去处",
+          "echo": "她收回了脚。你们约好等彼此，却没替“等不到”安排一个去处。",
+          "to": "a_banquet",
+          "set": {
+            "ready": false,
+            "teaWitness": false
+          }
+        },
+        {
+          "id": "look_stove",
+          "text": "明日送物时，先看看她到底忙不过来什么。",
+          "hint": "跟青禾进茶房帮一手，再回原处应差",
+          "echo": "你们约好先做眼前的活，不替谁许下收人的话。",
+          "to": "a_stove"
+        },
+        {
+          "id": "look_steward",
+          "text": "明日送物时，先看她肯听谁调人。",
+          "hint": "在门边留意交接，不先替自己求情",
+          "echo": "青禾点头：先看清了，再开口。",
+          "to": "a_steward"
+        }
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "a_zhao": {
+      "title": "她也不愿，你也不愿",
+      "place": "顾府 · 陆清晏房中",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "zhao"
+      ],
+      "beats": [
+        {
+          "id": "a_zhao-v5-0",
+          "speaker": "陆清晏",
+          "text": "升了等，换了衣裳，倒学会挑差事了？",
+          "character": "zhao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao-v5-1",
+          "speaker": "许知枝",
+          "text": "我笨。锦云坊只叫错了一声，就赔光了家里的银子。前院的差，实在不敢当。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao-v5-2",
+          "speaker": "陆清晏",
+          "text": "所以让青禾替你？",
+          "character": "zhao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao-v5-3",
+          "speaker": "许知枝",
+          "text": "她也不肯。只是这话，我先说了。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao-v5-4",
+          "speaker": "旁白",
+          "text": "陆清晏把梳子放下，目光在你身上停了停。青禾不在这里；她愿不愿意，眼下只有你一句话能作证。"
+        },
+        {
+          "id": "a_zhao-v5-5",
+          "speaker": "陆清晏",
+          "text": "谁教你来的？大爷？",
+          "character": "zhao",
+          "expression": "intense"
+        },
+        {
+          "id": "a_zhao-v5-6",
+          "speaker": "旁白",
+          "text": "她的手停在桌边的铃上。你若只是求她收回成命，铃响以后，管事便会替她把话说完。"
+        },
+        {
+          "id": "a_zhao-v5-7",
+          "speaker": "许知枝",
+          "text": "少奶奶今日可以叫我出去。可明日还要到前院候差的，仍是我和青禾。我有一件您能亲自核实的见闻，想换两人一个说得清的去处。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao-v5-8",
+          "speaker": "旁白",
+          "text": "你想起回廊里怀砚问跟车人的话。那只是几句没听全的打听，还不能证明秋宴有局。说出来，或许能留住她的耐心，也可能被追问到无话可答。"
+        },
+        {
+          "id": "a_zhao-v5-9",
+          "speaker": "陆清晏",
+          "text": "你能替我做什么？",
+          "character": "zhao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao-v5-10",
+          "speaker": "许知枝",
+          "text": "我只听了半句，不敢当准话回。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao-v5-11",
+          "speaker": "陆清晏",
+          "text": "没听全的，也敢拿来换两个人的差？",
+          "character": "zhao",
+          "expression": "intense"
+        },
+        {
+          "id": "a_zhao-v5-12",
+          "speaker": "旁白",
+          "text": "她还不知道你要说什么，手却没有离开铃。你得决定，是交出书房里的来处，还是只说一件她能向自己人核实的见闻。"
+        }
+      ],
+      "speaker": "陆清晏",
+      "quote": "升了等，换了衣裳，倒学会挑差事了？",
+      "paragraphs": [
+        "我笨。锦云坊只叫错了一声，就赔光了家里的银子。前院的差，实在不敢当。",
+        "所以让青禾替你？",
+        "她也不肯。只是这话，我先说了。",
+        "陆清晏把梳子放下，目光在你身上停了停。青禾不在这里；她愿不愿意，眼下只有你一句话能作证。",
+        "谁教你来的？大爷？",
+        "她的手停在桌边的铃上。你若只是求她收回成命，铃响以后，管事便会替她把话说完。",
+        "少奶奶今日可以叫我出去。可明日还要到前院候差的，仍是我和青禾。我有一件您能亲自核实的见闻，想换两人一个说得清的去处。",
+        "你想起回廊里怀砚问跟车人的话。那只是几句没听全的打听，还不能证明秋宴有局。说出来，或许能留住她的耐心，也可能被追问到无话可答。",
+        "你能替我做什么？",
+        "我只听了半句，不敢当准话回。",
+        "没听全的，也敢拿来换两个人的差？",
+        "她还不知道你要说什么，手却没有离开铃。你得决定，是交出书房里的来处，还是只说一件她能向自己人核实的见闻。"
+      ],
+      "choices": [
+        {
+          "id": "bargain",
+          "text": "把书房里要我回报秋宴动向的话全说出来。",
+          "hint": "交出消息来源，换她立即处理；自己的退路也一并暴露",
+          "echo": "",
+          "to": "end_pact",
+          "set": {
+            "warned": true,
+            "disclosed": true
+          }
+        },
+        {
+          "id": "verify",
+          "text": "说出怀砚打听赴宴路线的见闻，请她问跟车人。",
+          "hint": "让她核实所见；这段时间，你也失去了自由离开的机会",
+          "echo": "你说出亲眼所见的那一段。陆清晏叫人去问，你只得在门边等回话。",
+          "to": "a_zhao_proof"
+        },
+        {
+          "id": "withdraw",
+          "text": "认下只听见半句，不再拿猜测往下换。",
+          "hint": "保住书房的秘密；眼前的安排不会因此撤回",
+          "echo": "她让你出去。铃终究没有响，你的两条腿却站得发麻。",
+          "to": "a_banquet",
+          "set": {
+            "ready": false
+          }
+        }
+      ],
+      "background": "study",
+      "music": "eastern-thought"
+    },
+    "a_banquet": {
+      "title": "她叫你们在这里等",
+      "place": "陆府 · 东阁外",
+      "act": "第四幕 · 先把人带出去",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "秋宴热闹，偏院却静。陆清晏把你们支开，往东阁去了。你记着顾景衡的吩咐，却更记得锦云坊之后在廊下等过的冷风。",
+          "expression": "neutral",
+          "id": "a_banquet-v1-0"
+        },
+        {
+          "speaker": "青禾",
+          "text": "你去。我在这里等。",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_banquet-v1-1"
+        },
+        {
+          "speaker": "知枝",
+          "text": "若我回来得慢……",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "a_banquet-v3-2"
+        },
+        {
+          "speaker": "青禾",
+          "text": "我记得，去前厅。你也别往没人的地方找我。",
+          "when": {
+            "ready": true
+          },
+          "character": "xiaolian",
+          "id": "a_banquet-v3-3"
+        },
+        {
+          "speaker": "青禾",
+          "text": "你先去。我守着包袱，免得管事回来找不着人。",
+          "when": {
+            "ready": false
+          },
+          "character": "xiaolian",
+          "expression": "vulnerable",
+          "id": "a_banquet-v3-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把你的包袱也拢到膝边。你们谁也没商量过，若她等不到你，该去找谁。",
+          "when": {
+            "ready": false
+          },
+          "id": "a_banquet-v3-5"
+        },
+        {
+          "speaker": "青禾",
+          "text": "茶房那位婶子认得我。肯不肯收，还得到了门前再问。",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "when": {
+            "ready": true
+          },
+          "id": "a_banquet-v1-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "穿过回廊，怀砚果然在等。他见你走近，立刻转向通往前厅的路。那边的人一过来，东阁外便也藏不住了。",
+          "expression": "neutral",
+          "id": "a_banquet-v1-3"
+        },
+        {
+          "speaker": "知枝 · 心声",
+          "text": "我现在报信，他就要去叫人。青禾还在那儿。",
+          "expression": "intense",
+          "character": "lanxiang",
+          "id": "a_banquet-v1-4"
+        }
+      ],
+      "speaker": "旁白",
+      "quote": "秋宴热闹，偏院却静。陆清晏把你们支开，往东阁去了。你记着顾景衡的吩咐，却更记得锦云坊之后在廊下等过的冷风。",
+      "paragraphs": [
+        "你去。我在这里等。",
+        "若我回来得慢……",
+        "我记得，去前厅。你也别往没人的地方找我。",
+        "你先去。我守着包袱，免得管事回来找不着人。",
+        "她把你的包袱也拢到膝边。你们谁也没商量过，若她等不到你，该去找谁。",
+        "茶房那位婶子认得我。肯不肯收，还得到了门前再问。",
+        "穿过回廊，怀砚果然在等。他见你走近，立刻转向通往前厅的路。那边的人一过来，东阁外便也藏不住了。",
+        "我现在报信，他就要去叫人。青禾还在那儿。"
+      ],
+      "choices": [
+        {
+          "id": "signal",
+          "text": "先拦住怀砚，把接应的人与顺序说清。",
+          "hint": "在事情发动前，兑现书房里那句话",
+          "echo": "",
+          "routes": [
+            {
+              "when": {
+                "cover": true,
+                "named": true
+              },
+              "to": "a_extract"
+            },
+            {
+              "when": {
+                "cover": true,
+                "named": false
+              },
+              "to": "a_one"
+            },
+            {
+              "to": "a_uncovered"
+            }
+          ]
+        },
+        {
+          "id": "return",
+          "text": "暂不报信，先回去把青禾拉出来。",
+          "hint": "抢回一点时间，也可能被当成私离差事",
+          "echo": "",
+          "to": "a_return"
+        }
+      ],
+      "background": "library",
+      "music": "eastern-thought"
+    },
+    "a_extract": {
+      "title": "先接人，再成事",
+      "place": "陆府 · 回廊",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "jiugao"
+      ],
+      "beats": [
+        {
+          "id": "a_extract-v5-0",
+          "speaker": "怀砚",
+          "text": "大爷在前厅等。你先说，人去了哪里。",
+          "character": "jiugao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_extract-v5-1",
+          "speaker": "许知枝",
+          "text": "东阁。青禾还留在外头。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_extract-v5-2",
+          "speaker": "旁白",
+          "text": "他转身便走。你没有拽他的袖子，只向东阁那边挪了一步，挡住他看过去的视线。"
+        },
+        {
+          "id": "a_extract-v5-3",
+          "speaker": "许知枝",
+          "text": "您听过吩咐：得了实信，先调开两个人。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_extract-v5-4",
+          "speaker": "怀砚",
+          "text": "我去接人，谁替你传话？误了这头，也算我的？",
+          "character": "jiugao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_extract-v5-5",
+          "speaker": "旁白",
+          "text": "你原以为有那句口谕就够了。直到这一刻才明白，怀砚也在挑一件事后说得清的差。"
+        },
+        {
+          "id": "a_extract-v5-6",
+          "speaker": "许知枝",
+          "text": "我随你回去，当面指给你看。接上她，我们一起去前厅。你不用凭我一句话回禀。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_extract-v5-7",
+          "speaker": "旁白",
+          "text": "他往楼边看了一眼。此处离东阁不过一段回廊，接人并不必绕路。他终于侧过身，让你走在前面。"
+        },
+        {
+          "id": "a_extract-v5-8",
+          "speaker": "怀砚",
+          "text": "跟紧。别再自己改道。",
+          "character": "jiugao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_extract-v5-9",
+          "speaker": "旁白",
+          "text": "青禾听见怀砚说调差，立刻提起裙角跟上。她走到你身边，先看你的手，才看你的脸。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ]
+        },
+        {
+          "id": "a_extract-v5-10",
+          "speaker": "青禾",
+          "text": "茶房在这边。",
+          "character": "xiaolian",
+          "expression": "neutral",
+          "when": {
+            "ready": true
+          }
+        },
+        {
+          "id": "a_extract-v5-11",
+          "speaker": "旁白",
+          "text": "茶房门开着，那位婶子却不肯让路：“方才只说缺人，可没说叫我接少奶奶身边的人。回头找不着，我拿什么回话？”",
+          "when": {
+            "ready": true
+          },
+          "music": null
+        },
+        {
+          "id": "a_extract-v5-12",
+          "speaker": "旁白",
+          "text": "怀砚已走到岔口。你若此时把他叫回来，前厅的人会看见他同你们在一处。若让他走，婶子又不肯收人。",
+          "when": {
+            "ready": true
+          }
+        },
+        {
+          "id": "a_extract-v5-13",
+          "speaker": "青禾",
+          "text": "是我只问了能不能帮忙，没问她敢不敢收。",
+          "character": "xiaolian",
+          "expression": "neutral",
+          "when": {
+            "ready": true
+          }
+        },
+        {
+          "id": "a_extract-v5-14",
+          "speaker": "许知枝",
+          "text": "先别认错。人还没走远。",
+          "character": "lanxiang",
+          "expression": "intense",
+          "when": {
+            "ready": true
+          }
+        },
+        {
+          "id": "a_extract-v6-footsteps",
+          "speaker": "旁白",
+          "text": "廊下有人喊：“少奶奶跟前那两个呢？”青禾的手一下攥紧。婶子往外看，身子仍挡着门。",
+          "when": {
+            "ready": true
+          },
+          "music": null,
+          "reactions": {
+            "xiaolian": "vulnerable"
+          }
+        },
+        {
+          "id": "a_extract-v6-recall-stove",
+          "speaker": "知枝 · 心声",
+          "character": "lanxiang",
+          "text": "她手上还端着湿杯。炉眼又被灰压住了。方才做过的事，我们能再做一回。",
+          "when": {
+            "teaSkill": true
+          }
+        },
+        {
+          "id": "a_extract-v6-recall-witness",
+          "speaker": "青禾",
+          "character": "xiaolian",
+          "text": "我去叫住怀砚。你就在门边，别跟过来。",
+          "when": {
+            "teaWitness": true
+          },
+          "expression": "intense"
+        },
+        {
+          "id": "a_extract-v5-15",
+          "speaker": "旁白",
+          "text": "没有提前约下的去处，怀砚指了指偏屋：先在这里候着，我送完消息，再找人安置你们。青禾看着那扇半掩的门，没有往前走。",
+          "when": {
+            "ready": false
+          }
+        }
+      ],
+      "speaker": "怀砚",
+      "quote": "大爷在前厅等。你先说，人去了哪里。",
+      "paragraphs": [
+        "东阁。青禾还留在外头。",
+        "他转身便走。你没有拽他的袖子，只向东阁那边挪了一步，挡住他看过去的视线。",
+        "您听过吩咐：得了实信，先调开两个人。",
+        "我去接人，谁替你传话？误了这头，也算我的？",
+        "你原以为有那句口谕就够了。直到这一刻才明白，怀砚也在挑一件事后说得清的差。",
+        "我随你回去，当面指给你看。接上她，我们一起去前厅。你不用凭我一句话回禀。",
+        "他往楼边看了一眼。此处离东阁不过一段回廊，接人并不必绕路。他终于侧过身，让你走在前面。",
+        "跟紧。别再自己改道。",
+        "青禾听见怀砚说调差，立刻提起裙角跟上。她走到你身边，先看你的手，才看你的脸。",
+        "茶房在这边。",
+        "茶房门开着，那位婶子却不肯让路：“方才只说缺人，可没说叫我接少奶奶身边的人。回头找不着，我拿什么回话？”",
+        "怀砚已走到岔口。你若此时把他叫回来，前厅的人会看见他同你们在一处。若让他走，婶子又不肯收人。",
+        "是我只问了能不能帮忙，没问她敢不敢收。",
+        "先别认错。人还没走远。",
+        "廊下有人喊：“少奶奶跟前那两个呢？”青禾的手一下攥紧。婶子往外看，身子仍挡着门。",
+        "她手上还端着湿杯。炉眼又被灰压住了。方才做过的事，我们能再做一回。",
+        "我去叫住怀砚。你就在门边，别跟过来。",
+        "没有提前约下的去处，怀砚指了指偏屋：先在这里候着，我送完消息，再找人安置你们。青禾看着那扇半掩的门，没有往前走。"
+      ],
+      "choices": [
+        {
+          "id": "finish",
+          "text": "请怀砚把人交到有人接手的地方。",
+          "hint": "当众认下调差会暴露接应；不交清，你们仍可能被算作擅离",
+          "echo": "你没有再催他快走。接出门，还不算把这道差交完。",
+          "routes": [
+            {
+              "when": {
+                "ready": true
+              },
+              "to": "a_after"
+            },
+            {
+              "to": "end_waiting"
+            }
+          ]
+        },
+        {
+          "id": "keep_hidden",
+          "text": "不再叫住怀砚，请他的人另找一间屋安置。",
+          "hint": "不暴露报信关系；把后续去处交回他手里",
+          "echo": "你咽下了那声招呼。青禾望着茶房里亮着的灯，没有问。",
+          "to": "end_waiting",
+          "set": {
+            "hiddenExit": true
+          },
+          "when": {
+            "ready": true
+          }
+        },
+        {
+          "id": "work_entry",
+          "text": "不喊怀砚。接住杯盏，让青禾先拨炉眼。",
+          "hint": "用方才做过的活换一段停留；没人替你们免去离差的责罚",
+          "when": {
+            "teaSkill": true
+          },
+          "set": {
+            "workEntry": true
+          },
+          "echo": "你把掌心擦干，先去接她端着的盘。青禾松开你的手，蹲向炉边。",
+          "to": "end_rescue"
+        }
+      ],
+      "background": "library",
+      "music": "eastern-thought"
+    },
+    "a_one": {
+      "title": "那句话里没有她",
+      "place": "陆府 · 回廊",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "jiugao"
+      ],
+      "beats": [
+        {
+          "speaker": "怀砚",
+          "text": "大爷吩咐过，把你带走。你先随我来。",
+          "expression": "neutral",
+          "id": "a_one-v1-0",
+          "character": "jiugao"
+        },
+        {
+          "speaker": "知枝",
+          "text": "还有青禾。",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_one-v1-1"
+        },
+        {
+          "speaker": "怀砚",
+          "text": "口谕里没有她。迟了误事，你担得起？",
+          "expression": "neutral",
+          "id": "a_one-v1-2",
+          "character": "jiugao"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你想起外书房里，自己说的是“先带我出去”。现在这句话成了门，一半向你开着，一半把她关在里面。",
+          "expression": "neutral",
+          "id": "a_one-v1-3"
+        }
+      ],
+      "speaker": "怀砚",
+      "quote": "大爷吩咐过，把你带走。你先随我来。",
+      "paragraphs": [
+        "还有青禾。",
+        "口谕里没有她。迟了误事，你担得起？",
+        "你想起外书房里，自己说的是“先带我出去”。现在这句话成了门，一半向你开着，一半把她关在里面。"
+      ],
+      "choices": [
+        {
+          "id": "take",
+          "text": "随怀砚离开，把自己的安全先保住。",
+          "hint": "你脱身；她的后续不在你的保证之中",
+          "echo": "",
+          "to": "end_alone"
+        },
+        {
+          "id": "go_back",
+          "text": "让他等着，自己回去找她。",
+          "hint": "把遗漏的名字，用自己的行动补回来",
+          "echo": "",
+          "to": "a_return"
+        }
+      ],
+      "background": "library",
+      "music": "eastern-thought"
+    },
+    "a_uncovered": {
+      "title": "这回没有人等你",
+      "place": "陆府 · 回廊",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "jiugao"
+      ],
+      "beats": [
+        {
+          "speaker": "怀砚",
+          "text": "得了消息就回去当差，别露出异样。",
+          "expression": "neutral",
+          "id": "a_uncovered-v1-0",
+          "character": "jiugao"
+        },
+        {
+          "speaker": "知枝",
+          "text": "等事发了，我们怎么办？",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_uncovered-v1-1"
+        },
+        {
+          "speaker": "怀砚",
+          "text": "我只管传话。",
+          "expression": "neutral",
+          "id": "a_uncovered-v1-2",
+          "character": "jiugao"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你跟了两步，又站住。没有口谕，也没有接应。若再跟下去，青禾等来的只会是去东阁的人。",
+          "expression": "neutral",
+          "id": "a_uncovered-v1-3"
+        }
+      ],
+      "speaker": "怀砚",
+      "quote": "得了消息就回去当差，别露出异样。",
+      "paragraphs": [
+        "等事发了，我们怎么办？",
+        "我只管传话。",
+        "你跟了两步，又站住。没有口谕，也没有接应。若再跟下去，青禾等来的只会是去东阁的人。"
+      ],
+      "choices": [
+        {
+          "id": "rescue",
+          "text": "不再等一句空话，回去找青禾。",
+          "hint": "你们必须自己挣出这段路",
+          "echo": "",
+          "to": "a_return"
+        }
+      ],
+      "background": "library",
+      "music": null
+    },
+    "a_return": {
+      "title": "我没让你替我挡在门口",
+      "place": "陆府 · 东阁外",
+      "act": "不做棋子",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "beats": [
+        {
+          "speaker": "青禾",
+          "text": "你怎么回来了？",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_return-v1-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "跟我走。现在。",
+          "expression": "intense",
+          "character": "lanxiang",
+          "id": "a_return-v1-1"
+        },
+        {
+          "speaker": "旁白",
+          "text": "楼里传来动静，青禾下意识看向门。你的手臂一绷，她却没有迈步。",
+          "expression": "neutral",
+          "id": "a_return-v1-2"
+        },
+        {
+          "speaker": "青禾",
+          "text": "回头追究起来呢？她只见着我不在。",
+          "expression": "neutral",
+          "character": "xiaolian",
+          "id": "a_return-v1-3"
+        },
+        {
+          "speaker": "知枝",
+          "text": "我回廊都走出去了。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "a_return-v3-4"
+        },
+        {
+          "speaker": "青禾",
+          "text": "那怎么又回来？",
+          "character": "xiaolian",
+          "expression": "vulnerable",
+          "id": "a_return-v3-5"
+        },
+        {
+          "speaker": "知枝",
+          "text": "走到那儿，想起你还在等。",
+          "character": "lanxiang",
+          "id": "a_return-v3-6"
+        },
+        {
+          "speaker": "旁白",
+          "text": "青禾终于转过身。你手心里全是汗，不知道她能不能感觉到。",
+          "id": "a_return-v3-7"
+        },
+        {
+          "speaker": "知枝 · 心声",
+          "text": "我若说自己奉命，她会信。可那道能带走我们两人的命令，此刻不在这里。",
+          "expression": "neutral",
+          "character": "lanxiang",
+          "id": "a_return-v1-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "回廊有人喊青禾的名字。她抽了一下手：跑开容易，回来时谁认我们有差可当？你望向前厅，茶房那边有水汽越过门帘。",
+          "expression": "neutral",
+          "id": "a_return-v1-5"
+        },
+        {
+          "id": "a_return-extra-v5-0",
+          "speaker": "旁白",
+          "text": "青禾压低声音：那位婶子认得我，却不肯得罪少奶奶。我们若过去，只能先把她手里最急的活接住。",
+          "when": {
+            "ready": true
+          }
+        },
+        {
+          "id": "a_return-extra-v5-1",
+          "speaker": "旁白",
+          "text": "你们没把茶房的去处定下。此时再去求人，青禾也不敢说婶子肯收。偏院那间堆旧箱的屋子，还没有亮灯。",
+          "when": {
+            "ready": false
+          }
+        }
+      ],
+      "speaker": "青禾",
+      "quote": "你怎么回来了？",
+      "paragraphs": [
+        "跟我走。现在。",
+        "楼里传来动静，青禾下意识看向门。你的手臂一绷，她却没有迈步。",
+        "回头追究起来呢？她只见着我不在。",
+        "我回廊都走出去了。",
+        "那怎么又回来？",
+        "走到那儿，想起你还在等。",
+        "青禾终于转过身。你手心里全是汗，不知道她能不能感觉到。",
+        "我若说自己奉命，她会信。可那道能带走我们两人的命令，此刻不在这里。",
+        "回廊有人喊青禾的名字。她抽了一下手：跑开容易，回来时谁认我们有差可当？你望向前厅，茶房那边有水汽越过门帘。",
+        "青禾压低声音：那位婶子认得我，却不肯得罪少奶奶。我们若过去，只能先把她手里最急的活接住。",
+        "你们没把茶房的去处定下。此时再去求人，青禾也不敢说婶子肯收。偏院那间堆旧箱的屋子，还没有亮灯。"
+      ],
+      "choices": [
+        {
+          "id": "truth",
+          "text": "“没人替我们担着。你挑路，我跟你走。”",
+          "hint": "把实情交给她；去处取决于你们此前认识了谁",
+          "echo": "",
+          "routes": [
+            {
+              "when": {
+                "ready": true
+              },
+              "to": "end_rescue"
+            },
+            {
+              "to": "end_shelter"
+            }
+          ],
+          "set": {
+            "workEntry": false
+          }
+        },
+        {
+          "id": "lie",
+          "text": "“大爷调我们走。”先把她带离这里。",
+          "hint": "借他的名头能催她动身，也可能把怀砚引来对质",
+          "echo": "",
+          "to": "end_borrowed",
+          "set": {
+            "workEntry": false
+          }
+        }
+      ],
+      "background": "library",
+      "music": null
+    },
+    "a_after": {
+      "title": "谢什么，由你来定",
+      "place": "顾府 · 风波之后",
+      "act": "终幕 · 不止这一回",
+      "cast": [
+        "lanxiang",
+        "lin"
+      ],
+      "beats": [
+        {
+          "id": "a_after-door-v6-0",
+          "speaker": "旁白",
+          "text": "你叫住怀砚。他只回头看了一眼，脚步没停。婶子也不肯让路。廊下找人的声音更近了。",
+          "when": {
+            "teaWitness": false
+          },
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "background": "room",
+          "place": "陆府 · 茶房门前",
+          "music": null
+        },
+        {
+          "id": "a_after-door-v6-2",
+          "speaker": "旁白",
+          "text": "青禾先一步追到岔口，没有拉怀砚，只照你们看过的交接说：“婶子不认我说的名，请您到门前说。”你守在茶房门边，手还扶着那扇门。",
+          "when": {
+            "teaWitness": true
+          },
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "background": "room",
+          "place": "陆府 · 茶房门前",
+          "music": null
+        },
+        {
+          "id": "a_after-door-v6-3",
+          "speaker": "许知枝",
+          "text": "怀砚，你把人接出来了。交给谁，总得有个回话。",
+          "character": "lanxiang",
+          "expression": "neutral",
+          "when": {
+            "teaWitness": false
+          }
+        },
+        {
+          "id": "a_after-door-v6-5",
+          "speaker": "旁白",
+          "text": "来找人的婆子已经望见你们：“这两个不是跟着少奶奶的？怎么跑到这儿了？”"
+        },
+        {
+          "id": "a_after-door-v6-6",
+          "speaker": "旁白",
+          "text": "你刚要答，婶子越过你，仍望着怀砚。"
+        },
+        {
+          "id": "a_after-door-v6-7",
+          "speaker": "怀砚",
+          "text": "人是我调来的。",
+          "character": "jiugao",
+          "expression": "neutral",
+          "cast": [
+            "lanxiang",
+            "jiugao"
+          ]
+        },
+        {
+          "id": "a_after-door-v6-8",
+          "speaker": "旁白",
+          "text": "廊下静了一瞬。婶子仍看着他：“找不着人，来问你？”"
+        },
+        {
+          "id": "a_after-door-v6-9",
+          "speaker": "怀砚",
+          "text": "来问我。",
+          "character": "jiugao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-door-v6-10",
+          "speaker": "旁白",
+          "text": "婆子没有再伸手领人，转身往前厅去了。怀砚看着她的背影，低声对你说：“这回，你倒真让我站在这里了。”"
+        },
+        {
+          "id": "a_after-door-v6-11",
+          "speaker": "旁白",
+          "text": "婶子终于侧开身。青禾进门时，肩膀擦过你的。她没回头，只把门后那块干布递给你。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "music": "ripples"
+        },
+        {
+          "id": "a_after-door-v6-12",
+          "speaker": "青禾",
+          "text": "拿稳。别摔。",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-door-v6-13",
+          "speaker": "旁白",
+          "text": "杯沿碰着碟子，轻轻响了两下。你用另一只手托住，才将它放稳。"
+        },
+        {
+          "id": "a_after-promise-v8-0",
+          "speaker": "旁白",
+          "text": "回府路上，青禾把一枚松脱的盘扣塞进你手里。你低头才发现，自己的袖口不知何时扯开了。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "background": "courtyard",
+          "place": "回府 · 傍晚",
+          "music": "ripples"
+        },
+        {
+          "id": "a_after-promise-v8-1",
+          "speaker": "青禾",
+          "text": "回去给你缝。以后若能在一处做活，就不用隔着院门等人了。",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-promise-v8-2",
+          "speaker": "旁白",
+          "text": "你攥着那枚扣子，还没答，怀砚已经来叫你去书房。"
+        },
+        {
+          "id": "a_after-v5-4",
+          "speaker": "旁白",
+          "text": "回府后，顾景衡叫你来。怀砚站在门边，先说了茶房那一声交代。",
+          "cast": [
+            "lanxiang",
+            "lin"
+          ],
+          "background": "study",
+          "place": "顾府 · 外书房",
+          "music": "eastern-thought"
+        },
+        {
+          "id": "a_after-v5-5",
+          "speaker": "顾景衡",
+          "text": "我让他接人，你倒让陆家都知道，人是我调的。",
+          "character": "lin",
+          "expression": "intense"
+        },
+        {
+          "id": "a_after-v5-6",
+          "speaker": "许知枝",
+          "text": "婶子不敢收。若在门外等少奶奶来领，您调人的事也藏不住。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-v5-7",
+          "speaker": "顾景衡",
+          "text": "你替我算得周全。",
+          "character": "lin",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-v5-8",
+          "speaker": "旁白",
+          "text": "你听不出褒贬。桌边的茶凉着，他不端，你也没再接话。"
+        },
+        {
+          "id": "a_after-v5-9",
+          "speaker": "许知枝",
+          "text": "门不让进，我又不能把青禾留在外头。只好再叫他一声。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-v5-10",
+          "speaker": "旁白",
+          "text": "他看了你一会儿，没再追问。怀砚在门边回禀：报信和接人都赶上了，没有误事。"
+        },
+        {
+          "id": "a_after-v5-11",
+          "speaker": "顾景衡",
+          "text": "说吧。想讨什么赏？",
+          "character": "lin",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-v5-12",
+          "speaker": "许知枝",
+          "text": "不要银子。请把我和青禾调离前院。先前让我们候着的那桩安排，也请交代一句。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-v5-13",
+          "speaker": "顾景衡",
+          "text": "针线房可以去。想留下，就替我理外院的书信。往来什么人，你也能见着。",
+          "character": "lin",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_after-v5-14",
+          "speaker": "旁白",
+          "text": "你指腹抵着袖里的盘扣。调走，明日便能同青禾一道做活；留下，这些来往的姓名、消息，就不必全靠旁人转述。只是下回他再叫你，也不会只是来领赏。"
+        }
+      ],
+      "speaker": "旁白",
+      "quote": "你叫住怀砚。他只回头看了一眼，脚步没停。婶子也不肯让路。廊下找人的声音更近了。",
+      "paragraphs": [
+        "青禾先一步追到岔口，没有拉怀砚，只照你们看过的交接说：“婶子不认我说的名，请您到门前说。”你守在茶房门边，手还扶着那扇门。",
+        "怀砚，你把人接出来了。交给谁，总得有个回话。",
+        "来找人的婆子已经望见你们：“这两个不是跟着少奶奶的？怎么跑到这儿了？”",
+        "你刚要答，婶子越过你，仍望着怀砚。",
+        "人是我调来的。",
+        "廊下静了一瞬。婶子仍看着他：“找不着人，来问你？”",
+        "来问我。",
+        "婆子没有再伸手领人，转身往前厅去了。怀砚看着她的背影，低声对你说：“这回，你倒真让我站在这里了。”",
+        "婶子终于侧开身。青禾进门时，肩膀擦过你的。她没回头，只把门后那块干布递给你。",
+        "拿稳。别摔。",
+        "杯沿碰着碟子，轻轻响了两下。你用另一只手托住，才将它放稳。",
+        "回府路上，青禾把一枚松脱的盘扣塞进你手里。你低头才发现，自己的袖口不知何时扯开了。",
+        "回去给你缝。以后若能在一处做活，就不用隔着院门等人了。",
+        "你攥着那枚扣子，还没答，怀砚已经来叫你去书房。",
+        "回府后，顾景衡叫你来。怀砚站在门边，先说了茶房那一声交代。",
+        "我让他接人，你倒让陆家都知道，人是我调的。",
+        "婶子不敢收。若在门外等少奶奶来领，您调人的事也藏不住。",
+        "你替我算得周全。",
+        "你听不出褒贬。桌边的茶凉着，他不端，你也没再接话。",
+        "门不让进，我又不能把青禾留在外头。只好再叫他一声。",
+        "他看了你一会儿，没再追问。怀砚在门边回禀：报信和接人都赶上了，没有误事。",
+        "说吧。想讨什么赏？",
+        "不要银子。请把我和青禾调离前院。先前让我们候着的那桩安排，也请交代一句。",
+        "针线房可以去。想留下，就替我理外院的书信。往来什么人，你也能见着。",
+        "你指腹抵着袖里的盘扣。调走，明日便能同青禾一道做活；留下，这些来往的姓名、消息，就不必全靠旁人转述。只是下回他再叫你，也不会只是来领赏。"
+      ],
+      "choices": [
+        {
+          "id": "distance",
+          "text": "请把我们都调去针线房。",
+          "hint": "和青禾同处做活，退出书房差遣，也失去直接接触外院消息的机会",
+          "echo": "你说了两个名字，也舍下了那笔原本能带回家的赏钱。",
+          "to": "end_together"
+        },
+        {
+          "id": "equal",
+          "text": "青禾去针线房。我留下，差事请先容我回话。",
+          "hint": "自己接触往来消息，承担继续被差遣的风险；往后不再与青禾同处当差",
+          "echo": "你没有替青禾答应再替谁办差。留下的，是你自己的名字。",
+          "to": "end_respect"
+        }
+      ],
+      "background": "study",
+      "music": "eastern-thought"
+    },
+    "a_zhao_proof": {
+      "title": "她要先验你的话",
+      "place": "顾府 · 陆清晏房中",
+      "act": "一线交换",
+      "cast": [
+        "lanxiang",
+        "zhao"
+      ],
+      "background": "study",
+      "music": "eastern-thought",
+      "choices": [
+        {
+          "id": "limited",
+          "text": "只提醒她不要落单，等她先撤下两人的前院差。",
+          "hint": "她仍能猜到有人留意赴宴路线；你不替任何人保证这场秋宴",
+          "echo": "你不再添一句猜测，只等那声真正交代给管事的话。",
+          "to": "end_pact",
+          "set": {
+            "warned": true,
+            "verified": true,
+            "disclosed": false
+          }
+        },
+        {
+          "id": "retreat",
+          "text": "不接替她探听的差。认下多嘴，退出去。",
+          "hint": "她已有警觉，秋宴的走向已经改变",
+          "echo": "她收回了铃旁的手：既不肯替我做事，今日说过的话，就别往外传。",
+          "to": "end_caution",
+          "set": {
+            "warned": true,
+            "verified": true
+          }
+        }
+      ],
+      "beats": [
+        {
+          "id": "a_zhao_proof-v5-0",
+          "speaker": "旁白",
+          "text": "门外脚步来去，茶已经凉了。陆清晏不问，你也不能告退。你想起父亲若来送东西，找不到你，会先向谁赔笑。"
+        },
+        {
+          "id": "a_zhao_proof-v5-1",
+          "speaker": "旁白",
+          "text": "跟车人回话：怀砚问过秋宴礼账由谁收，也问过往东阁怎么走。陆清晏听完，先叫他出去。"
+        },
+        {
+          "id": "a_zhao_proof-v5-2",
+          "speaker": "陆清晏",
+          "text": "我叫人把你留在这里，也一样能避开。何必答应你？",
+          "character": "zhao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao_proof-v5-3",
+          "speaker": "许知枝",
+          "text": "我不见了，原来的差总有人问。少奶奶要怎样赴宴，我不敢教。只求别再让我们在前院候差。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao_proof-v5-4",
+          "speaker": "陆清晏",
+          "text": "叫你回话的人，是谁？",
+          "character": "zhao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao_proof-v5-5",
+          "speaker": "旁白",
+          "text": "你垂眼说还要回去当差。陆清晏抬手打断：“怀砚是替谁跑腿的，我还用你教？”"
+        },
+        {
+          "id": "a_zhao_proof-v5-6",
+          "speaker": "陆清晏",
+          "text": "还想回我身边听差？留个心向外的，我嫌不够乱？他再问你什么，先来回我。",
+          "character": "zhao",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_zhao_proof-v5-7",
+          "speaker": "旁白",
+          "text": "铃仍在她手边。她递来的出口，另一头是新的传话差事。你能提醒她别落单，却不能保证宴上会发生什么，更不能替青禾接下这份交换。"
+        },
+        {
+          "id": "a_zhao_proof-v5-8",
+          "speaker": "许知枝",
+          "text": "眼前的消息，我敢认。往后的，我不敢许。",
+          "character": "lanxiang",
+          "expression": "intense"
+        },
+        {
+          "id": "a_zhao_proof-v5-9",
+          "speaker": "旁白",
+          "text": "她将梳子重重放下，叫你候着。门外管事已经来了，你还能再求一句两人的去处，也可以就此告退。"
+        }
+      ],
+      "speaker": "旁白",
+      "quote": "门外脚步来去，茶已经凉了。陆清晏不问，你也不能告退。你想起父亲若来送东西，找不到你，会先向谁赔笑。",
+      "paragraphs": [
+        "跟车人回话：怀砚问过秋宴礼账由谁收，也问过往东阁怎么走。陆清晏听完，先叫他出去。",
+        "我叫人把你留在这里，也一样能避开。何必答应你？",
+        "我不见了，原来的差总有人问。少奶奶要怎样赴宴，我不敢教。只求别再让我们在前院候差。",
+        "叫你回话的人，是谁？",
+        "你垂眼说还要回去当差。陆清晏抬手打断：“怀砚是替谁跑腿的，我还用你教？”",
+        "还想回我身边听差？留个心向外的，我嫌不够乱？他再问你什么，先来回我。",
+        "铃仍在她手边。她递来的出口，另一头是新的传话差事。你能提醒她别落单，却不能保证宴上会发生什么，更不能替青禾接下这份交换。",
+        "眼前的消息，我敢认。往后的，我不敢许。",
+        "她将梳子重重放下，叫你候着。门外管事已经来了，你还能再求一句两人的去处，也可以就此告退。"
+      ]
+    },
+    "a_stove": {
+      "title": "先看那壶水",
+      "act": "赴宴之前",
+      "place": "陆府 · 茶房门边",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": null,
+      "beats": [
+        {
+          "id": "a_stove-v6-0",
+          "speaker": "旁白",
+          "text": "次日赴宴，你们趁递送物件，往茶房门边站了站。青禾认得的婶子正拿蒲扇扇炉，前厅已经来催第二回。"
+        },
+        {
+          "id": "a_stove-v6-1",
+          "speaker": "青禾",
+          "text": "我去帮她添些炭。",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_stove-v6-2",
+          "speaker": "旁白",
+          "text": "你按住她。炭没有烧尽，灰却堵住了炉眼。再往上添，只会把火压住。许家冬日省炭时，你替母亲拨过这样的炉子。"
+        },
+        {
+          "id": "a_stove-v6-3",
+          "speaker": "许知枝",
+          "text": "先拨下面，别添。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_stove-v6-4",
+          "speaker": "旁白",
+          "text": "青禾蹲下去，用火钳把炉眼拨开。细小的红光透出来，婶子终于腾出手，把一叠湿杯递到你面前。"
+        },
+        {
+          "id": "a_stove-v6-5",
+          "speaker": "茶房婶子",
+          "text": "拿干布。就放在门后。"
+        },
+        {
+          "id": "a_stove-v6-6",
+          "speaker": "旁白",
+          "text": "她没有问你们是哪房的人。直到水声响起来，她才想起这事，赶着你们回去：“得空帮一手成，可别误了自家的差。”"
+        },
+        {
+          "id": "a_stove-v6-7",
+          "speaker": "青禾",
+          "text": "她肯叫我们做事，就是肯收了？",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_stove-v6-8",
+          "speaker": "许知枝",
+          "text": "还不是。她忙得顾不上问的时候，才用得上我们。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_stove-v6-9",
+          "speaker": "旁白",
+          "text": "你擦净指尖的灰。陆清晏身边有人来叫，你们把干布放回原处，先回去应差。"
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_duty",
+          "text": "先回去应差，把方才的事记住。",
+          "hint": "眼下仍不能自行换差；这次见闻留待需要时再用",
+          "echo": "青禾跟在你身侧。你们谁也没向陆清晏提起茶房。",
+          "to": "a_banquet",
+          "set": {
+            "ready": true,
+            "teaSkill": true,
+            "teaWitness": false
+          }
+        }
+      ],
+      "speaker": "旁白",
+      "quote": "次日赴宴，你们趁递送物件，往茶房门边站了站。青禾认得的婶子正拿蒲扇扇炉，前厅已经来催第二回。",
+      "paragraphs": [
+        "我去帮她添些炭。",
+        "你按住她。炭没有烧尽，灰却堵住了炉眼。再往上添，只会把火压住。许家冬日省炭时，你替母亲拨过这样的炉子。",
+        "先拨下面，别添。",
+        "青禾蹲下去，用火钳把炉眼拨开。细小的红光透出来，婶子终于腾出手，把一叠湿杯递到你面前。",
+        "拿干布。就放在门后。",
+        "她没有问你们是哪房的人。直到水声响起来，她才想起这事，赶着你们回去：“得空帮一手成，可别误了自家的差。”",
+        "她肯叫我们做事，就是肯收了？",
+        "还不是。她忙得顾不上问的时候，才用得上我们。",
+        "你擦净指尖的灰。陆清晏身边有人来叫，你们把干布放回原处，先回去应差。"
+      ]
+    },
+    "a_steward": {
+      "title": "她到底在等谁的话",
+      "act": "赴宴之前",
+      "place": "陆府 · 茶房门边",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": null,
+      "beats": [
+        {
+          "id": "a_steward-v6-0",
+          "speaker": "旁白",
+          "text": "次日赴宴，你们送东西到茶房，没有急着上前搭手。一个陆家的丫鬟也来问能不能留下，婶子先问：“谁调你来的？”"
+        },
+        {
+          "id": "a_steward-v6-1",
+          "speaker": "旁白",
+          "text": "那丫鬟报了管事的名，婶子仍不肯放她进。直到管事从廊下过来，亲口说了句“人在你这里”，她才把门让开。"
+        },
+        {
+          "id": "a_steward-v6-2",
+          "speaker": "青禾",
+          "text": "只说是谁吩咐，还不算？",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_steward-v6-3",
+          "speaker": "许知枝",
+          "text": "她要认得那个肯担责的人。找不着人，报什么名都没用。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_steward-v6-4",
+          "speaker": "旁白",
+          "text": "你想到怀砚。叫他送到门前，会让陆家的人看见他；只借他主子的名头，这扇门未必肯开。"
+        },
+        {
+          "id": "a_steward-v6-5",
+          "speaker": "青禾",
+          "text": "那若他只往前厅走，我去叫住他。你别两头跑。",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_steward-v6-6",
+          "speaker": "许知枝",
+          "text": "你怕不怕？",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_steward-v6-7",
+          "speaker": "青禾",
+          "text": "怕。可你一边顾我，一边叫人，他早走远了。",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "a_steward-v6-8",
+          "speaker": "旁白",
+          "text": "你们没有再往里问。陆清晏身边的人来唤，青禾把你袖口勾住的一根线摘掉，才同你往回走。"
+        }
+      ],
+      "choices": [
+        {
+          "id": "return_duty",
+          "text": "先回去应差，把方才的事记住。",
+          "hint": "眼下仍不能自行换差；这次见闻留待需要时再用",
+          "echo": "青禾跟在你身侧。你们谁也没向陆清晏提起茶房。",
+          "to": "a_banquet",
+          "set": {
+            "ready": true,
+            "teaWitness": true
+          }
+        }
+      ],
+      "speaker": "旁白",
+      "quote": "次日赴宴，你们送东西到茶房，没有急着上前搭手。一个陆家的丫鬟也来问能不能留下，婶子先问：“谁调你来的？”",
+      "paragraphs": [
+        "那丫鬟报了管事的名，婶子仍不肯放她进。直到管事从廊下过来，亲口说了句“人在你这里”，她才把门让开。",
+        "只说是谁吩咐，还不算？",
+        "她要认得那个肯担责的人。找不着人，报什么名都没用。",
+        "你想到怀砚。叫他送到门前，会让陆家的人看见他；只借他主子的名头，这扇门未必肯开。",
+        "那若他只往前厅走，我去叫住他。你别两头跑。",
+        "你怕不怕？",
+        "怕。可你一边顾我，一边叫人，他早走远了。",
+        "你们没有再往里问。陆清晏身边的人来唤，青禾把你袖口勾住的一根线摘掉，才同你往回走。"
+      ]
+    }
+  },
+  "endings": {
+    "end_shared": {
+      "title": "三个人的明天",
+      "tag": "有人同行",
+      "line": "你终于不用一个人，替三个人活。",
+      "paragraphs": [
+        "后来，离府要用的钱仍攒得很慢。你按约回绣铺，与阿岑分工，也把真实的工钱与难处写进家信。",
+        "父母仍盼着离开的那天，却不再把所有希望压在你的下一封信上。你们约好：先把饭吃好，再商量下一步。",
+        "那一晚，三个人围着一张并不漂亮的账单，竟比听见任何保证都安心。"
+      ],
+      "letter": "给那个怕自己不够好的你：\n\n你可以先走，也可以回头。\n有些爱，不需要拿一生去偿还。\n让愿意爱你的人，也有机会帮你。",
+      "gain": "得到了可以分担难处的关系",
+      "cost": "放下了很快就能团聚的保证",
+      "hint": "试试不向阿岑开口，那封家信会怎样写？",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "speaker": "许母",
+          "text": "这笔先别算进去。你自己过冬，也得留点。",
+          "character": "mother",
+          "id": "end_shared-ep-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "那日子又要往后了。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "end_shared-ep-1"
+        },
+        {
+          "speaker": "许母",
+          "text": "你冻坏了，还怎么拿针？这点留下。",
+          "character": "mother",
+          "id": "end_shared-ep-2",
+          "audio": {
+            "id": "female-sighs",
+            "character": "mother"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把那笔钱轻轻圈起来，第一次没有划掉。",
+          "id": "end_shared-ep-3"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "mother"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_lamp": {
+      "title": "两地灯火",
+      "tag": "独自撑住",
+      "line": "你寄回了工钱，却把自己留在信外。",
+      "paragraphs": [
+        "钱一笔笔寄回去。父亲用你的钱买了药，母亲说手已经不疼。你知道，自己的辛苦确实帮到了他们。",
+        "只是你们的信越来越像：都说吃得好，睡得好，不用担心。没有人撒一个很大的谎，每个人都少说了一点。",
+        "某夜你收工回屋，看见家信最末新添了几个字：下回写写你。你盯着那几个字，迟迟没有吹灯。"
+      ],
+      "letter": "给总说一切都好的你：\n\n照顾别人，并不需要把自己藏起来。\n下一封信，试着多写一句。\n说你很累，或者，很想家。",
+      "gain": "给家里带来了实际的支持",
+      "cost": "把需要陪伴的自己藏了起来",
+      "hint": "回到写信那一刻，试着说一句真心话。",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "id": "end_lamp-v9-0",
+          "speaker": "旁白",
+          "text": "收工后，你照例写好“家中勿念”。家信压在旁边，末尾多了一句：下回写写你。"
+        },
+        {
+          "id": "end_lamp-v9-1",
+          "speaker": "旁白",
+          "text": "你将针扎进布里，望着指尖的红点。写了“今日手疼”，又停住，没划掉。"
+        },
+        {
+          "id": "end_lamp-v9-2",
+          "speaker": "阿岑",
+          "text": "灯还用么？",
+          "character": "acen"
+        },
+        {
+          "id": "end_lamp-v9-3",
+          "speaker": "知枝",
+          "text": "再一会儿。这封还没写完。",
+          "character": "lanxiang"
+        }
+      ],
+      "cast": [
+        "acen",
+        "lanxiang"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_bridge": {
+      "title": "一封有归期的信",
+      "tag": "彼此牵挂",
+      "line": "自由，是走得出去，也敢说想回家。",
+      "paragraphs": [
+        "你没有立刻让三个人都获得自由。你先学会在外站稳，也学会写：这月挣得少，我有些难过。",
+        "父亲的回信不再只有家中都好。他写院里的兰草新抽了叶，母亲把你爱吃的腌菜装了一罐。",
+        "你们仍隔着一段路。可每封信里，都开始住着一个真实的人。"
+      ],
+      "letter": "给正在学着独立的你：\n\n想家，不代表走错了路。\n没能立刻把所有人照顾好，\n也不等于辜负。",
+      "gain": "获得了独立生活与真实联系",
+      "cost": "接受了团聚需要时间",
+      "hint": "如果从那一晚就留下，会不会有另一种牵挂？",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "id": "end_bridge-letter-v9",
+          "speaker": "旁白",
+          "text": "后来再写家信，你终于写下想家二字。下一回得空回去，父亲在巷口接你。",
+          "cast": [
+            "lanxiang",
+            "father"
+          ]
+        },
+        {
+          "speaker": "许父",
+          "text": "你娘听信听到那一句，就说该去接你吃饭了。",
+          "character": "father",
+          "id": "end_bridge-ep-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "哪一句？",
+          "character": "lanxiang",
+          "id": "end_bridge-ep-1"
+        },
+        {
+          "speaker": "许父",
+          "text": "你自己写的，还来问我。",
+          "character": "father",
+          "id": "end_bridge-ep-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你低头笑了。那句想家，终于没有只留在纸上。",
+          "id": "end_bridge-ep-3"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "father"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_visit": {
+      "title": "三日人间",
+      "tag": "回家一趟",
+      "line": "你没有解决所有事，先陪她吃了一顿饭。",
+      "paragraphs": [
+        "那三天，你替母亲烧水、上药，听父亲把铺里的琐事讲了两遍。扣掉的工钱让你心疼，但你没有装作这趟回来毫无代价。",
+        "第三天清晨，你按约收拾行李。母亲没有劝你多住，只往包袱里放了干净的衣服。",
+        "这一次，离开不是强忍着不回头。你回头招了招手，她也站在门口，朝你挥手。"
+      ],
+      "letter": "给总想等一切妥当再回家的你：\n\n有时，一顿热饭不解决难题。\n它只是让你想起，\n为什么还愿意继续走。",
+      "gain": "得到了真实相处的三天",
+      "cost": "承担了误期的工钱损失",
+      "hint": "看看没有预支工钱时，你能否换一种生活。",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "id": "end_visit-v9-0",
+          "speaker": "旁白",
+          "text": "第三日清早，母亲替你收好换洗衣裳。你把手伸进钱袋，数了数回绣铺的路费。"
+        },
+        {
+          "id": "end_visit-v9-1",
+          "speaker": "许母",
+          "text": "不够就拿。别走回去，到了又要做活。",
+          "character": "mother"
+        },
+        {
+          "id": "end_visit-v9-2",
+          "speaker": "知枝",
+          "text": "够。只是这回工钱少了些。",
+          "character": "lanxiang"
+        },
+        {
+          "id": "end_visit-v9-3",
+          "speaker": "许母",
+          "text": "那罐药留下。人按说好的日子回去，别叫掌柜再扣。",
+          "character": "mother"
+        },
+        {
+          "id": "end_visit-v9-4",
+          "speaker": "旁白",
+          "text": "她把包袱递来，没有再添一件。你走到门口回头，她还站在那里。"
+        }
+      ],
+      "cast": [
+        "mother",
+        "lanxiang"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_slow": {
+      "title": "迟一点，也会到",
+      "tag": "重订归期",
+      "line": "你没有逃掉代价，也没有丢下自己。",
+      "paragraphs": [
+        "预支的钱还未抵清，你没能当即搬回家。你与掌柜重订偿还安排，把回来继续做工的日子写实，不再许一个漂亮却悬空的期限。",
+        "后来你一点点减少欠款，也学着为休息和回家留出时间。父母听说你想在附近谋生，便替你留意起街坊的零活。",
+        "门还没有完全打开。但你知道，要走多少步，也知道每一步为谁而走。"
+      ],
+      "letter": "给觉得自己落后了的你：\n\n改一次计划，不是输掉一生。\n能看清代价、重新安排，\n也是把日子拿回手里的办法。",
+      "gain": "重新获得可执行的生活计划",
+      "cost": "需要先处理未抵清的预支款",
+      "hint": "第一份工作若按件结算，回头的路会不同。",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "id": "end_slow-v9-0",
+          "speaker": "掌柜",
+          "text": "钱还没抵清，你要搬走，怎么还？",
+          "character": "keeper"
+        },
+        {
+          "id": "end_slow-v9-1",
+          "speaker": "知枝",
+          "text": "先让我回来做完这批。余下的，照每次工钱扣，别一回全扣了。",
+          "character": "lanxiang"
+        },
+        {
+          "id": "end_slow-v9-2",
+          "speaker": "旁白",
+          "text": "他将旧账翻出来。你们对着数目重议，你把吃住的钱先留出来，才应下下一批活。"
+        },
+        {
+          "id": "end_slow-v9-3",
+          "speaker": "旁白",
+          "text": "父亲后来捎话，街坊有人要补衣。你回信请他先问清有多少，没把绣架上的活立刻收掉。"
+        }
+      ],
+      "cast": [
+        "keeper",
+        "lanxiang"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_near": {
+      "title": "门前有归人",
+      "tag": "换一种生活",
+      "line": "你把生活搬近了，愿望没有因此变小。",
+      "paragraphs": [
+        "结清工钱后，你回到家附近，挨家问零活。收入比绣铺少，也不稳定，你与父母重新算过开销，决定先试一个月。",
+        "你开始接补衣和收边的活，母亲替你挑针脚。父亲收工回来，看见院里两盏灯，便知道今天又有活做。",
+        "你仍想带他们脱籍。只是这一次，在那个远远的日子到来前，你们先拥有了许多一起吃饭的晚上。"
+      ],
+      "letter": "给重新选择生活的你：\n\n路可以拐弯，愿望也可以长出新模样。\n不必把每一次靠近家人，\n都叫作退回原地。",
+      "gain": "争取到更近的陪伴与自主谋生",
+      "cost": "接受了更少、更不稳定的收入",
+      "hint": "再试试留下的那条路，看看陪伴还有什么代价。",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "id": "end_near-v9-0",
+          "speaker": "旁白",
+          "text": "搬回家附近的头一旬，接的活只够吃用。你将剩下的铜钱放到桌上，父亲没像往常一样先收起来。"
+        },
+        {
+          "id": "end_near-v9-1",
+          "speaker": "许父",
+          "text": "要是不成，再回铺里问问。别为陪我们，硬说好。",
+          "character": "father"
+        },
+        {
+          "id": "end_near-v9-2",
+          "speaker": "知枝",
+          "text": "再试些日子。我明日往另一条街问。",
+          "character": "lanxiang"
+        },
+        {
+          "id": "end_near-v9-3",
+          "speaker": "旁白",
+          "text": "母亲指给你看衣角漏的一针。你低头补上，父亲把饭挪远了些，免得汤溅到客人的衣裳。"
+        }
+      ],
+      "cast": [
+        "father",
+        "lanxiang"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_steady": {
+      "title": "慢慢把门推开",
+      "tag": "共同商量",
+      "line": "你们开始一起筹划，而不只一起忍耐。",
+      "paragraphs": [
+        "你们没有等到一张立刻放三个人走的文书。但能问清的手续、能留下的工钱、每月必须花在吃饭和看病上的钱，都被认真记下。",
+        "你告诉父母，有些活接不了，有些话不能轻信。他们也学着告诉你，哪些事情不必由你扛。",
+        "离府仍在前面，生活已不再只剩等待。院门被风吹开时，三个人都抬了头。"
+      ],
+      "letter": "给还在慢慢努力的你：\n\n远处的自由很重要，\n眼前的你也值得被照顾。\n把愿望分给愿意同行的人。",
+      "gain": "建立了共同承担的边界和办法",
+      "cost": "仍需面对身份与积蓄的限制",
+      "hint": "去看看，先替自己推开门的人生。",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "id": "end_steady-v9-0",
+          "speaker": "旁白",
+          "text": "又有人来传“花钱就能说上话”的消息。父亲听完，将钱袋收回怀里。"
+        },
+        {
+          "id": "end_steady-v9-1",
+          "speaker": "许父",
+          "text": "这次先问谁应的。",
+          "character": "father"
+        },
+        {
+          "id": "end_steady-v9-2",
+          "speaker": "许母",
+          "text": "还有家里吃用的，别都拿走。",
+          "character": "mother",
+          "cast": [
+            "lanxiang",
+            "mother"
+          ]
+        },
+        {
+          "id": "end_steady-v9-3",
+          "speaker": "知枝",
+          "text": "我同爹一起去。没准话，就回来。",
+          "character": "lanxiang"
+        },
+        {
+          "id": "end_steady-v9-4",
+          "speaker": "旁白",
+          "text": "她点点头，把留作饭钱的几枚铜钱拢到一边。离府要备的数目还差着，这回却没人催着把全部押上。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "father"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_window": {
+      "title": "窗里那盏灯",
+      "tag": "尚未说出口",
+      "line": "你一直在为家努力，却忘了问自己累不累。",
+      "paragraphs": [
+        "你留下来，做了越来越多的活。父母确实少受了些累，但关于未来的承诺始终模糊。每次有人说再辛苦一阵，你都会点头。",
+        "那天，母亲把你的针线收起来。她没有问还差多少钱，只让你陪她坐一会儿。",
+        "你才发现，大家都在等三个人一起自由；而她也在等你，先允许自己停一停。故事没有结束，你仍可以重新开口。"
+      ],
+      "letter": "给习惯说我来就好的你：\n\n你不必用耗尽自己，\n证明这一家人值得被爱。\n下一次，也把你自己算进去。",
+      "gain": "留在家人身边，提供了支持",
+      "cost": "自己的边界与生活渐渐模糊",
+      "hint": "回到谈工钱的那天，为自己问清一点。",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "speaker": "许母",
+          "text": "别补了，天都黑了。",
+          "character": "mother",
+          "id": "end_window-ep-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "再一会儿就好。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "end_window-ep-1"
+        },
+        {
+          "speaker": "许母",
+          "text": "我不是催这件衣裳。我在等你。",
+          "character": "mother",
+          "id": "end_window-ep-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把针扎回布上，挪了挪凳子。这一次，没有再拿起来。",
+          "id": "end_window-ep-3"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "mother"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_own": {
+      "title": "门由我开",
+      "tag": "为自己起名",
+      "line": "第一次，你的未来里也有你自己。",
+      "paragraphs": [
+        "离开之后，你没有立即开成铺子。先是试工，再是学会记账、挑料，攒下属于自己的一点钱。想家的时候，你照样会哭。",
+        "很久以后，你租到一间小小的门面。招牌不大，门槛也旧。开门前，你在窗边留出一个针线筐的位置。",
+        "父母尚未搬来，一封报平安的信已在路上。你拿着钥匙站了片刻，然后亲手打开了门。"
+      ],
+      "letter": "给终于问自己想要什么的你：\n\n你的愿望，不必排在所有人之后。\n先走出去，慢慢站稳，\n再让想同行的人看见你的灯。",
+      "gain": "有了由自己命名的生活方向",
+      "cost": "接受了谋生与团聚都需要时间",
+      "hint": "如果那一晚选择留下，看看另一个你会如何生活。",
+      "chapter": "freedom",
+      "epilogue": [
+        {
+          "id": "end_own-v9-0",
+          "speaker": "旁白",
+          "text": "离开后，你从试工做起，慢慢学记账、挑料。攒了许久，才租下一间小门面。开门前，你还在算这个月的租钱。"
+        },
+        {
+          "id": "end_own-v9-1",
+          "speaker": "旁白",
+          "text": "母亲托人送来针包。你把它放在窗边，留了张空凳，又搬到不会挡着客人的位置。"
+        },
+        {
+          "id": "end_own-v9-2",
+          "speaker": "知枝",
+          "text": "娘来时，坐这儿就亮。",
+          "character": "lanxiang"
+        },
+        {
+          "id": "end_own-v9-3",
+          "speaker": "旁白",
+          "text": "门外有人问能不能补衣。你将写给家里的信压好，起身拨开门闩：“能，拿来瞧瞧。”"
+        }
+      ],
+      "cast": [
+        "lanxiang"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_together": {
+      "chapter": "agency",
+      "title": "一个也没落下",
+      "tag": "双人脱身",
+      "line": "她跟着你走出来，也自己选了往哪儿去。",
+      "paragraphs": [
+        "怀砚将两人调往针线房，前院候差一并撤下。你没有领那笔赏钱；以后内院外院的消息，也不再由你往书房送。",
+        "青禾抱着铺盖来找你。她把那件新衣折好放下，换回自己改短过袖子的旧衣，说做活方便。你忽然笑出了声。",
+        "晚饭前，你托人向爹娘报了平安。青禾站在院门口催你去打饭。不必再分谁救了谁，两个人一起把今天过了下来。"
+      ],
+      "gain": "接应、公开去处与调差都实际兑现；两人的前院差事被撤下。",
+      "cost": "放弃赏钱与接近外书房的机会；两人仍在顾府当差，何时离府尚无准话。",
+      "hint": "回看外书房和灯下：保护谁、由谁拿主意，会改变这条路。",
+      "letter": "青禾：\n那天你说，自己也能想办法。\n我记住了。\n以后有风声，我们一起听；\n有出路，也一起选。",
+      "epilogue": [
+        {
+          "speaker": "怀砚",
+          "text": "管事那里已经交代了。明日起去针线房，不必再去前院候差。",
+          "character": "jiugao",
+          "id": "end_together-ep-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "青禾也一样？",
+          "character": "lanxiang",
+          "expression": "intense",
+          "id": "end_together-ep-1",
+          "audio": {
+            "id": "female-hmm",
+            "character": "lanxiang"
+          }
+        },
+        {
+          "speaker": "怀砚",
+          "text": "两个名字，都交代了。",
+          "character": "jiugao",
+          "id": "end_together-ep-2"
+        },
+        {
+          "id": "end_together-price-v7-0",
+          "speaker": "旁白",
+          "text": "怀砚把调差的话交代完，又从袖里取出一小包赏钱。你没接。他等了一会儿，原样收回去。"
+        },
+        {
+          "id": "end_together-price-v7-1",
+          "speaker": "怀砚",
+          "text": "针线房的活重。往后书房有什么话，也轮不着你听了。",
+          "character": "jiugao"
+        },
+        {
+          "id": "end_together-price-v7-2",
+          "speaker": "知枝",
+          "text": "那青禾今日就能搬？",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_together-price-v7-3",
+          "speaker": "怀砚",
+          "text": "能。还有——茶房那样的事，别再来一回。",
+          "character": "jiugao"
+        },
+        {
+          "id": "end_together-price-v7-4",
+          "speaker": "知枝",
+          "text": "那时来不及了。",
+          "character": "lanxiang"
+        },
+        {
+          "id": "end_together-price-v7-5",
+          "speaker": "怀砚",
+          "text": "你叫住我，我就得当着人回话。回得早晚，得罪的都不是你一个。",
+          "character": "jiugao"
+        },
+        {
+          "id": "end_together-price-v7-6",
+          "speaker": "旁白",
+          "text": "你把已经到嘴边的谢字咽了回去，只问针线房的管事该去哪里找。他朝西边指了指。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你等他走远，才慢慢呼出一口气。回房时，青禾正把铺盖卷往肩上扛。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "id": "end_together-ep-3"
+        },
+        {
+          "speaker": "青禾",
+          "text": "发什么愣？搭把手呀。",
+          "character": "xiaolian",
+          "expression": "intense",
+          "id": "end_together-ep-4"
+        },
+        {
+          "speaker": "知枝",
+          "text": "往后还跟我一起？",
+          "character": "lanxiang",
+          "id": "end_together-ep-5"
+        },
+        {
+          "speaker": "青禾",
+          "text": "铺盖都扛来了，你才问？下回有事，早些跟我说。",
+          "character": "xiaolian",
+          "id": "end_together-ep-6",
+          "audio": {
+            "id": "female-giggle",
+            "character": "xiaolian"
+          }
+        },
+        {
+          "speaker": "知枝",
+          "text": "记住了。",
+          "character": "lanxiang",
+          "id": "end_together-ep-7"
+        },
+        {
+          "id": "end_together-button-v8-0",
+          "speaker": "旁白",
+          "text": "铺盖放下，青禾便摊开手。你愣了愣，才将那枚盘扣交给她。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "cg": null
+        },
+        {
+          "id": "end_together-button-v8-1",
+          "speaker": "青禾",
+          "text": "还当你弄丢了。袖子伸过来。",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_together-button-v8-2",
+          "speaker": "旁白",
+          "text": "院外有人往书房送信，脚步从窗下过去。你下意识转头，青禾手里的针停住了。"
+        },
+        {
+          "id": "end_together-button-v8-3",
+          "speaker": "知枝",
+          "text": "没事。你缝吧。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_together-button-v8-4",
+          "speaker": "旁白",
+          "text": "你把袖口转回灯下。她没有问，只将线又绕了一道。"
+        },
+        {
+          "speaker": "旁白",
+          "text": "那晚的饼分成两半。青禾把大一些的推给你，你又掰下一角还给她。",
+          "cg": "supper",
+          "id": "end_together-ep-8"
+        },
+        {
+          "speaker": "青禾",
+          "text": "明早一起去。别又一个人先走。",
+          "character": "xiaolian",
+          "expression": "intense",
+          "id": "end_together-ep-9"
+        },
+        {
+          "id": "end_together-memory-v7-0",
+          "speaker": "旁白",
+          "text": "后来，你问青禾，那天追出去叫怀砚，怎么连头也没回。",
+          "when": {
+            "teaWitness": true
+          },
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "cg": null,
+          "background": "room",
+          "place": "住处 · 夜",
+          "music": "ripples"
+        },
+        {
+          "id": "end_together-memory-v7-1",
+          "speaker": "青禾",
+          "text": "我怕一回头，你又让我躲着。",
+          "when": {
+            "teaWitness": true
+          },
+          "character": "xiaolian",
+          "expression": "vulnerable"
+        },
+        {
+          "id": "end_together-memory-v7-2",
+          "speaker": "旁白",
+          "text": "她将针往布上别好，才看你：“你有难处，总说我不知道。你不说，我可不就一直不知道么。”",
+          "when": {
+            "teaWitness": true
+          }
+        },
+        {
+          "id": "end_together-memory-v7-3",
+          "speaker": "知枝",
+          "text": "那天看见管事不肯收人，我也怕。",
+          "when": {
+            "teaWitness": true
+          },
+          "character": "lanxiang",
+          "expression": "vulnerable"
+        },
+        {
+          "id": "end_together-memory-v7-4",
+          "speaker": "青禾",
+          "text": "这句，当时就能告诉我。",
+          "when": {
+            "teaWitness": true
+          },
+          "character": "xiaolian",
+          "expression": "neutral"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "jiugao"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_respect": {
+      "chapter": "agency",
+      "title": "这回，容我回话",
+      "tag": "有限让步",
+      "line": "那册书送到面前时，你没有立刻接。",
+      "paragraphs": [
+        "顾景衡让青禾去针线房，改派你在外院传送文书。先前两边都要听差的安排被撤下，他却没有许你从此能拒绝一切。",
+        "怀砚送来待清点的书，你因已告的探亲假提出多一日。书先被抱回去，直到傍晚才送来准话。你知道，他肯等，是因为眼下还愿意用你。",
+        "你保住了这次探亲假，也能亲自接触外院往来消息。青禾去了针线房，不再日日等你下差；她的日子不该围着你的选择转。那枚扣子，最后还是你自己缝好了。"
+      ],
+      "gain": "两人退出前院差事；青禾调走，你争得下一件外院差事先回话的余地。",
+      "cost": "仍受他的差遣，与青禾分处当差；这一次准你回话，不保证下一次也肯等。",
+      "hint": "留下打听消息与避开险处，并不是同一条路。",
+      "letter": "写给自己：\n这回，我没有立刻接。\n他肯等的这一刻，\n不是往后每一刻。\n可我的话，终于说完了。",
+      "epilogue": [
+        {
+          "id": "end_respect-v5-0",
+          "speaker": "顾景衡",
+          "text": "留下替我做事，又怕我差遣？",
+          "character": "lin",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_respect-v5-1",
+          "speaker": "许知枝",
+          "text": "怕。我若办不成，您也不会饶过我。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_respect-v5-2",
+          "speaker": "旁白",
+          "text": "他没有笑。你忽然想起初进顾府那天，守门人只看差牌，不肯听你解释。这个念头不能带到脸上，你只看着桌沿。"
+        },
+        {
+          "id": "end_respect-v5-3",
+          "speaker": "顾景衡",
+          "text": "青禾调走。你先留在外院，前院的安排一并撤了。下回的差，听明白了再回话。",
+          "character": "lin",
+          "expression": "intense"
+        },
+        {
+          "id": "end_respect-button-v8-0",
+          "speaker": "旁白",
+          "text": "出来时，青禾还在院门旁。听说你留下，她松开抱在怀里的铺盖，腾出一只手。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "background": "courtyard",
+          "place": "顾府 · 书房外",
+          "music": null,
+          "cg": null
+        },
+        {
+          "id": "end_respect-button-v8-1",
+          "speaker": "青禾",
+          "text": "扣子呢？",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_respect-button-v8-2",
+          "speaker": "知枝",
+          "text": "我自己缝。你先去，别误了报到。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_respect-button-v8-3",
+          "speaker": "青禾",
+          "text": "我不是催这个。我还当，你也一起去。",
+          "character": "xiaolian",
+          "expression": "vulnerable"
+        },
+        {
+          "id": "end_respect-button-v8-4",
+          "speaker": "旁白",
+          "text": "你没有说是为了她。你想留下听那些消息，是自己的心思。"
+        },
+        {
+          "id": "end_respect-button-v8-5",
+          "speaker": "知枝",
+          "text": "我想留下试一试。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_respect-button-v8-6",
+          "speaker": "旁白",
+          "text": "青禾低头收紧铺盖上的绳结，半晌才说：“那饭凉了，我可不一直等。”你应了一声，她便往西边去了。"
+        },
+        {
+          "id": "end_respect-v5-4",
+          "speaker": "旁白",
+          "text": "几日后，你正对着来往书信认人名。怀砚又抱来待清点的书，搁在那枚尚未缝上的盘扣旁。你没有立刻伸手。",
+          "cast": [
+            "lanxiang",
+            "jiugao"
+          ],
+          "background": "study",
+          "place": "顾府 · 外院",
+          "music": "ripples"
+        },
+        {
+          "id": "end_respect-v5-5",
+          "speaker": "许知枝",
+          "text": "哪日要？我后日告过假，得回去看娘。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_respect-v5-6",
+          "speaker": "怀砚",
+          "text": "大爷说三日。",
+          "character": "jiugao",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_respect-v5-7",
+          "speaker": "许知枝",
+          "text": "三日怕来不及。容我多一日，成么？",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_respect-v5-8",
+          "speaker": "旁白",
+          "text": "怀砚抱着书回去了。傍晚才送来一句“四日”。你把告假的纸重新折好，收进袖里，再将盘扣拢进针线包。"
+        },
+        {
+          "id": "end_respect-memory-v7-0",
+          "speaker": "旁白",
+          "text": "后来，你问青禾，那天追出去叫怀砚，怎么连头也没回。",
+          "when": {
+            "teaWitness": true
+          },
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "cg": null,
+          "background": "room",
+          "place": "住处 · 夜",
+          "music": "ripples"
+        },
+        {
+          "id": "end_respect-memory-v7-1",
+          "speaker": "青禾",
+          "text": "我怕一回头，你又让我躲着。",
+          "when": {
+            "teaWitness": true
+          },
+          "character": "xiaolian",
+          "expression": "vulnerable"
+        },
+        {
+          "id": "end_respect-memory-v7-2",
+          "speaker": "旁白",
+          "text": "她将针往布上别好，才看你：“你有难处，总说我不知道。你不说，我可不就一直不知道么。”",
+          "when": {
+            "teaWitness": true
+          }
+        },
+        {
+          "id": "end_respect-memory-v7-3",
+          "speaker": "知枝",
+          "text": "那天看见管事不肯收人，我也怕。",
+          "when": {
+            "teaWitness": true
+          },
+          "character": "lanxiang",
+          "expression": "vulnerable"
+        },
+        {
+          "id": "end_respect-memory-v7-4",
+          "speaker": "青禾",
+          "text": "这句，当时就能告诉我。",
+          "when": {
+            "teaWitness": true
+          },
+          "character": "xiaolian",
+          "expression": "neutral"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "lin"
+      ],
+      "background": "study",
+      "music": "ripples"
+    },
+    "end_pact": {
+      "chapter": "agency",
+      "title": "名册上划去两笔",
+      "tag": "另拆一局",
+      "line": "她并未与你交心，名册上却真的少了两笔。",
+      "paragraphs": [
+        "陆清晏等跟车人回了话，才当着管事把你与青禾的名字从前院候差的册上划去。笔尖刮过纸面，你听得清清楚楚。她肯调人，是因为不再放心你们同时替两边办差，并非与你交心。",
+        "她在秋宴上始终陪着陆夫人，旧账也没有送去东阁，顾景衡原先等的回话没有出现。回府后你失去进外书房的机会，陆清晏也记住了这次交换。",
+        "青禾没有因为事情办成就替你庆贺。她问的是，下次进那扇门之前，能不能先同她说。你把她的手从箱沿让出来，才合上盖子。"
+      ],
+      "gain": "这条支线中，两人的前院差事当面撤回，秋宴危局被改道。",
+      "cost": "失去顾景衡交给你的差事及进外书房的机会；陆清晏仍可能提出下一次交换。",
+      "hint": "另一边也有退路，但不必把一次让步误当成友情。",
+      "letter": "那本名册合上时，\n我们的名字已从那页划去。\n下回有新差，\n我会先和青禾商量。",
+      "epilogue": [
+        {
+          "id": "end_pact-v5-0",
+          "speaker": "旁白",
+          "text": "你说出了外书房里的差事。陆清晏没有立刻答应，反叫人去问跟车人怀砚打听过什么。你站在门内，听着自己的退路被一寸寸问明白。",
+          "when": {
+            "disclosed": true
+          }
+        },
+        {
+          "id": "end_pact-v5-1",
+          "speaker": "陆清晏",
+          "text": "他叫你替他递话，我凭什么信你不会再替他瞒我？",
+          "character": "zhao",
+          "expression": "intense",
+          "when": {
+            "disclosed": true
+          }
+        },
+        {
+          "id": "end_pact-v5-2",
+          "speaker": "许知枝",
+          "text": "我已经把来处说了。您可以留我，却不必为了试我，独自往没人的地方去。",
+          "character": "lanxiang",
+          "expression": "neutral",
+          "when": {
+            "disclosed": true
+          }
+        },
+        {
+          "id": "end_pact-v5-3",
+          "speaker": "旁白",
+          "text": "跟车人的回话与所见对上了。她叫你在门边等着，直到吩咐完秋宴随行的人。这一次，她不肯让你抢先往外传话。",
+          "when": {
+            "disclosed": true
+          }
+        },
+        {
+          "id": "end_pact-motive-v9",
+          "speaker": "陆清晏",
+          "text": "还留你在身边听差，我也不放心。针线房缺手，正好。",
+          "expression": "intense",
+          "character": "zhao"
+        },
+        {
+          "id": "end_pact-v5-4",
+          "speaker": "旁白",
+          "text": "陆清晏先叫来管事，却只说知枝调去针线房。你没有谢恩，也没有退出去。",
+          "when": {
+            "verified": true
+          }
+        },
+        {
+          "id": "end_pact-v5-5",
+          "speaker": "许知枝",
+          "text": "青禾同我住着，问起来，她一句谎也不会圆。求少奶奶让她一道去。",
+          "character": "lanxiang",
+          "expression": "neutral",
+          "when": {
+            "verified": true
+          }
+        },
+        {
+          "id": "end_pact-v5-6",
+          "speaker": "陆清晏",
+          "text": "倒是哪边都替我想好了。",
+          "character": "zhao",
+          "expression": "intense",
+          "when": {
+            "verified": true
+          }
+        },
+        {
+          "id": "end_pact-v5-7",
+          "speaker": "旁白",
+          "text": "她对管事说：“两个都去，别再送来前院候差。太太那里，我自会回。”随后又吩咐秋宴仍旧带上她们，免得临时换人惹来追问。"
+        },
+        {
+          "id": "end_pact-v5-8",
+          "speaker": "旁白",
+          "text": "秋宴那日，她始终陪着陆夫人，没有去东阁取账。你送不出顾景衡原先要的消息；回府后，他撤回了交给你的差，也不再准你近外书房。"
+        },
+        {
+          "id": "end_pact-v5-9",
+          "speaker": "青禾",
+          "text": "往后她若又叫我们呢？",
+          "character": "xiaolian",
+          "expression": "neutral",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ]
+        },
+        {
+          "id": "end_pact-v5-10",
+          "speaker": "许知枝",
+          "text": "我没答应替她传谁的话。可她未必就肯算了。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_pact-v5-11",
+          "speaker": "青禾",
+          "text": "那下回，进门前先同我说。",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_pact-v5-12",
+          "speaker": "旁白",
+          "text": "她把新衣压进箱底。你按住箱盖，让她的手先出来，才慢慢合上。"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "zhao"
+      ],
+      "background": "study",
+      "music": "eastern-thought"
+    },
+    "end_refusal": {
+      "chapter": "agency",
+      "title": "这道差，我不接",
+      "tag": "拒绝之后",
+      "line": "拒绝没有让门全开，至少留下了自己的声音。",
+      "paragraphs": [
+        "你被调去洗晒房，原定的探亲日子得重新排。青禾托她娘带来家信，又替你找了半日换班的空当。",
+        "你没再跟着陆清晏赴宴，也不知道她们那一日怎样脱身。拒绝让你离开了局中，也让你失去了照应青禾的近路。这件事没有一个痛快的句号。",
+        "下一回管事来派不明不白的差，你先问做什么、跟谁去。声音还是低，却没有把问题咽回去。"
+      ],
+      "gain": "没有接受暗中传话的差事；守住了这次拒绝。",
+      "cost": "被调洗晒房，错过与青禾共同准备秋宴的机会。",
+      "hint": "可以回到外书房，试试不接受空泛保证、也不把退路全堵死。",
+      "letter": "爹，娘：\n这阵子换了差，回家的日子得另约。\n有些事我还没想妥，\n但那一句不愿意，\n不是一时赌气。",
+      "epilogue": [
+        {
+          "speaker": "旁白",
+          "text": "粗布吸饱了水，沉得抬不起。你刚想再拧一回，一只手按住了另一头。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "id": "end_refusal-ep-0"
+        },
+        {
+          "speaker": "青禾",
+          "text": "我托我娘问过了，你爹娘都还好。",
+          "character": "xiaolian",
+          "id": "end_refusal-ep-1"
+        },
+        {
+          "speaker": "知枝",
+          "text": "你这会儿怎么能来？",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "end_refusal-ep-2"
+        },
+        {
+          "speaker": "青禾",
+          "text": "送东西，绕了两步。说两句话就走。",
+          "character": "xiaolian",
+          "id": "end_refusal-ep-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把最想问的那句吞回去，只说了一声多谢。她走之后，这条布仍然沉，却终于能拧动了。",
+          "id": "end_refusal-ep-4"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": null
+    },
+    "end_waiting": {
+      "chapter": "agency",
+      "title": "先过这一晚",
+      "tag": "兑现一半",
+      "line": "两个人被接出来了，却仍在等别人安排下一步。",
+      "paragraphs": [
+        "怀砚让你与青禾在偏屋等候。直到秋宴散了才有人来领你们回府。你们没有卷入东阁的风波，可也没人向你们说明后续。",
+        "青禾靠着你坐到散席。她说，洗一百只杯子也好过在这里听脚步声。你记住了：有人把你们带开，还不等于有人交代好去处。",
+        "回府后，差事照旧。你们没有失去彼此，但升等背后的安排也还没有被明说撤回。这回争来的是一起回府，下一回还得继续争。"
+      ],
+      "gain": "口谕兑现，两人被提前撤离。",
+      "cost": "缺少公开去处，后续依旧受人安置；前院差事尚未撤回。",
+      "hint": "回看赴宴前夕：青禾提出的去处，不只是方便会合。",
+      "letter": "那一晚门终于开了。\n我拉着你的手，\n才知道自己一直在抖。\n下一回，我们早点商量。",
+      "epilogue": [
+        {
+          "speaker": "旁白",
+          "text": "怀砚的人把你们安置在偏屋，只说等着。屋里没有灯。门外换了几回人，谁也没来告诉你们，接下来要去哪里。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "id": "end_waiting-ep-0"
+        },
+        {
+          "speaker": "青禾",
+          "text": "你松一松，我手都麻了。",
+          "character": "xiaolian",
+          "expression": "vulnerable",
+          "id": "end_waiting-ep-1"
+        },
+        {
+          "speaker": "知枝",
+          "text": "对不住。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "end_waiting-ep-2"
+        },
+        {
+          "speaker": "青禾",
+          "text": "我没叫你放开。",
+          "character": "xiaolian",
+          "id": "end_waiting-ep-3"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你换了一只手。等门终于打开时，外头的席面已经散了。",
+          "id": "end_waiting-ep-4"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": null
+    },
+    "end_alone": {
+      "chapter": "agency",
+      "title": "只带走了一个名字",
+      "tag": "独自脱身",
+      "line": "她也走了回来。你们却需要重新说清那一晚。",
+      "paragraphs": [
+        "你随怀砚去了前厅。第一次问青禾，回话说还没见着；第二次问，席上的差事已经催到你面前。你连她最后站在哪块砖上都说不清。",
+        "青禾夜里自己回府。她借着收拾东西的人流绕回前厅，抱着那两只包袱，一个也没丢。她把你的包袱递来时，你才发现自己一直攥着空手。",
+        "她没有责问你为什么保住自己，只想知道那时发生了什么。饭还凉着，你将书房里只提了一个名字的经过说了出来。"
+      ],
+      "gain": "自己的接应兑现，暂时保住家人不被牵连。",
+      "cost": "未能兑现一起离开的期待；青禾独自脱险，两人要重新说清彼此的打算。",
+      "hint": "回看外书房：当时漏掉的名字，可以重新说出口。",
+      "letter": "那只笸箩，我替你收着。\n若还能再走一回，\n我要在他说“带走”的时候，\n把你的名字也说清楚。",
+      "epilogue": [
+        {
+          "id": "end_alone-v9-0",
+          "speaker": "旁白",
+          "text": "怀砚把你留在前厅。你托人去找青禾，直到回府仍没得到准信。那碗饭放在桌上，你没有收。",
+          "cast": [
+            "lanxiang"
+          ],
+          "music": null
+        },
+        {
+          "id": "end_alone-v9-1",
+          "speaker": "旁白",
+          "text": "夜里门响，青禾自己回来了。她说躲过了楼外来人，又随收拾东西的婆子回了前厅。说完便坐下，半天没解开鞋带。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ]
+        },
+        {
+          "id": "end_alone-v9-2",
+          "speaker": "知枝",
+          "text": "我托人找过你。",
+          "expression": "vulnerable",
+          "character": "lanxiang"
+        },
+        {
+          "id": "end_alone-v9-3",
+          "speaker": "青禾",
+          "text": "我没见着。我还在原处等了一会儿。",
+          "expression": "vulnerable",
+          "character": "xiaolian"
+        },
+        {
+          "id": "end_alone-v9-4",
+          "speaker": "旁白",
+          "text": "你把饭推过去。她先问你有没有伤着，才拿起筷子。"
+        },
+        {
+          "id": "end_alone-v9-5",
+          "speaker": "知枝",
+          "text": "没有。明日我同你说清。",
+          "character": "lanxiang"
+        },
+        {
+          "id": "end_alone-v9-6",
+          "speaker": "青禾",
+          "text": "现在说吧。我这会儿也睡不着。",
+          "expression": "neutral",
+          "character": "xiaolian"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": null
+    },
+    "end_rescue": {
+      "chapter": "agency",
+      "title": "这回，我信你",
+      "tag": "临场救人",
+      "line": "她怕着，仍和你一起迈出了那一步。",
+      "paragraphs": [
+        "你们没有等来一条替自己免罚的口谕，而是靠提前认得的人、眼前做得上的活，在茶房留到了散席。青禾并非只被你带着走，她也替你撑住了那扇门。",
+        "事后追问时，你们说清了离开原处去帮手的经过，也有茶房的人记得。擅离的训斥仍挨了，差事也加了；却不必假称主子曾救过你们。",
+        "回房后，青禾把湿透的袖口拧干，分你半块留着的点心。你们没有彻底挣脱安排，但这次临到险处，是一起作的决定。"
+      ],
+      "gain": "姐妹配合，在前厅的忙乱中找到短暂落脚，平安挨到散席。",
+      "cost": "调差没有公开交清，回府仍被追问离差；前院差事尚未叫停。",
+      "hint": "若想再进一步，需要在外书房便把撤离的顺序落实。",
+      "letter": "你说你没把握。\n我反倒敢跟你走了。\n因为那一刻，我知道，\n你没再替我藏起危险。\n——青禾",
+      "epilogue": [
+        {
+          "id": "end_rescue-work-v6-0",
+          "speaker": "旁白",
+          "text": "婶子端着一盘湿杯，想拦你又腾不出手。你接住盘子，青禾蹲下拨开炉眼。没有人冒用主子的名头。",
+          "when": {
+            "workEntry": true
+          }
+        },
+        {
+          "id": "end_rescue-work-v6-1",
+          "speaker": "茶房婶子",
+          "text": "谁准你们进来的？",
+          "when": {
+            "workEntry": true
+          }
+        },
+        {
+          "id": "end_rescue-work-v6-2",
+          "speaker": "青禾",
+          "text": "您先把水提下来，要滚出去了。",
+          "character": "xiaolian",
+          "expression": "neutral",
+          "when": {
+            "workEntry": true
+          }
+        },
+        {
+          "id": "end_rescue-work-v6-3",
+          "speaker": "旁白",
+          "text": "她回身去提壶。来找人的婆子在门边问了一声，婶子忙着递茶，只说“正用着呢，散席再领”。那人记下你们，终于走了。",
+          "when": {
+            "workEntry": true
+          }
+        },
+        {
+          "id": "end_rescue-work-v6-4",
+          "speaker": "旁白",
+          "text": "你没敢把这句话当作赦免。它只把追问挪到了散席以后。可是此刻，青禾站在你旁边，手里有活，不必独自留在楼外。",
+          "when": {
+            "workEntry": true
+          }
+        },
+        {
+          "id": "end_rescue-arrival-v5-0",
+          "speaker": "旁白",
+          "text": "茶房婶子拦住门：“你们不是在楼边当差？我可没叫人。”",
+          "when": {
+            "workEntry": false
+          }
+        },
+        {
+          "id": "end_rescue-arrival-v5-1",
+          "speaker": "旁白",
+          "text": "青禾看见炉火将熄，先提起那只缺耳炭筐。你伸手接住婶子端着的满盘杯盏，没提一个主子的名字。",
+          "when": {
+            "workEntry": false
+          }
+        },
+        {
+          "id": "end_rescue-arrival-v5-2",
+          "speaker": "青禾",
+          "text": "您先把这壶送出去。我们在这里添炭、洗杯，不往客人跟前去。",
+          "character": "xiaolian",
+          "expression": "neutral",
+          "when": {
+            "workEntry": false
+          }
+        },
+        {
+          "id": "end_rescue-arrival-v5-3",
+          "speaker": "旁白",
+          "text": "前厅又催了一回茶。婶子看一眼炉子，才侧身让路：“散席你们自己回去认，别说是我调的。”",
+          "when": {
+            "workEntry": false
+          }
+        },
+        {
+          "id": "end_rescue-arrival-v5-4",
+          "speaker": "旁白",
+          "text": "你应了。她借给你们的是一段忙得顾不上追问的工夫，不是一道免罚的命令。",
+          "when": {
+            "workEntry": false
+          }
+        },
+        {
+          "speaker": "青禾",
+          "text": "手别抖，摔了这个可真要赔了。",
+          "character": "xiaolian",
+          "id": "end_rescue-ep-1"
+        },
+        {
+          "speaker": "知枝",
+          "text": "你也在抖。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "end_rescue-ep-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她低头看了一眼，两个人都没忍住笑。笑意很小，混在碗碟声里。",
+          "cg": null,
+          "reactions": {
+            "xiaolian": "intense",
+            "lanxiang": "neutral"
+          },
+          "id": "end_rescue-ep-3",
+          "audio": {
+            "id": "female-giggle",
+            "character": "xiaolian"
+          }
+        },
+        {
+          "id": "end_rescue-account-v7-0",
+          "speaker": "旁白",
+          "text": "回府后，管事叫你们站在廊下。她先问青禾：“楼边的差，谁叫你走的？”",
+          "cg": null,
+          "music": null,
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ]
+        },
+        {
+          "id": "end_rescue-account-v7-1",
+          "speaker": "旁白",
+          "text": "你才开口，青禾便碰了碰你的手背。她往前站了半步。"
+        },
+        {
+          "id": "end_rescue-account-v7-2",
+          "speaker": "青禾",
+          "text": "我自己走的。茶房缺人，我去帮了手。",
+          "character": "xiaolian",
+          "expression": "vulnerable"
+        },
+        {
+          "id": "end_rescue-account-v7-3",
+          "speaker": "管事",
+          "text": "茶房缺人，你便能不回一声？往后人人都这么办？"
+        },
+        {
+          "id": "end_rescue-account-v7-4",
+          "speaker": "旁白",
+          "text": "你把进茶房的时辰、做过的活一件件说清。管事让人去问，回来只得一句：“是在那里，忙到散席。”没人肯替你们说，是奉命去的。"
+        },
+        {
+          "id": "end_rescue-account-v7-5",
+          "speaker": "管事",
+          "text": "明日天亮前，把廊下那堆脏布洗了。原来的差照旧。再离了地方，可没这么便宜。"
+        },
+        {
+          "id": "end_rescue-account-v7-6",
+          "speaker": "旁白",
+          "text": "领完差出来，你看见青禾指缝里的红痕。茶房的热水还没退下去，明早又得碰冷水。"
+        },
+        {
+          "id": "end_rescue-account-v7-7",
+          "speaker": "知枝",
+          "text": "明早我先去。你多睡一会儿。",
+          "character": "lanxiang",
+          "expression": "vulnerable"
+        },
+        {
+          "id": "end_rescue-account-v7-8",
+          "speaker": "青禾",
+          "text": "又来了。那堆布你一个人洗得完？",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_rescue-account-v7-9",
+          "speaker": "旁白",
+          "text": "你没再劝。回房先把两只木盆并着放好，才去找留着的饼。",
+          "music": "ripples"
+        },
+        {
+          "speaker": "旁白",
+          "text": "饼凉了，掰开还有一点甜。青禾吃着自己的半块，拿脚把歪着的那只木盆拨正了。",
+          "cg": "supper",
+          "id": "end_rescue-ep-4"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": "ripples"
+    },
+    "end_shelter": {
+      "chapter": "agency",
+      "title": "挤在同一扇门后",
+      "tag": "险中相守",
+      "line": "你没有松手，但逃出来也耗尽了这一晚的运气。",
+      "paragraphs": [
+        "青禾跟你离开了东阁。没有说好的去处，两人绕错一条回廊，只能挤在杂物间里，听外头的人来来去去。",
+        "直到散席，借着收拾东西的人流，你们才回到前厅。擅离、迟到、丢了差事，样样都挨了训。你一夜没敢放开青禾的手，她掌心也全是汗。",
+        "天亮后，她把针线笸箩往你们中间推了推：下回别只说去哪里，让我也帮着想。你点头。这次守住了两个人，却还没有真正的退路。"
+      ],
+      "gain": "你返回，她选择同行；两人躲过眼前危险。",
+      "cost": "靠躲藏拖到散席，被问责且失去原差事；更长远的安排仍未改变。",
+      "hint": "回看灯下。问问她的主意，可能比替她扛下一切更有用。",
+      "letter": "门外一直有人走过。\n我不记得等了多久，\n只记得你的手还在。\n这回活下来，\n下回我们要准备好。",
+      "epilogue": [
+        {
+          "speaker": "旁白",
+          "text": "杂物间门外，一双靴子停了下来。青禾屏住气，你慢慢把她拉到箱子后。",
+          "cast": [
+            "lanxiang",
+            "xiaolian"
+          ],
+          "id": "end_shelter-ep-0"
+        },
+        {
+          "speaker": "旁白",
+          "text": "脚步声终于远了。你的肩膀抵着墙，才发觉后背全湿了。",
+          "reactions": {
+            "lanxiang": "vulnerable",
+            "xiaolian": "vulnerable"
+          },
+          "id": "end_shelter-ep-1"
+        },
+        {
+          "speaker": "青禾",
+          "text": "等出去，先找个地方坐下。",
+          "character": "xiaolian",
+          "id": "end_shelter-ep-2"
+        },
+        {
+          "speaker": "知枝",
+          "text": "嗯。",
+          "character": "lanxiang",
+          "id": "end_shelter-ep-3"
+        },
+        {
+          "speaker": "青禾",
+          "text": "还得吃饭。",
+          "character": "xiaolian",
+          "id": "end_shelter-ep-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你又应了一声。这一晚最奢侈的打算，竟只是坐下吃顿饭。",
+          "id": "end_shelter-ep-5"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": "eastern-thought"
+    },
+    "end_borrowed": {
+      "chapter": "agency",
+      "title": "借来的那道命令",
+      "tag": "信任裂痕",
+      "line": "你救她走了，却让她信了一句不真的话。",
+      "paragraphs": [
+        "听见“大爷叫我们走”，青禾终于跟了上来。你们躲过东阁外的人群，后来却因擅离被追问。她说奉了口谕，管事去问，回来脸色更难看。",
+        "你承认话是自己编的，独自认下责罚。青禾没有把你撇开，只是在回房后问：若是下回你说真话，我该怎么分得出来？",
+        "你一时答不上来。她仍给你留了饭，却没再主动说自己的打算。两个人都回来了，失掉的那一点信任要另花日子去补。"
+      ],
+      "gain": "把青禾带离危险，认下自己编造口谕的责任。",
+      "cost": "冒用口谕被追问，怀砚与青禾都要替这句话作证；你认罚，也得重新赢回信任。",
+      "hint": "同一个险境，也可以选择让她知道真实风险。",
+      "letter": "青禾：\n那句话是我编的。\n怕你不走，不是骗你的理由。\n饭我吃了。\n明日的事，我会先讲真话。",
+      "epilogue": [
+        {
+          "speaker": "青禾",
+          "text": "怀砚说，没传过叫我们走的话。",
+          "character": "xiaolian",
+          "expression": "vulnerable",
+          "id": "end_borrowed-ep-0"
+        },
+        {
+          "speaker": "知枝",
+          "text": "是我编的。罚我认。",
+          "character": "lanxiang",
+          "expression": "vulnerable",
+          "id": "end_borrowed-ep-1"
+        },
+        {
+          "speaker": "青禾",
+          "text": "我不是在问罚谁。",
+          "character": "xiaolian",
+          "id": "end_borrowed-ep-2"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你伸出去的手停在半空。她把饭碗推来，自己端起另一碗。",
+          "id": "end_borrowed-ep-3"
+        },
+        {
+          "speaker": "青禾",
+          "text": "先吃吧。",
+          "character": "xiaolian",
+          "id": "end_borrowed-ep-4"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把手收回来。她仍给你留着饭，可往后要让她相信哪句话，得重新一点点攒。",
+          "id": "end_borrowed-ep-5"
+        }
+      ],
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": null
+    },
+    "end_caution": {
+      "chapter": "agency",
+      "title": "话已出口",
+      "tag": "未成的交易",
+      "line": "没换来退路，也不能假装什么都没说过。",
+      "cast": [
+        "lanxiang",
+        "xiaolian"
+      ],
+      "background": "room",
+      "music": null,
+      "paragraphs": [
+        "陆清晏没有撤下前院差事，也没有再留你问话。她另叫亲近的人跟随赴宴，一整日都在陆夫人身边。你透露的见闻已经改变了她的举动。",
+        "顾景衡等不到原先要的消息。你只回了自己看见的事，没有把青禾送进另一道差里。回府后，你被暂时撤下随行的差。",
+        "青禾听完，把原先留给你的凳子挪近。你们没有一张可以庆贺的凭据，只有下一回不再各自猜测的约定。"
+      ],
+      "gain": "没有接受替陆清晏反向探听的差；把已经发生的改变告诉了青禾。",
+      "cost": "前院差事未撤，随行差事暂失；泄露的见闻无法收回。",
+      "hint": "核实会改变对方的判断，即使后来没有成交，故事也不会回到原来的秋宴。",
+      "letter": "写给自己：\n这回没换成。\n说出去的话，收不回来。\n好在回屋以后，\n还有人肯听我把后半句说完。",
+      "epilogue": [
+        {
+          "id": "end_caution-v5-0",
+          "speaker": "旁白",
+          "text": "秋宴那日，陆清晏没有离开陆夫人身边，也没有去东阁取账。你等了一整日，没等到需要送出的消息。"
+        },
+        {
+          "id": "end_caution-v5-1",
+          "speaker": "旁白",
+          "text": "回府后，你被撤下随行的差。那匹新衣料仍在箱里，谁也没说前院候差的名册是否改过。"
+        },
+        {
+          "id": "end_caution-v5-2",
+          "speaker": "青禾",
+          "text": "你在她房里站了那么久，我还当你出不来了。",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_caution-v5-3",
+          "speaker": "许知枝",
+          "text": "我以为，先让她信一句，后面的就好说。",
+          "character": "lanxiang",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_caution-v5-4",
+          "speaker": "青禾",
+          "text": "那后面的呢？",
+          "character": "xiaolian",
+          "expression": "neutral"
+        },
+        {
+          "id": "end_caution-v5-5",
+          "speaker": "旁白",
+          "text": "你把陆清晏要你反过来探听的话也说了。青禾没有催，把凳子往你这边挪了一点。"
+        }
+      ]
+    }
+  },
+  "defaultChapter": "agency",
+  "chapters": [
+    {
+      "id": "agency",
+      "start": "a_door",
+      "title": "把话说给自己听",
+      "tag": "主篇 · 宅门里的选择",
+      "description": "从外书房到东阁，替自己和青禾争取清楚的去处。",
+      "context": "本作前情：知枝与青禾被派去兼顾顾府前院礼单和内院旧差。知枝在锦云坊交接绸料时，无意看到同一笔货写了两张数目不同的账签；她还需补上一笔客人的赔银。秋宴将近，怀砚等在门外，说顾景衡要见她。从这里起，故事分岔。",
+      "hook": "一场家事，把每个人推到门前。\n为两个人，留一条回去的路。",
+      "intro": "有人请你传话，也有人等你回话。\n这一次，知枝和青禾一起商量去处。"
+    },
+    {
+      "id": "freedom",
+      "start": "night",
+      "title": "先出这扇门",
+      "tag": "番外 · 一家人的去处",
+      "description": "一家人的积蓄，只够先送一个人离开。你会怎样选？",
+      "context": "父母想先送知枝离开顾府，知枝却盼着一家三口一起离开。他们的出府经历、谋生办法与对白均为本作设定。",
+      "hook": "一家人的积蓄，\n只够先送一个人离开。",
+      "intro": "父亲把银子推到你面前。\n这一次，你陪知枝想清去处。"
+    }
+  ],
+  "characters": {
+    "lanxiang": {
+      "name": "许知枝",
+      "column": 0,
+      "anchor": "青蓝交领衣、木簪、低髻；克制与坚定两种神情。"
+    },
+    "xiaolian": {
+      "name": "青禾",
+      "column": 1,
+      "anchor": "藕粉衣、双侧发卷；忧惧与释然两种神情。"
+    },
+    "lin": {
+      "name": "顾景衡",
+      "column": 2,
+      "anchor": "深靛纹袍、玉冠；审视与倾听两种神情。"
+    },
+    "zhao": {
+      "name": "陆清晏",
+      "column": 3,
+      "anchor": "绛红金边衣、金簪；戒备与愤怒两种神情。"
+    },
+    "father": {
+      "name": "许父",
+      "column": 0,
+      "atlas": "support",
+      "columns": 5,
+      "anchor": "旧褐布衣、布帽、霜白鬓角。"
+    },
+    "mother": {
+      "name": "许母",
+      "column": 1,
+      "atlas": "support",
+      "columns": 5,
+      "anchor": "灰蓝旧衣、低髻、手中的补衣。"
+    },
+    "acen": {
+      "name": "阿岑",
+      "column": 2,
+      "atlas": "support",
+      "columns": 5,
+      "anchor": "赭黄短衣、绣绷、利落低髻。"
+    },
+    "keeper": {
+      "name": "掌柜",
+      "column": 3,
+      "atlas": "support",
+      "columns": 5,
+      "anchor": "暗紫衣、圆脸、整齐盘髻；原创绣铺配角。"
+    },
+    "jiugao": {
+      "name": "怀砚",
+      "column": 4,
+      "atlas": "support",
+      "columns": 5,
+      "anchor": "灰蓝袍、深色束带、利落高髻。"
+    }
+  },
+  "art": {
+    "neutral": "assets/cast-neutral.webp",
+    "intense": "assets/cast-intense.webp",
+    "study": "assets/study.webp",
+    "room": "assets/room.webp",
+    "library": "assets/library.webp",
+    "courtyard": "assets/courtyard.webp",
+    "support": "assets/cast-support.webp",
+    "vulnerable": "assets/cast-vulnerable.webp",
+    "escape": "assets/event-escape.webp",
+    "supper": "assets/event-supper.webp",
+    "brandLogo": "assets/brand-logo.webp"
+  },
+  "clues": [
+    {
+      "when": {
+        "ally": true
+      },
+      "title": "她知道你在怕什么",
+      "text": "你告诉了青禾自己的处境。她有机会参与退路，而非等着被安排。"
+    },
+    {
+      "when": {
+        "cover": true,
+        "named": true
+      },
+      "title": "两个人的名字",
+      "text": "顾景衡当着怀砚的面答应：得信后，先把知枝和青禾调离。承诺仍需现场兑现。"
+    },
+    {
+      "when": {
+        "cover": true,
+        "named": false
+      },
+      "title": "只有你的那一道口谕",
+      "text": "怀砚负责带走你。青禾不在口谕里。"
+    },
+    {
+      "when": {
+        "ready": true
+      },
+      "title": "茶房的去处",
+      "text": "青禾认识茶房帮手，也知道炉边缺人。对方愿让她帮忙，却未承诺接下少奶奶身边的丫鬟。"
+    },
+    {
+      "when": {
+        "cover": false
+      },
+      "title": "一句“自有安排”",
+      "text": "你答应报信，却没有拿到明确的接应。怀砚优先办的是主子的差。"
+    },
+    {
+      "when": {
+        "verified": true
+      },
+      "title": "她已核实的半句话",
+      "text": "陆清晏向自家跟车人核实了怀砚的打听。即使交易未成，她也不会再照原来的方式赴宴。"
+    },
+    {
+      "when": {
+        "teaSkill": true
+      },
+      "title": "炉眼下的灰",
+      "text": "你们实际替茶房拨过炉眼、擦过杯盏。忙起来时，可以先做上手的活，但这不是免罚的调差。"
+    },
+    {
+      "when": {
+        "teaWitness": true
+      },
+      "title": "她要见调人的那个人",
+      "text": "报主子的名头不够。茶房婶子要当面认得，日后能向谁问话。青禾已经与你商量，必要时由她叫人。"
+    }
+  ],
+  "revision": 3,
+  "gallery": [
+    {
+      "id": "escape",
+      "name": "先带你离开",
+      "description": "东阁外，那只终于握紧的手。"
+    },
+    {
+      "id": "supper",
+      "name": "留给你的半块饼",
+      "description": "风波过去，今晚的饭还热着。"
+    }
+  ],
+  "audioCandidates": [
+    {
+      "id": "female-giggle",
+      "title": "女声轻笑",
+      "author": "IENBA",
+      "sourcePage": "https://freesound.org/people/IENBA/sounds/652991/",
+      "license": "CC0",
+      "sourceFile": "assets/audio/source/female-giggle.mp3",
+      "auditionFile": "assets/audio/audition/female-giggle.mp3",
+      "sourceSeconds": 8.372063,
+      "sourceBytes": 119856,
+      "sourceSHA256": "2b3783354c2d9e668b8a26d6fe9e06ca3237b83064ba9318f352137e33a7abba",
+      "auditionSeconds": 0.7,
+      "auditionBytes": 4076,
+      "sampleRate": 24000,
+      "channels": 1,
+      "bitrate": 40000,
+      "trimStart": 0,
+      "trimSeconds": 0.7,
+      "proposedUse": "青禾私下打趣；年龄感待试听确认",
+      "status": "user-approved-integrated",
+      "integrated": true,
+      "sourceVariant": "public HQ MP3 preview",
+      "attribution": "",
+      "packageNote": "原音频和试听版不入包；audio.files 指定的短版在构建时编码进 audio-data.js。"
+    },
+    {
+      "id": "female-hmm",
+      "title": "女声疑问：嗯？",
+      "author": "esperar",
+      "sourcePage": "https://freesound.org/people/esperar/sounds/170768/",
+      "license": "CC0",
+      "sourceFile": "assets/audio/source/female-hmm.mp3",
+      "auditionFile": "assets/audio/audition/female-hmm.mp3",
+      "sourceSeconds": 0.711179,
+      "sourceBytes": 17638,
+      "sourceSHA256": "2a49243f228d192d59c1593d10b405dc6fcc77f472ede0ecc99fc6fffbc27a0b",
+      "auditionSeconds": 0.711,
+      "auditionBytes": 4076,
+      "sampleRate": 24000,
+      "channels": 1,
+      "bitrate": 40000,
+      "trimStart": 0,
+      "trimSeconds": 0.711,
+      "proposedUse": "短促疑问；不是中文“咦”的录音",
+      "status": "user-approved-integrated",
+      "integrated": true,
+      "sourceVariant": "public HQ MP3 preview",
+      "attribution": "",
+      "packageNote": "原音频和试听版不入包；audio.files 指定的短版在构建时编码进 audio-data.js。"
+    },
+    {
+      "id": "male-chuckle",
+      "title": "男声轻笑",
+      "author": "jodybruchon",
+      "sourcePage": "https://freesound.org/people/jodybruchon/sounds/459455/",
+      "license": "CC0",
+      "sourceFile": "assets/audio/source/male-chuckle.mp3",
+      "auditionFile": "assets/audio/audition/male-chuckle.mp3",
+      "sourceSeconds": 1.46288,
+      "sourceBytes": 35796,
+      "sourceSHA256": "0098d0af5367129438b8b06bbac90858f8a0b12ae4a0ffc206d4564646b93cb1",
+      "auditionSeconds": 1.462875,
+      "auditionBytes": 7796,
+      "sampleRate": 24000,
+      "channels": 1,
+      "bitrate": 40000,
+      "trimStart": 0,
+      "trimSeconds": 1.463,
+      "proposedUse": "放松后的轻笑；角色适配待试听",
+      "status": "approved-reserve-not-triggered",
+      "integrated": false,
+      "sourceVariant": "public HQ MP3 preview",
+      "attribution": "",
+      "packageNote": "原音频和试听版不入包；audio.files 指定的短版在构建时编码进 audio-data.js。"
+    },
+    {
+      "id": "female-sighs",
+      "title": "女声呼吸／叹气",
+      "author": "SpliceSound",
+      "sourcePage": "https://freesound.org/people/SpliceSound/sounds/218311/",
+      "license": "CC0",
+      "sourceFile": "assets/audio/source/female-sighs.mp3",
+      "auditionFile": "assets/audio/audition/female-sighs.mp3",
+      "sourceSeconds": 50.602667,
+      "sourceBytes": 1141296,
+      "sourceSHA256": "77ff287a307c36caf98b3dffba6501e1c2328108daa35b770afbe1c5cdf1b02a",
+      "auditionSeconds": 1.65,
+      "auditionBytes": 8756,
+      "sampleRate": 24000,
+      "channels": 1,
+      "bitrate": 40000,
+      "trimStart": 15.55,
+      "trimSeconds": 1.65,
+      "proposedUse": "母亲欲言又止候选；原录音低音量，放大后需检查底噪",
+      "status": "user-approved-integrated",
+      "integrated": true,
+      "sourceVariant": "public HQ MP3 preview",
+      "attribution": "",
+      "packageNote": "原音频和试听版不入包；audio.files 指定的短版在构建时编码进 audio-data.js。"
+    },
+    {
+      "id": "ripples",
+      "title": "Ripples",
+      "author": "Kevin MacLeod",
+      "sourcePage": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100691",
+      "license": "CC BY 4.0",
+      "sourceFile": "assets/audio/source/ripples.mp3",
+      "auditionFile": "assets/audio/audition/ripples.mp3",
+      "sourceSeconds": 205.453075,
+      "sourceBytes": 8220237,
+      "sourceSHA256": "a2a2c0df863955d4ae4801aae7cf51c716e255aadfd7e87419228c5c5182c87c",
+      "auditionSeconds": 30,
+      "auditionBytes": 150918,
+      "sampleRate": 24000,
+      "channels": 1,
+      "bitrate": 40000,
+      "trimStart": 15,
+      "trimSeconds": 30,
+      "proposedUse": "日常、独处与内心戏备选",
+      "status": "user-approved-integrated",
+      "integrated": true,
+      "sourceVariant": "official full MP3 download",
+      "attribution": "\"Ripples\" Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License. https://creativecommons.org/licenses/by/4.0/; audition excerpt trimmed, mono, faded and level adjusted.",
+      "packageNote": "原音频和试听版不入包；audio.files 指定的短版在构建时编码进 audio-data.js。"
+    },
+    {
+      "id": "eastern-thought",
+      "title": "Eastern Thought",
+      "author": "Kevin MacLeod",
+      "sourcePage": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100682",
+      "license": "CC BY 4.0",
+      "sourceFile": "assets/audio/source/eastern-thought.mp3",
+      "auditionFile": "assets/audio/audition/eastern-thought.mp3",
+      "sourceSeconds": 261.87755,
+      "sourceBytes": 10477322,
+      "sourceSHA256": "5daab860de26f2c47701958a21dcbe6c6283a7955863e72fe9ca5a536d6d552d",
+      "auditionSeconds": 30,
+      "auditionBytes": 150926,
+      "sampleRate": 24000,
+      "channels": 1,
+      "bitrate": 40000,
+      "trimStart": 15,
+      "trimSeconds": 30,
+      "proposedUse": "试探、权衡与暗流场景备选",
+      "status": "user-approved-integrated",
+      "integrated": true,
+      "sourceVariant": "official full MP3 download",
+      "attribution": "\"Eastern Thought\" Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License. https://creativecommons.org/licenses/by/4.0/; audition excerpt trimmed, mono, faded and level adjusted.",
+      "packageNote": "原音频和试听版不入包；audio.files 指定的短版在构建时编码进 audio-data.js。"
+    }
+  ],
+  "audio": {
+    "musicVolume": 0.24,
+    "voiceVolume": 0.62,
+    "duckRatio": 0.4,
+    "voiceDelayMs": 180,
+    "voiceGapMs": 2500,
+    "failure": "声音暂时无法播放，可继续无声阅读；在设置中点“重试声音”再试。",
+    "files": {
+      "female-giggle": {
+        "source": "assets/audio/source/female-giggle.mp3",
+        "file": "assets/audio/runtime/female-giggle.mp3",
+        "start": 0,
+        "seconds": 0.7,
+        "bitrate": 40000,
+        "sampleRate": 24000,
+        "gain": "anull",
+        "fade": 0.04
+      },
+      "female-hmm": {
+        "source": "assets/audio/source/female-hmm.mp3",
+        "file": "assets/audio/runtime/female-hmm.mp3",
+        "start": 0,
+        "seconds": 0.711,
+        "bitrate": 40000,
+        "sampleRate": 24000,
+        "gain": "anull",
+        "fade": 0.04
+      },
+      "female-sighs": {
+        "source": "assets/audio/source/female-sighs.mp3",
+        "file": "assets/audio/runtime/female-sighs.mp3",
+        "start": 15.55,
+        "seconds": 1.65,
+        "bitrate": 40000,
+        "sampleRate": 24000,
+        "gain": "volume=28dB",
+        "fade": 0.04
+      },
+      "ripples": {
+        "source": "assets/audio/source/ripples.mp3",
+        "file": "assets/audio/runtime/ripples.mp3",
+        "start": 15,
+        "seconds": 24,
+        "bitrate": 32000,
+        "sampleRate": 24000,
+        "gain": "loudnorm=I=-23:TP=-3:LRA=7",
+        "fade": 0.8
+      },
+      "eastern-thought": {
+        "source": "assets/audio/source/eastern-thought.mp3",
+        "file": "assets/audio/runtime/eastern-thought.mp3",
+        "start": 15,
+        "seconds": 24,
+        "bitrate": 32000,
+        "sampleRate": 24000,
+        "gain": "loudnorm=I=-23:TP=-3:LRA=7",
+        "fade": 0.8
+      }
+    }
+  },
+  "tagline": "一纸旧账，两条去路"
+}

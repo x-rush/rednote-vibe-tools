@@ -1,0 +1,2337 @@
+{
+  "rows": [
+    {
+      "width": 375,
+      "name": "warehouse",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "objects",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "shop",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 117.5,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 117.5,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 117.5,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 117.5,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 117.5,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "maps",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "quests",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "blueprints",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "ground",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "waypoints",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "expand",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "plans",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 584.03%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "warehouse",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "stories",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "journal",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "album",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 584.03%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 83.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 83.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "name": "guide",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "photo",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 375,
+      "name": "orientation",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "warehouse",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "objects",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "shop",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 125,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 125,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 125,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 125,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 125,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "maps",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "quests",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "blueprints",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "ground",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "waypoints",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "expand",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "plans",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 584.03%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "warehouse",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "stories",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "journal",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "album",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 584.03%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 88.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 88.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "guide",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "photo",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 390,
+      "name": "orientation",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "warehouse",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "objects",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "shop",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 145,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 145,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 145,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 145,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 145,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "maps",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "quests",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "blueprints",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "ground",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "waypoints",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "expand",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "plans",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 584.03%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "warehouse",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "stories",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "journal",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "album",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 584.03%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 102,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "name": "guide",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "photo",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 430,
+      "name": "orientation",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "warehouse",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "name": "objects",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "name": "shop",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 110,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 110,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 110,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 110,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 110,
+          "h": 140,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "name": "maps",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "quests",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "blueprints",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "name": "ground",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "waypoints",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "expand",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "plans",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 584.03%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 65,
+          "h": 65,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "name": "warehouse",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 68,
+          "h": 68,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "name": "stories",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "journal",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "album",
+      "undefined": false,
+      "sprites": [
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 679.646%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 611.952%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 645.378%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 634.711%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 584.03%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/plants.webp\")",
+          "size": "330.323% 486.076%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery.webp\")",
+          "size": "400% 600%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 78.671875,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        },
+        {
+          "w": 78.65625,
+          "h": 92,
+          "bg": "url(\"http://127.0.0.1:4330/assets/scenery-v6.webp\")",
+          "size": "300% 300%"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "name": "guide",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "photo",
+      "undefined": false,
+      "sprites": []
+    },
+    {
+      "width": 844,
+      "name": "orientation",
+      "undefined": false,
+      "sprites": []
+    }
+  ],
+  "errors": []
+}

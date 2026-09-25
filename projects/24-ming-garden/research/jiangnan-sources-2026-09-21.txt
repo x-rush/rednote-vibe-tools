@@ -1,0 +1,308 @@
+〖版本更新预告〗《江南百景图》新版本即将上线！ - 江南百景图综合讨论 - TapTap 江南百景图论坛 (https://www.taptap.cn/moment/65426354983667523?group_id=216486)
+citeturn38view0 [wordlim: 200] Crawled: today; Content type: text/html; Source: open({"ref_id":"https://www.taptap.cn/moment/65426354983667523?group_id=216486","lineno":13}); Total lines: 132
+L0: cite0†Image†tap-client-logs-bj.cn-beijing.dualstack.log.aliyuncs.com L1: 
+L2: 下载 App
+L3: 
+L4: cite1†下载手机 APP L5: 
+L6: cite1†下载 PC 版 L7: 
+L8: 反馈
+L9: 
+L10: 服务
+L11: 
+L12: cite2†江南百景图 L13: # 〖版本更新预告〗《江南百景图》新版本即将上线！
+L14: 
+L15: cite3†椰岛游戏 L16: 
+L17: 修改于2020/10/14 32 万浏览
+L18: 
+L19: —— 江南忆 最忆是杭州 ——
+L20: 
+L21: 10月15日，《江南百景图》1.3.0版本更新将会陆续推送给大人们！确认所有更新推送完成后，我们会在游戏公告内提醒玩家进行更新~具体版本更新内容如下：
+L22: 
+L23: 〖“人间天堂”杭州府来了！〗
+L24: 
+L25: ▶开放新城市「杭州府」
+L26: 
+L27: cite4†Image: TapTap†img2-tc.tapimg.com L28: 
+L29: 大人们解锁苏州府驿站剧情，同时游戏等级需满足≥27级，即可进入杭州府。
+L30: 
+L31: ▶新增杭州特产：
+L32: 
+L33: 竹子、茶叶、折扇、团扇。
+L34: 
+L35: ▶新增五处杭州府奇观：
+L36: 
+L37: 断桥残雪、曲院风荷、柳浪闻莺、雷峰夕照、望湖亭（平湖秋月）。
+L38: 
+L39: cite5†Image: TapTap†img2-tc.tapimg.com L40: 
+L41: ▶新增西湖疏浚玩法：
+L42: 
+L43: cite6†Image: TapTap†img2-tc.tapimg.com L44: 
+L45: 清除淤泥解锁西湖及西湖奇观
+L46: 
+L47: ▶增加运河商栈玩法：
+L48: 
+L49: cite7†Image: TapTap†img2-tc.tapimg.com L50: 
+L51: 沿京杭大运河建造商栈，促进江南地区经济发展！
+L52: ▶杭州特殊装饰建筑：
+L53: 
+L54: cite8†Image: TapTap†img2-tc.tapimg.com L55: 
+L56: 面塑摊、米市巷绣球、半山娘娘庙、泥塑园、剪刀工坊。可使用「春笋」兑换。种植竹子有概率掉落「春笋」~
+L57: 
+L58: ▶增加新成就：
+L59: 
+L60: 「西湖天堂」、「十里湖光」。
+L61: 
+L62: ▶增设其他西湖美景：
+L63: 
+L64: 苏堤春晓、湖心亭。
+L65: 
+L66: 〖再续前缘，苏州府探险更新！〗
+L67: 
+L68: ▶开放苏州府驿站剧情第一章「阊门」。
+L69: 
+L70: cite9†Image: TapTap†img2-tc.tapimg.com L71: 
+L72: ▶新居民白居易、小蛮加入！
+L73: 
+L74: cite10†Image: TapTap†img2-tc.tapimg.com L75: 
+L76: 乐天居士与小蛮入驻江南小镇。
+L77: 
+L78: 〖其余更新内容〗
+L79: 
+L80: ▶客栈美食上新：
+L81: 
+L82: cite11†Image: TapTap†img2-tc.tapimg.com L83: 
+L84: 美食新伙伴~桂花糕、汤包、鸭血粉丝汤、杏仁豆腐、盐水鸭、佛跳墙。
+L85: 
+L86: ▶增加建筑运输：
+L87: 
+L88: cite12†Image: TapTap†img2-tc.tapimg.com L89: 
+L90: 3级码头可将特殊建筑运往其他城市。特殊建筑来源包括：严大人、小偷、节日活动、限时购买。
+L91: 
+L92: 〖修复及优化〗
+L93: ▶优化：客栈增加了特殊住客的剧情回顾功能；
+L94: 
+L95: ▶优化：结合人物设定，大和抚子不再触发对话，玄奘将无法建造部分特殊建筑；
+L96: 
+L97: ▶优化：加速界面可以连续使用加速票，不需重复打开界面；
+L98: 
+L99: ▶优化：客栈内有可招募的特殊住客时，显示不同的图标；
+L100: 
+L101: ▶修复：部分机型卡顿问题；
+L102: 
+L103: ▶修复：偶发的分享时闪退；
+L104: 
+L105: ▶修正：修改珍宝名称错别字：父乙彝->父乙簋；
+L106: 
+L107: ▶修复：钟馗、林奴儿、罗素月的初始数值存在错误，进行修复；
+L108: 
+L109: ▶优化：登录的短信验证码增加支持爱尔兰、荷兰、印尼。
+L110: 
+L111: 猜你想搜
+L112: 
+L113: 江南百景图 杭州府解锁条件
+L114: 
+L115: cite2†江南百景图 L116: 
+L117: 6.4
+L118: 
+L119: cite13†经营 cite14†模拟 cite15†放置 L120: 
+L121: cite16†前往论坛 L122: 
+L123: cite2†江南百景图 L124: 
+L125: 6.4
+L126: 
+L127: cite13†经营 cite14†模拟 cite15†放置 L128: 
+L129: cite16†去论坛 cite2†查看游戏 L130: cite17†怎么样快速生钱@肚子鼓鼓7 回复 cite18†松江府川沙堡附近岛屿布局整理了一下，既是军事重地，又是风景区，渡口用栅栏围起来，作为入岛缓冲区，其他地方布置风景区，住宅区，商铺功能区以及农耕区，算是比较完整功能的区域最后一块地的地基图在沙发里#江南百景图 #江南百景图龙年新春 #江南百景图四周年庆典@ppmx 4 赞2 回复 cite19†🍃江南百景图｜严大人夏季限定布局📍主要建筑：消夏竹溪、竹间瓦房、避暑竹林 ✨左划解锁详细地基图～ #江南百景图 #江南百景图布局 #江南百景图攻略@小熊饼饼16 赞 cite20†守拙钓竿守拙这个名起得好得当，避险求稳，谓之守拙。（嚼嚼嚼仅个人理解）@ઇଓ 4 赞2 回复 cite21†时思寺✖️祭祖大槐树#江南百景图 #江南百景图布局@断简焙春～10 赞 cite22†全图材料供给路线方案表格旧方案链接：https://www.doubao.com/thread/aaabf97de13ed 内容补充新方案链接：https://www.doubao.com/thread/a550348ed73f5 仅供参考哈，不敢说百分百完全正确～ #游戏日常 #江南百景图攻略 #江南百景图布局 #江南百景图白雪镇@予杉．50 赞4 回复 cite23†绍兴啊绍兴绍兴的小土地一直看着心烦意乱没码建筑，终于开始了。 朱元璋和他的大脚马皇后必须住在官方旁的豪华小区里，朱元璋的刘伯温必须安排在就近，帮他看管着钱财。 没事去旅游区逛逛，或者去田间走一走。 个体生产小区就靠边吧#江南百景图@乌拉哇啦氏4 赞 cite24†行宫式汪氏家祠布局按四级家祠最大势力范围100（10×10）布置，背山面水、因势象形的围合式行宫布局。@Designeric 1 赞 cite25†府邸花园装饰一些府邸花园装饰#游戏攻略 #江南百景图 #杭州府邸 #苏州府邸@小球蒙(๑• .
+L131: •๑)6 赞1 回复 cite26†人物按历史分配州府这边也发一下@福瑞呀89 赞11 回复 --------------------------------------------------------------------------------
+江南百景图 - Google Play 上的应用 (https://play.google.com/store/apps/details?hl=zh&id=com.littoralgames.jiangnan.gp.jp)
+citeturn38view1 [wordlim: 200] Crawled: today; Content type: text/html; Source: open({"ref_id":"https://play.google.com/store/apps/details?hl=zh&id=com.littoralgames.jiangnan.gp.jp","lineno":82}); Total lines: 251
+L0: cite0†游戏 cite1†应用 cite2†影视 cite3†图书 cite4†儿童 L1: 
+L2: cite0†google_logo Play L3: 
+L4: search
+L5: 
+L6: help_outline
+L7: 
+L8: cite5†Image†fonts.gstatic.com L9: 
+L10: cite0†游戏 cite1†应用 cite2†影视 cite3†图书 cite4†儿童 L11: 
+L12: play_arrow预告片
+L13: 
+L14: cite6†Image: 图标图片†play-lh.googleusercontent.com L15: # 江南百景图
+L16: 
+L17: cite7†Littoral Games L18: 
+L19: 包含广告应用内购商品
+L20: 
+L21: cite8†Image: 图标图片†play-lh.googleusercontent.com L22: 
+L23: cite9†Image: 内容分级†play-lh.googleusercontent.com L24: 
+L25: 青少年
+L26: 
+L27: info
+L28: 
+L29: 1万+
+L30: 
+L31: 次下载
+L32: 
+L33: 分享
+L34: 
+L35: 添加到心愿单
+L36: 
+L37: play_arrow预告片
+L38: 
+L39: cite10†Image: 内容分级†play-lh.googleusercontent.com L40: 
+L41: 青少年
+L42: 
+L43: 酒精饮料的使用、语言
+L44: 
+L45: 用户互动、游戏内购买(包括随机道具)
+L46: 
+L47: cite11†了解详情†support.google.com L48: 
+L49: cite12†Image: 屏幕截图图片†play-lh.googleusercontent.com L50: 
+L51: cite13†Image: 屏幕截图图片†play-lh.googleusercontent.com L52: 
+L53: cite14†Image: 屏幕截图图片†play-lh.googleusercontent.com L54: 
+L55: cite15†Image: 屏幕截图图片†play-lh.googleusercontent.com L56: cite16†Image: 屏幕截图图片†play-lh.googleusercontent.com L57: 
+L58: cite17†Image: 屏幕截图图片†play-lh.googleusercontent.com L59: 
+L60: cite18†Image: 屏幕截图图片†play-lh.googleusercontent.com L61: 
+L62: cite19†Image: 屏幕截图图片†play-lh.googleusercontent.com L63: 
+L64: cite20†Image: 屏幕截图图片†play-lh.googleusercontent.com L65: 
+L66: cite21†Image: 屏幕截图图片†play-lh.googleusercontent.com L67: 
+L68: cite22†Image: 屏幕截图图片†play-lh.googleusercontent.com L69: 
+L70: cite23†Image: 屏幕截图图片†play-lh.googleusercontent.com L71: 
+L72: cite18†Image: 屏幕截图图片†play-lh.googleusercontent.com L73: 
+L74: cite19†Image: 屏幕截图图片†play-lh.googleusercontent.com L75: cite20†Image: 屏幕截图图片†play-lh.googleusercontent.com L76: 
+L77: cite21†Image: 屏幕截图图片†play-lh.googleusercontent.com L78: 
+L79: cite22†Image: 屏幕截图图片†play-lh.googleusercontent.com L80: 
+L81: cite23†Image: 屏幕截图图片†play-lh.googleusercontent.com L82: ## 游戏简介
+L83: 
+L84: arrow_forward
+L85: 回到古代中国，成为知府、开拓土地、兴造建筑、经营市集、繁荣城市，再现江南水乡盛景。
+L86: · 建设与发展
+L87: 从应天府的一块农田开始，你将成为一位知府，重建包括杭州、苏州、扬州等知名古代水乡都市。一城一景，每解锁新城都会开放新的玩法和资源。
+L88: · 城镇自由布局
+L89: 数百种建筑、装饰等你搜集。修缮道路、种植树木、养殖花朵，再现古代江南盛景。繁荣、宜居的城镇将吸引更多居民居住，协助你共建美好家园。
+L90: · 沉浸式爱情故事
+L91: 一座城，一幕剧，一段情。《牡丹亭》《长恨歌》《三笑缘》，你将进入这如梦如幻的历史长卷，亲临体验一段段可歌可泣的爱恨情仇。
+L92: · 丰富的居民事件
+L93: 随着城镇的建立，越来越多的居民将在你的治下定居。
+L94: 尘世烟火，居民趣闻，层出不穷，你可以每天都能看到他们发生的趣事。
+L95: 居民的生老病死、婚丧嫁娶，都会在你的城市随机出现。婚者，八抬大轿，锣鼓喧天；丧者，白纱裹身，愁云惨淡。
+L96: 小偷、流寇也会随机出现，逮捕他们，还居民一个和谐安宁的城市。
+L97: · 历史人物&建筑
+L98: 在这里遇见历史，寻访古人、古物。
+L99: 你可以招揽诸多历史名人，如李白、武则天、白居易等，与你一起共建城市。
+L100: 你也可以获取诸多名胜古迹，布置在你的城镇中。如杭州的西湖、苏州的寒山寺、扬州的文昌阁。
+L101: 一次与时间的碰撞、与历史的交汇等你来体验
+L102: · 社区情报
+L103: Twitter: https://twitter.com/suito2022
+L104: Discord: https://discord.gg/N75XbP2Y2c
+L105: 江南古镇模拟经营
+L106: 
+L107: 更新日期
+L108: 
+L109: 2024年12月23日
+L110: 
+L111: 提供方
+L112: 
+L113: Android、cite24†Windows* L114: 
+L115: 模拟
+L116: 
+L117: 管理
+L118: 
+L119: 单人
+L120: 
+L121: 风格化
+L122: 
+L123: 业务与职业
+L124: 
+L125: 商业帝国
+L126: 
+L127: 城市
+L128: 
+L129: *由 Intel^{®} 技术提供支持
+L130: ## 数据安全
+L131: 
+L132: arrow_forward
+L133: 
+L134: 安全始于了解开发者如何收集和分享数据。数据隐私保护和安全措施可能会因您的使用情况、所在地区和用户年龄而异。此类信息由开发者提供，可能会随时间更新。
+L135: 
+L136:   * cite25†Image: 图标图片†play-lh.googleusercontent.com L137: 
+L138: 此应用可能会与第三方分享这些类型的数据
+L139: 
+L140: 个人信息和设备 ID 或其他 ID
+L141: 
+L142:   * cite26†Image: 图标图片†play-lh.googleusercontent.com L143: 
+L144: 此应用可能会收集这些类型的数据
+L145: 
+L146: 财务信息、应用活动和设备 ID 或其他 ID
+L147: 
+L148:   * cite27†Image: 图标图片†play-lh.googleusercontent.com L149: 
+L150: 数据在传输过程中会加密
+L151: 
+L152:   * cite28†Image: 图标图片†play-lh.googleusercontent.com L153: 
+L154: 您可以要求开发者删除数据
+L155: 
+L156: 查看详情
+L157: ## 新变化
+L158: 
+L159: ・新城市「扬州府」
+L160: -新玩法「工厂系统」、「漕运系统」
+L161: -扬州府限定歹人
+L162: ・松江府探险故事终章「今夕何夕」
+L163: ・新增白小生外传两则
+L164: 
+L165: cite29†flag举报不当内容†support.google.com L166: 
+L167: cite10†Image: 内容分级†play-lh.googleusercontent.com L168: 
+L169: 青少年
+L170: 
+L171: 酒精饮料的使用、语言
+L172: 
+L173: 用户互动、游戏内购买(包括随机道具)
+L174: 
+L175: cite11†了解详情†support.google.com L176: 
+L177: ## 应用支持
+L178: 
+L179: expand_more
+L180: 
+L181: cite30†public网站†suitogame.jp L182: 
+L183: email支持团队邮箱contact@littoralgames.com
+L184: 
+L185: cite31†shield隐私权政策†www.littoralgames.com L186: 
+L187: 开发者信息
+L188: 
+L189: LITTORAL GAMES PTE. LTD.
+L190: 
+L191: contact@littoralgames.com
+L192: 
+L193: 20 Emerald Hill Road Singapore 229302
+L194: 
+L195: +86 180 1637 0985
+L196: ## Littoral Games的其他产品
+L197: 
+L198: arrow_forward
+L199: 
+L200: cite32†完美的一天Littoral Games 5.0star US$2.99 L201: 
+L202: cite33†中国式家长Littoral Games 4.3star L203: ## 类似游戏
+L204: 
+L205: arrow_forward
+L206: 
+L207: cite34†合并小镇：拼图与故事StandEgg Co., Ltd.4.4star L208: 
+L209: cite35†我的人生大冒險Spirit Work Arts CO., LTD.3.9star L210: 
+L211: cite36†求生合并：生存之地(merge game)StickyHands Inc.4.6star L212: 
+L213: cite37†Food Chronicles:Merge Cooking MOBIBRAIN TECHNOLOGY PTE. LTD.4.4star L214: 
+L215: cite38†温泉物语2 Kairosoft 4.7star US$7.99 L216: 
+L217: cite39†猫厨美食大亨DAERI SOFT Inc 3.8star L218: 
+L219: cite29†flag举报不当内容†support.google.com L220: 
+L221: Google Play
+L222: 
+L223: cite40†Play Pass L224: 
+L225: cite41†Play Points L226: 
+L227: cite42†礼品卡 L228: 
+L229: cite43†兑换 L230: 
+L231: cite44†退款政策†support.google.com L232: 
+L233: 儿童与家庭
+L234: 
+L235: cite45†家长指南†support.google.com L236: 
+L237: cite46†家庭共享†support.google.com L238: cite47†服务条款 L239: 
+L240: cite48†隐私权†policies.google.com L241: 
+L242: cite49†关于 Google Play†support.google.com L243: 
+L244: cite50†开发者†developer.android.com L245: 
+L246: cite51†Google Store†store.google.com L247: 
+L248: cite52†Image†ssl.gstatic.com L249: 
+L250: 美国 (简体中文)
+

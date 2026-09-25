@@ -1,0 +1,1555 @@
+{
+  "title": "雨后找菌子",
+  "eyebrow": "雨停了 · 林间微光",
+  "storageKey": "rainy-forest:current",
+  "habitats": [
+    "老树根",
+    "苔藓石边",
+    "倒木旁",
+    "松针坡",
+    "蕨叶洼地",
+    "林间空地"
+  ],
+  "species": [
+    {
+      "name": "奶油伞",
+      "color": "#d9bf8a",
+      "description": "柔软的奶油色伞沿在湿叶下露出一圈浅光，常常几株挨在一起。",
+      "value": 12,
+      "habitat": "老树根",
+      "traits": "伞沿较薄，菌盖与菌柄的浅色过渡柔和。",
+      "family": "round",
+      "atlas": "mushrooms",
+      "frame": 0,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "栗绒团",
+      "color": "#996044",
+      "description": "短柄托着厚厚的栗色菌盖，表面的绒感在斜光下尤其清楚。",
+      "value": 15,
+      "habitat": "苔藓石边",
+      "traits": "菌盖厚而圆，低矮菌柄让整株显得敦实。",
+      "family": "ball",
+      "atlas": "mushrooms",
+      "frame": 1,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "雨珠帽",
+      "color": "#ba896d",
+      "description": "帽顶留着细小雨珠，纤细菌柄从叶片间弯出来。",
+      "value": 18,
+      "habitat": "倒木旁",
+      "traits": "细柄与小伞形成对比，帽顶有湿润高光。",
+      "family": "round",
+      "atlas": "mushrooms",
+      "frame": 2,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "苔边灯",
+      "color": "#c7b586",
+      "description": "浅黄色小伞喜欢苔边的柔光，低头细看才容易发现。",
+      "value": 20,
+      "habitat": "老树根",
+      "traits": "浅黄菌盖边缘微微起伏，菌柄纤细。",
+      "family": "round",
+      "atlas": "mushrooms",
+      "frame": 3,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "琥珀耳",
+      "color": "#c67e38",
+      "description": "像半透明的琥珀小耳，边缘薄，背面有柔和的褶皱。",
+      "value": 25,
+      "habitat": "苔藓石边",
+      "traits": "耳状轮廓有褶皱，薄边呈半透明的琥珀色。",
+      "family": "fan",
+      "atlas": "mushrooms",
+      "frame": 4,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "雾蓝盏",
+      "color": "#879c9a",
+      "description": "一只低低的雾蓝色小杯，雨后的杯缘泛着冷色微光。",
+      "value": 28,
+      "habitat": "倒木旁",
+      "traits": "杯状菌盖向内收拢，杯缘比中心更亮。",
+      "family": "cup",
+      "atlas": "mushrooms",
+      "frame": 5,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "晚霞裙",
+      "color": "#b4797f",
+      "description": "菌盖边缘层层卷起，像被晚霞染过的柔软裙边。",
+      "value": 30,
+      "habitat": "老树根",
+      "traits": "菌盖褶边层叠，粉褐色表面有细微深浅变化。",
+      "family": "fan",
+      "atlas": "mushrooms",
+      "frame": 6,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "月白铃",
+      "color": "#e6dec1",
+      "description": "白色钟形菌盖带着细纹，是林地里不常遇见的安静身影。",
+      "value": 45,
+      "habitat": "苔藓石边",
+      "traits": "钟形菌盖向下垂落，纵向细纹延伸至边缘。",
+      "family": "bell",
+      "atlas": "mushrooms",
+      "frame": 7,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "褶纹钟",
+      "color": "#c1a785",
+      "description": "深褶沿钟形菌盖垂落，伞尖比边缘更深。",
+      "traits": "深褶沿钟形菌盖垂落，伞尖比边缘更深。",
+      "value": 14,
+      "habitat": "倒木旁",
+      "family": "bell",
+      "atlas": "expanded",
+      "frame": 0,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "双铃苔",
+      "color": "#c1a785",
+      "description": "两只小钟相偎，薄薄的菌盖透出微光。",
+      "traits": "两只小钟相偎，薄薄的菌盖透出微光。",
+      "value": 16,
+      "habitat": "松针坡",
+      "family": "bell",
+      "atlas": "expanded",
+      "frame": 1,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "白檐钟",
+      "color": "#c1a785",
+      "description": "高挑细柄托着浅色长钟，伞沿微微外翻。",
+      "traits": "高挑细柄托着浅色长钟，伞沿微微外翻。",
+      "value": 18,
+      "habitat": "蕨叶洼地",
+      "family": "bell",
+      "atlas": "expanded",
+      "frame": 2,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "环纹伞",
+      "color": "#c1a785",
+      "description": "宽圆的伞盖带着一圈圈肉桂色细纹，中央是敦实的浅色菌柄。",
+      "traits": "宽圆的伞盖带着一圈圈肉桂色细纹，中央是敦实的浅色菌柄。",
+      "value": 20,
+      "habitat": "林间空地",
+      "family": "round",
+      "atlas": "families",
+      "frame": 0,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "云边扇",
+      "color": "#c1a785",
+      "description": "厚厚的浅色扇面有柔软波浪边。",
+      "traits": "厚厚的浅色扇面有柔软波浪边。",
+      "value": 22,
+      "habitat": "老树根",
+      "family": "fan",
+      "atlas": "expanded",
+      "frame": 4,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "橘褶扇",
+      "color": "#c1a785",
+      "description": "橘色薄扇沿一侧展开，背面细褶清楚。",
+      "traits": "橘色薄扇沿一侧展开，背面细褶清楚。",
+      "value": 24,
+      "habitat": "苔藓石边",
+      "family": "fan",
+      "atlas": "expanded",
+      "frame": 5,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "木角丛",
+      "color": "#c1a785",
+      "description": "棕色枝体多次分叉，浅色枝尖像细小的花簇。",
+      "traits": "棕色枝体多次分叉，浅色枝尖像细小的花簇。",
+      "value": 26,
+      "habitat": "倒木旁",
+      "family": "coral",
+      "atlas": "families",
+      "frame": 1,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "贝纹杯",
+      "color": "#c1a785",
+      "description": "浅色杯口向上展开，内部细纹从杯底延伸到波浪边缘。",
+      "traits": "浅色杯口向上展开，内部细纹从杯底延伸到波浪边缘。",
+      "value": 28,
+      "habitat": "松针坡",
+      "family": "cup",
+      "atlas": "families",
+      "frame": 2,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "肉桂杯",
+      "color": "#c1a785",
+      "description": "深浅不一的肉桂色杯口向外卷。",
+      "traits": "深浅不一的肉桂色杯口向外卷。",
+      "value": 30,
+      "habitat": "蕨叶洼地",
+      "family": "cup",
+      "atlas": "expanded",
+      "frame": 8,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "赤陶盏",
+      "color": "#c1a785",
+      "description": "赤陶般的浅杯，边缘轻薄。",
+      "traits": "赤陶般的浅杯，边缘轻薄。",
+      "value": 32,
+      "habitat": "林间空地",
+      "family": "cup",
+      "atlas": "expanded",
+      "frame": 9,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "灰绒球",
+      "color": "#c1a785",
+      "description": "灰色小球表面有细绒，没有伞状菌盖。",
+      "traits": "灰色小球表面有细绒，没有伞状菌盖。",
+      "value": 34,
+      "habitat": "老树根",
+      "family": "ball",
+      "atlas": "expanded",
+      "frame": 10,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "梨刺团",
+      "color": "#c1a785",
+      "description": "梨形身体披着短刺，底部渐渐收窄。",
+      "traits": "梨形身体披着短刺，底部渐渐收窄。",
+      "value": 36,
+      "habitat": "苔藓石边",
+      "family": "ball",
+      "atlas": "expanded",
+      "frame": 11,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "雪绒瓣",
+      "color": "#c1a785",
+      "description": "白色绒团裂成几瓣，像柔软的雪。",
+      "traits": "白色绒团裂成几瓣，像柔软的雪。",
+      "value": 38,
+      "habitat": "倒木旁",
+      "family": "ball",
+      "atlas": "expanded",
+      "frame": 12,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "霜枝珊",
+      "color": "#c1a785",
+      "description": "纤细的浅色枝条分叉成珊瑚。",
+      "traits": "纤细的浅色枝条分叉成珊瑚。",
+      "value": 40,
+      "habitat": "松针坡",
+      "family": "coral",
+      "atlas": "expanded",
+      "frame": 13,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "金枝丛",
+      "color": "#c1a785",
+      "description": "金褐色短枝密密相连，顶端圆钝。",
+      "traits": "金褐色短枝密密相连，顶端圆钝。",
+      "value": 42,
+      "habitat": "蕨叶洼地",
+      "family": "coral",
+      "atlas": "expanded",
+      "frame": 14,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "鹿角棕",
+      "color": "#c1a785",
+      "description": "棕色叉枝向上伸出，轮廓像小鹿角。",
+      "traits": "棕色叉枝向上伸出，轮廓像小鹿角。",
+      "value": 44,
+      "habitat": "林间空地",
+      "family": "coral",
+      "atlas": "expanded",
+      "frame": 15,
+      "noteId": "",
+      "observeOnly": false
+    },
+    {
+      "name": "毒蝇伞",
+      "color": "#c1a785",
+      "description": "典型形象是红色菌盖上散布白色斑点；这段描述不是完整鉴定特征。",
+      "traits": "它能与树根建立菌根共生关系：帮助树木获取水分和养分，同时从树木获得糖。",
+      "value": 0,
+      "habitat": "林间观察点",
+      "family": "real",
+      "atlas": "nature",
+      "frame": 0,
+      "noteId": "muscaria",
+      "observeOnly": true
+    },
+    {
+      "name": "春生鹅膏",
+      "color": "#c1a785",
+      "description": "Kew 介绍其外观为纯白色。朴素的颜色不能作为无毒依据。",
+      "traits": "与树根形成外生菌根共生，Kew 记录其通常见于欧洲春季林地。",
+      "value": 0,
+      "habitat": "林间观察点",
+      "family": "real",
+      "atlas": "nature",
+      "frame": 1,
+      "noteId": "verna",
+      "observeOnly": true
+    },
+    {
+      "name": "毒鹅膏",
+      "color": "#c1a785",
+      "description": "有毒菌与人们熟悉的其他菌类可能相似；不能用游戏插图或简短文字确认身份。",
+      "traits": "CDC 曾记录美国加州因采食该菌引起的多人中毒事件。",
+      "value": 0,
+      "habitat": "林间观察点",
+      "family": "real",
+      "atlas": "nature",
+      "frame": 2,
+      "noteId": "phalloides",
+      "observeOnly": true
+    }
+  ],
+  "copy": {
+    "hint": "拨开湿叶，寻找露出的一角；蹲下再看看叶片后面",
+    "pick": "轻轻左右晃，再向上提 · 或开启辅助长按",
+    "ready": "根部松动了，向上提起",
+    "basket": "竹篮",
+    "next": "换一片林地",
+    "pause": "暂停",
+    "resume": "继续寻觅",
+    "assistOff": "辅助采集 · 关",
+    "assistOn": "辅助采集 · 开",
+    "soundOff": "声音 · 关",
+    "soundOn": "声音 · 开",
+    "silent": "声音暂不可用，可继续无声探索",
+    "close": "回到林间",
+    "empty": "竹篮还空着，先去拨开几片叶子吧",
+    "disclaimer": "原创幻想菌，仅为游戏设定",
+    "newTitle": "离开这片林地？",
+    "newBody": "累计收获和观察记录会保留，前往另一片林地。",
+    "confirm": "前往新林地",
+    "cancel": "留下继续找",
+    "savedError": "本次收获暂存，浏览器未能保存",
+    "found": "收入竹篮",
+    "count": "株",
+    "collection": "本次与历次收获",
+    "unknown": "尚未发现",
+    "journal": "林间手记",
+    "settings": "体验设置",
+    "places": "沿林寻觅",
+    "details": "发现手记",
+    "back": "回到篮子",
+    "newDiscovery": "第一次遇见",
+    "knownDiscovery": "又遇见了",
+    "leafMoved": "这一层拨开了，看看下面；一朵旁边也许还藏着同伴",
+    "covered": "这里还被叶片盖着，先轻轻拨开",
+    "loose": "根部松动了，继续向上提",
+    "discovered": "已发现",
+    "of": "种",
+    "emptyGround": "这里暂时没看到，拨开附近叶片或蹲下看看",
+    "soundNote": "湿地脚步、木质轻碰与短促水声，按动作轻声播放。",
+    "reducedOn": "轻动效 · 开",
+    "reducedOff": "轻动效 · 关",
+    "intro": "拨开湿叶，蹲下看清菌柄；左右轻晃后向上提起，刷净泥屑，再亲手放进竹篮。",
+    "restore": "回到离开时的林地",
+    "basketHint": "点竹篮查看发现",
+    "value": "林间收藏值",
+    "valueNote": "游戏收藏积分，不代表现实价格或食用价值",
+    "holding": "轻点观察，或左右轻晃后向上提",
+    "assistHint": "按住菌子片刻，松手采下",
+    "finished": "这一角已经找完，可以沿林看看别处",
+    "observe": "观察手记",
+    "observeHint": "轻点看一看；按住左右晃，再向上提",
+    "observed": "已观察",
+    "observeIntro": "发现也值得留下记录，不必把每一株都摘走。",
+    "look": "留在原处，继续观察",
+    "habitatLabel": "游戏中的生境",
+    "traitsLabel": "观察细节",
+    "knowledge": "真实菌类小课堂",
+    "knowledgeIntro": "以下是真实物种的文字科普，与场景中的原创幻想菌没有对应关系。游戏图片不能用于野外识别或食用判断。",
+    "source": "资料来源",
+    "reading": "已读",
+    "unread": "未读",
+    "progress": "这片林地的足迹",
+    "progressNote": "记录已观察或采集的菌子；不提前揭示叶下藏着多少株。",
+    "allCollected": "这一处已采集完",
+    "continueHere": "继续寻找",
+    "knownObservation": "已记入观察手记",
+    "tapHint": "轻点可观察；左右轻晃后向上提可采集",
+    "allPlaces": "直接探索全部林地",
+    "free": "自由寻觅",
+    "daily": "今日林地",
+    "replay": "种子重玩",
+    "challenges": "林间挑战",
+    "challengeDone": "已完成",
+    "challengeStart": "进入挑战林地",
+    "challengeHint": "当前挑战",
+    "challengeNone": "选择一项挑战，跟着线索在林间完成。",
+    "modeIntro": "随时换一种探索方式，收获与观察记录会保留。",
+    "modes": "探索方式",
+    "todayNote": "按设备本地日期生成；今天回来仍是同一片林地。",
+    "replayNote": "重走最近的林地，重新观察和练习。重玩不会重复增加累计收获。",
+    "seed": "林地编号",
+    "sector": "小景",
+    "nature": "林间遇见",
+    "natureHint": "轻点身边的小生命或水珠，留下观察记录",
+    "toxicHint": "这是真实有毒菌的艺术示意 · 轻点观察，留在原处",
+    "toxicArt": "艺术示意，非鉴定照片；不用于现实采食判断",
+    "arrange": "摆一篮林间收获",
+    "arrangeHint": "拖动菌子调整位置；摆拍只保存位置，不保存图片。",
+    "theme": "摆篮主题",
+    "summary": "本次收获",
+    "summaryNote": "慢慢找，不必清空森林。",
+    "total": "累计收获",
+    "noHistory": "先探索一片林地，再回来重走。",
+    "nextSector": "看向另一处",
+    "previousSector": "回看上一处",
+    "completeHint": "这项挑战完成了，手记中已留下记录。",
+    "collectionHint": "未发现的菌也有生境线索，选择它查看寻找方向。",
+    "observedHere": "发现地点",
+    "practice": "先轻轻拨开湿叶；看到菌帽后，可以蹲下看清菌柄",
+    "newPlace": "新的林地也可以直接探索",
+    "futureSave": "此存档来自更新版本，本次体验不会覆盖它。",
+    "variants": "见过的尺寸",
+    "smallSize": "小巧",
+    "mediumSize": "适中",
+    "largeSize": "饱满",
+    "poisonSeen": "观察后留在原处",
+    "guided": "三项推荐",
+    "allChallenges": "全部挑战",
+    "arrangeFallback": "点选菌子，再点篮内位置，也可以调整摆放。",
+    "emptyTheme": "还没有符合这个主题的收获，试试混合收获，或继续去林间寻找。",
+    "dailyComplete": "今天已留下观察记录",
+    "crouch": "蹲下观察",
+    "stand": "起身看看",
+    "crouchHint": "视线贴近林地了，拨开前面的叶片，看看菌柄和叶下空隙",
+    "standHint": "回到站姿，先找露出的一角，再拨查周围",
+    "brushHint": "采起来了，轻扫菌帽上的泥屑；刷净后拖入右下方篮子",
+    "brushReady": "看清它的样子了，按住菌体拖进篮子",
+    "brushReturn": "还没刷净，沿着菌帽轻扫；也可放回林地",
+    "putBack": "放回林地"
+  },
+  "tuning": {
+    "holdMs": 350,
+    "wiggle": 0.045,
+    "lift": 0.045
+  },
+  "layout": {
+    "hostWidth": 88,
+    "hostHeight": 76,
+    "hostOffset": 16,
+    "hostMargin": 20
+  },
+  "visuals": {
+    "mushrooms": {
+      "src": "assets/mushrooms.webp",
+      "frames": [
+        {
+          "x": 24,
+          "y": 56,
+          "w": 420,
+          "h": 428
+        },
+        {
+          "x": 479,
+          "y": 108,
+          "w": 318,
+          "h": 372
+        },
+        {
+          "x": 857,
+          "y": 47,
+          "w": 262,
+          "h": 440
+        },
+        {
+          "x": 1245,
+          "y": 60,
+          "w": 240,
+          "h": 420
+        },
+        {
+          "x": 63,
+          "y": 549,
+          "w": 359,
+          "h": 419
+        },
+        {
+          "x": 471,
+          "y": 584,
+          "w": 296,
+          "h": 379
+        },
+        {
+          "x": 808,
+          "y": 572,
+          "w": 382,
+          "h": 387
+        },
+        {
+          "x": 1243,
+          "y": 555,
+          "w": 245,
+          "h": 402
+        }
+      ]
+    },
+    "props": {
+      "src": "assets/props.webp",
+      "frames": [
+        {
+          "x": 26,
+          "y": 81,
+          "w": 486,
+          "h": 318
+        },
+        {
+          "x": 512,
+          "y": 117,
+          "w": 512,
+          "h": 395
+        },
+        {
+          "x": 1024,
+          "y": 26,
+          "w": 485,
+          "h": 452
+        },
+        {
+          "x": 61,
+          "y": 538,
+          "w": 417,
+          "h": 420
+        },
+        {
+          "x": 559,
+          "y": 512,
+          "w": 425,
+          "h": 466
+        },
+        {
+          "x": 1042,
+          "y": 650,
+          "w": 463,
+          "h": 170
+        }
+      ]
+    },
+    "forest": {
+      "src": "assets/forest.webp",
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 512,
+          "h": 1024
+        },
+        {
+          "x": 512,
+          "y": 0,
+          "w": 512,
+          "h": 1024
+        },
+        {
+          "x": 1024,
+          "y": 0,
+          "w": 512,
+          "h": 1024
+        }
+      ]
+    },
+    "expanded": {
+      "src": "assets/expanded.webp",
+      "frames": [
+        {
+          "x": 43,
+          "y": 17,
+          "w": 240,
+          "h": 272
+        },
+        {
+          "x": 338,
+          "y": 61,
+          "w": 226,
+          "h": 217
+        },
+        {
+          "x": 641,
+          "y": 15,
+          "w": 160,
+          "h": 274
+        },
+        {
+          "x": 864,
+          "y": 40,
+          "w": 274,
+          "h": 243
+        },
+        {
+          "x": 21,
+          "y": 321,
+          "w": 265,
+          "h": 234
+        },
+        {
+          "x": 319,
+          "y": 317,
+          "w": 235,
+          "h": 243
+        },
+        {
+          "x": 590,
+          "y": 314,
+          "w": 254,
+          "h": 247
+        },
+        {
+          "x": 879,
+          "y": 328,
+          "w": 257,
+          "h": 229
+        },
+        {
+          "x": 68,
+          "y": 600,
+          "w": 176,
+          "h": 229
+        },
+        {
+          "x": 313,
+          "y": 602,
+          "w": 263,
+          "h": 224
+        },
+        {
+          "x": 627,
+          "y": 612,
+          "w": 184,
+          "h": 218
+        },
+        {
+          "x": 909,
+          "y": 587,
+          "w": 187,
+          "h": 246
+        },
+        {
+          "x": 22,
+          "y": 864,
+          "w": 254,
+          "h": 263
+        },
+        {
+          "x": 314,
+          "y": 864,
+          "w": 247,
+          "h": 271
+        },
+        {
+          "x": 593,
+          "y": 864,
+          "w": 257,
+          "h": 266
+        },
+        {
+          "x": 882,
+          "y": 864,
+          "w": 247,
+          "h": 267
+        }
+      ]
+    },
+    "forestExtra": {
+      "src": "assets/forestExtra.webp",
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 512,
+          "h": 1024
+        },
+        {
+          "x": 512,
+          "y": 0,
+          "w": 512,
+          "h": 1024
+        },
+        {
+          "x": 1024,
+          "y": 0,
+          "w": 512,
+          "h": 1024
+        }
+      ]
+    },
+    "nature": {
+      "src": "assets/nature.webp",
+      "frames": [
+        {
+          "x": 70,
+          "y": 16,
+          "w": 415,
+          "h": 595
+        },
+        {
+          "x": 603,
+          "y": 20,
+          "w": 365,
+          "h": 591
+        },
+        {
+          "x": 1110,
+          "y": 16,
+          "w": 389,
+          "h": 598
+        },
+        {
+          "x": 60,
+          "y": 667,
+          "w": 452,
+          "h": 268
+        },
+        {
+          "x": 624,
+          "y": 635,
+          "w": 323,
+          "h": 323
+        },
+        {
+          "x": 1186,
+          "y": 639,
+          "w": 241,
+          "h": 313
+        }
+      ]
+    },
+    "occluders": {
+      "src": "assets/occluders.webp",
+      "frames": [
+        {
+          "x": 7,
+          "y": 82,
+          "w": 469,
+          "h": 325
+        },
+        {
+          "x": 488,
+          "y": 50,
+          "w": 466,
+          "h": 393
+        }
+      ]
+    },
+    "families": {
+      "src": "assets/families.webp",
+      "frames": [
+        {
+          "x": 11,
+          "y": 14,
+          "w": 235,
+          "h": 231
+        },
+        {
+          "x": 266,
+          "y": 9,
+          "w": 236,
+          "h": 239
+        },
+        {
+          "x": 528,
+          "y": 47,
+          "w": 228,
+          "h": 174
+        }
+      ]
+    }
+  },
+  "fieldNotes": [
+    {
+      "id": "muscaria",
+      "name": "毒蝇伞",
+      "latin": "Amanita muscaria",
+      "status": "有毒 · 仅作科普观察",
+      "appearance": "典型形象是红色菌盖上散布白色斑点；这段描述不是完整鉴定特征。",
+      "ecology": "它能与树根建立菌根共生关系：帮助树木获取水分和养分，同时从树木获得糖。",
+      "fact": "有毒菌同样参与森林生态。漂亮、常见于童话，并不代表可以食用。",
+      "sources": [
+        {
+          "title": "英国皇家植物园 Kew · Fungal favourites",
+          "url": "https://www.kew.org/read-and-watch/kew-scientists-pick-their-favourite-fungus"
+        },
+        {
+          "title": "Kew Grow Wild · Deck the halls with festive fungi",
+          "url": "https://growwild.kew.org/blog/deck-halls-festive-fungi"
+        }
+      ]
+    },
+    {
+      "id": "verna",
+      "name": "春生鹅膏",
+      "latin": "Amanita verna",
+      "status": "剧毒 · 仅作科普观察",
+      "appearance": "Kew 介绍其外观为纯白色。朴素的颜色不能作为无毒依据。",
+      "ecology": "与树根形成外生菌根共生，Kew 记录其通常见于欧洲春季林地。",
+      "fact": "含有可造成严重肝损伤的鹅膏毒肽。游戏不提供采食或处理方法。",
+      "sources": [
+        {
+          "title": "英国皇家植物园 Kew · Fungal favourites",
+          "url": "https://www.kew.org/read-and-watch/kew-scientists-pick-their-favourite-fungus"
+        }
+      ]
+    },
+    {
+      "id": "phalloides",
+      "name": "毒鹅膏",
+      "latin": "Amanita phalloides",
+      "status": "剧毒 · 仅作科普观察",
+      "appearance": "有毒菌与人们熟悉的其他菌类可能相似；不能用游戏插图或简短文字确认身份。",
+      "ecology": "CDC 曾记录美国加州因采食该菌引起的多人中毒事件。",
+      "fact": "其毒素可导致严重肝损伤，甚至死亡。观察记录的价值不需要通过采食证明。",
+      "sources": [
+        {
+          "title": "CDC · Amanita phalloides Mushroom Poisonings, 2016",
+          "url": "https://www.cdc.gov/mmwr/volumes/66/wr/mm6621a1.htm"
+        }
+      ]
+    },
+    {
+      "id": "xylaria",
+      "name": "多形炭角菌",
+      "latin": "Xylaria polymorpha",
+      "status": "生态观察 · 不作食用判断",
+      "appearance": "子实体呈伸出的手指状，成熟时颜色变黑；菌类不一定都有伞状菌盖。",
+      "ecology": "以死亡或腐朽的植物为营养来源，分解有机物，参与森林中的养分循环。",
+      "fact": "寻找菌类时，可以留意倒木与腐朽植物附近，观察它们与生境的关系。",
+      "sources": [
+        {
+          "title": "英国皇家植物园 Kew · Fungal favourites",
+          "url": "https://www.kew.org/read-and-watch/kew-scientists-pick-their-favourite-fungus"
+        }
+      ]
+    }
+  ],
+  "version": 2,
+  "locations": [
+    {
+      "name": "老树根",
+      "sectors": [
+        "根前叶窝",
+        "树根背面",
+        "坡脚根隙"
+      ],
+      "pool": [
+        0,
+        7,
+        8,
+        9,
+        20,
+        21
+      ],
+      "background": 0,
+      "occluder": "leaf",
+      "hint": "顺着根的走向，看看背光的一侧。"
+    },
+    {
+      "name": "苔藓石边",
+      "sectors": [
+        "湿石左侧",
+        "苔层边缘",
+        "滴水石窝"
+      ],
+      "pool": [
+        1,
+        3,
+        10,
+        11,
+        18,
+        19
+      ],
+      "background": 1,
+      "occluder": "leaf",
+      "hint": "观察石边细小轮廓，拨开压在苔边的湿叶。"
+    },
+    {
+      "name": "倒木旁",
+      "sectors": [
+        "倒木侧面",
+        "断枝下方",
+        "木头断面"
+      ],
+      "pool": [
+        4,
+        6,
+        12,
+        13,
+        14,
+        15
+      ],
+      "background": 2,
+      "occluder": "branch",
+      "hint": "小枝可以拖开，沿倒木寻找扇形菌。"
+    },
+    {
+      "name": "松针坡",
+      "sectors": [
+        "松针上坡",
+        "松针中段",
+        "坡脚松果"
+      ],
+      "pool": [
+        0,
+        1,
+        8,
+        11,
+        18,
+        23
+      ],
+      "background": 3,
+      "occluder": "needle",
+      "hint": "拨开松针，留意和地面颜色接近的菌盖。"
+    },
+    {
+      "name": "蕨叶洼地",
+      "sectors": [
+        "蕨叶前沿",
+        "湿土边缘",
+        "洼地深处"
+      ],
+      "pool": [
+        2,
+        5,
+        9,
+        10,
+        16,
+        21
+      ],
+      "background": 4,
+      "occluder": "fern",
+      "hint": "移开前景蕨叶，看看湿土边的小菌柄。"
+    },
+    {
+      "name": "林间空地",
+      "sectors": [
+        "草丛边缘",
+        "阳光草地",
+        "林荫交界"
+      ],
+      "pool": [
+        3,
+        6,
+        12,
+        17,
+        20,
+        22
+      ],
+      "background": 5,
+      "occluder": "grass",
+      "hint": "在光斑与草影交界处寻找低矮菌盖。"
+    }
+  ],
+  "events": [
+    {
+      "name": "蜗牛慢行",
+      "text": "蜗牛正缓缓越过湿叶。留它在这里，观察也会记入手记。"
+    },
+    {
+      "name": "瓢虫停歇",
+      "text": "红色小身影停在林下，稍等片刻，看看它的移动。"
+    },
+    {
+      "name": "落叶小虫",
+      "text": "小虫从叶层的阴影里经过。森林里还有许多细小的住客。"
+    },
+    {
+      "name": "蛛网水珠",
+      "text": "细网上挂着雨珠，侧光经过时才显露出轮廓。"
+    },
+    {
+      "name": "叶尖滴水",
+      "text": "雨水汇到叶尖，落下后激起一圈细小水纹。"
+    },
+    {
+      "name": "风过落叶",
+      "text": "微风掀起落叶的一角，地面短暂露出湿润的纹理。"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "walk-0-0",
+      "location": 0,
+      "name": "背光的菌柄",
+      "type": "sector",
+      "sector": 0,
+      "target": 1,
+      "hint": "在根前叶窝观察一株。",
+      "mode": "challenge",
+      "seed": 19000
+    },
+    {
+      "id": "walk-0-1",
+      "location": 0,
+      "name": "根后的发现",
+      "type": "sector",
+      "sector": 1,
+      "target": 1,
+      "hint": "去树根背面，拨叶观察。",
+      "mode": "challenge",
+      "seed": 19001
+    },
+    {
+      "id": "walk-0-2",
+      "location": 0,
+      "name": "完整的一窝",
+      "type": "cluster",
+      "sector": 0,
+      "target": 1,
+      "hint": "采完同一个小簇里的全部菌子。",
+      "mode": "challenge",
+      "seed": 19002
+    },
+    {
+      "id": "walk-0-3",
+      "location": 0,
+      "name": "三条根隙",
+      "type": "sectors",
+      "sector": 0,
+      "target": 3,
+      "hint": "在三处小景各观察一株。",
+      "mode": "challenge",
+      "seed": 19003
+    },
+    {
+      "id": "walk-1-0",
+      "location": 1,
+      "name": "石边轮廓",
+      "type": "observe",
+      "sector": 0,
+      "target": 1,
+      "hint": "拨开叶子并轻点菌盖。",
+      "mode": "challenge",
+      "seed": 19004
+    },
+    {
+      "id": "walk-1-1",
+      "location": 1,
+      "name": "湿叶之下",
+      "type": "leaves",
+      "sector": 0,
+      "target": 2,
+      "hint": "实际移开两片湿叶。",
+      "mode": "challenge",
+      "seed": 19005
+    },
+    {
+      "id": "walk-1-2",
+      "location": 1,
+      "name": "小小菌子",
+      "type": "small",
+      "sector": 0,
+      "target": 1,
+      "hint": "观察一株较小的菌子。",
+      "mode": "challenge",
+      "seed": 19006
+    },
+    {
+      "id": "walk-1-3",
+      "location": 1,
+      "name": "两窝相遇",
+      "type": "clusters",
+      "sector": 0,
+      "target": 2,
+      "hint": "观察两个不同菌簇。",
+      "mode": "challenge",
+      "seed": 19007
+    },
+    {
+      "id": "walk-2-0",
+      "location": 2,
+      "name": "移开断枝",
+      "type": "branch",
+      "sector": 0,
+      "target": 1,
+      "hint": "拖动挡住地面的枯枝。",
+      "mode": "challenge",
+      "seed": 19008
+    },
+    {
+      "id": "walk-2-1",
+      "location": 2,
+      "name": "侧生小扇",
+      "type": "family",
+      "sector": 0,
+      "target": 1,
+      "hint": "观察一株扇形菌。",
+      "mode": "challenge",
+      "seed": 19009
+    },
+    {
+      "id": "walk-2-2",
+      "location": 2,
+      "name": "断面旁边",
+      "type": "sector",
+      "sector": 2,
+      "target": 1,
+      "hint": "在木头断面小景观察一株。",
+      "mode": "challenge",
+      "seed": 19010
+    },
+    {
+      "id": "walk-2-3",
+      "location": 2,
+      "name": "两簇收获",
+      "type": "cluster",
+      "sector": 0,
+      "target": 2,
+      "hint": "完整采完两簇。",
+      "mode": "challenge",
+      "seed": 19011
+    },
+    {
+      "id": "walk-3-0",
+      "location": 3,
+      "name": "露出一角",
+      "type": "observe",
+      "sector": 0,
+      "target": 1,
+      "hint": "顺着松针缝隙寻找菌盖。",
+      "mode": "challenge",
+      "seed": 19012
+    },
+    {
+      "id": "walk-3-1",
+      "location": 3,
+      "name": "拨开松针",
+      "type": "leaves",
+      "sector": 0,
+      "target": 2,
+      "hint": "拖开两层松针。",
+      "mode": "challenge",
+      "seed": 19013
+    },
+    {
+      "id": "walk-3-2",
+      "location": 3,
+      "name": "采一小簇",
+      "type": "cluster",
+      "sector": 0,
+      "target": 1,
+      "hint": "收齐一簇菌子。",
+      "mode": "challenge",
+      "seed": 19014
+    },
+    {
+      "id": "walk-3-3",
+      "location": 3,
+      "name": "坡脚寻觅",
+      "type": "sector",
+      "sector": 2,
+      "target": 1,
+      "hint": "去坡脚松果旁观察。",
+      "mode": "challenge",
+      "seed": 19015
+    },
+    {
+      "id": "walk-4-0",
+      "location": 4,
+      "name": "拨开蕨叶",
+      "type": "fern",
+      "sector": 0,
+      "target": 1,
+      "hint": "移开前景蕨叶。",
+      "mode": "challenge",
+      "seed": 19016
+    },
+    {
+      "id": "walk-4-1",
+      "location": 4,
+      "name": "湿土边",
+      "type": "sector",
+      "sector": 1,
+      "target": 1,
+      "hint": "在湿土边缘观察菌子。",
+      "mode": "challenge",
+      "seed": 19017
+    },
+    {
+      "id": "walk-4-2",
+      "location": 4,
+      "name": "细柄微光",
+      "type": "slender",
+      "sector": 0,
+      "target": 1,
+      "hint": "观察钟形或圆伞形菌子。",
+      "mode": "challenge",
+      "seed": 19018
+    },
+    {
+      "id": "walk-4-3",
+      "location": 4,
+      "name": "洼地三点",
+      "type": "sectors",
+      "sector": 0,
+      "target": 3,
+      "hint": "三个小景各有一次观察。",
+      "mode": "challenge",
+      "seed": 19019
+    },
+    {
+      "id": "walk-5-0",
+      "location": 5,
+      "name": "草边露角",
+      "type": "sector",
+      "sector": 0,
+      "target": 1,
+      "hint": "观察草丛边缘的一株菌。",
+      "mode": "challenge",
+      "seed": 19020
+    },
+    {
+      "id": "walk-5-1",
+      "location": 5,
+      "name": "移开草叶",
+      "type": "grass",
+      "sector": 0,
+      "target": 1,
+      "hint": "拖开一束草叶。",
+      "mode": "challenge",
+      "seed": 19021
+    },
+    {
+      "id": "walk-5-2",
+      "location": 5,
+      "name": "宽大的菌盖",
+      "type": "large",
+      "sector": 0,
+      "target": 1,
+      "hint": "观察一株较大的菌子。",
+      "mode": "challenge",
+      "seed": 19022
+    },
+    {
+      "id": "walk-5-3",
+      "location": 5,
+      "name": "光影两边",
+      "type": "lightshade",
+      "sector": 0,
+      "target": 2,
+      "hint": "在阳光草地和林荫交界各观察。",
+      "mode": "challenge",
+      "seed": 19023
+    }
+  ],
+  "collections": [
+    {
+      "name": "圆伞小聚",
+      "family": "round"
+    },
+    {
+      "name": "细柄森林",
+      "family": "bell"
+    },
+    {
+      "name": "林间菌簇",
+      "family": "cluster"
+    },
+    {
+      "name": "大菌盖",
+      "family": "large"
+    },
+    {
+      "name": "混合收获",
+      "family": "all"
+    },
+    {
+      "name": "林地代表",
+      "family": "local"
+    }
+  ],
+  "audio": {
+    "assets": [
+      {
+        "id": "leaf-0",
+        "file": "assets/audio/leaf-0.wav"
+      },
+      {
+        "id": "leaf-1",
+        "file": "assets/audio/leaf-1.wav"
+      },
+      {
+        "id": "pick",
+        "file": "assets/audio/pick.wav"
+      },
+      {
+        "id": "water",
+        "file": "assets/audio/water.wav"
+      }
+    ],
+    "credits": "动作拟音：Peludo / RNAn（CC0，https://rnan.itch.io/；砂地脚步与短水声）；木质轻碰：Kenney Impact Sounds（CC0，https://kenney.nl/assets/impact-sounds）。裁切用于叶层摩擦、落篮和滴水，不声称森林实地录音。"
+  },
+  "atmosphere": {
+    "reeds": [
+      {
+        "x": 0.01,
+        "y": 0.96,
+        "height": 0.2,
+        "spread": 0.12,
+        "count": 28,
+        "lean": 0.4,
+        "color": "#243a24",
+        "light": "#a4b77c",
+        "heads": false
+      },
+      {
+        "x": 1,
+        "y": 0.8,
+        "height": 0.15,
+        "spread": 0.08,
+        "count": 20,
+        "lean": -0.38,
+        "color": "#2c4329",
+        "light": "#b0bc83",
+        "heads": false
+      }
+    ],
+    "dewStrength": 0.45
+  },
+  "forestLayout": {
+    "left": 0.16,
+    "right": 0.84,
+    "top": 0.23,
+    "bottom": 0.79,
+    "gap": 0.23
+  },
+  "forestLitter": {
+    "count": 16,
+    "minRadius": 0.024,
+    "radiusRange": 0.03
+  },
+  "environmentMotion": [
+    {
+      "water": [],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.24,
+          0.23,
+          0.13,
+          0.1
+        ],
+        [
+          0.09,
+          0.9,
+          0.09,
+          0.16
+        ]
+      ],
+      "flow": 0.45,
+      "waves": 0.45,
+      "mist": 0,
+      "rain": 0
+    },
+    {
+      "water": [],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.2,
+          0.27,
+          0.18,
+          0.11
+        ],
+        [
+          0.69,
+          0.12,
+          0.25,
+          0.12
+        ],
+        [
+          0.3,
+          0.85,
+          0.27,
+          0.11
+        ]
+      ],
+      "flow": 0.45,
+      "waves": 0.45,
+      "mist": 0.018,
+      "rain": 0
+    },
+    {
+      "water": [],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.94,
+          0.12,
+          0.055,
+          0.09
+        ]
+      ],
+      "flow": 0.45,
+      "waves": 0.45,
+      "mist": 0,
+      "rain": 0
+    },
+    {
+      "water": [],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.82,
+          0.025,
+          0.18,
+          0.04
+        ]
+      ],
+      "flow": 0.45,
+      "waves": 0.45,
+      "mist": 0,
+      "rain": 0
+    },
+    {
+      "water": [
+        [
+          0.69,
+          0.6
+        ],
+        [
+          0.99,
+          0.62
+        ],
+        [
+          1,
+          0.9
+        ],
+        [
+          0.67,
+          0.83
+        ],
+        [
+          0.61,
+          0.73
+        ]
+      ],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.26,
+          0.15,
+          0.26,
+          0.15
+        ],
+        [
+          0.82,
+          0.35,
+          0.18,
+          0.15
+        ],
+        [
+          0.24,
+          0.69,
+          0.2,
+          0.12
+        ]
+      ],
+      "flow": 0.45,
+      "waves": 0.45,
+      "mist": 0.018,
+      "rain": 0.4
+    },
+    {
+      "water": [],
+      "sky": 0,
+      "sun": [],
+      "foliage": [
+        [
+          0.17,
+          0.15,
+          0.18,
+          0.14
+        ],
+        [
+          0.19,
+          0.32,
+          0.16,
+          0.1
+        ],
+        [
+          0.79,
+          0.11,
+          0.2,
+          0.12
+        ],
+        [
+          0.09,
+          0.64,
+          0.1,
+          0.08
+        ]
+      ],
+      "flow": 0.45,
+      "waves": 0.45,
+      "mist": 0.018,
+      "rain": 0
+    }
+  ]
+}

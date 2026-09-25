@@ -1,0 +1,1 @@
+{"name":"rainy-mushroom-hunt","private":true,"scripts":{"lint":"node tools.mjs lint","test":"node tools.mjs test","build":"node tools.mjs build","preview":"node tools.mjs preview"}}

@@ -1,0 +1,22 @@
+// Optional local recording utility. PLAYWRIGHT_ENTRY points to an installed runtime.
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+import { writeFileSync } from 'node:fs';
+const { chromium } = await import(pathToFileURL(process.env.PLAYWRIGHT_ENTRY).href);
+const root=resolve(import.meta.dirname,'..');
+const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH,args:['--disable-background-timer-throttling','--disable-renderer-backgrounding']});
+const context=await browser.newContext({viewport:{width:720,height:1280},deviceScaleFactor:1,reducedMotion:'no-preference',recordVideo:{dir:resolve(root,'exports'),size:{width:720,height:1280}}});
+const page=await context.newPage(),errors=[];
+page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:4175/',{waitUntil:'networkidle'});
+await page.locator('[data-ready="true"]').waitFor();
+await page.waitForTimeout(750);
+await page.getByRole('button').click();
+await page.waitForTimeout(27000);
+await page.locator('.artwork').screenshot({path:resolve(root,'exports/moonfall-cover.png')});
+const filmTime=await page.locator('.scene').getAttribute('data-film-time');
+const video=await page.video().path();
+await context.close();await browser.close();
+if(errors.length)throw new Error(errors.join('\n'));
+writeFileSync(resolve(root,'exports/recording-source.json'),JSON.stringify({video,filmTime},null,2));
+console.log(JSON.stringify({video,filmTime,errors}));

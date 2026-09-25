@@ -1,0 +1,27 @@
+# 完整首版新增素材
+
+## families-source.png
+
+Photorealistic imaginary woodland fungi sprite atlas on genuinely transparent background. Exactly THREE isolated complete fungal specimens in three equal square cells in a single horizontal row, 1536x512. Soft natural upper-right warm light, detailed realistic muted forest textures, no background or ground, no labels no text. Left: broad round domed mushroom cap with concentric cinnamon and cream rings, stout central pale stem, round umbrella silhouette. Center: branching dark brown woody-looking coral fungus with multiple asymmetrical forks and pale tips, no cap, rooted base. Right: shallow pale beige cup-shaped fungus with delicate fine radial ridges inside the bowl, rolled rim, very short stem, clearly visible concave cup opening. Each centered in its own cell with ample transparent margin; these are fictional fungi, not scientific identification images. No cartoon, no bright glow, no overlap.
+
+用于环纹伞、木角丛、贝纹杯；六个形态族各四种。发布缩小至 768×256；expanded 发布为 1152×1152，以保持当前解码素材预算。
+
+2026-09-19，使用 imagegen 技能和内置 image_gen，未使用 CLI/API fallback。素材保存在本项目 assets，发布为 WebP；源 PNG 留在开发目录。仅格式压缩、必要缩小及读取透明通道计算切片边界，无程序重绘。毒菌为艺术示意，不是鉴定照片。
+
+## expanded-source.png
+
+Create a photorealistic game sprite atlas with exactly 16 DISTINCT imaginary forest mushroom specimens arranged in a precise 4 by 4 equal cell grid, 1536x1536. Genuine transparent alpha background, no text, no labels, no ground, no panels. Each specimen fully within its own cell with 30px clear padding. Real macro photography textures, muted natural earth colors, soft warm upper-right forest light, complete bases. These are fictional species, not identification images. Row1: conical deeply ribbed bell mushroom; tiny twin drooping translucent bells; tall narrow ivory bell with scalloped rim; wide fluted bronze bell. Row2: thick wavy cream shelf fan; thin pleated orange fan with short offcenter stem; layered brown striped fan; ivory shell fan with ridged underside. Row3: small cinnamon cup with rolled lip; broad scarlet shallow cup; tiny grey furry spherical puffball; pear-shaped beige spiny puffball. Row4: split lobed white shaggy puffball; fine branching pale coral fungus; stout branching ochre coral fungus; antler-shaped dark brown coral fungus. Strong shape differences, realistic delicate wet surfaces, no cartoon, no glows, no duplicate silhouettes.
+
+## forestExtra-source.png
+
+Photorealistic rainforest-after-rain game background atlas, landscape 1536x1024 divided precisely into THREE edge-to-edge equal vertical 512x1024 portrait photographs. No borders no labels no mushrooms no animals no people. Camera looks down at forest floor from low oblique overhead angle, sharp natural textures, beautiful soft golden morning light from upper-right, cinematic but realistic. Left panel: warm reddish pine needle slope, scattered tiny pine cones, root across upper edge, open needle ground in central lower 65%. Middle panel: lush fern hollow, delicate fronds framing upper and side edges, dark damp earth and a small shallow wet patch low right, unobstructed ground central 65%. Right panel: golden woodland clearing with fine grass framing edge, speckled sunbeams, dry and wet leaves, open textured earth central lower 65%. Each panel independent full composition, interactive objects will be overlaid separately. No illustrations, no obvious bokeh on central floor.
+
+## nature-source.png
+
+Photorealistic natural history game sprite atlas, exactly 6 specimens in a precise 3 columns by 2 rows grid on genuine transparent alpha background, 1536x1024. No text no label no ground no panels. Specimens fully inside individual cells with wide empty padding, soft upper right illumination, realistic macro details. Top row: Amanita muscaria red cap white warts complete stem white gills ring bulb base; Amanita verna pure white cap white gills ring on stem and sac-like volva at base; Amanita phalloides olive green cap white gills white stem ring and volva at base. Educational artistic depictions only, not diagnostic photography. Bottom row: realistic small brown garden snail with spiraled shell from above side; realistic red black-spotted ladybird on transparent background seen from above; tiny dark brown forest beetle from above. Natural proportions, no cartoon, no artificial glossy plastic.
+
+## occluders-source.png
+
+Photorealistic forest-floor game prop sprite atlas, two equal square cells side by side in landscape 1536x768 image, genuinely transparent alpha background, no ground, no text, no labels. Left cell: one loosely overlapping dense mat of fallen wet brown pine needles, mostly horizontal oval silhouette, small central gap, realistic thin individual needles and dark wet highlights, viewed slightly obliquely from above. Right cell: one loose flattened tuft of long narrow green and ochre woodland grass blades, oval silhouette lying over ground, frayed tips, natural broad arcs. Objects fully in separate cells with 40px clear padding, detailed natural macro photo texture, warm soft upper right light, muted forest color. Not cartoon, no plastic, no pot, no dirt background.
+
+音频：Peludo / RNAn，CC0，https://opengameart.org/content/water-splash-and-sand-footsteps ，作者 https://rnan.itch.io/ 。砂地脚步与水声剪辑作为叶层/泥土和滴水拟音。Kenney Impact Sounds，CC0，https://kenney.nl/assets/impact-sounds ，使用 impactWood_light_000，原许可见 audio-source/Kenney-LICENSE.txt。发布构建生成 audio-data.js，WAV/OGG 不进入 ZIP。

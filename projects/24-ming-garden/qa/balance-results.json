@@ -1,0 +1,260 @@
+{
+  "policy": "Deterministic active strategy: collect each minute, claim goals, expand when affordable, purchase unique scenery in order, upgrade to unlock; not a human playtime forecast.",
+  "fullCollectionMinutes": 422,
+  "firstPerTier": [
+    {
+      "minute": 0,
+      "scenery": "兰草盆",
+      "tier": 1,
+      "gardenLevel": 2,
+      "rate": 5
+    },
+    {
+      "minute": 38,
+      "scenery": "太湖石",
+      "tier": 2,
+      "gardenLevel": 7,
+      "rate": 39.25
+    },
+    {
+      "minute": 82,
+      "scenery": "荷池",
+      "tier": 3,
+      "gardenLevel": 14,
+      "rate": 153.25
+    },
+    {
+      "minute": 125,
+      "scenery": "听雨亭",
+      "tier": 4,
+      "gardenLevel": 21,
+      "rate": 532.45
+    },
+    {
+      "minute": 202,
+      "scenery": "藏书楼",
+      "tier": 5,
+      "gardenLevel": 27,
+      "rate": 1672.45
+    },
+    {
+      "minute": 349,
+      "scenery": "四时花馆",
+      "tier": 6,
+      "gardenLevel": 30,
+      "rate": 5396
+    }
+  ],
+  "snapshots": [
+    {
+      "minute": 0,
+      "coins": 70,
+      "rate": 11.25,
+      "level": 4,
+      "collection": 2,
+      "slots": 12
+    },
+    {
+      "minute": 10,
+      "coins": 22,
+      "rate": 21.25,
+      "level": 6,
+      "collection": 4,
+      "slots": 12
+    },
+    {
+      "minute": 30,
+      "coins": 447,
+      "rate": 21.25,
+      "level": 6,
+      "collection": 4,
+      "slots": 12
+    },
+    {
+      "minute": 60,
+      "coins": 405,
+      "rate": 93.25,
+      "level": 12,
+      "collection": 8,
+      "slots": 12
+    },
+    {
+      "minute": 180,
+      "coins": 16392,
+      "rate": 1072.45,
+      "level": 25,
+      "collection": 16,
+      "slots": 24
+    }
+  ],
+  "events": [
+    {
+      "minute": 0,
+      "scenery": "兰草盆",
+      "tier": 1,
+      "gardenLevel": 2,
+      "rate": 5
+    },
+    {
+      "minute": 0,
+      "scenery": "青竹",
+      "tier": 1,
+      "gardenLevel": 4,
+      "rate": 11.25
+    },
+    {
+      "minute": 3,
+      "scenery": "石灯",
+      "tier": 1,
+      "gardenLevel": 5,
+      "rate": 16.25
+    },
+    {
+      "minute": 9,
+      "scenery": "芭蕉",
+      "tier": 1,
+      "gardenLevel": 6,
+      "rate": 21.25
+    },
+    {
+      "minute": 38,
+      "scenery": "太湖石",
+      "tier": 2,
+      "gardenLevel": 7,
+      "rate": 39.25
+    },
+    {
+      "minute": 53,
+      "scenery": "石几",
+      "tier": 2,
+      "gardenLevel": 9,
+      "rate": 57.25
+    },
+    {
+      "minute": 53,
+      "scenery": "梅树",
+      "tier": 2,
+      "gardenLevel": 11,
+      "rate": 75.25
+    },
+    {
+      "minute": 56,
+      "scenery": "花窗",
+      "tier": 2,
+      "gardenLevel": 12,
+      "rate": 93.25
+    },
+    {
+      "minute": 82,
+      "scenery": "荷池",
+      "tier": 3,
+      "gardenLevel": 14,
+      "rate": 153.25
+    },
+    {
+      "minute": 82,
+      "scenery": "曲桥",
+      "tier": 3,
+      "gardenLevel": 16,
+      "rate": 213.25
+    },
+    {
+      "minute": 93,
+      "scenery": "紫藤架",
+      "tier": 3,
+      "gardenLevel": 17,
+      "rate": 273.25
+    },
+    {
+      "minute": 102,
+      "scenery": "松树",
+      "tier": 3,
+      "gardenLevel": 19,
+      "rate": 352.45
+    },
+    {
+      "minute": 125,
+      "scenery": "听雨亭",
+      "tier": 4,
+      "gardenLevel": 21,
+      "rate": 532.45
+    },
+    {
+      "minute": 142,
+      "scenery": "临水榭",
+      "tier": 4,
+      "gardenLevel": 23,
+      "rate": 712.45
+    },
+    {
+      "minute": 155,
+      "scenery": "月洞门",
+      "tier": 4,
+      "gardenLevel": 24,
+      "rate": 892.45
+    },
+    {
+      "minute": 165,
+      "scenery": "垂柳",
+      "tier": 4,
+      "gardenLevel": 25,
+      "rate": 1072.45
+    },
+    {
+      "minute": 202,
+      "scenery": "藏书楼",
+      "tier": 5,
+      "gardenLevel": 27,
+      "rate": 1672.45
+    },
+    {
+      "minute": 223,
+      "scenery": "曲水流觞",
+      "tier": 5,
+      "gardenLevel": 29,
+      "rate": 2272.45
+    },
+    {
+      "minute": 239,
+      "scenery": "叠山瀑布",
+      "tier": 5,
+      "gardenLevel": 30,
+      "rate": 2851.2
+    },
+    {
+      "minute": 252,
+      "scenery": "回廊",
+      "tier": 5,
+      "gardenLevel": 30,
+      "rate": 3396
+    },
+    {
+      "minute": 349,
+      "scenery": "四时花馆",
+      "tier": 6,
+      "gardenLevel": 30,
+      "rate": 5396
+    },
+    {
+      "minute": 372,
+      "scenery": "云山水院",
+      "tier": 6,
+      "gardenLevel": 30,
+      "rate": 7396
+    },
+    {
+      "minute": 393,
+      "scenery": "百景长廊",
+      "tier": 6,
+      "gardenLevel": 30,
+      "rate": 9300
+    },
+    {
+      "minute": 409,
+      "scenery": "叠石仙岫",
+      "tier": 6,
+      "gardenLevel": 30,
+      "rate": 11180
+    }
+  ]
+}

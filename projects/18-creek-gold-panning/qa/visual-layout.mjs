@@ -1,0 +1,4 @@
+import {cp,readFile,writeFile,mkdir} from 'node:fs/promises';
+const dir='.cache/layout-preview';await mkdir(dir,{recursive:true});await cp('dist',dir,{recursive:true});
+await writeFile(dir+'/layout-fixture.js',`document.documentElement.style.setProperty('--safe-area-inset-top','44px');document.documentElement.style.setProperty('--safe-area-inset-bottom','34px');for(const side of ['left','right']){const mask=document.createElement('div');mask.style.cssText='pointer-events:none;position:fixed;z-index:999;top:44px;width:124px;height:112px;background:rgba(180,40,50,.3);'+side+':0';document.body.appendChild(mask);}`);
+const html=await readFile(dir+'/index.html','utf8');await writeFile(dir+'/index.html',html.replace('</body>','<script src="./layout-fixture.js"></script></body>'));console.log('Isolated layout preview ready');

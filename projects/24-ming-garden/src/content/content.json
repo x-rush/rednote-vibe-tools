@@ -1,0 +1,2731 @@
+{
+  "title": "一庭春慢",
+  "tagline": "把日子，种进园子里。",
+  "brief": "造一方春园，遇一段故事",
+  "storageKey": "ming-garden-v1",
+  "version": 2,
+  "art": "./assets/scenery.webp",
+  "economy": {
+    "startCoins": 200,
+    "maxLevel": 10,
+    "levelGain": 0.25,
+    "upgradeFactor": 0.6,
+    "upgradeGrowth": 1.48,
+    "uniqueXp": 20,
+    "upgradeXp": 5,
+    "comboXp": 25,
+    "baseLevelXp": 18,
+    "stepLevelXp": 2,
+    "maxGardenLevel": 30,
+    "maxCoins": 1000000000000
+  },
+  "tiers": [
+    {
+      "name": "小景",
+      "level": 1,
+      "price": 100,
+      "income": 5
+    },
+    {
+      "name": "雅景",
+      "level": 4,
+      "price": 600,
+      "income": 18
+    },
+    {
+      "name": "胜景",
+      "level": 8,
+      "price": 2400,
+      "income": 60
+    },
+    {
+      "name": "佳境",
+      "level": 13,
+      "price": 9000,
+      "income": 180
+    },
+    {
+      "name": "名景",
+      "level": 19,
+      "price": 36000,
+      "income": 600
+    },
+    {
+      "name": "传世",
+      "level": 26,
+      "price": 150000,
+      "income": 2000
+    }
+  ],
+  "areas": [
+    {
+      "name": "初晴小院",
+      "line": "一枝一石，都是好光景。"
+    },
+    {
+      "name": "荷风水庭",
+      "line": "让一池荷风，吹慢日子。"
+    },
+    {
+      "name": "竹隐书庭",
+      "line": "窗前留一丛竹，也留一寸闲。"
+    },
+    {
+      "name": "云岫后园",
+      "line": "山色入庭，终于自成天地。"
+    }
+  ],
+  "expansions": [
+    {
+      "slots": 6,
+      "level": 1,
+      "price": 0
+    },
+    {
+      "slots": 12,
+      "level": 3,
+      "price": 350
+    },
+    {
+      "slots": 18,
+      "level": 5,
+      "price": 1400
+    },
+    {
+      "slots": 24,
+      "level": 8,
+      "price": 5500
+    },
+    {
+      "slots": 30,
+      "level": 12,
+      "price": 18000
+    },
+    {
+      "slots": 36,
+      "level": 17,
+      "price": 60000
+    },
+    {
+      "slots": 42,
+      "level": 23,
+      "price": 120000
+    },
+    {
+      "slots": 48,
+      "level": 26,
+      "price": 240000
+    }
+  ],
+  "offline": [
+    {
+      "level": 1,
+      "hours": 8
+    },
+    {
+      "level": 12,
+      "hours": 12
+    },
+    {
+      "level": 23,
+      "hours": 24
+    }
+  ],
+  "items": [
+    {
+      "id": "orchid",
+      "name": "兰草盆",
+      "tier": 1,
+      "w": 1,
+      "h": 1,
+      "sprite": 0,
+      "line": "把幽香留在入门处。",
+      "visual": {
+        "width": 12,
+        "height": 12,
+        "role": "近景点缀",
+        "guide": "盆兰放在门边、石灯旁，留出空地衬托幽香。",
+        "anchor": 95
+      },
+      "plantRow": 0,
+      "variants": [
+        {
+          "name": "一盆幽兰",
+          "width": 1,
+          "height": 1,
+          "ground": 1
+        },
+        {
+          "name": "石畔丛兰",
+          "width": 1.2,
+          "height": 1.05,
+          "ground": 1.15
+        },
+        {
+          "name": "兰草花境",
+          "width": 1.5,
+          "height": 1.05,
+          "ground": 1.35
+        }
+      ],
+      "groundScale": 0.4
+    },
+    {
+      "id": "bamboo",
+      "name": "青竹",
+      "tier": 1,
+      "w": 1,
+      "h": 1,
+      "sprite": 1,
+      "line": "风来时，满庭都是轻轻的响。",
+      "visual": {
+        "width": 28,
+        "height": 38,
+        "role": "高景围合",
+        "guide": "疏竹留窗景，竹丛遮墙角，竹林做庭院的绿色背景。",
+        "anchor": 97
+      },
+      "plantRow": 1,
+      "variants": [
+        {
+          "name": "疏竹",
+          "width": 1,
+          "height": 1,
+          "ground": 1
+        },
+        {
+          "name": "青竹丛",
+          "width": 1.2,
+          "height": 1.05,
+          "ground": 1.15
+        },
+        {
+          "name": "竹林屏障",
+          "width": 1.5,
+          "height": 1.05,
+          "ground": 1.35
+        }
+      ],
+      "groundScale": 0.4
+    },
+    {
+      "id": "lantern",
+      "name": "石灯",
+      "tier": 1,
+      "w": 1,
+      "h": 1,
+      "sprite": 2,
+      "line": "为晚归的人，留一盏小小的亮。",
+      "visual": {
+        "width": 12,
+        "height": 16,
+        "role": "引路点景",
+        "guide": "石灯低于树冠，适合放在入口和转折处。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "banana",
+      "name": "芭蕉",
+      "tier": 1,
+      "w": 1,
+      "h": 1,
+      "sprite": 3,
+      "line": "雨落叶上，听见闲居的好。",
+      "visual": {
+        "width": 24,
+        "height": 30,
+        "role": "中景叶丛",
+        "guide": "芭蕉靠近亭台，宽叶与竹子的细叶形成对比。",
+        "anchor": 97
+      },
+      "plantRow": 2,
+      "variants": [
+        {
+          "name": "独蕉",
+          "width": 1,
+          "height": 1,
+          "ground": 1
+        },
+        {
+          "name": "叠叶蕉丛",
+          "width": 1.2,
+          "height": 1.05,
+          "ground": 1.15
+        },
+        {
+          "name": "芭蕉小林",
+          "width": 1.5,
+          "height": 1.05,
+          "ground": 1.35
+        }
+      ],
+      "groundScale": 0.4
+    },
+    {
+      "id": "rock",
+      "name": "太湖石",
+      "tier": 2,
+      "w": 1,
+      "h": 1,
+      "sprite": 4,
+      "line": "一石有千山，移步又是新景。",
+      "visual": {
+        "width": 20,
+        "height": 25,
+        "role": "立石焦点",
+        "guide": "太湖石立于草木之间，不必每一处都居中。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "table",
+      "name": "石几",
+      "tier": 2,
+      "w": 1,
+      "h": 1,
+      "sprite": 5,
+      "line": "茶不必满，有人来坐便好。",
+      "visual": {
+        "width": 20,
+        "height": 18,
+        "role": "停留空间",
+        "guide": "石几前方留空，背后安排竹木形成围合。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "plum",
+      "name": "梅树",
+      "tier": 2,
+      "w": 1,
+      "h": 1,
+      "sprite": 6,
+      "line": "花开不赶春，疏影自成诗。",
+      "visual": {
+        "width": 30,
+        "height": 34,
+        "role": "花树主景",
+        "guide": "梅树做一个庭院的花色中心，旁边用低矮景物陪衬。",
+        "anchor": 97
+      },
+      "plantRow": 3,
+      "variants": [
+        {
+          "name": "白梅疏影",
+          "width": 1,
+          "height": 1,
+          "ground": 1
+        },
+        {
+          "name": "粉梅盛枝",
+          "width": 1.2,
+          "height": 1.05,
+          "ground": 1.15
+        },
+        {
+          "name": "双梅相映",
+          "width": 1.5,
+          "height": 1.05,
+          "ground": 1.35
+        }
+      ],
+      "groundScale": 0.4
+    },
+    {
+      "id": "window",
+      "name": "花窗",
+      "tier": 2,
+      "w": 1,
+      "h": 1,
+      "sprite": 7,
+      "line": "框住一寸绿，便有一幅画。",
+      "visual": {
+        "width": 27,
+        "height": 23,
+        "role": "框景",
+        "guide": "花窗前低植，窗后放高竹，形成前后层次。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "pond",
+      "name": "荷池",
+      "tier": 3,
+      "w": 2,
+      "h": 1,
+      "sprite": 8,
+      "line": "水面不语，却留住了天光。",
+      "visual": {
+        "width": 35,
+        "height": 26,
+        "role": "水面留白",
+        "guide": "荷池周围留岸线，以垂柳和亭榭点景。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "bridge",
+      "name": "曲桥",
+      "tier": 3,
+      "w": 2,
+      "h": 1,
+      "sprite": 9,
+      "line": "路绕一点，风景便多一点。",
+      "visual": {
+        "width": 28,
+        "height": 22,
+        "role": "水岸过渡",
+        "guide": "曲桥宜贴近荷池，避免孤零零摆在空地中央。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "wisteria",
+      "name": "紫藤架",
+      "tier": 3,
+      "w": 2,
+      "h": 1,
+      "sprite": 10,
+      "line": "一串串紫色，把午后垂低。",
+      "visual": {
+        "width": 33,
+        "height": 31,
+        "role": "荫下空间",
+        "guide": "紫藤架前留通路，旁边放石几或花木。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "pine",
+      "name": "松树",
+      "tier": 3,
+      "w": 1,
+      "h": 2,
+      "sprite": 11,
+      "line": "慢慢长成，庭中最稳的背影。",
+      "visual": {
+        "width": 34,
+        "height": 40,
+        "role": "常绿骨架",
+        "guide": "松树承担远景轮廓，旁置山石会更稳重。",
+        "anchor": 97
+      },
+      "plantRow": 4,
+      "variants": [
+        {
+          "name": "迎风孤松",
+          "width": 1,
+          "height": 1,
+          "ground": 1
+        },
+        {
+          "name": "层冠古松",
+          "width": 1.2,
+          "height": 1.05,
+          "ground": 1.15
+        },
+        {
+          "name": "双松相依",
+          "width": 1.5,
+          "height": 1.05,
+          "ground": 1.35
+        }
+      ],
+      "groundScale": 0.4
+    },
+    {
+      "id": "pavilion",
+      "name": "听雨亭",
+      "tier": 4,
+      "w": 2,
+      "h": 1,
+      "sprite": 12,
+      "line": "不躲雨，只为听一场雨。",
+      "visual": {
+        "width": 34,
+        "height": 35,
+        "role": "小型建筑",
+        "guide": "亭台四周留出通行空间，用一高一低两种植物陪衬。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "waterside",
+      "name": "临水榭",
+      "tier": 4,
+      "w": 2,
+      "h": 1,
+      "sprite": 13,
+      "line": "倚栏无事，看鱼拨碎云影。",
+      "visual": {
+        "width": 39,
+        "height": 32,
+        "role": "水边建筑",
+        "guide": "临水榭靠近荷池，远处留一株柳树。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "gate",
+      "name": "月洞门",
+      "tier": 4,
+      "w": 1,
+      "h": 2,
+      "sprite": 14,
+      "line": "门外与门内，各有一轮月。",
+      "visual": {
+        "width": 31,
+        "height": 31,
+        "role": "分隔借景",
+        "guide": "月洞门作为入口，门前低景、门后高景。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "willow",
+      "name": "垂柳",
+      "tier": 4,
+      "w": 1,
+      "h": 2,
+      "sprite": 15,
+      "line": "把枝条垂向水，替春天梳头。",
+      "visual": {
+        "width": 38,
+        "height": 42,
+        "role": "垂枝背景",
+        "guide": "柳树靠水，垂枝下留出一片空白。",
+        "anchor": 92
+      },
+      "plantRow": 5,
+      "variants": [
+        {
+          "name": "疏柳",
+          "width": 1,
+          "height": 1,
+          "ground": 1
+        },
+        {
+          "name": "垂荫老柳",
+          "width": 1.2,
+          "height": 1.05,
+          "ground": 1.15
+        },
+        {
+          "name": "双柳垂岸",
+          "width": 1.5,
+          "height": 1.05,
+          "ground": 1.35
+        }
+      ],
+      "groundScale": 0.4
+    },
+    {
+      "id": "library",
+      "name": "藏书楼",
+      "tier": 5,
+      "w": 3,
+      "h": 1,
+      "sprite": 16,
+      "line": "读到兴起，窗外已是黄昏。",
+      "visual": {
+        "width": 42,
+        "height": 43,
+        "role": "主体建筑",
+        "guide": "藏书楼作庭院主景，前场开阔、侧后植竹。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "stream",
+      "name": "曲水流觞",
+      "tier": 5,
+      "w": 3,
+      "h": 1,
+      "sprite": 17,
+      "line": "杯随水去，诗随人来。",
+      "visual": {
+        "width": 42,
+        "height": 25,
+        "role": "曲水留白",
+        "guide": "曲水占宽不占高，适合与石几和梅树相伴。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "falls",
+      "name": "叠山瀑布",
+      "tier": 5,
+      "w": 3,
+      "h": 1,
+      "sprite": 18,
+      "line": "把山间清响，借进小园。",
+      "visual": {
+        "width": 37,
+        "height": 37,
+        "role": "山水主景",
+        "guide": "瀑布远置，前方用小石和低草衔接。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "corridor",
+      "name": "回廊",
+      "tier": 5,
+      "w": 3,
+      "h": 1,
+      "sprite": 19,
+      "line": "晴日有阴，雨日有路。",
+      "visual": {
+        "width": 45,
+        "height": 30,
+        "role": "空间引导",
+        "guide": "回廊顺着建筑排列，引导视线进入花园。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "flowers",
+      "name": "四时花馆",
+      "tier": 6,
+      "w": 2,
+      "h": 2,
+      "sprite": 20,
+      "line": "春去春来，庭中总有花开。",
+      "visual": {
+        "width": 47,
+        "height": 43,
+        "role": "花园主体",
+        "guide": "四时花馆周边适度留白，让建筑和花色都看得清。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "mountain",
+      "name": "云山水院",
+      "tier": 6,
+      "w": 2,
+      "h": 2,
+      "sprite": 21,
+      "line": "方寸之间，也容得下山川。",
+      "visual": {
+        "width": 49,
+        "height": 42,
+        "role": "山水组景",
+        "guide": "山水组景放在后方，前景只用小景点缀。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "gallery",
+      "name": "百景长廊",
+      "tier": 6,
+      "w": 2,
+      "h": 2,
+      "sprite": 22,
+      "line": "每一扇窗，都藏着下一次相逢。",
+      "visual": {
+        "width": 50,
+        "height": 40,
+        "role": "长廊主景",
+        "guide": "大景廊横向展开，适合做园林的空间边界。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "stonegarden",
+      "name": "叠石仙岫",
+      "tier": 6,
+      "w": 2,
+      "h": 2,
+      "sprite": 23,
+      "line": "叠尽千重意，归来仍是家。",
+      "visual": {
+        "width": 43,
+        "height": 44,
+        "role": "山石主体",
+        "guide": "大型山石背后用松竹，前面留出观赏距离。",
+        "anchor": 91
+      },
+      "groundScale": 0.7
+    },
+    {
+      "id": "manor",
+      "name": "春慢主宅",
+      "tier": 1,
+      "w": 2,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 0,
+      "unlockMap": 0,
+      "price": 0,
+      "income": 0,
+      "line": "把主宅放在自己选择的位置。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 58,
+        "height": 48,
+        "anchor": 94,
+        "role": "园林建筑",
+        "guide": "主宅前方留出空场，侧后植竹，门前接一段石径。"
+      },
+      "groundFootprint": [
+        23,
+        13
+      ]
+    },
+    {
+      "id": "wall",
+      "name": "粉墙",
+      "tier": 1,
+      "w": 1,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 1,
+      "unlockMap": 0,
+      "price": 160,
+      "income": 0,
+      "line": "粉墙遮去杂景，留住院里的安静。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 26,
+        "height": 18,
+        "anchor": 94,
+        "role": "园林建筑",
+        "guide": "墙段靠近可轻吸附，与月门接成有出入的围合。"
+      },
+      "groundFootprint": [
+        10,
+        2
+      ]
+    },
+    {
+      "id": "moonwall",
+      "name": "花影月门",
+      "tier": 2,
+      "w": 1,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 2,
+      "unlockMap": 0,
+      "price": 500,
+      "income": 0,
+      "line": "让另一处风景，从圆门里露出来。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 27,
+        "height": 30,
+        "anchor": 94,
+        "role": "园林建筑",
+        "guide": "月门与粉墙衔接，门前留通路，门后只露一点花木。"
+      },
+      "groundFootprint": [
+        9,
+        4
+      ]
+    },
+    {
+      "id": "boat",
+      "name": "听荷画舫",
+      "tier": 3,
+      "w": 1,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 3,
+      "unlockMap": 1,
+      "price": 1600,
+      "line": "有处靠岸，才有从容出发的时候。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 31,
+        "height": 25,
+        "anchor": 94,
+        "role": "园林建筑",
+        "guide": "靠近湖岸、荷池或画出的水面，别让船孤零零停在干地。"
+      }
+    },
+    {
+      "id": "lotus",
+      "name": "新荷丛",
+      "tier": 2,
+      "w": 1,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 4,
+      "unlockMap": 1,
+      "price": 450,
+      "line": "一池新荷，不必急着盛开。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 25,
+        "height": 23,
+        "anchor": 94,
+        "role": "山水花木",
+        "guide": "放在水边，与远处的亭榭留出距离，水面适当留白。"
+      }
+    },
+    {
+      "id": "laketea",
+      "name": "湖心茶亭",
+      "tier": 3,
+      "w": 2,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 5,
+      "unlockMap": 1,
+      "price": 2400,
+      "line": "来客在水边坐下，话便慢了。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 38,
+        "height": 37,
+        "anchor": 94,
+        "role": "园林建筑",
+        "guide": "亭台靠水，入口接岸，另一侧留水面与荷景。"
+      }
+    },
+    {
+      "id": "osmanthus",
+      "name": "金桂",
+      "tier": 3,
+      "w": 1,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 6,
+      "unlockMap": 2,
+      "price": 2200,
+      "line": "山风吹来，一树桂香先到了。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 32,
+        "height": 38,
+        "anchor": 94,
+        "role": "山水花木",
+        "guide": "金桂宜作书舍侧后的高景，窗前留光。"
+      }
+    },
+    {
+      "id": "mountainstudy",
+      "name": "云岫书舍",
+      "tier": 4,
+      "w": 2,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 7,
+      "unlockMap": 2,
+      "price": 6000,
+      "line": "窗下的字，可以按自己的心意写。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 43,
+        "height": 36,
+        "anchor": 94,
+        "role": "园林建筑",
+        "guide": "山房作主景，桂树偏置一侧，前方留一条到窗边的小径。"
+      }
+    },
+    {
+      "id": "cascade",
+      "name": "叠泉山石",
+      "tier": 4,
+      "w": 2,
+      "h": 1,
+      "sprite": 0,
+      "extraSprite": 8,
+      "unlockMap": 2,
+      "price": 4500,
+      "line": "叠石引泉，把山声留在院中。",
+      "groundScale": 0.65,
+      "visual": {
+        "width": 35,
+        "height": 40,
+        "anchor": 94,
+        "role": "山水花木",
+        "guide": "叠泉靠园边，前景用低草与石径承接，避免挡住主宅入口。"
+      }
+    }
+  ],
+  "combos": [
+    {
+      "id": "rain",
+      "name": "竹下听雨",
+      "items": [
+        "pavilion",
+        "bamboo",
+        "banana"
+      ],
+      "bonus": 0.2,
+      "line": "竹影与蕉叶围着亭子，雨声也有了层次。"
+    },
+    {
+      "id": "water",
+      "name": "曲水通幽",
+      "items": [
+        "pond",
+        "bridge",
+        "willow"
+      ],
+      "bonus": 0.2,
+      "line": "沿桥看柳，绕柳见荷。"
+    },
+    {
+      "id": "plumlight",
+      "name": "疏影横斜",
+      "items": [
+        "plum",
+        "pond",
+        "lantern"
+      ],
+      "bonus": 0.15,
+      "line": "灯映梅枝，疏影落在一池水里。"
+    },
+    {
+      "id": "study",
+      "name": "书窗借绿",
+      "items": [
+        "library",
+        "bamboo",
+        "window"
+      ],
+      "bonus": 0.25,
+      "line": "书卷一翻，窗前竹色又深了一分。"
+    },
+    {
+      "id": "pinevoice",
+      "name": "松石清音",
+      "items": [
+        "pine",
+        "rock",
+        "table"
+      ],
+      "bonus": 0.2,
+      "line": "石边有座，松下有风，坐着便好。"
+    },
+    {
+      "id": "first",
+      "name": "兰灯相照",
+      "items": [
+        "orchid",
+        "lantern"
+      ],
+      "bonus": 0.1,
+      "line": "第一盆兰与第一盏灯，照见小园初成。"
+    },
+    {
+      "id": "tea",
+      "name": "花下闲坐",
+      "items": [
+        "wisteria",
+        "table",
+        "orchid"
+      ],
+      "bonus": 0.2,
+      "line": "紫藤落花时，邀一位故人来吃茶。"
+    },
+    {
+      "id": "moon",
+      "name": "月门寻香",
+      "items": [
+        "gate",
+        "plum",
+        "window"
+      ],
+      "bonus": 0.25,
+      "line": "隔窗见花，过门闻香。"
+    }
+  ],
+  "goals": [
+    {
+      "id": "firstplant",
+      "name": "把春天种下",
+      "line": "放下你的第一处景物",
+      "kind": "placed",
+      "target": 1,
+      "coins": 100,
+      "xp": 12
+    },
+    {
+      "id": "twoplants",
+      "name": "一庭两景",
+      "line": "同时摆放两处景物",
+      "kind": "placed",
+      "target": 2,
+      "coins": 180,
+      "xp": 12
+    },
+    {
+      "id": "firstup",
+      "name": "照料有方",
+      "line": "将任意景物升至 2 级",
+      "kind": "maxLevel",
+      "target": 2,
+      "coins": 200,
+      "xp": 14
+    },
+    {
+      "id": "firstcombo",
+      "name": "景物有知音",
+      "line": "发现一组造景搭配",
+      "kind": "combos",
+      "target": 1,
+      "coins": 300,
+      "xp": 16
+    },
+    {
+      "id": "sixkinds",
+      "name": "小园渐丰",
+      "line": "收藏六种不同景物",
+      "kind": "collection",
+      "target": 6,
+      "coins": 1000,
+      "xp": 30
+    },
+    {
+      "id": "newcourt",
+      "name": "推门见春",
+      "line": "经营扩容至 54 份容量",
+      "kind": "slots",
+      "target": 18,
+      "coins": 1400,
+      "xp": 35
+    },
+    {
+      "id": "tenlevels",
+      "name": "老树新枝",
+      "line": "将任意景物升至 6 级",
+      "kind": "maxLevel",
+      "target": 6,
+      "coins": 1800,
+      "xp": 30
+    },
+    {
+      "id": "hundred",
+      "name": "客来赏园",
+      "line": "每分钟收益达到 150",
+      "kind": "rate",
+      "target": 150,
+      "coins": 2500,
+      "xp": 35
+    },
+    {
+      "id": "threecombo",
+      "name": "借景成章",
+      "line": "累计发现三组搭配",
+      "kind": "combos",
+      "target": 3,
+      "coins": 4000,
+      "xp": 40
+    },
+    {
+      "id": "twelve",
+      "name": "十二景成册",
+      "line": "收藏十二种不同景物",
+      "kind": "collection",
+      "target": 12,
+      "coins": 6000,
+      "xp": 45
+    },
+    {
+      "id": "thirdcourt",
+      "name": "竹隐书庭",
+      "line": "经营扩容至 90 份容量",
+      "kind": "slots",
+      "target": 30,
+      "coins": 15000,
+      "xp": 45
+    },
+    {
+      "id": "grand",
+      "name": "传世之景",
+      "line": "收藏第一处传世景物",
+      "kind": "tier",
+      "target": 6,
+      "coins": 25000,
+      "xp": 60
+    },
+    {
+      "id": "fullgarden",
+      "name": "满庭春慢",
+      "line": "经营扩容至 144 份容量",
+      "kind": "slots",
+      "target": 48,
+      "coins": 50000,
+      "xp": 80
+    },
+    {
+      "id": "all",
+      "name": "二十四景全",
+      "line": "收藏二十四种不同景物",
+      "kind": "collection",
+      "target": 24,
+      "coins": 100000,
+      "xp": 100
+    }
+  ],
+  "ui": {
+    "inventoryFull": "景物总数已达 240 处上限，请从收纳中取景或升级已有景物。",
+    "piece": "处",
+    "grid": "份",
+    "grade": "级",
+    "hour": "小时",
+    "newTitle": "从一盆兰开始",
+    "newBody": "添上花木，留住闲时。园子会替你慢慢攒下游赏钱。",
+    "start": "去选第一景",
+    "waiting": "等待生长",
+    "bonus": "相邻加成",
+    "needLevel": "解锁园等级",
+    "baseRate": "基础收益",
+    "currentRate": "当前收益",
+    "afterUpgrade": "升后收益",
+    "upgradePrice": "升级花费",
+    "size": "占园地",
+    "price": "购置花费",
+    "rotation": "已切换左右朝向",
+    "goalReward": "奖励",
+    "goals": "园中小事",
+    "combinations": "搭配图录",
+    "progress": "进度",
+    "income": "收益",
+    "ready": "可领奖",
+    "allGoals": "园记已全部完成，继续把园子摆成喜欢的样子。",
+    "active": "生效中",
+    "offlineLimit": "离线累计上限",
+    "stored": "已收纳",
+    "look": "查看搭配",
+    "unlock": "解锁条件",
+    "nextArea": "经营容量",
+    "confirmExpand": "增加六份园地",
+    "noSpaceHint": "本庭暂时放不下。可切换庭院、挪动其他景物、收纳或扩园。",
+    "moveHint": "移动与收纳免费，等级会保留。",
+    "fullCollection": "收藏进度",
+    "levelMax": "园等级已满",
+    "emptyCourt": "这一庭尚未打开，请先扩园。",
+    "bankLimit": "钱匣上限",
+    "bankKept": "原有钱匣余额保留",
+    "countdown": "还需",
+    "moneyUnit": "钱",
+    "upgradeStep": "每级增加基础收益的 25%",
+    "allPlaced": "已布置",
+    "temporary": "临时试玩",
+    "viewGarden": "回园看看",
+    "offlineDuration": "离开时长",
+    "shortOffline": "不足一分钟",
+    "cancelWord": "取消",
+    "selectFloor": "选择落点",
+    "rewardCoins": "游赏钱",
+    "recentCombo": "新搭配已点亮图录",
+    "endNote": "无须赶路，园中的春天等你。",
+    "garden": "园子",
+    "shop": "添景",
+    "journal": "园记",
+    "album": "图鉴",
+    "coins": "游赏钱",
+    "bank": "钱匣",
+    "collect": "收入囊中",
+    "minute": "/ 分钟",
+    "level": "园等级",
+    "xp": "园望",
+    "area": "庭院",
+    "expand": "经营扩容",
+    "warehouse": "收纳",
+    "guide": "玩法",
+    "close": "回到园子",
+    "cancel": "取消摆放",
+    "place": "落在这里",
+    "buy": "选好，去摆放",
+    "upgrade": "升级景物",
+    "move": "挪个位置",
+    "store": "暂时收纳",
+    "replace": "重新摆放",
+    "night": "夜色",
+    "day": "晴昼",
+    "empty": "点击空地添一景",
+    "locked": "尚未开放",
+    "select": "点一处景物，可升级或挪动",
+    "capacity": "全园容量",
+    "claimed": "已领取",
+    "claim": "领赏",
+    "complete": "已达成",
+    "combo": "造景搭配",
+    "discover": "已发现",
+    "unknown": "待发现",
+    "available": "可购置",
+    "owned": "已藏",
+    "max": "已至满级",
+    "full": "经营容量已全部开放",
+    "noStored": "收纳里还没有景物。点园中景物即可收纳，之后能免费放回来。",
+    "successBuy": "景物已落地，开始为你赚取游赏钱。",
+    "successMove": "新位置已安置好。",
+    "successStore": "已收入库中，保留等级；收纳期间不产出。",
+    "successUpgrade": "景物已升级，收益提高了。",
+    "successExpand": "新的园地已打开。",
+    "successGoal": "园记奖励已入账。",
+    "noMoney": "游赏钱还不够，先收钱或等一会儿。",
+    "noSpace": "这里放不下，试试其他空地或先扩园。",
+    "lockedTier": "园等级还未达到这一品阶。",
+    "chooseSpot": "选择景物后，在庭院里预览落点，确认才扣钱。",
+    "moving": "选择新的空地，原景物会保留到落位成功。",
+    "chooseFirst": "点添景选兰草，再添一盏相伴的石灯。园中有些故事，等你慢慢遇见。",
+    "offlineTitle": "你不在时，春也在生长",
+    "offlineBody": "已按离开时的景物收益结算，钱已放入钱匣。",
+    "offlineCap": "本次离线按上限结算",
+    "noOffline": "园中景物会持续生钱，离开也有收益。",
+    "capFull": "钱匣已满，收钱后继续积累。",
+    "saved": "自动保存于本机",
+    "saveFailed": "本机存储不可用，当前进度仅在本次页面保留。请勿关闭。",
+    "corrupt": "存档无法读取，原存档未覆盖。可继续临时试玩，或在玩法中明确重开。",
+    "stale": "另一个页面更新了园子，已载入较新的进度。",
+    "clock": "设备时间早于上次记录，新增收益暂缓；时间恢复后继续。",
+    "reset": "重开一座园",
+    "resetTitle": "要重新开始吗？",
+    "resetBody": "这会清空本机园子的景物、游赏钱和园记，无法撤销。",
+    "resetConfirm": "确认清空并重开",
+    "keep": "保留我的园子",
+    "rotate": "镜像",
+    "emptyWarehouse": "打开收纳",
+    "notReady": "园记条件还未达成。",
+    "comboRule": "同一庭院内，所需景物的底座靠近并连成一组即可成景。每处只取最高加成，移动和收纳会重新计算。",
+    "allCollection": "二十四景，慢慢收齐",
+    "collectionRule": "首次购置即可点亮图鉴；收纳不会丢失收藏。",
+    "guideTitle": "慢慢造园，慢慢有余",
+    "guideParagraphs": [
+      "园林占满画面。拖动看园、双指缩放；先点选景物，再拖动搬移。点添景布置，点成长收钱和看解锁，园中故事里可以遇见支线；赏园会隐藏操作面板。",
+      "初晴庭院开始即可布置；荷风湖汀需4级与1800银两，云岫山居需9级与12000银两。地图布局独立保存，所有已放置景物一起产出，切换地图不会停产。",
+      "领取一次开园礼后，主宅、青竹、兰草、石灯存入收纳。主宅可以移动和镜像；收纳景物暂停该件产出，已经积累的钱匣余额不会消失。",
+      "各地图的四处定位点没有内部围栏。每张园地使用当前经营容量，初始18份，扩容后最高144份。所有地图共享钱包、扩容进度与收纳，景物总数最多240件。",
+      "基础地景免费，每张地图最多80笔、每笔最多120个点。石径、曲池与墙线的端点可轻吸附；墙段和月门靠近时也会吸附，可以在铺路理水里关闭。",
+      "曲桥、临水榭、画舫、新荷与湖亭需要靠近荷池、曲水或绘制的水面。湖汀地图的外侧湖岸也可承接。旧存档位置保留，再次移动时执行当前规则。",
+      "整组造景先预览总价，优先使用收纳中的景物，缺件才购买。点地面移动整组，确认才生效；失败或取消不扣款。放下后每件都能单独调整。",
+      "照料已放置的草木，按叶土状态完成三步选择可获得谢礼；每株两分钟可照料一次。园中来客要求实际布置、铺路或寻物，选择会影响回信与纪念物。",
+      "原有园笺仍可阅读；新园的寻物可以查看线索定位，再在园中拾取。来客奖励、寻物谢礼和开园礼不会重复领取。",
+      "离线收益初始最多8小时，园等级12和23后分别为12和24小时。主动互动是额外玩法，不在线不会受到罚款或损失。",
+      "移动、形态、收纳与地景可撤销；购买、升级、切换地图和整组落位会清空布局撤销历史，金币与经过的时间不回退。",
+      "本作是以兰香如故为主题的原创园居小故事，新增来客不是原剧人物。仅保存本机结构化进度，不联网，宿主清理记录后可能丢失。",
+      "荷风湖汀新增固定湖湾与旧渡口。已解锁旧园的玩家可在地图页先预览，再选择采用，已有布局不自动移动。湖岸旧渡可请人修复，或找回船绳后亲手修；回礼为独有绣荷归岸灯。试错只暂缓额外奖励，可免费补领，离线不会受罚。"
+    ],
+    "stories": "园笺",
+    "storyTab": "园中来信",
+    "storyReady": "有新园笺",
+    "storyWaiting": "随造园慢慢相逢",
+    "storyFinished": "故事已留在园中",
+    "storyOpen": "展开园笺",
+    "storyRecord": "往日小笺",
+    "storyChoice": "你的回应",
+    "storyContinue": "收好这页园笺",
+    "storyLocked": "还未遇见这一页园事。",
+    "storyDuplicate": "这一页已经回应过了。",
+    "storyReward": "留下的纪念",
+    "viewMode": "赏园",
+    "exitView": "继续造园",
+    "recommend": "推荐落点",
+    "confirmPlace": "确认落位",
+    "placementHint": "点地面落位，拖动微调；双指缩放镜头",
+    "placementGood": "此处可安置，确认前不扣钱。",
+    "placementBad": "调整位置后再落位",
+    "capacityFull": "全园经营容量已满，可扩容或收纳",
+    "footprint": "园地容量",
+    "themeTitle": "关于这座园",
+    "migration": "旧园已转入新庭景。金币、等级与收藏均保留；若原位置放不下，景物会免费收入收纳。",
+    "newGardenHint": "从一盆兰开始。点「添景」，在曲径旁选一处喜欢的位置。",
+    "artFailed": "庭景暂未载入，请重新打开页面；经营进度已保留。",
+    "worldName": "一庭春慢 · 园林全景",
+    "zoomOut": "缩小园景",
+    "zoomIn": "放大园景",
+    "overview": "全园",
+    "locate": "定位",
+    "unopened": "待辟",
+    "cameraHint": "拖动看园 · 点选后搬动 · 双指缩放",
+    "atmosphere": "氛围",
+    "atmosphereTitle": "给园子换一层光",
+    "atmosphereHint": "选一种只影响观感的天气与光线，景物收益不会改变。",
+    "atmoClear": "晴昼",
+    "atmoClearHint": "清亮的春日，适合看清园中每一处细节。",
+    "atmoDusk": "薄暮",
+    "atmoDuskHint": "日落后的暖紫色，灯影开始沿着回廊亮起来。",
+    "atmoRain": "雨意",
+    "atmoRainHint": "细雨落在瓦檐，园景更安静，也更有故事感。",
+    "atmosphereChoose": "使用这层光",
+    "orientation": "方向",
+    "portrait": "竖屏",
+    "landscape": "横屏",
+    "collapsePanels": "收起",
+    "expandPanels": "展开",
+    "orientationTitle": "手机横竖屏操作",
+    "orientationHint": "界面随可用屏幕方向自动适配。若旋转手机后没有变化，请检查系统方向锁定；宿主保持竖屏时，园子也保持竖屏操作。",
+    "orientationPortrait": "竖向看园",
+    "orientationPortraitHint": "适合单手浏览与竖屏手机。",
+    "orientationLandscape": "横向看园",
+    "orientationLandscapeHint": "横向铺开园景，操作面板靠侧边展开。",
+    "orientationAuto": "跟随屏幕",
+    "orientationAutoHint": "根据当前窗口宽高自动选择排布。",
+    "orientationLive": "当前屏幕方向",
+    "orientationHow": "怎么操作",
+    "orientationHowBody": "竖拿手机用底部抽屉添景；横拿手机用侧边抽屉布置。切换时保留正在摆放的景物和操作进度。",
+    "photo": "拍照",
+    "photoBody": "保存当前园景，记录景物位置、地图与氛围。",
+    "photoObjects": "件景物",
+    "photoSaved": "园景已保存到相册",
+    "photoSaveFailed": "暂时无法保存到相册，已打开园景预览",
+    "photoPreview": "园景预览",
+    "closePhoto": "返回园景",
+    "photoAgain": "重新拍照",
+    "mountainView": "登高看云",
+    "mountainViewBody": "山居的风会把园中的声音带远。沿着石阶看一眼云岫，再回到自己的院子继续布置。",
+    "mountainViewDone": "你在山腰留下一盏小灯，晚些时候再来看看。",
+    "lockedLand": "超出园地边界",
+    "appearance": "形态与体量",
+    "variant": "植物形态",
+    "visualSize": "景物体量",
+    "sizeNote": "形态与体量免费调整，不改变基础收益。",
+    "badAppearance": "这项形态不可用，请重新选择。",
+    "plans": "造景方案",
+    "planGuide": "先确定主景，再补高低层次。按材料逐项添景，靠近后获得组合加成。",
+    "planStop": "收起方案",
+    "planPlaced": "已在园中",
+    "planStored": "在收纳中",
+    "planMissing": "待添置",
+    "planComplete": "已成景",
+    "planAdjust": "靠近摆放可成景",
+    "gardenList": "园中景物",
+    "manage": "成长",
+    "growthIntro": "添景会持续赚取游赏钱，用收益解锁更多景物和园地。",
+    "growthIncome": "当前每分钟产出",
+    "growthBank": "可收取",
+    "growthGoal": "眼前的小事",
+    "growthUnlocks": "下一步解锁",
+    "growthNewScenery": "新景物",
+    "growthNewGarden": "新园地",
+    "growthAllScenery": "各品阶景物已全部开放",
+    "growthAllGardens": "三处园地已全部开放",
+    "growthMore": "布景工具与收藏",
+    "growthStory": "去遇见园中故事",
+    "growthMap": "看看新园地",
+    "growthPlant": "看看新景物",
+    "momentHub": "园中故事",
+    "momentIntro": "布景之外，照料草木、迎接来客，也能获得谢礼与纪念。",
+    "momentNow": "现在可以做",
+    "momentWait": "新的相遇会随着造园慢慢出现。先摆一景，或去照料园里的草木。",
+    "momentCare": "照料这株草木",
+    "momentStarter": "先领取开园礼",
+    "momentBrowse": "更多园中故事",
+    "momentEnter": "去看看",
+    "drawerMore": "展开",
+    "drawerLess": "收起",
+    "undo": "撤销",
+    "redo": "重做",
+    "repeat": "连续添景",
+    "collision": "与景物根部或地基重叠",
+    "outside": "超出园地边界",
+    "freeEstateNote": "全园自由摆放，扩容增加经营容量。",
+    "layoutUndoNote": "已恢复布局，金币与经过的时间不回退。",
+    "ground": "铺路理水",
+    "groundHint": "在园中拖画，松手完成；双指缩放。基础造景不消耗银两。",
+    "groundDone": "完成铺设",
+    "groundFull": "地景已达上限，请撤销或整理",
+    "waypoints": "园中定位",
+    "openGround": "可自由摆放",
+    "clearGround": "清除地景",
+    "clearGroundConfirm": "清除全部地景？可通过撤销恢复。",
+    "teaPlan": "竹下茶庭",
+    "teaHint": "依次添置青竹、石几、太湖石和兰草，再用石径连成一个小景。景物可逐件自由调整。",
+    "maps": "游园图",
+    "visit": "前往",
+    "unlockMap": "修葺新园",
+    "mapLocked": "先修葺对应园地",
+    "mapAlready": "这处园地已开放",
+    "starter": "领取开园礼",
+    "starterNote": "主宅、青竹、兰草、石灯各一件，存入收纳；每份存档仅一次。",
+    "starterDone": "开园礼已存入收纳，可自由摆放。",
+    "starterClaimed": "已领开园礼",
+    "quests": "园中来客",
+    "questLocked": "先完成这段故事的园中小事",
+    "questDone": "这段相遇已记下",
+    "care": "照料草木",
+    "careWait": "这株刚照料过，稍后再来，也可以照看别株。",
+    "careDone": "照料完成，获得谢礼",
+    "careOnly": "选择已放置的草木，再来照看。",
+    "careContinue": "继续照料",
+    "blueprints": "整组造景",
+    "blueprintPreview": "预览整组",
+    "blueprintConfirm": "确认整组落位",
+    "blueprintHint": "优先使用收纳中的景物；缺件按标价购买。点地面或方向键调整整组位置。",
+    "blueprintCost": "缺件合计",
+    "blueprintInvalid": "位置、容量或解锁条件不满足，整组未落位。",
+    "snap": "轻吸附",
+    "waterNeeded": "这件景物需要靠近水面，请先画曲池或放荷池。",
+    "requirePlaced": "当前园地摆放景物",
+    "requireCare": "累计完成草木照料",
+    "requirePath": "当前园地铺设石径",
+    "requireSpecial": "当前园地摆放",
+    "questReward": "相遇谢礼",
+    "questChoose": "说句话",
+    "questNext": "记下这次相遇",
+    "questEmpty": "这处园地的故事已经写完，仍可读回信、照料草木或自由造景。",
+    "finds": "园中寻物",
+    "findLocate": "看看附近",
+    "findDone": "已经寻回",
+    "requireFind": "寻回园中物件",
+    "harbor": "湖岸旧渡",
+    "lakePreview": "预览湖湾新景",
+    "lakeApply": "采用新景",
+    "lakeOld": "回到原湖汀",
+    "lakeKeep": "保留当前布局",
+    "lakePreviewNote": "这里只预览，不会移动或删除景物。采用前会检查水域与渡口是否占到已有布局。可以随时回到原湖汀。",
+    "lakeConflicts": "这些景物与新湖湾重叠，请先移开或收纳：",
+    "lakeGroundConflict": "已有地景经过新水面或渡口，请先调整；未修改你的地景。",
+    "lakeClear": "当前布局可直接采用，无需搬动。",
+    "lakeWater": "这里是固定湖水，请改放荷丛或画舫；建筑请放岸上。",
+    "lakeDock": "这里是固定渡口，请留出修复与通行位置。",
+    "lakeGround": "地景不能盖住固定湖面或渡口，请沿岸绘制。",
+    "harborLocked": "请先进入荷风湖汀，再到湖岸旧渡查看。",
+    "harborDone": "这一阶段已经完成。",
+    "harborRope": "先从园中寻物找回船绳，再来修渡口。",
+    "harborGiftFull": "收纳已满，先腾出一个景物位置再完成修复。",
+    "harborCheck": "再检查一次绳结，便可补领额外奖励。",
+    "harborContinue": "继续修渡",
+    "harborGuest": "看看灯下来客",
+    "harborGiftClaim": "领取独有回礼",
+    "harborOverview": "看渡口变化",
+    "harborProgress": "修复进度",
+    "harborReward": "领取检查回礼",
+    "harborMapNote": "新湖湾有固定水域与旧渡口；旧布局可保留，修渡剧情在两种布局中都能体验。",
+    "harborGuestWrong": "湿纸贴紧会粘住，先护住画心。试错不扣钱。",
+    "lakeLandmark": "这里是固定远亭与石桥，景物请放在园内。"
+  },
+  "theme": {
+    "label": "《兰香如故》主题创作",
+    "note": "独立原创园居故事，不对应原剧情节或人物结局。",
+    "intro": "兰生幽处，也有自己的春天。修一方小园，把日子慢慢过成喜欢的模样。"
+  },
+  "background": "./assets/courts.webp",
+  "layout": {
+    "zones": [
+      [
+        [
+          9,
+          37
+        ],
+        [
+          34,
+          34
+        ],
+        [
+          39,
+          46
+        ],
+        [
+          34,
+          60
+        ],
+        [
+          46,
+          76
+        ],
+        [
+          39,
+          92
+        ],
+        [
+          10,
+          89
+        ]
+      ],
+      [
+        [
+          58,
+          35
+        ],
+        [
+          88,
+          36
+        ],
+        [
+          90,
+          90
+        ],
+        [
+          63,
+          93
+        ],
+        [
+          66,
+          75
+        ],
+        [
+          61,
+          58
+        ],
+        [
+          50,
+          48
+        ]
+      ]
+    ],
+    "anchors": [
+      [
+        22,
+        48
+      ],
+      [
+        69,
+        49
+      ],
+      [
+        20,
+        65
+      ],
+      [
+        78,
+        67
+      ],
+      [
+        29,
+        83
+      ],
+      [
+        72,
+        84
+      ],
+      [
+        31,
+        57
+      ],
+      [
+        80,
+        42
+      ],
+      [
+        14,
+        79
+      ],
+      [
+        81,
+        80
+      ],
+      [
+        38,
+        77
+      ],
+      [
+        62,
+        57
+      ]
+    ],
+    "footprints": [
+      [
+        5.5,
+        3.5
+      ],
+      [
+        7.5,
+        4.5
+      ],
+      [
+        9,
+        5.5
+      ],
+      [
+        11,
+        6.5
+      ]
+    ],
+    "near": 7,
+    "areaZones": [
+      [
+        [
+          [
+            6,
+            6
+          ],
+          [
+            94,
+            6
+          ],
+          [
+            94,
+            94
+          ],
+          [
+            6,
+            94
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            6,
+            6
+          ],
+          [
+            94,
+            6
+          ],
+          [
+            94,
+            94
+          ],
+          [
+            6,
+            94
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            6,
+            6
+          ],
+          [
+            94,
+            6
+          ],
+          [
+            94,
+            94
+          ],
+          [
+            6,
+            94
+          ]
+        ]
+      ],
+      [
+        [
+          [
+            6,
+            6
+          ],
+          [
+            94,
+            6
+          ],
+          [
+            94,
+            94
+          ],
+          [
+            6,
+            94
+          ]
+        ]
+      ]
+    ],
+    "capacityMultiplier": 3,
+    "world": {
+      "top": 20,
+      "band": 37
+    },
+    "freeEstate": true
+  },
+  "stories": [
+    {
+      "id": "orchid",
+      "title": "一盆不肯开的兰",
+      "person": "看花的邻人",
+      "area": 0,
+      "keepsake": "养兰小笺",
+      "kind": "letter",
+      "anchor": [
+        32,
+        84
+      ],
+      "episodes": [
+        {
+          "title": "未开的花",
+          "need": [
+            "orchid"
+          ],
+          "hint": "收藏兰草盆",
+          "body": "邻人站在盆边，想说好话，却只夸了一句叶子。临走时她又回头：“花市有开好的，换一盆，来客也好看。”\n你蹲下看见叶心新抽的一点绿。它长得慢，但并没有停。",
+          "choices": [
+            {
+              "id": "wait",
+              "label": "留下它，等它自己的花期",
+              "reply": "“那便等等。”邻人也蹲下来。这次她看见了新叶，伸到一半的手轻轻收了回去。"
+            },
+            {
+              "id": "learn",
+              "label": "请她一起看看，是不是养法不合适",
+              "reply": "她把花盆转了半圈：“午后这边太晒，先试着挪一挪。”你记下她的话，没有急着给兰判好坏。"
+            }
+          ]
+        },
+        {
+          "title": "叶尖新绿",
+          "need": [
+            "orchid"
+          ],
+          "minItemLevel": 2,
+          "hint": "把兰草盆培育至2级",
+          "body": "兰叶舒展了些。邻人提来半壶放了一夜的水，却没像上回一样开口问花。",
+          "echo": {
+            "wait": "她笑道：“等花的这些日子，倒先记住了它的叶子。”",
+            "learn": "她先看了看午后的光：“换了位置，果然比原来精神。”"
+          },
+          "choices": [
+            {
+              "id": "record",
+              "label": "把这几日的变化记下来",
+              "reply": "你们在纸上画了一片歪歪的叶。记的不是哪天必须开花，只是它今天比昨天舒展。"
+            },
+            {
+              "id": "share",
+              "label": "邀她以后路过就进来看看",
+              "reply": "“没有花也能来？”她问。你将门留了半扇，她的水壶便有了一个常放的位置。"
+            }
+          ]
+        },
+        {
+          "title": "兰灯相照",
+          "need": [
+            "orchid",
+            "lantern"
+          ],
+          "hint": "收藏兰草盆与石灯",
+          "body": "灯亮时，叶间终于露出一枝小小的花苞。邻人没有叫人来看，只把声音放轻了。",
+          "echo": {
+            "record": "你翻开那页记着新叶的纸，添上一笔：今日，见苞。",
+            "share": "她果然又来了，手里仍是那只旧水壶。"
+          },
+          "choices": [
+            {
+              "id": "quiet",
+              "label": "把小笺留在盆边，照常浇水",
+              "reply": "花开不需要先得到谁的赞许。小笺留了下来，这一盆兰也终于有了自己的记录。"
+            },
+            {
+              "id": "visit",
+              "label": "约她花开时来喝一杯茶",
+              "reply": "她答应得很轻快：“花不开，也来。”你在小笺背面写下这句话，放在兰旁。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rain",
+      "title": "雨亭留座",
+      "person": "送线的阿杏",
+      "area": 1,
+      "keepsake": "廊下竹凳",
+      "kind": "bench",
+      "anchor": [
+        77,
+        81
+      ],
+      "episodes": [
+        {
+          "title": "檐下一步",
+          "need": [
+            "pavilion"
+          ],
+          "hint": "收藏听雨亭",
+          "body": "阿杏抱着一包丝线停在亭外。雨已落到肩头，她却怕鞋底的泥弄脏新铺的地。\n“借半步屋檐就好。”她说。",
+          "choices": [
+            {
+              "id": "seat",
+              "label": "把凳子往里挪，让她坐下",
+              "reply": "她先把丝线放到干处，才慢慢坐下。你没有追问她为何淋雨，只递过一块干布。"
+            },
+            {
+              "id": "line",
+              "label": "先接过丝线，替她腾出手来",
+              "reply": "她终于有空拧一拧袖口。雨声响了好一阵，你们谁也没急着说话。"
+            }
+          ]
+        },
+        {
+          "title": "蕉叶响时",
+          "need": [
+            "pavilion",
+            "banana"
+          ],
+          "hint": "收藏听雨亭与芭蕉",
+          "body": "阿杏还干布时，雨又落了几滴。她认出亭外新添的芭蕉：“这回能听出雨有多大了。”",
+          "echo": {
+            "seat": "她这次知道凳子在哪里，却仍先擦净了鞋底。",
+            "line": "她带来一小段余线，说上回那包丝线一根也没湿。"
+          },
+          "choices": [
+            {
+              "id": "name",
+              "label": "请她给这个歇脚处起个小名",
+              "reply": "她想了半天：“就叫歇一歇吧，不用起得太好。”你觉得这个名字很合适。"
+            },
+            {
+              "id": "rule",
+              "label": "告诉她，往后来不用先问",
+              "reply": "她点头，又认真补上一句：“要是你在忙，我也会轻一点。”彼此的体谅并不需要谁低头。"
+            }
+          ]
+        },
+        {
+          "title": "不是借来的座",
+          "need": [
+            "pavilion",
+            "banana",
+            "bamboo"
+          ],
+          "hint": "收藏听雨亭、芭蕉与青竹",
+          "body": "亭中多了一张修好的竹凳。阿杏请木匠紧过榫，说总不能每回都占你的座。",
+          "echo": {
+            "name": "凳背内侧刻着小小的三个字：歇一歇。",
+            "rule": "她把凳子放在不挡路的地方，留给下一位需要避雨的人。"
+          },
+          "choices": [
+            {
+              "id": "keep",
+              "label": "放在廊下，让来人都能坐",
+              "reply": "从此，亭里多了一个不用开口讨来的位置。雨落时，总有人能把肩头放松一点。"
+            },
+            {
+              "id": "beside",
+              "label": "靠着原来的凳子放，留两个人说话",
+              "reply": "阿杏试着坐下，拍了拍旁边。两张凳子不完全一样高，却正好能听见彼此说话。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plum",
+      "title": "借一枝春",
+      "person": "邻家的年轻人",
+      "area": 2,
+      "keepsake": "护梅布带",
+      "kind": "ribbon",
+      "anchor": [
+        27,
+        79
+      ],
+      "episodes": [
+        {
+          "title": "一枝可否",
+          "need": [
+            "plum"
+          ],
+          "hint": "收藏梅树",
+          "body": "来人隔着院门问，能不能匀一枝梅。他母亲病着，许久没出门，却记得这条巷子往年有梅香。\n树上的花才刚好起来，你也有些舍不得。",
+          "choices": [
+            {
+              "id": "cut",
+              "label": "剪一枝合适的，请他护好切口",
+              "reply": "你挑了不伤树形的一枝。他双手接着，没再要求多剪些，转身时把花护在衣襟里。"
+            },
+            {
+              "id": "pot",
+              "label": "留梅在树上，借他一盆小花",
+              "reply": "他看了看盆，又看了看你：“我会送回来。”你告诉他，等母亲看够了再说。"
+            }
+          ]
+        },
+        {
+          "title": "门外回音",
+          "need": [
+            "plum",
+            "gate"
+          ],
+          "hint": "收藏梅树与月洞门",
+          "body": "再来时，他带来一条细软布带。母亲说，养花的人也该爱惜自己的手。",
+          "echo": {
+            "cut": "他讲起母亲把梅枝摆在窗前，每日叫他换一次清水。",
+            "pot": "小花一同回来了，盆沿擦得干干净净，土里添了新叶。"
+          },
+          "choices": [
+            {
+              "id": "tree",
+              "label": "把布带系在护树支架上",
+              "reply": "他帮你打结，特意留松一些：“她说，长着的东西，不能勒紧。”"
+            },
+            {
+              "id": "hand",
+              "label": "收好布带，也回赠一张养花小记",
+              "reply": "他逐字读过，遇到不明白的便问。你们谈的都是小事，院门却比从前熟悉了。"
+            }
+          ]
+        },
+        {
+          "title": "窗前有春",
+          "need": [
+            "plum",
+            "gate",
+            "window"
+          ],
+          "hint": "收藏梅树、月洞门与花窗",
+          "body": "天气暖下来，母亲终于能走到园门口。她不让人搀得太紧，沿着石径一点点走到梅树旁。",
+          "echo": {
+            "tree": "她看见那条布带，笑着伸手试了试松紧。",
+            "hand": "她认出小记上画的花窗，说隔着窗看花，也是一种好看。"
+          },
+          "choices": [
+            {
+              "id": "walk",
+              "label": "陪她慢慢绕过花窗",
+              "reply": "你们没有把园子走完。她说，下次再看剩下的，这样便有了再来的理由。"
+            },
+            {
+              "id": "sit",
+              "label": "留在树旁坐坐，不必赶着赏完",
+              "reply": "花已不如前日多，她却一点也不失望。那条护梅布带留在园里，记着一场不必赶路的春天。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "window",
+      "title": "旧匠人的花窗",
+      "person": "周师傅",
+      "area": 3,
+      "keepsake": "窗样册页",
+      "kind": "pattern",
+      "anchor": [
+        73,
+        83
+      ],
+      "episodes": [
+        {
+          "title": "留一道旧痕",
+          "need": [
+            "window"
+          ],
+          "hint": "收藏花窗",
+          "body": "周师傅搬来一扇旧花窗。边角缺了一小块，纹样却连得很巧。有人说补起来不划算，不如照新样做。\n他摸着缺口，等你拿主意。",
+          "choices": [
+            {
+              "id": "mend",
+              "label": "保留原来的纹样，请他慢慢补",
+              "reply": "“得多费半日工。”他说。你把工钱记清楚，他这才放心取出量尺。"
+            },
+            {
+              "id": "adapt",
+              "label": "沿旧纹样改一处，让缺口成为新花形",
+              "reply": "他起初皱眉，随后在纸上试画。旧东西不必停在原处，新做法也不必抹去来历。"
+            }
+          ]
+        },
+        {
+          "title": "借来一寸绿",
+          "need": [
+            "window",
+            "bamboo"
+          ],
+          "hint": "收藏花窗与青竹",
+          "body": "窗装好后，竹影在墙上摇动。周师傅迟迟没收工具，像还在看哪里能再调一点。",
+          "echo": {
+            "mend": "补过的那一角，近看才找得到。你没有用花盆遮住它。",
+            "adapt": "新改的花形恰好接住竹影，他指着那一处，又露出一点笑。"
+          },
+          "choices": [
+            {
+              "id": "credit",
+              "label": "把他的名字记在窗样背面",
+              "reply": "他摆摆手，又把自己的姓写正了一遍。做过的活计有人记得，便不只是结清了工钱。"
+            },
+            {
+              "id": "teach",
+              "label": "请他讲讲，这些花格怎样相连",
+              "reply": "他挑最容易的一笔讲起。你才发现，一扇看着轻巧的窗，也有许多互相照应的地方。"
+            }
+          ]
+        },
+        {
+          "title": "旧样有新页",
+          "need": [
+            "window",
+            "bamboo",
+            "library"
+          ],
+          "hint": "收藏花窗、青竹与藏书楼",
+          "body": "书楼添了一册窗样。周师傅送来时说，只画了自己确实做过的，还有几页空着。",
+          "echo": {
+            "credit": "扉页有他的名字，下一行留给往后接手修窗的人。",
+            "teach": "第一张图画得最清楚，就是那天教你的一笔。"
+          },
+          "choices": [
+            {
+              "id": "save",
+              "label": "留在书楼，让后来的人也能翻看",
+              "reply": "这册旧样从此有了去处。窗外竹影一日一换，书里也还有能续写的空白。"
+            },
+            {
+              "id": "draw",
+              "label": "与他把这座园的新窗也画进去",
+              "reply": "你画歪了一条线，他没有擦掉，顺着它改了另一笔。册页留在园里，记着共同做成的一件事。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "visualSizes": [
+    {
+      "name": "收敛",
+      "scale": 0.85
+    },
+    {
+      "name": "标准",
+      "scale": 1
+    },
+    {
+      "name": "舒展",
+      "scale": 1.2
+    }
+  ],
+  "plantAtlas": {
+    "width": 1024,
+    "height": 1536,
+    "columns": [
+      0,
+      310,
+      635,
+      1024
+    ],
+    "rows": [
+      0,
+      226,
+      477,
+      715,
+      957,
+      1220,
+      1536
+    ]
+  },
+  "groundTools": [
+    {
+      "id": "path",
+      "name": "石径",
+      "color": "#c8c4ad",
+      "edge": "#a7a68e",
+      "width": 1.4
+    },
+    {
+      "id": "grass",
+      "name": "草地",
+      "color": "#aabb8c",
+      "edge": "#b9c69c",
+      "width": 6
+    },
+    {
+      "id": "water",
+      "name": "曲池",
+      "color": "#a7bfc0",
+      "edge": "#b9b69b",
+      "width": 7
+    },
+    {
+      "id": "wall",
+      "name": "矮墙",
+      "color": "#e5e0d2",
+      "edge": "#888e82",
+      "width": 1.1
+    }
+  ],
+  "maps": [
+    {
+      "id": 0,
+      "name": "初晴庭院",
+      "level": 1,
+      "price": 0,
+      "art": "estate-v6.webp",
+      "line": "先替自己留一方可以作主的院子。"
+    },
+    {
+      "id": 1,
+      "name": "荷风湖汀",
+      "level": 4,
+      "price": 1800,
+      "art": "lake-v6.webp",
+      "line": "把来客迎到水边，也给自己留一条归路。"
+    },
+    {
+      "id": 2,
+      "name": "云岫山居",
+      "level": 9,
+      "price": 12000,
+      "art": "mountain-v6.webp",
+      "line": "走得更远之后，仍能按自己的心意安家。"
+    }
+  ],
+  "blueprints": [
+    {
+      "id": "tea",
+      "name": "竹下茶庭",
+      "line": "竹在后，兰在前；石几旁留出两人坐下的位置。",
+      "parts": [
+        {
+          "item": "bamboo",
+          "x": -14,
+          "y": -16
+        },
+        {
+          "item": "table",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "item": "rock",
+          "x": 16,
+          "y": -4
+        },
+        {
+          "item": "orchid",
+          "x": -12,
+          "y": 12
+        }
+      ]
+    },
+    {
+      "id": "lake",
+      "name": "荷岸小憩",
+      "line": "先留一池水，再让来客沿岸走到亭前。",
+      "parts": [
+        {
+          "item": "pond",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "item": "willow",
+          "x": -18,
+          "y": -12
+        },
+        {
+          "item": "lantern",
+          "x": 18,
+          "y": 14
+        }
+      ]
+    },
+    {
+      "id": "study",
+      "name": "桂下读书",
+      "line": "书舍背后有桂香，窗前不必摆满。",
+      "parts": [
+        {
+          "item": "mountainstudy",
+          "x": 0,
+          "y": -6
+        },
+        {
+          "item": "osmanthus",
+          "x": -24,
+          "y": -13
+        },
+        {
+          "item": "orchid",
+          "x": 18,
+          "y": 12
+        }
+      ]
+    }
+  ],
+  "care": {
+    "cooldown": 120000,
+    "baseReward": 60,
+    "maxReward": 1200,
+    "steps": [
+      {
+        "title": "先看叶土",
+        "body": "叶尖舒展，盆土表面已干，底下还有一点湿气。",
+        "options": [
+          "连浇三壶",
+          "沿盆边缓缓浇一点"
+        ],
+        "answer": 1,
+        "hint": "土里尚有湿气，少量慢浇就好。"
+      },
+      {
+        "title": "整理枝叶",
+        "body": "新芽旁有一片枯叶，嫩芽还没有展开。",
+        "options": [
+          "只摘枯叶",
+          "连嫩芽一起剪掉"
+        ],
+        "answer": 0,
+        "hint": "留下新芽，只整理已经枯萎的部分。"
+      },
+      {
+        "title": "留好位置",
+        "body": "午后的光从墙边移来，叶面渐渐发烫。",
+        "options": [
+          "挪到通风散光处",
+          "贴紧热墙晒着"
+        ],
+        "answer": 0,
+        "hint": "给叶子留些散光和通风。"
+      }
+    ]
+  },
+  "quests": [
+    {
+      "id": "neighbour0",
+      "arc": "neighbour",
+      "map": 0,
+      "stage": 0,
+      "title": "门先开一半",
+      "arcTitle": "迟开的兰",
+      "person": "看花的邻人",
+      "body": "她抱着空花盆站在门外：“你这里，也收不开花的兰么？”她不急着进门，倒先替你扶正了门边的竹。",
+      "require": {
+        "kind": "placed",
+        "target": 3
+      },
+      "coins": 180,
+      "xp": 25,
+      "options": [
+        {
+          "id": "a",
+          "label": "请她把花盆留下",
+          "reply": "她把盆放下，走了两步又回头：“我明日带水来。”"
+        },
+        {
+          "id": "b",
+          "label": "请她明日一起照看",
+          "reply": "她把盆抱回去，第二日带着水壶先到了。"
+        }
+      ],
+      "keepsakes": ""
+    },
+    {
+      "id": "neighbour1",
+      "arc": "neighbour",
+      "map": 0,
+      "stage": 1,
+      "title": "一壶水的分量",
+      "arcTitle": "迟开的兰",
+      "person": "看花的邻人",
+      "body": "你们照看过草木，她才说，那盆兰原是母亲留下的。花市的人说不值钱，她便一直没敢送人看。",
+      "require": {
+        "kind": "care",
+        "target": 1
+      },
+      "coins": 260,
+      "xp": 25,
+      "options": [
+        {
+          "id": "a",
+          "label": "记下新叶的模样",
+          "reply": "她看着纸上的叶子，笑你画歪了，却小心叠进袖里。"
+        },
+        {
+          "id": "b",
+          "label": "留个位置让她常来",
+          "reply": "她试着把水壶留在门边：“那我下回就不敲那么久了。”"
+        }
+      ],
+      "keepsakes": ""
+    },
+    {
+      "id": "neighbour2",
+      "arc": "neighbour",
+      "map": 0,
+      "stage": 2,
+      "title": "不用等花开",
+      "arcTitle": "迟开的兰",
+      "person": "看花的邻人",
+      "body": "石径铺到了兰旁。她带来两只旧杯：“总不能每回来，都只让你忙。”花仍没开，杯里却有了热气。",
+      "require": {
+        "kind": "path",
+        "target": 1
+      },
+      "coins": 500,
+      "xp": 25,
+      "options": [
+        {
+          "id": "a",
+          "label": "把小笺留在盆边",
+          "reply": "小笺记下的不是花期，是有人来过的日子。"
+        },
+        {
+          "id": "b",
+          "label": "把两只杯子留下",
+          "reply": "她说花开要来，你说不开也来。两只杯子从此没有收回箱里。"
+        }
+      ],
+      "keepsakes": "养兰小笺",
+      "memorials": [
+        {
+          "name": "养兰小笺",
+          "kind": "letter"
+        },
+        {
+          "name": "并坐茶席",
+          "kind": "bench"
+        }
+      ]
+    },
+    {
+      "id": "ferryman0",
+      "arc": "ferryman",
+      "map": 1,
+      "stage": 0,
+      "title": "雨前的船绳",
+      "arcTitle": "一盏归岸灯",
+      "person": "撑船的阿渡",
+      "body": "新园开到水边，阿渡却不肯把船系紧：“我只是借个岸，天晴就走。”你看见他手背上勒出的红印。",
+      "require": {
+        "kind": "placed",
+        "target": 2
+      },
+      "coins": 600,
+      "xp": 45,
+      "options": [
+        {
+          "id": "a",
+          "label": "让他先坐一会",
+          "reply": "他坐下时还攥着绳，喝完半杯水才松开。"
+        },
+        {
+          "id": "b",
+          "label": "一起把船绳理顺",
+          "reply": "绳结松开后，他没再急着推船，问你岸边缺不缺人照应。"
+        }
+      ],
+      "keepsakes": ""
+    },
+    {
+      "id": "ferryman1",
+      "arc": "ferryman",
+      "map": 1,
+      "stage": 1,
+      "title": "顺着灯走",
+      "arcTitle": "一盏归岸灯",
+      "person": "撑船的阿渡",
+      "body": "船绳、竹篙和旧灯罩都找回来了。阿渡将灯罩擦净，忽然说，有个孩子总绕远路看荷，怕踩坏你的园子。",
+      "require": {
+        "kind": "find",
+        "target": 3
+      },
+      "coins": 900,
+      "xp": 45,
+      "options": [
+        {
+          "id": "a",
+          "label": "铺路让孩子进来",
+          "reply": "阿渡替你搬开岸边杂石，孩子第二次来就敢问花名。"
+        },
+        {
+          "id": "b",
+          "label": "留一处安静看荷",
+          "reply": "孩子站了很久，临走把捡来的完整荷叶放在岸边。"
+        }
+      ],
+      "keepsakes": ""
+    },
+    {
+      "id": "ferryman2",
+      "arc": "ferryman",
+      "map": 1,
+      "stage": 2,
+      "title": "有处可回",
+      "arcTitle": "一盏归岸灯",
+      "person": "撑船的阿渡",
+      "body": "岸边有了荷景，也有人认得回来的路。阿渡问：“往后夜里晚归，我能不能留一盏灯？”",
+      "require": {
+        "kind": "special",
+        "target": "lotus"
+      },
+      "coins": 1600,
+      "xp": 45,
+      "options": [
+        {
+          "id": "a",
+          "label": "留一盏归岸灯",
+          "reply": "灯照的是归岸的水，不问回来的人挣了多少。"
+        },
+        {
+          "id": "b",
+          "label": "留一张看荷的小凳",
+          "reply": "小凳留在岸上。阿渡说，就算没渡客，坐一会也好。"
+        }
+      ],
+      "keepsakes": "归岸石灯",
+      "memorials": [
+        {
+          "name": "归岸灯笼",
+          "kind": "ribbon"
+        },
+        {
+          "name": "看荷木凳",
+          "kind": "bench"
+        }
+      ]
+    },
+    {
+      "id": "scholar0",
+      "arc": "scholar",
+      "map": 2,
+      "stage": 0,
+      "title": "不必写得一样",
+      "arcTitle": "山风送来的纸",
+      "person": "抄书的阿青",
+      "body": "山风把阿青的纸吹到你的园里。她追来时先道歉，纸上同一句话已经抄了十遍。",
+      "require": {
+        "kind": "placed",
+        "target": 2
+      },
+      "coins": 1200,
+      "xp": 65,
+      "options": [
+        {
+          "id": "a",
+          "label": "替她压住纸角",
+          "reply": "她找来一块小石压纸，第一次没急着重抄。"
+        },
+        {
+          "id": "b",
+          "label": "请她读自己喜欢的一句",
+          "reply": "她读到一半停住：“其实我不喜欢这句。”你说，那便换一句。"
+        }
+      ],
+      "keepsakes": ""
+    },
+    {
+      "id": "scholar1",
+      "arc": "scholar",
+      "map": 2,
+      "stage": 1,
+      "title": "桂枝还在长",
+      "arcTitle": "山风送来的纸",
+      "person": "抄书的阿青",
+      "body": "三张纸都找到了。阿青看到那页空白还在，反倒松了口气：“我想留一点地方，写自己的话。”",
+      "require": {
+        "kind": "find",
+        "target": 3
+      },
+      "coins": 1800,
+      "xp": 65,
+      "options": [
+        {
+          "id": "a",
+          "label": "一起记下嫩芽",
+          "reply": "她记了日期，也记了当日山风很轻。"
+        },
+        {
+          "id": "b",
+          "label": "邀她改写一页",
+          "reply": "她写下自己的开头，纸上终于不全是别人的话。"
+        }
+      ],
+      "keepsakes": ""
+    },
+    {
+      "id": "scholar2",
+      "arc": "scholar",
+      "map": 2,
+      "stage": 2,
+      "title": "窗下有自己的字",
+      "arcTitle": "山风送来的纸",
+      "person": "抄书的阿青",
+      "body": "书舍落成，阿青送来一本薄册。第一页空着，她说想等住进来的人自己写。",
+      "require": {
+        "kind": "special",
+        "target": "mountainstudy"
+      },
+      "coins": 3200,
+      "xp": 65,
+      "options": [
+        {
+          "id": "a",
+          "label": "留下压纸的山石",
+          "reply": "山石仍压着纸，纸上的字却一天比一天自由。"
+        },
+        {
+          "id": "b",
+          "label": "把薄册放在窗边",
+          "reply": "薄册的第一页写着：今日无事，照旧把窗打开。"
+        }
+      ],
+      "keepsakes": "窗下薄册",
+      "memorials": [
+        {
+          "name": "压纸山石",
+          "kind": "pattern"
+        },
+        {
+          "name": "窗下薄册",
+          "kind": "letter"
+        }
+      ]
+    }
+  ],
+  "finds": [
+    {
+      "id": "rope",
+      "map": 1,
+      "name": "松开的船绳",
+      "hint": "近岸草丛，绳头挂在一块石上。",
+      "x": 30,
+      "y": 45,
+      "reply": "绳结已经松开，阿渡终于能把船稳稳系住。",
+      "coins": 80
+    },
+    {
+      "id": "pole",
+      "map": 1,
+      "name": "落下的竹篙",
+      "hint": "沿水边向远处看看。",
+      "x": 78,
+      "y": 58,
+      "reply": "竹篙上刻着一道旧记号，原来是阿渡父亲留下的。",
+      "coins": 80
+    },
+    {
+      "id": "lamp",
+      "map": 1,
+      "name": "旧灯罩",
+      "hint": "靠近下方的岸边。",
+      "x": 48,
+      "y": 80,
+      "reply": "灯罩并未破，只是蒙了灰。阿渡说洗净了，还能照路。",
+      "coins": 80
+    },
+    {
+      "id": "paper1",
+      "map": 2,
+      "name": "第一张纸",
+      "hint": "竹影旁，有一点浅白。",
+      "x": 25,
+      "y": 43,
+      "reply": "纸上写着别人的句子，旁边添了一朵极小的花。",
+      "coins": 150
+    },
+    {
+      "id": "paper2",
+      "map": 2,
+      "name": "第二张纸",
+      "hint": "山居右侧，风停下的地方。",
+      "x": 75,
+      "y": 52,
+      "reply": "这一页划掉了几行。阿青说，她想试着自己写。",
+      "coins": 150
+    },
+    {
+      "id": "paper3",
+      "map": 2,
+      "name": "空白的一页",
+      "hint": "下方空地，压在小石边。",
+      "x": 50,
+      "y": 78,
+      "reply": "这一页没有字。你没有替她写满，把它平整地还了回去。",
+      "coins": 150
+    }
+  ],
+  "lakeScene": {
+    "art": "lake-v7.webp",
+    "shore": [
+      [
+        53,
+        18
+      ],
+      [
+        59,
+        24
+      ],
+      [
+        68,
+        29
+      ],
+      [
+        70,
+        32
+      ],
+      [
+        67,
+        35
+      ],
+      [
+        65,
+        38
+      ],
+      [
+        62,
+        42
+      ],
+      [
+        58,
+        46
+      ],
+      [
+        61,
+        49
+      ],
+      [
+        59,
+        53
+      ],
+      [
+        63,
+        56
+      ],
+      [
+        68,
+        60
+      ],
+      [
+        66,
+        65
+      ],
+      [
+        62,
+        69
+      ],
+      [
+        67,
+        73
+      ],
+      [
+        65,
+        77
+      ],
+      [
+        59,
+        80
+      ],
+      [
+        58,
+        84
+      ],
+      [
+        63,
+        88
+      ],
+      [
+        65,
+        93
+      ],
+      [
+        73,
+        98
+      ]
+    ],
+    "dock": [
+      64,
+      65
+    ],
+    "dockRadius": [
+      7,
+      5
+    ],
+    "finds": {
+      "rope": [
+        55,
+        66
+      ],
+      "pole": [
+        60,
+        48
+      ],
+      "lamp": [
+        50,
+        78
+      ]
+    },
+    "title": "湖湾新景",
+    "line": "湖湾入园，旧渡待修。远亭与石桥不移动，岸地由你布置。",
+    "fixedZones": [
+      [
+        [
+          76,
+          8
+        ],
+        [
+          100,
+          8
+        ],
+        [
+          100,
+          25
+        ],
+        [
+          76,
+          25
+        ]
+      ]
+    ]
+  },
+  "harbor": {
+    "cost": 300,
+    "xp": 40,
+    "bonus": 180,
+    "guestCost": 120,
+    "guestReward": 260,
+    "name": "雨前修渡",
+    "intro": "阿渡把半湿的船绳拢在掌心。旧渡口少了两块踏板，雨却快到了。\n“船还撑得动，只怕晚归的人上不了岸。”他指了指歪斜的木桩。",
+    "paid": "请木匠修好 · 300 游赏钱",
+    "manual": "我来修 · 寻回船绳后动手",
+    "costNote": "请人会立即扣除 300 游赏钱；亲手修不花钱。两条路线都能修好渡口，并收到阿渡的独有回礼。",
+    "steps": [
+      {
+        "title": "先稳住木桩",
+        "body": "踏板松了，右侧木桩也晃。先把哪里稳住？",
+        "options": [
+          "先钉踏板，木桩暂不管",
+          "将木桩扶正，再绕绳固定"
+        ],
+        "answer": 1,
+        "hint": "木桩没稳，踏板又滑了下来。先扶正木桩；不扣钱，也不伤已有景物。"
+      },
+      {
+        "title": "补上踏板",
+        "body": "旧板背面完好，新板边缘有裂纹。",
+        "options": [
+          "翻过旧板，压稳两端",
+          "用裂纹新板跨过缺口"
+        ],
+        "answer": 0,
+        "hint": "裂板承不住脚步，阿渡把它抽了回来。换一块稳妥的；修复进度保留。"
+      },
+      {
+        "title": "收紧船绳",
+        "body": "风起来了，船头在岸边轻轻碰撞。",
+        "options": [
+          "把绳绑死，一点也不留",
+          "留一点随水涨落的余量"
+        ],
+        "answer": 1,
+        "hint": "水涨时绳太紧会拉坏木桩。松开重绑便好；不用重新寻找材料。"
+      }
+    ],
+    "done": "踏板踩稳了。阿渡试着走了两步，才从船舱拿出一盏旧灯：“灯罩是我母亲绣的。往后，借你的岸照一照回家的人。”",
+    "gift": "绣荷归岸灯",
+    "giftNote": "独有回礼已放入收纳：绣荷归岸灯。摆入任一园中均可产出；渡口也会常亮一盏灯。",
+    "bonusNote": "初次顺利完成可额外获得 180 游赏钱。若试错，可免费检查绳结补领；不会扣除基础收益。",
+    "check": "检查绳结，补领 180 游赏钱",
+    "checkBody": "木桩已稳，踏板不晃，绳结也留出了水涨的余量。阿渡将木匠退下的工钱交给你。",
+    "guestTitle": "灯下的来客",
+    "guestIntro": "灯点亮后，岸边多了一条小船。来客抱着一卷快要湿透的画，问能否在这里躲一阵雨。阿渡把最后一块干布递给了他。",
+    "guestShelter": "搭一处避雨棚 · 支出 120 游赏钱",
+    "guestFerry": "帮他包好画卷 · 免费整理",
+    "guestShelterReply": "你添了遮雨篷。来客留下画中那只白鹭的小木雕，说下回晴天再来写生。木雕留在了渡口。",
+    "guestFerryReply": "你将干布从画心往外卷好，阿渡撑船送他到对岸。来客下船前留下 260 游赏钱，请阿渡转交给你。",
+    "guestStep": "先把画卷怎样包好？",
+    "guestOptions": [
+      "先护画心，再把外层干布扎稳",
+      "直接把潮湿画卷紧紧卷起"
+    ],
+    "guestAnswer": 0,
+    "guestHint": "湿纸贴紧会粘住，先护住画心。试错不扣钱。",
+    "guestDone": "这位来客的回礼已经收下；渡口留下了这次相遇。"
+  }
+}

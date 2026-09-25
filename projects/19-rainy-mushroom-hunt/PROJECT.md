@@ -2,7 +2,7 @@
 
 > 首版范围更新：用户要求增加首版内容。正式交付数量与耐玩机制以 [CONTENT-PLAN.md](./CONTENT-PLAN.md) 为准；下文原小P0数量改作内部视觉/手感切片，不代表最终首版范围。原玩法规则继续生效。
 
-日期：2026-09-19；状态：立项规划，尚未实现。定位为幻想化森林采集游戏，不承担野生菌识别/食用判断。概率与手感数值是待测试初值。
+日期：2026-09-19；状态：六片林地、24种原创菌与完整探索循环已实现，发布候选待宿主真机验收。定位为幻想化森林采集游戏，不承担野生菌识别/食用判断。概率与手感数值是待测试初值。
 
 ## 1. 核心体验
 
@@ -70,7 +70,7 @@ P0一片林地的3个相邻小景：树根、落叶坡、倒木边；8种原创�
 ## 7. 数据和存档
 
 content.json：habitats、spawnSlots、species、clusterRules、occluders、gestureTuning、atlasFrames、copy、audio、layout、quality。
-species：id、displayName、rarityClass、habitatWeights、sizeRange、paletteVariant、atlasFrames；不放毒性/食用字段。
+species：id、displayName、rarityClass、habitatWeights、sizeRange、paletteVariant、atlasFrames；原创菌不提供食用判断；另有三种真实有毒菌观察对象，使用 observeOnly 与 noteId 对应有来源的科普。
 进行中存档：林地seed与版本、已移叶片的简化变换、各点revealed/collected、篮内ID与尺寸、累计图鉴。少量节点保存结构化数据，不截图存档。
 发现和采集分开记录，小蜗牛等观察事件不占篮子容量；篮子展示满不阻止继续采集。
 
@@ -87,4 +87,4 @@ P1：细雨天气、更多菌簇形态、拍摄式图鉴构图；不加饥饿、
 6. 5名首次测试者至少4名能凭线索找到第一簇，至少3名会主动查看树根另一侧；记录搜索过难区域及第一次发现耗时。
 7. 视觉录像中湿叶和菌盖质感协调、拔起受力清楚、没有揭露瞬间贴图跳变。
 
-完整宿主、包体、存储、无声和项目lint/test/build门禁见DELIVERY.md。当前尚未开发或真机验收。
+完整宿主、包体、存储、无声和项目lint/test/build门禁见DELIVERY.md。当前实现及浏览器验收见 qa/RELEASE-QA.md；宿主真机验收待完成。

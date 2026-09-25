@@ -1,0 +1,60 @@
+{
+  "routes": [
+    {
+      "name": "family-honest",
+      "ending": "end_shared",
+      "frames": 4
+    },
+    {
+      "name": "family-promise",
+      "ending": "end_shared",
+      "frames": 4
+    },
+    {
+      "name": "family-letter",
+      "ending": "end_bridge",
+      "frames": 5
+    },
+    {
+      "name": "family-paid",
+      "ending": "end_steady",
+      "frames": 5
+    },
+    {
+      "name": "stove-exit",
+      "ending": "end_rescue",
+      "frames": 19
+    },
+    {
+      "name": "witness-exit",
+      "ending": "end_together",
+      "frames": 27
+    },
+    {
+      "name": "witness-respect",
+      "ending": "end_respect",
+      "frames": 21
+    },
+    {
+      "name": "zhao-direct",
+      "ending": "end_pact",
+      "frames": 11
+    },
+    {
+      "name": "zhao-verified",
+      "ending": "end_pact",
+      "frames": 10
+    },
+    {
+      "name": "zhao-declined",
+      "ending": "end_caution",
+      "frames": 6
+    },
+    {
+      "name": "hidden-exit",
+      "ending": "end_waiting",
+      "frames": 5
+    }
+  ],
+  "errors": []
+}

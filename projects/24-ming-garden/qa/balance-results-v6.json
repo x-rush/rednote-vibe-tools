@@ -1,0 +1,18 @@
+{
+  "scenario": "Simulated active play: collect each minute, care eligible plants, claim available goals and visitor rewards, modest early purchases/upgrades, save remaining coins for maps. Not a human playtime promise.",
+  "milestones": [
+    {
+      "map": "荷风湖汀",
+      "minute": 1,
+      "level": 10
+    },
+    {
+      "map": "云岫山居",
+      "minute": 65,
+      "level": 30
+    }
+  ],
+  "rate": 33.5,
+  "coins": 90,
+  "level": 30
+}

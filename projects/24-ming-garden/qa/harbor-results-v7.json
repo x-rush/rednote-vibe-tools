@@ -1,0 +1,32 @@
+{
+  "passed": 26,
+  "results": [
+    "375 lake preview does not mutate, explicit adoption persists",
+    "375 repair routes to actual map rope search",
+    "375 wrong answer keeps progress, manual repair and recovery reward work",
+    "375 unique lamp and branch-specific visitor outcome",
+    "375 cosmetic placement, repaired art, reload and no horizontal overflow",
+    "390 lake preview does not mutate, explicit adoption persists",
+    "390 repair routes to actual map rope search",
+    "390 wrong answer keeps progress, manual repair and recovery reward work",
+    "390 unique lamp and branch-specific visitor outcome",
+    "390 cosmetic placement, repaired art, reload and no horizontal overflow",
+    "430 lake preview does not mutate, explicit adoption persists",
+    "430 repair routes to actual map rope search",
+    "430 wrong answer keeps progress, manual repair and recovery reward work",
+    "430 unique lamp and branch-specific visitor outcome",
+    "430 cosmetic placement, repaired art, reload and no horizontal overflow",
+    "844 lake preview does not mutate, explicit adoption persists",
+    "844 repair routes to actual map rope search",
+    "844 wrong answer keeps progress, manual repair and recovery reward work",
+    "844 unique lamp and branch-specific visitor outcome",
+    "844 cosmetic placement, repaired art, reload and no horizontal overflow",
+    "1280 lake preview does not mutate, explicit adoption persists",
+    "1280 repair routes to actual map rope search",
+    "1280 wrong answer keeps progress, manual repair and recovery reward work",
+    "1280 unique lamp and branch-specific visitor outcome",
+    "1280 cosmetic placement, repaired art, reload and no horizontal overflow",
+    "legacy conflict preview blocks activation without moving old scenery; paid repair and gift also work on legacy map"
+  ],
+  "errors": []
+}

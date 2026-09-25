@@ -1,0 +1,3 @@
+export interface Slosh{x:number;y:number;vx:number;vy:number;sandX:number;sandY:number;swirl:number}
+export function makeSlosh():Slosh{return{x:0,y:0,vx:0,vy:0,sandX:0,sandY:0,swirl:0};}
+export function stepSlosh(s:Slosh,dt:number,x:number,y:number,tilt:number){if(!Number.isFinite(dt+x+y+tilt)||dt<=0)return;dt=Math.min(dt,1/60);x=Math.max(-1,Math.min(1,x));y=Math.max(-1,Math.min(1,y));const tx=-x*.18,ty=-y*.16+tilt*.16;s.vx+=(tx-s.x)*40*dt;s.vy+=(ty-s.y)*40*dt;s.vx*=Math.exp(-dt*5);s.vy*=Math.exp(-dt*5);s.x+=s.vx*dt;s.y+=s.vy*dt;s.sandX+=(s.x*.65-s.sandX)*dt*3;s.sandY+=(s.y*.7-s.sandY)*dt*3;s.swirl+=(x*s.vy-y*s.vx)*dt*2;s.swirl*=Math.exp(-dt*.7);}

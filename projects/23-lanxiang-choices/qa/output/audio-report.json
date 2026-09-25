@@ -1,0 +1,56 @@
+{
+  "passed": [
+    "Actual MP3 bytes decoded; music starts from user gesture; cue plays once; nonzero PCM",
+    "Rollback and modal cancel voice; independent mute preferences survive reload; both off create no context",
+    "Music can be re-enabled; home stops all nodes",
+    "Navigating away during actual delayed decode prevents late voice",
+    "Home cancels music while decoding before a source can start",
+    "Refusal scene stops the preceding study music and leaves intentional silence",
+    "Opening a dialog cancels the pending cue timer",
+    "Hidden page stops audio; returning waits for a new gesture",
+    "Missing Web Audio, rejected resume and decode error keep story readable and show recovery hint",
+    "Retry recovers from decode failure without resetting the story",
+    {
+      "allFiveActualDecodes": [
+        {
+          "id": "female-giggle",
+          "bytes": 4076,
+          "duration": 0.7,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "id": "female-hmm",
+          "bytes": 4076,
+          "duration": 0.711,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "id": "female-sighs",
+          "bytes": 8756,
+          "duration": 1.65,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "id": "ripples",
+          "bytes": 96870,
+          "duration": 24,
+          "channels": 1,
+          "sampleRate": 48000
+        },
+        {
+          "id": "eastern-thought",
+          "bytes": 96878,
+          "duration": 24,
+          "channels": 1,
+          "sampleRate": 48000
+        }
+      ]
+    },
+    "Audio settings fit 375/390/430 and 844×390 with 24px safe area; controls below simulated host button zone",
+    "Real music loop remains active beyond 24 seconds without spawning additional sources"
+  ],
+  "errors": []
+}

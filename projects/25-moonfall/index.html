@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#050506" />
+    <title>{{toolName}}</title>
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <main class="scene" aria-label="山体、月落与流水的动态画作">
+      <div class="artwork">
+        <div id="canvas" aria-hidden="true"></div>
+        <div class="poetry"><h1>{{toolName}}</h1><p class="verse">{{tagline}}</p></div>
+        <button id="play-surface" class="play-surface" type="button" aria-label="轻触画面，观看月亮落下与流水"></button>
+      </div>
+    </main>
+    <script src="vendor/p5.min.js"></script>
+    <script src="src/flow.js"></script>
+    <script src="src/terrain.js"></script>
+    <script src="src/sketch.js"></script>
+  </body>
+</html>

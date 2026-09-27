@@ -5362,5 +5362,249 @@
       }
     }
   },
-  "tagline": "一纸旧账，两条去路"
+  "tagline": "一纸旧账，两条去路",
+  "singleStory": {
+    "version": 2,
+    "storageKey": "spring-letter:single:v1",
+    "title": "一枝春信",
+    "subtitle": "古风互动故事",
+    "brief": "补一幅旧绣，留一段春光",
+    "volume": "背面的花",
+    "hook": "旧窗帘缺了一片叶。\n补上它，还是留下它？",
+    "intro": "你和青禾只有一天时间。\n这回，先听听布上的旧针脚。",
+    "notice": "架空古风互动故事 · 人物与场景为 AI 插画",
+    "context": "城南绣铺接到一幅旧窗帘。来客想在小茶摊重新开张前，将它补好挂回窗边。知枝发现帘上少了一片叶，背面却留着一排不齐的旧针脚。她和青禾决定先弄清它的来历，再落针。",
+    "ui": {
+      "book": "故事簿",
+      "home": "回到封面",
+      "unseen": "还有一种补法，等你亲自试试",
+      "endingLabel": "这一回，旧帘有了新的样子",
+      "keepsake": "留下这页故事",
+      "captureTitle": "留给春天的一页",
+      "captureHint": "可以截图保存这一页。人物与故事均为本篇创作。",
+      "historyHint": "回到一次选择时，后面的故事会重新展开；已收集的结局仍会保留。",
+      "newBody": "重新开始《背面的花》，覆盖当前路线；已收集的结局仍会保留。",
+      "saveReset": "旧进度无法完整读取，已回到封面。",
+      "count": "种补法",
+      "imageCredit": "人物与场景为本篇 AI 插画。",
+      "inspectTitle": "绣铺桌上的旧帘",
+      "finalChoice": "这一针，会留在旧帘上。",
+      "thought": "知枝 · 心声",
+      "clues": "记下的事",
+      "clueEmpty": "还没有新发现，先看看旧帘的针脚。",
+      "castCredit": "本篇人物立绘为 AI 插画。",
+      "gallery": "人物与场景",
+      "about": "关于这个故事",
+      "aboutTitle": "一幅旧绣的故事",
+      "sourceLabel": "故事背景",
+      "originalLabel": "创作说明",
+      "originalBody": "本篇为架空古风短篇。人物、绣铺、窗帘与对白均按本篇设定创作。",
+      "sourceNote": "架空故事设定",
+      "agencyLabel": "你的选择",
+      "audioStartHint": "",
+      "audioHint": "本篇为无声阅读。",
+      "audioCreditNote": "本篇未使用声音素材。",
+      "endingHint": "两种补法都会留下痕迹。回看选择，看看你更愿意把哪一面交给来客。",
+      "galleryNote": "人物为本篇视觉设定。"
+    },
+    "sources": [],
+    "items": [],
+    "start": "s_order",
+    "nodes": {
+      "s_order": {
+        "act": "第一幕 · 收下旧帘",
+        "place": "城南 · 绣铺门前",
+        "title": "少了一片叶",
+        "speaker": "来客",
+        "quote": "明天开摊，娘还想把它挂在老地方。",
+        "paragraphs": [
+          "来客抱来一幅洗得柔软的旧窗帘。梅枝还在，枝头却少了一片叶。",
+          "她想赶在茶摊重新开张前补好。知枝翻过布面，看见缺口旁留着一排歪歪的针脚。",
+          "针脚不像同一个人绣的。补得太齐，或许也会把原来那个人的手迹盖住。"
+        ],
+        "choices": [
+          {
+            "id": "ask_memory",
+            "text": "先问问那排旧针脚是谁绣的。",
+            "hint": "弄清来历，再决定怎样补",
+            "to": "s_work",
+            "set": { "asked": true },
+            "echo": "来客捏住布角，想了一会儿：那是我小时候学针线留下的。娘一直舍不得拆。"
+          },
+          {
+            "id": "study_cloth",
+            "text": "先对照布纹，试着找原来的走线。",
+            "hint": "从旧物本身找线索",
+            "to": "s_work",
+            "set": { "asked": false },
+            "echo": "你把帘子举到窗前。透过光，旧叶的轮廓还在；那些歪针脚也看得更清楚了。"
+          }
+        ],
+        "cast": ["zhizhi"],
+        "background": "courtyard",
+        "beats": [
+          { "id": "s-order-1", "speaker": "来客", "text": "明天开摊，娘还想把它挂在老地方。" },
+          { "id": "s-order-2", "speaker": "许知枝", "character": "zhizhi", "text": "这片叶是磨掉的，旁边的针脚却还好好的。" },
+          { "id": "s-order-3", "speaker": "旁白", "text": "你把帘子翻过来。背面有几针斜斜地靠着梅枝，像有人第一次学会落针。" },
+          { "id": "s-order-4", "speaker": "许知枝", "character": "zhizhi", "text": "先别急着补满。让我看看它原来是什么样。" }
+        ]
+      },
+      "s_work": {
+        "act": "第二幕 · 灯下对线",
+        "place": "城南 · 绣铺里间",
+        "title": "新线落在旧线旁",
+        "speaker": "青禾",
+        "quote": "旧的留下，新的也能接上。",
+        "paragraphs": [
+          "青禾拣来三束近似的丝线，却没有替你下针。她先把帘角铺平，让那排歪针脚露出来。",
+          "夜色渐深。你们试了两回线色，终于找到一束在日光下也不会显得突兀的浅绿。",
+          "青禾说，她可以帮你绷住布角。要怎样补，还是由你和来客说清。"
+        ],
+        "choices": [
+          {
+            "id": "work_together",
+            "text": "请青禾扶住布角，一起对好线色。",
+            "hint": "两个人把细处看得更稳",
+            "to": "s_delivery",
+            "set": { "together": true },
+            "echo": "青禾撑起绣绷，你下针时，她提醒你把旧叶旁的空隙留出来。"
+          },
+          {
+            "id": "work_slowly",
+            "text": "自己慢慢补，请青禾替我看看背面。",
+            "hint": "你落针，她帮你把关",
+            "to": "s_delivery",
+            "set": { "together": false },
+            "echo": "你拆掉第一针，又重新落下。青禾没有催，只在旁边替你看着线的松紧。"
+          }
+        ],
+        "cast": ["zhizhi", "qinghe"],
+        "background": "room",
+        "beats": [
+          { "id": "s-work-1", "speaker": "青禾", "character": "qinghe", "text": "这排歪针脚，倒像是有人舍不得拆。" },
+          { "id": "s-work-2", "speaker": "许知枝", "character": "zhizhi", "text": "花样要补，留在上面的手也该让人看见。" },
+          { "id": "s-work-3", "speaker": "旁白", "text": "你们把三束丝线轮流放到窗边，等最后一点天光照过来。" },
+          { "id": "s-work-4", "speaker": "青禾", "character": "qinghe", "text": "这一束刚好。落针之前，我们再想想该留多少旧样。" }
+        ]
+      },
+      "s_delivery": {
+        "act": "第三幕 · 窗边见春",
+        "place": "城南 · 小茶摊",
+        "title": "把哪一面交给她",
+        "speaker": "来客",
+        "quote": "娘一眼就会认出来。",
+        "paragraphs": [
+          "清早，茶摊的窗已经擦净。来客接过窗帘，先看正面，又习惯地翻到背面。",
+          "她摸到那排歪针脚，笑了：小时候绣坏的那一片，娘竟一直留着。",
+          "新叶还没最后收边。你把针线放在手边，等她决定旧样该留在哪里。"
+        ],
+        "choices": [
+          {
+            "id": "keep_old_leaf",
+            "text": "把旧针脚留在窗边，新叶补在旁边。",
+            "hint": "让新旧两段手艺同时被看见",
+            "to": "s_end_leaf",
+            "echo": "来客把帘子举向窗。那片不齐的旧叶，被晨光照得很清楚。"
+          },
+          {
+            "id": "fold_old_leaf",
+            "text": "将旧针脚收在内侧，正面补齐花样。",
+            "hint": "保留旧样，也让窗前焕然一新",
+            "to": "s_end_window",
+            "echo": "来客点了点头。她说，挂起来给街坊看，收摊后再翻给娘看。"
+          }
+        ],
+        "cast": ["zhizhi", "qinghe"],
+        "background": "courtyard",
+        "beats": [
+          { "id": "s-delivery-1", "speaker": "来客", "text": "这排针脚是我绣的。那时手小，总把叶子绣歪。" },
+          { "id": "s-delivery-2", "speaker": "青禾", "character": "qinghe", "text": "难怪她没有拆。旧样留得住，新叶也补得上。" },
+          { "id": "s-delivery-3", "speaker": "许知枝", "character": "zhizhi", "text": "最后这道边，我们照你们想看的样子收。" },
+          { "id": "s-delivery-4", "speaker": "旁白", "text": "来客摸着布边，抬头望向还空着的窗。你们把选择留给了她。" }
+        ]
+      }
+    },
+    "endings": {
+      "s_end_leaf": {
+        "chapter": "single",
+        "title": "两片叶子",
+        "tag": "旧样与新芽",
+        "line": "有些不齐整，正是想留下的部分。",
+        "paragraphs": [
+          "你在旧叶旁补上一片浅绿的新叶，没有盖住那排歪针脚。来客把窗帘挂好，退后两步，又走近看了一眼。",
+          "母亲来茶摊时，先认出了女儿小时候绣的那一片。她抚平布角，说新添的叶子也很好看。",
+          "收工后，你和青禾坐在窗下喝茶。布会慢慢旧下去，今天这两片叶却都留下了。"
+        ],
+        "gain": "留住旧手迹，也添上一笔新的",
+        "cost": "花样不完全齐整",
+        "hint": "回到窗边，看看另一种补法。",
+        "letter": "给后来见到这幅帘子的人：\n那片歪叶不必拆。\n新叶在旁边，也有自己的位置。",
+        "background": "courtyard",
+        "cast": ["zhizhi", "qinghe"],
+        "epilogue": [
+          { "id": "s-end-leaf-1", "speaker": "来客", "text": "娘，原来的那片还在。" },
+          { "id": "s-end-leaf-2", "speaker": "旁白", "text": "来客的母亲站在窗边，先摸了摸旧叶，又轻轻点了点新叶。" },
+          { "id": "s-end-leaf-3", "speaker": "青禾", "character": "qinghe", "text": "走吧，茶还热着。" }
+        ]
+      },
+      "s_end_window": {
+        "chapter": "single",
+        "title": "窗前的新花",
+        "tag": "正面与背面",
+        "line": "旧日没有丢，只换了一个安放的地方。",
+        "paragraphs": [
+          "你照原来的花样把正面补齐，将歪针脚留在布边内侧。窗帘挂起来，茶摊的窗一下亮了。",
+          "傍晚收摊，来客把帘角翻给母亲看。母亲认出了那排旧针脚，笑说当年教针线时，她自己也拆过许多回。",
+          "你与青禾走过街口，回头还能看见那扇窗。背面的故事不会人人都知道，却始终在布上。"
+        ],
+        "gain": "补好了窗前的花样，也保存旧手迹",
+        "cost": "旧样需要翻到背面才看得见",
+        "hint": "回到窗边，看看另一种补法。",
+        "letter": "给后来见到这幅帘子的人：\n窗前有新花，背面有旧针脚。\n两面都是这件旧物的一部分。",
+        "background": "courtyard",
+        "cast": ["zhizhi", "qinghe"],
+        "epilogue": [
+          { "id": "s-end-window-1", "speaker": "来客", "text": "娘，你再看看背面。" },
+          { "id": "s-end-window-2", "speaker": "旁白", "text": "帘角被翻过来，晨间没看清的旧线，在灯下显了出来。" },
+          { "id": "s-end-window-3", "speaker": "许知枝", "character": "zhizhi", "text": "旧的还在，只是安静了一点。" }
+        ]
+      }
+    },
+    "defaultChapter": "single",
+    "chapters": [
+      {
+        "id": "single",
+        "start": "s_order",
+        "title": "背面的花",
+        "tag": "单篇 · 一幅旧绣",
+        "description": "与青禾修补一幅旧窗帘，听听它背面的故事。",
+        "context": "城南绣铺接到一幅旧窗帘。来客想在小茶摊重新开张前，将它补好挂回窗边。知枝发现帘上少了一片叶，背面却留着一排不齐的旧针脚。",
+        "hook": "旧窗帘缺了一片叶。\n补上它，还是留下它？",
+        "intro": "你和青禾只有一天时间。\n这回，先听听布上的旧针脚。"
+      }
+    ],
+    "characters": {
+      "zhizhi": { "name": "许知枝", "column": 0, "columns": 2, "anchor": "浅绿衣与赭色围裙，低辫盘发；绣铺的年轻匠人。" },
+      "qinghe": { "name": "青禾", "column": 1, "columns": 2, "anchor": "灰蓝衣与布带高髻；知枝的绣铺同伴。" }
+    },
+    "art": {
+      "neutral": "assets/single-cast.webp",
+      "courtyard": "assets/single-street.webp",
+      "room": "assets/single-workshop.webp",
+      "brandLogo": "assets/brand-logo.webp"
+    },
+    "clues": [],
+    "gallery": [],
+    "audioCandidates": [],
+    "audio": {
+      "musicVolume": 0,
+      "voiceVolume": 0,
+      "duckRatio": 0,
+      "voiceDelayMs": 0,
+      "voiceGapMs": 0,
+      "failure": "",
+      "files": {}
+    },
+    "tagline": "旧花未谢，新叶自生"
+  }
 }

@@ -6,8 +6,10 @@
     "lint": "node tools.mjs lint",
     "test": "node --test tests/*.test.mjs",
     "build": "node tools.mjs build",
+    "build:single": "node tools.mjs build-single",
     "preview": "node tools.mjs preview",
     "qa": "node qa/browser-check.mjs",
+    "qa:single": "node qa/single-browser-check.mjs",
     "qa:audio": "node qa/audio-check.mjs"
   }
 }

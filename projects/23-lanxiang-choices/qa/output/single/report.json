@@ -1,0 +1,291 @@
+{
+  "passed": true,
+  "screens": [
+    {
+      "name": "home-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "about-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "settings-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "gallery-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "story-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "work-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-work-375",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-leaf-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "letter-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "history-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-window-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "book-375",
+      "width": 375,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-375",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "home-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "about-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "settings-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "gallery-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "story-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "work-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-work-390",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-leaf-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "letter-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "history-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-window-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "book-390",
+      "width": 390,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-390",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "home-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "about-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "settings-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "gallery-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "story-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "work-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-work-430",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-leaf-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "letter-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "history-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "ending-window-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "book-430",
+      "width": 430,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "landscape-430",
+      "width": 844,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    },
+    {
+      "name": "tablet-work-900",
+      "width": 900,
+      "overflow": false,
+      "hits": [],
+      "modalFits": true
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "failed": [],
+  "limitations": [
+    "Browser-only; platform simulator and real devices not tested"
+  ]
+}

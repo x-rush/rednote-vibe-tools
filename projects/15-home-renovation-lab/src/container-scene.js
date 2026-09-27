@@ -6,14 +6,32 @@ import {bounds,roomAt,itemFrom,placement,round} from './core.js';
 function release(mesh){mesh.geometry?.dispose();if(mesh.material)mesh.material.dispose();}
 function snapshot(canvas){const copy=document.createElement('canvas');let scale=Math.min(1,1024/Math.max(canvas.width,canvas.height));for(let i=0;i<4;i++){copy.width=Math.max(1,Math.round(canvas.width*scale));copy.height=Math.max(1,Math.round(canvas.height*scale));copy.getContext('2d').drawImage(canvas,0,0,copy.width,copy.height);const data=copy.toDataURL('image/png');if((data.length-data.indexOf(',')-1)*.75<=1024*1024)return data;scale*=.7;}throw new Error('Image exceeds the container memory budget');}
 function mergeMeshes(meshes,parent){
-  const pos=[],normal=[],colors=[],ranges=[],normalMatrix=new T.Matrix3();let triangle=0;
-  for(const mesh of meshes){if(!mesh.isMesh)continue;const materials=Array.isArray(mesh.material)?mesh.material:[mesh.material];if(materials.some(m=>m.transparent||m.map||m.colorWrite===false))continue;
-    const geo=mesh.geometry.index?mesh.geometry.toNonIndexed():mesh.geometry,pa=geo.attributes.position,na=geo.attributes.normal,matrix=mesh.matrixWorld.clone();if(parent){const inverse=parent.matrixWorld.clone().invert();matrix.premultiply(inverse);}normalMatrix.getNormalMatrix(matrix);const p=new T.Vector3(),n=new T.Vector3();
-    for(let i=0;i<pa.count;i++){const group=materials.length>1?geo.groups.find(g=>i>=g.start&&i<g.start+g.count):null,co=materials[group?group.materialIndex:0].color;p.fromBufferAttribute(pa,i).applyMatrix4(matrix);pos.push(p.x,p.y,p.z);if(na)n.fromBufferAttribute(na,i).applyNormalMatrix(normalMatrix);else n.set(0,1,0);normal.push(n.x,n.y,n.z);colors.push(co.r,co.g,co.b);}
-    ranges.push({first:triangle,last:triangle+pa.count/3,data:mesh.userData});triangle+=pa.count/3;mesh.visible=false;if(geo!==mesh.geometry)geo.dispose();
+  const groups=new Map(),normalMatrix=new T.Matrix3(),p=new T.Vector3(),n=new T.Vector3();
+  for(const mesh of meshes){
+    if(!mesh.isMesh)continue;
+    const materials=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+    if(materials.some(m=>m.transparent||m.colorWrite===false)||materials.length>1)continue;
+    const material=materials[0],key=material.map?'map:'+material.map.uuid+':'+material.roughness:'solid';
+    if(material.map&&!mesh.geometry.attributes.uv)continue;
+    if(!groups.has(key))groups.set(key,{map:material.map||null,roughness:material.roughness,parts:[],pos:[],normal:[],colors:[],uvs:material.map?[]:null,ranges:[],triangle:0});
+    groups.get(key).parts.push({mesh,geo:mesh.geometry.index?mesh.geometry.toNonIndexed():mesh.geometry,color:material.color});
   }
-  if(!pos.length)return null;
-  const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pos,3));geo.setAttribute('normal',new T.Float32BufferAttribute(normal,3));geo.setAttribute('color',new T.Float32BufferAttribute(colors,3));const mesh=new T.Mesh(geo,new T.MeshStandardMaterial({vertexColors:true,roughness:.85}));mesh.userData={kind:'batch',ranges};mesh.castShadow=false;mesh.receiveShadow=false;return mesh;
+  const merged=[];
+  for(const group of groups.values()){
+    for(const {mesh,geo,color} of group.parts){
+      const pa=geo.attributes.position,na=geo.attributes.normal,ua=geo.attributes.uv,matrix=mesh.matrixWorld.clone();
+      if(parent){const inverse=parent.matrixWorld.clone().invert();matrix.premultiply(inverse);}
+      normalMatrix.getNormalMatrix(matrix);
+      const first=group.triangle;
+      for(let i=0;i<pa.count;i++){p.fromBufferAttribute(pa,i).applyMatrix4(matrix);group.pos.push(p.x,p.y,p.z);if(na)n.fromBufferAttribute(na,i).applyNormalMatrix(normalMatrix);else n.set(0,1,0);group.normal.push(n.x,n.y,n.z);group.colors.push(color.r,color.g,color.b);if(group.uvs)group.uvs.push(ua.getX(i),ua.getY(i));}
+      group.triangle+=pa.count/3;group.ranges.push({first,last:group.triangle,data:mesh.userData});mesh.visible=false;if(geo!==mesh.geometry)geo.dispose();
+    }
+    if(!group.pos.length)continue;
+    const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(group.pos,3));geo.setAttribute('normal',new T.Float32BufferAttribute(group.normal,3));geo.setAttribute('color',new T.Float32BufferAttribute(group.colors,3));if(group.uvs)geo.setAttribute('uv',new T.Float32BufferAttribute(group.uvs,2));
+    const material=group.map?new T.MeshStandardMaterial({color:0xffffff,map:group.map,roughness:group.roughness,vertexColors:true}):new T.MeshStandardMaterial({vertexColors:true,roughness:.85});
+    const mesh=new T.Mesh(geo,material);mesh.userData={kind:'batch',ranges:group.ranges};mesh.castShadow=false;mesh.receiveShadow=false;merged.push(mesh);
+  }
+  return merged;
 }
 
 class BudgetScene extends BaseScene{
@@ -25,14 +43,14 @@ class BudgetScene extends BaseScene{
     this.visibility=()=>{if(document.hidden){cancelAnimationFrame(this.frame);this.frame=null;}else if(!this.stopped){this.samples=[];this.dirty=true;this.animate();}};document.addEventListener('visibilitychange',this.visibility);
     this.resize();
   }
-  resize(){super.resize();const r=viewportRect(this.host),limit=this.tier?1000000:2000000,dpr=Math.min(devicePixelRatio||1,this.tier?1:1.5,Math.sqrt(limit/Math.max(1,r.width*r.height)));this.renderer.setPixelRatio(dpr);this.renderer.setSize(r.width,r.height);}
+  resize(){super.resize();const r=viewportRect(this.host),pixelLimits=[2000000,1200000,900000],caps=[1.5,1.25,1],dpr=Math.min(devicePixelRatio||1,caps[this.tier]||1,Math.sqrt((pixelLimits[this.tier]||900000)/Math.max(1,r.width*r.height)));this.renderer.setPixelRatio(dpr);this.renderer.setSize(r.width,r.height);}
   surface(id,w,d,r){const def=this.catalog.materials.find(m=>m.id===id);if(def.pattern==='paint')return new T.MeshStandardMaterial({color:def.color,roughness:.95});return super.surface(id,w,d,r);}
   rebuild(plan){this.rebuilding=true;this.removeBatches();super.rebuild(plan);this.rebuilding=false;this.batch();this.samples=[];}
   select(selected){if(!this.rebuilding)this.removeBatches();super.select(selected);if(!this.rebuilding&&this.plan)this.batch();}
   removeBatches(){if(!this.batches)return;for(const b of this.batches){b.parent?.remove(b);release(b);}this.batches=[];this.root.traverse(o=>{if(o.isMesh)o.visible=true;});}
   batch(){
     this.root.updateMatrixWorld(true);const furniture=[];for(const [id,g]of this.items){if(id!==this.selected?.id)g.traverse(o=>{if(o.isMesh)furniture.push(o);});}
-    const add=(meshes,parent)=>{const m=mergeMeshes(meshes,parent);if(m){parent.add(m);this.batches.push(m);}};add(furniture,this.root);
+    const add=(meshes,parent)=>{for(const m of mergeMeshes(meshes,parent))if(m){parent.add(m);this.batches.push(m);}};add(furniture,this.root);
     const standalone=this.root.children.filter(o=>o.isMesh&&o!==this.handle&&!(this.sideHandles||[]).includes(o)&&!this.batches.includes(o));add(standalone,this.root);
     for(const {g}of this.wallGroups){const meshes=[];g.traverse(o=>{if(o.isMesh)meshes.push(o);});add(meshes,g);}
     this.dirty=true;
@@ -41,20 +59,23 @@ class BudgetScene extends BaseScene{
   thumbnails(){return new Map(this.catalog.furniture.map(f=>[f.id,`./assets/furniture/${f.id}.png`]));}
   animate(){
     if(!this.ready){this.frame=requestAnimationFrame(()=>this.animate());return;}if(this.stopped||document.hidden)return;this.frame=requestAnimationFrame(()=>this.animate());this.advanceWalk();if(!this.walk)this.controls.update();if(!this.dirty||this.lost)return;
-    const start=performance.now();for(const {g,wall}of this.wallGroups){let scale=1;if(!this.walk){if(wall.rooms.length>1)scale=.23;else{const near=wall.axis==='x'?(wall.sides[0]==='south'?this.camera.position.z>wall.line:this.camera.position.z<wall.line):(wall.sides[0]==='east'?this.camera.position.x>wall.line:this.camera.position.x<wall.line);if(near)scale=.08;}if(this.camera.position.y>30)scale=.04;}g.scale.y=scale;}
-    try{this.renderer.render(this.scene,this.camera);}catch{this.fail('render');return;}this.dirty=false;const info=this.renderer.info.render,elapsed=performance.now()-start;this.samples.push(elapsed);if(this.samples.length>36)this.samples.shift();
+    const start=performance.now();const target=this.controls.target,topDown=Math.atan2(Math.hypot(this.camera.position.x-target.x,this.camera.position.z-target.z),Math.max(.001,this.camera.position.y-target.y))<.32;
+    for(const {g,wall}of this.wallGroups){let scale=1;if(!this.walk){if(topDown)scale=.04;else if(!this.fullWalls){if(wall.rooms.length>1)scale=.23;else{const near=wall.axis==='x'?(wall.sides[0]==='south'?this.camera.position.z>wall.line:this.camera.position.z<wall.line):(wall.sides[0]==='east'?this.camera.position.x>wall.line:this.camera.position.x<wall.line);if(near)scale=.08;}}}g.scale.y=scale;}
+    try{this.renderer.render(this.scene,this.camera);}catch{this.fail('render');return;}this.dirty=false;const info=this.renderer.info.render,elapsed=performance.now()-start;this.samples.push(elapsed);if(this.samples.length>48)this.samples.shift();
     window.ROOMISH_RENDER_STATS={tier:this.tier,calls:info.calls,triangles:info.triangles,pixels:this.renderer.domElement.width*this.renderer.domElement.height,textures:this.renderer.info.memory.textures};
-    const tooMany=info.calls>(this.tier?50:100)||info.triangles>(this.tier?50000:100000),slow=this.samples.length>=30&&this.samples.reduce((a,b)=>a+b,0)/this.samples.length>(this.tier?50:34);
-    if(tooMany||slow){if(!this.tier){this.tier=1;this.renderer.shadowMap.enabled=false;this.resize();this.samples=[];this.dirty=true;}else this.fail('budget');}
+    // Escalate on instantaneous overload, but only sustained slow frames justify
+    // dropping to the flat view; draw-call counts alone must never end the 3D preview.
+    const avg=this.samples.reduce((a,b)=>a+b,0)/Math.max(1,this.samples.length),slow=this.samples.length>=(this.tier>=2?45:30)&&avg>(this.tier>=2?55:this.tier?40:34);
+    if(slow||(this.tier<2&&(info.calls>140||info.triangles>160000))){this.tier++;this.renderer.shadowMap.enabled=false;this.resize();this.samples=[];this.dirty=true;if(this.tier>=3)this.fail('budget');}
   }
   fail(reason){if(this.stopped)return;this.stopped=true;cancelAnimationFrame(this.frame);this.onFallback?.(reason);}
-  destroy(){this.stopped=true;cancelAnimationFrame(this.frame);document.removeEventListener('visibilitychange',this.visibility);this.resizeObserver.disconnect();this.controls.dispose();const done=new Set();this.scene.traverse(o=>{if(o.geometry&&!done.has(o.geometry)){o.geometry.dispose();done.add(o.geometry);}for(const m of o.material?(Array.isArray(o.material)?o.material:[o.material]):[]){if(m.map&&!done.has(m.map)){m.map.dispose();done.add(m.map);}if(!done.has(m)){m.dispose();done.add(m);}}});this.renderer.dispose();this.renderer.domElement.remove();}
+  destroy(){this.stopped=true;cancelAnimationFrame(this.frame);document.removeEventListener('visibilitychange',this.visibility);this.resizeObserver.disconnect();this.controls.dispose();const done=new Set();this.scene.traverse(o=>{if(o.geometry&&!done.has(o.geometry)){o.geometry.dispose();done.add(o.geometry);}for(const m of o.material?(Array.isArray(o.material)?o.material:[o.material]):[]){if(m.map&&!m.map.userData?.shared&&!done.has(m.map)){m.map.dispose();done.add(m.map);}if(!done.has(m)){m.dispose();done.add(m);}}});this.renderer.dispose();this.renderer.domElement.remove();}
   async capture(){const decorations=[...(this.sideHandles||[]),this.guides,this.doorPreview].filter(Boolean),visibility=decorations.map(o=>o.visible);decorations.forEach(o=>o.visible=false);const bg=this.scene.background;this.scene.background=new T.Color(this.night?'#c6cbbb':'#eaece1');if(this.selector)this.selector.visible=false;if(this.handle)this.handle.visible=false;if(this.ghost)this.ghost.visible=false;try{this.renderer.render(this.scene,this.camera);return snapshot(this.renderer.domElement);}finally{decorations.forEach((o,i)=>o.visible=visibility[i]);this.scene.background=bg;if(this.selector)this.selector.visible=true;if(this.handle)this.handle.visible=true;if(this.ghost)this.ghost.visible=true;this.dirty=true;}}
 }
 
 class FlatScene{
   constructor(host,catalog,cb){this.host=host;this.catalog=catalog;this.cb=cb;this.canvas=document.createElement('canvas');this.canvas.className='flat-canvas';host.appendChild(this.canvas);this.ctx=this.canvas.getContext('2d');this.walk=false;this.editRooms=false;this.readonly=false;this.snap=true;this.resizeObserver=new ResizeObserver(()=>this.draw());this.resizeObserver.observe(host);this.canvas.addEventListener('pointerdown',e=>this.down(e));this.canvas.addEventListener('pointermove',e=>this.move(e));this.canvas.addEventListener('pointerup',e=>this.up(e));this.canvas.addEventListener('pointercancel',()=>{this.drag=null;this.draw();});window.ROOMISH_RENDER_STATS={tier:2,renderer:'canvas2d'};}
-  rebuild(p){this.openingPreview=null;this.plan=p;this.draw();}select(s){this.openingPreview=null;this.selected=s;this.draw();}fit(){this.draw();}lighting(n){this.night=n;this.draw();}exit(){this.walk=false;}enter(){this.cb.message('flatMode');return false;}setPending(f){this.pending=f;this.draw();}thumbnails(){return new Map(this.catalog.furniture.map(f=>[f.id,`./assets/furniture/${f.id}.png`]));}
+  rebuild(p){this.openingPreview=null;this.plan=p;this.draw();}select(s){this.openingPreview=null;this.selected=s;this.draw();}fit(){this.draw();}lighting(n){this.night=n;this.draw();}exit(){this.walk=false;}enter(){this.cb.message('flatMode');return false;}setPending(f){this.pending=f;this.draw();}setFullWalls(){this.draw();}thumbnails(){return new Map(this.catalog.furniture.map(f=>[f.id,`./assets/furniture/${f.id}.png`]));}
   point(e){const rect=viewportRect(this.canvas);return{x:(e.clientX-rect.left-this.offsetX)/this.scale,z:(e.clientY-rect.top-this.offsetZ)/this.scale};}
   get controls(){return this.flatControls||(this.flatControls={enabled:true});}
   cancelDrag(){this.drag=null;this.draw();}

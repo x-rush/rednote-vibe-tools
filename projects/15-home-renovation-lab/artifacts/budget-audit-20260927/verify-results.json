@@ -1,0 +1,385 @@
+[
+ {
+  "name": "container big plan stays 3D",
+  "pass": true,
+  "details": {
+   "samples": "t2/c252,t2/c252,t2/c252,t2/c252,t2/c252,t2/c252,t2/c252,t2/c252,t2/c252"
+  }
+ },
+ {
+  "name": "container big plan walk entry works",
+  "pass": true,
+  "details": {
+   "toast": "点地面走动，拖动画面边走边看；点“停止”停下，“去哪里”可切换房间。"
+  }
+ },
+ {
+  "name": "container no pageerrors",
+  "pass": true,
+  "details": []
+ },
+ {
+  "name": "container default template 3D",
+  "pass": true,
+  "details": {
+   "tier": 0,
+   "calls": 121,
+   "triangles": 20678,
+   "pixels": 277290,
+   "textures": 6
+  }
+ },
+ {
+  "name": "view dropdown has full-wall item",
+  "pass": true,
+  "details": [
+   "全屋",
+   "俯视",
+   "进入体验",
+   "整墙预览"
+  ]
+ },
+ {
+  "name": "window placement mode opens",
+  "pass": true,
+  "details": {
+   "placingHidden": false,
+   "text": "点墙放窗，拖窗挪位置，拖空白换视角平开窗推拉窗落地窗飘窗取消"
+  }
+ },
+ {
+  "name": "boot defaults to full-wall mode (window design ready)",
+  "pass": true,
+  "details": {
+   "camY": 21.4,
+   "walls": [
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 1
+    }
+   ],
+   "active": true,
+   "label": "整墙预览"
+  }
+ },
+ {
+  "name": "toggle switches to cutaway (interior walls low, exterior near-side cut)",
+  "pass": true,
+  "details": {
+   "walls": [
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 0.23
+    },
+    {
+     "rooms": 2,
+     "y": 0.23
+    },
+    {
+     "rooms": 2,
+     "y": 0.23
+    },
+    {
+     "rooms": 2,
+     "y": 0.23
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 1,
+     "y": 1
+    },
+    {
+     "rooms": 2,
+     "y": 0.23
+    },
+    {
+     "rooms": 1,
+     "y": 0.08
+    },
+    {
+     "rooms": 1,
+     "y": 0.08
+    },
+    {
+     "rooms": 1,
+     "y": 0.08
+    },
+    {
+     "rooms": 1,
+     "y": 0.08
+    },
+    {
+     "rooms": 1,
+     "y": 0.08
+    },
+    {
+     "rooms": 2,
+     "y": 0.23
+    },
+    {
+     "rooms": 2,
+     "y": 0.23
+    }
+   ],
+   "label": "透视矮墙",
+   "toast": "透视矮墙"
+  }
+ },
+ {
+  "name": "toggle restores full-wall mode",
+  "pass": true,
+  "details": {
+   "walls": true,
+   "label": "整墙预览"
+  }
+ },
+ {
+  "name": "zoomed-out overview keeps 3D walls (was y>30 flatten)",
+  "pass": true,
+  "details": {
+   "camY": 47,
+   "walls": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "name": "top view flattens walls",
+  "pass": true,
+  "details": {
+   "camY": 35.5,
+   "walls": [
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04,
+    0.04
+   ]
+  }
+ },
+ {
+  "name": "C1 no pageerrors",
+  "pass": true,
+  "details": []
+ },
+ {
+  "name": "all four window types placed with style defaults",
+  "pass": true,
+  "details": [
+   {
+    "side": "east",
+    "style": "casement",
+    "w": 1.4,
+    "h": 1.3,
+    "sill": 0.9
+   },
+   {
+    "side": "north",
+    "style": "sliding",
+    "w": 1.6,
+    "h": 1.3,
+    "sill": 0.9
+   },
+   {
+    "side": "north",
+    "style": "floor",
+    "w": 1.6,
+    "h": 2.45,
+    "sill": 0
+   },
+   {
+    "side": "south",
+    "style": "bay",
+    "w": 1.8,
+    "h": 1.3,
+    "sill": 0.5
+   }
+  ]
+ },
+ {
+  "name": "bay window rejected on interior wall",
+  "pass": true,
+  "details": {
+   "count": 4,
+   "toast": "这里放不下窗户，或与已有门窗重叠，请换个位置。",
+   "placing": true
+  }
+ },
+ {
+  "name": "floor window drags along wall",
+  "pass": true,
+  "details": {
+   "before": 2.05,
+   "after": 2.61
+  }
+ },
+ {
+  "name": "window styles persist to local storage",
+  "pass": true,
+  "details": [
+   {
+    "style": "casement",
+    "side": "east"
+   },
+   {
+    "style": "sliding",
+    "side": "north"
+   },
+   {
+    "style": "floor",
+    "side": "north"
+   },
+   {
+    "style": "bay",
+    "side": "south"
+   }
+  ]
+ },
+ {
+  "name": "module walk entry works",
+  "pass": true,
+  "details": {
+   "walking": true,
+   "toast": "点地面走动，拖动画面边走边看；点“停止”停下，“去哪里”可切换房间。",
+   "viewsOpen": false
+  }
+ },
+ {
+  "name": "toggle-views clear of simulated host button",
+  "pass": true,
+  "details": {
+   "x": 234,
+   "y": 71,
+   "width": 69,
+   "height": 44,
+   "top": 71,
+   "right": 303,
+   "bottom": 115,
+   "left": 234
+  }
+ },
+ {
+  "name": "dropdown items clear of host overlay",
+  "pass": true,
+  "details": [
+   {
+    "action": "overview",
+    "ok": true
+   },
+   {
+    "action": "top",
+    "ok": true
+   },
+   {
+    "action": "inside",
+    "ok": true
+   },
+   {
+    "action": "full-walls",
+    "ok": true
+   }
+  ]
+ },
+ {
+  "name": "module no pageerrors",
+  "pass": true,
+  "details": []
+ }
+]

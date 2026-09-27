@@ -89,8 +89,12 @@ export function removeRoom(plan,id){
 }
 export function validOpening(plan,o){
   if(!plan.rooms.some(r=>r.id===o.roomId)||!['north','south','west','east'].includes(o.side)||!['door','window'].includes(o.type)||![o.offset,o.w,o.h,o.sill].every(Number.isFinite)||o.w<0.4||o.h<0.3||o.sill<0||o.sill+o.h>plan.wallHeight-0.05)return false;
-  const segment=walls(plan).find(w=>wallOpenings({...plan,openings:[o]},w).length);if(!segment)return false;const candidate=wallOpenings({...plan,openings:[o]},segment)[0];return !wallOpenings(plan,segment).some(other=>other.id!==o.id&&Math.abs(other.center-candidate.center)<(other.w+candidate.w)/2+0.08);
+  const segment=walls(plan).find(w=>wallOpenings({...plan,openings:[o]},w).length);if(!segment)return false;
+  // Bay windows protrude outside the building, so they need an exterior wall segment.
+  if(o.type==='window'&&(o.style||'casement')==='bay'&&segment.rooms.length!==1)return false;
+  const candidate=wallOpenings({...plan,openings:[o]},segment)[0];return !wallOpenings(plan,segment).some(other=>other.id!==o.id&&Math.abs(other.center-candidate.center)<(other.w+candidate.w)/2+0.08);
 }
+const OPENING_STYLES=['casement','sliding','floor','bay'];
 export function inventory(plan,catalog){
   const furniture=new Map(),materials=new Map();for(const o of plan.items){const def=catalog.furniture.find(f=>f.id===o.catalogId),key=`${o.catalogId}:${o.w}:${o.d}:${o.h}:${o.color}`;if(!furniture.has(key))furniture.set(key,{key,name:def.name,size:`${o.w} × ${o.d} × ${o.h}`,color:o.color,quantity:0,rooms:new Set()});const row=furniture.get(key);row.quantity++;row.rooms.add(plan.rooms.find(r=>r.id===o.roomId)?.name||'');}
   const segments=walls(plan);for(const r of plan.rooms)for(const surface of ['floor','wall']){const key=`${surface}:${r[surface]}`,def=catalog.materials.find(m=>m.id===r[surface]);if(!materials.has(key))materials.set(key,{key,name:def.name,surface,quantity:0,unknown:false,rooms:[]});const row=materials.get(key);row.rooms.push(r.name);if(!r.measured||(surface==='wall'&&!plan.wallHeightMeasured))row.unknown=true;else if(surface==='floor')row.quantity+=r.w*r.d;else{let area=2*(r.w+r.d)*plan.wallHeight;for(const wall of segments.filter(w=>w.rooms.includes(r.id)))for(const o of wallOpenings(plan,wall))area-=o.w*o.h;row.quantity+=Math.max(0,area);}}
@@ -109,7 +113,7 @@ export function validatePlan(value,catalog){
   const result=pick(p,['schemaVersion','id','name','mode','wallHeight','wallThickness','buildingArea','updatedAt']);result.wallHeightMeasured=p.wallHeightMeasured===true;
   result.style=catalog.styles.some(s=>s.id===p.style)?p.style:'natural';
   result.rooms=p.rooms.map(r=>({...pick(r,['id','name','x','z','w','d','measured','floor','wall','textureScale','textureAngle']),kind:['living','studio','bedroom','kitchen','bath','dining','study','balcony','empty'].includes(r.kind)?r.kind:'empty'}));
-  result.items=p.items.map(o=>pick(o,['id','catalogId','roomId','x','z','w','d','h','color','angle']));result.openings=p.openings.map(o=>pick(o,['id','roomId','side','offset','w','h','sill','type']));
+  result.items=p.items.map(o=>pick(o,['id','catalogId','roomId','x','z','w','d','h','color','angle']));result.openings=p.openings.map(o=>{const out=pick(o,['id','roomId','side','offset','w','h','sill','type','style']);if(o.type!=='window'||!OPENING_STYLES.includes(out.style)||out.style==='casement')delete out.style;return out;});
   const priceKeys=new Set([...inventory(result,catalog).furniture,...inventory(result,catalog).materials].map(r=>r.key));result.prices=Object.fromEntries(Object.entries(p.prices).filter(([key])=>priceKeys.has(key)));return result;
 }
 export function csvCell(value){let s=String(value??'');if(/^[\s]*[=+@-]/.test(s))s="'"+s;return '"'+s.replaceAll('"','""')+'"';}

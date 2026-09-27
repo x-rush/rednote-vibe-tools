@@ -1,0 +1,64 @@
+[
+ {
+  "mode": "file",
+  "passed": true,
+  "stats": {
+   "tier": 0,
+   "calls": 121,
+   "triangles": 20678,
+   "pixels": 277290,
+   "textures": 6
+  },
+  "checks": [
+   "offline load",
+   "missing API fallbacks",
+   "mobile widths 375/390/430",
+   "safe area",
+   "JPEG preview and album contract",
+   "room property save",
+   "CSS landscape"
+  ],
+  "error": null
+ },
+ {
+  "mode": "csp",
+  "passed": true,
+  "stats": {
+   "tier": 0,
+   "calls": 121,
+   "triangles": 20678,
+   "pixels": 297960,
+   "textures": 6
+  },
+  "checks": [
+   "offline load",
+   "missing API fallbacks",
+   "mobile widths 375/390/430",
+   "safe area",
+   "JPEG preview and album contract",
+   "room property save",
+   "CSS landscape",
+   "WebGL context-loss fallback"
+  ],
+  "error": null
+ },
+ {
+  "mode": "fallback",
+  "passed": true,
+  "stats": {
+   "tier": 2,
+   "renderer": "canvas2d",
+   "reason": "webgl-unavailable"
+  },
+  "checks": [
+   "offline load",
+   "missing API fallbacks",
+   "mobile widths 375/390/430",
+   "safe area",
+   "JPEG preview and album contract",
+   "room property save",
+   "CSS landscape"
+  ],
+  "error": null
+ }
+]

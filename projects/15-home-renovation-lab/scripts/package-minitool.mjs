@@ -12,7 +12,7 @@ const postcss=require(installedPackage('postcss','lib/postcss.js'));
 const {rolldown}=await import(pathToFileURL(installedPackage('rolldown','dist/index.mjs')).href);
 const out=resolve(root,'minitool-dist');assert.equal(out,root+sep+'minitool-dist');await rm(out,{recursive:true,force:true});await mkdir(join(out,'assets'),{recursive:true});
 const content=JSON.parse((await readFile(join(root,'src/content/content.json'),'utf8')).replace(/^\uFEFF/,''));
-Object.assign(content.ui,{exportImage:'查看 / 保存设计图',exportCSV:'查看清单文本',exportJSON:'查看方案文本',importJSON:'粘贴方案文本',importPaste:'导入这份方案',textHelp:'选中文字后使用系统文本选择操作保留内容；容器不支持文件下载。方案可粘贴回这里继续编辑。',imageHelp:'设计图已生成。容器内可点击保存到相册；普通浏览器可直接查看。',saveAlbum:'保存到相册',savedAlbum:'已保存到相册',albumUnavailable:'当前环境没有提供相册接口，设计图仍可查看。',flatMode:'已启用轻量平面视图，仍可摆放家具和编辑方案。'});
+Object.assign(content.ui,{exportImage:'查看 / 保存设计图',exportCSV:'查看清单文本',exportJSON:'查看方案文本',importJSON:'粘贴方案文本',importPaste:'导入这份方案',textHelp:'选中文字后使用系统文本选择操作保留内容；容器不支持文件下载。方案可粘贴回这里继续编辑。',imageHelp:'设计图已生成。容器内可点击保存到相册；普通浏览器可直接查看。',saveAlbum:'保存到相册',savedAlbum:'已保存到相册',albumUnavailable:'当前环境没有提供相册接口，设计图仍可查看。',flatMode:'设备性能不足以流畅渲染 3D 视图，已自动切换到轻量平面视图；仍可摆放家具和编辑方案，但暂不支持进入体验。'});
 await writeFile(join(out,'assets/content.js'),'window.ROOMISH_CONTENT='+JSON.stringify(content)+';');
 await cp(join(root,'packaging-assets/furniture'),join(out,'assets/furniture'),{recursive:true});
 await cp(join(root,'src/logo-roomish.png'),join(out,'assets/logo-roomish.png'));

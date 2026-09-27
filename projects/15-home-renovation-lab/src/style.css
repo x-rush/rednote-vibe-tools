@@ -403,3 +403,7 @@ body #modal .room-side-picker button{min-height:44px;white-space:normal}
 .swatch.terrazzo{background-color:var(--swatch);background-image:radial-gradient(ellipse at 20% 30%,#a88670 0 2px,transparent 3px),radial-gradient(ellipse at 70% 65%,#f4eee1 0 3px,transparent 4px);background-size:17px 23px,29px 19px}
 .swatch.herringbone{background-color:var(--swatch);background-image:repeating-linear-gradient(45deg,transparent 0 8px,#6c50332b 9px 10px),repeating-linear-gradient(-45deg,transparent 0 18px,#f4e6cc55 19px 20px)}
 .swatch.linen{background-color:var(--swatch);background-image:repeating-linear-gradient(0deg,transparent 0 2px,#fff3 3px 4px),repeating-linear-gradient(90deg,transparent 0 3px,#765f3922 4px 5px)}
+
+/* Window type chips live inside the placement bar and the mobile dock. */
+.placing{flex-wrap:wrap}.placing .win-styles{display:flex;gap:4px;margin:0 4px;flex-wrap:wrap}.placing [data-action="win-style"]{padding:6px 9px;border-radius:7px;font-size:10px;background:#ffffff2b;color:#fff9e8;min-height:0;white-space:nowrap}.placing [data-action="win-style"].active{background:#fffaf0;color:#5b6a4f}
+#mobile-context .win-styles{display:flex;gap:5px;flex:1 0 100%;flex-wrap:wrap}#mobile-context [data-action="win-style"]{flex:1 1 40%;min-height:40px;padding:8px 10px;border-radius:8px;background:#eeeee4;color:#5b6a4f;font-size:12px;border:1px solid var(--line)}#mobile-context [data-action="win-style"].active{background:#254c3e;color:#fff;border-color:#254c3e}

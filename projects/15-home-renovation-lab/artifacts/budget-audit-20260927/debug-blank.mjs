@@ -1,0 +1,33 @@
+import {createServer} from 'node:http';
+import {readFile} from 'node:fs/promises';
+import {resolve,extname} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createRequire} from 'node:module';
+const {chromium}=createRequire(import.meta.url)('C:/Users/77958/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const root=resolve('minitool-dist');
+const server=createServer(async(req,res)=>{try{const file=resolve(root,'.'+(req.url==='/'?'/index.html':new URL(req.url,'http://localhost').pathname));if(!file.startsWith(root))throw Error();res.writeHead(200,{'Content-Type':({'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.json':'application/json'})[extname(file)]||'application/octet-stream'});res.end(await readFile(file));}catch{res.writeHead(404);res.end();}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:1});
+await context.addInitScript(()=>{window.fetch=()=>{throw Error('Network disabled')};window.XMLHttpRequest=undefined;window.ResizeObserver=undefined;Object.fromEntries=undefined;Object.hasOwn=undefined;String.prototype.replaceAll=undefined;Array.prototype.flatMap=undefined;window.__bridge=[];window.xhs={miniTool:{writeTempFile:async o=>({filePath:'/mock/offline.jpg'}),saveImageToAlbum:async()=>({})}};});
+const page=await context.newPage();
+page.on('pageerror',e=>console.log('[pageerror]',e.message));
+await page.goto(`http://127.0.0.1:${server.address().port}/`,{waitUntil:'networkidle'});
+await page.waitForSelector('.furniture-card img',{state:'attached'});
+await page.waitForTimeout(400);
+const click=async s=>{await page.locator(s+':visible').first().tap({timeout:5000});await page.waitForTimeout(100);};
+const dump=async tag=>console.log(tag,await page.evaluate(()=>({cls:document.body.className,ctx:document.getElementById('mobile-context').innerHTML.slice(0,120),drawer:document.body.classList.contains('drawer-open')})));
+// smoke prelude: width loop with safe-area, capture + album save + close
+for(const w of [375,390,430]){await page.setViewportSize({width:w,height:844});await page.evaluate(()=>{document.documentElement.style.setProperty('--safe-area-inset-top','28px');document.documentElement.style.setProperty('--safe-area-inset-bottom','16px')});await page.waitForTimeout(120);}
+await click('[data-action="mobile-menu"]');
+await click('#modal [data-action="capture"]');
+await page.waitForSelector('.export-preview');
+await click('[data-action="save-album"]');
+await page.waitForTimeout(300);
+await click('[data-action="close-modal"]');
+await dump('after-capture:');
+await click('#mobile-launch [data-action="tab-layouts"]');
+await dump('tab-layouts:');
+await click('[data-action="blank"]');
+await dump('blank:');
+await browser.close();await server.close();process.exit(0);

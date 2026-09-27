@@ -1,0 +1,22 @@
+import {createServer} from 'node:http';
+import {readFile} from 'node:fs/promises';
+import {resolve,extname} from 'node:path';
+import {createRequire} from 'node:module';
+const {chromium}=createRequire(import.meta.url)('C:/Users/77958/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const root=resolve(process.argv[2]||'minitool-dist');
+const server=createServer(async(req,res)=>{try{const p=resolve(root,'.'+(req.url==='/'?'/index.html':new URL(req.url,'http://localhost').pathname));if(!p.startsWith(root))throw Error();res.writeHead(200,{'Content-Type':({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png'})[extname(p)]||'application/octet-stream'});let bytes=await readFile(p);if(p===resolve(root,'src/app.js'))bytes=Buffer.concat([bytes,Buffer.from('\nwindow.__acceptance={get scene(){return scene},get plan(){return plan}};')]);res.end(bytes);}catch{res.writeHead(404);res.end();}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const page=await (await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true})).newPage();
+await page.goto(`http://127.0.0.1:${server.address().port}/`,{waitUntil:'networkidle'});
+await page.waitForFunction(()=>window.__acceptance&&window.__acceptance.scene&&window.__acceptance.scene.plan,{timeout:15000}).catch(e=>console.log('hook wait failed:',e.message));await page.waitForTimeout(2500);
+const info=await page.evaluate(()=>{
+  const s=window.__acceptance?.scene;
+  if(!s)return {error:'no scene hook'};
+  let visibleMeshes=0,mappedIndividual=0,transparentIndividual=0;
+  const walk=o=>{if(o.isMesh&&o.visible){visibleMeshes++;const ms=Array.isArray(o.material)?o.material:[o.material];if(ms.length===1&&ms[0].map&&!o.userData.kind)mappedIndividual++;if(ms.some(m=>m.transparent))transparentIndividual++;}o.children.forEach(walk);};
+  walk(s.scene);
+  return {batches:s.batches?s.batches.length:0,visibleMeshes,mappedIndividual,transparentIndividual,items:s.items.size,wallGroups:s.wallGroups.length,stats:window.ROOMISH_RENDER_STATS};
+});
+console.log(JSON.stringify(info));
+await browser.close();server.close();process.exit(0);

@@ -59,19 +59,24 @@ export function furnitureModel(def,color=def.color){
 }
 function finishFurniture(group,def,color){
   const upholstered=['sofa','chair','bed','pouf','rug'].includes(def.model),wooden=['coffee','table','desk','bench','cabinet','wardrobe','shelf','round','tv'].includes(def.model);
-  const base=new T.Color(color).getHex(),wood=new T.Color('#b7976d').getHex(),cream=new T.Color('#eee8db').getHex();let clothMap,woodMap;
-  function makeTexture(kind){const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,128,128);let seed=19;const rand=()=>{seed=seed*16807%2147483647;return seed/2147483647;};
-    if(kind==='cloth'){for(let i=0;i<128;i+=4){ctx.fillStyle='rgba(60,52,42,.08)';ctx.fillRect(i,0,1,128);ctx.fillStyle='rgba(70,60,50,.05)';ctx.fillRect(0,i,128,1);}for(let i=0;i<700;i++){ctx.fillStyle='rgba(40,36,30,.04)';ctx.fillRect(rand()*128,rand()*128,1,1);}}
-    else{for(let i=0;i<40;i++){const y=rand()*128;ctx.strokeStyle='rgba(80,58,32,'+(.025+rand()*.07)+')';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(0,y);ctx.bezierCurveTo(35,y+rand()*6,85,y-rand()*6,128,y);ctx.stroke();}}
-    const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(kind==='cloth'?5:2,kind==='cloth'?5:2);return t;
-  }
+  const base=new T.Color(color).getHex(),wood=new T.Color('#b7976d').getHex(),cream=new T.Color('#eee8db').getHex();
   group.traverse(mesh=>{if(!mesh.isMesh||!mesh.material||Array.isArray(mesh.material))return;const m=mesh.material;if(m.transparent||m.emissiveIntensity>0||!m.color)return;const hex=m.color.getHex();
-    if(upholstered&&(hex===base||hex===cream||hex===new T.Color('#a5ae92').getHex()||hex===new T.Color('#bc856b').getHex())){clothMap=clothMap||makeTexture('cloth');m.map=clothMap;m.roughness=.98;}
-    else if(hex===wood||(wooden&&hex===base)){woodMap=woodMap||makeTexture('wood');m.map=woodMap;m.roughness=.65;}
+    if(upholstered&&(hex===base||hex===cream||hex===new T.Color('#a5ae92').getHex()||hex===new T.Color('#bc856b').getHex())){m.map=noiseTexture('cloth');m.roughness=.98;}
+    else if(hex===wood||(wooden&&hex===base)){m.map=noiseTexture('wood');m.roughness=.65;}
     else if(['sink','toilet','fridge','kitchen','island'].includes(def.model))m.roughness=.42;
   });
 }
-function dispose(group){group.traverse(o=>{o.geometry?.dispose();if(o.material){for(const m of Array.isArray(o.material)?o.material:[o.material]){m.map?.dispose();m.dispose();}}});}
+// Cloth and wood grain are white-based noise tinted by material color, so one
+// shared texture per kind serves every furniture build without per-plan canvases.
+const sharedTextures={};
+function noiseTexture(kind){
+  if(sharedTextures[kind])return sharedTextures[kind];
+  const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,128,128);let seed=19;const rand=()=>{seed=seed*16807%2147483647;return seed/2147483647;};
+  if(kind==='cloth'){for(let i=0;i<128;i+=4){ctx.fillStyle='rgba(60,52,42,.08)';ctx.fillRect(i,0,1,128);ctx.fillStyle='rgba(70,60,50,.05)';ctx.fillRect(0,i,128,1);}for(let i=0;i<700;i++){ctx.fillStyle='rgba(40,36,30,.04)';ctx.fillRect(rand()*128,rand()*128,1,1);}}
+  else{for(let i=0;i<40;i++){const y=rand()*128;ctx.strokeStyle='rgba(80,58,32,'+(.025+rand()*.07)+')';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(0,y);ctx.bezierCurveTo(35,y+rand()*6,85,y-rand()*6,128,y);ctx.stroke();}}
+  const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(kind==='cloth'?5:2,kind==='cloth'?5:2);t.userData.shared=true;sharedTextures[kind]=t;return t;
+}
+function dispose(group){group.traverse(o=>{o.geometry?.dispose();if(o.material){for(const m of Array.isArray(o.material)?o.material:[o.material]){if(m.map&&!m.map.userData?.shared)m.map.dispose();m.dispose();}}});}
 function texture(def){
   const c=document.createElement('canvas');c.width=c.height=256;const ctx=c.getContext('2d');ctx.fillStyle=def.color;ctx.fillRect(0,0,256,256);
   let seed=13;const random=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
@@ -88,7 +93,7 @@ function texture(def){
 }
 export class RoomScene{
   constructor(host,catalog,callbacks){
-    this.host=host;this.catalog=catalog;this.cb=callbacks;this.items=new Map();this.wallGroups=[];this.editRooms=false;this.snap=true;this.walk=false;this.readonly=false;this.pending=null;this.dirty=true;
+    this.host=host;this.catalog=catalog;this.cb=callbacks;this.items=new Map();this.wallGroups=[];this.editRooms=false;this.snap=true;this.walk=false;this.readonly=false;this.pending=null;this.dirty=true;this.fullWalls=false;
     this.renderer=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=T.PCFSoftShadowMap;this.renderer.outputColorSpace=T.SRGBColorSpace;this.renderer.toneMapping=T.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.25;this.renderer.domElement.setAttribute('aria-label',catalog.title);this.renderer.domElement.tabIndex=0;host.append(this.renderer.domElement);
     this.scene=new T.Scene();this.camera=new T.PerspectiveCamera(38,1,.05,200);this.camera.position.set(13,12,17);
     this.root=new T.Group();this.scene.add(this.root);this.hemi=new T.HemisphereLight('#fff8e9','#a6aa96',2.6);this.scene.add(this.hemi);this.sun=new T.DirectionalLight('#fff0d4',3.2);this.sun.position.set(-6,14,5);this.sun.castShadow=true;this.sun.shadow.mapSize.set(2048,2048);Object.assign(this.sun.shadow.camera,{left:-20,right:20,top:20,bottom:-20,near:.5,far:60});this.sun.shadow.normalBias=.035;this.scene.add(this.sun);
@@ -116,7 +121,29 @@ this.dirty=true;}
       const g=new T.Group(),r=plan.rooms.find(r=>r.id===wall.rooms[0]),open=wallOpenings(plan,wall).sort((a,b)=>a.center-b.center),th=wall.thickness||plan.wallThickness,h=plan.wallHeight;
       const part=(a,b,y0,y1)=>{if(b-a<.005||y1-y0<.005)return;const m=box(g,wall.axis==='x'?b-a:th,y1-y0,wall.axis==='x'?th:b-a,wall.axis==='x'?(a+b)/2:wall.line,(y0+y1)/2,wall.axis==='x'?wall.line:(a+b)/2,this.surface(r.wall,b-a,y1-y0,r));if(wall.rooms.length===2){const other=this.plan.rooms.find(x=>x.id===wall.rooms[1]),first=m.material,second=this.surface(other.wall,b-a,y1-y0,other);m.material=[first,first,first,first,first,first];const face=wall.axis==='x'?(wall.sides[1]==='north'?4:5):(wall.sides[1]==='west'?0:1);m.material[face]=second;}m.userData={kind:'wall',id:r.id};};
       let cursor=wall.start;for(const o of open){const left=o.center-o.w/2,right=o.center+o.w/2;part(cursor,left,0,h);part(left,right,0,o.sill);part(left,right,o.sill+o.h,h);
-        if(o.type==='window'){const glass=mat('#c7e1dc',{transparent:true,opacity:.3,depthWrite:false,roughness:.1});box(g,wall.axis==='x'?o.w:.025,o.h,wall.axis==='x'?.025:o.w,wall.axis==='x'?o.center:wall.line,o.sill+o.h/2,wall.axis==='x'?wall.line:o.center,glass);for(const t of [-o.w/2,0,o.w/2])box(g,wall.axis==='x'?.045:th+.025,o.h,wall.axis==='x'?th+.025:.045,wall.axis==='x'?o.center+t:wall.line,o.sill+o.h/2,wall.axis==='x'?wall.line:o.center+t,'#e9e0cd');for(const y of [o.sill,o.sill+o.h])box(g,wall.axis==='x'?o.w+.08:th+.08,.05,wall.axis==='x'?th+.08:o.w+.08,wall.axis==='x'?o.center:wall.line,y,wall.axis==='x'?wall.line:o.center,'#e9e0cd');}
+        if(o.type==='window'){
+          // Window types share the wall cutout; style only changes the joinery built into it.
+          const style=o.style||'casement',frame='#e9e0cd',glass=mat('#c7e1dc',{transparent:true,opacity:.3,depthWrite:false,roughness:.1});
+          const put=(aw,h,ad,ac,y,cc,m)=>{const mesh=box(g,wall.axis==='x'?aw:ad,h,wall.axis==='x'?ad:aw,wall.axis==='x'?ac:cc,y,wall.axis==='x'?cc:ac,m);mesh.userData={kind:'opening',id:o.id,roomId:o.roomId};return mesh;};
+          const out=o.side==='north'?-1:o.side==='south'?1:o.side==='west'?-1:1,midY=o.sill+o.h/2;
+          if(style==='bay'){
+            const D=.45,face=wall.line+out*(D/2+th/2);
+            put(o.w+.08,.07,D,o.center,o.sill+.035,face,frame);
+            put(o.w+.08,.07,D,o.center,o.sill+o.h-.035,face,frame);
+            put(o.w-.1,o.h-.14,.03,o.center,midY,wall.line+out*(D+th/2-.015),glass);
+            put(.03,o.h-.14,D,o.center-o.w/2+.015,midY,face,glass);
+            put(.03,o.h-.14,D,o.center+o.w/2-.015,midY,face,glass);
+            put(.05,o.h,D+.04,o.center-o.w/2+.02,midY,face,frame);
+            put(.05,o.h,D+.04,o.center+o.w/2-.02,midY,face,frame);
+          }else{
+            put(o.w-.06,o.h-.05,.025,o.center,midY,wall.line,glass);
+            if(style==='sliding')put(o.w/2-.05,o.h-.09,.025,o.center+o.w/4,midY,wall.line,glass);
+            const posts=style==='floor'?[-o.w/2,o.w/2,-o.w/6,o.w/6]:style==='casement'?[-o.w/2,0,o.w/2]:[-o.w/2,o.w/2];
+            for(const t of posts)put(.045,o.h,th+.025,o.center+t,midY,wall.line,frame);
+            const rails=style==='casement'?[o.sill,o.sill+o.h,o.sill+o.h/2]:[o.sill,o.sill+o.h];
+            for(const y of rails)put(o.w+.08,.05,th+.08,o.center,y,wall.line,frame);
+          }
+        }
         if(o.type==='door'){const frame=mat('#d4c4ae');for(const [center,y,width,height]of[[left,.5*o.h,.035,o.h],[right,.5*o.h,.035,o.h],[o.center,o.h,o.w+.035,.035]]){const m=box(g,wall.axis==='x'?width:th+.035,height,wall.axis==='x'?th+.035:width,wall.axis==='x'?center:wall.line,y,wall.axis==='x'?wall.line:center,frame);m.userData={kind:'opening',id:o.id,roomId:o.roomId};}const target=box(g,wall.axis==='x'?o.w:th+.04,o.h,wall.axis==='x'?th+.04:o.w,wall.axis==='x'?o.center:wall.line,o.h/2,wall.axis==='x'?wall.line:o.center,new T.MeshBasicMaterial({colorWrite:false,depthWrite:false}));target.castShadow=false;target.receiveShadow=false;target.userData={kind:'opening',id:o.id,roomId:o.roomId};}
         cursor=right;
       }part(cursor,wall.end,0,h);this.root.add(g);this.wallGroups.push({g,wall});
@@ -140,6 +167,7 @@ this.dirty=true;}
   }
   fit(type='overview',room=null){this.viewType=type;this.walk=false;this.camera.fov=38;this.camera.updateProjectionMatrix();this.controls.enabled=true;this.controls.enableZoom=true;this.controls.enablePan=true;this.controls.minDistance=2;this.controls.maxDistance=100;this.controls.maxPolarAngle=Math.PI/2-.08;const b=bounds(room?[room]:this.plan.rooms),size=Math.max(b.w,b.d)/Math.min(1,this.camera.aspect),distance=size*1.18+2;this.controls.target.set(b.cx,0,b.cz);if(type==='top')this.camera.position.set(b.cx,.1+distance*1.8,b.cz+.001);else this.camera.position.set(b.cx+distance*.76,distance*1.02,b.cz+distance*1.08);this.controls.update();if(document.body.classList.contains('forced-landscape'))this.frameAvailable(room);this.dirty=true;}
   lighting(night){this.night=night;this.hemi.intensity=night?.85:2.6;this.sun.intensity=night?1.8:3.2;this.sun.color.set(night?'#ffc181':'#fff0d4');this.fill.intensity=night?.3:1;this.renderer.toneMappingExposure=night?1.05:1.25;this.dirty=true;}
+  setFullWalls(value){this.fullWalls=!!value;this.dirty=true;}
   point(event){const r=viewportRect(this.renderer.domElement);this.mouse.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);this.ray.setFromCamera(this.mouse,this.camera);return this.ray.ray.intersectPlane(this.plane,new T.Vector3());}
   resizeHit(event){
     if(!this.editRooms||this.readonly||this.pending||this.walk)return null;
@@ -217,7 +245,10 @@ this.drag.candidate={...o,w:snap(Math.max(1.5,o.w+dx)),d:snap(Math.max(1.5,o.d+d
   look(){this.camera.lookAt(this.camera.position.x+Math.sin(this.yaw)*Math.cos(this.pitch),this.camera.position.y-Math.sin(this.pitch),this.camera.position.z-Math.cos(this.yaw)*Math.cos(this.pitch));this.dirty=true;}
   exit(){this.walkRoute=null;this.clearDestination();for(const [object,visible]of this.walkDecorations||[])object.visible=visible;this.walkDecorations=null;this.walk=false;this.camera.fov=38;this.camera.updateProjectionMatrix();this.controls.enabled=true;if(this.savedCamera){this.camera.position.copy(this.savedCamera.position);this.controls.target.copy(this.savedCamera.target);this.controls.update();}this.dirty=true;}
   animate(){requestAnimationFrame(()=>this.animate());this.advanceWalk();if(!this.walk)this.controls.update();if(!this.dirty||document.hidden)return;
-    for(const {g,wall}of this.wallGroups){let scale=1;if(!this.walk){if(wall.rooms.length>1)scale=.23;else{const near=wall.axis==='x'?(wall.sides[0]==='south'?this.camera.position.z>wall.line:this.camera.position.z<wall.line):(wall.sides[0]==='east'?this.camera.position.x>wall.line:this.camera.position.x<wall.line);if(near)scale=.08;}if(this.camera.position.y>30)scale=.04;}g.scale.y=scale;}
+    // Wall cutaway follows the view angle, not an absolute camera height: only a
+    // near-top-down camera flattens walls, so zooming out keeps the 3D preview.
+    const target=this.controls.target,topDown=Math.atan2(Math.hypot(this.camera.position.x-target.x,this.camera.position.z-target.z),Math.max(.001,this.camera.position.y-target.y))<.32;
+    for(const {g,wall} of this.wallGroups){let scale=1;if(!this.walk){if(topDown)scale=.04;else if(!this.fullWalls){if(wall.rooms.length>1)scale=.23;else{const near=wall.axis==='x'?(wall.sides[0]==='south'?this.camera.position.z>wall.line:this.camera.position.z<wall.line):(wall.sides[0]==='east'?this.camera.position.x>wall.line:this.camera.position.x<wall.line);if(near)scale=.08;}}}g.scale.y=scale;}
     this.renderer.render(this.scene,this.camera);this.dirty=false;
   }
   async capture(){const decorations=[...(this.sideHandles||[]),this.guides,this.doorPreview].filter(Boolean),visibility=decorations.map(o=>o.visible);decorations.forEach(o=>o.visible=false);const bg=this.scene.background;this.scene.background=new T.Color(this.night?'#c6cbbb':'#eaece1');if(this.selector)this.selector.visible=false;if(this.handle)this.handle.visible=false;if(this.ghost)this.ghost.visible=false;try{this.renderer.render(this.scene,this.camera);return await new Promise((resolve,reject)=>this.renderer.domElement.toBlob(blob=>blob?resolve(blob):reject(new Error('Capture failed')),'image/png'));}finally{decorations.forEach((o,i)=>o.visible=visibility[i]);this.scene.background=bg;if(this.selector)this.selector.visible=true;if(this.handle)this.handle.visible=true;if(this.ghost)this.ghost.visible=true;this.dirty=true;}}

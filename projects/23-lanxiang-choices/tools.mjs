@@ -15,6 +15,24 @@ function contentFor(raw,single){
   const one=raw.singleStory;
   return {...full,...one,ui:{...full.ui,...one.ui}};
 }
+// Sprites and scene backdrops must stay class-driven: some host pipelines rewrite stylesheet asset URLs but drop inline style attributes, which blanks inline-background sprites.
+function dynamicStyles(c){
+  const emotions=new Set(['neutral']),scenes=new Set();
+  const scan=frames=>{for(const b of frames||[]){if(b.expression)emotions.add(b.expression);for(const v of Object.values(b.reactions||{}))emotions.add(v);if(b.background)scenes.add(b.background);}};
+  for(const n of Object.values(c.nodes)){scenes.add(n.background||'courtyard');scan(n.beats);}
+  for(const e of Object.values(c.endings)){scenes.add(e.background||'courtyard');scan(e.epilogue);}
+  let css='';
+  for(const key of scenes){const art=c.art[key];if(art)css+='body[data-scene="'+key+'"] .scenery{background-image:url(\''+art+'\')}';}
+  for(const [id,p] of Object.entries(c.characters)){
+    const columns=p.columns||4,pos=Math.round(p.column*100/((columns-1)||1)*1000)/1000;
+    for(const e of emotions){
+      const art=c.art[p.atlas||e]||c.art.neutral;
+      if(!art)continue;
+      css+='.sprite[data-character="'+id+'"].emotion-'+e+'{background-image:url(\''+art+'\');background-size:'+(columns*100)+'% 100%;background-position:'+pos+'% 0}';
+    }
+  }
+  return css;
+}
 function lintStory(c){
   if(!c.nodes[c.start])throw Error('Missing start');
   if(!c.chapters.some(ch=>ch.id===c.defaultChapter&&c.nodes[ch.start]))throw Error('Missing default chapter');
@@ -71,8 +89,8 @@ else if(command==='build'||command==='build-single'){
     '@media(max-width:390px){.vn-stage .sprite{width:210px;height:210px}}\n'+
     '@media(min-width:760px) and (min-height:551px){.vn-stage{height:330px}.vn-stage .sprite{width:310px;height:310px}.vn-stage .sprite:first-child:nth-last-child(2){width:360px;height:360px;bottom:-30px}}\n'+
     '@media(orientation:landscape) and (max-height:550px){.vn-stage{height:205px}.vn-stage .sprite{width:180px;height:180px}.vn-stage .sprite:first-child:nth-last-child(2){width:210px;height:210px;bottom:-10px}.gallery-portrait{height:150px}.gallery-portrait .sprite{width:145px;height:145px}}\n';
-  await writeFile(join(distDir,'style.css'),single?singleStyles:stylesheet);
   const raw=JSON.parse(await readFile(join(root,'src/content/content.json'),'utf8')),c=contentFor(raw,single);
+  await writeFile(join(distDir,'style.css'),(single?singleStyles:stylesheet)+dynamicStyles(c));
   await writeFile(join(distDir,'content.js'),'window.STORY_CONTENT='+JSON.stringify(c).replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029')+';');
   for(const art of new Set(Object.values(c.art)))await copyFile(join(root,art),join(distDir,art));
   const audio={};

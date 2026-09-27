@@ -1,7 +1,7 @@
 {
   "title": "住进想象",
   "subtitle": "把喜欢的生活，一点点摆进去。",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "ui": {
     "brand": "ROOMISH",
     "project": "我的原木小家",
@@ -856,6 +856,146 @@
       "d": 0.38,
       "h": 0.72,
       "color": "#718564"
+    },
+    {
+      "id": "bigsofa",
+      "name": "宽幅四人沙发",
+      "category": "客厅",
+      "model": "sofa",
+      "w": 3.0,
+      "d": 1.0,
+      "h": 0.9,
+      "color": "#c9b8a3"
+    },
+    {
+      "id": "tvstand",
+      "name": "电视矮柜",
+      "category": "客厅",
+      "model": "cabinet",
+      "w": 1.6,
+      "d": 0.4,
+      "h": 0.45,
+      "color": "#b0946f"
+    },
+    {
+      "id": "oaktable",
+      "name": "北欧小茶几",
+      "category": "客厅",
+      "model": "coffee",
+      "w": 0.8,
+      "d": 0.55,
+      "h": 0.42,
+      "color": "#a8845f"
+    },
+    {
+      "id": "dresser",
+      "name": "原木斗柜",
+      "category": "客厅",
+      "model": "cabinet",
+      "w": 0.9,
+      "d": 0.45,
+      "h": 0.85,
+      "color": "#c9a97e"
+    },
+    {
+      "id": "kidbed",
+      "name": "云朵儿童床",
+      "category": "卧室",
+      "model": "bed",
+      "w": 1.2,
+      "d": 1.9,
+      "h": 0.8,
+      "color": "#b9c4cf"
+    },
+    {
+      "id": "dressing",
+      "name": "奶油梳妆台",
+      "category": "卧室",
+      "model": "desk",
+      "w": 0.9,
+      "d": 0.45,
+      "h": 0.78,
+      "color": "#ddd0bb"
+    },
+    {
+      "id": "drawers",
+      "name": "六斗收纳柜",
+      "category": "卧室",
+      "model": "cabinet",
+      "w": 1.1,
+      "d": 0.48,
+      "h": 1.15,
+      "color": "#b99a72"
+    },
+    {
+      "id": "nightlamp",
+      "name": "小床头灯",
+      "category": "卧室",
+      "model": "lamp",
+      "w": 0.28,
+      "d": 0.28,
+      "h": 0.5,
+      "color": "#e0c9a6"
+    },
+    {
+      "id": "bartable",
+      "name": "原木吧台桌",
+      "category": "餐厨",
+      "model": "island",
+      "w": 1.4,
+      "d": 0.45,
+      "h": 1.0,
+      "color": "#a8845f"
+    },
+    {
+      "id": "barstool",
+      "name": "高脚圆凳",
+      "category": "餐厨",
+      "model": "pouf",
+      "w": 0.38,
+      "d": 0.38,
+      "h": 0.75,
+      "color": "#829184"
+    },
+    {
+      "id": "cafetable",
+      "name": "两人小方桌",
+      "category": "餐厨",
+      "model": "round",
+      "w": 0.7,
+      "d": 0.7,
+      "h": 0.72,
+      "color": "#c4a578"
+    },
+    {
+      "id": "doublesink",
+      "name": "双盆洗手台",
+      "category": "卫浴",
+      "model": "sink",
+      "w": 1.2,
+      "d": 0.5,
+      "h": 0.85,
+      "color": "#e5e2d8"
+    },
+    {
+      "id": "drytree",
+      "name": "落地干枝瓶",
+      "category": "装饰",
+      "model": "plant",
+      "w": 0.45,
+      "d": 0.45,
+      "h": 1.75,
+      "color": "#a58d6f"
+    },
+    {
+      "id": "monstera",
+      "name": "龟背竹盆栽",
+      "category": "装饰",
+      "model": "plant",
+      "w": 0.7,
+      "d": 0.7,
+      "h": 1.05,
+      "color": "#5f7a58"
     }
   ],
   "templates": [

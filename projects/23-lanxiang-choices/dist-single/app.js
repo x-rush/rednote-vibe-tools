@@ -80,7 +80,7 @@
     document.body.classList.toggle('still', save.still);
     document.body.setAttribute('data-view', view);
     var setting = view === 'story' && c.nodes[state.node] ? c.nodes[state.node].background : 'courtyard';
-    document.querySelector('.scenery').style.backgroundImage = 'url("' + c.art[setting] + '")';
+    document.body.setAttribute('data-scene', setting);
     if (view === 'home') renderHome();
     else if (c.endings[state.node] && save.beat < beats().length) renderEpilogue();
     else if (c.endings[state.node]) renderEnding(state.node);
@@ -98,19 +98,17 @@
   function sprite(id, active, emotion, slot) {
     var person = c.characters[id];
     if (!person) return '';
-    var columns = person.columns || 4, atlas = person.atlas || emotion || 'neutral';
-    return '<div data-character="' + id + '" class="sprite slot-' + slot + (active ? ' speaking' : ' listening') + ' emotion-' + emotion + '" role="img" aria-label="' + esc(person.name) + '" style="background-image:url(' + c.art[atlas] + ');background-size:' + (columns * 100) + '% 100%;background-position:' + (person.column * 100 / (columns - 1)) + '% 0"></div>';
+    return '<div data-character="' + id + '" class="sprite slot-' + slot + (active ? ' speaking' : ' listening') + ' emotion-' + emotion + '" role="img" aria-label="' + esc(person.name) + '"></div>';
   }
   function renderStory() { renderVisual(c.nodes[state.node], false); }
   function renderEpilogue() {
     var e = c.endings[state.node];
-    document.querySelector('.scenery').style.backgroundImage = 'url("' + c.art[e.background] + '")';
     renderVisual({ title: e.title, act: ui.epilogue, place: chapter().title, cast: e.cast, background: e.background, music: e.music }, true);
   }
   function renderVisual(node, ending) {
     var frames = beats(), index = Math.min(save.beat || 0, frames.length), frame = frames[Math.min(index, frames.length - 1)], selecting = index === frames.length;
     var scene = engine.stage(node, frames, Math.min(index, frames.length - 1)), oldStage = app.querySelector('.vn-stage'), sameScene = renderedScene === view + ':' + state.node;
-    document.querySelector('.scenery').style.backgroundImage = 'url("' + c.art[scene.background] + '")';
+    document.body.setAttribute('data-scene', scene.background);
     var stage = '<div class="vn-stage' + (scene.cg ? ' event-stage' : '') + '" aria-hidden="true">';
     if (scene.cg) {
       stage += '<img class="event-art" src="' + c.art[scene.cg] + '" alt="">';
@@ -134,7 +132,7 @@
       var nextStage = app.querySelector('.vn-stage');
       Array.prototype.slice.call(nextStage.querySelectorAll('[data-character]')).forEach(function (fresh) {
         var previous = oldStage.querySelector('[data-character="' + fresh.getAttribute('data-character') + '"]');
-        if (previous) { previous.className = fresh.className; previous.setAttribute('style', fresh.getAttribute('style')); fresh.parentNode.replaceChild(previous, fresh); }
+        if (previous) { previous.className = fresh.className; fresh.parentNode.replaceChild(previous, fresh); }
       });
     }
     save.frameId = selecting ? 'choices' : frame.id; persist();

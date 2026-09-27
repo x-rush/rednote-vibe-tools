@@ -30,6 +30,16 @@ const server = createServer(async (req, res) => {
 });
 
 const port = Number(process.env.PORT || 4311);
-server.listen(port, '127.0.0.1', () => {
-  console.log(`Home Renovation Lab: http://127.0.0.1:${port}`);
+// A leftover dev server holding the port should not crash the run; fall through to the next free port.
+let candidate = port;
+server.on('error', error => {
+  if (error.code !== 'EADDRINUSE' || candidate > port + 9) {
+    console.error(`Cannot listen on 127.0.0.1:${port}: ${error.message}`);
+    process.exit(1);
+  }
+  candidate += 1;
+  server.listen(candidate, '127.0.0.1');
+});
+server.listen(candidate, '127.0.0.1', () => {
+  console.log(`Home Renovation Lab: http://127.0.0.1:${candidate}`);
 });

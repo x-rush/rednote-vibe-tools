@@ -1,0 +1,50 @@
+[
+ {
+  "name": "dist: new furniture cards rendered",
+  "pass": true
+ },
+ {
+  "name": "dist: template has items",
+  "pass": true
+ },
+ {
+  "name": "dist: beginner item size form present with w/d/h/angle (no x/z)",
+  "pass": true
+ },
+ {
+  "name": "dist: furniture resized via beginner form",
+  "pass": true
+ },
+ {
+  "name": "dist: openings form available in beginner mode",
+  "pass": true
+ },
+ {
+  "name": "dist: door/window resized via beginner form",
+  "pass": true
+ },
+ {
+  "name": "dist: advanced details still hidden in beginner mode",
+  "pass": true
+ },
+ {
+  "name": "dist: new furniture thumbnail loads",
+  "pass": true
+ },
+ {
+  "name": "dist: no pageerrors",
+  "pass": true
+ },
+ {
+  "name": "container: new furniture cards rendered",
+  "pass": true
+ },
+ {
+  "name": "container: new furniture thumbnail loads",
+  "pass": true
+ },
+ {
+  "name": "container: no pageerrors",
+  "pass": true
+ }
+]

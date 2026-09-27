@@ -1,14 +1,14 @@
 {
-  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.3.3-minitool.zip",
-  "bytes": 1294245,
+  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.4.0-minitool.zip",
+  "bytes": 1355602,
   "files": [
     {
       "name": "assets/app.js",
-      "bytes": 1546913
+      "bytes": 1547002
     },
     {
       "name": "assets/content.js",
-      "bytes": 27434
+      "bytes": 29132
     },
     {
       "name": "assets/furniture/armchair.png",
@@ -17,6 +17,14 @@
     {
       "name": "assets/furniture/art.png",
       "bytes": 4073
+    },
+    {
+      "name": "assets/furniture/barstool.png",
+      "bytes": 2867
+    },
+    {
+      "name": "assets/furniture/bartable.png",
+      "bytes": 3722
     },
     {
       "name": "assets/furniture/bathtub.png",
@@ -31,12 +39,20 @@
       "bytes": 3329
     },
     {
+      "name": "assets/furniture/bigsofa.png",
+      "bytes": 4678
+    },
+    {
       "name": "assets/furniture/bluelamp.png",
       "bytes": 2523
     },
     {
       "name": "assets/furniture/bookcase.png",
       "bytes": 4962
+    },
+    {
+      "name": "assets/furniture/cafetable.png",
+      "bytes": 3383
     },
     {
       "name": "assets/furniture/chair.png",
@@ -59,12 +75,36 @@
       "bytes": 3749
     },
     {
+      "name": "assets/furniture/doublesink.png",
+      "bytes": 4527
+    },
+    {
+      "name": "assets/furniture/drawers.png",
+      "bytes": 3799
+    },
+    {
+      "name": "assets/furniture/dresser.png",
+      "bytes": 4231
+    },
+    {
+      "name": "assets/furniture/dressing.png",
+      "bytes": 4654
+    },
+    {
+      "name": "assets/furniture/drytree.png",
+      "bytes": 4011
+    },
+    {
       "name": "assets/furniture/fridge.png",
       "bytes": 2919
     },
     {
       "name": "assets/furniture/island.png",
       "bytes": 4422
+    },
+    {
+      "name": "assets/furniture/kidbed.png",
+      "bytes": 5639
     },
     {
       "name": "assets/furniture/kitchen.png",
@@ -95,8 +135,20 @@
       "bytes": 2672
     },
     {
+      "name": "assets/furniture/monstera.png",
+      "bytes": 6890
+    },
+    {
+      "name": "assets/furniture/nightlamp.png",
+      "bytes": 3285
+    },
+    {
       "name": "assets/furniture/nightstand.png",
       "bytes": 4953
+    },
+    {
+      "name": "assets/furniture/oaktable.png",
+      "bytes": 4420
     },
     {
       "name": "assets/furniture/olivepouf.png",
@@ -165,6 +217,10 @@
     {
       "name": "assets/furniture/tv.png",
       "bytes": 4310
+    },
+    {
+      "name": "assets/furniture/tvstand.png",
+      "bytes": 3389
     },
     {
       "name": "assets/furniture/vanity.png",

@@ -1,14 +1,14 @@
 {
-  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.4.10-minitool.zip",
-  "bytes": 1176773,
+  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.4.11-minitool.zip",
+  "bytes": 1176664,
   "files": [
     {
       "name": "assets/app.js",
-      "bytes": 1551648
+      "bytes": 1550885
     },
     {
       "name": "assets/content.js",
-      "bytes": 29205
+      "bytes": 29171
     },
     {
       "name": "assets/licenses.json",
@@ -20,7 +20,7 @@
     },
     {
       "name": "assets/style.css",
-      "bytes": 84068
+      "bytes": 83919
     },
     {
       "name": "assets/thumbnails.js",

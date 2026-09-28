@@ -1,7 +1,7 @@
 {
   "title": "住进想象",
   "subtitle": "把喜欢的生活，一点点摆进去。",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "ui": {
     "brand": "ROOMISH",
     "project": "我的原木小家",
@@ -119,7 +119,6 @@
     "windowAdded": "窗户放好了，按住就能挪",
     "windowBlocked": "这里放不下窗户，或与已有门窗重叠，请换个位置。",
     "fullWalls": "整墙预览",
-    "backToRoom": "返回房间设置",
     "editOpening": "调整尺寸",
     "lowWalls": "透视矮墙",
     "windowStyle": "窗户类型",

@@ -25,24 +25,27 @@ for(const [label,root,inject] of [['dist','dist',true],['container','minitool-di
     await page.waitForTimeout(400);
     const panel=await page.evaluate(()=>{
       const f=document.querySelector('#opening-form');
-      return {hasOpeningForm:!!f,roomFormGone:!document.querySelector('#room-form'),title:document.querySelector('#inspector h3')?.textContent,editId:f?.dataset.editId,w:f?.elements.w?.value,style:f?.elements.style?.value,backBtn:!!document.querySelector('[data-action="back-to-room"]')};
+      const row=document.querySelector('#inspector .room-flow-actions');
+      return {hasOpeningForm:!!f,roomFormGone:!document.querySelector('#room-form'),title:document.querySelector('#inspector h3')?.textContent,editId:f?.dataset.editId,w:f?.elements.w?.value,style:f?.elements.style?.value,noExtraRow:!row};
     });
-    check(label+': selecting the window opens its own panel (not room settings)',panel.hasOpeningForm&&panel.roomFormGone&&panel.title==='飘窗'&&panel.editId==='win1'&&panel.w==='1.4'&&panel.style==='bay'&&panel.backBtn,panel);
+    check(label+': selecting the window opens its own panel (no extra row)',panel.hasOpeningForm&&panel.roomFormGone&&panel.title==='飘窗'&&panel.editId==='win1'&&panel.w==='1.4'&&panel.style==='bay'&&panel.noExtraRow,panel);
     // resize via the panel and submit
     await page.evaluate(()=>{const f=document.querySelector('#opening-form');f.elements.w.value='2';f.querySelector('button[type="submit"]').click();});
     await page.waitForTimeout(500);
     const saved=await page.evaluate(()=>window.__acceptance.plan.openings[0].w);
     check(label+': width edit applies to the window',saved===2,saved);
-    // back to room settings
-    await page.locator('.inspector [data-action="back-to-room"]').first().tap({timeout:5000});
+    // header X deselects
+    await page.locator('#inspector .inspector-header [data-action="deselect"]:visible').first().tap({timeout:5000});
     await page.waitForTimeout(400);
-    const roomPanel=await page.evaluate(()=>({roomForm:!!document.querySelector('#room-form'),editIdCleared:!document.querySelector('#opening-form[data-edit-id]'),title:document.querySelector('#inspector h3')?.textContent}));
-    check(label+': back-to-room returns to room settings',roomPanel.roomForm&&roomPanel.editIdCleared&&roomPanel.title==='客厅',roomPanel);
-    // list edit button jumps to the opening panel
-    await page.evaluate(()=>{document.querySelector('.opening-list [data-action="edit-opening"]').click();});
+    const deselected=await page.evaluate(()=>({collapsed:document.body.classList.contains('inspector-collapsed'),hidden:document.getElementById('inspector')?.getBoundingClientRect().height===0}));
+    check(label+': header X collapses the opening panel',deselected.collapsed&&deselected.hidden,deselected);
+    // reopen via dock 更多 (opening-size)
+    await page.evaluate(()=>window.__acceptance.scene.cb.select({kind:'room',id:'roomA',openingId:'win1'}));
+    await page.waitForTimeout(300);
+    await page.locator('#mobile-context [data-action="opening-size"]:visible').first().tap({timeout:5000});
     await page.waitForTimeout(400);
-    const backToOpening=await page.evaluate(()=>({openingForm:!!document.querySelector('#opening-form'),editId:document.querySelector('#opening-form')?.dataset.editId}));
-    check(label+': list edit button opens the opening panel',backToOpening.openingForm&&backToOpening.editId==='win1',backToOpening);
+    const reopened=await page.evaluate(()=>({openingForm:!!document.querySelector('#opening-form'),editId:document.querySelector('#opening-form')?.dataset.editId}));
+    check(label+': dock 更多 reopens the opening panel',reopened.openingForm&&reopened.editId==='win1',reopened);
     // delete from the opening panel
     await page.evaluate(()=>{document.querySelector('.inspector [data-action="delete-opening"]').click();});
     await page.waitForTimeout(500);
@@ -59,10 +62,8 @@ for(const [label,root,inject] of [['dist','dist',true],['container','minitool-di
     const wallTap=await page.evaluate(()=>{const r=document.querySelector('#viewport').getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height*.5};});
     await page.touchscreen.tap(wallTap.x,wallTap.y);
     await page.waitForTimeout(500);
-    await page.locator('#mobile-context [data-action="opening-size"]:visible').first().tap({timeout:5000});
-    await page.waitForTimeout(400);
-    const panel=await page.evaluate(()=>{const f=document.querySelector('#opening-form');return{openingForm:!!f,roomFormGone:!document.querySelector('#room-form'),title:document.querySelector('#inspector h3')?.textContent};});
-    check(label+': after placing, panel shows the opening editor',panel.openingForm&&panel.roomFormGone,panel);
+    const panel=await page.evaluate(()=>{const f=document.querySelector('#opening-form');return{openingForm:!!f,roomFormGone:!document.querySelector('#room-form'),title:document.querySelector('#inspector h3')?.textContent,noExtraRow:!document.querySelector('#inspector .room-flow-actions')};});
+    check(label+': after placing, panel shows the opening editor without extra row',panel.openingForm&&panel.roomFormGone&&panel.noExtraRow,panel);
   }
   check(label+': no pageerrors',errs.length===0,errs.slice(0,2));
   await page.screenshot({path:resolve(`artifacts/budget-audit-20260927/opening-panel-${label}.png`)});

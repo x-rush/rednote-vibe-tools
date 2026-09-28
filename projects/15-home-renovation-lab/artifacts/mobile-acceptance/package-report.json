@@ -5,9 +5,9 @@
       "passed": true,
       "stats": {
         "tier": 0,
-        "calls": 121,
-        "triangles": 20678,
-        "pixels": 297960,
+        "calls": 124,
+        "triangles": 20714,
+        "pixels": 277290,
         "textures": 6
       },
       "bridge": [
@@ -36,8 +36,8 @@
       "passed": true,
       "stats": {
         "tier": 0,
-        "calls": 121,
-        "triangles": 20678,
+        "calls": 124,
+        "triangles": 20714,
         "pixels": 297960,
         "textures": 6
       },

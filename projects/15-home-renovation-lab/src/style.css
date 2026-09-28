@@ -55,7 +55,8 @@ body.forced-landscape dialog[open]{position:fixed;width:calc(var(--rotation-widt
 #outside-notice{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;background:#f5e7d6;color:#765335;border-radius:12px;font-size:12px}#outside-notice[hidden]{display:none}#outside-notice>span{flex:1;min-width:95px}#outside-notice button{min-height:44px;padding:8px 10px}#outside-notice svg{width:16px;height:16px}
 
 /* Keep destructive room actions inside properties, not in the main dock. */
-@media(max-width:700px){.mobile-room-selected .inspector .object-actions{display:flex;border-top:1px solid var(--line);border-bottom:0;padding:12px 0 0;margin:12px 0}.mobile-room-selected .inspector .object-actions button:not([data-action="delete-room"]){display:none}.mobile-room-selected .inspector .object-actions [data-action="delete-room"]{min-height:44px;flex-direction:row;font-size:12px;color:#945538;border:1px solid #dac5b6}}
+@media(max-width:700px){.mobile-room-selected .inspector .object-actions:not(.opening-actions){display:flex;border-top:1px solid var(--line);border-bottom:0;padding:12px 0 0;margin:12px 0}.mobile-room-selected .inspector .object-actions:not(.opening-actions) button:not([data-action="delete-room"]){display:none}.mobile-room-selected .inspector .object-actions:not(.opening-actions) [data-action="delete-room"]{min-height:44px;flex-direction:row;font-size:12px;color:#945538;border:1px solid #dac5b6}.mobile-room-selected .inspector .opening-actions{display:flex;padding:12px 0 0;margin:12px 0 0;border-top:1px solid var(--line)}
+.mobile-properties .inspector.opening-panel .room-flow-actions{display:flex;padding:0 0 10px;margin:0 0 10px;box-shadow:none;background:transparent}.mobile-room-selected .inspector .opening-actions [data-action="delete-opening"]{min-height:44px;flex:1;flex-direction:row;font-size:12px;color:#945538;border:1px solid #dac5b6}}
 
 /* Landscape is a workspace layout, not a stretched portrait toolbar. */
 body.forced-landscape .topbar{min-height:48px;padding:2px 10px}
@@ -84,7 +85,7 @@ body.forced-landscape .finished .workspace{grid-column:1}
 /* Avoid the host back corner locally, without sacrificing the whole canvas edge. */
 .app-shell{padding-top:0}
 @media(max-width:700px){
-body:not(.forced-landscape) .topbar{padding-left:64px}
+body:not(.forced-landscape) .topbar{padding-left:74px}
 body:not(.forced-landscape) .brand{font-size:14px;letter-spacing:1px;min-width:0}
 body:not(.forced-landscape) .brand-mark{display:none}
 body:not(.forced-landscape) .brand small{letter-spacing:0}
@@ -178,7 +179,7 @@ body.natural-landscape .categories{margin:8px 0}
 body.natural-landscape .furniture-card strong{font-size:11px}
 body.natural-landscape #outside-notice{position:absolute;left:8px;bottom:60px;max-width:340px;z-index:27}
 body.natural-landscape .finished .workspace{grid-column:1}
-body:not(.natural-landscape) .topbar{padding-left:64px}
+body:not(.natural-landscape) .topbar{padding-left:74px}
 body:not(.natural-landscape) .brand{font-size:14px;letter-spacing:1px;min-width:0}
 body:not(.natural-landscape) .brand-mark{display:none}
 body:not(.natural-landscape) .brand small{letter-spacing:0}
@@ -290,7 +291,7 @@ body.forced-landscape #quick-history,body.natural-landscape #quick-history{top:a
 body.forced-landscape #quick-history{left:var(--host-rotated-clearance,88px)}
 body.forced-landscape #floating-tools,body.natural-landscape #floating-tools{max-width:calc(100% - 130px)}
 /* Host controls occupy physical screen corners, independently of system insets. */
-body.compact-mode:not(.forced-landscape) .topbar{padding-left:var(--host-edge-clearance,60px)!important;padding-right:var(--host-edge-clearance,60px)!important;gap:8px!important}
+body.compact-mode:not(.forced-landscape) .topbar{padding-left:var(--host-edge-clearance,74px)!important;padding-right:var(--host-edge-clearance,74px)!important;gap:8px!important}
 body.compact-mode:not(.forced-landscape) .brand{min-width:0!important;flex:1;gap:5px!important;font-size:13px!important;letter-spacing:.5px!important}
 body.compact-mode:not(.forced-landscape) .brand-mark{flex:none;width:28px!important;height:30px!important}
 body.compact-mode:not(.forced-landscape) .brand-mark img{width:28px;height:28px}
@@ -407,3 +408,6 @@ body #modal .room-side-picker button{min-height:44px;white-space:normal}
 /* Window type chips live inside the placement bar and the mobile dock. */
 .placing{flex-wrap:wrap}.placing .win-styles{display:flex;gap:4px;margin:0 4px;flex-wrap:wrap}.placing [data-action="win-style"]{padding:6px 9px;border-radius:7px;font-size:10px;background:#ffffff2b;color:#fff9e8;min-height:0;white-space:nowrap}.placing [data-action="win-style"].active{background:#fffaf0;color:#5b6a4f}
 #mobile-context .win-styles{display:flex;gap:5px;flex:1 0 100%;flex-wrap:wrap}#mobile-context [data-action="win-style"]{flex:1 1 40%;min-height:40px;padding:8px 10px;border-radius:8px;background:#eeeee4;color:#5b6a4f;font-size:12px;border:1px solid var(--line)}#mobile-context [data-action="win-style"].active{background:#254c3e;color:#fff;border-color:#254c3e}
+
+/* Opening cards live in the furniture grid; the room resolves from the tapped wall. */
+.furniture-card.opening-card .furniture-image{background:radial-gradient(ellipse at 50% 65%,#e2e8da,#f1f0e7 80%)}.furniture-card.opening-card .furniture-image svg{width:42px;height:42px;color:#727d61}

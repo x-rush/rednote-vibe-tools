@@ -3,7 +3,7 @@
   "name": "container big plan stays 3D",
   "pass": true,
   "details": {
-   "samples": "t2/c252,t2/c252,t2/c252,t2/c252,t2/c252,t2/c252,t2/c252,t2/c252,t2/c252"
+   "samples": "t2/c262,t2/c262,t2/c262,t2/c262,t2/c262,t2/c262,t2/c262,t2/c262,t2/c262"
   }
  },
  {
@@ -23,8 +23,8 @@
   "pass": true,
   "details": {
    "tier": 0,
-   "calls": 121,
-   "triangles": 20678,
+   "calls": 124,
+   "triangles": 20714,
    "pixels": 277290,
    "textures": 6
   }
@@ -44,7 +44,7 @@
   "pass": true,
   "details": {
    "placingHidden": false,
-   "text": "点墙放窗，拖窗挪位置，拖空白换视角平开窗推拉窗落地窗飘窗取消"
+   "text": "点墙放窗，拖窗挪位置，拖空白换视角取消"
   }
  },
  {
@@ -278,7 +278,7 @@
     "sill": 0.9
    },
    {
-    "side": "north",
+    "side": "south",
     "style": "floor",
     "w": 1.6,
     "h": 2.45,
@@ -306,8 +306,8 @@
   "name": "floor window drags along wall",
   "pass": true,
   "details": {
-   "before": 2.05,
-   "after": 2.61
+   "before": 2.06,
+   "after": 2.62
   }
  },
  {
@@ -324,7 +324,7 @@
    },
    {
     "style": "floor",
-    "side": "north"
+    "side": "south"
    },
    {
     "style": "bay",

@@ -1,0 +1,33 @@
+[
+ {
+  "mode": "file",
+  "passed": true,
+  "stats": {
+   "tier": 0,
+   "calls": 124,
+   "triangles": 20714,
+   "pixels": 277290,
+   "textures": 6
+  }
+ },
+ {
+  "mode": "csp",
+  "passed": true,
+  "stats": {
+   "tier": 0,
+   "calls": 124,
+   "triangles": 20714,
+   "pixels": 297960,
+   "textures": 6
+  }
+ },
+ {
+  "mode": "fallback",
+  "passed": true,
+  "stats": {
+   "tier": 2,
+   "renderer": "canvas2d",
+   "reason": "webgl-unavailable"
+  }
+ }
+]

@@ -143,6 +143,8 @@ this.dirty=true;}
             const rails=style==='casement'?[o.sill,o.sill+o.h,o.sill+o.h/2]:[o.sill,o.sill+o.h];
             for(const y of rails)put(o.w+.08,.05,th+.08,o.center,y,wall.line,frame);
           }
+          // Invisible tap target (same trick as doorways) so windows are easy to select.
+          const winTarget=put(o.w+.15,o.h+.12,th+.04,o.center,o.sill+o.h/2,wall.line,new T.MeshBasicMaterial({colorWrite:false,depthWrite:false}));winTarget.castShadow=false;winTarget.receiveShadow=false;
         }
         if(o.type==='door'){const frame=mat('#d4c4ae');for(const [center,y,width,height]of[[left,.5*o.h,.035,o.h],[right,.5*o.h,.035,o.h],[o.center,o.h,o.w+.035,.035]]){const m=box(g,wall.axis==='x'?width:th+.035,height,wall.axis==='x'?th+.035:width,wall.axis==='x'?center:wall.line,y,wall.axis==='x'?wall.line:center,frame);m.userData={kind:'opening',id:o.id,roomId:o.roomId};}const target=box(g,wall.axis==='x'?o.w:th+.04,o.h,wall.axis==='x'?th+.04:o.w,wall.axis==='x'?o.center:wall.line,o.h/2,wall.axis==='x'?wall.line:o.center,new T.MeshBasicMaterial({colorWrite:false,depthWrite:false}));target.castShadow=false;target.receiveShadow=false;target.userData={kind:'opening',id:o.id,roomId:o.roomId};}
         cursor=right;
@@ -223,7 +225,7 @@ this.drag.candidate={...o,w:snap(Math.max(1.5,o.w+dx)),d:snap(Math.max(1.5,o.d+d
     this.activePointers?.delete(e.pointerId);if(this.activePointers?.size){this.start=null;return;}if(!this.start)return;const moved=!!(this.start.looking||this.start.moved)||Math.hypot(e.clientX-this.start.x,e.clientY-this.start.y)>5;
     if(this.walk){if(!moved){const p=this.point(e);if(p){const route=walkingPath(this.plan,this.camera.position,p,this.catalog);this.markDestination(p,!!route);if(route)this.walkRoute={points:route,index:0,last:performance.now(),travelled:0};else this.cb.message('walkBlocked');}}this.start=null;return;}
     if(this.drag){const drag=this.drag;this.drag=null;if(moved&&JSON.stringify(drag.candidate)!==JSON.stringify(drag.original))this.cb.move(drag);else this.rebuild(this.plan);}
-    else if(!moved&&!this.readonly){if(this.pending){const p=this.point(e);if(p)this.cb.place(this.pending,p);}else{const hit=this.hit(e),data=hit?.object.userData;if(data?.kind==='item')this.cb.select({kind:'item',id:data.id});else if(data?.kind==='wall')this.cb.select({kind:'room',id:data.id,surface:'wall'});else if(data?.kind==='room')this.cb.select({kind:'room',id:data.id});else if(!data)this.cb.select(null);}}
+    else if(!moved&&!this.readonly){if(this.pending){const p=this.point(e);if(p)this.cb.place(this.pending,p);}else{const hit=this.hit(e),data=hit?.object.userData;if(data?.kind==='item')this.cb.select({kind:'item',id:data.id});else if(data?.kind==='wall')this.cb.select({kind:'room',id:data.id,surface:'wall'});else if(data?.kind==='room')this.cb.select({kind:'room',id:data.id});else if(data?.kind==='opening')this.cb.select({kind:'room',id:data.roomId,openingId:data.id});else if(!data)this.cb.select(null);}}
     this.controls.enabled=true;this.start=null;this.dirty=true;
   }
   cancelDrag(){this.drag=null;this.start=null;this.controls.enabled=!this.walk;if(this.plan)this.rebuild(this.plan);}
@@ -252,9 +254,27 @@ this.drag.candidate={...o,w:snap(Math.max(1.5,o.w+dx)),d:snap(Math.max(1.5,o.d+d
     this.renderer.render(this.scene,this.camera);this.dirty=false;
   }
   async capture(){const decorations=[...(this.sideHandles||[]),this.guides,this.doorPreview].filter(Boolean),visibility=decorations.map(o=>o.visible);decorations.forEach(o=>o.visible=false);const bg=this.scene.background;this.scene.background=new T.Color(this.night?'#c6cbbb':'#eaece1');if(this.selector)this.selector.visible=false;if(this.handle)this.handle.visible=false;if(this.ghost)this.ghost.visible=false;try{this.renderer.render(this.scene,this.camera);return await new Promise((resolve,reject)=>this.renderer.domElement.toBlob(blob=>blob?resolve(blob):reject(new Error('Capture failed')),'image/png'));}finally{decorations.forEach((o,i)=>o.visible=visibility[i]);this.scene.background=bg;if(this.selector)this.selector.visible=true;if(this.handle)this.handle.visible=true;if(this.ghost)this.ghost.visible=true;this.dirty=true;}}
-  thumbnails(){
-    const renderer=new T.WebGLRenderer({antialias:true,alpha:true});renderer.setSize(200,150);renderer.setPixelRatio(1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
-    const scene=new T.Scene();scene.add(new T.HemisphereLight('#fff7e8','#c1b6a0',3));const light=new T.DirectionalLight('#ffffff',3);light.position.set(-3,5,5);scene.add(light);const camera=new T.PerspectiveCamera(32,4/3,.1,30),images=new Map();
-    for(const def of this.catalog.furniture){const g=furnitureModel(def);scene.add(g);const size=Math.max(def.w,def.d,def.h),dist=size*2.2+.3;camera.position.set(dist*.85,dist*.75,dist);camera.lookAt(0,def.h*.4,0);renderer.render(scene,camera);images.set(def.id,renderer.domElement.toDataURL('image/png'));scene.remove(g);dispose(g);}renderer.dispose();return images;
+// Packaged thumbnails keep the furniture library identical across dev, dist and container builds.
+  thumbnails(){return new Map(this.catalog.furniture.map(f=>[f.id,`./assets/furniture/${f.id}.png`]));}
+}
+// Standalone wall segment with one opening, matching the in-scene joinery, for library thumbnails.
+export function openingPreviewModel(type,style='casement'){
+  const g=new T.Group(),th=.14,wallW=2.3,wallH=2.65,frame='#e9e0cd',wallM=mat('#efe9dc');
+  const win=type==='window',o=win?{casement:{w:1.4,h:1.3,sill:.9},sliding:{w:1.6,h:1.3,sill:.9},floor:{w:1.6,h:2.45,sill:0},bay:{w:1.8,h:1.3,sill:.5}}[style]||{w:1.4,h:1.3,sill:.9}:{w:.9,h:2.15,sill:0};
+  const side=(wallW-o.w)/2;
+  box(g,side,wallH,th,-(wallW/2-side/2),wallH/2,0,wallM);box(g,side,wallH,th,wallW/2-side/2,wallH/2,0,wallM);
+  if(o.sill+o.h<wallH-.01)box(g,o.w,wallH-o.sill-o.h,th,0,o.sill+o.h+(wallH-o.sill-o.h)/2,0,wallM);
+  if(o.sill>.01)box(g,o.w,o.sill,th,0,o.sill/2,0,wallM);
+  const glass=mat('#c7e1dc',{transparent:true,opacity:.3,depthWrite:false,roughness:.1}),midY=o.sill+o.h/2,put=(aw,h,ad,ac,y,cc,m)=>box(g,aw,h,ad,ac,y,cc,m);
+  if(!win){const fm=mat('#d4c4ae');put(.035,o.h,th+.035,-o.w/2,o.h/2,0,fm);put(.035,o.h,th+.035,o.w/2,o.h/2,0,fm);put(o.w+.035,.035,th+.035,0,o.h,0,fm);}
+  else if(style==='bay'){const D=.45;put(o.w+.08,.07,D,0,o.sill+.035,D/2+th/2,mat(frame));put(o.w+.08,.07,D,0,o.sill+o.h-.035,D/2+th/2,mat(frame));put(o.w-.1,o.h-.14,.03,0,midY,D+th/2-.015,glass);put(.03,o.h-.14,D,-o.w/2+.015,midY,D/2+th/2,glass);put(.03,o.h-.14,D,o.w/2-.015,midY,D/2+th/2,glass);put(.05,o.h,D+.04,-o.w/2+.02,midY,D/2+th/2,mat(frame));put(.05,o.h,D+.04,o.w/2-.02,midY,D/2+th/2,mat(frame));}
+  else{
+    put(o.w-.06,o.h-.05,.025,0,midY,0,glass);
+    if(style==='sliding')put(o.w/2-.05,o.h-.09,.025,o.w/4,midY,0,glass);
+    const posts=style==='floor'?[-o.w/2,o.w/2,-o.w/6,o.w/6]:style==='casement'?[-o.w/2,0,o.w/2]:[-o.w/2,o.w/2];
+    for(const t of posts)put(.045,o.h,th+.025,t,midY,0,mat(frame));
+    const rails=style==='casement'?[o.sill,o.sill+o.h,o.sill+o.h/2]:[o.sill,o.sill+o.h];
+    for(const y of rails)put(o.w+.08,.05,th+.08,0,y,0,mat(frame));
   }
+  return g;
 }

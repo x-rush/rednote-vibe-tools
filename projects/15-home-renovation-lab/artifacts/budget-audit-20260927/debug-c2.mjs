@@ -1,0 +1,35 @@
+import {createServer} from 'node:http';
+import {readFile} from 'node:fs/promises';
+import {resolve,extname} from 'node:path';
+import {createRequire} from 'node:module';
+const {chromium}=createRequire(import.meta.url)('C:/Users/77958/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const root=resolve('dist');
+const server=createServer(async(req,res)=>{try{const p=resolve(root,'.'+(req.url==='/'?'/index.html':new URL(req.url,'http://localhost').pathname));if(!p.startsWith(root))throw Error();let bytes=await readFile(p);if(p===resolve(root,'src/app.js'))bytes=Buffer.concat([bytes,Buffer.from('\nwindow.__acceptance={get scene(){return scene},get plan(){return plan}};')]);res.writeHead(200,{'Content-Type':({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png'})[extname(p)]||'application/octet-stream'});res.end(bytes);}catch{res.writeHead(404);res.end();}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:1});
+const seed={active:'seedA',plans:[{schemaVersion:1,id:'seedA',name:'t',mode:'beginner',wallHeight:2.65,wallHeightMeasured:true,wallThickness:.14,buildingArea:null,updatedAt:Date.now(),rooms:[{id:'roomA',name:'客厅',x:0,z:0,w:6,d:5,kind:'living',measured:true,floor:'oak',wall:'cream',textureScale:1,textureAngle:0},{id:'roomB',name:'卧室',x:6,z:0,w:4,d:5,kind:'bedroom',measured:true,floor:'oak',wall:'cream',textureScale:1,textureAngle:0}],items:[],openings:[],prices:{},style:'natural'}],baselines:{}};
+await context.addInitScript(([k,v])=>{try{localStorage.setItem(k,v)}catch(e){}},['roomish-project-15-v1',JSON.stringify(seed)]);
+const page=await context.newPage();
+page.on('pageerror',e=>console.log('[pageerror]',e.message));
+await page.goto(`http://127.0.0.1:${server.address().port}/`,{waitUntil:'networkidle'});
+await page.waitForFunction(()=>window.__acceptance&&window.__acceptance.scene&&window.__acceptance.scene.plan,{timeout:8000});
+await page.waitForTimeout(400);
+await page.evaluate(()=>{const s=window.__acceptance.scene;s.cb.select({kind:'room',id:'roomA'});s.fit('overview',window.__acceptance.plan.rooms[0]);});
+await page.waitForTimeout(300);
+const project=async(x,z,y)=>page.evaluate(async({x,z,y})=>{const T=await import('./src/vendor/package/build/three.module.js'),{viewportRect}=await import('./src/orientation.js'),s=window.__acceptance.scene,r=viewportRect(s.renderer.domElement),p=new T.Vector3(x,y,z).project(s.camera);return{x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};},{x,z,y});
+const probe=async(x,y)=>page.evaluate(async({x,y})=>{const T=await import('./src/vendor/package/build/three.module.js'),{viewportRect}=await import('./src/orientation.js'),s=window.__acceptance.scene,r=viewportRect(s.renderer.domElement);s.mouse.set((x-r.left)/r.width*2-1,-(y-r.top)/r.height*2+1);s.ray.setFromCamera(s.mouse,s.camera);const h=s.ray.intersectObjects(s.root.children,true).find(o=>o.object.userData.kind&&o.object.visible);return h?{kind:h.object.userData.kind,id:h.object.userData.id,x:+h.point.x.toFixed(2),z:+h.point.z.toFixed(2)}:null;},{x,y});
+for(const [style,wx,wz] of [['casement',6,1.5],['sliding',4.4,0]]){
+  await page.locator('#mobile-launch [data-action="tab-furniture"]:visible').first().tap({timeout:5000});
+  await page.waitForTimeout(400);
+  await page.locator('.categories [data-action="category"][data-id="门窗"]:visible').first().tap({timeout:5000});
+  await page.waitForTimeout(300);
+  await page.locator(`#furniture-grid .opening-card[data-action="add-window"][data-style="${style}"]:visible`).first().tap({timeout:5000});
+  await page.waitForTimeout(400);
+  const pt=await project(wx,wz,.35);
+  const hit=await probe(pt.x,pt.y);
+  await page.touchscreen.tap(pt.x,pt.y);
+  await page.waitForTimeout(400);
+  console.log(style,JSON.stringify({pt:{x:Math.round(pt.x),y:Math.round(pt.y)},probe:hit,openings:await page.evaluate(()=>window.__acceptance.plan.openings.map(o=>o.side+'@'+o.offset)),placing:await page.evaluate(()=>document.body.classList.contains('placing-door')),toast:await page.evaluate(()=>document.querySelector('#toast')?.textContent)}));
+}
+await browser.close();server.close();process.exit(0);

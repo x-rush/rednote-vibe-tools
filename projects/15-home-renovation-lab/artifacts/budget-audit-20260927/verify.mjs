@@ -58,11 +58,10 @@ const seed=JSON.stringify({active:big.id,plans:[big],baselines:{}});
   await page.locator('[data-action="full-walls"]:visible').first().tap();
   await page.waitForTimeout(600);
   await page.screenshot({path:out+'/container-fullwalls.png'});
-  // add window via dock (select the room first by tapping its center)
-  const roomC=await page.evaluate(async()=>{const T=await import('./assets/app.js').catch(()=>null);return null;})||null;
-  const centerB=await page.evaluate(async()=>{const s=window.ROOMISH_RENDER_STATS;const r=document.querySelector('#viewport').getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height*.55};});
-  await page.touchscreen.tap(centerB.x,centerB.y);await page.waitForTimeout(400);
-  await page.locator('#mobile-context [data-action="add-window"]:visible').first().tap({timeout:5000}).catch(async e=>{console.log('add-window dock tap failed: '+e.message.split('\n')[0]);});
+  // add window via the furniture-library 门窗 entry (converged in 1.4.1)
+  await page.locator('#mobile-launch [data-action="tab-furniture"]:visible').first().tap({timeout:5000});
+  await page.waitForTimeout(400);
+  await page.locator('#furniture-grid .opening-card[data-action="add-window"][data-style="bay"]:visible').first().tap({timeout:5000});
   const placing=await page.evaluate(()=>({placingHidden:document.querySelector('#placing')?.hidden,text:document.querySelector('#placing')?.textContent}));
   check('window placement mode opens',placing.placingHidden===false&&placing.text.includes('窗'),placing);
   await page.screenshot({path:out+'/container-window-mode.png'});
@@ -120,18 +119,24 @@ const seed=JSON.stringify({active:big.id,plans:[big],baselines:{}});
   const project=async(x,z,y)=>page.evaluate(async({x,z,y})=>{const T=await import('./src/vendor/package/build/three.module.js'),{viewportRect}=await import('./src/orientation.js'),s=window.__acceptance.scene,r=viewportRect(s.renderer.domElement),p=new T.Vector3(x,y,z).project(s.camera);return{x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};},{x,z,y});
   await page.evaluate(id=>window.__acceptance.scene.cb.select({kind:'room',id}),room.id);
   await page.waitForTimeout(300);
+  // Frame room A like a real user would before placing on its walls.
+  await page.evaluate(()=>{const s=window.__acceptance.scene;s.fit('overview',window.__acceptance.plan.rooms[0]);s.dirty=true;});
+  await page.waitForTimeout(300);
   const placeWindow=async(style,px,pz)=>{
-    await page.locator('#mobile-context [data-action="add-window"]:visible').first().tap({timeout:5000});
-    await page.waitForTimeout(500);
-    if(style!=='casement')await page.locator(`#mobile-context [data-action="win-style"][data-style="${style}"]:visible`).first().tap({timeout:5000});
+    await page.locator('#mobile-launch [data-action="tab-furniture"]:visible').first().tap({timeout:5000});
+    await page.waitForTimeout(400);
+    await page.locator('.categories [data-action="category"][data-id="门窗"]:visible').first().tap({timeout:5000});
+    await page.waitForTimeout(300);
+    await page.locator(`#furniture-grid .opening-card[data-action="add-window"][data-style="${style}"]:visible`).first().tap({timeout:5000});
+    await page.waitForTimeout(400);
     const pt=await project(px,pz,0.35);
     await page.touchscreen.tap(pt.x,pt.y);
     await page.waitForTimeout(300);
   };
-  await placeWindow('casement',room.x+room.w,1.5);
-  await placeWindow('sliding',4.4,room.z);
-  await placeWindow('floor',2,room.z);
-  await placeWindow('bay',3,room.z+room.d);
+  await placeWindow('casement',4.8,room.z);
+  await placeWindow('sliding',2.2,room.z);
+  await placeWindow('floor',2,room.z+room.d);
+  await placeWindow('bay',4.5,room.z+room.d);
   const openings1=await page.evaluate(()=>window.__acceptance.plan.openings.map(o=>({side:o.side,style:o.style,w:o.w,h:Math.round(o.h*100)/100,sill:o.sill})));
   check('all four window types placed with style defaults',openings1.length===4&&openings1.some(o=>o.style==='casement'&&o.w===1.4&&o.sill===.9)&&openings1.some(o=>o.style==='sliding'&&o.w===1.6)&&openings1.some(o=>o.style==='floor'&&o.sill===0&&o.h===2.45)&&openings1.some(o=>o.style==='bay'&&o.w===1.8&&o.sill===.5),openings1);
   // bay window must be rejected on the shared (interior) wall
@@ -142,9 +147,9 @@ const seed=JSON.stringify({active:big.id,plans:[big],baselines:{}});
   await page.locator('#mobile-context [data-action="cancel-door"]:visible').first().tap({timeout:5000});
   await page.waitForTimeout(200);
   await page.screenshot({path:out+'/dist-window-types.png'});
-  // drag the floor window along the north wall
+  // drag the floor window along the south wall
   const winBefore=await page.evaluate(()=>window.__acceptance.plan.openings.find(o=>o.style==='floor')?.offset);
-  const startP=await project(winBefore,room.z,0.35);
+  const startP=await project(winBefore,room.z+room.d,0.35);
   await page.touchscreen.tap(startP.x,startP.y);
   await page.waitForTimeout(300);
   const preSelected=await page.evaluate(()=>window.__acceptance.scene.selected?.openingId!==null);
@@ -157,12 +162,12 @@ const seed=JSON.stringify({active:big.id,plans:[big],baselines:{}});
   for(let i=1;i<=14;i++){
     const desired=Math.min(winBefore+0.28*i,4.9);
     const pz=desired+bias;
-    const pt=await project(pz,room.z,0.35);
+    const pt=await project(pz,room.z+room.d,0.35);
     await page.evaluate(({x,y})=>{document.getElementById('viewport').dispatchEvent(new PointerEvent('pointermove',{pointerId:1,clientX:x,clientY:y,buttons:1,isPrimary:true,bubbles:true}));},{x:pt.x,y:pt.y});
     const lastValid=await page.evaluate(()=>window.__lastValid??null);
     if(lastValid!==null&&lastValid>cur){cur=lastValid;lastPt=pt;}
     const probe=await page.evaluate(async({x,y})=>{const T=await import('./src/vendor/package/build/three.module.js'),{viewportRect}=await import('./src/orientation.js'),s=window.__acceptance.scene,r=viewportRect(s.renderer.domElement);s.mouse.set((x-r.left)/r.width*2-1,-(y-r.top)/r.height*2+1);s.ray.setFromCamera(s.mouse,s.camera);const h=s.ray.intersectObjects(s.root.children,true).find(o=>o.object.userData.kind&&o.object.visible);return h&&h.point?{x:h.point.x,z:h.point.z}:null;},{x:pt.x,y:pt.y});
-    if(probe&&Math.abs(probe.z-room.z)<0.25)bias=pz-probe.x;
+    if(probe&&Math.abs(probe.z-(room.z+room.d))<0.25)bias=pz-probe.x;
     if(cur>=3.2)break;
   }
   await page.mouse.move(lastPt.x,lastPt.y,{steps:1});

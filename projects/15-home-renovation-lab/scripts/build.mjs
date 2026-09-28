@@ -6,6 +6,8 @@ await rm(target,{recursive:true,force:true});
 await mkdir(target,{recursive:true});
 await cp('src',resolve(target,'src'),{recursive:true});
 await cp('index.html',resolve(target,'index.html'));
+// Packaged thumbnails keep the furniture library identical across dev, dist and container.
+await cp('assets',resolve(target,'assets'),{recursive:true});
 const content=JSON.parse((await readFile('src/content/content.json','utf8')).replace(/^\uFEFF/,''));
 await writeFile(resolve(target,'manifest.json'),JSON.stringify({project:content.title,version:content.version,renderer:'Three.js 0.186.0',runtime:'static browser modules'},null,2));
 console.log('Static build ready: dist/');

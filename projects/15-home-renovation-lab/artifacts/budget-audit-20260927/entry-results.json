@@ -1,0 +1,86 @@
+[
+ {
+  "name": "dist/375: topbar buttons clear of host overlay",
+  "pass": true
+ },
+ {
+  "name": "dist/375: no pageerrors",
+  "pass": true
+ },
+ {
+  "name": "dist/390: topbar buttons clear of host overlay",
+  "pass": true
+ },
+ {
+  "name": "dist/390: starts with no selection",
+  "pass": true
+ },
+ {
+  "name": "dist/390: 门窗 category present",
+  "pass": true
+ },
+ {
+  "name": "dist/390: opening cards rendered (door + 4 window types)",
+  "pass": true
+ },
+ {
+  "name": "dist/390: no style switcher during placement (card picks the type)",
+  "pass": true
+ },
+ {
+  "name": "dist/390: bay placement mode opens without room selection",
+  "pass": true
+ },
+ {
+  "name": "dist/390: bay window placed on an exterior wall with room auto-resolved",
+  "pass": true
+ },
+ {
+  "name": "dist/390: dock no longer duplicates opening entries",
+  "pass": true
+ },
+ {
+  "name": "dist/390: no pageerrors",
+  "pass": true
+ },
+ {
+  "name": "dist/430: topbar buttons clear of host overlay",
+  "pass": true
+ },
+ {
+  "name": "dist/430: no pageerrors",
+  "pass": true
+ },
+ {
+  "name": "container/375: topbar buttons clear of host overlay",
+  "pass": true
+ },
+ {
+  "name": "container/375: no pageerrors",
+  "pass": true
+ },
+ {
+  "name": "container/390: topbar buttons clear of host overlay",
+  "pass": true
+ },
+ {
+  "name": "container/390: opening cards rendered",
+  "pass": true
+ },
+ {
+  "name": "container/390: bay placement mode opens",
+  "pass": true
+ },
+ {
+  "name": "container/390: no pageerrors",
+  "pass": true
+ },
+ {
+  "name": "container/430: topbar buttons clear of host overlay",
+  "pass": true
+ },
+ {
+  "name": "container/430: no pageerrors",
+  "pass": true
+ }
+]

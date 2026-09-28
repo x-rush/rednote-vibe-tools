@@ -410,6 +410,8 @@ importers:
 
   projects/25-moonfall: {}
 
+  projects/26-liuxin-slice: {}
+
 packages:
 
   '@jridgewell/sourcemap-codec@1.5.5':

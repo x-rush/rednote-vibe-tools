@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>流心蜜桃 · 样品</title>
+<!--
+  流心蜜桃样品（单文件，原生 WebGL1，无依赖无构建）——设计稿 docs/流心蜜桃-设计.md 的 M1 样品
+  揉 = 单指按住（快戳 Q 弹 / 慢压深坑 + 塑性记忆慢回弹）
+  捏 = 双指对挤到阈值，桃缝挤出一坨奶油
+  切 = 快速划过（三层切面 + 拉丝桥 + 唇缘挂垂滴落 + 地面奶油滩）
+  流 = 按住切面 = 挤奶油，松手掉一滴
+  背景拖动转视角，滚轮缩放。本期无音频（按范围约定）。
+-->
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;
+    background:
+      radial-gradient(circle at 13px 13px, rgba(227,188,156,.5) 1.6px, transparent 1.7px) 0 0/26px 26px,
+      linear-gradient(#FFF6EC, #FFE7D6);}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;-webkit-user-select:none;user-select:none;}
+  #stage{position:fixed;inset:0;touch-action:none;cursor:grab;}
+  #stage:active{cursor:grabbing;}
+  #shadow{position:fixed;left:50%;top:71%;width:46vmin;height:7vmin;transform:translateX(-50%);pointer-events:none;
+    background:radial-gradient(ellipse at center, rgba(186,105,75,.20), rgba(186,105,75,0) 70%);}
+  #pool{position:fixed;left:50%;top:70.6%;width:70px;height:14px;transform:translateX(-50%) scale(0,0);pointer-events:none;
+    background:
+      radial-gradient(ellipse at 32% 30%, rgba(255,240,200,.85), rgba(255,240,200,0) 38%),
+      radial-gradient(ellipse at center, #FFB93E 0%, #F5A02C 55%, rgba(230,140,40,0) 72%);
+    transition:transform .5s cubic-bezier(.34,1.5,.64,1);}
+  #vig{position:fixed;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,0) 55%, rgba(150,80,50,.10) 100%);}
+  #ui{position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 20px);text-align:center;pointer-events:none;}
+  #ui h1{font-size:14px;font-weight:600;margin:0;letter-spacing:.3em;color:#B26A4A;}
+  #hint{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 26px);text-align:center;pointer-events:none;
+        color:#C98A6B;font-size:12px;letter-spacing:.14em;transition:opacity .9s;}
+  #err{position:fixed;left:8px;top:calc(env(safe-area-inset-top,0px) + 44px);color:#C0392B;font-size:11px;pointer-events:none;max-width:90%;}
+  #modes{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 60px);display:flex;gap:10px;}
+  #modes button{appearance:none;border:1px solid rgba(178,106,74,.35);background:rgba(255,252,246,.92);color:#B26A4A;
+    font:600 13px/1 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.18em;
+    padding:10px 18px 10px 20px;border-radius:999px;-webkit-user-select:none;user-select:none;touch-action:manipulation;}
+  #modes button.on{background:#B26A4A;color:#FFF6EC;border-color:#B26A4A;}
+  #stage.knife{cursor:crosshair;}
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<div id="shadow"></div>
+<div id="pool"></div>
+<div id="vig"></div>
+<div id="ui"><h1>流心蜜桃 · 样品</h1></div>
+<div id="hint">揉 一 揉 · 双 指 对 挤 · 按 住 切 面 挤 奶 油</div>
+<div id="modes"><button id="mKnead" class="on">揉 捏</button><button id="mKnife">切 刀</button></div>
+<div id="err"></div>
+<script>
+'use strict';
+window.addEventListener('error', function(e){
+  document.getElementById('err').textContent = 'ERR: ' + e.message;
+});
+
+/* ---------- 向量 / 矩阵 ---------- */
+function v3sub(a,b){ return [a[0]-b[0], a[1]-b[1], a[2]-b[2]]; }
+function v3add(a,b){ return [a[0]+b[0], a[1]+b[1], a[2]+b[2]]; }
+function v3scale(a,s){ return [a[0]*s, a[1]*s, a[2]*s]; }
+function v3dot(a,b){ return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]; }
+function v3cross(a,b){ return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]; }
+function v3len(a){ return Math.hypot(a[0],a[1],a[2]); }
+function v3norm(a){ var l = v3len(a) || 1; return [a[0]/l, a[1]/l, a[2]/l]; }
+function mat4Persp(fovy, aspect, near, far){
+  var f = 1/Math.tan(fovy/2), nf = 1/(near-far);
+  return new Float32Array([f/aspect,0,0,0, 0,f,0,0, 0,0,(far+near)*nf,-1, 0,0,2*far*near*nf,0]);
+}
+function mat4Look(eye, center, up){
+  var z = v3norm(v3sub(eye, center));
+  var x = v3norm(v3cross(up, z));
+  var y = v3cross(z, x);
+  return new Float32Array([
+    x[0],y[0],z[0],0,  x[1],y[1],z[1],0,  x[2],y[2],z[2],0,
+    -v3dot(x,eye), -v3dot(y,eye), -v3dot(z,eye), 1 ]);
+}
+function mat4Mul(a,b){
+  var o = new Float32Array(16), r, c, k;
+  for (c = 0; c < 4; c++) for (r = 0; r < 4; r++){
+    var s = 0; for (k = 0; k < 4; k++) s += a[k*4+r]*b[c*4+k];
+    o[c*4+r] = s;
+  }
+  return o;
+}
+function mat4TS(pos, s){
+  return new Float32Array([ s[0],0,0,0,  0,s[1],0,0,  0,0,s[2],0,  pos[0],pos[1],pos[2],1 ]);
+}
+function mat4Basis(ax, ay, az, pos, s){
+  return new Float32Array([
+    ax[0]*s[0], ax[1]*s[0], ax[2]*s[0], 0,
+    ay[0]*s[1], ay[1]*s[1], ay[2]*s[1], 0,
+    az[0]*s[2], az[1]*s[2], az[2]*s[2], 0,
+    pos[0], pos[1], pos[2], 1 ]);
+}
+
+/* ---------- 网格 ---------- */
+function icosphere(sub){
+  var t = (1+Math.sqrt(5))/2;
+  var verts = [[-1,t,0],[1,t,0],[-1,-t,0],[1,-t,0],[0,-1,t],[0,1,t],[0,-1,-t],[0,1,-t],[t,0,-1],[t,0,1],[-t,0,-1],[-t,0,1]].map(v3norm);
+  var faces = [[0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],[1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],[3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],[4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]];
+  for (var s = 0; s < sub; s++){
+    var cache = {}, nf = [];
+    function mid(a, b){
+      var k = a < b ? a+'_'+b : b+'_'+a;
+      if (cache[k] !== undefined) return cache[k];
+      verts.push(v3norm([(verts[a][0]+verts[b][0])/2, (verts[a][1]+verts[b][1])/2, (verts[a][2]+verts[b][2])/2]));
+      cache[k] = verts.length - 1;
+      return cache[k];
+    }
+    faces.forEach(function(f){
+      var a = f[0], b = f[1], c = f[2], ab = mid(a,b), bc = mid(b,c), ca = mid(c,a);
+      nf.push([a,ab,ca],[b,bc,ab],[c,ca,bc],[ab,bc,ca]);
+    });
+    faces = nf;
+  }
+  var pos = new Float32Array(verts.length*3);
+  verts.forEach(function(v, i){ pos[i*3] = v[0]; pos[i*3+1] = v[1]; pos[i*3+2] = v[2]; });
+  var idx = new Uint16Array(faces.length*3);
+  faces.forEach(function(f, i){ idx[i*3] = f[0]; idx[i*3+1] = f[1]; idx[i*3+2] = f[2]; });
+  return { pos: pos, idx: idx };
+}
+function teardropMesh(){
+  var ANCH = [[0,0],[0.16,0.28],[0.45,0.66],[0.68,0.78],[0.88,0.55],[1,0]];
+  function radiusAt(t){
+    for (var i = 0; i < ANCH.length - 1; i++){
+      var a = ANCH[i], b = ANCH[i+1];
+      if (t >= a[0] && t <= b[0]){
+        var kk = (t - a[0])/(b[0] - a[0]);
+        var sm = (1 - Math.cos(kk*Math.PI))/2;
+        return a[1] + (b[1] - a[1])*sm;
+      }
+    }
+    return 0;
+  }
+  var P = 22, S = 12, pos = [], nrm = [], idx = [];
+  for (var pi = 0; pi <= P; pi++){
+    var t = pi/P, y = -t, r = radiusAt(t);
+    var dr = (radiusAt(Math.min(1, t + 1/P)) - radiusAt(Math.max(0, t - 1/P)))/(2/P);
+    var nl = Math.hypot(dr, 1);
+    var ny = 1/nl, nr = dr/nl;
+    for (var si = 0; si < S; si++){
+      var th = si/S*Math.PI*2, cth = Math.cos(th), sth = Math.sin(th);
+      pos.push(r*cth, y, r*sth);
+      nrm.push(nr*cth, ny, nr*sth);
+    }
+  }
+  for (var pj = 0; pj < P; pj++)
+    for (var sj = 0; sj < S; sj++){
+      var a = pj*S + sj, b = pj*S + (sj + 1)%S, c2 = a + S, d2 = b + S;
+      idx.push(a, c2, b, b, c2, d2);
+    }
+  return { pos: new Float32Array(pos), nrm: new Float32Array(nrm), idx: new Uint16Array(idx) };
+}
+
+/* ---------- WebGL ---------- */
+var canvas = document.getElementById('stage');
+var gl = canvas.getContext('webgl', { alpha: true, antialias: true });
+if (!gl){ document.getElementById('err').textContent = 'ERR: 无 WebGL'; throw new Error('no webgl'); }
+var errEl = document.getElementById('err');
+function makeShader(type, src, tag){
+  var sh = gl.createShader(type);
+  gl.shaderSource(sh, src); gl.compileShader(sh);
+  if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)){
+    errEl.textContent = tag + ': ' + gl.getShaderInfoLog(sh);
+    throw new Error(tag);
+  }
+  return sh;
+}
+function makeProgram(vs, fs, tag){
+  var p = gl.createProgram();
+  gl.attachShader(p, makeShader(gl.VERTEX_SHADER, vs, tag+'.vs'));
+  gl.attachShader(p, makeShader(gl.FRAGMENT_SHADER, fs, tag+'.fs'));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)){
+    errEl.textContent = tag + '.link: ' + gl.getProgramInfoLog(p);
+    throw new Error(tag);
+  }
+  return p;
+}
+function uniforms(p, names){
+  var o = {};
+  names.forEach(function(n){ o[n] = gl.getUniformLocation(p, n); });
+  return o;
+}
+
+/* ---------- 桃壳着色器 ---------- */
+var SHELL_VS = [
+  'precision highp float;',
+  'attribute vec3 aPos;',
+  'uniform mat4 uVP;',
+  'uniform float uR;',
+  'uniform vec3 uWob;',
+  'uniform vec3 uHalfOff;',
+  'uniform vec3 uClipN;',
+  'uniform float uClipD;',
+  'uniform float uClipSide;',
+  'uniform float uHalfRot;',
+  'uniform vec3 uHalfAxis;',
+  'uniform vec3 uHitP[8];',
+  'uniform float uHitS[8];',
+  'uniform float uHitR[8];',
+  'varying vec3 vN;',
+  'varying vec3 vPos;',
+  'varying float vDent;',
+  'varying float vClip;',
+  'float dentAt(vec3 p){',
+  '  float f = 0.0;',
+  '  for (int i = 0; i < 8; i++){',
+  '    vec3 d = p - uHitP[i];',
+  '    float q = dot(d,d)/(uHitR[i]*uHitR[i]);',
+  '    f += uHitS[i]*exp(-q*4.0);',
+  '  }',
+  '  return f;',
+  '}',
+  'float seamAt(vec3 n){',
+  '  float sx = clamp(dot(n, vec3(0.985, 0.0, 0.17)), -1.0, 1.0);',
+  '  float ang = asin(sx);',
+  '  return 0.135*exp(-pow(ang/0.21, 2.0));',
+  '}',
+  'vec3 displace(vec3 p){',
+  '  vec3 q = p*uWob;',
+  '  q.y *= 0.955;',
+  '  vec3 n = normalize(p);',
+  '  q -= n*(dentAt(p)*0.5 + seamAt(n))*uR;',
+  '  return q;',
+  '}',
+  'vec3 rotAxis(vec3 p, vec3 ax, float a){',
+  '  return p*cos(a) + cross(ax, p)*sin(a) + ax*dot(ax, p)*(1.0 - cos(a));',
+  '}',
+  'void main(){',
+  '  vec3 p = aPos*uR;',
+  '  vec3 n0 = normalize(p);',
+  '  vec3 up = abs(n0.y) < 0.98 ? vec3(0.0,1.0,0.0) : vec3(1.0,0.0,0.0);',
+  '  vec3 t1 = normalize(cross(n0, up));',
+  '  vec3 t2 = cross(n0, t1);',
+  '  float e = 0.035;',
+  '  vec3 pA = normalize(p + t1*e*uR)*uR;',
+  '  vec3 pB = normalize(p + t2*e*uR)*uR;',
+  '  vec3 d0 = displace(p);',
+  '  vec3 dA = displace(pA);',
+  '  vec3 dB = displace(pB);',
+  '  vN = normalize(cross(dA - d0, dB - d0));',
+  '  vec3 pivotW = uClipN*uClipD;',
+  '  vec3 w = pivotW + rotAxis(d0 - pivotW, uHalfAxis, uHalfRot) + uHalfOff;',
+  '  vClip = dot(w, uClipN) - uClipD;',
+  '  vPos = w;',
+  '  vDent = dentAt(p) + seamAt(n0)*2.0;',
+  '  gl_Position = uVP*vec4(w, 1.0);',
+  '}'
+].join('\n');
+
+var SHELL_FS = [
+  'precision mediump float;',
+  'varying vec3 vN;',
+  'varying vec3 vPos;',
+  'varying float vDent;',
+  'varying float vClip;',
+  'uniform vec3 uCam;',
+  'uniform float uClipSide;',
+  'uniform float uTime;',
+  'float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }',
+  'float vnoise(vec2 p){',
+  '  vec2 i = floor(p), f = fract(p);',
+  '  f = f*f*(3.0 - 2.0*f);',
+  '  return mix(mix(hash(i), hash(i+vec2(1.0,0.0)), f.x), mix(hash(i+vec2(0.0,1.0)), hash(i+vec2(1.0,1.0)), f.x), f.y);',
+  '}',
+  'void main(){',
+  '  if (vClip*uClipSide < 0.0) discard;',
+  '  vec3 n = normalize(vN);',
+  '  vec3 v = normalize(uCam - vPos);',
+  '  vec3 l = normalize(vec3(-0.5, 0.85, 0.6));',
+  '  float wrap = clamp((dot(n,l)+0.55)/1.55, 0.0, 1.0);',
+  '  vec3 deep = vec3(0.70, 0.19, 0.15);',
+  '  vec3 mid  = vec3(1.00, 0.58, 0.42);',
+  '  vec3 glow = vec3(1.00, 0.85, 0.60);',
+  '  vec3 col = mix(deep, mid, smoothstep(0.0, 0.60, wrap));',
+  '  col = mix(col, glow, smoothstep(0.45, 1.0, wrap)*0.85);',
+  '  float rim = pow(1.0 - max(dot(n, v), 0.0), 2.4);',
+  '  float fuzz = 0.55 + 0.45*vnoise(n.xz*16.0 + vec2(uTime*0.4, n.y*11.0));',
+  '  col += vec3(1.0, 0.80, 0.60)*rim*fuzz*0.55;',
+  '  vec3 h = normalize(l + v);',
+  '  col += vec3(1.0, 0.95, 0.85)*pow(max(dot(n, h), 0.0), 70.0)*0.35;',
+  '  col = mix(col, col*vec3(1.06, 0.80, 0.76), clamp(vDent, 0.0, 1.0)*0.5);',
+  '  gl_FragColor = vec4(col, 1.0);',
+  '}'
+].join('\n');
+
+/* ---------- 切面着色器（皮环/肉环/流心核 + 湿地反光） ---------- */
+var CAP_VS = [
+  'precision highp float;',
+  'attribute vec2 aUV;',
+  'uniform mat4 uVP;',
+  'uniform vec3 uC;',
+  'uniform vec3 uU;',
+  'uniform vec3 uV;',
+  'uniform vec3 uN;',
+  'uniform float uCR;',
+  'uniform float uBulge;',
+  'varying vec2 vUV;',
+  'varying vec3 vPos;',
+  'varying vec3 vN;',
+  'void main(){',
+  '  float r2 = dot(aUV, aUV);',
+  '  vec3 w = uC + (uU*aUV.x + uV*aUV.y)*uCR + uN*((1.0 - r2)*(0.05 + uBulge*1.3));',
+  '  vUV = aUV; vPos = w; vN = uN;',
+  '  gl_Position = uVP*vec4(w, 1.0);',
+  '}'
+].join('\n');
+
+var CAP_FS = [
+  'precision mediump float;',
+  'varying vec2 vUV;',
+  'varying vec3 vPos;',
+  'varying vec3 vN;',
+  'uniform vec3 uCam;',
+  'uniform float uTime;',
+  'uniform float uCore;',
+  'float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }',
+  'float vnoise(vec2 p){',
+  '  vec2 i = floor(p), f = fract(p);',
+  '  f = f*f*(3.0 - 2.0*f);',
+  '  return mix(mix(hash(i), hash(i+vec2(1.0,0.0)), f.x), mix(hash(i+vec2(0.0,1.0)), hash(i+vec2(1.0,1.0)), f.x), f.y);',
+  '}',
+  'void main(){',
+  '  float r = length(vUV);',
+  '  if (r > 1.0) discard;',
+  '  float ang = atan(vUV.y, vUV.x);',
+  '  vec3 v = normalize(uCam - vPos);',
+  '  vec3 l = normalize(vec3(-0.5, 0.85, 0.6));',
+  '  vec3 col;',
+  '  float shellR = 0.90;',
+  '  if (r > shellR){',
+  '    col = vec3(0.60, 0.17, 0.12);',
+  '    col *= 0.96 + 0.04*sin(ang*22.0);',
+  '  } else {',
+  '    vec3 fleshIn  = vec3(1.00, 0.84, 0.56);',
+  '    vec3 fleshOut = vec3(1.00, 0.69, 0.38);',
+  '    col = mix(fleshIn, fleshOut, smoothstep(0.18, shellR, r));',
+  '    col *= 0.92 + 0.08*sin(ang*34.0 + vnoise(vUV*7.0)*3.0);',
+  '    vec2 p = vUV*5.0;',
+  '    p.y -= uTime*0.22;',
+  '    float n = vnoise(p)*0.6 + vnoise(p*2.3 + 7.3)*0.4;',
+  '    vec3 core = mix(vec3(1.0, 0.70, 0.16), vec3(1.0, 0.92, 0.58), n);',
+  '    col = mix(col, core, smoothstep(uCore + 0.12, uCore - 0.10, r));',
+  '    float wet = 1.0 - smoothstep(0.10, 0.85, r);',
+  '    vec3 h = normalize(l + v);',
+  '    col += vec3(1.0, 0.97, 0.88)*pow(max(dot(normalize(vN), h), 0.0), 30.0)*(0.28 + wet*0.45);',
+  '    col += core*(1.0 - r)*0.10;',
+  '  }',
+  '  gl_FragColor = vec4(col, 1.0);',
+  '}'
+].join('\n');
+
+/* ---------- 奶油滴着色器 ---------- */
+var DROP_VS = [
+  'precision highp float;',
+  'attribute vec3 aPos;',
+  'attribute vec3 aNrm;',
+  'uniform mat4 uM;',
+  'uniform mat4 uVP;',
+  'uniform vec3 uScl;',
+  'varying vec3 vN;',
+  'varying vec3 vPos;',
+  'void main(){',
+  '  vec4 w = uM*vec4(aPos, 1.0);',
+  '  vN = normalize(vec3(aNrm.x/max(uScl.x, 0.001), aNrm.y/max(uScl.y, 0.001), aNrm.z/max(uScl.z, 0.001)));',
+  '  vPos = w.xyz;',
+  '  gl_Position = uVP*w;',
+  '}'
+].join('\n');
+
+var DROP_FS = [
+  'precision mediump float;',
+  'varying vec3 vN;',
+  'varying vec3 vPos;',
+  'uniform vec3 uCam;',
+  'void main(){',
+  '  vec3 n = normalize(vN);',
+  '  vec3 v = normalize(uCam - vPos);',
+  '  vec3 l = normalize(vec3(-0.5, 0.85, 0.6));',
+  '  float wrap = clamp((dot(n, l)+0.4)/1.4, 0.0, 1.0);',
+  '  vec3 col = mix(vec3(0.95, 0.52, 0.08), vec3(1.0, 0.86, 0.44), wrap);',
+  '  col += vec3(1.0, 0.92, 0.6)*pow(1.0 - max(dot(n, v), 0.0), 2.0)*0.25;',
+  '  vec3 h = normalize(l + v);',
+  '  col += vec3(1.0, 0.97, 0.9)*pow(max(dot(n, h), 0.0), 46.0)*0.9;',
+  '  gl_FragColor = vec4(col, 1.0);',
+  '}'
+].join('\n');
+
+/* ---------- 程序与缓冲 ---------- */
+var progShell = makeProgram(SHELL_VS, SHELL_FS, 'shell');
+var progCap = makeProgram(CAP_VS, CAP_FS, 'cap');
+var progDrop = makeProgram(DROP_VS, DROP_FS, 'drop');
+var SU = uniforms(progShell, ['uVP','uCam','uR','uWob','uHalfOff','uHalfRot','uHalfAxis','uClipN','uClipD','uClipSide','uHitP[0]','uHitS[0]','uHitR[0]','uTime']);
+var CU = uniforms(progCap, ['uVP','uC','uU','uV','uN','uCR','uBulge','uCore','uCam','uTime']);
+var DU = uniforms(progDrop, ['uVP','uM','uScl','uCam']);
+
+var mesh = icosphere(4);
+var sphereVbo = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, sphereVbo);
+gl.bufferData(gl.ARRAY_BUFFER, mesh.pos, gl.STATIC_DRAW);
+var sphereIbo = gl.createBuffer();
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sphereIbo);
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, mesh.idx, gl.STATIC_DRAW);
+
+var DISK_N = 48;
+var diskVerts = new Float32Array((DISK_N + 1)*2);
+diskVerts[0] = 0; diskVerts[1] = 0;
+for (var di = 0; di < DISK_N; di++){
+  var da = di/DISK_N*Math.PI*2;
+  diskVerts[(di+1)*2] = Math.cos(da); diskVerts[(di+1)*2+1] = Math.sin(da);
+}
+var diskIdx = new Uint16Array(DISK_N*3);
+for (var dj = 0; dj < DISK_N; dj++){
+  diskIdx[dj*3] = 0; diskIdx[dj*3+1] = 1 + dj; diskIdx[dj*3+2] = 1 + (dj + 1)%DISK_N;
+}
+var diskVbo = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, diskVbo);
+gl.bufferData(gl.ARRAY_BUFFER, diskVerts, gl.STATIC_DRAW);
+var diskIbo = gl.createBuffer();
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, diskIbo);
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, diskIdx, gl.STATIC_DRAW);
+
+var drop = teardropMesh();
+var dropVbo = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, dropVbo);
+gl.bufferData(gl.ARRAY_BUFFER, drop.pos, gl.STATIC_DRAW);
+var dropNbo = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, dropNbo);
+gl.bufferData(gl.ARRAY_BUFFER, drop.nrm, gl.STATIC_DRAW);
+var dropIbo = gl.createBuffer();
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, dropIbo);
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, drop.idx, gl.STATIC_DRAW);
+
+gl.enable(gl.DEPTH_TEST);
+gl.enable(gl.CULL_FACE);
+
+/* ---------- 相机 ---------- */
+var FOV = 42*Math.PI/180, dist = 6.0, yaw = 0.55, pitch = 0.30;
+function camEye(){ return [dist*Math.cos(pitch)*Math.sin(yaw), dist*Math.sin(pitch), dist*Math.cos(pitch)*Math.cos(yaw)]; }
+function camRay(x, y){
+  var eye = camEye();
+  var f = v3norm(v3scale(eye, -1));
+  var r = v3norm(v3cross(f, [0,1,0]));
+  var u = v3cross(r, f);
+  var nx = 2*x/W - 1, ny = 1 - 2*y/H;
+  var tf = Math.tan(FOV/2);
+  return { eye: eye, dir: v3norm(v3add(v3add(f, v3scale(r, nx*tf*W/H)), v3scale(u, ny*tf))) };
+}
+function raySphere(ray, R){
+  var b = v3dot(ray.eye, ray.dir);
+  var c = v3dot(ray.eye, ray.eye) - R*R;
+  var disc = b*b - c;
+  if (disc < 0) return null;
+  var t = -b - Math.sqrt(disc);
+  if (t < 0) return null;
+  return v3add(ray.eye, v3scale(ray.dir, t));
+}
+
+/* ---------- 物理：凹陷（粘度差 + 塑性记忆）+ 全身晃动 ---------- */
+var MAXH = 8, simT = 0;
+var hits = [];
+for (var hi = 0; hi < MAXH; hi++)
+  hits.push({ dir: [0, 1, 0], str: 0, vel: 0, rad: 0.01, held: false, ptr: -1,
+              entryDir: null, lastDir: null, arc: 0, lastX: 0, lastY: 0, lastT: 0, pspeed: 0, mem: 0 });
+var wy = 0, wyVel = 0;
+var hitP = new Float32Array(MAXH*3), hitS = new Float32Array(MAXH), hitR = new Float32Array(MAXH);
+var squeezeCd = 0;
+
+function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+function updateHits(dt){
+  var k = 267, c = 3.2;
+  squeezeCd = Math.max(0, squeezeCd - dt);
+  for (var i = 0; i < MAXH; i++){
+    var h = hits[i];
+    if (h.ptr >= 0 && h.held){
+      var fast = clamp01(h.pspeed/2200);
+      var follow = 1 - Math.exp(-dt/(0.035 + 0.10*fast));   // 慢压跟得深，快戳跟得浅
+      h.str += (1 - h.str)*follow;
+      h.rad += ((0.85 - 0.4*fast) - h.rad)*(1 - Math.exp(-dt/0.6));
+    } else {
+      var acc = -k*(h.str - h.mem) - c*h.vel;               // 弹簧回塑性记忆点
+      h.vel += acc*dt; h.str += h.vel*dt;
+      h.mem *= Math.exp(-dt/4.5);                           // 记忆 4.5s 慢慢淡忘
+      if (Math.abs(h.str) < 0.02 && Math.abs(h.vel) < 0.08 && h.mem < 0.01){
+        h.str = 0; h.vel = 0; h.rad = 0.01; h.mem = 0;
+      }
+    }
+    hitP[i*3] = h.dir[0]; hitP[i*3+1] = h.dir[1]; hitP[i*3+2] = h.dir[2];
+    hitS[i] = h.str; hitR[i] = h.rad;
+  }
+}
+/* 双指对挤 → 桃缝挤奶油（只属于未切开的整桃） */
+function pinchCheck(){
+  if (squeezeCd > 0 || cut.on || creamLeft < 0.15) return;
+  var top = null, bot = null;
+  for (var i = 0; i < MAXH; i++){
+    var h = hits[i];
+    if (h.held && h.str > 0.82){
+      if (!top || h.str > top.str) { bot = top; top = h; }
+      else if (!bot || h.str > bot.str) bot = h;
+    }
+  }
+  if (top && bot && v3dot(top.dir, bot.dir) < -0.1){
+    squeezeCd = 3.2;
+    creamFlow = 1;   // 剪切稀化：挤出时奶油最会流
+    var slot = freeDripSlot();
+    if (slot !== null){
+      slot.mouth = v3add([0, 0.92, 0], v3scale([0,0,1], (Math.random()-0.5)*0.15));
+      slot.top = slot.mouth.slice(0);
+      slot.len = 0.06; slot.rad = 0.075; slot.t = 0; slot.ph = 0;
+      slot.vel = [0,0,0]; slot.phase = Math.random()*6.28; slot.alive = true;
+      creamLeft = Math.max(0, creamLeft - 0.12);
+      wyVel += 0.4;
+    }
+  }
+}
+function updateWobble(dt){
+  var k = 288, c = 3.6;
+  wyVel += (-k*wy - c*wyVel)*dt;
+  wy += wyVel*dt;
+  wy = Math.max(-0.32, Math.min(0.32, wy));
+}
+function wobbleVec(){
+  var breathe = 0.008*Math.sin(simT*1.1);
+  var sxz = 1 - wy*0.5 + breathe*0.4;
+  return [sxz, 1 + wy + breathe, sxz];
+}
+
+/* ---------- 切割 + 流心（真实物理映射）----------
+   creamFlow 流动性 0..1：切/挤=剪切稀化(变流)，静置指数回稠(触变性)；
+   creamLeft 奶油余量 0..1：体积守恒，滴/挤都消耗，核随之掏空；
+   挂垂长大到"重力>屈服"才断离；落地压扁回弹并入奶油滩；细颈断裂出卫星滴 */
+var cut = { on: false, n: [0, 1, 0], d: 0, autoPitch: 0, slide: [1, 0, 0],
+            u: [1, 0, 0], v: [0, 0, 1], capR: 0.8, sinceCut: 1e9, spawned: 0, spawnT: 0,
+            bridge: 0 };
+var halfA = { off: 0, vel: 0, rock: 0, rockVel: 0 };   // 切开的两半：滑动摩擦刚体（可推、可晃）
+var halfB = { off: 0, vel: 0, rock: 0, rockVel: 0 };
+function halfBy(side){ return side > 0 ? halfA : halfB; }
+var creamFlow = 0, creamLeft = 0;
+var capBulge = 0, capBulgeTarget = 0;
+var poolW = 0, poolX = 0;
+var poolEl = document.getElementById('pool');
+var shadowEl = document.getElementById('shadow');
+
+function setPool(w, x){
+  poolW = Math.min(2.6, w);
+  poolX = Math.max(-60, Math.min(60, x));
+  poolEl.style.left = 'calc(50% + ' + poolX.toFixed(1) + 'px)';
+  poolEl.style.transform = 'translateX(-50%) scale(' + poolW.toFixed(3) + ',1)';
+}
+var drips = [];
+for (var di2 = 0; di2 < 12; di2++)
+  drips.push({ alive: false, ph: 0, mouth: [0,0,0], top: [0,0,0], len: 0, rad: 0, vel: [0,0,0], t: 0, phase: 0 });
+
+function freeDripSlot(){
+  var aliveN = 0, slot = null;
+  for (var i = 0; i < drips.length; i++){
+    if (drips[i].alive) aliveN++;
+    else if (!slot) slot = drips[i];
+  }
+  if (!slot || aliveN >= 4) return null;
+  return slot;
+}
+function lowestLip(){
+  // 两半各自的最低唇缘，取屏幕上更低的那半（奶油只会挂在低处）
+  var view = mat4Look(camEye(), [0,0,0], [0,1,0]);
+  var best = null, bestY = 1e9;
+  [halfA, halfB].forEach(function(h){
+    for (var k = 0; k < 16; k++){
+      var phi = k/16*Math.PI*2;
+      var off = v3norm(v3add(v3scale(cut.u, Math.cos(phi)), v3scale(cut.v, Math.sin(phi))));
+      var lip = v3add(v3add(v3scale(cut.n, cut.d), v3scale(cut.slide, h.off)), v3scale(off, cut.capR*0.97));
+      var ey = view[1]*lip[0] + view[5]*lip[1] + view[9]*lip[2] + view[13];
+      if (ey < bestY){ bestY = ey; best = lip; }
+    }
+  });
+  return best;
+}
+function spawnDrip(big){
+  var slot = freeDripSlot();
+  if (!slot) return null;
+  slot.mouth = v3add(lowestLip(), v3scale(cut.u, (Math.random()-0.5)*0.35*cut.capR));
+  slot.top = slot.mouth.slice(0);
+  slot.len = 0.05; slot.rad = Math.min(0.085, (big ? 0.065 : 0.05) + (big ? capBulge*0.3 : 0));
+  slot.t = 0; slot.ph = 0;
+  slot.vel = [0,0,0]; slot.phase = Math.random()*6.28; slot.alive = true;
+  creamLeft = Math.max(0, creamLeft - 0.07);
+  return slot;
+}
+function spawnSatellite(pos){
+  var slot = freeDripSlot();
+  if (!slot) return;
+  slot.mouth = pos.slice(0); slot.top = pos.slice(0);
+  slot.len = 0.08; slot.rad = 0.02; slot.t = 0; slot.ph = 2;
+  slot.vel = [0, -0.25, 0]; slot.phase = Math.random()*6.28; slot.alive = true;
+}
+function triggerCut(entryDir, exitDir){
+  var chord = v3sub(exitDir, entryDir);
+  if (v3len(chord) < 0.05) return;
+  var f = v3norm(v3scale(camEye(), -1));
+  var n = v3cross(chord, f);
+  if (v3len(n) < 1e-4) n = v3cross(chord, [0, 1, 0]);
+  n = v3norm(n);
+  if (v3dot(n, f) > 0) n = v3scale(n, -1);
+  cut.on = true;
+  cut.n = n;
+  cut.d = Math.max(-0.75, Math.min(0.75, v3dot(n, entryDir)));
+  cut.u = v3norm(chord);
+  cut.slide = v3norm(v3cross(n, f));
+  if (v3len(cut.slide) < 1e-4) cut.slide = v3norm(v3cross(n, cut.u));
+  cut.v = v3cross(n, cut.u);
+  cut.capR = Math.sqrt(Math.max(0.12, 1 - cut.d*cut.d));
+  cut.sinceCut = 0; cut.spawned = 0; cut.spawnT = 0.3;
+  cut.bridge = 1;
+  // 弹性释放：储能瞬间放出，两半沿切面滑开，摩擦让它停在 ~0.4
+  halfA.off = 0.02; halfA.vel = 1.35; halfA.rock = 0; halfA.rockVel = 0.3;
+  halfB.off = -0.02; halfB.vel = -1.35; halfB.rock = 0; halfB.rockVel = -0.3;
+  creamFlow = 1; creamLeft = 1;   // 剪切稀化：刚切开时奶油最会流
+  cut.autoPitch = Math.max(pitch, 0.85);
+  wyVel += 0.5;
+}
+function updateDrips(dt){
+  // 自动滴落只发生在流动态：屈服应力重新占优后，奶油保形不流（真实触变性）
+  if (cut.on && creamLeft > 0.15 && creamFlow > 0.25 && cut.spawned < 6){
+    cut.spawnT -= dt;
+    if (cut.spawnT <= 0){ spawnDrip(false); cut.spawned++; cut.spawnT = 0.75/Math.max(creamFlow, 0.3); }
+  }
+  for (var i = 0; i < drips.length; i++){
+    var d = drips[i];
+    if (!d.alive) continue;
+    d.t += dt;
+    if (d.ph === 0){          // 悬挂聚垂：只有流动时才长大，稠了就挂住保形
+      if (creamFlow > 0.25){
+        d.rad += creamFlow*dt*0.055;
+        d.top[1] -= dt*0.03;
+        if (d.rad > 0.078 + 0.03*(1 - creamFlow)){ d.ph = 1; d.t = 0; } // 重力赢过屈服
+      }
+    } else if (d.ph === 1){   // 拉丝：越流越细长；变稠则冻结成挂丝
+      if (creamFlow > 0.15){
+        d.len += dt*(0.5 + 0.5*creamFlow);
+        d.rad = Math.max(0.03, d.rad - dt*0.05*creamFlow);
+        d.top[1] -= dt*0.1;
+        if (d.len > 0.92 + Math.random()*0.06){
+          d.ph = 2;
+          d.vel = [cut.n[0]*0.22 + (Math.random()-0.5)*0.06, -0.1, cut.n[2]*0.22 + (Math.random()-0.5)*0.06];
+          if (Math.random() < 0.35){  // Plateau 断裂：偶发卫星滴
+            spawnSatellite(v3add(d.top, [0, -d.len*0.5, 0]));
+          }
+        }
+      }
+    } else if (d.ph === 2){   // 自由下落的泪滴
+      d.vel[1] -= 2.2*dt;
+      d.vel[0] *= Math.exp(-0.5*dt); d.vel[2] *= Math.exp(-0.5*dt);
+      d.top = v3add(d.top, v3scale(d.vel, dt));
+      d.len += (Math.min(0.34, 2.2*d.rad) - d.len)*Math.min(1, dt*3);
+      if (d.top[1] < -1.18){ d.ph = 3; d.t = 0; }   // 落地
+    } else if (d.ph === 3){   // 落地压扁-回弹（高粘度无飞溅），随后并入奶油滩
+      if (d.t > 0.28){
+        d.alive = false;
+        var vp2 = mat4Mul(mat4Persp(FOV, W/H, 0.1, 40), mat4Look(camEye(), [0,0,0], [0,1,0]));
+        var x = vp2[0]*d.top[0]+vp2[4]*d.top[1]+vp2[8]*d.top[2]+vp2[12];
+        var w2 = vp2[3]*d.top[0]+vp2[7]*d.top[1]+vp2[11]*d.top[2]+vp2[15];
+        var sx = ((x/w2)+1)/2*W;
+        setPool(poolW + d.rad*d.rad*d.rad*380, poolX + (sx - W/2)*0.12);
+        wyVel += 0.05;
+      }
+    }
+  }
+}
+
+/* ---------- 输入：模式按钮 + 揉捏/切刀手势 ---------- */
+var W = 0, H = 0, DPR = 1;
+var dentPtrs = {}, orbitPtrs = {}, capPtrs = {}, knifePtrs = {};
+var mode = 'knead';
+var hint = document.getElementById('hint');
+var mKneadBtn = document.getElementById('mKnead'), mKnifeBtn = document.getElementById('mKnife');
+function setMode(m){
+  mode = m;
+  mKneadBtn.className = m === 'knead' ? 'on' : '';
+  mKnifeBtn.className = m === 'knife' ? 'on' : '';
+  canvas.className = m === 'knife' ? 'knife' : '';
+  hint.textContent = m === 'knead'
+    ? '揉 一 揉 · 双 指 对 挤 · 按 住 切 面 挤 奶 油'
+    : '像 拿 刀 一 样 划 过 桃 子 · 一 刀 切 开';
+  wake();
+}
+mKneadBtn.addEventListener('pointerdown', function(){ setMode('knead'); });
+mKnifeBtn.addEventListener('pointerdown', function(){ setMode('knife'); });
+
+function resize(){
+  var w = window.innerWidth, h = window.innerHeight;
+  if (!w || !h) return; // 宿主后台/折叠瞬间会报 0×0：保留旧视口，等交互时再恢复
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = w; H = h;
+  canvas.width = Math.round(W*DPR); canvas.height = Math.round(H*DPR);
+  canvas.style.width = W+'px'; canvas.style.height = H+'px';
+  gl.viewport(0, 0, canvas.width, canvas.height);
+}
+function freeSlot(){
+  for (var i = 0; i < MAXH; i++) if (hits[i].ptr < 0 && !hits[i].held) return i;
+  return -1;
+}
+function endDent(id){
+  var idx = dentPtrs[id];
+  if (idx === undefined) return;
+  var s = hits[idx];
+  s.held = false; s.ptr = -1; s.arc = 0;
+  s.mem = s.str*0.18;                                   // 塑性记忆：18% 慢回弹
+  wyVel += (0.3 + 0.9*clamp01(s.pspeed/2500))*s.str;    // 快戳/快拉 → 全身 Q 弹
+  if (cut.on){                                          // 捏到哪半，就推/晃哪半（刚体响应）
+    var side = (v3dot(s.dir, cut.n) - cut.d) > 0 ? 1 : -1;
+    var h = halfBy(side);
+    h.vel += v3dot(s.dir, cut.slide)*s.str*0.55;
+    h.rockVel -= v3dot(s.dir, cut.n)*s.str*0.4;
+  }
+  delete dentPtrs[id];
+}
+function endCap(id){
+  var side = capPtrs[id];
+  if (side === undefined) return;
+  delete capPtrs[id];
+  if (capBulge > 0.04){                                 // 挤压释放 → 唇缘掉一滴 + 把半推走
+    spawnDrip(true);
+    creamFlow = Math.max(creamFlow, 0.85);
+    creamLeft = Math.max(0, creamLeft - capBulge*0.3);
+    var h = halfBy(side);
+    h.vel += side*capBulge*0.55;
+    h.rockVel += side*0.12;
+    wyVel += 0.3;
+  }
+  capBulgeTarget = 0;
+}
+canvas.addEventListener('pointerdown', function(e){
+  try { canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId); } catch (_e) {}
+  hint.style.opacity = 0;
+  var ray = camRay(e.clientX, e.clientY);
+  var p = raySphere(ray, 1.0);
+  if (cut.on){
+    // 切面按压判定：先与球壳求交，命中点落在被裁开的开口区才属于切面；
+    // 否则一律按捏壳处理（否则切面圆盘投影会吞掉大半屏幕的点击）
+    var capHit = false;
+    if (p && isFinite(p[0])){
+      if (v3dot(p, cut.n) - cut.d < 0) capHit = true;
+    } else {
+      var dn = v3dot(ray.dir, cut.n);
+      if (dn < -1e-4){
+        var t2 = (cut.d - v3dot(ray.eye, cut.n))/dn;
+        var q2 = v3add(ray.eye, v3scale(ray.dir, t2));
+        if (v3len(v3sub(q2, v3scale(cut.n, cut.d))) < cut.capR*0.95) capHit = true;
+      }
+    }
+    if (capHit){
+      var qc = v3add(ray.eye, v3scale(ray.dir, (cut.d - v3dot(ray.eye, cut.n))/v3dot(ray.dir, cut.n)));
+      capPtrs[e.pointerId] = v3dot(v3sub(qc, v3scale(cut.n, cut.d)), cut.slide) > 0 ? 1 : -1;
+      capBulgeTarget = 0.09;
+      creamFlow = Math.max(creamFlow, 0.85);   // 挤压 = 剪切稀化
+      wake(); frame(performance.now());
+      return;
+    }
+  }
+  if (p && isFinite(p[0]) && isFinite(p[1]) && isFinite(p[2])){
+    if (mode === 'knife'){                              // 刀模式：划过才切，不捏
+      knifePtrs[e.pointerId] = { entryDir: v3norm(p), lastDir: v3norm(p), arc: 0 };
+    } else {
+      var idx = freeSlot();
+      if (idx >= 0){
+        var s = hits[idx];
+        s.dir = v3norm(p); s.entryDir = s.dir; s.lastDir = s.dir; s.arc = 0;
+        s.str = 0.15; s.vel = 0; s.rad = 0.5; s.held = true; s.ptr = e.pointerId;
+        s.lastX = e.clientX; s.lastY = e.clientY; s.lastT = performance.now(); s.pspeed = 0;
+        dentPtrs[e.pointerId] = idx;
+        wyVel += 0.20;
+      }
+    }
+  } else {
+    orbitPtrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+  }
+  wake();
+  frame(performance.now());
+});
+canvas.addEventListener('pointermove', function(e){
+  var now = performance.now();
+  if (knifePtrs[e.pointerId] !== undefined){
+    var k = knifePtrs[e.pointerId];
+    var ray = camRay(e.clientX, e.clientY);
+    var p = raySphere(ray, 1.0);
+    if (p && isFinite(p[0])){
+      var nd = v3norm(p);
+      k.arc += Math.acos(Math.max(-1, Math.min(1, v3dot(k.lastDir, nd))));
+      k.lastDir = nd;
+    } else {                                  // 刀划出桃子 = 一刀切开
+      if (k.arc > 0.45){
+        var tClose = -v3dot(ray.eye, ray.dir);
+        triggerCut(k.entryDir, v3norm(v3add(ray.eye, v3scale(ray.dir, tClose))));
+      }
+      delete knifePtrs[e.pointerId];
+    }
+  } else if (dentPtrs[e.pointerId] !== undefined){
+    var s = hits[dentPtrs[e.pointerId]];
+    var dtm = Math.max(1, now - s.lastT);
+    var sp = Math.hypot(e.clientX - s.lastX, e.clientY - s.lastY)/dtm*1000;
+    s.pspeed = s.pspeed*0.7 + sp*0.3;
+    s.lastX = e.clientX; s.lastY = e.clientY; s.lastT = now;
+    var ray = camRay(e.clientX, e.clientY);
+    var p = raySphere(ray, 1.0);
+    if (p && isFinite(p[0])){
+      var nd = v3norm(p);
+      s.arc += Math.acos(Math.max(-1, Math.min(1, v3dot(s.lastDir, nd))));
+      s.lastDir = nd;
+      s.dir = v3norm([s.dir[0]*0.6 + nd[0]*0.4, s.dir[1]*0.6 + nd[1]*0.4, s.dir[2]*0.6 + nd[2]*0.4]);
+    } else {
+      endDent(e.pointerId);                   // 揉捏模式：划出也只是松手，绝不误切
+    }
+  } else if (orbitPtrs[e.pointerId]){
+    var o = orbitPtrs[e.pointerId];
+    yaw -= (e.clientX - o.x)*0.006;
+    pitch = Math.max(-1.3, Math.min(1.3, pitch + (e.clientY - o.y)*0.006));
+    o.x = e.clientX; o.y = e.clientY;
+  }
+  wake();
+  frame(performance.now());
+});
+function releasePointer(e){
+  if (knifePtrs[e.pointerId] !== undefined){    // 刀提起来：划得够长也算一刀
+    if (knifePtrs[e.pointerId].arc > 0.7){
+      var dir = knifePtrs[e.pointerId].entryDir;
+      triggerCut(dir, v3scale(dir, -1));
+    }
+    delete knifePtrs[e.pointerId];
+  }
+  endDent(e.pointerId);
+  endCap(e.pointerId);
+  delete orbitPtrs[e.pointerId];
+  wake();
+}
+canvas.addEventListener('pointerup', releasePointer);
+canvas.addEventListener('pointercancel', releasePointer);
+canvas.addEventListener('pointerleave', releasePointer);
+canvas.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+window.addEventListener('wheel', function(e){
+  dist = Math.max(3.5, Math.min(9, dist*(1 + e.deltaY*0.0008)));
+  wake();
+}, { passive: true });
+window.addEventListener('resize', resize);
+canvas.addEventListener('webglcontextlost', function(e){
+  e.preventDefault();
+  errEl.textContent = 'GL 上下文丢失，自动恢复中…';
+  setTimeout(function(){ location.reload(); }, 300);
+});
+
+/* ---------- 绘制 ---------- */
+function bindSphereAttribs(prog){
+  gl.useProgram(prog);
+  gl.bindBuffer(gl.ARRAY_BUFFER, sphereVbo);
+  var a = gl.getAttribLocation(prog, 'aPos');
+  gl.enableVertexAttribArray(a);
+  gl.vertexAttribPointer(a, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sphereIbo);
+}
+function drawShellPass(side){
+  gl.useProgram(progShell);
+  bindSphereAttribs(progShell);
+  var h = halfBy(side);
+  var off = cut.on ? v3scale(cut.slide, h.off) : [0, 0, 0];
+  gl.uniform3fv(SU['uHalfOff'], off);
+  gl.uniform1f(SU['uHalfRot'], cut.on ? h.rock : 0);
+  gl.uniform3fv(SU['uHalfAxis'], cut.u);
+  gl.uniform3fv(SU['uClipN'], cut.on ? cut.n : [0, 1, 0]);
+  gl.uniform1f(SU['uClipD'], cut.d);
+  gl.uniform1f(SU['uClipSide'], cut.on ? side : 0);
+  gl.drawElements(gl.TRIANGLES, mesh.idx.length, gl.UNSIGNED_SHORT, 0);
+}
+function drawCap(side){
+  var eye = camEye();
+  gl.useProgram(progCap);
+  gl.bindBuffer(gl.ARRAY_BUFFER, diskVbo);
+  var a = gl.getAttribLocation(progCap, 'aUV');
+  gl.enableVertexAttribArray(a);
+  gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, diskIbo);
+  gl.disable(gl.CULL_FACE);
+  var c = v3add(v3scale(cut.n, cut.d - side*0.004), v3scale(cut.slide, halfBy(side).off));
+  gl.uniformMatrix4fv(CU['uVP'], false, mat4Mul(mat4Persp(FOV, W/H, 0.1, 40), mat4Look(eye, [0,0,0], [0,1,0])));
+  gl.uniform3fv(CU['uC'], c);
+  gl.uniform3fv(CU['uU'], cut.u);
+  gl.uniform3fv(CU['uV'], cut.v);
+  gl.uniform3fv(CU['uN'], cut.n);
+  gl.uniform1f(CU['uCR'], cut.capR*Math.min(1, Math.abs(halfBy(side).off)/0.04 + 0.02));
+  gl.uniform1f(CU['uBulge'], capBulge);
+  gl.uniform1f(CU['uCore'], 0.14 + 0.30*creamLeft);
+  gl.uniform3fv(CU['uCam'], eye);
+  gl.uniform1f(CU['uTime'], simT);
+  gl.drawElements(gl.TRIANGLES, DISK_N*3, gl.UNSIGNED_SHORT, 0);
+  gl.enable(gl.CULL_FACE);
+}
+function drawBridge(){
+  if (!cut.on || cut.bridge < 0.05) return;
+  gl.useProgram(progDrop);
+  gl.bindBuffer(gl.ARRAY_BUFFER, dropVbo);
+  var ap = gl.getAttribLocation(progDrop, 'aPos');
+  gl.enableVertexAttribArray(ap);
+  gl.vertexAttribPointer(ap, 3, gl.FLOAT, false, 0, 0);
+  var an = gl.getAttribLocation(progDrop, 'aNrm');
+  gl.bindBuffer(gl.ARRAY_BUFFER, dropNbo);
+  gl.enableVertexAttribArray(an);
+  gl.vertexAttribPointer(an, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, dropIbo);
+  gl.disable(gl.CULL_FACE);
+  var eye = camEye();
+  var vp = mat4Mul(mat4Persp(FOV, W/H, 0.1, 40), mat4Look(eye, [0,0,0], [0,1,0]));
+  gl.uniformMatrix4fv(DU['uVP'], false, vp);
+  gl.uniform3fv(DU['uCam'], eye);
+  var rad = 0.05*cut.bridge;
+  var az = v3cross(cut.n, cut.slide);
+  var c = v3scale(cut.n, cut.d);
+  var hs = [halfA, halfB], dirs = [cut.slide, v3scale(cut.slide, -1)];
+  for (var s2 = 0; s2 < 2; s2++){
+    var len = Math.max(0.01, Math.abs(hs[s2].off)*0.92);
+    var sy = 1 + 0.05*Math.sin(simT*9 + s2*2.1);
+    gl.uniform3fv(DU['uScl'], [rad, len, rad]);
+    gl.uniformMatrix4fv(DU['uM'], false, mat4Basis(cut.n, dirs[s2], az, c, [rad, len*sy, rad]));
+    gl.drawElements(gl.TRIANGLES, drop.idx.length, gl.UNSIGNED_SHORT, 0);
+  }
+  gl.enable(gl.CULL_FACE);
+}
+function drawDrips(){
+  var eye = camEye();
+  gl.useProgram(progDrop);
+  gl.bindBuffer(gl.ARRAY_BUFFER, dropVbo);
+  var ap = gl.getAttribLocation(progDrop, 'aPos');
+  gl.enableVertexAttribArray(ap);
+  gl.vertexAttribPointer(ap, 3, gl.FLOAT, false, 0, 0);
+  var an = gl.getAttribLocation(progDrop, 'aNrm');
+  gl.bindBuffer(gl.ARRAY_BUFFER, dropNbo);
+  gl.enableVertexAttribArray(an);
+  gl.vertexAttribPointer(an, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, dropIbo);
+  gl.disable(gl.CULL_FACE);
+  var vp = mat4Mul(mat4Persp(FOV, W/H, 0.1, 40), mat4Look(eye, [0,0,0], [0,1,0]));
+  gl.uniformMatrix4fv(DU['uVP'], false, vp);
+  gl.uniform3fv(DU['uCam'], eye);
+  var bulb = 1/0.78;
+  for (var i = 0; i < drips.length; i++){
+    var d = drips[i];
+    if (!d.alive) continue;
+    var sxz = 1 + 0.05*Math.sin(simT*9 + d.phase);
+    var lenDraw = d.len;
+    if (d.ph === 2) lenDraw *= 1 + Math.min(0.3, Math.abs(d.vel[1])*0.06); // 下落越快越拉长
+    if (d.ph === 3){                                                       // 落地压扁-回弹
+      var k2 = Math.min(1, d.t/0.28);
+      lenDraw = 0.05*(1 - k2*0.5);
+      sxz = 1 + 1.6*k2;
+    }
+    var scl = [d.rad*bulb*sxz, lenDraw, d.rad*bulb*sxz];
+    gl.uniform3fv(DU['uScl'], scl);
+    gl.uniformMatrix4fv(DU['uM'], false, mat4TS(d.top, scl));
+    gl.drawElements(gl.TRIANGLES, drop.idx.length, gl.UNSIGNED_SHORT, 0);
+  }
+  gl.enable(gl.CULL_FACE);
+}
+function draw(){
+  var eye = camEye();
+  var vp = mat4Mul(mat4Persp(FOV, W/H, 0.1, 40), mat4Look(eye, [0,0,0], [0,1,0]));
+  gl.clearColor(0, 0, 0, 0);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  gl.useProgram(progShell);
+  gl.uniformMatrix4fv(SU['uVP'], false, vp);
+  gl.uniform3fv(SU['uCam'], eye);
+  gl.uniform1f(SU['uR'], 1.0);
+  gl.uniform3fv(SU['uWob'], wobbleVec());
+  gl.uniform3fv(SU['uHitP[0]'], hitP);
+  gl.uniform1fv(SU['uHitS[0]'], hitS);
+  gl.uniform1fv(SU['uHitR[0]'], hitR);
+  gl.uniform1f(SU['uTime'], simT);
+  if (!cut.on){
+    drawShellPass(0, 0);
+  } else {
+    drawShellPass(1);
+    drawShellPass(-1);
+    drawCap(1);
+    drawCap(-1);
+    drawBridge();
+  }
+  drawDrips();
+  shadowEl.style.transform = 'translateX(-50%) scaleX(' + (1 + wy*1.4).toFixed(3) + ')';
+}
+
+/* ---------- 主循环 ---------- */
+var lastFrame = 0, acc = 0;
+function step(dt){
+  updateHits(dt); updateWobble(dt); pinchCheck();
+  // 奶油触变性：被挤住=保持流动；静置指数回稠
+  if (Object.keys(capPtrs).length) creamFlow = Math.max(creamFlow, 0.85);
+  creamFlow *= Math.exp(-dt/2.6);
+  // 两半刚体：余留弹性 + 桌面摩擦 + 摇摆阻尼
+  [halfA, halfB].forEach(function(h){
+    h.vel += (-0.6*h.off)*dt;
+    h.vel *= Math.exp(-3.2*dt);
+    h.off = Math.max(-1.0, Math.min(1.0, h.off + h.vel*dt));
+    h.rockVel += (-55*h.rock - 3.5*h.rockVel)*dt;
+    h.rock = Math.max(-0.2, Math.min(0.2, h.rock + h.rockVel*dt));
+  });
+  if (cut.on){
+    cut.sinceCut += dt;
+    if (cut.sinceCut < 0.9) pitch += (cut.autoPitch - pitch)*Math.min(1, dt*5);
+    // 拉丝桥：流动时逐渐变细，稠了保形；两半被猛地推开时绷断 → 断口掉一滴
+    if (cut.bridge > 0){
+      if (Math.abs(halfA.vel) + Math.abs(halfB.vel) > 0.5 && cut.sinceCut > 1.0){
+        cut.bridge = 0; spawnDrip(false);
+      } else {
+        cut.bridge = Math.max(0, cut.bridge - dt/2.4*Math.max(creamFlow, 0.15));
+        if (cut.bridge <= 0) spawnDrip(false);
+      }
+    }
+    updateDrips(dt);
+  }
+  var bulgeGoal = Object.keys(capPtrs).length ? capBulgeTarget : 0;
+  // 屈服应力：奶油不流动时核保持鼓起（极慢松弛），流动时才回缩
+  var relax = (creamFlow > 0.3 || bulgeGoal > 0) ? 6 : 0.4;
+  capBulge += (bulgeGoal - capBulge)*Math.min(1, dt*relax);
+}
+function frame(ts){
+  if (!lastFrame){ lastFrame = ts; return; }
+  var dt = Math.min(0.05, (ts - lastFrame)/1000);
+  lastFrame = ts; acc += dt; simT += dt;
+  while (acc >= 1/60){ step(1/60); acc -= 1/60; }
+  draw();
+}
+function loop(ts){ frame(ts); requestAnimationFrame(loop); }
+
+resize();
+requestAnimationFrame(loop);
+
+var lastRafTs = -1, lastActivity = 0, pumpTimer = 0;
+(function rafWatch(ts){ lastRafTs = ts; requestAnimationFrame(rafWatch); })(0);
+function wake(){
+  resize(); // 唤醒时恢复视口（对抗宿主 0×0 resize）
+  lastActivity = performance.now();
+  if (!pumpTimer) pumpTimer = setTimeout(pump, 16);
+}
+function pump(){
+  pumpTimer = 0;
+  frame(performance.now());
+  var energy = 0, i;
+  for (i = 0; i < MAXH; i++) energy += Math.abs(hits[i].vel) + Math.abs(hits[i].str) + hits[i].mem*3;
+  energy += Math.abs(wyVel) + Math.abs(wy)*10;
+  energy += Math.abs(halfA.vel) + Math.abs(halfB.vel) + cut.bridge;
+  var rafAlive = lastRafTs > 0 && (performance.now() - lastRafTs) < 200;
+  var cutBusy = cut.on && cut.sinceCut < 5;
+  if (!rafAlive && (performance.now() - lastActivity < 4000 || energy > 2 || cutBusy)){
+    pumpTimer = setTimeout(pump, 16);
+  }
+}
+
+window.__state = function(){
+  var alive = 0, mem = 0;
+  drips.forEach(function(d){ if (d.alive) alive++; });
+  hits.forEach(function(h){ mem = Math.max(mem, h.mem); });
+  return JSON.stringify({
+    simT: simT.toFixed(2), pitch: pitch.toFixed(2), wy: wy.toFixed(3), mode: mode,
+    cut: { on: cut.on, bridge: cut.bridge.toFixed(2), drips: alive },
+    halves: { A: halfA.off.toFixed(2), B: halfB.off.toFixed(2),
+              velA: halfA.vel.toFixed(2), velB: halfB.vel.toFixed(2) },
+    cream: { flow: creamFlow.toFixed(2), left: creamLeft.toFixed(2) },
+    capBulge: capBulge.toFixed(3), pool: poolW.toFixed(2), maxMem: mem.toFixed(3),
+    hits: hits.filter(function(h){ return Math.abs(h.str) > 0.01; })
+              .map(function(h){ return { str: h.str.toFixed(2), rad: h.rad.toFixed(2), spd: h.pspeed|0, held: h.held }; })
+  });
+};
+window.__ff = function(sec){
+  var steps = Math.round(sec*60);
+  for (var i = 0; i < steps; i++) step(1/60);
+  simT += sec;
+  draw();
+  return window.__state();
+};
+</script>
+</body>
+</html>

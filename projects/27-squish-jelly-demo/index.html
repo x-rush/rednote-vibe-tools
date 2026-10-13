@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>果冻捏捏 · 方向验证 Demo</title>
+<!--
+  果冻方向验证 Demo（单文件，无依赖，无构建）
+  打开即玩：戳 / 拖 / 双指捏（鼠标同样有效）
+  ?shot=秒数：快进到该时刻（脚本化"按入-拖动-释放"）后自动转为实时交互
+-->
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#FFF6EC;}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;-webkit-user-select:none;user-select:none;}
+  #stage{position:fixed;inset:0;touch-action:none;cursor:grab;}
+  #stage:active{cursor:grabbing;}
+  #ui{position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 20px);text-align:center;pointer-events:none;}
+  #ui h1{font-size:14px;font-weight:600;margin:0;letter-spacing:.22em;color:#B26A4A;}
+  #hint{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 28px);text-align:center;pointer-events:none;
+        color:#C98A6B;font-size:13px;letter-spacing:.24em;transition:opacity .9s;}
+  #err{position:fixed;left:8px;top:calc(env(safe-area-inset-top,0px) + 44px);color:#C0392B;font-size:11px;pointer-events:none;}
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<div id="ui"><h1>果冻捏捏 · 方向 DEMO</h1></div>
+<div id="hint">戳 一 戳 · 拖 一 拖 · 双 指 捏 一 捏</div>
+<div id="err"></div>
+<script>
+'use strict';
+window.addEventListener('error', function(e){
+  document.getElementById('err').textContent = 'ERR: ' + e.message;
+});
+
+var canvas = document.getElementById('stage');
+var ctx = canvas.getContext('2d');
+var hint = document.getElementById('hint');
+
+/* ---------- 布局 ---------- */
+var W = 0, H = 0, DPR = 1, R = 140, homeX = 0, homeY = 0, nbLen = 10;
+function resize(){
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  R = Math.min(W, H) * 0.26;
+  homeX = W / 2; homeY = H * 0.52;
+  nbLen = 2 * R * Math.sin(Math.PI / N);
+  dotPattern = makeDotPattern();
+}
+
+/* ---------- 物理：周界弹簧环（果冻 preset：低阻尼、慢频率） ---------- */
+var N = 28, DT = 1 / 60;
+var KR = 300;    // 径向回复刚度 → f = sqrt(KR)/2π ≈ 2.76Hz（"慢慢"）
+var DAMP = 3.2;  // 全局指数阻尼 → ζ≈0.09，晃动可见衰减约 2s
+var KN = 110;    // 邻接弹簧（波动传播）
+var KA = 1400;   // 面积保持（果冻的"饱胀感"）
+var KC = 55, DC = 6.5; // 中心慢速归位
+var VMAX = 2800;
+var rest = [], px, py, vx, vy, fx, fy;
+(function init(){
+  px = new Float32Array(N); py = new Float32Array(N);
+  vx = new Float32Array(N); vy = new Float32Array(N);
+  fx = new Float32Array(N); fy = new Float32Array(N);
+  for (var i = 0; i < N; i++){
+    var a = i / N * Math.PI * 2;
+    rest.push({ x: Math.cos(a), y: Math.sin(a) });
+  }
+})();
+var cx = 0, cy = 0, cvx = 0, cvy = 0, simT = 0;
+function resetBody(){
+  cx = homeX; cy = homeY; cvx = 0; cvy = 0;
+  for (var i = 0; i < N; i++){
+    px[i] = cx + rest[i].x * R; py[i] = cy + rest[i].y * R;
+    vx[i] = 0; vy[i] = 0;
+  }
+}
+
+/* ---------- 输入 ---------- */
+var pointers = new Map();
+canvas.addEventListener('pointerdown', function(e){
+  try { canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId); } catch (_e) {}
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, vx: 0, vy: 0, hold: 0 });
+  hint.style.opacity = 0;
+  wake();
+  frame(performance.now()); // 同步推帧：宿主冻结定时器时手指下的果冻也即时响应
+});
+canvas.addEventListener('pointermove', function(e){
+  var p = pointers.get(e.pointerId);
+  if (p){ p.x = e.clientX; p.y = e.clientY; wake(); frame(performance.now()); }
+});
+function releasePointer(e){
+  if (pointers.delete(e.pointerId)) wake();
+}
+canvas.addEventListener('pointerup', releasePointer);
+canvas.addEventListener('pointercancel', releasePointer);
+canvas.addEventListener('pointerleave', releasePointer);
+canvas.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+
+function livePointers(dt){
+  var arr = [];
+  pointers.forEach(function(p){
+    p.vx = (p.x - p.lx) / dt; p.vy = (p.y - p.ly) / dt;
+    p.lx = p.x; p.ly = p.y; p.hold += dt;
+    arr.push(p);
+  });
+  return arr;
+}
+
+/* 截图模式：脚本化一次"按入-拖动-释放" */
+var DEMO = false, shotT = 0, lastScript = null;
+(function(){
+  var s = parseFloat(new URLSearchParams(location.search).get('shot') || '');
+  if (!isNaN(s) && s > 0){ DEMO = true; shotT = s; }
+})();
+function scriptPointers(t){
+  if (t < 0.5 || t > 1.6){ lastScript = null; return []; }
+  var k = Math.min(1, (t - 0.5) / 0.3);
+  var sx = cx + R * 1.7, sy = cy - R * 1.6;
+  var x = sx + ((cx + R * 0.12) - sx) * k, y = sy + ((cy - R * 1.06) - sy) * k;
+  var vxs = lastScript ? (x - lastScript.x) / DT : 0;
+  var vys = lastScript ? (y - lastScript.y) / DT : 0;
+  lastScript = { x: x, y: y };
+  return [{ x: x, y: y, vx: vxs, vy: vys, hold: t - 0.5 }];
+}
+
+/* ---------- 模拟一步 ---------- */
+function simulate(dt){
+  cvx += (homeX - cx) * KC * dt; cvy += (homeY - cy) * KC * dt;
+  var ce = Math.exp(-DC * dt); cvx *= ce; cvy *= ce;
+  cx += cvx * dt; cy += cvy * dt;
+
+  var Rb = R * (1 + 0.012 * Math.sin(simT * 1.4)); // 待机呼吸
+  var acts = DEMO ? scriptPointers(simT) : livePointers(dt);
+
+  for (var a = 0; a < acts.length; a++){
+    var P = acts[a];
+    var rad = 80 + 26 * Math.min(P.hold, 1.2); // 按住越久影响越大（蠕变）
+    var r2 = rad * rad;
+    for (var i = 0; i < N; i++){
+      var dx = px[i] - P.x, dy = py[i] - P.y, d2 = dx * dx + dy * dy;
+      if (d2 < r2){
+        var d = Math.sqrt(d2) || 1;
+        var t = 1 - d / rad, tt = t * t;
+        vx[i] += ((dx / d) * 22000 * tt + P.vx * 12 * t) * dt;
+        vy[i] += ((dy / d) * 22000 * tt + P.vy * 12 * t) * dt;
+      }
+    }
+  }
+
+  // 面积保持
+  var A = 0;
+  for (var k = 0; k < N; k++){
+    var j = (k + 1) % N;
+    A += px[k] * py[j] - px[j] * py[k];
+  }
+  A = Math.abs(A) / 2;
+  var strain = (Math.PI * Rb * Rb - A) / (Math.PI * Rb * Rb);
+  strain = Math.max(-0.5, Math.min(0.5, strain));
+
+  for (var m = 0; m < N; m++){
+    var tx = cx + rest[m].x * Rb, ty = cy + rest[m].y * Rb;
+    var ax = (tx - px[m]) * KR, ay = (ty - py[m]) * KR;
+    var nx = px[m] - cx, ny = py[m] - cy, nl = Math.sqrt(nx * nx + ny * ny) || 1;
+    ax += nx / nl * KA * strain; ay += ny / nl * KA * strain;
+    fx[m] = ax; fy[m] = ay;
+  }
+  var L = nbLen * (Rb / R);
+  for (var q = 0; q < N; q++){
+    var q2 = (q + 1) % N;
+    var ddx = px[q2] - px[q], ddy = py[q2] - py[q];
+    var dd = Math.sqrt(ddx * ddx + ddy * ddy) || 1;
+    var f = (dd - L) * KN;
+    var fxn = ddx / dd * f, fyn = ddy / dd * f;
+    fx[q] += fxn; fy[q] += fyn;
+    fx[q2] -= fxn; fy[q2] -= fyn;
+  }
+  var e = Math.exp(-DAMP * dt);
+  var sumVX = 0;
+  for (var u = 0; u < N; u++){
+    vx[u] = (vx[u] + fx[u] * dt) * e;
+    vy[u] = (vy[u] + fy[u] * dt) * e;
+    var sp = Math.sqrt(vx[u] * vx[u] + vy[u] * vy[u]);
+    if (sp > VMAX){ vx[u] *= VMAX / sp; vy[u] *= VMAX / sp; }
+    px[u] += vx[u] * dt; py[u] += vy[u] * dt;
+    sumVX += vx[u];
+  }
+  simT += dt;
+  return sumVX / N;
+}
+
+/* ---------- 渲染 ---------- */
+var dotPattern = null;
+function makeDotPattern(){
+  var c = document.createElement('canvas');
+  c.width = 26; c.height = 26;
+  var g = c.getContext('2d');
+  g.fillStyle = '#E3BC9C';
+  g.beginPath(); g.arc(13, 13, 1.7, 0, Math.PI * 2); g.fill();
+  return ctx.createPattern(c, 'repeat');
+}
+function drawDots(alpha){
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = dotPattern;
+  ctx.fillRect(-W, -H, W * 3, H * 3);
+  ctx.globalAlpha = 1;
+}
+function pts(){
+  var arr = [];
+  for (var i = 0; i < N; i++) arr.push({ x: px[i], y: py[i] });
+  return arr;
+}
+function centroid(P){
+  var x = 0, y = 0;
+  for (var i = 0; i < P.length; i++){ x += P[i].x; y += P[i].y; }
+  return { x: x / P.length, y: y / P.length };
+}
+function toward(P, f){
+  var c = centroid(P), out = [];
+  for (var i = 0; i < P.length; i++)
+    out.push({ x: c.x + (P[i].x - c.x) * f, y: c.y + (P[i].y - c.y) * f });
+  return out;
+}
+function tracePath(P){
+  var n = P.length;
+  ctx.beginPath();
+  ctx.moveTo((P[0].x + P[n - 1].x) / 2, (P[0].y + P[n - 1].y) / 2);
+  for (var i = 0; i < n; i++){
+    var a = P[i], b = P[(i + 1) % n];
+    ctx.quadraticCurveTo(a.x, a.y, (a.x + b.x) / 2, (a.y + b.y) / 2);
+  }
+  ctx.closePath();
+}
+function softEllipse(x, y, rx, ry, rot, color){
+  ctx.save();
+  ctx.translate(x, y); ctx.rotate(rot); ctx.scale(1, ry / rx);
+  var g = ctx.createRadialGradient(0, 0, 0, 0, 0, rx);
+  g.addColorStop(0, color); g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(0, 0, rx, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+var BUBS = [
+  { fx: 0.28, fy: -0.12, r: 0.055, ph: 0 },
+  { fx: -0.30, fy: 0.18, r: 0.042, ph: 2.1 },
+  { fx: 0.02, fy: 0.34, r: 0.030, ph: 4.2 },
+  { fx: -0.12, fy: -0.40, r: 0.036, ph: 1.2 }
+];
+
+function render(avgVX){
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+  // 背景
+  var bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#FFF6EC'); bg.addColorStop(1, '#FFE9DA');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  drawDots(0.5);
+
+  var P = pts(), c = centroid(P);
+  var minX = 1e9, maxX = -1e9;
+  for (var i = 0; i < N; i++){ if (px[i] < minX) minX = px[i]; if (px[i] > maxX) maxX = px[i]; }
+  var bw = maxX - minX;
+
+  // 接触阴影
+  var shRx = Math.max(R * 0.7, Math.min(R * 1.3, bw * 0.46));
+  softEllipse(cx, cy + R * 1.22, shRx, shRx * 0.15, 0, 'rgba(186,105,75,0.16)');
+
+  // ---- 果冻身体（裁剪内一次画完）----
+  ctx.save();
+  tracePath(P); ctx.clip();
+
+  // 假折射：背景点阵在果冻内放大重画（透过果冻看到的"折射背景"）
+  var wob = Math.min(1, Math.abs(avgVX) / 900);
+  var s = 1.08 + wob * 0.06;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(s, s);
+  ctx.translate(-cx, -cy);
+  drawDots(0.5);
+  ctx.restore();
+
+  // 主体：中心更透、边缘更深更实（厚度感）
+  var body = ctx.createRadialGradient(cx - R * 0.18, cy - R * 0.22, R * 0.1, cx, cy, R * 1.05);
+  body.addColorStop(0, 'rgba(255,215,150,0.60)');
+  body.addColorStop(0.45, 'rgba(255,155,110,0.82)');
+  body.addColorStop(1, 'rgba(205,65,58,0.97)');
+  ctx.fillStyle = body;
+  ctx.fillRect(0, 0, W, H);
+
+  // 第二次点阵叠在主体上：半透明感的直接证据
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(s * 1.04, s * 1.04);
+  ctx.translate(-cx, -cy);
+  drawDots(0.16);
+  ctx.restore();
+
+  // 底部深度
+  var deep = ctx.createLinearGradient(0, cy, 0, cy + R);
+  deep.addColorStop(0, 'rgba(190,50,45,0)');
+  deep.addColorStop(1, 'rgba(190,50,45,0.14)');
+  ctx.fillStyle = deep;
+  ctx.fillRect(0, cy, W, R * 1.2);
+
+  // 以下光效全部加色合成（发光的果冻，不是蒙一层灰）
+  ctx.globalCompositeOperation = 'lighter';
+
+  // 内核透光：极淡暖色加色（大面积强加色会直接饱和成白，亮度主要靠主体渐变）
+  var core = ctx.createRadialGradient(cx - R * 0.10, cy - R * 0.18, 0, cx - R * 0.10, cy - R * 0.18, R * 0.95);
+  core.addColorStop(0, 'rgba(255,180,80,0.10)');
+  core.addColorStop(1, 'rgba(255,180,80,0)');
+  ctx.fillStyle = core;
+  ctx.fillRect(0, 0, W, H);
+
+  // 内部气泡
+  ctx.lineWidth = 2;
+  for (var b = 0; b < BUBS.length; b++){
+    var B = BUBS[b];
+    var bxp = cx + B.fx * R + Math.sin(simT * 0.9 + B.ph) * 4;
+    var byp = cy + B.fy * R + Math.cos(simT * 0.7 + B.ph) * 4;
+    var br = B.r * R;
+    ctx.strokeStyle = 'rgba(255,235,215,0.28)';
+    ctx.beginPath(); ctx.arc(bxp, byp, br, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,245,230,0.5)';
+    ctx.beginPath(); ctx.arc(bxp - br * 0.35, byp - br * 0.35, br * 0.22, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // 高光：随晃动倾斜/位移（亮面是果冻质感的命）
+  var tilt = Math.max(-0.45, Math.min(0.45, -avgVX * 0.0012));
+  var hx = Math.max(-18, Math.min(18, avgVX * 0.02));
+  softEllipse(cx - R * 0.40 + hx, cy - R * 0.46, R * 0.26, R * 0.11, tilt - 0.45, 'rgba(255,255,255,0.75)');
+  softEllipse(cx - R * 0.30 + hx * 1.4, cy - R * 0.28, R * 0.05, R * 0.04, 0, 'rgba(255,255,255,0.95)');
+  softEllipse(cx + R * 0.15, cy + R * 0.68, R * 0.42, R * 0.09, 0.1, 'rgba(255,205,175,0.20)');
+
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.restore(); // 出裁剪
+
+  // 描边：外深内亮（次表面边缘光）
+  tracePath(P);
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = 'rgba(160,50,42,0.4)';
+  ctx.stroke();
+  ctx.globalCompositeOperation = 'lighter';
+  tracePath(toward(P, 0.965));
+  ctx.lineWidth = 1.8;
+  ctx.strokeStyle = 'rgba(255,215,180,0.55)';
+  ctx.stroke();
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+/* ---------- 主循环 ---------- */
+var lastFrame = 0, acc = 0;
+function frame(ts){
+  if (!lastFrame){ lastFrame = ts; return; }
+  var dt = Math.min(0.1, (ts - lastFrame) / 1000);
+  lastFrame = ts;
+  acc += dt;
+  var avg = 0;
+  while (acc >= DT){ avg = simulate(DT); acc -= DT; }
+  render(avg);
+}
+function loop(ts){ frame(ts); requestAnimationFrame(loop); }
+
+resize();
+resetBody();
+window.addEventListener('resize', function(){ resize(); });
+
+if (DEMO){
+  var steps = Math.round(shotT / DT);
+  var avg = 0;
+  for (var s2 = 0; s2 < steps; s2++) avg = simulate(DT);
+  DEMO = false; // 快进到定格时刻后立即转实时：任何地址都不会变成"永远静止的球"
+}
+requestAnimationFrame(loop);
+
+/* 事件驱动的呼吸式循环：
+   正常宿主里 RAF 持续驱动；敌意 webview（实测会在静置后冻结 RAF 和全部定时器）
+   靠 wake() 在每次输入时唤醒 pump()，有输入或有动能就继续走帧，静止后自眠。 */
+var lastRafTs = -1, lastActivity = 0, pumpTimer = 0;
+(function rafWatch(ts){ lastRafTs = ts; requestAnimationFrame(rafWatch); })(0);
+function wake(){
+  lastActivity = performance.now();
+  if (!pumpTimer) pumpTimer = setTimeout(pump, 16);
+}
+function pump(){
+  pumpTimer = 0;
+  frame(performance.now());
+  var energy = 0, i;
+  for (i = 0; i < N; i++) energy += Math.abs(vx[i]) + Math.abs(vy[i]);
+  var rafAlive = lastRafTs > 0 && (performance.now() - lastRafTs) < 200;
+  if (!rafAlive && (performance.now() - lastActivity < 4000 || energy > 30)){
+    pumpTimer = setTimeout(pump, 16);
+  }
+}
+</script>
+</body>
+</html>

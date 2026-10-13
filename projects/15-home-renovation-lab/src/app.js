@@ -38,7 +38,7 @@ if(db.plans.length){
 let plan=db.plans.find(p=>p.id===db.active)||makePlan(catalog.templates[0],catalog);if(!db.plans.length)plan.name=U.project;
 // Thumbnails ship inlined in thumbnails.js; the file path is only a dev fallback.
 const THUMBS=window.ROOMISH_THUMBNAILS_DATA||{},thumbSrc=id=>THUMBS[id]||('./assets/furniture/'+id+'.png');
-let baseline=clone(db.baselines[plan.id]||plan),history=new History(),tab='furniture',category=U.all,query='',selected=null,selectionBeforeWalk=null,surface='floor',finished=false,comparing=false,showBefore=false,night=false,view='overview',drawer=false,roomPropertiesOpen=false,doorRoomId=null,doorPointer=null,doorEditingId=null,doorNavigation=false,doorDrag=null,doorPreviousEdit=false,doorKind='door',openingStyle='casement',wallMode='full',snap=true,scene,thumbs=new Map(),timer,saveTimer;
+let baseline=clone(db.baselines[plan.id]||plan),history=new History(),tab='furniture',category=U.all,query='',selected=null,selectionBeforeWalk=null,surface='floor',finished=false,comparing=false,showBefore=false,night=false,view='overview',drawer=false,roomPropertiesOpen=false,doorRoomId=null,doorPointer=null,doorEditingId=null,doorNavigation=false,doorDrag=null,doorPreviousEdit=false,doorActive=false,doorKind='door',openingStyle='casement',wallMode='full',snap=true,scene,thumbs=new Map(),timer,saveTimer;
 try{const savedWalls=localStorage.getItem('roomish-walls-15-v2');if(savedWalls==='full'||savedWalls==='low')wallMode=savedWalls;else{const legacy=localStorage.getItem('roomish-walls-15-v1');if(legacy==='full'||legacy==='low')wallMode=legacy;}}catch{}
 app.innerHTML=`<div class="app-shell"><header class="topbar"><a class="brand" href="#" aria-label="${catalog.title}"><span class="brand-mark"><img src="./src/logo-roomish.png" width="40" height="40" alt=""></span><span>${U.brand}<small>${catalog.title}</small></span></a><div class="project-heading"><input id="plan-name" maxlength="60" aria-label="${U.name}" value="${esc(plan.name)}"><span id="save-state">${U.local}</span></div><div class="top-actions">${button('undo',U.undo,'undo','icon-button')}${button('redo',U.redo,'redo','icon-button')}<span class="separator"></span>${button('plans',U.plans,'folder','quiet desktop-label')}${button('finish',U.finish,'check','primary')}${button('mobile-menu',U.moreSettings,'grid','icon-button mobile-menu-button')}</div></header><main class="studio"><aside class="library" id="library"><div class="library-intro"><span class="eyebrow">${U.introLabel}</span><h1>${catalog.title}<span>.</span></h1><p>${catalog.subtitle}</p></div><div class="library-panel-header"><strong>${U.panelTitle}</strong>${button('close-panel',U.close,'close','icon-button')}</div><nav class="tabs" id="tabs"></nav><section id="library-content" class="library-content"></section><div class="library-footer">${icon('check')}<span>${U.savedLabel}</span>${button('help',U.help,'help','icon-button')}</div></aside><section class="workspace"><div id="viewport"></div><div class="scene-heading"><span class="eyebrow">${U.sceneLabel}</span><h2 id="scene-title">${U.dayTitle}</h2><p id="scene-subtitle">${U.density}</p></div><div class="mobile-view-access">${button('toggle-views',U.viewMenu,'box','quiet')}${button('overview',U.overview,'home','quiet')}</div><div class="view-toolbar">${button('overview',U.overview,'box','active')}${button('top',U.top,'top')}${button('inside',U.inside,'walk')}${button('full-walls',U.fullWalls,'wall')}</div><div id="room-nav" class="room-nav"></div><div id="layout-controls" class="layout-controls" hidden></div><div class="scene-tools">${button('light',U.night,'moon','tool-round')}${button('compare',U.compare,'compare','tool-round')}${button('reset',U.reset,'rotate','tool-round')}${button('capture',U.exportImage,'download','tool-round')}</div><div id="comparison" class="comparison" hidden></div><div id="walk-controls" class="walk-controls" hidden></div><div id="finish-card" class="finish-card" hidden></div><div class="scene-bottom"><div id="stats" class="stats"></div><div id="hint" class="interaction-hint">${U.hint}</div></div><div id="placing" class="placing" hidden></div><div class="mobile-launch" id="mobile-launch"></div></section><aside id="inspector" class="inspector"></aside><div id="mobile-dock"><div id="mobile-context"></div></div></main><footer class="app-footer"><span>${U.footer}</span><div>${button('mode',U.beginner,'','mode-button')}${button('inventory',U.inventory,'list','quiet')}</div></footer></div><dialog id="modal"><div id="modal-content"></div></dialog><input type="file" id="import-file" accept=".json,application/json" hidden><div id="toast" class="toast" role="status" aria-live="polite"></div>`;
 
@@ -215,7 +215,14 @@ function saveRoomDraft(forceId=null){
     if(resized)requestAnimationFrame(()=>requestAnimationFrame(()=>{const room=plan.rooms.find(r=>r.id===rid);if(room&&scene&&!scene.walk&&!finished&&!showBefore&&selected?.id===rid)scene.fit(view==='top'?'top':'overview',room);}));
   }else forms.forEach(f=>f.dataset.initial=JSON.stringify(Array.from(new FormData(f))));return true;
 }
-function cancelDoor(){openingFitToken++;if(doorRoomId&&scene){scene.readonly=false;scene.editRooms=doorPreviousEdit;}doorNavigation=false;doorEditingId=null;doorRoomId=null;doorPointer=null;$('#placing').hidden=true;document.body.classList.remove('placing-door','door-camera-mode');}
+function cancelDoor(){
+  openingFitToken++;
+  // A door session can start without a pinned room (entry straight from the
+  // furniture library); readonly must be restored on every exit or furniture
+  // placement and selection stay dead until reload.
+  if(doorActive&&scene){scene.readonly=false;scene.editRooms=doorPreviousEdit;}
+  doorActive=false;doorNavigation=false;doorEditingId=null;doorRoomId=null;doorPointer=null;$('#placing').hidden=true;document.body.classList.remove('placing-door','door-camera-mode');
+}
 function placeDoorAt(e){
   // Placing straight from the furniture library resolves the room from the wall that was tapped.
   const hit=scene?.hit?.(e),p=['wall','opening'].includes(hit?.object?.userData?.kind)&&hit.point?hit.point:scene?.point(e);if(!p)return;
@@ -232,7 +239,7 @@ function placeDoorAt(e){
 let openingFitToken=0;
 function beginOpening(kind,style){
   if(finished||scene?.walk||showBefore)return;
-  scene.setPending(null);doorPreviousEdit=scene.editRooms;doorRoomId=selected?.kind==='room'?selected.id:null;doorEditingId=null;doorNavigation=false;doorKind=kind;openingStyle=style||'casement';doorPointer=null;drawer=false;roomPropertiesOpen=false;scene.editRooms=false;scene.readonly=true;document.body.classList.remove('door-camera-mode');
+  scene.setPending(null);doorPreviousEdit=scene.editRooms;doorActive=true;doorRoomId=selected?.kind==='room'?selected.id:null;doorEditingId=null;doorNavigation=false;doorKind=kind;openingStyle=style||'casement';doorPointer=null;drawer=false;roomPropertiesOpen=false;scene.editRooms=false;scene.readonly=true;document.body.classList.remove('door-camera-mode');
   const aim=()=>scene.fit(view==='top'?'top':'overview',selected?.kind==='room'?selectedRoom():null);
   const token=++openingFitToken;aim();
   // The library drawer is still closing during the first fit; re-frame after the layout settles.
@@ -274,7 +281,7 @@ $('#viewport').addEventListener('pointerup',e=>{
 },true);
 $('#viewport').addEventListener('pointercancel',e=>{viewportPointers.delete(e.pointerId);if(!viewportPointers.size)viewportMultitouch=false;cancelDoorDrag();},true);
 window.addEventListener('blur',()=>{viewportPointers.clear();viewportMultitouch=false;cancelDoorDrag();scene?.activePointers?.clear();scene?.cancelDrag();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&doorRoomId)cancelDoor();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(doorRoomId||doorActive))cancelDoor();});
 
 // A drag may suppress the browser's compatibility click; history taps must still work.
 let historyTouch=null,historyTap=null;
@@ -295,7 +302,7 @@ app.addEventListener('click',async e=>{
     roomPropertiesOpen=inspectorCollapsed||!roomPropertiesOpen;inspectorCollapsed=!roomPropertiesOpen;drawer=false;
     if($('#modal').open)$('#modal').close();renderChrome();return;
   }
-  const b=e.target.closest('[data-action]');if(!b)return;const action=b.dataset.action,id=b.dataset.id;if(doorRoomId&&!['door-camera','toggle-views','overview','top','reset','full-walls','win-style'].includes(action))cancelDoor();if(!['toggle-views'].includes(action))document.body.classList.remove('views-open');
+  const b=e.target.closest('[data-action]');if(!b)return;const action=b.dataset.action,id=b.dataset.id;if((doorRoomId||doorActive)&&!['door-camera','toggle-views','overview','top','reset','full-walls','win-style'].includes(action))cancelDoor();if(!['toggle-views'].includes(action))document.body.classList.remove('views-open');
   if(action.startsWith('tab-')){tab=action.slice(4);drawer=true;if(scene&&tab!=='layouts'){scene.editRooms=false;scene.select(selected);}renderLibrary();renderChrome();return;}
   if(['material','style','color','rotate','duplicate','delete','delete-room','delete-opening','add-room','add-next-room','add-room-shortcut','blank','template','mode'].includes(action)&&(scene?.walk||showBefore))return toast('notReady');
   if(b.closest('#modal')&&['rotate','duplicate','delete','mobile-settings','room-properties','add-door','focus-selected-room','delete-room','finish-layout','redo'].includes(action))$('#modal').close();
@@ -321,8 +328,8 @@ app.addEventListener('click',async e=>{
     case 'focus-selected-room':if(selected?.kind==='room'&&!scene?.walk&&!showBefore){drawer=false;roomPropertiesOpen=false;renderChrome();scene?.fit(view==='top'?'top':'overview',selectedRoom());}break;
     case 'door-camera':if(doorRoomId){doorNavigation=!doorNavigation;scene.readonly=doorNavigation;scene.editRooms=!doorNavigation;doorPointer=null;if(scene.controls)scene.controls.enabled=true;document.body.classList.toggle('door-camera-mode',doorNavigation);renderChrome();}break;
     case 'manage-doors':{if(selected?.kind!=='room')break;const doors=plan.openings.filter(o=>o.roomId===selected.id&&o.type==='door');openModal(U.moveDoor,doors.length?doors.map((o,i)=>'<div class="saved-plan"><div><strong>'+esc(U.door)+' '+(i+1)+'</strong><small>'+esc(U[o.side])+' · '+o.w+' × '+o.h+' m</small></div>'+button('move-door',U.repositionDoor,'arrow','quiet','data-id="'+o.id+'"')+'</div>').join(''):'<p class="micro">'+U.noDoors+'</p>');break;}
-    case 'move-door':{const o=plan.openings.find(o=>o.id===id&&o.type==='door');if(!o||finished||scene?.walk||showBefore)break;$('#modal').close();scene.setPending(null);selected={kind:'room',id:o.roomId};doorRoomId=o.roomId;doorEditingId=o.id;doorKind='door';doorNavigation=false;roomPropertiesOpen=false;drawer=false;scene.editRooms=true;scene.select(selected);document.body.classList.add('placing-door');$('#placing').hidden=false;$('#placing').innerHTML='<span>'+esc(U.moveDoorHint)+'</span>'+button('cancel-door',U.cancel,'close','icon-button');renderChrome();break;}
-    case 'cancel-door':renderChrome();break;
+    case 'move-door':{const o=plan.openings.find(o=>o.id===id&&o.type==='door');if(!o||finished||scene?.walk||showBefore)break;$('#modal').close();scene.setPending(null);selected={kind:'room',id:o.roomId};doorRoomId=o.roomId;doorEditingId=o.id;doorKind='door';doorActive=true;doorNavigation=false;roomPropertiesOpen=false;drawer=false;scene.editRooms=true;scene.select(selected);document.body.classList.add('placing-door');$('#placing').hidden=false;$('#placing').innerHTML='<span>'+esc(U.moveDoorHint)+'</span>'+button('cancel-door',U.cancel,'close','icon-button');renderChrome();break;}
+    case 'cancel-door':cancelDoor();renderChrome();break;
     case 'add-door':beginOpening('door');break;
     case 'add-window':beginOpening('window',b.dataset.style);break;
     case 'win-style':break;

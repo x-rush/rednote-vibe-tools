@@ -7,7 +7,7 @@ function textLines(node){const range=document.createRange(),lines=[];let offset=
   return lines;
 }
 export async function captureSurface(surface,onPage){
-  const clone=surface.cloneNode(true);clone.classList.add('export-surface');clone.setAttribute('aria-hidden','true');clone.querySelectorAll('.export-actions,.moment-action-menu,.moment-composer').forEach(el=>el.remove());document.body.appendChild(clone);
+  const clone=surface.cloneNode(true);clone.classList.add('export-surface');clone.setAttribute('aria-hidden','true');clone.querySelectorAll('.export-actions,.moment-action-menu,.moment-composer,.chat-add-row,.chat-edit-card,.chat-people-pop').forEach(el=>el.remove());document.body.appendChild(clone);
   try{
     if(document.fonts&&document.fonts.ready)await document.fonts.ready;
     const images=new Map();await Promise.all(Array.from(clone.querySelectorAll('img')).map(async img=>{images.set(img,await loadImage(img.src));}));

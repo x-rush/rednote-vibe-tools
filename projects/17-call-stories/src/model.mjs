@@ -1,11 +1,15 @@
 export function cleanText(value,max=180){return String(value??'').trim().slice(0,max);}
+export const PHOTO_MAX_CHARS=150000;
+export function normalizePhoto(value){return typeof value==='string'&&value.length<=PHOTO_MAX_CHARS&&/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(value)?value:undefined;}
+export function cropCoverScale(side,natW,natH){return Math.max(side/Math.max(1,natW),side/Math.max(1,natH));}
+export function clampCropOffset(x,y,scale,side,natW,natH){const w=natW*scale,h=natH*scale;return {x:Math.min(Math.max(x,side-w),0),y:Math.min(Math.max(y,side-h),0)};}
 export function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 export function elapsedLabel(seconds){const n=Math.max(0,Math.floor(seconds));return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');}
 export function makeStudio(data){return {version:2,chatArchives:{},people:data.people.map(p=>({...p})),call:{personId:'basketball',scriptId:'basketball',mode:'full',pause:0,delay:0,ringtone:true,subtitles:false},chat:{mode:'private',members:['self','basketball'],groupTitle:data.defaults.groupTitle,personId:'basketball',selfId:'self',title:'',time:data.defaults.chatTime,timeParts:{...data.timePicker.defaults},messages:data.defaults.messages.map(m=>({...m}))},moment:{authorId:'basketball',text:data.defaults.momentText,time:data.defaults.momentTime,timeParts:{...data.momentTimePicker.defaults},likes:['tea-lamp','river'],comments:[{personId:'tea-lamp',text:data.comments[2]}]}};}
 export function normalizeStudio(raw,data){
   const s=makeStudio(data);if(!raw||typeof raw!=='object')return s;
   const avatars=new Set(data.avatars.map(a=>a.id));const ids=new Set();
-  if(Array.isArray(raw.people)){const people=raw.people.slice(0,60).filter(p=>p&&typeof p.id==='string'&&/^[a-z0-9-]{1,64}$/i.test(p.id)&&!ids.has(p.id)&&ids.add(p.id)).map(p=>({id:p.id,name:cleanText(p.name,24)||data.defaults.newPerson,relation:cleanText(p.relation,40),avatar:avatars.has(p.avatar)?p.avatar:data.avatars[0].id}));if(people.length)s.people=people;}
+  if(Array.isArray(raw.people)){const people=raw.people.slice(0,60).filter(p=>p&&typeof p.id==='string'&&/^[a-z0-9-]{1,64}$/i.test(p.id)&&!ids.has(p.id)&&ids.add(p.id)).map(p=>({id:p.id,name:cleanText(p.name,24)||data.defaults.newPerson,relation:cleanText(p.relation,40),avatar:avatars.has(p.avatar)?p.avatar:data.avatars[0].id,photo:normalizePhoto(p.photo)}));if(people.length)s.people=people;}
   const ref=(id)=>s.people.some(p=>p.id===id)?id:s.people[0].id;
   const number=(v,min,max,fallback)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Math.round(Number(v)))):fallback;
   const c=raw.call||{};s.call={personId:ref(c.personId||s.call.personId),scriptId:data.callScripts.some(x=>x.id===c.scriptId)?c.scriptId:s.call.scriptId,mode:c.mode==='intro'?'intro':'full',pause:number(c.pause??0,0,15,0),delay:number(c.delay??0,0,30,0),ringtone:c.ringtone!==false,subtitles:c.subtitles===true};

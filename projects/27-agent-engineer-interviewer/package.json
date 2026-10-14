@@ -1,0 +1,11 @@
+{
+  "name": "agent-engineer-interviewer-package",
+  "private": true,
+  "version": "2.1.0",
+  "type": "module",
+  "scripts": {
+    "lint": "node scripts/tooling.mjs lint",
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/tooling.mjs build"
+  }
+}

@@ -1,0 +1,1 @@
+{"name":"26-agent-engineer-bootcamp","version":"0.1.0","private":true,"scripts":{"lint":"node tools.mjs lint","test":"node --test tests.mjs","build":"node tools.mjs build","preview":"node tools.mjs serve"}}

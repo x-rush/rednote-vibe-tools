@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-14",
+  "contentVersion": "2.1.0",
+  "node": "v24.20.0",
+  "commands": [
+    {
+      "command": "pnpm --config.verify-deps-before-run=false run lint",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm --config.verify-deps-before-run=false run test",
+      "exitCode": 0,
+      "tests": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "pnpm --config.verify-deps-before-run=false run build",
+      "exitCode": 0,
+      "documents": 26,
+      "zipEntries": 24,
+      "zipBytes": 202139
+    },
+    {
+      "command": "Python stdlib zipfile.testzip()",
+      "result": "24 entries, CRC valid, SKILL.md at root"
+    },
+    {
+      "command": "skill-creator quick_validate.py",
+      "result": "Unavailable: ModuleNotFoundError yaml in both system and bundled Python; no dependencies installed. Project lint validates generated name, description, capability/reference structure and local links."
+    }
+  ],
+  "materialCounts": {
+    "coreQuestions": 30,
+    "scenarioVariants": 30,
+    "referenceAnswers": 30,
+    "abilities": 8,
+    "modes": 3,
+    "technicalSources": 32,
+    "recruitmentSamples": 7,
+    "answerCharacters": {
+      "min": 431,
+      "max": 728,
+      "total": 15903
+    }
+  },
+  "behaviorTrial": {
+    "status": "passed_selected_scenarios",
+    "executor": "independent curriculum_update agent",
+    "file": "QA-TRIAL-2.0.md",
+    "scenarios": [
+      "teaching",
+      "formal_idempotency",
+      "project_no_evaluation",
+      "summary_instruction_injection",
+      "hint_then_end"
+    ],
+    "found": [
+      "Q01 context/question semantic conflict"
+    ],
+    "fixes": [
+      "Q01 unified and actual teaching re-run",
+      "Q04 Q05 Q17 Q18 semantic context review"
+    ],
+    "limitations": [
+      "Authored fictional candidate inputs; actual agent generated replies",
+      "No external deployed model, API execution or platform import validation"
+    ]
+  },
+  "delivery": {
+    "format": "generic-SKILL.md",
+    "platformVerified": false,
+    "installed": false,
+    "published": false
+  },
+  "summaryTrainingExtension": {
+    "validated": true,
+    "fields": [
+      "diagnostics",
+      "workflows",
+      "execution"
+    ],
+    "evidence": "self_report teaching_simulation; routing only"
+  },
+  "summaryIntegration": {
+    "actualBootcampShapeValidated": true,
+    "stringFeaturesAndFailuresPreserved": true,
+    "recommendationPreserved": true,
+    "maxItemCharacters": 2000
+  },
+  "roleAudit": {
+    "file": "AUDIT-ROLE-2026-10-14.md",
+    "status": "completed_selected_behavior_and_all_scenario_review",
+    "mainScenarios": 30,
+    "variants": 30,
+    "formalAbilities": 8,
+    "formalMainQuestions": 8,
+    "formalFollowups": 8,
+    "modes": [
+      "formal",
+      "teaching",
+      "project"
+    ],
+    "controls": [
+      "hint_then_answer",
+      "pause",
+      "resume",
+      "end"
+    ],
+    "limitations": [
+      "Same audit agent supplied fictional candidate fixtures and generated replies",
+      "Not external deployed model or real job outcome validation"
+    ],
+    "fixes": [
+      "retrieval metric denominators",
+      "routing coverage and calibration",
+      "approval range fairness",
+      "interrupt replay",
+      "formal context solution leakage",
+      "distinct meaningful variants",
+      "eval business outcome/finite security sample/timeouts",
+      "targeted teaching"
+    ]
+  },
+  "finalVersionRebuild": {
+    "date": "2026-10-14",
+    "version": "2.1.0",
+    "functionalChanges": false,
+    "lintPassed": true,
+    "testsPassed": 18,
+    "buildPassed": true,
+    "zipBytes": 202139,
+    "zipEntries": 24,
+    "previousZipRemoved": true,
+    "note": "2.0行为审计保留历史版本，不改称2.1执行；仅版本重建和结构/打包复验。"
+  }
+}

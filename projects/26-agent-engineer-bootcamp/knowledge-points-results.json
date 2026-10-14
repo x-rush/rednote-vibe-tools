@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "375 all 48 lessons, 32 required / 16 optional and expansion",
+    "375 prerequisite navigation, persisted independent read and optional search",
+    "390 all 48 lessons, 32 required / 16 optional and expansion",
+    "390 prerequisite navigation, persisted independent read and optional search",
+    "430 all 48 lessons, 32 required / 16 optional and expansion",
+    "430 prerequisite navigation, persisted independent read and optional search"
+  ],
+  "errors": []
+}

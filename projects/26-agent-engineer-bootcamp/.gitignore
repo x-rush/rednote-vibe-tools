@@ -1,0 +1,7 @@
+preview/
+.impeccable/
+qa/**/*.png
+qa/**/*.json
+qa/**/*.html
+qa-home-390.png
+.git-publish-state.json

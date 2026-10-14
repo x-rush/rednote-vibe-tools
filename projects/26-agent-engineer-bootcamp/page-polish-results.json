@@ -1,0 +1,25 @@
+{
+  "checks": [
+    "375 page 1 image, initial and bottom geometry",
+    "375 page 2 image, initial and bottom geometry",
+    "375 all five training cards navigate and return",
+    "375 page 3 image, initial and bottom geometry",
+    "375 eight ability cards, summary and backup",
+    "390 page 1 image, initial and bottom geometry",
+    "390 page 2 image, initial and bottom geometry",
+    "390 all five training cards navigate and return",
+    "390 page 3 image, initial and bottom geometry",
+    "390 eight ability cards, summary and backup",
+    "430 page 1 image, initial and bottom geometry",
+    "430 page 2 image, initial and bottom geometry",
+    "430 all five training cards navigate and return",
+    "430 page 3 image, initial and bottom geometry",
+    "430 eight ability cards, summary and backup",
+    "844 page 1 image, initial and bottom geometry",
+    "844 page 2 image, initial and bottom geometry",
+    "844 all five training cards navigate and return",
+    "844 page 3 image, initial and bottom geometry",
+    "844 eight ability cards, summary and backup"
+  ],
+  "errors": []
+}

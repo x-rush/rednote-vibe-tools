@@ -5,11 +5,25 @@ import {bounds,roomAt,itemFrom,placement,round} from './core.js';
 
 function release(mesh){mesh.geometry?.dispose();if(mesh.material)mesh.material.dispose();}
 function snapshot(canvas){const copy=document.createElement('canvas');let scale=Math.min(1,1024/Math.max(canvas.width,canvas.height));for(let i=0;i<4;i++){copy.width=Math.max(1,Math.round(canvas.width*scale));copy.height=Math.max(1,Math.round(canvas.height*scale));copy.getContext('2d').drawImage(canvas,0,0,copy.width,copy.height);const data=copy.toDataURL('image/png');if((data.length-data.indexOf(',')-1)*.75<=1024*1024)return data;scale*=.7;}throw new Error('Image exceeds the container memory budget');}
+export function compactMaterialGroups(mesh){
+  if(!Array.isArray(mesh.material)||!mesh.geometry.index)return;
+  const geometry=mesh.geometry,materials=[...new Set(mesh.material)];
+  if(geometry.groups.length<=materials.length)return;
+  const byMaterial=new Map();
+  for(const group of geometry.groups){
+    const material=mesh.material[group.materialIndex];if(!byMaterial.has(material))byMaterial.set(material,[]);
+    const indices=byMaterial.get(material);for(let i=group.start;i<group.start+group.count;i++)indices.push(geometry.index.getX(i));
+  }
+  const index=[],groups=[];let slot=0;
+  for(const indices of byMaterial.values()){groups.push({start:index.length,count:indices.length,materialIndex:slot++});index.push(...indices);}
+  geometry.setIndex(index);geometry.clearGroups();for(const group of groups)geometry.addGroup(group.start,group.count,group.materialIndex);mesh.material=[...byMaterial.keys()];
+}
 function mergeMeshes(meshes,parent){
   const groups=new Map(),normalMatrix=new T.Matrix3(),p=new T.Vector3(),n=new T.Vector3();
   for(const mesh of meshes){
     if(!mesh.isMesh)continue;
     const materials=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+    if(materials.length>1)compactMaterialGroups(mesh);
     if(materials.some(m=>m.transparent||m.colorWrite===false)||materials.length>1)continue;
     const material=materials[0],key=material.map?'map:'+material.map.uuid+':'+material.roughness:'solid';
     if(material.map&&!mesh.geometry.attributes.uv)continue;
@@ -62,7 +76,7 @@ class BudgetScene extends BaseScene{
     const start=performance.now();const target=this.controls.target,topDown=Math.atan2(Math.hypot(this.camera.position.x-target.x,this.camera.position.z-target.z),Math.max(.001,this.camera.position.y-target.y))<.32;
     for(const {g,wall}of this.wallGroups){let scale=1;if(!this.walk){if(topDown)scale=.04;else if(!this.fullWalls){if(wall.rooms.length>1)scale=.23;else{const near=wall.axis==='x'?(wall.sides[0]==='south'?this.camera.position.z>wall.line:this.camera.position.z<wall.line):(wall.sides[0]==='east'?this.camera.position.x>wall.line:this.camera.position.x<wall.line);if(near)scale=.08;}}}g.scale.y=scale;}
     try{this.renderer.render(this.scene,this.camera);}catch{this.fail('render');return;}this.dirty=false;const info=this.renderer.info.render,elapsed=performance.now()-start;this.samples.push(elapsed);if(this.samples.length>48)this.samples.shift();
-    window.ROOMISH_RENDER_STATS={tier:this.tier,calls:info.calls,triangles:info.triangles,pixels:this.renderer.domElement.width*this.renderer.domElement.height,textures:this.renderer.info.memory.textures};
+    window.ROOMISH_RENDER_STATS={tier:this.tier,calls:info.calls,triangles:info.triangles,pixels:this.renderer.domElement.width*this.renderer.domElement.height,textures:this.renderer.info.memory.textures,batches:this.batches.length};
     // Escalate on instantaneous overload, but only sustained slow frames justify
     // dropping to the flat view; draw-call counts alone must never end the 3D preview.
     const avg=this.samples.reduce((a,b)=>a+b,0)/Math.max(1,this.samples.length),slow=this.samples.length>=(this.tier>=2?45:30)&&avg>(this.tier>=2?55:this.tier?40:34);

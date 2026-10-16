@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "skill": "minitool-zip-builder 1.8.0",
+  "date": "2026-10-16",
+  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.4.12-minitool.zip",
+  "bytes": 1372908,
+  "sha256": "0d62b9a2e46aca58205565e9f36c66ccfeaa80984589cb0b832a4ccd07056a20",
+  "files": [
+    "assets/app.js",
+    "assets/content.js",
+    "assets/licenses.json",
+    "assets/logo-roomish.png",
+    "assets/style.css",
+    "assets/thumbnails.js",
+    "assets/xhs-renovation-badge.png",
+    "index.html"
+  ],
+  "checks": {
+    "rootEntry": true,
+    "extensions": true,
+    "zipMatchesDirectory": true,
+    "localReferences": true,
+    "classicScripts": true,
+    "forbiddenCapabilitiesAbsent": true,
+    "badgeRgba": true,
+    "base64": {
+      "count": 61,
+      "maxDecodedBytes": 2722
+    }
+  },
+  "pending": [
+    "Platform simulator acceptance",
+    "Android native acceptance",
+    "iOS native acceptance",
+    "Chrome 61 runtime/CSS acceptance",
+    "Physical device performance and native bridge acceptance"
+  ]
+}

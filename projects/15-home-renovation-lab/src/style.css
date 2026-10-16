@@ -408,5 +408,35 @@ body #modal .room-side-picker button{min-height:44px;white-space:normal}
 .placing{flex-wrap:wrap}.placing .win-styles{display:flex;gap:4px;margin:0 4px;flex-wrap:wrap}.placing [data-action="win-style"]{padding:6px 9px;border-radius:7px;font-size:10px;background:#ffffff2b;color:#fff9e8;min-height:0;white-space:nowrap}.placing [data-action="win-style"].active{background:#fffaf0;color:#5b6a4f}
 #mobile-context .win-styles{display:flex;gap:5px;flex:1 0 100%;flex-wrap:wrap}#mobile-context [data-action="win-style"]{flex:1 1 40%;min-height:40px;padding:8px 10px;border-radius:8px;background:#eeeee4;color:#5b6a4f;font-size:12px;border:1px solid var(--line)}#mobile-context [data-action="win-style"].active{background:#254c3e;color:#fff;border-color:#254c3e}
 
+/* Leave physical host-button corners clear without adding a full-width blank band. */
+body.compact-mode:not(.forced-landscape){--host-edge-clearance:90px;--host-dialog-close-clearance:70px}
+body.compact-mode:not(.forced-landscape) .mobile-view-access,
+body.compact-mode:not(.forced-landscape) .view-toolbar{right:var(--host-edge-clearance)}
+body.compact-mode:not(.forced-landscape) #modal .modal-header .icon-button{margin-right:var(--host-dialog-close-clearance)}
+/* CSS rotation maps the logical left edge to the phone's physical top edge. */
+body.forced-landscape .finish-card,
+body.forced-landscape.walking .walk-controls{left:var(--host-rotated-clearance,88px)}
+
+/* Let the official lettering sit directly on the scene; the original artwork keeps its ratio. */
+.campaign-badge{position:absolute;left:28px;top:132px;z-index:7;width:300px;max-width:calc(100% - 90px);aspect-ratio:2170/329;overflow:hidden;pointer-events:none;user-select:none}
+.campaign-badge::before{content:'';display:block;padding-top:15.1613%}
+.campaign-badge img{position:absolute;left:0;top:0;display:block;width:100%;height:auto;transform:translateY(-27.6%)}
+body.compact-mode:not(.forced-landscape) .campaign-badge{left:15px;top:auto;bottom:16px;width:300px}
+body.finished.compact-mode:not(.forced-landscape) .campaign-badge{top:132px;bottom:auto}
+body.natural-landscape .campaign-badge,body.compact-mode.natural-landscape:not(.forced-landscape) .campaign-badge{position:fixed;left:45%;top:calc(2px + var(--safe-top));bottom:auto;width:260px;width:clamp(190px,30vw,260px);max-width:none;transform:translateX(-50%);z-index:21}
+body.forced-landscape .campaign-badge{position:fixed;left:45%;top:calc(2px + var(--safe-top));bottom:auto;width:260px;width:clamp(190px,calc(var(--rotation-width,100vw)*.3),260px);max-width:none;transform:translateX(-50%);z-index:21}
+body.walking .campaign-badge{display:none}
+
+/* A portrait application can also fill a physically landscape browser. */
+body.forced-portrait{overflow:hidden}
+body.forced-portrait #app{position:fixed;left:0;top:0;width:var(--rotation-width);height:var(--rotation-height);transform-origin:0 0;transform:translateY(var(--physical-height)) rotate(-90deg)}
+body.forced-portrait #app .app-shell{width:100%;height:var(--rotation-height)!important}
+body.forced-portrait .orientation-toggle{left:10px;right:auto}
+body.forced-portrait.compact-mode .campaign-badge{left:70px;max-width:calc(100% - 90px)}
+body.forced-portrait .mobile-launch,body.forced-portrait #mobile-dock .mobile-launch{padding-right:var(--host-rotated-clearance,88px)}
+body.forced-portrait .toast{max-width:calc(var(--rotation-width) - 32px)}
+body.forced-portrait #modal[open]{left:50%;top:50%;right:auto;bottom:auto;margin:0;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center}
+body.natural-landscape #floating-tools{right:64px;max-width:calc(100% - 130px)}
+
 /* Opening cards live in the furniture grid; the room resolves from the tapped wall. */
 .furniture-card.opening-card .furniture-image{background:radial-gradient(ellipse at 50% 65%,#e2e8da,#f1f0e7 80%)}.furniture-card.opening-card .furniture-image svg{width:42px;height:42px;color:#727d61}

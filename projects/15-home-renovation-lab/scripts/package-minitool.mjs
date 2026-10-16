@@ -16,12 +16,20 @@ Object.assign(content.ui,{exportImage:'查看 / 保存设计图',exportCSV:'查�
 await writeFile(join(out,'assets/content.js'),'window.ROOMISH_CONTENT='+JSON.stringify(content)+';');
 await cp(join(root,'assets/thumbnails.js'),join(out,'assets/thumbnails.js'));
 await cp(join(root,'src/logo-roomish.png'),join(out,'assets/logo-roomish.png'));
+await cp(join(root,'src/xhs-renovation-badge.png'),join(out,'assets/xhs-renovation-badge.png'));
 await writeFile(join(out,'assets/licenses.json'),JSON.stringify({three:{version:'0.186.0',license:await readFile(join(root,'src/vendor/package/LICENSE'),'utf8')}}));
 const replace=(s,find,value)=>{assert(s.includes(find),'Container adaptation source changed: '+find.slice(0,70));return s.replace(find,value);};
 let source=await readFile(join(root,'src/app.js'),'utf8');
 source=replace(source,'./src/logo-roomish.png','./assets/logo-roomish.png');
+source=replace(source,'./src/xhs-renovation-badge.png','./assets/xhs-renovation-badge.png');
+source="import {createContainerStorage} from './container-storage.js';\n"+source;
 source=replace(source,"import {RoomScene} from './scene.js';","import './container-compat.js';\nimport {RoomScene} from './container-scene.js';");
 source=source.replace(/^const catalog=await fetch[^\n]+$/m,'const catalog=window.ROOMISH_CONTENT;');assert(!/^const catalog=await/m.test(source));
+source=replace(source,'const catalog=window.ROOMISH_CONTENT;',"async function boot(){\nconst roomishStorage=await createContainerStorage(window,['roomish-project-15-v1','roomish-walls-15-v2','roomish-walls-15-v1']);\nconst catalog=window.ROOMISH_CONTENT;");
+source=source.replace(/\blocalStorage\b/g,'roomishStorage');
+source=replace(source,'function persist(){','async function persist(){');
+source=replace(source,'roomishStorage.setItem(KEY,JSON.stringify(db));','await roomishStorage.setItem(KEY,JSON.stringify(db));');
+source=replace(source,"try{roomishStorage.setItem('roomish-walls-15-v2',wallMode);}catch{}","try{await roomishStorage.setItem('roomish-walls-15-v2',wallMode);}catch{toast('unsaved');}");
 source=replace(source,'function download(blob,filename){', 'function download_REMOVED(blob,filename){');source=source.replace(/^function download_REMOVED[^\n]+$/m,`let albumData='';\nfunction showText(text,title){openModal(esc(title),'<p class="micro">'+U.textHelp+'</p><textarea class="transfer-text" readonly aria-label="'+U.exportJSON+'">'+esc(text)+'</textarea>');}`);
 source=replace(source,"case 'json':download(new Blob([JSON.stringify(plan,null,2)],{type:'application/json'}),safeFilename()+'.json');break;","case 'json':showText(JSON.stringify(plan,null,2),U.exportJSON);break;");
 source=replace(source,"download(new Blob(['\\ufeff'+rows.map(row=>row.map(csvCell).join(',')).join('\\r\\n')],{type:'text/csv;charset=utf-8'}),safeFilename()+'.csv');","showText(rows.map(row=>row.map(csvCell).join(',')).join('\\r\\n'),U.exportCSV);");
@@ -31,6 +39,7 @@ source=replace(source,'<input type="file" id="import-file" accept=".json,applica
 source=source.replace(/^\$\('#import-file'\)\.addEventListener[^\n]+\n/m,'');
 source=source.replace(/function safeFilename\(\)[^\n]+\n/,'');
 source+="\n$('#modal').addEventListener('close',()=>{albumData='';});\n";
+source+="\n}\nboot().catch(()=>{document.getElementById('app').textContent=window.ROOMISH_CONTENT.ui.unsaved;});\n";
 // Keep the catalog data separate from app parsing; there are no local fetches in the container.
 const bundle=await rolldown({input:join(root,'src/app.js'),plugins:[{name:'offline-container',load(id){if(id===join(root,'src/app.js')||id.replaceAll('\\','/')===join(root,'src/app.js').replaceAll('\\','/'))return source;},transform(code,id){if(!id.endsWith('.js'))return null;code=code.replace('Math.min(devicePixelRatio,1.75)','Math.min(devicePixelRatio,1.5)');return{code:ts.transpileModule(code,{fileName:id,compilerOptions:{target:ts.ScriptTarget.ES2017,module:ts.ModuleKind.ESNext,removeComments:true,importHelpers:false}}).outputText,map:null};}}],treeshake:true});
 await bundle.write({file:join(out,'assets/app.js'),format:'iife',name:'RoomishOffline',minify:false,sourcemap:false});await bundle.close();

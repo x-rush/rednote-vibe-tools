@@ -12,3 +12,10 @@
 /release/roomish-xiaohongshu-note.zip
 /release/logo-roomish.png
 /src/brand.svg
+
+# Regenerable QA output and redundant downloaded skill archives
+/artifacts/
+/.codex/*.skill
+/release/check-failure-*.png
+/release/acceptance-*.json
+/release/runtime-*.json

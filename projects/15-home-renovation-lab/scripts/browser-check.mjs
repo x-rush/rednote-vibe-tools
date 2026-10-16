@@ -12,7 +12,8 @@ try{
   await page.waitForSelector('.furniture-card img');
   await page.screenshot({path:'artifacts/desktop.png'});
   assert.equal(await page.locator('#viewport canvas').count(),1);
-  assert.equal(await page.locator('.furniture-card').count(),26);
+  assert.equal(await page.locator('.furniture-card:not(.opening-card)').count(),56);
+  assert.equal(await page.locator('.opening-card').count(),5);
   await page.locator('#tabs [data-action="tab-styles"]').click();
   await page.locator('[data-action="style"][data-id="modern"]').click();
   await page.waitForTimeout(300);
@@ -53,7 +54,7 @@ try{
     await page.screenshot({path:`artifacts/mobile-${width}.png`});
     const geometry=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,brand:document.querySelector('.brand').getBoundingClientRect().top,top:document.querySelector('.view-toolbar').getBoundingClientRect().top,canvas:document.querySelector('#viewport canvas').getBoundingClientRect().height}));
     assert.equal(geometry.scroll,width);assert.ok(geometry.brand>=28);assert.ok(geometry.top>=28);assert.ok(geometry.canvas>400);
-    await page.locator('#mobile-launch [data-action="tab-furniture"]').click();await page.locator('#search').fill('沙发');assert.equal(await page.locator('.furniture-card').count(),2);await page.locator('.furniture-card').first().click();assert.equal(await page.locator('#placing').isVisible(),true);await page.locator('[data-action="cancel-place"]').click();
+    await page.locator('#mobile-launch [data-action="tab-furniture"]').click();await page.locator('#search').fill('沙发');assert.equal(await page.locator('.furniture-card:not(.opening-card)').count(),3);await page.locator('.furniture-card').first().click();assert.equal(await page.locator('#placing').isVisible(),true);await page.locator('[data-action="cancel-place"]').click();
     await page.screenshot({path:`artifacts/mobile-${width}-editor.png`});
     mobile.push({width,...geometry});
   }
@@ -64,6 +65,6 @@ try{
   const importedId=(await saved()).id;await page.locator('#import-file').setInputFiles({name:'broken.json',mimeType:'application/json',buffer:Buffer.from('{"schemaVersion":99}')});await page.waitForTimeout(250);assert.equal((await saved()).id,importedId);
   await page.locator('[data-action="finish"]').click();await page.locator('[data-action="plans"]').click();await page.locator('#modal [data-action="open-plan"]').first().click();assert.equal(await page.locator('body').evaluate(e=>e.classList.contains('finished')),false);
   assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
-  const report={passed:true,checks:['render','26 furniture assets','style changes','undo and redo','before-after','measurement','inventory pricing','walkthrough','PNG download','reload recovery','raycast furniture placement','furniture rotation','pointer drag','furniture deletion','add room','resize room','advanced mode','opening editing','wall height confirmation','375/390/430 widths','28px safe area','JSON download and import','media stripped from imports','invalid import preserves state','plan copy','open plan from showcase','no external runtime requests'],mobile,errors,external};
+  const report={passed:true,checks:['render','56 furniture assets and 5 opening cards','style changes','undo and redo','before-after','measurement','inventory pricing','walkthrough','PNG download','reload recovery','raycast furniture placement','furniture rotation','pointer drag','furniture deletion','add room','resize room','advanced mode','opening editing','wall height confirmation','375/390/430 widths','28px safe area','JSON download and import','media stripped from imports','invalid import preserves state','plan copy','open plan from showcase','no external runtime requests'],mobile,errors,external};
   await writeFile('artifacts/browser-report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();}

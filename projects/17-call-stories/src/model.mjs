@@ -10,7 +10,7 @@ export function makeStudio(data){return {version:2,chatArchives:{},people:data.p
 export function normalizeStudio(raw,data){
   const s=makeStudio(data);if(!raw||typeof raw!=='object')return s;
   const avatars=new Set(data.avatars.map(a=>a.id));const ids=new Set();
-  if(Array.isArray(raw.people)){const people=raw.people.slice(0,60).filter(p=>p&&typeof p.id==='string'&&/^[a-z0-9-]{1,64}$/i.test(p.id)&&!ids.has(p.id)&&ids.add(p.id)).map(p=>({id:p.id,name:cleanText(p.name,24)||data.defaults.newPerson,relation:cleanText(p.relation,40),avatar:avatars.has(p.avatar)?p.avatar:data.avatars[0].id}));if(people.length)s.people=people;}
+  if(Array.isArray(raw.people)){const people=raw.people.slice(0,60).filter(p=>p&&typeof p.id==='string'&&/^[a-z0-9-]{1,64}$/i.test(p.id)&&!ids.has(p.id)&&ids.add(p.id)).map(p=>({id:p.id,name:cleanText(p.name,24)||data.defaults.newPerson,relation:cleanText(p.relation,40),avatar:avatars.has(p.avatar)?p.avatar:data.avatars[0].id,photo:normalizePhoto(p.photo)}));if(people.length)s.people=people;}
   const ref=(id)=>s.people.some(p=>p.id===id)?id:s.people[0].id;
   const number=(v,min,max,fallback)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Math.round(Number(v)))):fallback;
   const c=raw.call||{};s.call={personId:ref(c.personId||s.call.personId),scriptId:data.callScripts.some(x=>x.id===c.scriptId)?c.scriptId:s.call.scriptId,mode:c.mode==='intro'?'intro':'full',pause:number(c.pause??0,0,15,0),delay:number(c.delay??0,0,30,0),ringtone:c.ringtone!==false,subtitles:c.subtitles===true};

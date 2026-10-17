@@ -1,0 +1,49 @@
+{
+  "version": "1.3.5",
+  "protocol": "file:",
+  "allDocuments": [
+    {
+      "path": "docs/做平台要办哪些证.md",
+      "renderedCharacters": 3243
+    },
+    {
+      "path": "docs/刚确诊慢性病之后.md",
+      "renderedCharacters": 2345
+    },
+    {
+      "path": "docs/孩子出生前后要办的事.md",
+      "renderedCharacters": 2358
+    },
+    {
+      "path": "docs/家庭应急装备清单.md",
+      "renderedCharacters": 6064
+    },
+    {
+      "path": "docs/换工作、换城市之前.md",
+      "renderedCharacters": 4497
+    },
+    {
+      "path": "docs/生物钟和夜班.md",
+      "renderedCharacters": 5230
+    },
+    {
+      "path": "docs/结婚划不划算.md",
+      "renderedCharacters": 8515
+    },
+    {
+      "path": "docs/被裁了之后先做什么.md",
+      "renderedCharacters": 2228
+    },
+    {
+      "path": "docs/遇到陌生人出事该不该停.md",
+      "renderedCharacters": 3634
+    }
+  ],
+  "externalRequests": [],
+  "consoleErrors": [],
+  "chapterNavigation": true,
+  "exactScrollRestored": true,
+  "verticalDocumentScroll": true,
+  "readingPreferenceRestored": true,
+  "licenseVisible": true
+}

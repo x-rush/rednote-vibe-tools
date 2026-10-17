@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="陪你把日子过得更好">
+  <title>高性价比人生指南</title>
+  <link rel="icon" type="image/png" href="./assets/app-icon.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="chapter-reader scroll-reader">
+  <div class="host-title" aria-hidden="true">高性价比人生指南</div>
+  <main id="app" class="app">
+    <header class="hero">
+      <div class="hero-copy"><p class="eyebrow">陪你把日子过得更好</p><h1>高性价比<br>人生指南<span class="title-dot">.</span></h1><p id="book-stat" class="book-stat">正在翻开指南…</p></div>
+      <img class="hero-cat" src="./assets/cat-reading.webp" width="160" height="130" alt="一只抱着蓝色书本认真阅读的三花小猫">
+    </header>
+    <div class="search-wrap"><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" maxlength="240" placeholder="搜索条目、正文、来源" aria-label="搜索条目、正文、来源" autocomplete="off"><button id="clear-search" class="clear-search" aria-label="清空搜索" hidden>×</button></div>
+    <div class="toolbar" id="toolbar"><button id="chapters" class="outline-button"><span id="chapter-label">全部章节</span><svg class="chapter-chevron" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button id="filters" class="outline-button"><span aria-hidden="true">☷</span> 筛选 <span id="filter-count" class="count" hidden>0</span></button></div>
+    <div id="active-filters" class="active-filters" aria-label="已应用的筛选条件"></div>
+    <div class="result-bar"><p id="result-count" role="status" aria-live="polite"></p><button id="reset-all" class="text-button" hidden>清空筛选</button></div>
+    <div id="reading-notice" class="reading-notice" hidden></div>
+    <section id="reader-viewport" aria-label="本章完整正文，可上下滚动阅读" tabindex="0"><div id="reader-content"><div id="list" aria-label="指南正文"><p class="loading">小猫正在整理书页…</p></div><section id="end-note" class="chapter-end" aria-label="章末导航" hidden></section></div></section>
+    <div id="empty" class="empty" hidden><img src="./assets/cat-reading.webp" alt="" width="120" height="100"><h2>暂时没有符合条件的条目</h2><p>可以删掉一两个条件，或换个词再找找。</p><button id="empty-reset" class="primary-button">清空全部条件</button></div>
+  </main>
+  <nav class="bottom-nav reader-nav" aria-label="章节阅读导航"><progress id="chapter-progress" max="100" value="0" aria-label="本章阅读进度"></progress><div class="reader-status"><span id="reader-location">正在打开章节…</span><div class="reader-shortcuts"><button data-action="chapter-start">回到章首</button><button id="reader-home" data-action="home" hidden>首页</button></div></div><div class="reader-actions"><button data-action="previous-chapter" disabled><span aria-hidden="true">‹</span>上一章</button><button data-action="chapters"><span aria-hidden="true">☷</span>目录</button><button data-action="settings"><span class="type-icon" aria-hidden="true">Aa</span>设置</button><button data-action="about"><span aria-hidden="true">▤</span>说明</button><button data-action="next-chapter" disabled><span aria-hidden="true">›</span>下一章</button></div></nav>
+  <div id="overlay" class="overlay" hidden><section id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" tabindex="-1"><header class="sheet-heading"><div><h2 id="sheet-title"></h2><p id="sheet-subtitle"></p></div><img src="./assets/cat-reading.webp" width="82" height="68" alt=""></header><div id="sheet-body" class="sheet-body"></div><footer id="sheet-footer" class="sheet-footer"></footer></section></div>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript>本工具需要 JavaScript 才能显示完整指南与筛选功能。</noscript>
+  <script src="./content.js"></script>
+  <script src="./model.js"></script>
+  <script src="./render.js"></script>
+  <script src="./storage.js"></script>
+  <script src="./reader.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

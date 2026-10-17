@@ -148,7 +148,7 @@
     if(document.readyState==='loading')await new Promise(function(resolve){document.addEventListener('DOMContentLoaded',resolve,{once:true});});
     saved=M.stored(await S.read(),C);state=saved.filters;chapterId=saved.chapterId;setReading(saved.readerView==='reading');settings();document.querySelectorAll('button,input').forEach(function(el){el.disabled=false;});$('book-stat').textContent=C.meta.sectionCount+' 章 · '+C.meta.entryCount+' 条 · 一章一页';
     try{var p=new URLSearchParams(location.search);if(p.has('q')||M.dims.some(function(k){return p.has(k);})){var fromUrl=M.empty();fromUrl.q=p.get('q')||'';M.dims.forEach(function(k){fromUrl[k]=(p.get(k)||'').split(',');});fromUrl.dispute=p.get('dispute')==='1';fromUrl.todo=p.get('todo')==='1';state=M.normalize(fromUrl,C);saved.reading=null;}}catch(ignore){}
-    var position=saved.reading;replaceResults();var hash=/^#e-(\d+-\d+)$/.exec(location.hash);if(hash&&entryById[hash[1]])await gotoTarget(hash[1]);else if(position)await positionAt(position);restoring=false;updateReaderProgress();persist(currentPosition());
+    var position=saved.reading,resume=M.hasReadingProgress(saved,C);replaceResults();var hash=/^#e-(\d+-\d+)$/.exec(location.hash);if(hash&&entryById[hash[1]])await gotoTarget(hash[1]);else if(resume)await positionAt(position);else{setReading(false);window.scrollTo(0,0);}restoring=false;updateReaderProgress();persist(currentPosition());
   }
   init().catch(function(){restoring=false;$('list').textContent='';$('list').appendChild(make('p','reading-notice','打开指南时遇到了问题，请重新进入工具。'));});
 })();

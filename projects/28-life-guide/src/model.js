@@ -60,5 +60,13 @@
     if(raw.readerView==='reading'||raw.readerView!=='home'&&out.reading&&(out.reading.scrollY>0||out.reading.offsetWithinEntry>0||out.reading.textOffset>0))out.readerView='reading';
     return out;
   }
-  global.LifeModel={dims:DIMS,empty:empty,clone:clone,normalize:normalize,prepare:prepare,terms:terms,fits:fits,query:query,readerView:readerView,toggle:toggle,stored:stored};
+  function hasReadingProgress(saved,content){
+    var position=saved&&saved.reading;if(!position)return false;
+    if(saved.readerView==='reading')return true;
+    if(typeof position.scrollY==='number')return position.scrollY>0;
+    if(position.textOffset>0||position.offsetWithinEntry>0||position.pageIndex>0)return true;
+    var section=content.sections.filter(function(s){return s.n===saved.chapterId;})[0];
+    return !!section&&position.entryId!==section.entries[0].id;
+  }
+  global.LifeModel={dims:DIMS,empty:empty,clone:clone,normalize:normalize,prepare:prepare,terms:terms,fits:fits,query:query,readerView:readerView,toggle:toggle,stored:stored,hasReadingProgress:hasReadingProgress};
 })(window);

@@ -34,3 +34,13 @@ test('reading view survives reentry while explicit home keeps the full cover',()
   const raw={schemaVersion:1,contentVersion:content.meta.sourceCommit,chapterId:'2',readerView:'reading',reading:{entryId:'2-1',readerMode:'chapter-scroll',scrollY:12,textOffset:0}};
   assert.equal(M.stored(raw,content).readerView,'reading');raw.readerView='home';assert.equal(M.stored(raw,content).readerView,'home');delete raw.readerView;assert.equal(M.stored(raw,content).readerView,'reading');raw.contentVersion='old';assert.equal(M.stored(raw,content).readerView,'home');assert.equal(M.stored(null,content).readerView,'home');
 });
+
+test('first visit and a legacy chapter-start placeholder stay on the home banner',()=>{
+  assert.equal(M.hasReadingProgress(M.stored(null,content),content),false);
+  const raw={schemaVersion:1,contentVersion:content.meta.sourceCommit,chapterId:'1',reading:{entryId:'1-1',offsetWithinEntry:0}};
+  assert.equal(M.hasReadingProgress(M.stored(raw,content),content),false);
+  raw.reading.offsetWithinEntry=90;assert.equal(M.hasReadingProgress(M.stored(raw,content),content),true);
+  raw.readerView='reading';raw.reading.offsetWithinEntry=0;assert.equal(M.hasReadingProgress(M.stored(raw,content),content),true);
+  raw.readerView='home';raw.reading.readerMode='chapter-scroll';raw.reading.scrollY=0;assert.equal(M.hasReadingProgress(M.stored(raw,content),content),false);
+  raw.reading.scrollY=600;assert.equal(M.hasReadingProgress(M.stored(raw,content),content),true);
+});

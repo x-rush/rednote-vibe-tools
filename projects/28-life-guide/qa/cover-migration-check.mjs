@@ -17,5 +17,5 @@ try{
     await p.close();p=await context.newPage();await p.goto('http://127.0.0.1:4328');await p.waitForFunction(()=>document.querySelector('#reader-location').textContent.includes('已读'));await p.waitForTimeout(200);assert.ok(Math.abs(await p.evaluate(()=>scrollY)-position.y)<=2,'reentry reading position');
     await p.evaluate(()=>scrollTo(0,0));await p.waitForTimeout(200);assert.ok(await p.locator('.hero').evaluate(e=>e.getBoundingClientRect().top>=80&&e.offsetHeight>=130));assert.equal(await p.locator('.hero-cat').isVisible(),true);checks.push({width,middle,migratedY:position.y,reentryRestored:true,scrollUpShowsCover:true});await context.close();
   }
-  await writeFile(new URL('./output/cover-migration-report.json',import.meta.url),JSON.stringify({version:'1.3.4',checks},null,2));console.log('PASS '+checks.length+' compact-layout migrations and reading reentries');
+  await writeFile(new URL('./output/cover-migration-report.json',import.meta.url),JSON.stringify({version:'1.3.5',checks},null,2));console.log('PASS '+checks.length+' compact-layout migrations and reading reentries');
 }finally{await browser.close();}

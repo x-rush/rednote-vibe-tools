@@ -1,12 +1,12 @@
-# 小猫的生活指南 · 小红书小工具
+# 高性价比人生指南 · 小红书小工具
 
 采用已确认的蓝白移动 UI 和原创读书小猫插画，完整导入 HowToLiveBetter 的 34 章、765 条、9 篇附文、43 个术语和 385 条更新记录。纯前端离线，无新增依赖。
 
-名称：**小猫的生活指南**。简介：**陪你把日子过得更好**（9 字）。平台图标：`assets/app-icon.png`（512×512 PNG），已接入包内 favicon。上游内容仍明确标注为 eternity4719 / HowToLiveBetter。
+名称：**高性价比人生指南**。简介：**陪你把日子过得更好**（9 字）。平台图标：`assets/app-icon.png`（512×512 PNG），已接入包内 favicon。上游内容仍明确标注为 eternity4719 / HowToLiveBetter。
 
 ## 使用与交付
 
-- 当前待上传 ZIP：`release/小猫的生活指南-1.3.3-小红书小工具.zip`，入口 `index.html` 位于 ZIP 根。仅保留当前交付包，旧版本产物已清理。
+- 当前待上传 ZIP：`release/高性价比人生指南-1.3.4-小红书小工具.zip`，入口 `index.html` 位于 ZIP 根。仅保留当前交付包，旧版本产物已清理。
 - 本地入口：`dist/index.html`，可直接用浏览器以 file 协议打开。
 - 也可在项目目录 `node tools.mjs preview`，打开 http://127.0.0.1:4328 。
 - 浏览器检查只是开发验证。创服平台模拟器、Android 和 iOS 真机尚未验收，需使用同一 ZIP 上传后分别验证。

@@ -1,0 +1,17 @@
+.upstream/
+.cache/
+dist/
+node_modules/
+
+# Keep representative evidence, not every generated viewport capture.
+qa/output/*
+!qa/output/browser-report.json
+!qa/output/offline-report.json
+!qa/output/cover-migration-report.json
+!qa/output/preview-home.png
+!qa/output/preview-reading.png
+!qa/output/preview-chapter-next.png
+!qa/output/preview-filters.png
+!qa/output/chapter-reading-scroll-up-cover-390.png
+!qa/output/chapter-long-title-390.png
+!qa/output/chapter-landscape-reading-844.png

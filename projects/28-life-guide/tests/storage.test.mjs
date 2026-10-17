@@ -1,0 +1,11 @@
+import {readFile} from 'node:fs/promises';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import test from 'node:test';
+const source=await readFile(new URL('../src/storage.js',import.meta.url),'utf8');
+function bank(window){const c={window,Promise,setTimeout:(fn,ms)=>{const t=setTimeout(fn,ms);t.unref();return t;}};vm.runInNewContext(source,c);return window.LifeStorage;}
+test('browser fallback stores only JSON state and reads it',async()=>{let raw;const s=bank({localStorage:{getItem:()=>raw,setItem:(key,data)=>raw=data}});assert.equal(await s.read(),null);assert.equal(await s.write({filters:{money:['0']}}),true);assert.deepEqual(JSON.parse(raw),{filters:{money:['0']}});assert.equal((await s.read()).filters.money[0],'0');});
+test('documented native storage is used with an immediate local checkpoint',async()=>{let raw;let browserWrites=0;const api={getStorage:async()=>({data:raw}),setStorage:async({data})=>{raw=data;}};const s=bank({xhs:{miniTool:api},localStorage:{getItem:()=>null,setItem:()=>browserWrites++}});const pending=s.write({schemaVersion:1});assert.equal(browserWrites,1);assert.equal(await pending,true);assert.equal((await s.read()).schemaVersion,1);});
+test('native rejection falls back and total failure returns false',async()=>{const s=bank({xhs:{miniTool:{getStorage:async()=>{throw Error();},setStorage:async()=>{throw Error();}}},localStorage:{getItem:()=>'{broken',setItem:()=>{throw Error('quota');}}});assert.equal(await s.read(),null);assert.equal(await s.write({filters:{}}),false);});
+test('serialized writes keep last request newest',async()=>{let raw;const s=bank({xhs:{miniTool:{getStorage:async()=>({data:raw}),setStorage:async({data})=>{await new Promise(r=>setTimeout(r,5));raw=data;}}}});await Promise.all([s.write({n:1}),s.write({n:2}),s.write({n:3})]);assert.equal(JSON.parse(raw).n,3);});
+test('newer checkpoint wins when native bridge still has the previous page',async()=>{const s=bank({xhs:{miniTool:{getStorage:async()=>({data:JSON.stringify({savedAt:10,reading:{pageIndex:1}})}),setStorage:async()=>{}}},localStorage:{getItem:()=>JSON.stringify({savedAt:20,reading:{pageIndex:8}})}});assert.equal((await s.read()).reading.pageIndex,8);});

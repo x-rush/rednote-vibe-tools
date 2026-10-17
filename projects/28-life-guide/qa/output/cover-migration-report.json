@@ -1,0 +1,47 @@
+{
+  "version": "1.3.3",
+  "checks": [
+    {
+      "width": 375,
+      "middle": false,
+      "migratedY": 299,
+      "reentryRestored": true,
+      "scrollUpShowsCover": true
+    },
+    {
+      "width": 375,
+      "middle": true,
+      "migratedY": 1762,
+      "reentryRestored": true,
+      "scrollUpShowsCover": true
+    },
+    {
+      "width": 390,
+      "middle": false,
+      "migratedY": 307,
+      "reentryRestored": true,
+      "scrollUpShowsCover": true
+    },
+    {
+      "width": 390,
+      "middle": true,
+      "migratedY": 1741,
+      "reentryRestored": true,
+      "scrollUpShowsCover": true
+    },
+    {
+      "width": 430,
+      "middle": false,
+      "migratedY": 307,
+      "reentryRestored": true,
+      "scrollUpShowsCover": true
+    },
+    {
+      "width": 430,
+      "middle": true,
+      "migratedY": 1654,
+      "reentryRestored": true,
+      "scrollUpShowsCover": true
+    }
+  ]
+}

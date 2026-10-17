@@ -1,0 +1,2 @@
+WARN: content.js: text file is 2.47 MiB; review parse and memory cost
+PASS: 10 file(s), 1 warning(s)

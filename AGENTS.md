@@ -1,5 +1,12 @@
 # 八项目并行开发总规则
 
+## 全仓库 Git 工作规则（用户明确要求，2026-10-18）
+
+- 本仓库只保留 `main` 主分支；所有开发、提交和推送都直接在 `main` 完成。
+- 不创建开发分支、功能分支或以分支隔离为理由创建 PR。此要求优先于技能中默认的新建分支建议。
+- 多项目并行时，仍只提交本次获授权的文件；保留其他项目尚未提交的修改，不通过重置或清理工作区来准备提交。
+- 如发现遗留分支，先确认其中的提交已安全进入 `main`，再删除本地及远程分支，避免丢失工作。
+
 每个 Codex CLI 只允许修改它被分配的 projects/<project> 目录。不要修改其他项目、根 package.json、pnpm-workspace.yaml、pnpm-lock.yaml、docs/ 或 prep/。新增依赖先报告，由总控统一修改锁文件。
 
 运行约束：纯前端静态构建；无后端、运行时 CDN 或必需外部 API；业务内容只放本项目 src/content/content.json；可用 localStorage / IndexedDB 保存结构化状态；禁止保存用户图片、Base64、音视频或 Blob；不依赖 Service Worker、Node API 或未经确认的设备 API。

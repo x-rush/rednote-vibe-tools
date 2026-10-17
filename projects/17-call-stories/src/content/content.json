@@ -551,5 +551,141 @@
       "hour": 18,
       "minute": 0
     }
+  },
+  "chatMessages": {
+    "kinds": [
+      {
+        "value": "text",
+        "label": "文字"
+      },
+      {
+        "value": "voice",
+        "label": "语音"
+      },
+      {
+        "value": "image",
+        "label": "图片"
+      },
+      {
+        "value": "location",
+        "label": "定位"
+      },
+      {
+        "value": "transfer",
+        "label": "转账"
+      },
+      {
+        "value": "redpacket",
+        "label": "红包"
+      },
+      {
+        "value": "narration",
+        "label": "旁白"
+      },
+      {
+        "value": "contact",
+        "label": "名片"
+      },
+      {
+        "value": "call",
+        "label": "通话记录"
+      }
+    ],
+    "defaults": {
+      "locationTitle": "见面的地方",
+      "locationAddress": "填写详细地址",
+      "redpacketGreeting": "恭喜发财，大吉大利",
+      "narration": "过了一会儿，对方发来一条消息。"
+    },
+    "labels": {
+      "type": "消息类型",
+      "seconds": "语音时长",
+      "transcript": "转文字内容",
+      "showTranscript": "显示转文字",
+      "unread": "未读红点",
+      "voiceNote": "语音消息展示图标与时长，可展开转文字。",
+      "chooseImage": "选择聊天图片",
+      "replaceImage": "更换图片",
+      "chooseMap": "上传地图截图",
+      "replaceMap": "更换地图截图",
+      "mediaNote": "图片仅本次使用，刷新后需重新选择。",
+      "imageMissing": "选择一张图片",
+      "imageLost": "图片待重新选择",
+      "viewImage": "查看图片",
+      "imageDescription": "图片说明",
+      "locationTitle": "地点名称",
+      "locationAddress": "详细地址",
+      "mapNote": "默认地图为示意图；可上传真实地图截图。",
+      "amount": "金额（元）",
+      "state": "显示状态",
+      "pending": "待领取",
+      "received": "已领取",
+      "transferPending": "待收款",
+      "transferReceived": "已收款",
+      "transferReturned": "已退还",
+      "greeting": "红包祝福语",
+      "narration": "旁白内容",
+      "contact": "名片人物",
+      "wechatId": "微信号（可不填）",
+      "contactCard": "个人名片",
+      "redpacket": "微信红包",
+      "transfer": "转账",
+      "addNarration": "＋ 加旁白",
+      "removeMedia": "移除图片",
+      "expandTranscript": "展开转文字",
+      "collapseTranscript": "收起转文字",
+      "noTranscript": "请先在编辑页填写转文字内容",
+      "messageText": "消息内容",
+      "chooseContact": "选择名片人物",
+      "mapPreview": "定位地图",
+      "imageInvalid": "这张图片无法读取，请换一张。"
+    },
+    "transferStates": {
+      "pendingMine": "你发起了一笔转账",
+      "pendingOther": "请收款",
+      "receivedMine": "已被接收",
+      "receivedOther": "已收款",
+      "returnedMine": "已被退还",
+      "returnedOther": "已退还"
+    },
+    "redpacketStates": {
+      "pending": "",
+      "received": "已领取"
+    }
+  },
+  "messageComposer": {
+    "choose": "添加消息",
+    "edit": "编辑消息",
+    "cancel": "取消",
+    "add": "添加到聊天",
+    "save": "保存修改",
+    "delete": "删除消息",
+    "speaker": "发言人",
+    "change": "更换",
+    "back": "返回类型选择",
+    "content": "消息内容",
+    "optionalTranscript": "添加转文字（可选）",
+    "uploadImage": "选择一张图片",
+    "uploadMap": "上传地图截图（可选）",
+    "replace": "重新选择图片",
+    "contact": "选择推荐的人物",
+    "placeholder": "写下这条消息…",
+    "voiceNote": "展示语音气泡，不录制或合成声音。",
+    "empty": "请先填写消息内容",
+    "close": "关闭消息编辑",
+    "types": {
+      "text": "文字",
+      "voice": "语音",
+      "image": "图片",
+      "location": "位置",
+      "transfer": "转账",
+      "redpacket": "红包",
+      "contact": "名片",
+      "narration": "旁白"
+    },
+    "removeImage": "移除图片",
+    "moveUp": "向前移动一条",
+    "moveDown": "向后移动一条",
+    "order": "调整顺序"
   }
 }

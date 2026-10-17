@@ -1,3 +1,4 @@
+import {normalizeMessage} from './chat-messages.mjs';
 export function cleanText(value,max=180){return String(value??'').trim().slice(0,max);}
 export const PHOTO_MAX_CHARS=150000;
 export function normalizePhoto(value){return typeof value==='string'&&value.length<=PHOTO_MAX_CHARS&&/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(value)?value:undefined;}
@@ -13,7 +14,7 @@ export function normalizeStudio(raw,data){
   const ref=(id)=>s.people.some(p=>p.id===id)?id:s.people[0].id;
   const number=(v,min,max,fallback)=>Number.isFinite(Number(v))?Math.max(min,Math.min(max,Math.round(Number(v)))):fallback;
   const c=raw.call||{};s.call={personId:ref(c.personId||s.call.personId),scriptId:data.callScripts.some(x=>x.id===c.scriptId)?c.scriptId:s.call.scriptId,mode:c.mode==='intro'?'intro':'full',pause:number(c.pause??0,0,15,0),delay:number(c.delay??0,0,30,0),ringtone:c.ringtone!==false,subtitles:c.subtitles===true};
-  const ch=raw.chat||{};s.chat={personId:ref(ch.personId||s.chat.personId),selfId:ref(ch.selfId||s.chat.selfId),title:cleanText(ch.title,32),timeParts:normalizeTimeParts(ch.timeParts,data),time:formatChatTime(normalizeTimeParts(ch.timeParts,data),data),messages:Array.isArray(ch.messages)?ch.messages.slice(0,60).filter(m=>m&&typeof m==='object').map(m=>({personId:ref(m.personId),text:cleanText(m.text,500),...(m.kind==='call'?{kind:'call'}:{})})):s.chat.messages};
+  const ch=raw.chat||{};s.chat={personId:ref(ch.personId||s.chat.personId),selfId:ref(ch.selfId||s.chat.selfId),title:cleanText(ch.title,32),timeParts:normalizeTimeParts(ch.timeParts,data),time:formatChatTime(normalizeTimeParts(ch.timeParts,data),data),messages:Array.isArray(ch.messages)?ch.messages.slice(0,60).filter(m=>m&&typeof m==='object').map(m=>normalizeMessage(m,ref,data)):s.chat.messages};
   s.chat.mode=ch.mode==='group'?'group':'private';s.chat.groupTitle=cleanText(ch.groupTitle,32)||data.defaults.groupTitle;
   s.chat.members=[...new Set([s.chat.selfId,s.chat.personId,...(Array.isArray(ch.members)?ch.members.filter(id=>s.people.some(p=>p.id===id)):[]),...s.chat.messages.map(m=>m.personId)])];
   if(s.chat.mode==='private'){s.chat.members=[...new Set([s.chat.selfId,s.chat.personId])];s.chat.messages.forEach(m=>{if(!s.chat.members.includes(m.personId))m.personId=s.chat.personId;});}
@@ -22,7 +23,7 @@ export function normalizeStudio(raw,data){
   const m=raw.moment||{};s.moment={authorId:ref(m.authorId||s.moment.authorId),text:cleanText(m.text??s.moment.text,1000),time:formatMomentTime(normalizeMomentTime(m.timeParts,m.time,data),data),timeParts:normalizeMomentTime(m.timeParts,m.time,data),likes:Array.isArray(m.likes)?[...new Set(m.likes.filter(id=>s.people.some(p=>p.id===id)))].slice(0,60):s.moment.likes,comments:Array.isArray(m.comments)?m.comments.slice(0,60).filter(c=>c&&typeof c==='object').map(c=>({personId:ref(c.personId),text:cleanText(c.text,300)})):s.moment.comments};
   return s;
 }
-export function personUsed(s,id){return [s.call.personId,s.chat.personId,s.chat.selfId,s.moment.authorId,...(s.chat.members||[]),...(s.groupDraft?[s.groupDraft.selfId,...s.groupDraft.members,...s.groupDraft.messages.map(m=>m.personId)]:[]),...s.chat.messages.map(m=>m.personId),...[].concat(...Object.values(s.chatArchives||{}).map(ch=>[ch.personId,ch.selfId,...ch.messages.map(m=>m.personId)])),...s.moment.likes,...s.moment.comments.map(c=>c.personId)].includes(id);}
+export function personUsed(s,id){return [s.call.personId,s.chat.personId,s.chat.selfId,s.moment.authorId,...(s.chat.members||[]),...(s.groupDraft?[s.groupDraft.selfId,...s.groupDraft.members,...s.groupDraft.messages.map(m=>m.personId)]:[]),...s.chat.messages.map(m=>m.personId),...[].concat(...Object.values(s.chatArchives||{}).map(ch=>[ch.personId,ch.selfId,...ch.messages.map(m=>m.personId)])),...s.moment.likes,...s.moment.comments.map(c=>c.personId),...[s.chat,s.groupDraft,...Object.values(s.chatArchives||{})].filter(Boolean).reduce((ids,ch)=>ids.concat(ch.messages.filter(m=>m.kind==='contact').map(m=>m.contactId)),[])].includes(id);}
 export function randomReactionIds(people,author,count,random=Math.random){const ids=people.filter(p=>p.id!==author).map(p=>p.id);for(let i=ids.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]];}return ids.slice(0,count);}
 
 export function recordCall(studio,declined,seconds,data){

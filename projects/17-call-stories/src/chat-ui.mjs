@@ -1,0 +1,33 @@
+import {escapeHtml as e} from './model.mjs';
+import {voiceWidth,transferStatus} from './chat-messages.mjs';
+
+function richIcon(name,mirror=false){
+  if(name==='pending')return '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.8"/><g fill="currentColor"><path d="M12.6 19.8 20.2 12.6 22.1 14.6 17.1 19.3H36v3.4H13.8c-1.9 0-2.5-1.6-1.2-2.9Z"/><path d="M12.6 19.8 20.2 12.6 22.1 14.6 17.1 19.3H36v3.4H13.8c-1.9 0-2.5-1.6-1.2-2.9Z" transform="rotate(180 24 24)"/></g></svg>';
+  if(name==='voice')return '<svg viewBox="0 0 24 24" aria-hidden="true"><g transform="'+(mirror?'rotate(180 12 12)':'rotate(0 12 12)')+'"><path d="m5 9 3 3-3 3Z" fill="currentColor"/><path d="M10 7a7 7 0 0 1 0 10M14 4a11 11 0 0 1 0 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></g></svg>';
+  const path=name==='received'?'m11 23 8 8 15-17':name==='returned'?'M30 32h-8a8 8 0 0 1 0-16h7M23 10l-6 6 6 6':name==='redpacket'?'M13 13h22v24H13ZM13 21l11 8 11-8M21 29h6': 'M13 18h22l-7-7M35 30H13l7 7';
+  return `<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${name==='redpacket'?'':'<circle cx="24" cy="24" r="21"/>'}<path d="${path}"/></svg>`;
+}
+
+function mapIllustration(label){return `<svg class="map-illustration" viewBox="0 0 500 210" preserveAspectRatio="xMidYMid slice" aria-label="${e(label)}"><rect width="500" height="210" fill="#edf0e9"/><path d="M22 14h90v49H22zM157 8h62v55h-62zM340 7h129v52H340zM13 106h87v71H13zM154 108h63v79h-63zM343 110h129v76H343z" fill="#e1e6e1" stroke="#d2dcd4" stroke-width="3"/><path d="M346 120h90v55h-90z" fill="#c8e7bc"/><path d="M125-10V220M240-10V220M327-10V220M-10 83H510M-10 196H510" fill="none" stroke="#fff" stroke-width="20"/><path d="M125-10V220M240-10V220M327-10V220M-10 83H510M-10 196H510" fill="none" stroke="#d4dbd5" stroke-width="2"/><path d="M290-10c-18 50-7 88 2 122s-1 65-11 108" fill="none" stroke="#a4daee" stroke-width="17"/><path d="M250 57c-24 0-41 18-41 40 0 27 41 65 41 65s41-38 41-65c0-22-17-40-41-40Z" fill="#07c160"/><circle cx="250" cy="97" r="15" fill="#fff"/></svg>`;}
+
+export function createChatUI({data,person,avatar,icon,media}){
+  const config=data.chatMessages,L=config.labels;
+  function previewContent(m,i,mine){const kind=m.kind||'text',resource=media.get(m.id);
+    if(kind==='voice'){const width=voiceWidth(m.seconds);return `<button class="bubble voice-bubble" style="width:${width}px" data-voice-transcript="${i}" aria-label="${e(m.showTranscript?L.collapseTranscript:L.expandTranscript)}" aria-expanded="${!!m.showTranscript}">${richIcon('voice',mine)}<span>${m.seconds}"</span>${m.unread&&!mine?'<i class="voice-unread" aria-hidden="true"></i>':''}</button>${m.showTranscript&&m.transcript?`<p class="voice-transcript">${e(m.transcript)}</p>`:''}`;}
+    if(kind==='image'){
+      if(!resource)return `<span class="message-image-missing">${icon('camera')}<small>${e(L.imageLost)}</small></span>`;
+      const scale=Math.min(198/resource.width,198/resource.height,1),width=Math.round(resource.width*scale),height=Math.round(resource.height*scale);
+      return `<button class="message-image" data-view-message-image="${i}" aria-label="${e(L.viewImage)}"><img src="${resource.url}" width="${width}" height="${height}" alt="${e(m.description||L.imageDescription)}"></button>`;
+    }
+    if(kind==='location')return `<div class="bubble message-card location-card"><div class="location-copy"><strong>${e(m.title)}</strong><span>${e(m.address)}</span></div><div class="location-map">${resource?`<img src="${resource.url}" alt="${e(L.mapPreview)}">`:mapIllustration(L.mapPreview)}</div></div>`;
+    if(kind==='transfer')return `<div class="bubble message-card transfer-card ${m.status!=='pending'?'settled':''} ${m.status==='returned'?'returned':''}"><div class="payment-main">${richIcon(m.status)}<div><strong>¥${e(m.amount)}</strong><span>${e(transferStatus(m,mine,data))}</span></div></div><small class="payment-footer">${e(L.transfer)}</small></div>`;
+    if(kind==='redpacket')return `<div class="bubble message-card redpacket-card ${m.status==='received'?'settled':''}"><div class="payment-main">${richIcon('redpacket')}<div><strong>${e(m.text)}</strong>${m.status==='received'?`<span>${e(L.received)}</span>`:''}</div></div><small class="payment-footer">${e(L.redpacket)}</small></div>`;
+    if(kind==='contact')return `<div class="bubble message-card contact-card"><div class="contact-main">${avatar(m.contactId,'small')}<div><strong>${e(person(m.contactId).name)}</strong>${m.wechatId?`<small>${e(m.wechatId)}</small>`:''}</div></div><small class="contact-footer">${e(L.contactCard)}</small></div>`;
+    return `<p class="bubble ${kind==='call'?'call-record':''}">${kind==='call'?icon('phone'):''}${e(m.text)}</p>`;
+  }
+  function previewMessage(m,i,ch){
+    if(m.kind==='narration')return `<div class="chat-narration">${e(m.text)}</div>`;
+    const mine=m.personId===ch.selfId;return `<div class="bubble-row ${mine?'me':'them'}" data-message-row="${i}">${mine?'':avatar(m.personId,'small')}<div class="message-stack">${ch.mode==='group'&&!mine?`<small class="bubble-name">${e(person(m.personId).name)}</small>`:''}${previewContent(m,i,mine)}</div>${mine?avatar(m.personId,'small'):''}</div>`;
+  }
+  return {previewMessage};
+}

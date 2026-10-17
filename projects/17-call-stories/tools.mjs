@@ -4,7 +4,7 @@ import {pathToFileURL,fileURLToPath} from 'node:url';
 import {createServer} from 'node:http';
 import {spawnSync} from 'node:child_process';
 const root=resolve(fileURLToPath(new URL('.',import.meta.url)));
-const sourceFiles=['index.html','src/app.mjs','src/model.mjs','src/call-player.mjs','src/export-image.mjs','src/audio-bank.mjs','src/style.css','src/content/content.json'];
+const sourceFiles=['index.html','src/app.mjs','src/chat-messages.mjs','src/chat-ui.mjs','src/message-composer.mjs','src/model.mjs','src/call-player.mjs','src/export-image.mjs','src/audio-bank.mjs','src/style.css','src/content/content.json'];
 async function build(){
   const out=resolve(root,'dist');
   if(out!==join(root,'dist')||!out.startsWith(root+sep))throw Error('Invalid build directory');
@@ -24,7 +24,7 @@ async function build(){
   console.log('Static build ready: dist/; upload file types validated');
 }
 async function lint(){
-  const scripts=['src/app.mjs','src/model.mjs','src/call-player.mjs','src/export-image.mjs','tools.mjs','qa/browser-check.mjs',...(await readdir(join(root,'tests'))).filter(x=>x.endsWith('.mjs')).map(x=>'tests/'+x)];
+  const scripts=['src/app.mjs','src/chat-messages.mjs','src/chat-ui.mjs','src/message-composer.mjs','src/model.mjs','src/call-player.mjs','src/export-image.mjs','tools.mjs','qa/browser-check.mjs','qa/rich-chat-check.mjs','qa/composer-check.mjs','qa/export-parity-check.mjs',...(await readdir(join(root,'tests'))).filter(x=>x.endsWith('.mjs')).map(x=>'tests/'+x)];
   for(const file of scripts){const check=spawnSync(process.execPath,['--check',join(root,file)],{encoding:'utf8'});if(check.status!==0)throw Error(file+': '+check.stderr);}
   const content=JSON.parse(await readFile(join(root,'src/content/content.json'),'utf8'));
   if(!content.people.length||!content.callScripts.length||new Set(content.people.map(x=>x.id)).size!==content.people.length)throw Error('Invalid people library');

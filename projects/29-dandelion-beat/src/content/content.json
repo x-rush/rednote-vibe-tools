@@ -1,0 +1,561 @@
+{
+  "title": "小草，别服！",
+  "subtitle": "凌晨 02:17，他下班了。",
+  "bpm": 96,
+  "duration": 50,
+  "window": 0.13,
+  "perfectWindow": 0.065,
+  "health": 8,
+  "attacks": [
+    {
+      "beat": 22,
+      "type": "slap",
+      "side": 0,
+      "variant": "overhand",
+      "approach": {
+        "id": "cross-stumble",
+        "lurch": 0.25,
+        "dip": 0.1,
+        "lean": 0.13,
+        "turn": -0.22,
+        "recover": 0.1,
+        "wind": [
+          -0.08,
+          -0.32,
+          0.06
+        ],
+        "flail": [
+          0.14,
+          0.34,
+          -0.08
+        ],
+        "spillAt": -0.56,
+        "catchAt": -0.2,
+        "spillWidth": 0.18,
+        "plantAt": -0.23500000000000001
+      }
+    },
+    {
+      "beat": 26,
+      "type": "kick",
+      "side": 0,
+      "approach": {
+        "id": "heel-catch",
+        "lurch": -0.23,
+        "dip": 0.07,
+        "lean": -0.13,
+        "turn": 0.16,
+        "recover": 0.08,
+        "wind": [
+          -0.12,
+          -0.1,
+          -0.12
+        ],
+        "flail": [
+          0.18,
+          0.28,
+          -0.13
+        ],
+        "spillAt": -0.55,
+        "catchAt": -0.22,
+        "spillWidth": 0.2,
+        "plantAt": -0.36
+      }
+    },
+    {
+      "beat": 30,
+      "type": "slap",
+      "side": 1,
+      "variant": "backhand",
+      "approach": {
+        "id": "shoulder-roll",
+        "lurch": -0.19,
+        "dip": 0.06,
+        "lean": -0.16,
+        "turn": 0.38,
+        "recover": 0.14,
+        "wind": [
+          -0.26,
+          0.12,
+          -0.16
+        ],
+        "flail": [
+          -0.2,
+          0.1,
+          0.16
+        ],
+        "spillAt": -0.43,
+        "catchAt": -0.16,
+        "spillWidth": 0.2,
+        "plantAt": -0.195
+      }
+    },
+    {
+      "beat": 34,
+      "type": "kick",
+      "side": 1,
+      "approach": {
+        "id": "knee-rebound",
+        "lurch": 0.15,
+        "dip": 0.16,
+        "lean": 0.18,
+        "turn": -0.18,
+        "recover": 0.1,
+        "wind": [
+          0.12,
+          0.2,
+          -0.08
+        ],
+        "flail": [
+          0.08,
+          -0.22,
+          0.2
+        ],
+        "spillAt": -0.42,
+        "catchAt": -0.16,
+        "spillWidth": 0.16,
+        "plantAt": -0.30000000000000004
+      }
+    },
+    {
+      "beat": 38,
+      "type": "spin",
+      "approach": {
+        "id": "trip-drop",
+        "lurch": 0.23,
+        "dip": 0.15,
+        "lean": 0.2,
+        "turn": -0.28,
+        "recover": 0,
+        "wind": [
+          0,
+          0,
+          0
+        ],
+        "flail": [
+          0.1,
+          0.28,
+          0.1
+        ],
+        "spillAt": -0.55,
+        "catchAt": -0.22,
+        "spillWidth": 0.19
+      }
+    },
+    {
+      "beat": 39,
+      "type": "spin"
+    },
+    {
+      "beat": 40,
+      "type": "spin"
+    },
+    {
+      "beat": 41,
+      "type": "spin"
+    },
+    {
+      "beat": 46,
+      "type": "slap",
+      "side": 0,
+      "variant": "backhand",
+      "approach": {
+        "id": "low-scoop",
+        "lurch": 0.24,
+        "dip": 0.19,
+        "lean": 0.2,
+        "turn": -0.28,
+        "recover": 0.12,
+        "wind": [
+          -0.15,
+          -0.42,
+          0.28
+        ],
+        "flail": [
+          0.12,
+          0.3,
+          0.12
+        ],
+        "spillAt": -0.61,
+        "catchAt": -0.24,
+        "spillWidth": 0.17,
+        "plantAt": -0.275
+      }
+    },
+    {
+      "beat": 50,
+      "type": "kick",
+      "side": 0,
+      "approach": {
+        "id": "side-catch",
+        "lurch": 0.3,
+        "dip": 0.09,
+        "lean": 0.08,
+        "turn": 0.3,
+        "recover": 0.16,
+        "wind": [
+          -0.28,
+          0.06,
+          -0.15
+        ],
+        "flail": [
+          0.3,
+          0.08,
+          -0.24
+        ],
+        "spillAt": -0.47,
+        "catchAt": -0.21,
+        "spillWidth": 0.21,
+        "plantAt": -0.35
+      }
+    },
+    {
+      "beat": 54,
+      "type": "spin",
+      "approach": {
+        "id": "rebound-turn",
+        "lurch": -0.2,
+        "dip": 0.08,
+        "lean": -0.14,
+        "turn": 0.32,
+        "recover": 0,
+        "wind": [
+          0,
+          0,
+          0
+        ],
+        "flail": [
+          -0.12,
+          0.35,
+          -0.1
+        ],
+        "spillAt": -0.44,
+        "catchAt": -0.16,
+        "spillWidth": 0.2
+      }
+    },
+    {
+      "beat": 55,
+      "type": "spin"
+    },
+    {
+      "beat": 56,
+      "type": "spin"
+    },
+    {
+      "beat": 57,
+      "type": "spin"
+    },
+    {
+      "beat": 60,
+      "type": "slap",
+      "side": 1,
+      "variant": "overhand",
+      "approach": {
+        "id": "windmill",
+        "lurch": -0.29,
+        "dip": 0.12,
+        "lean": -0.12,
+        "turn": 0.32,
+        "recover": 0.14,
+        "wind": [
+          0.12,
+          0.18,
+          -0.26
+        ],
+        "flail": [
+          -0.22,
+          0.5,
+          -0.14
+        ],
+        "spillAt": -0.48,
+        "catchAt": -0.15,
+        "spillWidth": 0.22,
+        "plantAt": -0.185
+      }
+    },
+    {
+      "beat": 62,
+      "type": "kick",
+      "side": 1,
+      "approach": {
+        "id": "heel-catch",
+        "lurch": -0.2,
+        "dip": 0.1,
+        "lean": -0.16,
+        "turn": 0.21,
+        "recover": 0.1,
+        "wind": [
+          0.12,
+          -0.12,
+          -0.12
+        ],
+        "flail": [
+          -0.18,
+          0.32,
+          -0.12
+        ],
+        "spillAt": -0.55,
+        "catchAt": -0.22,
+        "spillWidth": 0.2,
+        "plantAt": -0.36
+      }
+    },
+    {
+      "beat": 64,
+      "type": "slap",
+      "side": 0,
+      "variant": "backhand",
+      "approach": {
+        "id": "shoulder-roll",
+        "lurch": -0.22,
+        "dip": 0.08,
+        "lean": -0.17,
+        "turn": 0.34,
+        "recover": 0.13,
+        "wind": [
+          0.24,
+          0.06,
+          -0.18
+        ],
+        "flail": [
+          0.2,
+          0.08,
+          0.18
+        ],
+        "spillAt": -0.43,
+        "catchAt": -0.16,
+        "spillWidth": 0.2,
+        "plantAt": -0.195
+      }
+    },
+    {
+      "beat": 66,
+      "type": "spin",
+      "approach": {
+        "id": "cross-drop",
+        "lurch": 0.18,
+        "dip": 0.18,
+        "lean": 0.14,
+        "turn": -0.35,
+        "recover": 0,
+        "wind": [
+          0,
+          0,
+          0
+        ],
+        "flail": [
+          0.15,
+          0.22,
+          0.12
+        ],
+        "spillAt": -0.58,
+        "catchAt": -0.23,
+        "spillWidth": 0.18
+      }
+    },
+    {
+      "beat": 67,
+      "type": "spin"
+    },
+    {
+      "beat": 68,
+      "type": "spin"
+    },
+    {
+      "beat": 69,
+      "type": "spin"
+    },
+    {
+      "beat": 76,
+      "type": "headbutt"
+    }
+  ],
+  "text": {
+    "ready": "先看他出场，前奏结束再回避。",
+    "slap": "甩手接巴掌 · 经过花头时点",
+    "spin": "托马斯回旋 · 每次扫过都点！",
+    "perfect": "完美擦过！",
+    "good": "躲开了！",
+    "miss": "草！挨了一下",
+    "early": "别急，等落点",
+    "finish": "草还站着，他先躺了。",
+    "failed": "先歇一会，再跟他较劲。",
+    "audioFail": "声音未能启动，可选择无声试玩。",
+    "kick": "换步接踢击 · 脚扫来时点",
+    "headbutt": "大招！蓄力 → 起跳 → 头槌",
+    "storageFail": "设置未能保存，本次仍可使用"
+  },
+  "musicStatus": "West Ride · SKUNK / 96 BPM · 仅本地试玩",
+  "climax": {
+    "chargeBeat": 72,
+    "impactBeat": 76
+  },
+  "music": {
+    "title": "West Ride — SKUNK",
+    "file": "assets/west-ride-preview.mp3",
+    "source": "https://www.youtube.com/watch?v=2_3DCayV_Ps",
+    "sourceStart": 0.135,
+    "duration": 50,
+    "bpm": 96,
+    "use": "local-preview-only"
+  },
+  "choreography": [
+    {
+      "beat": 0,
+      "style": "toprock",
+      "flavor": "cross-rock"
+    },
+    {
+      "beat": 4,
+      "style": "toprock",
+      "flavor": "side-rock"
+    },
+    {
+      "beat": 8,
+      "style": "shuffle",
+      "flavor": "heel-switch"
+    },
+    {
+      "beat": 12,
+      "style": "shuffle",
+      "flavor": "arm-wave"
+    },
+    {
+      "beat": 16,
+      "style": "locking",
+      "flavor": "drunk-lock"
+    },
+    {
+      "beat": 20,
+      "style": "floorwork",
+      "flavor": "six-step"
+    },
+    {
+      "beat": 28,
+      "style": "shuffle",
+      "flavor": "side-groove",
+      "step": "side"
+    },
+    {
+      "beat": 32,
+      "style": "shuffle",
+      "flavor": "arm-wave",
+      "step": "side"
+    },
+    {
+      "beat": 36,
+      "style": "power",
+      "flavor": "rebound",
+      "step": "wide"
+    },
+    {
+      "beat": 44,
+      "style": "locking",
+      "flavor": "body-roll"
+    },
+    {
+      "beat": 48,
+      "style": "power",
+      "flavor": "cross-shuffle",
+      "step": "cross"
+    },
+    {
+      "beat": 56,
+      "style": "finale",
+      "flavor": "wobble-charge"
+    }
+  ],
+  "appearance": {
+    "skin": [
+      0.85,
+      0.61,
+      0.44
+    ],
+    "jacket": [
+      0.91,
+      0.91,
+      0.85
+    ],
+    "pants": [
+      0.16,
+      0.18,
+      0.21
+    ],
+    "shoe": [
+      0.13,
+      0.12,
+      0.12
+    ],
+    "accent": [
+      0.48,
+      0.09,
+      0.1
+    ]
+  },
+  "intro": {
+    "duration": 10,
+    "shots": [
+      {
+        "time": 0,
+        "kind": "shoes",
+        "text": "凌晨 02:17 · 这一步差点没站稳。"
+      },
+      {
+        "time": 2.1,
+        "kind": "face",
+        "text": "没醉……就是地有点晃。"
+      },
+      {
+        "time": 3.8,
+        "kind": "flower",
+        "text": "嗯？小草，你看我干什么？"
+      },
+      {
+        "time": 4.6,
+        "kind": "medium",
+        "text": "先把包放好。今天必须认真跳。"
+      },
+      {
+        "time": 6,
+        "kind": "face",
+        "text": "领带一绑，谁也别拦我。"
+      },
+      {
+        "time": 8.3,
+        "kind": "wide",
+        "text": "起手找拍，准备跟上。"
+      }
+    ],
+    "fallBeat": 60
+  },
+  "feedback": {
+    "leads": {
+      "slap": 0.8,
+      "kick": 0.75,
+      "spin": 0.6,
+      "headbutt": 1.5
+    },
+    "fallDelay": 0.72,
+    "shakeDuration": 0.32,
+    "shakeAmount": 0.07,
+    "warning": {
+      "slap": "看手！蓄力后甩下来",
+      "kick": "提膝了！等脚踢过来",
+      "spin": "下一脚扫来时点一下",
+      "headbutt": "他蹲下了……要扑过来！"
+    }
+  },
+  "description": "踩准节拍，躲过社畜醉拳",
+  "rendering": {
+    "defaultDpr": 1.5,
+    "defaultPixels": 2000000,
+    "lowPixels": 1000000,
+    "slowFrameMs": 42,
+    "slowFrames": 45,
+    "fallbackFrames": 90,
+    "fallbackText": "已切换轻量模式 · 看文字提示跟拍回避",
+    "lostText": "3D画面暂时中断，已切换轻量模式",
+    "restoreText": "图形能力已恢复；重新打开页面可恢复3D"
+  }
+}

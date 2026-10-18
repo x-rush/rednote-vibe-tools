@@ -1,0 +1,27 @@
+﻿{
+    "name":  "小草，别服！",
+    "description":  "踩准节拍，躲过社畜醉拳",
+    "zip":  "dandelion-beat-v13-local-preview.zip",
+    "bytes":  445057,
+    "sha256":  "005732F3C7581463C6B22249C9EF5CB423508BC5C66F124BDDDD9D273E706E26",
+    "entries":  [
+                    "app.js",
+                    "audio-data.js",
+                    "character.js",
+                    "content.js",
+                    "feedback.js",
+                    "index.html",
+                    "logo.webp",
+                    "motion.js",
+                    "renderer.js",
+                    "rhythm.js",
+                    "storage.js",
+                    "style.css"
+                ],
+    "sourceAudioBytes":  400652,
+    "usage":  "local-preview-only",
+    "platformSimulator":  "pending",
+    "androidDevice":  "pending",
+    "iosDevice":  "pending",
+    "chrome61Runtime":  "not-tested"
+}

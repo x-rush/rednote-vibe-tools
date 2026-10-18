@@ -1,0 +1,28 @@
+{
+  "file": "release/xiaohongshu/video/小草别服-实机视频笔记-37秒.mp4",
+  "bytes": 6684015,
+  "sha256": "1aa6da776980f6f6f48e077497e8c51b581bea000f58922aeb294e37df926ce6",
+  "duration": 37,
+  "width": 1080,
+  "height": 1440,
+  "fps": 30,
+  "frames": 1110,
+  "video": "H.264 yuv420p",
+  "audio": "AAC stereo 48kHz",
+  "meanVolumeDb": -12.1,
+  "maxVolumeDb": -0.9,
+  "subtitles": "17 authored Chinese captions, burned into video; SRT and JSON included",
+  "cover": "Prior generated cover, used as opening 0.5s; separate JPG retained",
+  "capture": {
+    "musicLead": 0.7,
+    "result": "回避 22/22 · 完美 22 · 最高连击 22 · 空点 0",
+    "title": "草还站着，他先躺了。",
+    "lightweight": false,
+    "mime": "video/webm;codecs=vp9,opus",
+    "audioState": "suspended",
+    "chunks": 48,
+    "errors": []
+  },
+  "decodeCheck": "PASS: full video decoded with no warning/error",
+  "status": "local-preview-only; not uploaded or published"
+}

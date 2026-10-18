@@ -1,0 +1,21 @@
+.tools/
+assets/source/
+assets/*.mp3
+dist/
+screenshots/
+
+# Downloaded installation archives and online-document snapshots.
+.codex/*.skill
+.codex/*.zip
+.codex/*.html
+
+# Recordings and packages include music restricted to local preview.
+release/**/*.mp4
+release/**/*.webm
+release/**/*.zip
+release/*.zip
+release/xiaohongshu/video/part-*
+release/xiaohongshu/video/cut-clean.*
+release/xiaohongshu/video/ending-frame.png
+release/xiaohongshu/video/*-check.jpg
+release/xiaohongshu/video/contact-sheet.jpg

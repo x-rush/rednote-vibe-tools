@@ -1,5 +1,8 @@
 # 四轻工具 · 第一组 SVG 基准检查
 
+> 历史验证记录：下列结果只覆盖原记录日期与素材范围，不代表当前 30 个项目均已验收。当前入口见 [仓库 README](../README.md)；现行约束见 [AGENTS.md](../AGENTS.md)。
+
+
 检查日期：2026-08-24  
 预览：`design/vector-baseline.html`
 

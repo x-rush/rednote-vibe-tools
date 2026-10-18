@@ -651,6 +651,12 @@
     "redpacketStates": {
       "pending": "",
       "received": "已领取"
+    },
+    "receipt": {
+      "mine": "领取了你的",
+      "otherBefore": "你领取了",
+      "otherAfter": "的",
+      "word": "红包"
     }
   },
   "messageComposer": {
@@ -687,5 +693,118 @@
     "moveUp": "向前移动一条",
     "moveDown": "向后移动一条",
     "order": "调整顺序"
+  },
+  "chatControls": {
+    "keyboard": "切换到键盘",
+    "voice": "切换到语音",
+    "hold": "按住 说话",
+    "input": "输入消息",
+    "emoji": "表情",
+    "more": "更多消息",
+    "send": "发送",
+    "cancel": "取消",
+    "slideText": "滑到这里 转文字",
+    "releaseSend": "松开 发送",
+    "releaseCancel": "松手 取消",
+    "releaseEdit": "松手 编辑文字",
+    "voiceLabel": "语音",
+    "editText": "编辑转文字",
+    "textPlaceholder": "输入这段语音的文字…",
+    "transcriptNote": "填写后以文字消息发送。",
+    "stickers": "添加的单个表情",
+    "addSticker": "添加本地表情图片",
+    "sendSticker": "发送表情图片",
+    "stickerEmpty": "添加你喜欢的表情图片",
+    "backspace": "删除最后一个字符",
+    "emojis": [
+      "😀",
+      "😄",
+      "😁",
+      "😂",
+      "😊",
+      "🥰",
+      "😍",
+      "😘",
+      "😎",
+      "🥺",
+      "😭",
+      "😅",
+      "🤔",
+      "🙄",
+      "😴",
+      "🤭",
+      "😏",
+      "😳",
+      "😡",
+      "🥳",
+      "👍",
+      "👎",
+      "👏",
+      "🙏",
+      "👌",
+      "✌️",
+      "🤝",
+      "💪",
+      "❤️",
+      "💔",
+      "🌹",
+      "🎉",
+      "🎂",
+      "☕",
+      "🍉",
+      "🏀",
+      "🐱",
+      "🐶",
+      "🌙",
+      "✨"
+    ],
+    "actions": [
+      {
+        "kind": "image",
+        "label": "照片",
+        "icon": "camera"
+      },
+      {
+        "kind": "voice",
+        "label": "语音消息",
+        "icon": "mic"
+      },
+      {
+        "kind": "location",
+        "label": "位置",
+        "icon": "pin"
+      },
+      {
+        "kind": "redpacket",
+        "label": "红包",
+        "icon": "gift"
+      },
+      {
+        "kind": "transfer",
+        "label": "转账",
+        "icon": "transfer"
+      },
+      {
+        "kind": "contact",
+        "label": "个人名片",
+        "icon": "people"
+      },
+      {
+        "kind": "narration",
+        "label": "旁白",
+        "icon": "edit"
+      },
+      {
+        "kind": "text",
+        "label": "文字消息",
+        "icon": "chat"
+      }
+    ],
+    "full": "消息已达 60 条上限，请先删除部分消息。",
+    "convertVoice": "转文字",
+    "editVoiceText": "编辑转文字",
+    "saveVoiceText": "保存文字",
+    "voiceTextTitle": "填写语音文字",
+    "voiceTextNote": "自己填写这段语音的内容，保存后显示在语音消息下方。"
   }
 }

@@ -24,7 +24,7 @@ function paintBorders(ctx,st,x,y,w,h,radius){
 }
 export async function captureSurface(surface,onPage){
   const sourceRect=surface.getBoundingClientRect(),sourceStyle=getComputedStyle(surface),width=sourceRect.width;
-  const clone=surface.cloneNode(true);clone.classList.add('export-surface');clone.setAttribute('aria-hidden','true');clone.style.width=width+'px';clone.style.minHeight=Math.max(1,sourceRect.height-(parseFloat(sourceStyle.paddingTop)||0)-(parseFloat(sourceStyle.paddingBottom)||0))+'px';clone.querySelectorAll('.export-actions,.moment-action-menu,.moment-composer,.chat-add-row,.chat-edit-card,.chat-people-pop').forEach(el=>el.remove());document.body.append(clone);
+  const clone=surface.cloneNode(true);clone.classList.add('export-surface');clone.setAttribute('aria-hidden','true');clone.style.width=width+'px';clone.style.minHeight=Math.max(1,sourceRect.height-(parseFloat(sourceStyle.paddingTop)||0)-(parseFloat(sourceStyle.paddingBottom)||0))+'px';clone.querySelectorAll('.export-actions,.moment-action-menu,.moment-composer,.chat-add-row,.chat-edit-card,.chat-people-pop').forEach(el=>el.remove());const originalInputs=surface.querySelectorAll('[data-chat-input]');clone.querySelectorAll('[data-chat-input]').forEach((input,i)=>{const field=document.createElement('div');field.className='chat-export-input';field.textContent=originalInputs[i].value;field.style.height=originalInputs[i].getBoundingClientRect().height+'px';input.replaceWith(field);});document.body.append(clone);
   try{
     if(document.fonts&&document.fonts.ready)await document.fonts.ready;
     const images=new Map();await Promise.all(Array.from(clone.querySelectorAll('img')).map(async img=>images.set(img,await loadImage(img.src))));

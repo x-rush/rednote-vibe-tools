@@ -13,7 +13,8 @@ export function initializeOrientation(labels,beforeToggle){
   for(const sheet of document.styleSheets){
     try{for(const rule of sheet.cssRules){if(rule.media&&/^\(max-width:\s*(700|760)px\)$/.test(rule.media.mediaText))phoneMedia.push({media:rule.media,original:rule.media.mediaText});}}catch{/* Ignore inaccessible third-party stylesheets. */}
   }
-  const toggle=document.createElement('button');toggle.type='button';toggle.className='orientation-toggle';toggle.setAttribute('aria-pressed','false');root.querySelector('.workspace').appendChild(toggle);
+  const workspace=root.querySelector('.workspace'),header=root.querySelector('.topbar'),badge=root.querySelector('.campaign-badge');
+  const toggle=document.createElement('button');toggle.type='button';toggle.className='orientation-toggle';toggle.setAttribute('aria-pressed','false');workspace.appendChild(toggle);
   function update(){
     const width=window.innerWidth,height=window.visualViewport?window.visualViewport.height:window.innerHeight;
     const editing=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName||'');
@@ -31,6 +32,8 @@ export function initializeOrientation(labels,beforeToggle){
     const natural=isLandscape&&physicalLandscape&&width<=1100&&orientationHeight<=600;
     document.body.classList.toggle('natural-landscape',natural);
     document.body.classList.toggle('compact-mode',swapped||natural||width<=700);
+    const badgeParent=rotated||natural?header:workspace;
+    if(badge&&badgeParent&&badge.parentElement!==badgeParent)badgeParent.appendChild(badge);
     toggle.hidden=false;
     toggle.textContent=isLandscape?labels.portrait:labels.landscape;toggle.setAttribute('aria-label',isLandscape?labels.portrait:labels.landscape);toggle.setAttribute('aria-pressed',String(isLandscape));
   }

@@ -7,11 +7,13 @@ function setup(width,height,beforeToggle){
   const media={mediaText:'(max-width: 700px)'};
   const toggle={setAttribute(name,value){this[name]=value;},addEventListener(name,callback){handlers.set(name,callback);}};
   const viewport={contains:target=>target==='canvas'};
-  const root={style:{setProperty:(name,value)=>values.set(name,value)},querySelector:()=>({appendChild(){}}),getBoundingClientRect:()=>({left:0,top:0,right:width,bottom:height})};
+  const workspace={appendChild(element){element.parentElement=this;}},header={appendChild(element){element.parentElement=this;}},badge={parentElement:workspace};
+  const elements={'.workspace':workspace,'.topbar':header,'.campaign-badge':badge};
+  const root={style:{setProperty:(name,value)=>values.set(name,value)},querySelector:selector=>elements[selector]||null,getBoundingClientRect:()=>({left:0,top:0,right:width,bottom:height})};
   globalThis.document={styleSheets:[{cssRules:[{media}]}],body:{classList:{contains:name=>classes.has(name),toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}},activeElement:null,createElement:()=>toggle,getElementById:id=>id==='app'?root:viewport};
   globalThis.window={innerWidth:width,innerHeight:height,visualViewport:null,addEventListener(name,callback){if(!events.has(name))events.set(name,[]);events.get(name).push(callback);},dispatchEvent(event){for(const callback of events.get(event.type)||[])callback(event);}};
   initializeOrientation({portrait:'portrait',landscape:'landscape'},beforeToggle);
-  return{classes,values,media,toggle,click:()=>handlers.get('click')(),pointer(event){for(const callback of events.get(event.type)||[])callback(event);}};
+  return{classes,values,media,toggle,badge,header,workspace,click:()=>handlers.get('click')(),pointer(event){for(const callback of events.get(event.type)||[])callback(event);}};
 }
 
 test('physical landscape switches to portrait and back without hiding its toggle',()=>{
@@ -57,4 +59,14 @@ test('a rejected toggle leaves the current orientation intact',()=>{
   const state=setup(932,430,()=>false);state.click();
   assert.ok(state.classes.has('natural-landscape'));
   assert.ok(!state.classes.has('forced-portrait'));
+});
+
+test('campaign artwork is owned by the header only in a landscape layout',()=>{
+  for(const [width,height]of [[393,852],[932,430]]){
+    const state=setup(width,height),landscape=width>height;
+    assert.equal(state.badge.parentElement,landscape?state.header:state.workspace);
+    state.click();assert.equal(state.badge.parentElement,landscape?state.workspace:state.header);
+    state.click();assert.equal(state.badge.parentElement,landscape?state.header:state.workspace);
+  }
+  const desktop=setup(1440,900);assert.equal(desktop.badge.parentElement,desktop.workspace);
 });

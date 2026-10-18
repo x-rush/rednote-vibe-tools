@@ -409,7 +409,7 @@ body #modal .room-side-picker button{min-height:44px;white-space:normal}
 #mobile-context .win-styles{display:flex;gap:5px;flex:1 0 100%;flex-wrap:wrap}#mobile-context [data-action="win-style"]{flex:1 1 40%;min-height:40px;padding:8px 10px;border-radius:8px;background:#eeeee4;color:#5b6a4f;font-size:12px;border:1px solid var(--line)}#mobile-context [data-action="win-style"].active{background:#254c3e;color:#fff;border-color:#254c3e}
 
 /* Leave physical host-button corners clear without adding a full-width blank band. */
-body.compact-mode:not(.forced-landscape){--host-edge-clearance:90px;--host-dialog-close-clearance:70px}
+body.compact-mode:not(.forced-landscape){--host-edge-clearance:var(--host-actions-clearance,116px);--host-dialog-close-clearance:70px}
 body.compact-mode:not(.forced-landscape) .mobile-view-access,
 body.compact-mode:not(.forced-landscape) .view-toolbar{right:var(--host-edge-clearance)}
 body.compact-mode:not(.forced-landscape) #modal .modal-header .icon-button{margin-right:var(--host-dialog-close-clearance)}
@@ -417,22 +417,48 @@ body.compact-mode:not(.forced-landscape) #modal .modal-header .icon-button{margi
 body.forced-landscape .finish-card,
 body.forced-landscape.walking .walk-controls{left:var(--host-rotated-clearance,88px)}
 
-/* Let the official lettering sit directly on the scene; the original artwork keeps its ratio. */
-.campaign-badge{position:absolute;left:28px;top:132px;z-index:7;width:300px;max-width:calc(100% - 90px);aspect-ratio:2170/329;overflow:hidden;pointer-events:none;user-select:none}
+/* Portrait artwork belongs to the scene; landscape artwork belongs to the header. */
+.campaign-badge{position:absolute;left:28px;top:132px;z-index:7;width:300px;max-width:calc(100% - 90px);overflow:hidden;pointer-events:none;user-select:none}
 .campaign-badge::before{content:'';display:block;padding-top:15.1613%}
 .campaign-badge img{position:absolute;left:0;top:0;display:block;width:100%;height:auto;transform:translateY(-27.6%)}
-body.compact-mode:not(.forced-landscape) .campaign-badge{left:15px;top:auto;bottom:16px;width:300px}
-body.finished.compact-mode:not(.forced-landscape) .campaign-badge{top:132px;bottom:auto}
-body.natural-landscape .campaign-badge,body.compact-mode.natural-landscape:not(.forced-landscape) .campaign-badge{position:fixed;left:45%;top:calc(2px + var(--safe-top));bottom:auto;width:260px;width:clamp(190px,30vw,260px);max-width:none;transform:translateX(-50%);z-index:21}
-body.forced-landscape .campaign-badge{position:fixed;left:45%;top:calc(2px + var(--safe-top));bottom:auto;width:260px;width:clamp(190px,calc(var(--rotation-width,100vw)*.3),260px);max-width:none;transform:translateX(-50%);z-index:21}
+body.compact-mode:not(.forced-landscape) .workspace>.campaign-badge{left:15px;top:auto;bottom:16px;width:300px}
+body.finished.compact-mode:not(.forced-landscape) .workspace>.campaign-badge{top:132px;bottom:auto}
 body.walking .campaign-badge{display:none}
+
+/* The portrait logo may sit beneath the host back button; actions keep their own lane. */
+body.compact-mode:not(.forced-landscape):not(.natural-landscape) .topbar{display:grid;grid-template-columns:minmax(0,1fr) auto;padding-left:12px!important;padding-right:var(--host-portrait-actions-clearance,64px)!important;gap:8px!important;align-items:center}
+body.compact-mode:not(.forced-landscape):not(.natural-landscape) .brand{min-width:0!important;width:auto;flex:none!important;gap:6px!important;white-space:nowrap}
+body.compact-mode:not(.forced-landscape):not(.natural-landscape) .brand-mark{width:32px!important;height:32px!important;min-width:32px!important;flex:0 0 32px!important}
+body.compact-mode:not(.forced-landscape):not(.natural-landscape) .brand-mark img{width:32px;height:32px}
+body.compact-mode:not(.forced-landscape):not(.natural-landscape) .brand>span:last-child{flex:none;font-size:13px!important;letter-spacing:.3px!important}
+body.compact-mode .top-actions [data-action="undo"],body.compact-mode .top-actions [data-action="redo"],body.compact-mode .top-actions [data-action="plans"],body.compact-mode .top-actions .separator{display:none!important}
+body.compact-mode .top-actions{min-width:0;justify-self:end;gap:4px!important}
+body.compact-mode:not(.forced-landscape):not(.natural-landscape) .top-actions .primary{flex:0 0 68px;width:68px;min-width:68px;padding:8px 4px!important;white-space:nowrap}
+body.compact-mode:not(.forced-landscape):not(.natural-landscape) .top-actions .primary svg{display:none}
+
+/* Real and simulated landscape use the same three actual header columns. */
+body.natural-landscape .topbar,body.forced-landscape .topbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px!important}
+body.natural-landscape .topbar{padding-left:var(--host-back-clearance,74px)!important;padding-right:var(--host-actions-clearance,116px)!important}
+body.forced-landscape .topbar{padding-top:2px;padding-bottom:2px;min-height:48px}
+body.natural-landscape .topbar .brand,body.forced-landscape .topbar .brand{grid-column:1;grid-row:1;flex:none!important;min-width:0!important;width:auto;white-space:nowrap}
+body.natural-landscape .topbar .top-actions,body.forced-landscape .topbar .top-actions{grid-column:3;grid-row:1}
+body.natural-landscape .topbar>.campaign-badge,body.forced-landscape .topbar>.campaign-badge{grid-column:2;grid-row:1;position:relative;left:auto;top:auto;right:auto;bottom:auto;width:100%;min-width:0;max-width:260px;justify-self:center;align-self:center;margin:0;transform:none;z-index:auto}
+
+/* Scene controls sit below the host buttons and do not need their corner inset. */
+body.compact-mode:not(.forced-landscape):not(.natural-landscape):not(.forced-portrait) .mobile-view-access,
+body.compact-mode:not(.forced-landscape):not(.natural-landscape):not(.forced-portrait) .view-toolbar{right:12px}
+/* Tablet and desktop artwork has its own lower lane, clear of the scene title. */
+body:not(.compact-mode) .workspace{display:grid;grid-template-rows:minmax(0,1fr) auto auto auto}
+body:not(.compact-mode) .workspace>.campaign-badge{position:relative;grid-row:2;left:auto;top:auto;right:auto;bottom:auto;align-self:end;width:260px;max-width:calc(100% - 112px);margin:0 28px 14px}
+body:not(.compact-mode) .workspace>.room-nav{position:relative;grid-row:3;left:auto;top:auto;right:auto;bottom:auto;transform:none;min-width:0;max-width:calc(100% - 56px);margin:0 28px 14px;flex-wrap:wrap}
+body:not(.compact-mode) .workspace>.scene-bottom{position:relative;grid-row:4;left:auto;top:auto;right:auto;bottom:auto;min-width:0;margin:0 28px 16px}
 
 /* A portrait application can also fill a physically landscape browser. */
 body.forced-portrait{overflow:hidden}
 body.forced-portrait #app{position:fixed;left:0;top:0;width:var(--rotation-width);height:var(--rotation-height);transform-origin:0 0;transform:translateY(var(--physical-height)) rotate(-90deg)}
 body.forced-portrait #app .app-shell{width:100%;height:var(--rotation-height)!important}
 body.forced-portrait .orientation-toggle{left:10px;right:auto}
-body.forced-portrait.compact-mode .campaign-badge{left:70px;max-width:calc(100% - 90px)}
+body.forced-portrait.compact-mode .workspace>.campaign-badge{left:70px;max-width:calc(100% - 90px)}
 body.forced-portrait .mobile-launch,body.forced-portrait #mobile-dock .mobile-launch{padding-right:var(--host-rotated-clearance,88px)}
 body.forced-portrait .toast{max-width:calc(var(--rotation-width) - 32px)}
 body.forced-portrait #modal[open]{left:50%;top:50%;right:auto;bottom:auto;margin:0;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center}

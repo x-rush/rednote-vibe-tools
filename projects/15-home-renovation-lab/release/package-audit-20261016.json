@@ -3,8 +3,8 @@
   "skill": "minitool-zip-builder 1.8.0",
   "date": "2026-10-16",
   "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.4.12-minitool.zip",
-  "bytes": 1372908,
-  "sha256": "0d62b9a2e46aca58205565e9f36c66ccfeaa80984589cb0b832a4ccd07056a20",
+  "bytes": 1373496,
+  "sha256": "885a5ea91179be2cd7fb7a2fbe62dea0dac958394580b7385863ebf73c2c83a7",
   "files": [
     "assets/app.js",
     "assets/content.js",

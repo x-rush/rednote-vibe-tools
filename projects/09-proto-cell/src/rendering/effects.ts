@@ -76,7 +76,7 @@ export function drawDangerTelegraph(
   const hidden = entity.behaviorState === 'hide'
   const charging = entity.behaviorState === 'charge' || entity.behaviorState === 'ambush'
   const recovering = entity.behaviorState === 'recover'
-  const pulse = state.active || charging ? 1.18 + Math.sin(elapsedMs / 55) * 0.05 : 1.18 + state.contraction * 0.32
+  const pulse = reducedFlash ? 1.18 : state.active || charging ? 1.18 + Math.sin(elapsedMs / 55) * 0.05 : 1.18 + state.contraction * 0.32
   context.save()
   context.globalAlpha = hidden || recovering ? 0.12 : state.telegraph || charging ? (reducedFlash ? 0.72 : 1) : 0.22
   context.strokeStyle = recovering ? '#8ff8ff' : state.active || charging ? '#fff09a' : 'rgb(255 139 105 / 78%)'

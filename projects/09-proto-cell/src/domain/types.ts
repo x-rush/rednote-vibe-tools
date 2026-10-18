@@ -42,5 +42,6 @@ export type EntityState = {
   arrivalReleaseUntilMs?: number
   behaviorProfileId?: `behavior-${string}`
   behaviorState?: string
+  behaviorDirection?: Vec2
   ecologyGroupId?: string
 }

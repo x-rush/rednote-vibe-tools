@@ -1,0 +1,762 @@
+{
+  "policy": "fixed-step time acceleration, no movement, choose first mutation, no health/radius/enemy modifications",
+  "events": [
+    {
+      "at": 9999.999999999995,
+      "events": []
+    },
+    {
+      "at": 20066.666666666697,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-clear-drop",
+          "atMs": 14983.333333333147
+        }
+      ]
+    },
+    {
+      "at": 30250.00000000077,
+      "events": []
+    },
+    {
+      "at": 40383.33333333318,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "carcass-rush",
+          "environmentId": "env-clear-drop",
+          "atMs": 31933.333333334227
+        }
+      ]
+    },
+    {
+      "at": 45016.66666666584,
+      "events": [
+        {
+          "type": "collapse-warning",
+          "stageIndex": 1,
+          "atMs": 41266.66666666639
+        },
+        {
+          "type": "mutation-ready",
+          "entityId": "player",
+          "atMs": 45016.66666666584
+        }
+      ]
+    },
+    {
+      "at": 55116.66666666437,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "food-bloom",
+          "environmentId": "env-clear-drop",
+          "atMs": 45316.6666666658
+        }
+      ]
+    },
+    {
+      "at": 65249.99999999623,
+      "events": [
+        {
+          "type": "migration-ready",
+          "stageIndex": 1,
+          "routes": [
+            {
+              "id": "journey-route-algae-feast",
+              "destinationEnvironmentId": "env-algae-glow",
+              "rewardId": "journeyRewardAlgaeFeast",
+              "riskId": "journeyRiskAlgaeFeast",
+              "entryModifierId": "entry-algae-feast"
+            },
+            {
+              "id": "journey-route-acid-mutation",
+              "destinationEnvironmentId": "env-acid-vesicle",
+              "rewardId": "journeyRewardAcidMutation",
+              "riskId": "journeyRiskAcidMutation",
+              "entryModifierId": "entry-acid-mutation"
+            }
+          ],
+          "atMs": 60016.66666666366
+        },
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "school-migration",
+          "environmentId": "env-clear-drop",
+          "atMs": 61149.99999999683
+        }
+      ]
+    },
+    {
+      "at": 75399.99999999905,
+      "events": [
+        {
+          "type": "migration-forced",
+          "stageIndex": 1,
+          "routeId": "journey-route-acid-mutation",
+          "destinationEnvironmentId": "env-acid-vesicle",
+          "atMs": 72016.66666666474
+        },
+        {
+          "type": "route-selected",
+          "routeId": "journey-route-acid-mutation",
+          "environmentId": "env-acid-vesicle",
+          "atMs": 72016.66666666474
+        }
+      ]
+    },
+    {
+      "at": 85550.00000000201,
+      "events": []
+    },
+    {
+      "at": 95683.33333333829,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-acid-vesicle",
+          "atMs": 87583.33333333593
+        }
+      ]
+    },
+    {
+      "at": 105833.33333334124,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "carcass-rush",
+          "environmentId": "env-acid-vesicle",
+          "atMs": 105516.66666667449
+        }
+      ]
+    },
+    {
+      "at": 115966.66666667753,
+      "events": []
+    },
+    {
+      "at": 126116.66666668048,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "food-bloom",
+          "environmentId": "env-acid-vesicle",
+          "atMs": 119183.33333334513
+        }
+      ]
+    },
+    {
+      "at": 136250.00000001225,
+      "events": [
+        {
+          "type": "collapse-warning",
+          "stageIndex": 2,
+          "atMs": 128266.6666666811
+        },
+        {
+          "type": "event-phase",
+          "eventId": "event-giant-passage",
+          "phase": "telegraph",
+          "atMs": 132016.66666668138
+        },
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "school-migration",
+          "environmentId": "env-acid-vesicle",
+          "atMs": 135783.33333334586
+        },
+        {
+          "type": "event-phase",
+          "eventId": "event-giant-passage",
+          "phase": "active",
+          "atMs": 136216.66666667894
+        }
+      ]
+    },
+    {
+      "at": 146400.00000000634,
+      "events": []
+    },
+    {
+      "at": 156550.00000000044,
+      "events": [
+        {
+          "type": "migration-ready",
+          "stageIndex": 2,
+          "routes": [
+            {
+              "id": "journey-route-fiber-cover",
+              "destinationEnvironmentId": "env-fiber-maze",
+              "rewardId": "journeyRewardFiberCover",
+              "riskId": "journeyRiskFiberCover",
+              "entryModifierId": "entry-fiber-cover"
+            },
+            {
+              "id": "journey-route-antibody-current",
+              "destinationEnvironmentId": "env-antibody-storm",
+              "rewardId": "journeyRewardAntibodyCurrent",
+              "riskId": "journeyRiskAntibodyCurrent",
+              "entryModifierId": "entry-antibody-current"
+            }
+          ],
+          "atMs": 147016.66666667265
+        },
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-acid-vesicle",
+          "atMs": 148466.6666666718
+        }
+      ]
+    },
+    {
+      "at": 166699.99999999453,
+      "events": [
+        {
+          "type": "event-phase",
+          "eventId": "event-giant-passage",
+          "phase": "expired",
+          "atMs": 158066.66666666622
+        },
+        {
+          "type": "migration-forced",
+          "stageIndex": 2,
+          "routeId": "journey-route-fiber-cover",
+          "destinationEnvironmentId": "env-fiber-maze",
+          "atMs": 159016.66666666567
+        },
+        {
+          "type": "route-selected",
+          "routeId": "journey-route-fiber-cover",
+          "environmentId": "env-fiber-maze",
+          "atMs": 159016.66666666567
+        },
+        {
+          "type": "form-transitioned",
+          "fromFormId": "form-primal-cell",
+          "toFormId": "form-colony-body",
+          "atMs": 159016.66666666567
+        }
+      ]
+    },
+    {
+      "at": 176849.99999998862,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-fiber-maze",
+          "atMs": 173583.33333332386
+        }
+      ]
+    },
+    {
+      "at": 186983.33333331606,
+      "events": []
+    },
+    {
+      "at": 197116.6666666435,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "carcass-rush",
+          "environmentId": "env-fiber-maze",
+          "atMs": 190516.66666664733
+        }
+      ]
+    },
+    {
+      "at": 207249.99999997093,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "food-bloom",
+          "environmentId": "env-fiber-maze",
+          "atMs": 203183.33333330663
+        }
+      ]
+    },
+    {
+      "at": 217416.66666663167,
+      "events": []
+    },
+    {
+      "at": 227549.9999999591,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "school-migration",
+          "environmentId": "env-fiber-maze",
+          "atMs": 218783.33333329755
+        },
+        {
+          "type": "event-phase",
+          "eventId": "event-antibody-sweep",
+          "phase": "telegraph",
+          "atMs": 219033.3333332974
+        },
+        {
+          "type": "event-phase",
+          "eventId": "event-antibody-sweep",
+          "phase": "active",
+          "atMs": 222233.33333329554
+        }
+      ]
+    },
+    {
+      "at": 237699.9999999532,
+      "events": [
+        {
+          "type": "collapse-warning",
+          "stageIndex": 3,
+          "atMs": 230283.33333329085
+        },
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-fiber-maze",
+          "atMs": 230466.66666662408
+        }
+      ]
+    },
+    {
+      "at": 247833.33333328064,
+      "events": [
+        {
+          "type": "event-phase",
+          "eventId": "event-antibody-sweep",
+          "phase": "expired",
+          "atMs": 246066.666666615
+        },
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "carcass-rush",
+          "environmentId": "env-fiber-maze",
+          "atMs": 246599.99999994802
+        }
+      ]
+    },
+    {
+      "at": 257966.66666660807,
+      "events": [
+        {
+          "type": "migration-ready",
+          "stageIndex": 3,
+          "routes": [
+            {
+              "id": "journey-route-acid-pressure",
+              "destinationEnvironmentId": "env-acid-vesicle",
+              "rewardId": "journeyRewardAcidPressure",
+              "riskId": "journeyRiskAcidPressure",
+              "entryModifierId": "entry-acid-pressure"
+            },
+            {
+              "id": "journey-route-algae-blackout",
+              "destinationEnvironmentId": "env-algae-glow",
+              "rewardId": "journeyRewardAlgaeBlackout",
+              "riskId": "journeyRiskAlgaeBlackout",
+              "entryModifierId": "entry-algae-blackout"
+            }
+          ],
+          "atMs": 249033.33333327994
+        }
+      ]
+    },
+    {
+      "at": 268116.6666666126,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "food-bloom",
+          "environmentId": "env-fiber-maze",
+          "atMs": 259383.3333332739
+        },
+        {
+          "type": "migration-forced",
+          "stageIndex": 3,
+          "routeId": "journey-route-algae-blackout",
+          "destinationEnvironmentId": "env-algae-glow",
+          "atMs": 261033.33333327295
+        },
+        {
+          "type": "route-selected",
+          "routeId": "journey-route-algae-blackout",
+          "environmentId": "env-algae-glow",
+          "atMs": 261033.33333327295
+        }
+      ]
+    },
+    {
+      "at": 278249.99999995774,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-algae-glow",
+          "atMs": 275016.66666662064
+        }
+      ]
+    },
+    {
+      "at": 288416.66666663624,
+      "events": []
+    },
+    {
+      "at": 298566.66666664806,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "carcass-rush",
+          "environmentId": "env-algae-glow",
+          "atMs": 290966.6666666392
+        }
+      ]
+    },
+    {
+      "at": 308699.9999999932,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "food-bloom",
+          "environmentId": "env-algae-glow",
+          "atMs": 303349.99999998696
+        }
+      ]
+    },
+    {
+      "at": 319000.0000000052,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "school-migration",
+          "environmentId": "env-algae-glow",
+          "atMs": 318183.33333333756
+        }
+      ]
+    },
+    {
+      "at": 328383.33333334944,
+      "events": [
+        {
+          "type": "event-phase",
+          "eventId": "event-giant-passage",
+          "phase": "telegraph",
+          "atMs": 321033.3333333409
+        },
+        {
+          "type": "event-phase",
+          "eventId": "event-giant-passage",
+          "phase": "active",
+          "atMs": 325233.33333334577
+        },
+        {
+          "type": "mutation-ready",
+          "entityId": "player",
+          "atMs": 328316.6666666827
+        }
+      ]
+    },
+    {
+      "at": 338483.3333333612,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-algae-glow",
+          "atMs": 329766.6666666844
+        },
+        {
+          "type": "collapse-warning",
+          "stageIndex": 4,
+          "atMs": 337283.3333333598
+        }
+      ]
+    },
+    {
+      "at": 348633.333333373,
+      "events": [
+        {
+          "type": "event-phase",
+          "eventId": "event-giant-passage",
+          "phase": "expired",
+          "atMs": 342300.0000000323
+        },
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "carcass-rush",
+          "environmentId": "env-algae-glow",
+          "atMs": 345050.0000000355
+        },
+        {
+          "type": "ruptured",
+          "targetId": "eco-scavenger-env-algae-glow-103",
+          "fragmentMasses": [
+            37.10666666666667,
+            37.10666666666667,
+            37.10666666666667
+          ],
+          "atMs": 346866.6666667043
+        }
+      ]
+    },
+    {
+      "at": 358766.66666671814,
+      "events": [
+        {
+          "type": "migration-ready",
+          "stageIndex": 4,
+          "routes": [
+            {
+              "id": "journey-route-fiber-ambush",
+              "destinationEnvironmentId": "env-fiber-maze",
+              "rewardId": "journeyRewardFiberAmbush",
+              "riskId": "journeyRiskFiberAmbush",
+              "entryModifierId": "entry-fiber-ambush"
+            },
+            {
+              "id": "journey-route-antibody-hunt",
+              "destinationEnvironmentId": "env-antibody-storm",
+              "rewardId": "journeyRewardAntibodyHunt",
+              "riskId": "journeyRiskAntibodyHunt",
+              "entryModifierId": "entry-antibody-hunt"
+            }
+          ],
+          "atMs": 356033.3333333816
+        },
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "food-bloom",
+          "environmentId": "env-algae-glow",
+          "atMs": 357533.3333333834
+        }
+      ]
+    },
+    {
+      "at": 367400.0000000615,
+      "events": [
+        {
+          "type": "mutation-ready",
+          "entityId": "player",
+          "atMs": 367383.33333339484
+        }
+      ]
+    },
+    {
+      "at": 377516.66666673997,
+      "events": [
+        {
+          "type": "migration-forced",
+          "stageIndex": 4,
+          "routeId": "journey-route-fiber-ambush",
+          "destinationEnvironmentId": "env-fiber-maze",
+          "atMs": 368033.3333333956
+        },
+        {
+          "type": "route-selected",
+          "routeId": "journey-route-fiber-ambush",
+          "environmentId": "env-fiber-maze",
+          "atMs": 368033.3333333956
+        },
+        {
+          "type": "form-transitioned",
+          "fromFormId": "form-colony-body",
+          "toFormId": "form-ciliate-composite",
+          "atMs": 368033.3333333956
+        }
+      ]
+    },
+    {
+      "at": 387650.0000000851,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-fiber-maze",
+          "atMs": 382600.0000000792
+        }
+      ]
+    },
+    {
+      "at": 397766.66666676354,
+      "events": []
+    },
+    {
+      "at": 407916.66666677536,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "carcass-rush",
+          "environmentId": "env-fiber-maze",
+          "atMs": 399533.33333343227
+        }
+      ]
+    },
+    {
+      "at": 418066.6666667872,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "food-bloom",
+          "environmentId": "env-fiber-maze",
+          "atMs": 412200.0000001137
+        }
+      ]
+    },
+    {
+      "at": 428200.0000001323,
+      "events": [
+        {
+          "type": "collapse-warning",
+          "stageIndex": 5,
+          "atMs": 419283.33333345526
+        },
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "school-migration",
+          "environmentId": "env-fiber-maze",
+          "atMs": 427800.00000013184
+        },
+        {
+          "type": "event-phase",
+          "eventId": "event-antibody-sweep",
+          "phase": "telegraph",
+          "atMs": 428033.33333346545
+        }
+      ]
+    },
+    {
+      "at": 438333.33333347744,
+      "events": [
+        {
+          "type": "event-phase",
+          "eventId": "event-antibody-sweep",
+          "phase": "active",
+          "atMs": 431233.33333346917
+        },
+        {
+          "type": "migration-ready",
+          "stageIndex": 5,
+          "routes": [
+            {
+              "id": "journey-route-chamber-wreckage",
+              "destinationEnvironmentId": "env-abandoned-chamber",
+              "rewardId": "journeyRewardChamberWreckage",
+              "riskId": "journeyRiskChamberWreckage",
+              "entryModifierId": "entry-chamber-wreckage"
+            },
+            {
+              "id": "journey-route-chamber-gauntlet",
+              "destinationEnvironmentId": "env-abandoned-chamber",
+              "rewardId": "journeyRewardChamberGauntlet",
+              "riskId": "journeyRiskChamberGauntlet",
+              "entryModifierId": "entry-chamber-gauntlet"
+            }
+          ],
+          "atMs": 438033.3333334771
+        }
+      ]
+    },
+    {
+      "at": 448466.66666682257,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-fiber-maze",
+          "atMs": 439483.3333334788
+        }
+      ]
+    },
+    {
+      "at": 458600.0000001677,
+      "events": [
+        {
+          "type": "migration-forced",
+          "stageIndex": 5,
+          "routeId": "journey-route-chamber-gauntlet",
+          "destinationEnvironmentId": "env-abandoned-chamber",
+          "atMs": 450033.33333349106
+        },
+        {
+          "type": "route-selected",
+          "routeId": "journey-route-chamber-gauntlet",
+          "environmentId": "env-abandoned-chamber",
+          "atMs": 450033.33333349106
+        }
+      ]
+    },
+    {
+      "at": 468766.6666668462,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "predator-conflict",
+          "environmentId": "env-abandoned-chamber",
+          "atMs": 462416.6666668388
+        }
+      ]
+    },
+    {
+      "at": 478883.33333352464,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "carcass-rush",
+          "environmentId": "env-abandoned-chamber",
+          "atMs": 476366.66666685505
+        }
+      ]
+    },
+    {
+      "at": 489016.6666668698,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "food-bloom",
+          "environmentId": "env-abandoned-chamber",
+          "atMs": 487483.33333353465
+        }
+      ]
+    },
+    {
+      "at": 499166.6666668816,
+      "events": []
+    },
+    {
+      "at": 509300.0000002267,
+      "events": [
+        {
+          "type": "ecology-opportunity",
+          "opportunityId": "school-migration",
+          "environmentId": "env-abandoned-chamber",
+          "atMs": 500550.00000021653
+        }
+      ]
+    },
+    {
+      "at": 510433.3333335614,
+      "events": [
+        {
+          "type": "event-phase",
+          "eventId": "event-giant-passage",
+          "phase": "telegraph",
+          "atMs": 510033.3333335609
+        },
+        {
+          "type": "boss-resolved",
+          "bossId": "boss-abandoned-host",
+          "path": "environment",
+          "atMs": 510433.3333335614
+        },
+        {
+          "type": "ending-reached",
+          "endingId": "ending-stable-species",
+          "atMs": 510433.3333335614
+        }
+      ]
+    }
+  ]
+}

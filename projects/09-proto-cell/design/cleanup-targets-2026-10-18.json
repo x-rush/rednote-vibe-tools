@@ -1,0 +1,1965 @@
+{
+  "date": "2026-10-18",
+  "operation": "archived outside version control; retained recoverable copies",
+  "archiveRoot": "staging-release/obsolete-20261018",
+  "retainedRelease": "proto-cell-20261018-v7.zip",
+  "archivedTargets": 391,
+  "archivedBytes": 135471420.0,
+  "entries": [
+    {
+      "path": "design/dense-2026-10-18/after-core-1-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/after-core-1-true.png",
+      "directory": false,
+      "bytes": 1116241
+    },
+    {
+      "path": "design/dense-2026-10-18/after-core-4-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/after-core-4-true.png",
+      "directory": false,
+      "bytes": 1012180
+    },
+    {
+      "path": "design/dense-2026-10-18/after-index-1-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/after-index-1-true.png",
+      "directory": false,
+      "bytes": 1111883
+    },
+    {
+      "path": "design/dense-2026-10-18/after-index-4-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/after-pairs-1-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/after-pairs-1-true.png",
+      "directory": false,
+      "bytes": 1109803
+    },
+    {
+      "path": "design/dense-2026-10-18/after-pairs-4-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/after-pairs-4-true.png",
+      "directory": false,
+      "bytes": 1012180
+    },
+    {
+      "path": "design/dense-2026-10-18/before-1-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/before-1-true.png",
+      "directory": false,
+      "bytes": 1127104
+    },
+    {
+      "path": "design/dense-2026-10-18/before-4-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/before-4-true.png",
+      "directory": false,
+      "bytes": 1012180
+    },
+    {
+      "path": "design/dense-2026-10-18/bundle-combined-final.js.txt",
+      "directory": false,
+      "bytes": 286246
+    },
+    {
+      "path": "design/dense-2026-10-18/bundle-combined-verified.js.txt",
+      "directory": false,
+      "bytes": 286310
+    },
+    {
+      "path": "design/dense-2026-10-18/bundle-final.js.txt",
+      "directory": false,
+      "bytes": 286180
+    },
+    {
+      "path": "design/dense-2026-10-18/bundle-probe-base.js.txt",
+      "directory": false,
+      "bytes": 285223
+    },
+    {
+      "path": "design/dense-2026-10-18/bundle-probe-no-ring.js.txt",
+      "directory": false,
+      "bytes": 284244
+    },
+    {
+      "path": "design/dense-2026-10-18/bundle-probe-no-text.js.txt",
+      "directory": false,
+      "bytes": 285223
+    },
+    {
+      "path": "design/dense-2026-10-18/bundle-retained-paths.js.txt",
+      "directory": false,
+      "bytes": 286057
+    },
+    {
+      "path": "design/dense-2026-10-18/final-1-false.png",
+      "directory": false,
+      "bytes": 1183451
+    },
+    {
+      "path": "design/dense-2026-10-18/final-1-true.png",
+      "directory": false,
+      "bytes": 1162139
+    },
+    {
+      "path": "design/dense-2026-10-18/final-4-false.png",
+      "directory": false,
+      "bytes": 1183451
+    },
+    {
+      "path": "design/dense-2026-10-18/final-4-true.png",
+      "directory": false,
+      "bytes": 1096011
+    },
+    {
+      "path": "design/dense-2026-10-18/probe-base-4-false.png",
+      "directory": false,
+      "bytes": 1184789
+    },
+    {
+      "path": "design/dense-2026-10-18/probe-no-ring-4-false.png",
+      "directory": false,
+      "bytes": 1171747
+    },
+    {
+      "path": "design/dense-2026-10-18/probe-no-text-4-false.png",
+      "directory": false,
+      "bytes": 1174375
+    },
+    {
+      "path": "design/dense-2026-10-18/retained-paths-4-false.png",
+      "directory": false,
+      "bytes": 1183450
+    },
+    {
+      "path": "design/reachability-2026-10-18/accepted-touch-progress.json",
+      "directory": false,
+      "bytes": 34777
+    },
+    {
+      "path": "design/reachability-2026-10-18/accepted-wheel-progress.json",
+      "directory": false,
+      "bytes": 34782
+    },
+    {
+      "path": "design/reachability-2026-10-18/add-package-mode.cjs",
+      "directory": false,
+      "bytes": 928
+    },
+    {
+      "path": "design/reachability-2026-10-18/batch-hit-check.cjs",
+      "directory": false,
+      "bytes": 2187
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-archive.png",
+      "directory": false,
+      "bytes": 75658
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-codex.png",
+      "directory": false,
+      "bytes": 126851
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 94839
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-genes.png",
+      "directory": false,
+      "bytes": 114622
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-home-failed.png",
+      "directory": false,
+      "bytes": 109219
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-library-failed.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-library-full.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 64218
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-result.png",
+      "directory": false,
+      "bytes": 70986
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 104548
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 105791
+    },
+    {
+      "path": "design/reachability-2026-10-18/before-844-wheel-settings.png",
+      "directory": false,
+      "bytes": 90806
+    },
+    {
+      "path": "design/reachability-2026-10-18/controlled-swipe.cjs",
+      "directory": false,
+      "bytes": 997
+    },
+    {
+      "path": "design/reachability-2026-10-18/create-flow.cjs",
+      "directory": false,
+      "bytes": 2768
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-archive.png",
+      "directory": false,
+      "bytes": 75863
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-codex.png",
+      "directory": false,
+      "bytes": 126851
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 94861
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-genes.png",
+      "directory": false,
+      "bytes": 114622
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 120096
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-home.png",
+      "directory": false,
+      "bytes": 109219
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-library-failed.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-library-full.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 64209
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-result.png",
+      "directory": false,
+      "bytes": 71016
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 104548
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 105791
+    },
+    {
+      "path": "design/reachability-2026-10-18/diagnostic-844-wheel-settings.png",
+      "directory": false,
+      "bytes": 90806
+    },
+    {
+      "path": "design/reachability-2026-10-18/dynamic-phase.cjs",
+      "directory": false,
+      "bytes": 1523
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-archive.png",
+      "directory": false,
+      "bytes": 94738
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-canvas-error.png",
+      "directory": false,
+      "bytes": 103788
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-codex.png",
+      "directory": false,
+      "bytes": 98709
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-evolution-choices.png",
+      "directory": false,
+      "bytes": 120195
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-genes.png",
+      "directory": false,
+      "bytes": 87724
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-home-expanded.png",
+      "directory": false,
+      "bytes": 124977
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-home.png",
+      "directory": false,
+      "bytes": 114152
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-library-failed.png",
+      "directory": false,
+      "bytes": 124066
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-pause.png",
+      "directory": false,
+      "bytes": 57498
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-result-expanded.png",
+      "directory": false,
+      "bytes": 100030
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-result.png",
+      "directory": false,
+      "bytes": 103709
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 80919
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-settings-exported.png",
+      "directory": false,
+      "bytes": 82689
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-375-touch-settings.png",
+      "directory": false,
+      "bytes": 75128
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-archive.png",
+      "directory": false,
+      "bytes": 107333
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-canvas-error.png",
+      "directory": false,
+      "bytes": 107466
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-codex.png",
+      "directory": false,
+      "bytes": 107312
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-evolution-choices.png",
+      "directory": false,
+      "bytes": 129940
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-genes.png",
+      "directory": false,
+      "bytes": 89952
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-home-expanded.png",
+      "directory": false,
+      "bytes": 121318
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-home.png",
+      "directory": false,
+      "bytes": 118810
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-library-failed.png",
+      "directory": false,
+      "bytes": 163242
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-pause.png",
+      "directory": false,
+      "bytes": 57086
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-result-expanded.png",
+      "directory": false,
+      "bytes": 106080
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-result.png",
+      "directory": false,
+      "bytes": 109645
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 87646
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-settings-exported.png",
+      "directory": false,
+      "bytes": 87694
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-390-touch-settings.png",
+      "directory": false,
+      "bytes": 77963
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-archive.png",
+      "directory": false,
+      "bytes": 126511
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-canvas-error.png",
+      "directory": false,
+      "bytes": 120202
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-codex.png",
+      "directory": false,
+      "bytes": 119209
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-evolution-choices.png",
+      "directory": false,
+      "bytes": 152876
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-genes.png",
+      "directory": false,
+      "bytes": 103155
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-home-expanded.png",
+      "directory": false,
+      "bytes": 138551
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-home.png",
+      "directory": false,
+      "bytes": 158643
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-library-failed.png",
+      "directory": false,
+      "bytes": 205197
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-pause.png",
+      "directory": false,
+      "bytes": 60375
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-result-expanded.png",
+      "directory": false,
+      "bytes": 121972
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-result.png",
+      "directory": false,
+      "bytes": 124229
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 103635
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-settings-exported.png",
+      "directory": false,
+      "bytes": 96573
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-touch-430-touch-settings.png",
+      "directory": false,
+      "bytes": 92416
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-archive.png",
+      "directory": false,
+      "bytes": 94769
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 103788
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-codex.png",
+      "directory": false,
+      "bytes": 98709
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 120987
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-genes.png",
+      "directory": false,
+      "bytes": 87724
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 121237
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 107933
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-home.png",
+      "directory": false,
+      "bytes": 114159
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-library-full.png",
+      "directory": false,
+      "bytes": 115138
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-pause.png",
+      "directory": false,
+      "bytes": 55529
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 100278
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-result.png",
+      "directory": false,
+      "bytes": 103842
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-retire-confirm.png",
+      "directory": false,
+      "bytes": 106334
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 123099
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 85252
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 81250
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-375-wheel-settings.png",
+      "directory": false,
+      "bytes": 75128
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-archive.png",
+      "directory": false,
+      "bytes": 107338
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 107466
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-codex-failed.png",
+      "directory": false,
+      "bytes": 106765
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-codex.png",
+      "directory": false,
+      "bytes": 107312
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 130682
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-genes.png",
+      "directory": false,
+      "bytes": 89952
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 127641
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 85696
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-home.png",
+      "directory": false,
+      "bytes": 79531
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-library-failed.png",
+      "directory": false,
+      "bytes": 106765
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-library-full.png",
+      "directory": false,
+      "bytes": 96498
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-pause.png",
+      "directory": false,
+      "bytes": 57767
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 106097
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-result.png",
+      "directory": false,
+      "bytes": 109229
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-retire-confirm.png",
+      "directory": false,
+      "bytes": 72046
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 92347
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 91040
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 87694
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-390-wheel-settings.png",
+      "directory": false,
+      "bytes": 77963
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-archive.png",
+      "directory": false,
+      "bytes": 126510
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 120202
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-codex.png",
+      "directory": false,
+      "bytes": 119209
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 151914
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-genes.png",
+      "directory": false,
+      "bytes": 103155
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 144073
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 139964
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-home.png",
+      "directory": false,
+      "bytes": 158661
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-library-full.png",
+      "directory": false,
+      "bytes": 149713
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-pause.png",
+      "directory": false,
+      "bytes": 62253
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 121467
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-result.png",
+      "directory": false,
+      "bytes": 125247
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-retire-confirm.png",
+      "directory": false,
+      "bytes": 129901
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 156872
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 103635
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 96573
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-430-wheel-settings.png",
+      "directory": false,
+      "bytes": 92416
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-archive.png",
+      "directory": false,
+      "bytes": 76086
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 134359
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-codex.png",
+      "directory": false,
+      "bytes": 126851
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 95018
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-genes.png",
+      "directory": false,
+      "bytes": 114622
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 138295
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 120096
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-home.png",
+      "directory": false,
+      "bytes": 109219
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-library-full.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-pause.png",
+      "directory": false,
+      "bytes": 64155
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 64450
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-result.png",
+      "directory": false,
+      "bytes": 71000
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-retire-confirm.png",
+      "directory": false,
+      "bytes": 87074
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 166507
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 104548
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 105791
+    },
+    {
+      "path": "design/reachability-2026-10-18/final-wheel-844-wheel-settings.png",
+      "directory": false,
+      "bytes": 90806
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-archive.png",
+      "directory": false,
+      "bytes": 75527
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 134359
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-codex.png",
+      "directory": false,
+      "bytes": 126851
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 94919
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-genes.png",
+      "directory": false,
+      "bytes": 114622
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 138295
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 120096
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-home.png",
+      "directory": false,
+      "bytes": 109219
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-library-full.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-pause.png",
+      "directory": false,
+      "bytes": 63993
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 64434
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-result.png",
+      "directory": false,
+      "bytes": 71018
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-retire-confirm.png",
+      "directory": false,
+      "bytes": 87074
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 166507
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 104548
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 105791
+    },
+    {
+      "path": "design/reachability-2026-10-18/fixed-quick-844-wheel-settings.png",
+      "directory": false,
+      "bytes": 90806
+    },
+    {
+      "path": "design/reachability-2026-10-18/guard-equivalence.cjs",
+      "directory": false,
+      "bytes": 2731
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-archive.png",
+      "directory": false,
+      "bytes": 75671
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-codex.png",
+      "directory": false,
+      "bytes": 126851
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 94998
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-genes.png",
+      "directory": false,
+      "bytes": 114622
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 138295
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 120096
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-home.png",
+      "directory": false,
+      "bytes": 109219
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-library-full.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-pause-and-error-failed.png",
+      "directory": false,
+      "bytes": 119386
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-pause.png",
+      "directory": false,
+      "bytes": 63587
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 64457
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-result.png",
+      "directory": false,
+      "bytes": 71018
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-retire-confirm.png",
+      "directory": false,
+      "bytes": 87074
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 166507
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 104548
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 105791
+    },
+    {
+      "path": "design/reachability-2026-10-18/preflight-844-wheel-settings.png",
+      "directory": false,
+      "bytes": 90806
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-touch-375-touch-codex-failed.png",
+      "directory": false,
+      "bytes": 123696
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-touch-375-touch-home-expanded.png",
+      "directory": false,
+      "bytes": 107933
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-touch-375-touch-home.png",
+      "directory": false,
+      "bytes": 114164
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-touch-375-touch-library-failed.png",
+      "directory": false,
+      "bytes": 123696
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-touch-375-touch-library-full.png",
+      "directory": false,
+      "bytes": 115138
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-touch-375-touch-seed-bank.png",
+      "directory": false,
+      "bytes": 123099
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-touch-progress.json",
+      "directory": false,
+      "bytes": 2119
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-archive.png",
+      "directory": false,
+      "bytes": 95092
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 103788
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-codex.png",
+      "directory": false,
+      "bytes": 98709
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 120989
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-genes.png",
+      "directory": false,
+      "bytes": 87724
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 121253
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 107933
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-home.png",
+      "directory": false,
+      "bytes": 114151
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-library-full.png",
+      "directory": false,
+      "bytes": 115138
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-pause.png",
+      "directory": false,
+      "bytes": 55961
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 100266
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-result.png",
+      "directory": false,
+      "bytes": 103853
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 123099
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 85252
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 81250
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-375-wheel-settings.png",
+      "directory": false,
+      "bytes": 75128
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-archive.png",
+      "directory": false,
+      "bytes": 107619
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 107466
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-codex.png",
+      "directory": false,
+      "bytes": 107312
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 130672
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-genes.png",
+      "directory": false,
+      "bytes": 89952
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 127660
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 85696
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-home.png",
+      "directory": false,
+      "bytes": 79531
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-library-failed.png",
+      "directory": false,
+      "bytes": 106765
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-library-full.png",
+      "directory": false,
+      "bytes": 96498
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-pause.png",
+      "directory": false,
+      "bytes": 56706
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 106033
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-result.png",
+      "directory": false,
+      "bytes": 109229
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 92347
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 91040
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 87694
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-390-wheel-settings.png",
+      "directory": false,
+      "bytes": 77963
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-archive.png",
+      "directory": false,
+      "bytes": 126909
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 120202
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-codex.png",
+      "directory": false,
+      "bytes": 119209
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 151886
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-genes.png",
+      "directory": false,
+      "bytes": 103155
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 144321
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 139964
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-home.png",
+      "directory": false,
+      "bytes": 158640
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-library-full.png",
+      "directory": false,
+      "bytes": 149713
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-pause.png",
+      "directory": false,
+      "bytes": 60420
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 121454
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-result.png",
+      "directory": false,
+      "bytes": 125308
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 156872
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 103635
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 96573
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-430-wheel-settings.png",
+      "directory": false,
+      "bytes": 92416
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-archive.png",
+      "directory": false,
+      "bytes": 75719
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-canvas-error.png",
+      "directory": false,
+      "bytes": 134359
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-codex.png",
+      "directory": false,
+      "bytes": 126851
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-evolution-choices.png",
+      "directory": false,
+      "bytes": 94915
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-genes.png",
+      "directory": false,
+      "bytes": 114622
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-hatch-dialog.png",
+      "directory": false,
+      "bytes": 138295
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-home-expanded.png",
+      "directory": false,
+      "bytes": 120096
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-home.png",
+      "directory": false,
+      "bytes": 109219
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-library-full.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-pause.png",
+      "directory": false,
+      "bytes": 63064
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-result-expanded.png",
+      "directory": false,
+      "bytes": 64459
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-result.png",
+      "directory": false,
+      "bytes": 71011
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-seed-bank.png",
+      "directory": false,
+      "bytes": 166507
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 104548
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-settings-exported.png",
+      "directory": false,
+      "bytes": 105791
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-844-wheel-settings.png",
+      "directory": false,
+      "bytes": 90806
+    },
+    {
+      "path": "design/reachability-2026-10-18/release-wheel-progress.json",
+      "directory": false,
+      "bytes": 28160
+    },
+    {
+      "path": "design/reachability-2026-10-18/stabilize-controls.cjs",
+      "directory": false,
+      "bytes": 1238
+    },
+    {
+      "path": "design/reachability-2026-10-18/stabilize-touch.cjs",
+      "directory": false,
+      "bytes": 693
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-archive.png",
+      "directory": false,
+      "bytes": 75926
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-canvas-error.png",
+      "directory": false,
+      "bytes": 134359
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-codex.png",
+      "directory": false,
+      "bytes": 126851
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-evolution-choices.png",
+      "directory": false,
+      "bytes": 94963
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-genes.png",
+      "directory": false,
+      "bytes": 114622
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-hatch-dialog.png",
+      "directory": false,
+      "bytes": 138295
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-home-expanded.png",
+      "directory": false,
+      "bytes": 120096
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-home.png",
+      "directory": false,
+      "bytes": 109219
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-library-full.png",
+      "directory": false,
+      "bytes": 108261
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-pause.png",
+      "directory": false,
+      "bytes": 65402
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-result-expanded.png",
+      "directory": false,
+      "bytes": 64367
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-result.png",
+      "directory": false,
+      "bytes": 70979
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-retire-confirm.png",
+      "directory": false,
+      "bytes": 87074
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-seed-bank.png",
+      "directory": false,
+      "bytes": 166507
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-settings-clear-confirm.png",
+      "directory": false,
+      "bytes": 104548
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-settings-exported.png",
+      "directory": false,
+      "bytes": 105791
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-844-touch-settings.png",
+      "directory": false,
+      "bytes": 90806
+    },
+    {
+      "path": "design/reachability-2026-10-18/swipe-check-progress.json",
+      "directory": false,
+      "bytes": 6828
+    },
+    {
+      "path": "design/reachability-2026-10-18/verified-touch-375-touch-home.png",
+      "directory": false,
+      "bytes": 114163
+    },
+    {
+      "path": "design/reachability-2026-10-18/write-release.cjs",
+      "directory": false,
+      "bytes": 8755
+    },
+    {
+      "path": "design/reachability-2026-10-18/zip-check-progress.json",
+      "directory": false,
+      "bytes": 6986
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-before-pacing.js.txt",
+      "directory": false,
+      "bytes": 961773
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-final.js.txt",
+      "directory": false,
+      "bytes": 574015
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-paced-correct.js.txt",
+      "directory": false,
+      "bytes": 574427
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-paced.js.txt",
+      "directory": false,
+      "bytes": 574409
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-silentprobe.js.txt",
+      "directory": false,
+      "bytes": 572198
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-unpaced-correct.js.txt",
+      "directory": false,
+      "bytes": 574398
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-unpaced-eagerhud-repeat.js.txt",
+      "directory": false,
+      "bytes": 574398
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-unpaced-hud.js.txt",
+      "directory": false,
+      "bytes": 574547
+    },
+    {
+      "path": "design/tail-2026-10-18/app-app-unpaced.js.txt",
+      "directory": false,
+      "bytes": 574295
+    },
+    {
+      "path": "design/tail-2026-10-18/app-paced-4.png",
+      "directory": false,
+      "bytes": 982766
+    },
+    {
+      "path": "design/tail-2026-10-18/app-paced-6.png",
+      "directory": false,
+      "bytes": 1034923
+    },
+    {
+      "path": "design/tail-2026-10-18/app-paced-correct-4.png",
+      "directory": false,
+      "bytes": 948183
+    },
+    {
+      "path": "design/tail-2026-10-18/app-paced-correct-6.png",
+      "directory": false,
+      "bytes": 994570
+    },
+    {
+      "path": "design/tail-2026-10-18/app-silentprobe-4.png",
+      "directory": false,
+      "bytes": 956615
+    },
+    {
+      "path": "design/tail-2026-10-18/app-unpaced-4.png",
+      "directory": false,
+      "bytes": 1015085
+    },
+    {
+      "path": "design/tail-2026-10-18/app-unpaced-6.png",
+      "directory": false,
+      "bytes": 1004863
+    },
+    {
+      "path": "design/tail-2026-10-18/app-unpaced-correct-4.png",
+      "directory": false,
+      "bytes": 961809
+    },
+    {
+      "path": "design/tail-2026-10-18/app-unpaced-correct-6.png",
+      "directory": false,
+      "bytes": 991270
+    },
+    {
+      "path": "design/tail-2026-10-18/app-unpaced-eagerhud-repeat-4.png",
+      "directory": false,
+      "bytes": 959117
+    },
+    {
+      "path": "design/tail-2026-10-18/app-unpaced-eagerhud-repeat-6.png",
+      "directory": false,
+      "bytes": 990640
+    },
+    {
+      "path": "design/tail-2026-10-18/app-unpaced-hud-4.png",
+      "directory": false,
+      "bytes": 942797
+    },
+    {
+      "path": "design/tail-2026-10-18/app-unpaced-hud-6.png",
+      "directory": false,
+      "bytes": 991238
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-anatomy.js.txt",
+      "directory": false,
+      "bytes": 287840
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-armor.js.txt",
+      "directory": false,
+      "bytes": 289198
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-before.js.txt",
+      "directory": false,
+      "bytes": 286541
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-constants.js.txt",
+      "directory": false,
+      "bytes": 288687
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-events-before.js.txt",
+      "directory": false,
+      "bytes": 288857
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-events-final.js.txt",
+      "directory": false,
+      "bytes": 289115
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-final.js.txt",
+      "directory": false,
+      "bytes": 286541
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-interiors.js.txt",
+      "directory": false,
+      "bytes": 289419
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-occlusion.js.txt",
+      "directory": false,
+      "bytes": 288415
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-opaque.js.txt",
+      "directory": false,
+      "bytes": 286552
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-profile.js.txt",
+      "directory": false,
+      "bytes": 505714
+    },
+    {
+      "path": "design/tail-2026-10-18/bundle-combined-simple.js.txt",
+      "directory": false,
+      "bytes": 290955
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-anatomy-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-anatomy-4-true.png",
+      "directory": false,
+      "bytes": 1021960
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-anatomy-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-anatomy-6-true.png",
+      "directory": false,
+      "bytes": 922017
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-armor-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-armor-4-true.png",
+      "directory": false,
+      "bytes": 1014455
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-armor-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-armor-6-true.png",
+      "directory": false,
+      "bytes": 920730
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-before-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-before-4-true.png",
+      "directory": false,
+      "bytes": 1009576
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-before-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-before-6-true.png",
+      "directory": false,
+      "bytes": 919110
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-constants-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-constants-4-true.png",
+      "directory": false,
+      "bytes": 1025003
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-constants-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-constants-6-true.png",
+      "directory": false,
+      "bytes": 906733
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-events-before-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-events-before-4-true.png",
+      "directory": false,
+      "bytes": 1008417
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-events-before-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-events-before-6-true.png",
+      "directory": false,
+      "bytes": 907882
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-events-final-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-interiors-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-interiors-4-true.png",
+      "directory": false,
+      "bytes": 1020654
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-interiors-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-interiors-6-true.png",
+      "directory": false,
+      "bytes": 921765
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-occlusion-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-occlusion-4-true.png",
+      "directory": false,
+      "bytes": 1023564
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-occlusion-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-occlusion-6-true.png",
+      "directory": false,
+      "bytes": 919538
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-opaque-4-false.png",
+      "directory": false,
+      "bytes": 1011804
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-profile-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-simple-4-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-simple-4-true.png",
+      "directory": false,
+      "bytes": 1023954
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-simple-6-false.png",
+      "directory": false,
+      "bytes": 1013360
+    },
+    {
+      "path": "design/tail-2026-10-18/combined-simple-6-true.png",
+      "directory": false,
+      "bytes": 918348
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v5-验收报告.md",
+      "directory": false,
+      "bytes": 4451
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v5-真机验收清单.md",
+      "directory": false,
+      "bytes": 7275
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v5-manifest.json",
+      "directory": false,
+      "bytes": 14643
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v5-SHA256.txt",
+      "directory": false,
+      "bytes": 94
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v5-verification.json",
+      "directory": false,
+      "bytes": 2866
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v5-verify-10b8239a",
+      "directory": true,
+      "bytes": 3456856.0
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v5.zip",
+      "directory": false,
+      "bytes": 2976221
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v6-验收报告.md",
+      "directory": false,
+      "bytes": 2634
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v6-真机验收清单.md",
+      "directory": false,
+      "bytes": 7507
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v6-manifest.json",
+      "directory": false,
+      "bytes": 14643
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v6-SHA256.txt",
+      "directory": false,
+      "bytes": 94
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v6-verification.json",
+      "directory": false,
+      "bytes": 5302
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v6-verify-05e32a0f",
+      "directory": true,
+      "bytes": 3456962.0
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v6.zip",
+      "directory": false,
+      "bytes": 2976253
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v7-verify-1f3012cd",
+      "directory": true,
+      "bytes": 3457162.0
+    },
+    {
+      "path": "release-assets/proto-cell-20261018-v7-verify-e39dc291",
+      "directory": true,
+      "bytes": 3456989.0
+    },
+    {
+      "path": "release-assets/proto-cell-mini-tool-v4-final.zip",
+      "directory": false,
+      "bytes": 2942921
+    }
+  ]
+}

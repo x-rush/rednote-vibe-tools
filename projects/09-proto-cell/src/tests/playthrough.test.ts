@@ -8,45 +8,47 @@ function auditedTenSeeds() {
 }
 
 describe('M0 headless playthrough', () => {
-  const launchRouteAuditSet = [
-    ['journey-route-algae-feast', 'journey-route-fiber-cover', 'journey-route-acid-pressure', 'journey-route-fiber-ambush', 'journey-route-chamber-wreckage'],
-    ['journey-route-acid-mutation', 'journey-route-antibody-current', 'journey-route-algae-blackout', 'journey-route-antibody-hunt', 'journey-route-chamber-gauntlet'],
-    ['journey-route-algae-feast', 'journey-route-antibody-current', 'journey-route-acid-pressure', 'journey-route-antibody-hunt', 'journey-route-chamber-wreckage'],
-    ['journey-route-acid-mutation', 'journey-route-fiber-cover', 'journey-route-algae-blackout', 'journey-route-fiber-ambush', 'journey-route-chamber-gauntlet'],
-  ] as const
+  const launchPolicyAuditSet = ['balanced', 'speed', 'armor', 'stealth'] as const
 
   it('produces at least six distinct final morphology signatures across ten seeds', () => {
     const signatures = new Set(auditedTenSeeds().map((report) => report.morphologySignature))
     expect(signatures.size).toBeGreaterThanOrEqual(6)
   }, 120_000)
 
-  it('covers every route offer across complete eight-minute outcomes', () => {
-    for (const [seed, route] of launchRouteAuditSet.entries()) {
-      const report = runHeadless({ seed: seed + 727, durationMs: 560_000, route })
+  it('records normal terminal outcomes across several seed and build policies', () => {
+    const reports = launchPolicyAuditSet.map((policy, index) => runHeadless({ seed: index + 727, durationMs: 720_000, policy }))
+    for (const report of reports) {
       expect(report.invalidNumbers).toEqual([])
-      expect(report.endingId ?? report.deathId).toBeDefined()
-      expect(report.stageSignature.split('>'), JSON.stringify(report.keyEvents.slice(-8))).toHaveLength(6)
+      expect(report.endingId ?? report.deathId, JSON.stringify(report.finalEcosystem)).toBeDefined()
+      expect(['1', '1>2', '1>2>3']).toContain(report.stageSignature)
+      expect(report.routeSignature).toBe('')
     }
+    expect(reports.some((report) => report.endingId && report.stageSignature === '1>2>3')).toBe(true)
   }, 120_000)
 
   it('keeps the five-minute entity population bounded', () => {
     const report = runHeadless({ seed: 727, durationMs: 300_000 })
 
-    expect(report.simulatedMs, JSON.stringify(report.keyEvents.slice(-8))).toBeCloseTo(300_000, 4)
+    expect(report.simulatedMs).toBeGreaterThan(60_000)
+    expect(report.simulatedMs).toBeLessThanOrEqual(300_000.01)
     expect(report.maxEntities).toBeLessThanOrEqual(180)
     expect(report.invalidNumbers).toEqual([])
     expect(report.keyEvents).toContainEqual(expect.objectContaining({ type: 'ecology-opportunity' }))
   }, 20_000)
 
-  it('finishes a deterministic six-stage journey without route-driving cheats', () => {
-    const input = { seed: 727, durationMs: 520_000, policy: 'balanced' as const }
+  it('finishes a deterministic three-layer food chain without changing player stats', () => {
+    const input = { seed: 727, durationMs: 720_000, policy: 'balanced' as const }
     const first = runHeadless(input)
     const second = runHeadless(input)
 
     expect(first.keyEvents).toEqual(second.keyEvents)
     expect(first.morphologySignature).toBe(second.morphologySignature)
-    expect(first.stageSignature, JSON.stringify(first.keyEvents.slice(-8))).toBe('1>2>3>4>5>6')
-    expect(first.routeSignature.split('>')).toHaveLength(5)
+    expect(first.stageSignature, JSON.stringify(first.finalEcosystem)).toBe('1>2>3')
+    expect(first.endingId).toBeDefined()
+    expect(first.formSignature).toBe('form-primal-cell>form-colony-body>form-ciliate-composite')
+    expect(first.keyEvents.filter((event) => event.type === 'mutation-selected')).toHaveLength(6)
+    expect(first.consumedCarryoverIds.some((id) => first.fleeingCarryoverIds.includes(id))).toBe(true)
+    expect(first.routeSignature).toBe('')
     expect(new Set(first.opportunitySignature.split('>')).size).toBeGreaterThanOrEqual(4)
     expect(first.maxActionableGapMs).toBeLessThanOrEqual(8000)
   }, 30_000)

@@ -5,10 +5,105 @@ import { bossTerminalEvent, contactDamageAt, contactDamageForPair, createGameEng
 import { installMutation, offerMutations } from '../evolution/mutation'
 import { getContent } from '../content'
 import { coveredRatio } from './containment'
-import { createBuildState } from '../evolution/build'
+import { applyEvolution as evolveBuild, createBuildState, offerEvolution } from '../evolution/build'
 import { generateRegion } from '../world/generator'
+import { availableRunTraits, setPolicyIntent } from '../tests/playthrough'
+
+// Exercise entry effects from a real first-layer clear; only the individual assertions below alter fixtures.
+function reachSecondLayer() {
+  const engine = createGameEngine({ seed: 727, runOrdinal: 3 })
+  let build = createBuildState()
+  engine.start()
+  engine.input.start({ x: 0, y: 0 })
+  for (let frame = 0; frame < 2400; frame += 1) {
+    setPolicyIntent(engine, engine.snapshot().elapsedMs, 'balanced')
+    engine.advance(5 * 1000 / 60)
+    for (const event of engine.drainEvents()) {
+      if (event.type === 'mutation-ready') {
+        const offer = offerEvolution(build, { seed: 727, environmentId: 'env-clear-drop', stageIndex: 0, remainingEnvironmentIds: getContent().scaleTiers.slice(1).map((tier) => tier.environmentId), unlockedTraitIds: availableRunTraits(), recentTraitIds: [] })[0]!
+        build = evolveBuild(build, offer)
+        engine.applyEvolution(build)
+      }
+      if (event.type === 'form-transition-ready') {
+        engine.advanceForm()
+        engine.drainEvents()
+        return engine
+      }
+      if (event.type === 'player-died') throw new Error(`First layer failed at ${event.atMs}`)
+    }
+  }
+  throw new Error('First layer never reached its real evolution gate')
+}
 
 describe('game engine lifecycle', () => {
+  it('starts a lineage as a fresh first-tier organism with one inherited organ and its own body recipe', () => {
+    const engine = createGameEngine({ seed: 727, lineageArchetypeId: 'lineage-bastion', inheritedOrganelleIds: ['organelle-flagellum'],
+      initialLifecycle: { tierIndex: 2, totalBiomass: 9000, evolutionPressure: 1 } })
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    expect(engine.snapshot()).toMatchObject({ tierIndex: 0, formId: 'form-primal-cell', tierProgress: 0 })
+    expect(player.body.radius).toBe(12)
+    expect(player).toMatchObject({ visualRecipeId: 'visual-lineage-bastion', membrane: 112, energy: 92 })
+    expect(engine.evolutionSnapshot().organelles.map((organ) => organ.id)).toEqual(['organelle-flagellum'])
+    expect(engine.renderSnapshot().playerBuild).toMatchObject({ evolutionCount: 0, routeCounts: { predation: 1, survival: 0, colony: 0 } })
+  })
+
+  it.each([
+    { lineageArchetypeId: 'missing-lineage', inheritedOrganelleIds: [] },
+    { lineageArchetypeId: 'lineage-dart', inheritedOrganelleIds: ['organelle-flagellum', 'organelle-eye-spot'] },
+    { lineageArchetypeId: 'lineage-dart', inheritedOrganelleIds: ['organelle-division-ring'] },
+    { inheritedOrganelleIds: ['organelle-flagellum'] },
+  ])('rejects an invalid or excessive lineage inheritance: %j', (options) => {
+    expect(() => createGameEngine({ seed: 727, ...options } as Parameters<typeof createGameEngine>[0])).toThrow(RangeError)
+  })
+
+  it('keeps inherited organs and the lineage recipe when a new evolution produces split descendants', () => {
+    const engine = createGameEngine({ seed: 727, lineageArchetypeId: 'lineage-bloom', inheritedOrganelleIds: ['organelle-division-ring'] })
+    engine.applyEvolution(createBuildState({ evolutionCount: 1, traitIds: ['organelle-division-ring', 'organelle-flagellum'] }))
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    // Isolate the automatic split threshold, rather than using this fixture as playthrough evidence.
+    player.mass = 320
+    engine.start()
+    engine.advance(1000 / 30)
+    const snapshot = engine.renderSnapshot()
+    expect(snapshot.entities.filter((entity) => entity.faction === 'player')).toHaveLength(2)
+    expect(snapshot.entities.filter((entity) => entity.faction === 'player').every((entity) => 'visualRecipeId' in entity && entity.visualRecipeId === 'visual-lineage-bloom')).toBe(true)
+    expect(Object.values(snapshot.playerOrganelleIdsByEntity).flat()).toContain('organelle-division-ring')
+  })
+
+  it('reserves the inherited organ slot alongside all six new lifetime mutations', () => {
+    const engine = createGameEngine({ seed: 727, lineageArchetypeId: 'lineage-dart', inheritedOrganelleIds: ['organelle-flagellum'] })
+    expect(engine.evolutionSnapshot().capacity).toBe(7)
+    engine.applyEvolution(createBuildState({ evolutionCount: 6, traitIds: ['organelle-flagellum', 'organelle-repair-vacuole', 'organelle-eye-spot', 'organelle-cilia-ring', 'organelle-wide-mouth', 'organelle-shell-plate', 'organelle-division-ring'] }))
+    expect(engine.evolutionSnapshot().organelles).toHaveLength(7)
+    expect(engine.renderSnapshot().playerBuild?.evolutionCount).toBe(6)
+    expect(engine.renderSnapshot().playerOrganelleIdsByEntity.player).toContain('organelle-flagellum')
+    expect(createGameEngine({ seed: 727 }).evolutionSnapshot().capacity).toBe(6)
+  })
+
+  it('retains the actual engulfed prey for absorption feedback and expires it only with simulation time', () => {
+    const engine = createGameEngine({ seed: 727 })
+    const entities = engine.renderSnapshot().entities
+    const player = entities.find((entity) => entity.id === 'player')!
+    const food = entities.find((entity) => entity.role === 'nutrient')!
+    for (const entity of entities) if (entity.id !== player.id && entity.id !== food.id) entity.status = 'engulfed'
+    food.position = { ...player.position }
+    food.body = circleBody(food.position, food.body.radius)
+    food.materializingUntilMs = -1
+    const preyRadius = food.body.radius
+    engine.start()
+    engine.advance(1000 / 60)
+    const meal = engine.renderSnapshot().recentEngulfs?.find((meal) => meal.prey.id === food.id)
+    expect(meal).toMatchObject({ predatorId: 'player', chain: 1, prey: { body: { radius: preyRadius }, status: 'active' } })
+    food.body.radius = 999
+    expect(meal?.prey.body.radius).toBe(preyRadius)
+    engine.pause('user')
+    engine.advance(1000)
+    expect(engine.renderSnapshot().recentEngulfs).toContainEqual(meal)
+    engine.resume('user')
+    for (let frame = 0; frame < 45; frame += 1) engine.advance(1000 / 60)
+    expect(engine.renderSnapshot().recentEngulfs).toEqual([])
+  })
+
   it('accepts the real CSS viewport used by the camera and ecology', () => {
     const engine = createGameEngine({ seed: 727 })
     expect('setViewport' in engine).toBe(true)
@@ -49,7 +144,7 @@ describe('game engine lifecycle', () => {
   })
 
   it('opens a counter-hunt window while keeping elite threats larger', () => {
-    const engine = createGameEngine({ seed: 727, initialElapsedMs: 90_000 })
+    const engine = createGameEngine({ seed: 727, initialElapsedMs: 90_000, initialLifecycle: { evolutionPressure: 1 } })
     const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
     const commonHunter = engine.renderSnapshot().entities.find((entity) => 'definitionId' in entity && entity.definitionId === 'predator-azure-ring')
     const eliteHunter = engine.renderSnapshot().entities.find((entity) => entity.role === 'elite')
@@ -122,28 +217,24 @@ describe('game engine lifecycle', () => {
     expect(engine.renderSnapshot().lifecycle.bodyRadius).toBeLessThanOrEqual(22)
   })
 
-  it('emits transition readiness once and advances only through the explicit engine command', () => {
+  it('rejects a preseeded lifecycle that has not completed active hunting and two mutations', () => {
     const engine = createTestEngine({
       seed: 727,
       lifecycle: { tierBiomass: 260, evolutionPressure: 1, encounterResolved: true },
     })
     engine.advance(1000 / 60)
 
-    expect(engine.drainEvents().filter((event) => event.type === 'form-transition-ready')).toHaveLength(1)
+    expect(engine.drainEvents().filter((event) => event.type === 'form-transition-ready')).toHaveLength(0)
     engine.advance(1000 / 60)
     expect(engine.drainEvents().filter((event) => event.type === 'form-transition-ready')).toHaveLength(0)
 
-    engine.advanceForm()
+    expect(() => engine.advanceForm()).toThrow(RangeError)
     expect(engine.snapshot()).toMatchObject({
-      formId: 'form-colony-body',
-      tierIndex: 1,
-      tierProgress: 0,
+      formId: 'form-primal-cell',
+      tierIndex: 0,
+      tierProgress: 1,
     })
-    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({
-      type: 'form-transitioned',
-      fromFormId: 'form-primal-cell',
-      toFormId: 'form-colony-body',
-    }))
+    expect(engine.drainEvents().some((event) => event.type === 'form-transitioned')).toBe(false)
   })
 
   it('fails closed before rendering a non-finite player body', () => {
@@ -154,12 +245,12 @@ describe('game engine lifecycle', () => {
     expect(() => engine.renderSnapshot()).toThrowError(expect.objectContaining({ name: 'LifecycleInvariantError' }))
   })
 
-  it('guarantees the first evolution by the authored 45-second deadline', () => {
+  it('requires hunting rather than awarding the first evolution at a timer deadline', () => {
     const engine = createGameEngine({ seed: 727, initialElapsedMs: 44_950 })
     engine.start()
     engine.advance(100)
 
-    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'mutation-ready' }))
+    expect(engine.drainEvents().some((event) => event.type === 'mutation-ready')).toBe(false)
   })
 
   it('accepts an authoritative build without adding an ability input', () => {
@@ -176,18 +267,27 @@ describe('game engine lifecycle', () => {
     expect(Object.keys(engine.input)).toEqual(expect.arrayContaining(['start', 'move', 'end', 'cancel', 'snapshot']))
   })
 
-  it('advances out of clear drop when the player never enters a rift', () => {
+  it('renders the same authoritative growth build that the evolution preview receives', () => {
+    const engine = createGameEngine({ seed: 727 })
+    const build = createBuildState({ bodyStage: 'hunter', evolutionCount: 1, traitIds: ['organelle-flagellum'], routeCounts: { predation: 1, survival: 0, colony: 0 } })
+    engine.applyEvolution(build)
+    expect(engine.renderSnapshot().playerBuild).toEqual(build)
+    expect(engine.renderSnapshot().bodyStage).toBe(build.bodyStage)
+    expect(engine.evolutionSnapshot().organelles.map((organ) => organ.id)).toEqual(build.traitIds)
+  })
+
+  it('keeps the ecology feeding gate active after the old automatic migration deadline', () => {
     const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
     engine.start()
     for (let step = 0; step < 4; step += 1) engine.advance(1000 / 60)
 
-    expect(engine.snapshot().environmentId).not.toBe('env-clear-drop')
-    expect(engine.runSnapshot().stageIndex).toBe(1)
-    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({ type: 'migration-forced' }))
+    expect(engine.snapshot().environmentId).toBe('env-clear-drop')
+    expect(engine.runSnapshot().stageIndex).toBe(0)
+    expect(engine.drainEvents().some((event) => event.type === 'migration-forced')).toBe(false)
   })
 
   it('keeps the destination ecology spawned on the transition frame', () => {
-    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    const engine = reachSecondLayer()
     engine.start()
     for (let step = 0; step < 4 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
       engine.advance(1000 / 60)
@@ -195,8 +295,8 @@ describe('game engine lifecycle', () => {
 
     const destinationId = engine.snapshot().environmentId
     expect(destinationId).not.toBe('env-clear-drop')
-    const authoredIds = new Set(generateRegion(727, destinationId).entities.map((entity) => entity.id))
-    expect(engine.renderSnapshot().entities.some((entity) => authoredIds.has(entity.id))).toBe(true)
+    expect(engine.renderSnapshot().entities.some((entity) => entity.ecologyGroupId?.startsWith(`entry-${destinationId}`))).toBe(true)
+    expect(engine.renderSnapshot().entities.some((entity) => entity.id.startsWith('opening-food-1-'))).toBe(true)
   })
 
   it('retries a due spawn after the player comes within materialization range', () => {
@@ -220,7 +320,7 @@ describe('game engine lifecycle', () => {
   })
 
   it('opens the second layer with prey, competitors, and a readable hunter', () => {
-    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    const engine = reachSecondLayer()
     engine.start()
     for (let step = 0; step < 60 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
       engine.advance(1000 / 60)
@@ -234,7 +334,7 @@ describe('game engine lifecycle', () => {
   })
 
   it('introduces hunters outside discovery range as slow unaware roamers', () => {
-    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    const engine = reachSecondLayer()
     engine.start()
     for (let step = 0; step < 60 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
       engine.advance(1000 / 60)
@@ -261,7 +361,7 @@ describe('game engine lifecycle', () => {
   })
 
   it('alerts harmlessly after discovery before enabling hunter pursuit', () => {
-    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    const engine = reachSecondLayer()
     engine.start()
     for (let step = 0; step < 60 && engine.snapshot().environmentId === 'env-clear-drop'; step += 1) {
       engine.advance(1000 / 60)
@@ -284,8 +384,8 @@ describe('game engine lifecycle', () => {
     expect(engine.renderSnapshot().entities.find((entity) => entity.id === player.id)?.status).toBe('active')
   })
 
-  it('makes a second-layer hunter dangerous during a committed pursuit', () => {
-    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+  it('makes a second-layer ambusher visibly charge after its hiding windup', () => {
+    const engine = reachSecondLayer()
     const growingPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
     growingPlayer.body = circleBody(growingPlayer.position, 24)
     engine.start()
@@ -302,27 +402,29 @@ describe('game engine lifecycle', () => {
     player.membrane = 10_000
     player.position = { x: 320, y: 520 }
     player.body = circleBody(player.position, player.body.radius)
-    hunter.position = { x: 320, y: 780 }
+    hunter.position = { x: 320, y: 640 }
     hunter.body = circleBody(hunter.position, hunter.body.radius)
     entities.filter((entity) => entity.faction !== 'player' && entity.id !== hunter.id).forEach((entity, index) => {
       entity.position = { x: 36 + index % 4 * 12, y: 36 + Math.floor(index / 4) * 12 }
       entity.body = circleBody(entity.position, entity.body.radius)
     })
     engine.input.start({ x: 0, y: 0 })
-    engine.input.move({ x: 0, y: -120 })
-    for (let frame = 0; frame < 45; frame += 1) engine.advance(1000 / 60)
+    engine.input.move({ x: 0, y: 0 })
+    for (let frame = 0; frame < 61; frame += 1) engine.advance(1000 / 60)
+    expect(engine.renderSnapshot().entities.find((entity) => entity.id === hunter.id)?.behaviorState).toBe('telegraph')
+    for (let frame = 0; frame < 24; frame += 1) engine.advance(1000 / 60)
 
     const pursued = engine.renderSnapshot().entities.find((entity) => entity.id === hunter.id)!
     const playerMaxSpeed = 'maxSpeed' in player ? Number(player.maxSpeed) : 0
     const contactDamage = 'contactDamage' in pursued ? pursued.contactDamage as { amount?: unknown } | undefined : undefined
-    expect(pursued.behaviorState).toBe('pursue')
+    expect(pursued.behaviorState).toBe('ambush')
     expect(pursued.body.radius).toBeGreaterThanOrEqual(player.body.radius * 0.8)
     expect(Math.hypot(pursued.velocity.x, pursued.velocity.y)).toBeGreaterThan(playerMaxSpeed)
     expect(Number(contactDamage?.amount ?? 0)).toBeGreaterThanOrEqual(11)
   })
 
   it('lets a full-speed player escape contact during the hunter recovery window', () => {
-    const engine = createGameEngine({ seed: 727, initialElapsedMs: 72_900, runOrdinal: 3 })
+    const engine = reachSecondLayer()
     const growingPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
     growingPlayer.body = circleBody(growingPlayer.position, 24)
     engine.start()
@@ -359,20 +461,14 @@ describe('game engine lifecycle', () => {
     expect(finalGap).toBeGreaterThan(initialGap + 48)
   })
 
-  it('allows an explicit migration while the collapse clock keeps running', () => {
+  it('ignores obsolete migration commands until real food-chain evolution is earned', () => {
     const engine = createGameEngine({ seed: 727, initialElapsedMs: 60_900, runOrdinal: 3 })
     engine.start()
-    for (let step = 0; step < 2; step += 1) engine.advance(1000 / 60)
-    expect(engine.runSnapshot().phase).toMatch(/choosing|collapsing/)
-
     engine.selectMigration('journey-route-acid-mutation')
     engine.advance(1000 / 60)
-
-    expect(engine.snapshot().environmentId).toBe('env-acid-vesicle')
-    expect(engine.drainEvents()).toContainEqual(expect.objectContaining({
-      type: 'route-selected',
-      routeId: 'journey-route-acid-mutation',
-    }))
+    expect(engine.runSnapshot().phase).toBe('feeding')
+    expect(engine.snapshot().environmentId).toBe('env-clear-drop')
+    expect(engine.drainEvents().some((event) => event.type === 'route-selected')).toBe(false)
   })
 
   it('publishes autonomous behavior states for player-readable ecology', () => {
@@ -426,7 +522,7 @@ describe('game engine lifecycle', () => {
     }
 
     const routed = createGameEngine({ seed: 727, route: ['env-acid-vesicle', 'env-antibody-storm'] })
-    expect(routed.renderSnapshot().routeRifts.map((rift) => rift.destinationEnvironmentId)).toEqual(['env-acid-vesicle'])
+    expect(routed.renderSnapshot().routeRifts).toEqual([])
     const turbid = createGameEngine({ seed: 727, environmentId: 'env-algae-glow', modifierIds: ['modifier-permanent-turbidity'] })
     turbid.start()
     turbid.advance(1000 / 60)
@@ -616,7 +712,7 @@ describe('game engine lifecycle', () => {
     expect(engine.snapshot()).toMatchObject({
       engulfScore: food.mass,
       journeyIndex: 1,
-      journeyTotal: 6,
+      journeyTotal: 3,
       bodyStage: 'microbe',
     })
   })
@@ -955,7 +1051,8 @@ describe('game engine lifecycle', () => {
   })
 
   it('rearms a higher evolution threshold after a confirmed mutation', () => {
-    const engine = createTestEngine()
+    const engine = createGameEngine({ seed: 727, environmentId: 'env-algae-glow' })
+    engine.start()
     const context = mutationContext()
     const firstThreshold = engine.snapshot().evolutionThreshold
     const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
@@ -1038,6 +1135,24 @@ describe('game engine lifecycle', () => {
     engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!.mass = 340
     engine.advance(1000 / 30)
     expect(engine.renderSnapshot().entities.filter((entity) => entity.faction === 'player')).toHaveLength(2)
+  })
+
+  it('fuses a large division build after stopping and preserves traits selected while split', () => {
+    const engine = createTestEngine()
+    const context = mutationContext({ organIds: ['organelle-division-ring'] })
+    engine.applyMutation({ installed: context.installed[0]!, organelles: context.installed, stability: 100, capacity: 6, synergyIds: [] })
+    const player = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+    player.mass = 10_000
+    engine.input.start({ x: 0, y: 0 })
+    engine.input.move({ x: 100, y: 0 })
+    engine.advance(1000 / 30)
+    expect(engine.morphologySnapshot().bodyCount).toBe(2)
+    engine.applyEvolution(createBuildState({ evolutionCount: 2, traitIds: ['organelle-division-ring', 'organelle-repair-vacuole'] }))
+    engine.input.end()
+    for (let step = 0; step < 650; step += 1) engine.advance(1000 / 60)
+    expect(engine.morphologySnapshot().bodyCount).toBe(1)
+    expect(engine.evolutionSnapshot().organelles.map((organ) => organ.id)).toContain('organelle-repair-vacuole')
+    expect(engine.renderSnapshot().playerOrganelleIdsByEntity.player).toContain('organelle-repair-vacuole')
   })
 
   it('splits while approaching the 70% lethal coverage boundary', () => {

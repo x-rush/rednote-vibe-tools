@@ -18,6 +18,15 @@ describe('ecology collapse presentation', () => {
 })
 
 describe('danger telegraph timing', () => {
+  it('keeps the warning radius stationary with reduced flash', () => {
+    const radii: number[] = []
+    const context = new Proxy({}, { get: (_target, key) => key === 'arc' ? (_x: number, _y: number, radius: number) => radii.push(radius) : () => {}, set: () => true }) as CanvasRenderingContext2D
+    const predator = createEntity({ id: 'hunter', role: 'predator', faction: 'hostile', radius: 20, mass: 400, membrane: 100, energy: 100, maxSpeed: 50, visualRecipeId: 'visual-test' }, { id: 'hunter', position: { x: 0, y: 0 } })
+    predator.behaviorState = 'charge'
+    effects.drawDangerTelegraph(context, predator, 0, 0, 20, 500, true)
+    effects.drawDangerTelegraph(context, predator, 0, 0, 20, 570, true)
+    expect(radii[0]).toBe(radii[1])
+  })
   it('shows an arming telegraph before a newly spawned pulse becomes active', () => {
     const predator = createEntity({
       id: 'predator-test',

@@ -1,0 +1,41 @@
+[
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\09-proto-cell\\src\\App.css",
+    "line": 235,
+    "snippet": "border-left: 3px solid #ffd56f",
+    "importedBy": [
+      "App.tsx"
+    ]
+  },
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\09-proto-cell\\src\\App.css",
+    "line": 1059,
+    "snippet": "transition: width",
+    "importedBy": [
+      "App.tsx"
+    ]
+  },
+  {
+    "antipattern": "overused-font",
+    "name": "Overused font",
+    "description": "Inter, Roboto, Fraunces, Geist, Plus Jakarta Sans, and Space Grotesk are used on so many sites they no longer feel distinctive. Each new wave of AI-generated UIs converges on the same handful of faces. Choose a face that gives your interface personality.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\09-proto-cell\\src\\index.css",
+    "line": 6,
+    "snippet": "font-family: Inter",
+    "importedBy": [
+      "main.tsx"
+    ]
+  }
+]

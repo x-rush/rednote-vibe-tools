@@ -62,6 +62,13 @@ const tiers = [
 ] as const satisfies readonly ScaleTierDefinition[]
 
 describe('bounded form lifecycle', () => {
+  it('normalizes later-layer feeding pressure while preserving the real biomass ledger', () => {
+    const colony = transitionLifecycleToTier(createLifecycle(tiers, 144), tiers, 1)
+    const fed = applyLifecycleBiomass(colony, 100, tiers, 'relative')
+    expect(fed.totalBiomass).toBe(244)
+    expect(fed.tierBiomass).toBeCloseTo(100 * (12 / 18) ** 2)
+    expect(fed.evolutionPressure).toBeCloseTo(100 * (12 / 18) ** 2 / 200)
+  })
   it('caps physical radius while preserving excess biomass and pressure', () => {
     const state = applyLifecycleBiomass(createLifecycle(tiers, 144), 150, tiers)
 

@@ -1,0 +1,22 @@
+import { describe, expect, it } from 'vitest'
+import { createFramePacer } from './frame-pacing'
+
+describe('render pacing without skipping simulation',()=>{
+ it('limits redundant high-refresh draws to 60 while leaving the caller free to update every RAF',()=>{
+  const p=createFramePacer();let updates=0,renders=0
+  for(let n=0;n<240;n++){updates++;const now=n*1000/240;if(p.shouldRender(now)){renders++;p.record(now,2)}}
+  expect(updates).toBe(240);expect(renders).toBeGreaterThanOrEqual(59);expect(renders).toBeLessThanOrEqual(61)
+ })
+ it('uses stable 30 fps after sustained over-budget work, then recovers only after a long quiet period',()=>{
+  const p=createFramePacer()
+  for(let n=0;n<12;n++)p.record(n*17,25)
+  expect(p.targetFps()).toBe(30)
+  expect(p.shouldRender(200)).toBe(false);expect(p.shouldRender(222)).toBe(true)
+  for(let n=1;n<=180;n++)p.record(222+n*34,4)
+  expect(p.targetFps()).toBe(60)
+ })
+ it('presents important visual events immediately even inside a paced interval',()=>{
+  const p=createFramePacer();p.record(100,10)
+  expect(p.shouldRender(101)).toBe(false);expect(p.shouldRender(101,true)).toBe(true)
+ })
+})

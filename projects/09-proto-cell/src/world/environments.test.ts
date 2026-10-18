@@ -3,6 +3,7 @@ import { getContent, type EnvironmentId } from '../content'
 import { analyzeGeneratedRegion, generateRunRoute } from './generator'
 import { applyEventWorldEffects, createEnvironmentField, resolveEnvironmentMovement, sampleEnvironmentField, stepEnvironmentField } from './environments'
 import { startEvent, stepEvent } from './events'
+import { worldDimensionsForTier } from './scale-world'
 
 describe('launch environments', () => {
   it.each(getContent().environments.map((item) => item.id))('%s has a reachable exit', (environmentId) => {
@@ -67,13 +68,17 @@ describe('launch environments', () => {
     const maxX = Math.max(...field.obstacles.flatMap((obstacle) => [obstacle.from.x, obstacle.to.x]))
     const maxY = Math.max(...field.obstacles.flatMap((obstacle) => [obstacle.from.y, obstacle.to.y]))
     const hazard = field.hazardCenters['hazard-fiber-anchor']!
+    const tier = getContent().scaleTiers.find((item) => item.environmentId === 'env-fiber-maze')!
+    const world = worldDimensionsForTier(tier)
 
     expect(maxX).toBeGreaterThan(1000)
     expect(maxY).toBeGreaterThan(1800)
+    expect(maxX).toBeLessThanOrEqual(world.width)
+    expect(maxY).toBeLessThanOrEqual(world.height)
     expect(hazard.x).toBeGreaterThan(70)
-    expect(hazard.x).toBeLessThan(1536 - 70)
+    expect(hazard.x).toBeLessThan(world.width - 70)
     expect(hazard.y).toBeGreaterThan(100)
-    expect(hazard.y).toBeLessThan(2611 - 100)
+    expect(hazard.y).toBeLessThan(world.height - 100)
   })
 
   it('turns field geometry into movement and damage samples', () => {
@@ -172,7 +177,7 @@ describe('launch environments', () => {
     expect(resolveEnvironmentMovement(field, touching, separating, 12)).toEqual(separating)
   })
 
-  it('slides a touching body along a fiber instead of pinning it in place', () => {
+  it('allows both inward and sideways movement while squeezing a fiber', () => {
     const field = {
       ...createEnvironmentField('env-fiber-maze', 727),
       obstacles: [{
@@ -185,10 +190,11 @@ describe('launch environments', () => {
     }
     const touching = { x: 80, y: 112 }
 
-    expect(resolveEnvironmentMovement(field, touching, { x: 80.6, y: 111.7 }, 12)).toEqual({ x: 80.6, y: 112 })
+    expect(resolveEnvironmentMovement(field, touching, { x: 80.6, y: 111.7 }, 12)).toEqual({ x: 80.6, y: 111.7 })
+    expect(sampleEnvironmentField(field, touching, 12).speedMultiplier).toBeLessThan(1)
   })
 
-  it('slides around a fiber endpoint without entering its rounded cap', () => {
+  it('can squeeze through a fiber endpoint without an invisible blocking cap', () => {
     const field = {
       ...createEnvironmentField('env-fiber-maze', 727),
       obstacles: [{
@@ -200,6 +206,7 @@ describe('launch environments', () => {
       }],
     }
 
-    expect(resolveEnvironmentMovement(field, { x: 212, y: 100 }, { x: 211.7, y: 100.6 }, 12)).toEqual({ x: 212, y: 100.6 })
+    expect(resolveEnvironmentMovement(field, { x: 212, y: 100 }, { x: 211.7, y: 100.6 }, 12)).toEqual({ x: 211.7, y: 100.6 })
+    expect(sampleEnvironmentField(field, { x: 212, y: 100 }, 12).speedMultiplier).toBeLessThan(1)
   })
 })

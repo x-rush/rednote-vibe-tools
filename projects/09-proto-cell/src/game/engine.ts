@@ -1,9 +1,10 @@
 import content from '../content/content.json'
 import { getBehaviorProfile } from '../content'
-import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, EcologyBudgetDefinition, EventId, FirstRunAssistDefinition, FormId, JourneyDefinition, OrganelleId, OriginId, ScaleTierDefinition, StageThreatProfileDefinition } from '../content'
-import type { EntityState, Vec2 } from '../domain/types'
+import type { AnchorSlot, BodyStage, BossId, BossResolutionPath, CreatureDefinition, EcosystemDefinition, EcologyBudgetDefinition, EventId, FirstRunAssistDefinition, FormId, JourneyDefinition, OrganelleId, OriginId, ScaleTierDefinition, StageThreatProfileDefinition } from '../content'
+import type { BodyShape, EntityState, Vec2 } from '../domain/types'
+import { physicalMembrane } from '../domain/membrane'
 import { decideBehavior, decideIntent } from '../entities/ai'
-import type { BehaviorMemory } from '../entities/behaviors/types'
+import type { BehaviorContext, BehaviorMemory } from '../entities/behaviors/types'
 import { createEntity, type ContactDamageDefinition, type EntityDefinition } from '../entities/factory'
 import { creatureEntityDefinition, ecologyGroupPositions, findEnteredRouteRift, generateRegion, getRegionDefinition } from '../world/generator'
 import { createFixedClock } from './clock'
@@ -28,11 +29,30 @@ import { createEcologyDirector, stepEcologyDirector, type EcologyCommand, type E
 import { createBuildState, type BuildState } from '../evolution/build'
 import { evaluateTriggers, type TriggerFrame, type TriggerOutcome } from '../evolution/triggers'
 import { isMaterializing, isThreatArrivalInactive, materializeSpawn, stepThreatArrival } from './materialization'
-import { advanceLifecycle, applyLifecycleBiomass, canAdvanceLifecycle, createLifecycle, radiusForTierProgress, transitionLifecycleToTier, type LifecycleState } from '../evolution/lifecycle'
+import { advanceLifecycle, applyLifecycleBiomass, canAdvanceLifecycle, createLifecycle, radiusForTierProgress, type LifecycleState } from '../evolution/lifecycle'
 import { cameraZoomFor, targetScreenDiameterRatio, visibleWorldRadius } from '../rendering/camera'
 import { collapseInsetLimit } from './bounds'
+import { fiberConceals, stepFiberTerrain, territorySightRadius } from '../world/mastery'
 
 export type PauseReason = 'user' | 'visibility' | 'evolution' | 'canvas'
+
+export type EcosystemProgressSnapshot = {
+  tierIndex: number
+  name: string
+  objective: string
+  pressure: number
+  activeBiomass: number
+  activeBiomassTarget: number
+  encounterName: string
+  encounterHint: string
+  encounterResolved: boolean
+  encounterPosition?: Vec2
+  readyToEvolve: boolean
+  reversalCount: number
+  mutationsCompleted: number
+  mutationTarget: number
+  leviathanPhase?: 'armored' | 'exposed' | 'consumed'
+}
 
 export type HudSnapshot = {
   membrane: number
@@ -53,8 +73,15 @@ export type HudSnapshot = {
   tierIndex: number
   tierProgress: number
   membraneRatio: number
+  ecosystem?: EcosystemProgressSnapshot
+  fiberControl?: number
+  wallContact?: boolean
+  finaleStartedAtMs?: number
+  territory?: TerritorySnapshot
   swarm?: { bodyCount: number; minimumRemainingMs: number; fusionProgress: number }
 }
+
+export type TerritorySnapshot = { sightRadius: number; concealed: boolean; brokenFibers: number; canBreak: boolean }
 
 export type PlayerMorphologySnapshot = {
   bodyCount: number
@@ -85,6 +112,8 @@ export type WorldRenderSnapshot = {
   bodyStage: BodyStage
   playerBuild?: BuildState
   entities: readonly EntityState[]
+  recentEngulfs?: readonly { prey: EntityState; predatorId: string; atMs: number; chain: number; finisher?: boolean }[]
+  finaleStartedAtMs?: number
   playerOrganelleIdsByEntity: Readonly<Record<string, readonly OrganelleId[]>>
   playerStability: number
   playerSynergyIds: readonly string[]
@@ -93,11 +122,13 @@ export type WorldRenderSnapshot = {
   routeRifts: readonly RouteRift[]
   activeEvent?: EcosystemEventState
   environmentField: EnvironmentField
+  territory?: TerritorySnapshot
   boss?: BossState
   collapsePhase: RunPhase
   collapseProgress: number
   migrationDirection?: Vec2
   lifecycle: LifecycleState
+  ecosystem?: EcosystemProgressSnapshot
 }
 
 export type ProtoCellEngine = GameEngine & {
@@ -146,6 +177,8 @@ export function createGameEngine(options: {
   seed: number
   environmentId?: string
   originId?: OriginId
+  inheritedOrganelleIds?: readonly OrganelleId[]
+  lineageArchetypeId?: string
   input?: PointerInput
   initialElapsedMs?: number
   modifierIds?: readonly string[]
@@ -157,10 +190,20 @@ export function createGameEngine(options: {
   let routeStageIndex = 0
   let environmentId = options.environmentId ?? 'env-clear-drop'
   let environment = getEnvironment(environmentId)
-  const originId = options.originId ?? 'origin-primal-cell'
+  const lineage = options.lineageArchetypeId === undefined ? undefined : content.lineage.archetypes.find((item) => item.id === options.lineageArchetypeId)
+  if (options.lineageArchetypeId !== undefined && !lineage) throw new RangeError(`Unknown lineage archetype: ${options.lineageArchetypeId}`)
+  const inheritedOrganelleIds = [...(options.inheritedOrganelleIds ?? [])]
+  if ((!lineage && inheritedOrganelleIds.length > 0)
+    || inheritedOrganelleIds.length > content.lineage.maxInheritedOrgans
+    || new Set(inheritedOrganelleIds).size !== inheritedOrganelleIds.length
+    || inheritedOrganelleIds.some((id) => !lineage?.inheritancePool.includes(id) || !content.organelles.some((organ) => organ.id === id))) {
+    throw new RangeError('Invalid lineage inheritance')
+  }
+  const originId = lineage?.originId ?? options.originId ?? 'origin-primal-cell'
   const origin = content.origins.find((item) => item.id === originId)
   if (!origin) throw new RangeError(`Unknown origin id: ${originId}`)
-  const playerDefinition = getPlayerDefinition(originId, environment)
+  const playerDefinition = { ...getPlayerDefinition(originId, environment), ...(lineage ? { visualRecipeId: lineage.visualRecipeId } : {}) }
+  const initialOrganelleIds = lineage ? inheritedOrganelleIds : origin.initialOrganelleIds as OrganelleId[]
 
   let region = filteredRegion(generateRegion(options.seed, environmentId), options.route?.[routeStageIndex])
   let scheduleAt = new Map(region.spawnSchedule.map((entry) => [entry.entityId, entry.atMs]))
@@ -170,7 +213,7 @@ export function createGameEngine(options: {
     id: PLAYER_ID,
     position: { x: environment.width / 2, y: environment.height / 2 },
   })
-  let lifecycle = initialLifecycleState(createLifecycle(scaleTiers, initialPlayer.mass), options.initialLifecycle, scaleTiers)
+  let lifecycle = initialLifecycleState(createLifecycle(scaleTiers, initialPlayer.mass), lineage ? undefined : options.initialLifecycle, scaleTiers)
   const player = resizeBodyToRadius(initialPlayer, lifecycle.bodyRadius)
   const entities = new Map<string, EntityState>([[player.id, player]])
   const spawnedIds = new Set<string>()
@@ -179,7 +222,10 @@ export function createGameEngine(options: {
   const damagePeriods = new Map<string, number>()
   const behaviorMemories = new Map<string, BehaviorMemory>()
   const events: GameEvent[] = []
+  const recentEngulfs: NonNullable<WorldRenderSnapshot['recentEngulfs']>[number][] = []
+  let mutationPresentationAfterMs = Number.NEGATIVE_INFINITY
   const grid = new SpatialGrid(96)
+  const nonHostileGrid = new SpatialGrid(96)
   const clock = createFixedClock({ stepMs: STEP_MS, maxSteps: 5 })
   const input = options.input ?? createPointerInput()
   const worldRng = createRng(options.seed).fork('m1-world')
@@ -187,7 +233,7 @@ export function createGameEngine(options: {
   const journeyEnabled = (options.environmentId ?? 'env-clear-drop') === 'env-clear-drop'
   const entryGraceEnabled = journeyEnabled || options.initialElapsedMs === undefined
   let runDirectorState = createRunDirector(
-    content.journey as JourneyDefinition,
+    journeyEnabled ? scaleTiers : content.journey as JourneyDefinition,
     options.seed,
     options.runOrdinal ?? 0,
     content.firstRunAssist as FirstRunAssistDefinition,
@@ -204,24 +250,29 @@ export function createGameEngine(options: {
   let started = false
   let destroyed = false
   let mutationPending = false
+  let layerMutations = 0
+  let activeBiomass = 0
+  let mutationHuntCheckpoint = 0
+  let activeControlMs = 0
+  let reversalCount = 0
   let formTransitionPending = false
   let viewport = { width: 390, height: 844 }
   let evolutionThreshold = playerDefinition.evolutionThreshold
   let playerStability = playerDefinition.stability
-  let installedOrganelles: InstalledOrganelle[] = origin.initialOrganelleIds.map((id) => {
+  let installedOrganelles: InstalledOrganelle[] = initialOrganelleIds.map((id) => {
     const definition = content.organelles.find((item) => item.id === id)
     if (!definition) throw new RangeError(`Unknown initial organ id: ${id}`)
     return { id: id as OrganelleId, stage: 'installed', anchor: definition.slots[0] as AnchorSlot }
   })
   let buildState = createBuildState({
-    traitIds: origin.initialOrganelleIds as OrganelleId[],
-    routeCounts: origin.initialOrganelleIds.reduce<BuildState['routeCounts']>((counts, id) => {
+    traitIds: initialOrganelleIds,
+    routeCounts: initialOrganelleIds.reduce<BuildState['routeCounts']>((counts, id) => {
       const route = content.organelles.find((organ) => organ.id === id)?.evolutionRoute as keyof BuildState['routeCounts'] | undefined
       if (route) counts[route] += 1
       return counts
     }, { predation: 0, survival: 0, colony: 0 }),
   })
-  let organCapacity = modifiers.rules['three-standard-organs'] ? 3 : 6
+  let organCapacity = (modifiers.rules['three-standard-organs'] ? 3 : 6) + inheritedOrganelleIds.length
   const organReadyAt = new Map<string, number>()
   const organEventReadyAt = new Map<string, number>()
   let lastDamageAt = Number.NEGATIVE_INFINITY
@@ -256,6 +307,9 @@ export function createGameEngine(options: {
   let peakBiomass = player.mass
   let engulfScore = 0
   let terminalReached = false
+  let finaleStartedAtMs: number | undefined
+  let finaleEndingId: string | undefined
+  const rewardedTerrainIds = new Set<string>()
   let lastLiveMorphology: PlayerMorphologySnapshot = {
     bodyCount: 1,
     totalMass: player.mass,
@@ -265,6 +319,7 @@ export function createGameEngine(options: {
   }
 
   spawnDue(elapsedMs)
+  if (journeyEnabled) spawnLayerOpening()
   spawnModifierElite()
 
   const engine: ProtoCellEngine = {
@@ -311,15 +366,19 @@ export function createGameEngine(options: {
         environmentId,
         paused: pauseReasons.size > 0,
         engulfScore,
-        journeyIndex: journeyEnabled ? runDirectorState.stageIndex + 1 : Math.min(6, routeStageIndex + 1),
-        journeyTotal: (content.journey as JourneyDefinition).stages.length,
+        journeyIndex: journeyEnabled ? lifecycle.tierIndex + 1 : Math.min(6, routeStageIndex + 1),
+        journeyTotal: journeyEnabled ? scaleTiers.length : (content.journey as JourneyDefinition).stages.length,
         bodyStage: currentBodyStage(),
-        playerBuild: createBuildState(buildState),
         bodyStageProgress: clamp(biomass / Math.max(1, evolutionThreshold), 0, 1),
         formId: lifecycle.formId,
         tierIndex: lifecycle.tierIndex,
         tierProgress: lifecycle.evolutionPressure,
         membraneRatio: clamp(membrane / Math.max(1, currentMembraneMax()), 0, 1),
+        ecosystem: ecosystemSnapshot(),
+        fiberControl: playerBodies.map((body) => sampleEnvironmentField(environmentField, body.position, body.body.radius).fiberControl).find((control) => control !== undefined),
+        wallContact: playerBodies.some((body) => sampleEnvironmentField(environmentField, body.position, body.body.radius).blocked),
+        finaleStartedAtMs,
+        territory: territorySnapshot(),
         swarm: activeSwarm ? {
           bodyCount: playerBodies.length,
           minimumRemainingMs: Math.max(0, (swarmStartedAtMs ?? elapsedMs) + SWARM_MINIMUM_DURATION_MS - elapsedMs),
@@ -344,7 +403,10 @@ export function createGameEngine(options: {
         height: environment.height,
         playerId: PLAYER_ID,
         bodyStage: currentBodyStage(),
+        playerBuild: createBuildState(buildState),
         entities: [...entities.values()].filter((entity) => entity.status === 'active'),
+        recentEngulfs: recentEngulfs.filter((meal) => elapsedMs - meal.atMs <= (meal.finisher ? content.lateEcology.leviathan.finaleMs : 650)),
+        finaleStartedAtMs,
         playerOrganelleIdsByEntity: activeSwarm
           ? Object.fromEntries(activeSwarm.map((body) => [body.id, body.organelles.map((organ) => organ.id)]))
           : { [PLAYER_ID]: installedOrganelles.map((organ) => organ.id) },
@@ -355,6 +417,7 @@ export function createGameEngine(options: {
         routeRifts,
         activeEvent,
         environmentField,
+        territory: territorySnapshot(),
         boss: bossState,
         collapsePhase: runDirectorState.phase,
         collapseProgress,
@@ -362,9 +425,12 @@ export function createGameEngine(options: {
           ? normalizedDirection(playerBody.position, targetRift.position)
           : undefined,
         lifecycle: { ...lifecycle },
+        ecosystem: ecosystemSnapshot(),
       }
     },
     applyMutation(result) {
+      if (mutationPending) layerMutations += 1
+      mutationHuntCheckpoint = activeBiomass
       playerStability = result.stability
       installedOrganelles = [...result.organelles]
       buildState = createBuildState({
@@ -385,6 +451,8 @@ export function createGameEngine(options: {
       captureLiveMorphology()
     },
     applyEvolution(build) {
+      if (mutationPending) layerMutations += 1
+      mutationHuntCheckpoint = activeBiomass
       buildState = createBuildState(build)
       playerStability = buildState.stability
       const occupied = new Set<AnchorSlot>()
@@ -400,6 +468,13 @@ export function createGameEngine(options: {
         occupied.add(anchor)
         return { id, stage: 'installed', anchor }
       })
+      if (activeSwarm) {
+        activeSwarm = activeSwarm.map((body, bodyIndex) => ({
+          ...body,
+          stability: playerStability,
+          organelles: installedOrganelles.filter((_, organIndex) => organIndex % activeSwarm!.length === bodyIndex),
+        }))
+      }
       evolutionThreshold = Math.ceil(evolutionThreshold * playerDefinition.evolutionThresholdGrowth)
       mutationPending = false
       resetTriggerTracking()
@@ -441,7 +516,16 @@ export function createGameEngine(options: {
       const fromFormId = lifecycle.formId
       lifecycle = advanceLifecycle(lifecycle, scaleTiers)
       formTransitionPending = false
-      resizeActivePlayerBodies()
+      layerMutations = 0
+      activeBiomass = 0
+      mutationHuntCheckpoint = 0
+      activeControlMs = 0
+      if (journeyEnabled) {
+        const tier = scaleTiers[lifecycle.tierIndex]!
+        runDirectorState = { ...runDirectorState, stageIndex: lifecycle.tierIndex, tierIndex: lifecycle.tierIndex, environmentId: tier.environmentId, phase: 'feeding', stageStartedAtMs: elapsedMs }
+        enterEnvironment(tier.environmentId)
+      }
+      resizeActivePlayerBodies(true)
       events.push({
         type: 'form-transitioned',
         fromFormId,
@@ -468,7 +552,16 @@ export function createGameEngine(options: {
   function simulateStep(stepMs: number) {
     if (terminalReached) return
     elapsedMs += stepMs
+    if (finaleStartedAtMs !== undefined) {
+      if (elapsedMs - finaleStartedAtMs >= content.lateEcology.leviathan.finaleMs) {
+        events.push({ type: 'ending-reached', endingId: finaleEndingId!, atMs: elapsedMs })
+        terminalReached = true
+      }
+      return
+    }
+    activeControlMs = input.snapshot().strength >= 0.45 ? activeControlMs + stepMs : 0
     stepJourney()
+    if (finaleStartedAtMs !== undefined) return
     if (terminalReached) {
       activeSwarm = undefined
       return
@@ -483,6 +576,25 @@ export function createGameEngine(options: {
     rebuildGrid()
     const passive = stepEvolution(stepMs)
     moveEntities(stepMs, passive.speedMultiplier)
+    const leviathan = journeyEnabled && lifecycle.tierIndex === 2 ? entities.get('encounter-2') : undefined
+    if (leviathan?.status === 'active') entities.set(leviathan.id, resizeBodyToRadius(leviathan, leviathan.behaviorState === 'recover' ? content.lateEcology.leviathan.exposedRadius : content.lateEcology.leviathan.armoredRadius))
+    const terrain = stepFiberTerrain(environmentField, [...entities.values()].filter((body) => body.faction === 'player' && body.status === 'active').map((body) => ({ position: body.position, radius: body.body.radius, pushing: input.snapshot().strength >= 0.45 })), stepMs, elapsedMs)
+    environmentField = terrain.field
+    for (const broken of terrain.breaks) {
+      events.push({ type: 'terrain-broken', obstacleId: broken.obstacleId, position: broken.position, atMs: elapsedMs })
+      if (journeyEnabled && lifecycle.tierIndex === 1 && !rewardedTerrainIds.has(broken.obstacleId)) {
+        rewardedTerrainIds.add(broken.obstacleId)
+        const creature = content.creatures.find((item) => item.id === content.lateEcology.fiberReward.creatureId)
+        if (creature) {
+          const definition = creatureEntityDefinition(creature as CreatureDefinition)
+          const positions = ecologyGroupPositions({ seed: options.seed, groupId: broken.obstacleId, center: broken.position, distance: definition.radius * 4, count: content.lateEcology.fiberReward.count, width: environment.width, height: environment.height, margin: definition.radius + 8 })
+          positions.forEach((position, index) => {
+            const id = `terrain-nutrient-${broken.obstacleId}-${index}`
+            entities.set(id, materializeSpawn(createEntity(definition, { id, position, spawnedAtMs: elapsedMs }), elapsedMs, content.m1.spawnPresentation))
+          })
+        }
+      }
+    }
     stepFusion(stepMs)
     stepRouteRiftsAndBoss(stepMs)
     if (terminalReached) {
@@ -502,16 +614,24 @@ export function createGameEngine(options: {
     const playerMass = [...entities.values()]
       .filter((entity) => entity.faction === 'player' && entity.status === 'active')
       .reduce((sum, entity) => sum + entity.mass, 0)
-    const firstEvolutionDeadlineReached = buildState.evolutionCount === 0 && elapsedMs >= content.m1.firstEvolutionAtMs
-    if (playerMass > 0 && !mutationPending && (playerMass >= evolutionThreshold || firstEvolutionDeadlineReached)) {
+    const ecosystem = currentEcosystem()
+    const mutationPressure = ecosystem?.mutationPressures[layerMutations]
+    const mutationReady = journeyEnabled
+      ? mutationPressure !== undefined && lifecycle.evolutionPressure >= mutationPressure && activeBiomass >= ecosystem!.activeBiomassTarget * mutationPressure && activeBiomass > mutationHuntCheckpoint
+      : playerMass >= evolutionThreshold || buildState.evolutionCount === 0 && elapsedMs >= content.m1.firstEvolutionAtMs
+    // A meal may unlock the last mutation on the very frame it defeats the
+    // leviathan. Let its complete intake play before pausing for that choice.
+    if (playerMass > 0 && !mutationPending && mutationReady && elapsedMs >= mutationPresentationAfterMs) {
       events.push({ type: 'mutation-ready', entityId: PLAYER_ID, atMs: elapsedMs })
       mutationPending = true
     }
+    spawnLayerEncounter()
     emitFormTransitionReady()
   }
 
   function emitFormTransitionReady() {
     if (formTransitionPending || !canAdvanceLifecycle(lifecycle, scaleTiers)) return
+    if (journeyEnabled && !layerGateReady()) return
     const nextTier = scaleTiers[lifecycle.tierIndex + 1]
     if (!nextTier) return
     formTransitionPending = true
@@ -529,6 +649,8 @@ export function createGameEngine(options: {
     const result = stepRunDirector(runDirectorState, {
       atMs: elapsedMs,
       selectedRouteId: pendingMigrationRouteId,
+      pressureReady: layerGateReady(),
+      encounterResolved: lifecycle.encounterResolved,
     })
     pendingMigrationRouteId = undefined
     runDirectorState = result.state
@@ -536,19 +658,128 @@ export function createGameEngine(options: {
     if (previousPhase !== 'complete' && runDirectorState.phase === 'complete') {
       const survivingBodies = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active')
       if (survivingBodies.length > 1) {
-        events.push({ type: 'ending-reached', endingId: 'ending-swarm-mind', atMs: elapsedMs })
+        finaleEndingId = 'ending-swarm-mind'
       } else if (playerStability >= 70) {
-        events.push({ type: 'ending-reached', endingId: 'ending-stable-species', atMs: elapsedMs })
+        finaleEndingId = 'ending-stable-species'
       } else {
         events.push({ type: 'player-died', cause: 'finale-instability', atMs: elapsedMs })
+        terminalReached = true
       }
-      terminalReached = true
+      if (finaleEndingId) {
+        finaleStartedAtMs = elapsedMs
+        input.cancel()
+      }
       return
     }
     const route = result.events.find((event): event is Extract<GameEvent, { type: 'route-selected' }> => event.type === 'route-selected')
     if (!route) return
     selectedRouteId = route.routeId
     enterEnvironment(route.environmentId)
+  }
+
+  function currentEcosystem(): EcosystemDefinition | undefined {
+    if (!journeyEnabled) return undefined
+    return (content as unknown as { ecosystems: EcosystemDefinition[] }).ecosystems?.find((item) => item.tierIndex === lifecycle.tierIndex)
+  }
+
+  function territorySnapshot(): TerritorySnapshot {
+    const body = [...entities.values()].filter((entity) => entity.faction === 'player' && entity.status === 'active').sort((a, b) => b.body.radius - a.body.radius)[0] ?? player
+    const target = { position: body.position, radius: body.body.radius }
+    return {
+      sightRadius: territorySightRadius(lifecycle.tierIndex, lifecycle.evolutionPressure, body.body.radius, environmentField.visibility),
+      concealed: [...entities.values()].some((observer) => observer.status === 'active' && observer.faction === 'hostile' && distanceBetween(observer, body) < 800 && fiberConceals(environmentField, { position: observer.position, radius: observer.body.radius }, target)),
+      brokenFibers: environmentField.obstacles.reduce((sum, obstacle) => sum + (obstacle.gaps?.filter((gap) => !gap.natural).length ?? 0), 0),
+      canBreak: body.body.radius >= (environmentId === 'env-abandoned-chamber' ? content.lateEcology.chamberBreak.radius : content.fiberTraversal.breakRadius),
+    }
+  }
+
+  function layerGateReady(): boolean {
+    const ecosystem = currentEcosystem()
+    return Boolean(ecosystem && lifecycle.evolutionPressure >= 1
+      && activeBiomass >= ecosystem.activeBiomassTarget
+      && layerMutations >= ecosystem.mutationPressures.length)
+  }
+
+  function encounterEntityId(): string {
+    return `encounter-${lifecycle.tierIndex}`
+  }
+
+  function ecosystemSnapshot(): EcosystemProgressSnapshot | undefined {
+    const ecosystem = currentEcosystem()
+    if (!ecosystem) return undefined
+    const encounter = entities.get(encounterEntityId())
+    return {
+      tierIndex: lifecycle.tierIndex,
+      name: ecosystem.name,
+      objective: ecosystem.objective,
+      pressure: lifecycle.evolutionPressure,
+      activeBiomass,
+      activeBiomassTarget: ecosystem.activeBiomassTarget,
+      encounterName: ecosystem.encounterName,
+      encounterHint: ecosystem.encounterHint,
+      encounterResolved: lifecycle.encounterResolved,
+      encounterPosition: encounter?.status === 'active' ? { ...encounter.position } : undefined,
+      readyToEvolve: layerGateReady() && lifecycle.encounterResolved,
+      reversalCount,
+      mutationsCompleted: layerMutations,
+      mutationTarget: ecosystem.mutationPressures.length,
+      leviathanPhase: lifecycle.tierIndex === 2 ? lifecycle.encounterResolved ? 'consumed' : encounter?.status === 'active' ? encounter.behaviorState === 'recover' ? 'exposed' : 'armored' : undefined : undefined,
+    }
+  }
+
+  function spawnLayerOpening() {
+    const ecosystem = currentEcosystem()
+    const playerBody = entities.get(PLAYER_ID)
+    if (!ecosystem || !playerBody) return
+    const baseFood = environment.entityDefinitions.find((definition) => definition.role === 'nutrient')
+    if (baseFood) {
+      const radius = Math.min(baseFood.radius, playerBody.body.radius * ecosystem.openingFoodRadiusRatio)
+      const definition = { ...baseFood, radius, mass: Math.max(9, Math.round(radius * radius)), maxSpeed: ecosystem.openingFoodSpeed }
+      const positions = ecologyGroupPositions({
+        seed: options.seed,
+        groupId: `opening-${lifecycle.tierIndex}`,
+        center: playerBody.position,
+        distance: ecosystem.openingFoodDistance,
+        count: ecosystem.openingFoodCount,
+        width: environment.width,
+        height: environment.height,
+        margin: radius + 8,
+        angle: -Math.PI / 2,
+      })
+      positions.forEach((position, index) => {
+        const id = `opening-food-${lifecycle.tierIndex}-${index}`
+        entities.set(id, materializeSpawn(createEntity(definition, { id, position, spawnedAtMs: elapsedMs }), elapsedMs, content.m1.spawnPresentation))
+      })
+    }
+    ecosystem.carryoverCreatureIds.forEach((id, index) => {
+      const creature = content.creatures.find((definition) => definition.id === id)
+      if (!creature) return
+      // Carryovers keep the size of the rival the player remembers, independently of the current region.
+      const previousEncounter = (content as unknown as { ecosystems: EcosystemDefinition[] }).ecosystems.find((layer) => layer.encounterCreatureId === id && layer.tierIndex < lifecycle.tierIndex)
+      const original = creatureEntityDefinition(creature as CreatureDefinition)
+      const radius = previousEncounter?.encounterRadius ?? original.radius
+      const definition = { ...original, radius, mass: Math.round(radius * radius), maxSpeed: worldSpeedForForm(radius, ecosystem.carryoverSpeedBodyLengths) }
+      const position = ecologyGroupPositions({ seed: options.seed, groupId: `carryover-${lifecycle.tierIndex}-${index}`, center: playerBody.position, distance: playerBody.body.radius * 3.8, count: 1, width: environment.width, height: environment.height, margin: radius + 8, angle: -Math.PI / 2 + index * 0.75 })[0]!
+      const entityId = `carryover-${lifecycle.tierIndex}-${id}`
+      entities.set(entityId, createEntity(definition, { id: entityId, position, spawnedAtMs: elapsedMs }))
+    })
+  }
+
+  function spawnLayerEncounter() {
+    const ecosystem = currentEcosystem()
+    const playerBody = entities.get(PLAYER_ID)
+    if (!ecosystem || !playerBody || lifecycle.encounterResolved || entities.get(encounterEntityId())?.status === 'active' || lifecycle.evolutionPressure < ecosystem.encounterAtPressure) return
+    const creature = content.creatures.find((item) => item.id === ecosystem.encounterCreatureId)
+    if (!creature) return
+    const tier = scaleTiers[lifecycle.tierIndex]!
+    const radius = lifecycle.tierIndex === 2 ? content.lateEcology.leviathan.armoredRadius : ecosystem.encounterRadius
+    const original = creatureEntityDefinition(creature as CreatureDefinition)
+    const definition = { ...original, ...(lifecycle.tierIndex === 2 ? { behaviorProfileId: content.lateEcology.leviathan.profileId as `behavior-${string}` } : {}), radius, mass: Math.round(radius * radius), maxSpeed: worldSpeedForForm(tier.radiusRange[0], ecosystem.encounterSpeedBodyLengths) }
+    const position = ecologyGroupPositions({ seed: options.seed, groupId: encounterEntityId(), center: playerBody.position, distance: ecosystem.encounterDistance, count: 1, width: environment.width, height: environment.height, margin: radius + 8, angle: 0.25 })[0]!
+    // A replacement is a new organism even though the objective keeps its stable public ID.
+    for (const key of engulfLocks) if (key.split('\u0000').includes(encounterEntityId())) engulfLocks.delete(key)
+    for (const key of damagePeriods.keys()) if (key.split('\u0000').includes(encounterEntityId())) damagePeriods.delete(key)
+    entities.set(encounterEntityId(), createEntity(definition, { id: encounterEntityId(), position, spawnedAtMs: elapsedMs }))
   }
 
   function stepWorldFeatures(stepMs: number) {
@@ -608,7 +839,7 @@ export function createGameEngine(options: {
     const bossSpawnAtMs = runDirectorState.phase === 'finale'
       ? environmentEnteredAtMs + 45_000
       : environmentEnteredAtMs + Math.max(30_000, ((launchEnvironment?.durationTargetSec[0] ?? 120) - 25) * 1000)
-    if (!bossState && bossDefinition && elapsedMs >= bossSpawnAtMs) {
+    if (!journeyEnabled && !bossState && bossDefinition && elapsedMs >= bossSpawnAtMs) {
       const definition = bossDefinition
       bossState = createBoss(definition.id as BossId, { seed: options.seed, atMs: bossSpawnAtMs })
       const boss = createEntity(definition.entity as EntityDefinition, {
@@ -870,8 +1101,12 @@ export function createGameEngine(options: {
 
   function rebuildGrid() {
     grid.clear()
+    nonHostileGrid.clear()
     for (const entity of entities.values()) {
-      if (entity.status === 'active') grid.insert(entity)
+      if (entity.status === 'active') {
+        grid.insert(entity)
+        if (entity.faction !== 'hostile') nonHostileGrid.insert(entity)
+      }
     }
   }
 
@@ -881,6 +1116,10 @@ export function createGameEngine(options: {
     const playerBodies = [...entities.values()]
       .filter((entity) => entity.faction === 'player' && entity.status === 'active')
     const playerRadii = playerBodies.map((entity) => entity.body.radius)
+    const hasFiberCover = environmentField.obstacles.some((obstacle) => obstacle.kind === 'fiber')
+    const attractionFields = activeEvent?.phase === 'active' ? activeEvent.aiSignals.map((signal) => ({
+      center: signal.center, radius: signal.radius, strength: signal.strength, flow: signal.flow,
+    })) : []
     for (const entity of entities.values()) {
       if (entity.status !== 'active') continue
       if (activeSwarm && entity.faction === 'player') continue
@@ -900,7 +1139,7 @@ export function createGameEngine(options: {
       const bossDormant = enteringEntity.id === bossState?.id && bossState.phase === 'dormant'
       const movement = arrival?.intent
         ? { entity: enteringEntity, intent: arrival.intent }
-        : movementDecision(enteringEntity, bossDormant)
+        : movementDecision(enteringEntity, bossDormant, attractionFields, hasFiberCover)
       const intent = movement.intent
       const movingEntity = movement.entity
       const bossPhaseSpeed = entity.id !== bossState?.id ? 1
@@ -976,16 +1215,15 @@ export function createGameEngine(options: {
     return 1
   }
 
-  function movementDecision(entity: EntityState, bossDormant: boolean): { entity: EntityState; intent: MovementIntent } {
+  function movementDecision(entity: EntityState, bossDormant: boolean, attractionFields: BehaviorContext['attractionFields'], hasFiberCover: boolean): { entity: EntityState; intent: MovementIntent } {
     if (bossDormant) return { entity, intent: { direction: { x: 0, y: 0 }, strength: 0 } }
     if (entity.id === PLAYER_ID) return { entity, intent: input.snapshot() }
 
-    const attractionFields = activeEvent?.phase === 'active' ? activeEvent.aiSignals.map((signal) => ({
-      center: signal.center,
-      radius: signal.radius,
-      strength: signal.strength,
-      flow: signal.flow,
-    })) : []
+    const perceived = (radius: number, oppositionOnly = false) => {
+      const source = oppositionOnly && entity.faction === 'hostile' ? nonHostileGrid : grid
+      const nearby = source.query({ x: entity.position.x - radius, y: entity.position.y - radius, width: radius * 2, height: radius * 2 })
+      return hasFiberCover ? nearby.filter((target) => !fiberConceals(environmentField, { position: entity.position, radius: entity.body.radius }, { position: target.position, radius: target.body.radius })) : nearby
+    }
     if (entity.behaviorProfileId) {
       const profile = getBehaviorProfile(entity.behaviorProfileId)
       const perceptionRadius = profile.perceptionRadius * (modifiers.rules['longer-predator-perception'] && entity.faction === 'hostile' ? 1.4 : 1)
@@ -994,19 +1232,16 @@ export function createGameEngine(options: {
         behaviorMemories.get(entity.id) ?? { state: 'idle', stateStartedAtMs: elapsedMs },
         {
           atMs: elapsedMs,
-          nearby: grid.query({
-            x: entity.position.x - perceptionRadius,
-            y: entity.position.y - perceptionRadius,
-            width: perceptionRadius * 2,
-            height: perceptionRadius * 2,
-          }),
+          // These handlers only select opposing prey (plus the global player
+          // escape rule). The separate index retains their original bucket order.
+          nearby: profile.family === 'resource' ? [] : perceived(perceptionRadius, profile.family === 'hunter' || profile.family === 'ambusher' || profile.family === 'apex'),
           profile,
           attractionFields,
         },
       )
       behaviorMemories.set(entity.id, behavior.memory)
       return {
-        entity: { ...entity, behaviorState: behavior.decision.presentationState },
+        entity: { ...entity, behaviorState: behavior.decision.presentationState, behaviorDirection: { ...behavior.decision.movement.direction } },
         intent: behavior.decision.movement,
       }
     }
@@ -1014,12 +1249,7 @@ export function createGameEngine(options: {
     return {
       entity,
       intent: decideIntent(entity, {
-        nearby: grid.query({
-          x: entity.position.x - 240,
-          y: entity.position.y - 240,
-          width: 480,
-          height: 480,
-        }),
+        nearby: entity.role === 'nutrient' ? [] : perceived(240),
         attractionFields,
       }),
     }
@@ -1075,18 +1305,12 @@ export function createGameEngine(options: {
     environment = getEnvironment(environmentId)
     environmentEnteredAtMs = elapsedMs
     routeStageIndex = journeyEnabled ? runDirectorState.stageIndex : routeStageIndex + 1
-    const targetTierIndex = journeyEnabled ? Math.min(scaleTiers.length - 1, Math.floor(routeStageIndex / 2)) : lifecycle.tierIndex
-    if (targetTierIndex > lifecycle.tierIndex) {
-      const fromFormId = lifecycle.formId
-      lifecycle = transitionLifecycleToTier(lifecycle, scaleTiers, targetTierIndex)
-      resizeActivePlayerBodies(true)
-      events.push({ type: 'form-transitioned', fromFormId, toFormId: lifecycle.formId, atMs: elapsedMs })
-    }
     routeEntryGuardUntilMs = elapsedMs + 1000
     region = offsetGeneratedRegion(filteredRegion(generateRegion(options.seed, environmentId), options.route?.[routeStageIndex]), environmentEnteredAtMs)
     scheduleAt = new Map(region.spawnSchedule.map((entry) => [entry.entityId, entry.atMs]))
     regionById = new Map(region.entities.map((entity) => [entity.id, entity]))
     spawnedIds.clear()
+    rewardedTerrainIds.clear()
     engulfLocks.clear()
     damagePeriods.clear()
     activeEvent = undefined
@@ -1112,7 +1336,7 @@ export function createGameEngine(options: {
       const angle = playerBodies.length === 1 ? 0 : index / playerBodies.length * Math.PI * 2
       const position = {
         x: environment.width / 2 + Math.cos(angle) * 24,
-        y: environment.height - 100 + Math.sin(angle) * 24,
+        y: journeyEnabled ? environment.height / 2 + Math.sin(angle) * 24 : environment.height - 100 + Math.sin(angle) * 24,
       }
       entities.set(body.id, moveEntity(body, position, { x: 0, y: -8 }))
     }
@@ -1125,6 +1349,7 @@ export function createGameEngine(options: {
     }
     spawnDue(elapsedMs)
     spawnStageEntryEcology(playerBodies[0] ? entities.get(playerBodies[0].id) : undefined)
+    if (journeyEnabled) spawnLayerOpening()
     spawnModifierElite()
   }
 
@@ -1147,24 +1372,7 @@ export function createGameEngine(options: {
   }
 
   function activeRouteRifts(): readonly RouteRift[] {
-    if (!journeyEnabled || runDirectorState.phase === 'active' || runDirectorState.phase === 'finale' || runDirectorState.phase === 'complete') {
-      return region.routeRifts
-    }
-    const stage = (content.journey as JourneyDefinition).stages[runDirectorState.stageIndex]
-    if (!stage) return []
-    return runDirectorState.offeredRoutes.map((route, index, all) => ({
-      id: route.id,
-      destinationEnvironmentId: route.destinationEnvironmentId,
-      position: {
-        x: all.length === 1 ? environment.width / 2 : environment.width * (index === 0 ? 0.26 : 0.74),
-        y: Math.max(86, environment.height * 0.18),
-      },
-      radius: 30,
-      opensAtMs: runDirectorState.stageStartedAtMs + stage.durationMs,
-      hazardId: route.riskId,
-      resourceId: route.rewardId,
-      affinityIconId: route.entryModifierId,
-    }))
+    return journeyEnabled ? [] : region.routeRifts
   }
 
   function currentBodyStage(): BodyStage {
@@ -1620,11 +1828,21 @@ export function createGameEngine(options: {
 
   function resolveNearbyInteractions() {
     const visited = new Set<string>()
+    const physicalBodies = new Map<EntityState, BodyShape>()
+    const interactionEntity = (entity: EntityState): EntityState => {
+      if (!journeyEnabled) return entity
+      let body = physicalBodies.get(entity)
+      if (!body) {
+        body = physicalMembrane(entity, lifecycle.formId, elapsedMs, entity.faction === 'player' ? buildState : undefined)
+        physicalBodies.set(entity, body)
+      }
+      return { ...entity, body }
+    }
     runStableEntityPass(entities, (entity, enqueueEntity) => {
       if (terminalReached) return
       if (entity.status !== 'active') return
       const reach = entity.body.radius + 72
-      const nearby = grid.query({
+      const nearby = (entity.faction === 'hostile' ? nonHostileGrid : grid).query({
         x: entity.position.x - reach,
         y: entity.position.y - reach,
         width: reach * 2,
@@ -1633,6 +1851,10 @@ export function createGameEngine(options: {
 
       for (const candidate of nearby) {
         if (candidate.id === entity.id) continue
+        // Factions remain fixed during this pass. These pairs never interact;
+        // reject them before allocating/sorting keys in a pursuing crowd.
+        if (entity.faction === 'hostile' && candidate.faction === 'hostile') continue
+        if (entity.faction === 'player' && candidate.faction === 'player') continue
         const pairKey = [entity.id, candidate.id].sort().join('\u0000')
         if (visited.has(pairKey)) continue
         visited.add(pairKey)
@@ -1644,6 +1866,9 @@ export function createGameEngine(options: {
         if (isThreatArrivalInactive(first) || isThreatArrivalInactive(second)) continue
         if (first.id.startsWith('eco-food-') && second.id.startsWith('eco-food-')) continue
         if (first.faction === 'hostile' && second.faction === 'hostile') continue
+        if (first.faction === 'player' && second.faction === 'player') continue
+        // Visible pulse and strain stay within 6% of base geometry; reject distant pairs before contour sampling.
+        if (journeyEnabled && distanceBetween(first, second) > (first.body.radius + second.body.radius) * 1.06) continue
         if (bossState?.phase === 'dormant' && (first.id === bossState.id || second.id === bossState.id)) continue
         const pairBoss = first.id === bossState?.id ? first : second.id === bossState?.id ? second : undefined
         const pairPlayerForRam = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
@@ -1667,7 +1892,7 @@ export function createGameEngine(options: {
           ? { ...baseConfiguredDamage, damage: { ...baseConfiguredDamage.damage, amount: baseConfiguredDamage.damage.amount * 1.5 } }
           : baseConfiguredDamage
         let blockedAmount = 0
-        let engulfCoverageThreshold = 0.7
+        let engulfCoverageThreshold = journeyEnabled ? 1 : 0.7
         const pairPlayer = first.faction === 'player' ? first : second.faction === 'player' ? second : undefined
         const pairThreat = pairPlayer === first ? second : first
         if (pairPlayer && installedOrganelles.length > 0) {
@@ -1687,7 +1912,7 @@ export function createGameEngine(options: {
             const containmentOutcomes = evaluateTriggers(buildState, triggerFrame(pairPlayer, {
               containment: { coveredRatio: coveredRatio(pairPlayer.body, pairThreat.body), approach },
             }))
-            if (containmentOutcomes.some((outcome) => outcome.effectId === 'rear-containment-bonus')) engulfCoverageThreshold = 0.62
+            if (!journeyEnabled && containmentOutcomes.some((outcome) => outcome.effectId === 'rear-containment-bonus')) engulfCoverageThreshold = 0.62
             applyTriggerOutcomes(pairPlayer, containmentOutcomes)
           }
           first = entities.get(first.id)
@@ -1710,9 +1935,10 @@ export function createGameEngine(options: {
             else second = relievedPlayer
           }
         }
-        const result = resolveInteraction(first, second, {
+        const result = resolveInteraction(interactionEntity(first), interactionEntity(second), {
           atMs: elapsedMs,
           engulfLocks,
+          protectedPreyId: journeyEnabled && lifecycle.tierIndex === 2 && entities.get('encounter-2')?.behaviorState !== 'recover' ? 'encounter-2' : undefined,
           ruptureLossFraction: 0.08,
           engulfMassGainFraction: (first.id.startsWith('eco-food-') || second.id.startsWith('eco-food-'))
             && first.faction !== 'player' && second.faction !== 'player'
@@ -1727,13 +1953,30 @@ export function createGameEngine(options: {
           (engulfed.predatorId === first.id && first.faction === 'player')
           || (engulfed.predatorId === second.id && second.faction === 'player')
         )
-        if (engulfed && playerEngulf) lifecycle = applyLifecycleBiomass(lifecycle, engulfed.biomass, scaleTiers)
+        if (engulfed && playerEngulf) {
+          lifecycle = applyLifecycleBiomass(lifecycle, engulfed.biomass, scaleTiers, journeyEnabled ? 'relative' : 'absolute')
+          const prey = engulfed.preyId === first.id ? first : second
+          const predator = engulfed.predatorId === first.id ? first : second
+          const intent = input.snapshot()
+          const distance = Math.max(1, distanceBetween(predator, prey))
+          const alignment = (intent.direction.x * (prey.position.x - predator.position.x) + intent.direction.y * (prey.position.y - predator.position.y)) / distance
+          const activeHunt = activeControlMs >= 180 && intent.strength >= 0.45 && alignment >= -0.15
+          if (activeHunt) {
+            activeBiomass += engulfed.biomass
+            if (prey.id.startsWith('carryover-') || prey.id === encounterEntityId()) { reversalCount += 1; engulfed.reversal = true }
+          }
+          if (prey.id === encounterEntityId() && activeHunt) lifecycle = { ...lifecycle, encounterResolved: true }
+          if (prey.id === 'encounter-2' && journeyEnabled && activeHunt) engulfed.finisher = true
+        }
         for (const resolvedEntity of result.entities) {
+          // Physical outlines are transient: retain the unpulsed lifecycle radius as the source geometry.
+          const restored = journeyEnabled ? { ...resolvedEntity, body: resolvedEntity.id === first.id ? first.body : second.body } : resolvedEntity
+          const preserveSpeciesSize = journeyEnabled && (resolvedEntity.id.startsWith('encounter-') || resolvedEntity.id.startsWith('carryover-'))
           entities.set(
             resolvedEntity.id,
             resolvedEntity.faction === 'player'
-              ? resizePlayerEntity(resolvedEntity)
-              : resizeForMass(resolvedEntity),
+              ? resizePlayerEntity(restored)
+              : preserveSpeciesSize ? restored : resizeForMass(restored),
           )
         }
         if (first.faction === 'player' || second.faction === 'player') {
@@ -1744,6 +1987,12 @@ export function createGameEngine(options: {
         events.push(...result.events)
         if (engulfed) {
           const predator = engulfed.predatorId === first.id ? first : second
+          if (predator.faction === 'player') {
+            const prey = engulfed.preyId === first.id ? first : second
+            if (engulfed.finisher) mutationPresentationAfterMs = elapsedMs + content.lateEcology.leviathan.finaleMs
+            recentEngulfs.push({ prey: structuredClone(prey), predatorId: predator.id, atMs: elapsedMs, chain: engulfed.chain ?? 1, finisher: engulfed.finisher })
+            if (recentEngulfs.length > 12) recentEngulfs.splice(0, recentEngulfs.length - 12)
+          }
           if (predator.faction === 'player') {
             playerEngulfChain = engulfed.chain ?? (elapsedMs - lastPlayerEngulfAt <= 1400 ? playerEngulfChain + 1 : 1)
             lastPlayerEngulfAt = elapsedMs
@@ -1847,6 +2096,16 @@ export function createGameEngine(options: {
     const profile = currentThreatProfile()
     const runtimeEntity = entity as EntityState & { maxSpeed?: number; contactDamage?: ContactDamageDefinition }
     const runtimePlayer = playerBody as EntityState & { maxSpeed?: number }
+    // Absolute species geometry is what makes a former predator become prey after a scale jump.
+    if (journeyEnabled) {
+      const tier = scaleTiers[lifecycle.tierIndex]!
+      const tuned = {
+        ...entity,
+        maxSpeed: worldSpeedForForm(tier.radiusRange[0], tier.movementBodyLengthsPerSecond) * profile.hostileCruiseSpeedRatio,
+        contactDamage: runtimeEntity.contactDamage ? { ...runtimeEntity.contactDamage, amount: runtimeEntity.contactDamage.amount * profile.contactDamageMultiplier } : undefined,
+      }
+      return tuned
+    }
     const definitionId = 'definitionId' in entity ? String(entity.definitionId) : undefined
     const creatureRole = content.creatures.find((item) => item.id === definitionId)?.role
     const elite = entity.role === 'elite' || creatureRole === 'elite'

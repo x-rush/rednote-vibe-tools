@@ -12,6 +12,7 @@ export type BehaviorState =
   | 'escape'
   | 'hide'
   | 'ambush'
+  | 'telegraph'
   | 'pursue'
   | 'recover'
   | 'search'
@@ -24,6 +25,7 @@ export type BehaviorMemory = {
   stateStartedAtMs: number
   targetId?: string
   anchor?: Vec2
+  burstDirection?: Vec2
 }
 
 export type BehaviorContext = {
@@ -96,4 +98,35 @@ export function result(memory: BehaviorMemory, movement: MovementIntent, action?
 
 export function distance(first: Vec2, second: Vec2): number {
   return Math.hypot(first.x - second.x, first.y - second.y)
+}
+
+/** A tell tracks its prey; releasing it commits a heading so a sideways dodge works. */
+export function predationCycle(
+  entity: EntityState,
+  memory: BehaviorMemory,
+  context: BehaviorContext,
+  prey: EntityState | undefined,
+  burstState: 'pursue' | 'ambush' | 'charge',
+): BehaviorResult | undefined {
+  const age = context.atMs - memory.stateStartedAtMs
+  if (memory.state === 'recover' && age < (context.profile.recoveryMs ?? 0)) {
+    return result(memory, deterministicWander(entity.id, context.atMs, 0.18))
+  }
+  if (memory.state === burstState && age >= (context.profile.pursuitBurstMs ?? context.profile.abandonAfterMs)) {
+    return result(transition(memory, 'recover', context.atMs), deterministicWander(entity.id, context.atMs, 0.18))
+  }
+  if (memory.state === burstState && memory.burstDirection) {
+    return result(memory, { direction: memory.burstDirection, strength: 1 }, burstState === 'pursue' ? undefined : 'charge')
+  }
+  if (memory.state === 'telegraph' && prey) {
+    if (age < (context.profile.telegraphMs ?? 0)) return result(memory, movementToward(entity.position, prey.position, 0.1))
+    const movement = movementToward(entity.position, prey.position)
+    const next = { ...transition(memory, burstState, context.atMs, prey.id), burstDirection: { ...movement.direction } }
+    return result(next, movement, burstState === 'pursue' ? undefined : 'charge')
+  }
+  return undefined
+}
+
+export function warnPredation(entity: EntityState, memory: BehaviorMemory, context: BehaviorContext, prey: EntityState): BehaviorResult {
+  return result(transition(memory, 'telegraph', context.atMs, prey.id), movementToward(entity.position, prey.position, 0.1))
 }

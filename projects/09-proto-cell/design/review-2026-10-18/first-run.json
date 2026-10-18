@@ -1,0 +1,1608 @@
+{
+  "seed": 727,
+  "policy": "one finger steers toward nearest edible; no health, radius, enemy or time modifications",
+  "firstEngulfMs": 12466.666666666571,
+  "choiceCaptured": true,
+  "samples": [
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 83.33333333333334,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 24,
+      "visibleCount": 3,
+      "nearestEdible": {
+        "distance": 90.15489343567937,
+        "dx": -32.45010349370443,
+        "dy": -84.11239857266332,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 660.3378372092908,
+          "y": 1122.1243624542155
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 1183.333333333333,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 24,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 53.79174149579606,
+        "dx": -15.283872510285164,
+        "dy": -51.57474861053515,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 644.3105434109907,
+          "y": 1070.6631922402144
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 2300.0000000000014,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 24,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 57.41971809918187,
+        "dx": 16.10090105399638,
+        "dy": -55.11610483188133,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 630.0013778667357,
+          "y": 1010.85223571435
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 3416.666666666658,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 25,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 63.52283637847945,
+        "dx": 48.11728939876059,
+        "dy": -41.471402224701706,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 648.927092964105,
+          "y": 950.7862138106065
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 4533.333333333327,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 25,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 69.28233833131367,
+        "dx": 68.03445566587175,
+        "dy": -13.090272988106335,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 698.6433982353843,
+          "y": 908.1881093281429
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 5666.666666666681,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 25,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 74.31192579042575,
+        "dx": 71.34976274761891,
+        "dy": 20.771944312948563,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 765.6799366660332,
+          "y": 894.1109860433353
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 6766.666666666701,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 25,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 78.23369450098583,
+        "dx": 60.39036574702345,
+        "dy": 49.734441589449034,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 831.1144087746424,
+          "y": 910.4448853943023
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 7883.333333333388,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 26,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 81.93393657351787,
+        "dx": 38.666230025174286,
+        "dy": 72.236366312776,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 886.6847535579799,
+          "y": 950.3636314304972
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 9016.666666666697,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 26,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 85.46307506412656,
+        "dx": 9.96576466630404,
+        "dy": 84.88003731168112,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 924.3071562512011,
+          "y": 1007.7878191223577
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 10216.666666666653,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 26,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 89.95304136222833,
+        "dx": -26.08693466483794,
+        "dy": 86.08728994519015,
+        "role": "prey"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 941.5678589014651,
+          "y": 1076.865935931414
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100,
+        "energy": 100,
+        "stability": 100,
+        "biomass": 144,
+        "peakBiomass": 144,
+        "evolutionThreshold": 240,
+        "elapsedMs": 11349.999999999945,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 0,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0,
+        "membraneRatio": 1
+      },
+      "entities": 26,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 65.81248715347796,
+        "dx": 10.664124607666054,
+        "dy": 64.94274333348471,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 12,
+        "position": {
+          "x": 930.241056240803,
+          "y": 1141.2993909245483
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100.20769230769231,
+        "energy": 100.13846153846153,
+        "stability": 100,
+        "biomass": 147,
+        "peakBiomass": 147,
+        "evolutionThreshold": 240,
+        "elapsedMs": 12466.666666666571,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 3,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6125,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.011538461538461539,
+        "membraneRatio": 1
+      },
+      "entities": 27,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 103.84873511584222,
+        "dx": 41.994370241625006,
+        "dy": 94.97911693193237,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 12.229437869822483,
+        "position": {
+          "x": 942.288696722114,
+          "y": 1206.3074755080847
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100.20769230769231,
+        "energy": 100.13846153846153,
+        "stability": 100,
+        "biomass": 147,
+        "peakBiomass": 147,
+        "evolutionThreshold": 240,
+        "elapsedMs": 13583.333333333198,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 3,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6125,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.011538461538461539,
+        "membraneRatio": 1
+      },
+      "entities": 27,
+      "visibleCount": 3,
+      "nearestEdible": {
+        "distance": 38.58297810882326,
+        "dx": 17.085319536020847,
+        "dy": 34.59390200740586,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 12.229437869822483,
+        "position": {
+          "x": 971.7247660322148,
+          "y": 1268.3591473190995
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100.41538461538462,
+        "energy": 100.27692307692308,
+        "stability": 100,
+        "biomass": 150,
+        "peakBiomass": 150,
+        "evolutionThreshold": 240,
+        "elapsedMs": 14699.999999999824,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 6,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.625,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.023076923076923078,
+        "membraneRatio": 1
+      },
+      "entities": 29,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 20.46017917390727,
+        "dx": -14.38984845632308,
+        "dy": 14.544799525343933,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 12.45621301775148,
+        "position": {
+          "x": 1005.277661888286,
+          "y": 1329.4258247679677
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100.62307692307692,
+        "energy": 100.41538461538462,
+        "stability": 100,
+        "biomass": 153,
+        "peakBiomass": 153,
+        "evolutionThreshold": 240,
+        "elapsedMs": 15816.66666666645,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 9,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6375,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.03461538461538462,
+        "membraneRatio": 1
+      },
+      "entities": 35,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 27.18027564330576,
+        "dx": 26.95585700968445,
+        "dy": 3.4855640747985035,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 12.680325443786982,
+        "position": {
+          "x": 969.9412293517217,
+          "y": 1380.3733891604388
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100.83076923076923,
+        "energy": 100.55384615384615,
+        "stability": 100,
+        "biomass": 156,
+        "peakBiomass": 156,
+        "evolutionThreshold": 240,
+        "elapsedMs": 16916.666666666468,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 12,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.65,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.046153846153846156,
+        "membraneRatio": 1
+      },
+      "entities": 35,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 123.42767458891225,
+        "dx": 82.5318810285346,
+        "dy": -91.77624675436573,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 12.901775147928994,
+        "position": {
+          "x": 1029.8117046237767,
+          "y": 1394.6384901885606
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 100.83076923076923,
+        "energy": 100.55384615384615,
+        "stability": 100,
+        "biomass": 156,
+        "peakBiomass": 156,
+        "evolutionThreshold": 240,
+        "elapsedMs": 18033.333333333216,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 12,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.65,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.046153846153846156,
+        "membraneRatio": 1
+      },
+      "entities": 35,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 58.085955133633945,
+        "dx": 33.721813282181756,
+        "dy": -47.29500494500667,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 12.901775147928994,
+        "position": {
+          "x": 1083.1487909746338,
+          "y": 1351.8237052656898
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 101.03846153846155,
+        "energy": 100.69230769230771,
+        "stability": 100,
+        "biomass": 159,
+        "peakBiomass": 159,
+        "evolutionThreshold": 240,
+        "elapsedMs": 19149.999999999964,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 15,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6625,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.057692307692307696,
+        "membraneRatio": 1
+      },
+      "entities": 35,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 68.89646045827182,
+        "dx": 68.7183494555959,
+        "dy": 4.95082940291968,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 13.120562130177515,
+        "position": {
+          "x": 1128.6829934799077,
+          "y": 1297.5243082447946
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 101.24615384615385,
+        "energy": 100.83076923076923,
+        "stability": 100,
+        "biomass": 162,
+        "peakBiomass": 162,
+        "evolutionThreshold": 240,
+        "elapsedMs": 20266.66666666671,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 18,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.675,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.06923076923076923,
+        "membraneRatio": 1
+      },
+      "entities": 34,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 48.14328067348974,
+        "dx": 35.408617953733255,
+        "dy": -32.619093313778194,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 13.336686390532545,
+        "position": {
+          "x": 1200.0260576776543,
+          "y": 1297.0807357470885
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 101.45384615384616,
+        "energy": 100.96923076923076,
+        "stability": 100,
+        "biomass": 165,
+        "peakBiomass": 165,
+        "evolutionThreshold": 240,
+        "elapsedMs": 21383.33333333346,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 21,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6875,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.08076923076923077,
+        "membraneRatio": 1
+      },
+      "entities": 30,
+      "visibleCount": 0,
+      "nearestEdible": {
+        "distance": 158.5382494774751,
+        "dx": -109.11051849920818,
+        "dy": -115.01856937128059,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 13.550147928994082,
+        "position": {
+          "x": 1246.3008576945103,
+          "y": 1256.2042097686929
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 101.45384615384616,
+        "energy": 100.96923076923076,
+        "stability": 100,
+        "biomass": 165,
+        "peakBiomass": 165,
+        "evolutionThreshold": 240,
+        "elapsedMs": 22500.000000000207,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 21,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.6875,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.08076923076923077,
+        "membraneRatio": 1
+      },
+      "entities": 30,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 79.70920481574166,
+        "dx": -49.245286645886836,
+        "dy": -62.67742077911544,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 13.550147928994082,
+        "position": {
+          "x": 1190.9626444456933,
+          "y": 1205.529518063016
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 101.66153846153847,
+        "energy": 101.1076923076923,
+        "stability": 100,
+        "biomass": 168,
+        "peakBiomass": 168,
+        "evolutionThreshold": 240,
+        "elapsedMs": 23700.000000000295,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 24,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.7,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.09230769230769231,
+        "membraneRatio": 1
+      },
+      "entities": 28,
+      "visibleCount": 0,
+      "nearestEdible": {
+        "distance": 151.00941514002588,
+        "dx": -139.39672086391943,
+        "dy": 58.07234861204779,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 13.76094674556213,
+        "position": {
+          "x": 1146.5908982766061,
+          "y": 1146.7308620494473
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 101.66153846153847,
+        "energy": 101.1076923076923,
+        "stability": 100,
+        "biomass": 168,
+        "peakBiomass": 168,
+        "evolutionThreshold": 240,
+        "elapsedMs": 24816.666666667043,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 24,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.7,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.09230769230769231,
+        "membraneRatio": 1
+      },
+      "entities": 28,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 85.57328514345987,
+        "dx": -74.15353779561076,
+        "dy": 42.708780861069044,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 13.76094674556213,
+        "position": {
+          "x": 1085.3067403682571,
+          "y": 1168.1371336050063
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 101.66153846153847,
+        "energy": 101.1076923076923,
+        "stability": 100,
+        "biomass": 168,
+        "peakBiomass": 168,
+        "evolutionThreshold": 240,
+        "elapsedMs": 25933.33333333379,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 24,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.7,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.09230769230769231,
+        "membraneRatio": 1
+      },
+      "entities": 27,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 37.825092052149145,
+        "dx": -37.75702319910977,
+        "dy": -2.268212489041389,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 13.76094674556213,
+        "position": {
+          "x": 1025.5005946113297,
+          "y": 1205.7688958604415
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 101.66153846153847,
+        "energy": 101.1076923076923,
+        "stability": 100,
+        "biomass": 168,
+        "peakBiomass": 168,
+        "evolutionThreshold": 240,
+        "elapsedMs": 27050.00000000054,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 24,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.7,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.09230769230769231,
+        "membraneRatio": 1
+      },
+      "entities": 33,
+      "visibleCount": 8,
+      "nearestEdible": {
+        "distance": 28.322061046290496,
+        "dx": 11.470016095263986,
+        "dy": -25.895518389949075,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 13.76094674556213,
+        "position": {
+          "x": 957.3742575729137,
+          "y": 1207.1425562972215
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 102.69999999999999,
+        "energy": 101.8,
+        "stability": 100,
+        "biomass": 183,
+        "peakBiomass": 183,
+        "evolutionThreshold": 240,
+        "elapsedMs": 28166.666666667286,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 39,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.7625,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.15,
+        "membraneRatio": 1
+      },
+      "entities": 29,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 19.81925236277694,
+        "dx": 17.87591023325467,
+        "dy": 8.55888997195666,
+        "role": "nutrient"
+      },
+      "player": {
+        "radius": 14.775,
+        "position": {
+          "x": 982.0795532312017,
+          "y": 1146.1611292094683
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 102.9076923076923,
+        "energy": 101.93846153846154,
+        "stability": 100,
+        "biomass": 186,
+        "peakBiomass": 186,
+        "evolutionThreshold": 240,
+        "elapsedMs": 29283.333333334034,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 42,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.775,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.16153846153846155,
+        "membraneRatio": 1
+      },
+      "entities": 28,
+      "visibleCount": 0,
+      "nearestEdible": {
+        "distance": 190.20491452783097,
+        "dx": -38.512612602613444,
+        "dy": 186.2651018872309,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 14.9698224852071,
+        "position": {
+          "x": 1054.7377365102109,
+          "y": 1171.7116758552827
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 102.9076923076923,
+        "energy": 101.93846153846154,
+        "stability": 100,
+        "biomass": 186,
+        "peakBiomass": 186,
+        "evolutionThreshold": 240,
+        "elapsedMs": 30400.000000000782,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 42,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.775,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.16153846153846155,
+        "membraneRatio": 1
+      },
+      "entities": 28,
+      "visibleCount": 1,
+      "nearestEdible": {
+        "distance": 139.90266217076544,
+        "dx": 0.6977901592974831,
+        "dy": 139.9009219818115,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 14.9698224852071,
+        "position": {
+          "x": 1051.8939504928699,
+          "y": 1247.5536297270535
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 102.9076923076923,
+        "energy": 101.93846153846154,
+        "stability": 100,
+        "biomass": 186,
+        "peakBiomass": 186,
+        "evolutionThreshold": 240,
+        "elapsedMs": 31516.66666666753,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 42,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.775,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.16153846153846155,
+        "membraneRatio": 1
+      },
+      "entities": 30,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 102.36054910494578,
+        "dx": 41.680622849104566,
+        "dy": 93.4901475663437,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 14.9698224852071,
+        "position": {
+          "x": 1055.1545787401792,
+          "y": 1329.2905633057624
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 102.9076923076923,
+        "energy": 101.93846153846154,
+        "stability": 100,
+        "biomass": 186,
+        "peakBiomass": 186,
+        "evolutionThreshold": 240,
+        "elapsedMs": 32633.333333334278,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 42,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.775,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.16153846153846155,
+        "membraneRatio": 1
+      },
+      "entities": 41,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 71.38117390144899,
+        "dx": 37.35187886235258,
+        "dy": 60.828522364110086,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 14.9698224852071,
+        "position": {
+          "x": 1089.121486735651,
+          "y": 1404.9383026426403
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 102.9076923076923,
+        "energy": 101.93846153846154,
+        "stability": 100,
+        "biomass": 186,
+        "peakBiomass": 186,
+        "evolutionThreshold": 240,
+        "elapsedMs": 33750.000000000815,
+        "environmentId": "env-clear-drop",
+        "paused": false,
+        "engulfScore": 42,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 0.775,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.16153846153846155,
+        "membraneRatio": 1
+      },
+      "entities": 43,
+      "visibleCount": 3,
+      "nearestEdible": {
+        "distance": 25.146637376737214,
+        "dx": 19.324009848794503,
+        "dy": 16.091488890740038,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 14.9698224852071,
+        "position": {
+          "x": 1134.7018578935933,
+          "y": 1475.4726959383224
+        }
+      },
+      "hasChoices": false
+    },
+    {
+      "hud": {
+        "membrane": 111.52805028969466,
+        "energy": 107.68536685979643,
+        "stability": 100,
+        "biomass": 310.5162819622562,
+        "peakBiomass": 310.5162819622562,
+        "evolutionThreshold": 240,
+        "elapsedMs": 33983.333333334114,
+        "environmentId": "env-clear-drop",
+        "paused": true,
+        "engulfScore": 166.5162819622562,
+        "journeyIndex": 1,
+        "journeyTotal": 6,
+        "bodyStage": "microbe",
+        "playerBuild": {
+          "bodyStage": "microbe",
+          "evolutionCount": 0,
+          "stability": 100,
+          "routeCounts": {
+            "predation": 0,
+            "survival": 0,
+            "colony": 0
+          },
+          "traitIds": [],
+          "synergyIds": []
+        },
+        "bodyStageProgress": 1,
+        "formId": "form-primal-cell",
+        "tierIndex": 0,
+        "tierProgress": 0.64044723831637,
+        "membraneRatio": 1
+      },
+      "entities": 41,
+      "visibleCount": 2,
+      "nearestEdible": {
+        "distance": 33.505245896573854,
+        "dx": 33.50517187023934,
+        "dy": 0.07043106985838676,
+        "role": "predator"
+      },
+      "player": {
+        "radius": 20.707218115656747,
+        "position": {
+          "x": 1146.8430347396934,
+          "y": 1488.0117268156876
+        }
+      },
+      "hasChoices": true
+    }
+  ]
+}

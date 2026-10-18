@@ -6,6 +6,7 @@ import { createNumberFeed } from '../rendering/numbers'
 import type { SaveSettings } from '../storage/codec'
 import { getContent } from '../content'
 import { resolveFloatingJoystick } from './joystick'
+import { impactHoldUntil } from '../rendering/combat-feel'
 
 export type CanvasFailurePhase = 'initialization' | 'frame' | 'context-lost'
 export type CanvasFailure = { phase: CanvasFailurePhase; message: string }
@@ -99,6 +100,7 @@ export function GameCanvas({
         visualSeed: 727,
         reducedMotion: settings.reducedMotion,
         reducedFlash: settings.reducedFlash,
+        reducedShake: settings.reducedShake,
       })
       rendererRef.current = renderer
     } catch (error) {
@@ -111,6 +113,7 @@ export function GameCanvas({
     let frameId = 0
     let failed = false
     let previousTime = performance.now()
+    let impactUntil = 0
     const clearMovement = () => {
       clearPointerSession(engine.input, activePointerId)
       joystickOrigin.current = null
@@ -135,8 +138,9 @@ export function GameCanvas({
         syncViewport()
         const elapsed = Math.min(250, Math.max(0, now - previousTime))
         previousTime = now
-        engine.advance(elapsed)
+        if (now >= impactUntil) engine.advance(elapsed)
         const events = engine.drainEvents()
+        impactUntil = impactHoldUntil(impactUntil, now, events, settings.reducedMotion, settings.reducedShake)
         const bossId = engine.worldSnapshot().boss?.id
         for (const event of events) {
           if (event.type === 'engulfed' && event.predatorId === 'player') {
@@ -177,7 +181,7 @@ export function GameCanvas({
       renderer.destroy()
       if (rendererRef.current === renderer) rendererRef.current = null
     }
-  }, [engine, settings.graphics, settings.lowParticles, settings.reducedFlash, settings.reducedMotion])
+  }, [engine, settings.graphics, settings.lowParticles, settings.reducedFlash, settings.reducedMotion, settings.reducedShake])
 
   const clearGesture = (pointerId?: number) => {
     const cleared = clearPointerSession(engine.input, activePointerId, pointerId)

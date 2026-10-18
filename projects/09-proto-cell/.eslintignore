@@ -1,0 +1,3 @@
+# Extracted, byte-verified production bundles are generated artifacts, not source.
+release-assets/*-verify-*/**
+staging-release/**

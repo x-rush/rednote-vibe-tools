@@ -1,0 +1,12 @@
+{
+  "tag": "app-final",
+  "at": "2026-10-18T09:39:37.000Z",
+  "bundleHash": "89faf139d8d190e392d55d381f81e279af9181b0cf73344d4e960c8e28f31d54",
+  "sourceHashes": {
+    "src/App.tsx": "2814341b0d20c16a17e2ae5ccbdb759b6e50d30976862d61feb469e55c4c7ec5",
+    "src/app/controller.ts": "dd6a320a64637345b966b550cc6f0319295bb2e3c75913e78dbd90e6215aa5f4",
+    "src/app/event-progress.ts": "300bdce7608c483c4d302180d728bc301dc6dfe4d62dc6e0ed9885adde34e2d7",
+    "src/app/hud-refresh.ts": "d716ab17b047f3d82774a686a280590f761cb13b343f34a9f3e73e4140b5a354",
+    "src/ui/GameCanvas.tsx": "29e0631d7482ed2d41754af142df10f7c4bf9d96febcb8a3d8cfc412b79e7d46"
+  }
+}

@@ -1,0 +1,416 @@
+{
+  "archive": "proto-cell-20261018-v7.zip",
+  "sha256": "1f3012cdb90fb5341549bdec8893fd81a321ec18d748f8aaa03bf5bcebd03115",
+  "zipBytes": 2976265,
+  "unpackedBytes": 3457162,
+  "fileCount": 80,
+  "extractedRoot": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\09-proto-cell\\release-assets\\proto-cell-20261018-v7-verify-1f3012cd",
+  "scripts": [
+    "./compat.js",
+    "./assets/index-C8ke4Bi9.js"
+  ],
+  "overRecommended2MiB": true,
+  "uploadLimitMiB": 10,
+  "entries": [
+    {
+      "path": "assets/bosses/boss-abandoned-host-body.svg",
+      "bytes": 642,
+      "sha256": "03c96a15fd5c08a184dbe298047453ee75e846d22266c1188ffdf6e8a1553f65"
+    },
+    {
+      "path": "assets/bosses/boss-abandoned-host-mask.svg",
+      "bytes": 409,
+      "sha256": "7882ae70b17ae6cc5720eece0771dd687bf17ea85d83a3f2ed2633d61c7a3c00"
+    },
+    {
+      "path": "assets/bosses/boss-antibody-crown-body.svg",
+      "bytes": 642,
+      "sha256": "4eb04d4173008a9384f42c587be58de15493bfb037ef3a028661658366690142"
+    },
+    {
+      "path": "assets/bosses/boss-antibody-crown-mask.svg",
+      "bytes": 409,
+      "sha256": "b7a9ce3f6036e9d9238dfa26ca06d13c7eabd19ffc5f88c0217e2c24b38c538a"
+    },
+    {
+      "path": "assets/bosses/boss-membrane-queen-body.svg",
+      "bytes": 642,
+      "sha256": "c0f9829009978e7d244577ab120f0b58503c26aec5e6fa218029debe201882c6"
+    },
+    {
+      "path": "assets/bosses/boss-membrane-queen-mask.svg",
+      "bytes": 409,
+      "sha256": "a820fcc38f7eb76d98005c58079c1cb66f6382e11aa319eaea8635345db45b56"
+    },
+    {
+      "path": "assets/environments/arcade-abandoned-chamber.webp",
+      "bytes": 291534,
+      "sha256": "8f472d4a86bfa62ab85abedc13b2872d4e1290db8a18eb597f0edbcdfd1384e6"
+    },
+    {
+      "path": "assets/environments/arcade-acid-vesicle.webp",
+      "bytes": 263910,
+      "sha256": "51c8e174b5e7a3db8dac5558788a089b4dfcaa4a84d1cbb2e85e5fceb6a916bc"
+    },
+    {
+      "path": "assets/environments/arcade-algae-glow.webp",
+      "bytes": 230864,
+      "sha256": "f27f4236e218f6d6f70b4b4b03fb197d660ae21f0e3c5ba34170746878372084"
+    },
+    {
+      "path": "assets/environments/arcade-antibody-storm.webp",
+      "bytes": 266236,
+      "sha256": "aacfda1d0200bc2d0a0b166a8019fb689f7c5254386929b67c19304a22d950bc"
+    },
+    {
+      "path": "assets/environments/arcade-clear-drop.webp",
+      "bytes": 112842,
+      "sha256": "0c84189019e347be20467de8f724a441bd05ec1f33d6f6dbc1e909a6a883f808"
+    },
+    {
+      "path": "assets/environments/arcade-fiber-maze.webp",
+      "bytes": 245776,
+      "sha256": "40a0fd8a5f57a884ec88a0cfe68b3806a736cd3af4340261432091704668a32b"
+    },
+    {
+      "path": "assets/environments/env-abandoned-chamber.svg",
+      "bytes": 1077,
+      "sha256": "de46b0ca1c7796617abce58892847f6da069a8e041a8fef6a5d7701ecce28dd6"
+    },
+    {
+      "path": "assets/environments/env-acid-vesicle.svg",
+      "bytes": 1072,
+      "sha256": "69f56e0fba23560a70772a2d32d1a4a20371030daf948f76443dd69dcdb78876"
+    },
+    {
+      "path": "assets/environments/env-algae-glow.svg",
+      "bytes": 1070,
+      "sha256": "e6de839431d4b79b634a33bd74a24d37570312946a6dbb358a52150af559f228"
+    },
+    {
+      "path": "assets/environments/env-antibody-storm.svg",
+      "bytes": 1074,
+      "sha256": "76852e08375641fde197c5010d706b2aa07f77174e6e0f85a5e90fb92f75c528"
+    },
+    {
+      "path": "assets/environments/env-clear-drop.svg",
+      "bytes": 1070,
+      "sha256": "709c691ac1d512869b7b024033446de7055b626e77dee5aca25a478c467cc0b4"
+    },
+    {
+      "path": "assets/environments/env-fiber-maze.svg",
+      "bytes": 1070,
+      "sha256": "8d8bd3ead2a123897d3cfc425bb86c5f7a9d0fae9e7c5c7f683922112a4eeccf"
+    },
+    {
+      "path": "assets/environments/microscope-caustics-v2.webp",
+      "bytes": 119738,
+      "sha256": "e2d6ed6decba04d794156b6fa6db9aad77cded0ad3ad30d073f63f1829cac7f5"
+    },
+    {
+      "path": "assets/environments/microscope-fibers-v2.webp",
+      "bytes": 818830,
+      "sha256": "ef8893f05a9c83dbbc4ee76a1a0fea6f9cf49e8fe7e90da86369648d107fcf9d"
+    },
+    {
+      "path": "assets/icons/event-acid-leak.svg",
+      "bytes": 949,
+      "sha256": "8a04bc12dc8c2da91213f48715ca99f42310817e50dbd4d42bf1c0352ffaa2ea"
+    },
+    {
+      "path": "assets/icons/event-antibody-sweep.svg",
+      "bytes": 954,
+      "sha256": "e169ba8ffa772271085cd1ecf65a93b3e7465e52f1157f8a0fb99d27a3bf6dfa"
+    },
+    {
+      "path": "assets/icons/event-giant-passage.svg",
+      "bytes": 953,
+      "sha256": "374b0dba3e2f43b151b302daad0d7a16d08ad01112caed6bd20e62f998f372ab"
+    },
+    {
+      "path": "assets/icons/event-nutrient-bloom.svg",
+      "bytes": 951,
+      "sha256": "e2cb5742cc7797f04a015b5643f87876fc3054a4acbf176e7b98f6b28de4319e"
+    },
+    {
+      "path": "assets/icons/modifier-alert-predators.svg",
+      "bytes": 956,
+      "sha256": "371a39a71d1b1555bc3a1e93d6027da654e7343aec1d52dba4dc3807c98ae0c3"
+    },
+    {
+      "path": "assets/icons/modifier-elite-ecosystem.svg",
+      "bytes": 956,
+      "sha256": "2a2b3fc9e97a737be1935bab0829cee96fbe9d3eeb82c4e18016b4f23cffabe7"
+    },
+    {
+      "path": "assets/icons/modifier-fragile-membrane.svg",
+      "bytes": 957,
+      "sha256": "da42331ebd5be72ed40fb2ce0823fb8d17f7a11322a291893c8d6499316dd4e6"
+    },
+    {
+      "path": "assets/icons/modifier-low-energy.svg",
+      "bytes": 948,
+      "sha256": "a1e8990382748204b23d3b3d90bf51c4412dcd977af5bedcb7be4cff531cc1ca"
+    },
+    {
+      "path": "assets/icons/modifier-no-merge.svg",
+      "bytes": 946,
+      "sha256": "c4f15a499ee1c97a8dab4cd6048955088ea4da945a28618219b189ba259dd915"
+    },
+    {
+      "path": "assets/icons/modifier-permanent-turbidity.svg",
+      "bytes": 957,
+      "sha256": "d413d2b9f4378d5285aa575a468630c80645e4d543a03bc91f705979be1ff1ec"
+    },
+    {
+      "path": "assets/icons/modifier-rising-acid.svg",
+      "bytes": 952,
+      "sha256": "373dd529f300e79e6a884a285feeba2932df3e68b26865b887b40a4394053fcb"
+    },
+    {
+      "path": "assets/icons/modifier-three-organs.svg",
+      "bytes": 953,
+      "sha256": "c5fd64ca77447bf5a2d6a8b30f2e6d1d56af11cb8784de7ba91077d7c6e69790"
+    },
+    {
+      "path": "assets/icons/organelle-acid-gland.svg",
+      "bytes": 952,
+      "sha256": "290cdb46592da453aefd7974e8030d85e2b78b4cba88fe8c7a7afe825823afdb"
+    },
+    {
+      "path": "assets/icons/organelle-bud-sac.svg",
+      "bytes": 946,
+      "sha256": "0d134d99ddd2094272e09c02bf53f0203e0fea54a62c5a51480b10b266da2e57"
+    },
+    {
+      "path": "assets/icons/organelle-cilia-ring.svg",
+      "bytes": 952,
+      "sha256": "0409264a21ccc7db5e7b52f136630de6252e701b611f71344fbecac99a89deeb"
+    },
+    {
+      "path": "assets/icons/organelle-cleaner-symbiont.svg",
+      "bytes": 958,
+      "sha256": "1a6b1c8055ed49e032341a78da917ba2ad4bba6e770b7c0fa48ea1970a510463"
+    },
+    {
+      "path": "assets/icons/organelle-division-ring.svg",
+      "bytes": 949,
+      "sha256": "a918f99820f79894c1f4a4b329c2c173a01eb1cc966dfb12ec58df1240e22d36"
+    },
+    {
+      "path": "assets/icons/organelle-echo-sac.svg",
+      "bytes": 950,
+      "sha256": "20c8e48e352953dfefc4ccea2015e2ad6e11d4bb573fb3175c2abd11256b5eb0"
+    },
+    {
+      "path": "assets/icons/organelle-electric-sac.svg",
+      "bytes": 954,
+      "sha256": "ff7e4878c07a690cfa642ef0b949e791b1afece6b85f79535a3ddc1f908d73ce"
+    },
+    {
+      "path": "assets/icons/organelle-eye-spot.svg",
+      "bytes": 947,
+      "sha256": "ef455200c6f096531613f202579fb7802ea868292ee2330cbb3043964ad14fee"
+    },
+    {
+      "path": "assets/icons/organelle-filter-gill.svg",
+      "bytes": 953,
+      "sha256": "8c74bc0bf2d18b9261a01df8f43cb0353059604b73f0f98b88eda4e8ef80093c"
+    },
+    {
+      "path": "assets/icons/organelle-flagellum.svg",
+      "bytes": 948,
+      "sha256": "b3964ac9a24cfc081f7a430fc2efc34da9dde040265bc32ca05f6fc61f3c68d1"
+    },
+    {
+      "path": "assets/icons/organelle-guard-symbiont.svg",
+      "bytes": 956,
+      "sha256": "83e22ed760d66ce63316df1456d244dd73f27606fecc94a9bc88d3241f44912b"
+    },
+    {
+      "path": "assets/icons/organelle-jet-vacuole.svg",
+      "bytes": 950,
+      "sha256": "017ca9be02e4e7113f3bc8409be3b8ec806ff5cda07a6063d526c13eda2be9fb"
+    },
+    {
+      "path": "assets/icons/organelle-lure-symbiont.svg",
+      "bytes": 952,
+      "sha256": "bd4f6ddbf96d8462b2c1f18050f76f0b54f1534a55bc76553395464daf22f6d5"
+    },
+    {
+      "path": "assets/icons/organelle-mucus-coat.svg",
+      "bytes": 949,
+      "sha256": "b7f404bb076824e37397661b2fd3cbcd85517e3ea5f9d246df632854cf129d3f"
+    },
+    {
+      "path": "assets/icons/organelle-needle-mouth.svg",
+      "bytes": 951,
+      "sha256": "2325aa5d23b626975d69693337f0db8c0db1e28b7ac48e40896f4c0a439946bf"
+    },
+    {
+      "path": "assets/icons/organelle-photosome.svg",
+      "bytes": 948,
+      "sha256": "f34f2915834a991bcc6456c485238acaccf3a3434f2e4e4587171c1cdbf28e54"
+    },
+    {
+      "path": "assets/icons/organelle-recombination-core.svg",
+      "bytes": 957,
+      "sha256": "df2ab35db5b2688ae898c3ac49a45bd6c9c7975e1394e918fb0af6b36e47a805"
+    },
+    {
+      "path": "assets/icons/organelle-repair-vacuole.svg",
+      "bytes": 956,
+      "sha256": "083c160a7b771732512f231679032fd2faf9e20cc7344374221026cbfcf5fe53"
+    },
+    {
+      "path": "assets/icons/organelle-shell-plate.svg",
+      "bytes": 953,
+      "sha256": "2def2744bebd13b1319dbd827d8f979247fff0f7f2306817c1582338d9670704"
+    },
+    {
+      "path": "assets/icons/organelle-shock-pulse.svg",
+      "bytes": 950,
+      "sha256": "2288ba49a8f0248a3bae01a086554301c652a5d71b6438f2db0ab248bb32e1c7"
+    },
+    {
+      "path": "assets/icons/organelle-toxin-spine.svg",
+      "bytes": 950,
+      "sha256": "cde7c8715da69ebfcf42a044d663ec31d45c6bf2f9d8af9983638e956fae1d3a"
+    },
+    {
+      "path": "assets/icons/organelle-transparent-membrane.svg",
+      "bytes": 962,
+      "sha256": "88bc45893dc4b3dd6bad1a08ff86b41ae48c713867355bc555beda7fe5a12feb"
+    },
+    {
+      "path": "assets/icons/organelle-vibration-cilia.svg",
+      "bytes": 957,
+      "sha256": "c24bbb6accc4f99a93450e83809a17180a2ea9e8101478fa61b189080163a046"
+    },
+    {
+      "path": "assets/icons/organelle-wide-mouth.svg",
+      "bytes": 949,
+      "sha256": "d055f8f023a664004405434bbd2128379ba0ed846f624084a845ffc7340c36e1"
+    },
+    {
+      "path": "assets/icons/origin-armored-spore.svg",
+      "bytes": 949,
+      "sha256": "2d865dab5e6397f619444ae3588b02cea65d66cf68cd1e6326ceec12a5b9a6fa"
+    },
+    {
+      "path": "assets/icons/origin-ciliate-seed.svg",
+      "bytes": 945,
+      "sha256": "b0a74695ed3818a5fda9ad87188860f937832a281a7a732e5e96aaf1e5dc0c77"
+    },
+    {
+      "path": "assets/icons/origin-primal-cell.svg",
+      "bytes": 947,
+      "sha256": "cba86161bf25bf6e08b86ddf42ace8de10315a4de9ce444dbaf6da90e25276a0"
+    },
+    {
+      "path": "assets/icons/synergy-acid-feeder.svg",
+      "bytes": 951,
+      "sha256": "14d4e88fbb2c7a46d204a9e42d3b3c54583276ee6bb95550f844d240cdeb28eb"
+    },
+    {
+      "path": "assets/icons/synergy-clean-acid.svg",
+      "bytes": 950,
+      "sha256": "3d8ff2bd86680d03ba85f65ebe48827a2c5443a18eaf78208a4843ccae5c5a36"
+    },
+    {
+      "path": "assets/icons/synergy-echo-swarm.svg",
+      "bytes": 947,
+      "sha256": "d164d817d4a7ff7f926b163b19f47df479ed51742dada04241da7336c5a54ffa"
+    },
+    {
+      "path": "assets/icons/synergy-ghost-cilia.svg",
+      "bytes": 951,
+      "sha256": "f8ba4abebb8208a4d9c984fa4ea892fb67c67577c1ef6ff80de715a21c69aeb2"
+    },
+    {
+      "path": "assets/icons/synergy-guardian-division.svg",
+      "bytes": 951,
+      "sha256": "5b8f04db8b5cf624dbcd211dc538bf271d548142b8909322598406d0edfca0c8"
+    },
+    {
+      "path": "assets/icons/synergy-invisible-lure.svg",
+      "bytes": 951,
+      "sha256": "f27989ebda60b90a0c9dd57ea747723f0cf0592ce4e4051f0d055fd8b9eaaf53"
+    },
+    {
+      "path": "assets/icons/synergy-parasite-anchor.svg",
+      "bytes": 952,
+      "sha256": "9da983c79572560b674b70dcf326c5cefdfff32e28262fca9897c484ebe09e1c"
+    },
+    {
+      "path": "assets/icons/synergy-radar-grid.svg",
+      "bytes": 950,
+      "sha256": "0c5ab0694af43d946a4286150355168d0540048efb497848c4b6554b2428f904"
+    },
+    {
+      "path": "assets/icons/synergy-ram-jet.svg",
+      "bytes": 947,
+      "sha256": "4c8d5d8dc932ef23db4f0dda42259901c7bc7dbd99b1e01d0bc824938b33703c"
+    },
+    {
+      "path": "assets/icons/synergy-repair-shell.svg",
+      "bytes": 952,
+      "sha256": "6f147e7c768aa54623c026e7af36d7308650be5e24cae0599850e834da7990e7"
+    },
+    {
+      "path": "assets/icons/synergy-solar-filter.svg",
+      "bytes": 952,
+      "sha256": "84df6273dc57fafa73e2ec688f61fddcac4daff5c114b626b03bd00510d3e5f3"
+    },
+    {
+      "path": "assets/icons/synergy-spore-cloud.svg",
+      "bytes": 951,
+      "sha256": "127d5d52b3af43fc5c08f89e69e6086fb79ef77083f7ee6ae9714dd1793c40d1"
+    },
+    {
+      "path": "assets/index-C8ke4Bi9.js",
+      "bytes": 650413,
+      "sha256": "01e40a7dabc09f5f07056d346299d2036b82e444c2c984cae6a3c454682b0b5e"
+    },
+    {
+      "path": "assets/ui/archive-frame.svg",
+      "bytes": 521,
+      "sha256": "547920d65cea52c43e0e5a8addf6680771aff90517ac58b3f6bb34ca27906eda"
+    },
+    {
+      "path": "assets/ui/codex-frame.svg",
+      "bytes": 505,
+      "sha256": "36acd1adc3a63b6d2f51ea0523fe1e1c4ee471b8be6c71d7914c0f6aa80aa378"
+    },
+    {
+      "path": "assets/ui/gene-node.svg",
+      "bytes": 486,
+      "sha256": "b5b6555fa2d7078d62bcead428999c1db016078c9251cbf9245796890b29bcd4"
+    },
+    {
+      "path": "assets/ui/lab-frame.svg",
+      "bytes": 529,
+      "sha256": "d4f49eeab18cb72130c0826be911114cb7e17c0b9227273598a8cb181fcf013f"
+    },
+    {
+      "path": "assets/ui/proto-cell-logo-v1.webp",
+      "bytes": 392668,
+      "sha256": "034dfe8a64103fc5613ae8b585be3c6d13d1975bea59460e0ef149a9e4aa46ef"
+    },
+    {
+      "path": "compat.js",
+      "bytes": 2813,
+      "sha256": "74fe7dd3fdb02ee3e55e624e79f919c3c523c8ef87b85bc04a160cee58756938"
+    },
+    {
+      "path": "favicon.svg",
+      "bytes": 829,
+      "sha256": "432a04227c2213e922a8ce2ca79ce46a8c890de2c011304f76d217513dc079ac"
+    },
+    {
+      "path": "index.html",
+      "bytes": 555,
+      "sha256": "d4050066cfdf0d3552b8d80697e612c1803e62f4faaae1572e0f25afcffecb10"
+    }
+  ]
+}

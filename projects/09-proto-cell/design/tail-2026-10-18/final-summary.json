@@ -1,0 +1,93 @@
+{
+  "entry": "./assets/index-B-OeBcBa.js",
+  "checks": {
+    "lint": true,
+    "testFiles": 89,
+    "tests": 550,
+    "build": true,
+    "artifactFiles": 79,
+    "artifactWarnings": 0,
+    "normalFlow": true,
+    "comfortFlow": true,
+    "layouts": 24,
+    "mutationSelections": [
+      6,
+      6
+    ],
+    "pixelHashesEqual": true,
+    "stressTargetPassed": false,
+    "physicalPhone": false,
+    "hostApp": false
+  },
+  "eventHandling": {
+    "before": {
+      "mean": 0.21866666634877524,
+      "p50": 0,
+      "p95": 1.300000011920929,
+      "p99": 2.800000011920929,
+      "max": 4.599999964237213
+    },
+    "after": {
+      "mean": 0.03833333333333333,
+      "p50": 0,
+      "p95": 0.20000004768371582,
+      "p99": 0.6000000238418579,
+      "max": 0.9000000357627869
+    }
+  },
+  "fixedStress": {
+    "mean": 30.831666667262713,
+    "p50": 32.80000001192093,
+    "p95": 56.10000002384186,
+    "p99": 77.39999997615814,
+    "max": 90.70000004768372
+  },
+  "actualApp": [
+    {
+      "throttle": 4,
+      "renderCost": {
+        "mean": 19.63625730826841,
+        "p95": 50.59999996423721,
+        "p99": 79.5,
+        "max": 122.10000002384186
+      },
+      "renderGap": {
+        "mean": 46.46294117640046,
+        "p95": 126.80000001192093,
+        "p99": 146.60000002384186,
+        "max": 264
+      },
+      "longTasks": {
+        "count": 52,
+        "mean": 90.28846153846153,
+        "p95": 144,
+        "p99": 255,
+        "max": 255
+      },
+      "errors": []
+    },
+    {
+      "throttle": 6,
+      "renderCost": {
+        "mean": 56.84153845860408,
+        "p95": 107.19999998807907,
+        "p99": 221.80000001192093,
+        "max": 221.80000001192093
+      },
+      "renderGap": {
+        "mean": 122.81406250037253,
+        "p95": 221.5,
+        "p99": 346,
+        "max": 346
+      },
+      "longTasks": {
+        "count": 52,
+        "mean": 138.32692307692307,
+        "p95": 250,
+        "p99": 343,
+        "max": 343
+      },
+      "errors": []
+    }
+  ]
+}

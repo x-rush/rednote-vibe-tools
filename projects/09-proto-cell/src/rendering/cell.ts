@@ -1,9 +1,12 @@
 import type { EntityState } from '../domain/types'
+import { lineageFamily, membraneContour, membranePoint, membranePose, membraneSilhouette, type LineageFamily, type MembraneSilhouette } from '../domain/membrane'
 import type { FormId } from '../content'
 import rawContent from '../content/content.json'
 import type { RenderQuality } from './effects'
 import { createBuildState, type BuildState } from '../evolution/build'
 import { morphologyFor } from './morphology'
+import { drawColonyAnatomy, drawFeedingChannel, drawLateCreatureAnatomy } from './late-anatomy'
+import { membranePath } from './body-path'
 
 export type CellPalette = {
   membrane: string
@@ -15,12 +18,17 @@ export type CellPalette = {
 
 export type CellVisualProfile = {
   palette: CellPalette
-  silhouette: 'amoeba' | 'pearl' | 'swimmer' | 'spark' | 'vesicle' | 'hunter' | 'boss'
+  silhouette: MembraneSilhouette
   appendages: 'none' | 'flagellum' | 'fins' | 'cilia' | 'spines'
+  structure?: 'ring' | 'armor' | 'vacuoles' | 'swarm' | 'teardrop'
 }
 
 export function cellStrokeWidth(radius: number): number {
   return Math.max(2.5, radius * 0.11)
+}
+
+export function statusShellOpacity(elapsedMs: number, reducedFlash: boolean): number {
+  return reducedFlash ? 0.68 : 0.68 + Math.sin(elapsedMs / 190) * 0.16
 }
 
 export function cellToneBands(palette: CellPalette): [string, string, string] {
@@ -62,6 +70,7 @@ const visualRecipes = buildVisualRecipeMap((rawContent as unknown as { visualRec
 
 export function cellVisualProfile(entity: EntityState): CellVisualProfile {
   const visualRecipeId = 'visualRecipeId' in entity ? String(entity.visualRecipeId) : ''
+  const definitionId = 'definitionId' in entity ? String(entity.definitionId) : ''
   const recipe = visualRecipes.get(visualRecipeId)
   const fallback = fallbackPaletteFor(entity)
   const membrane = recipe?.palette[0] ?? fallback.membrane
@@ -73,15 +82,34 @@ export function cellVisualProfile(entity: EntityState): CellVisualProfile {
     organ: recipe?.palette[1] ?? fallback.organ,
     glow: membrane,
   }
+  const family = entity.faction === 'player' ? lineageFamily(visualRecipeId) : undefined
+  if (definitionId === 'creature-thornback-forager') return { palette: recipe ? palette : anatomyPalette('#e6ba65', '#8effb1', '#b9773e'), silhouette: 'vesicle', appendages: 'spines', structure: 'armor' }
+  if (definitionId === 'predator-seam-lurker') return { palette: recipe ? palette : anatomyPalette('#bd94f8', '#f5bfff', '#8250c1'), silhouette: 'ciliate', appendages: 'flagellum' }
+  if (definitionId === 'creature-lantern-siphon') return { palette: recipe ? palette : anatomyPalette('#a5f6ce', '#ffc77b', '#6bdfb5'), silhouette: 'swimmer', appendages: 'fins', structure: 'vacuoles' }
+  if (definitionId === 'predator-razor-ray') return { palette: recipe ? palette : anatomyPalette('#ff9b9e', '#ffe9b5', '#c73c62'), silhouette: 'spark', appendages: 'fins' }
+  if (definitionId === 'predator-chamber-maw') {
+    const exposed = entity.behaviorState === 'recover'
+    return { palette: exposed ? anatomyPalette('#fca9ca', '#c5ffed', '#e87ab8') : recipe ? palette : anatomyPalette('#ffd184', '#ffa645', '#cb903e'), silhouette: 'colony', appendages: 'spines', structure: exposed ? undefined : 'armor' }
+  }
+  if (family === 'dart') return { palette, silhouette: 'dart-primal', appendages: 'flagellum', structure: 'teardrop' }
+  if (family === 'bastion') return { palette, silhouette: 'bastion-primal', appendages: 'none', structure: 'armor' }
+  if (family === 'bloom') return { palette, silhouette: 'bloom-primal', appendages: 'cilia', structure: 'swarm' }
   if (entity.role === 'nutrient' || entity.role === 'fragment') return { palette, silhouette: 'pearl', appendages: 'none' }
-  if (entity.role === 'boss') return { palette, silhouette: 'boss', appendages: 'spines' }
-  if (entity.role === 'predator' || entity.role === 'elite') return { palette, silhouette: 'hunter', appendages: 'spines' }
-  if (entity.role === 'scavenger') return { palette, silhouette: 'vesicle', appendages: 'cilia' }
-  if (entity.role === 'competitor') return { palette, silhouette: 'spark', appendages: 'fins' }
-  if (entity.role === 'prey') return { palette, silhouette: 'swimmer', appendages: 'flagellum' }
+  if (definitionId.includes('fiber-stalker')) return { palette, silhouette: 'ciliate', appendages: 'spines', structure: 'ring' }
+  if (definitionId.includes('chamber')) return { palette, silhouette: 'colony', appendages: 'spines', structure: 'armor' }
+  if (entity.role === 'boss') return { palette, silhouette: 'boss', appendages: 'spines', structure: 'armor' }
+  if (entity.role === 'elite') return { palette, silhouette: 'hunter', appendages: 'spines', structure: 'armor' }
+  if (entity.role === 'predator') return { palette, silhouette: 'hunter', appendages: 'spines', structure: 'ring' }
+  if (entity.role === 'scavenger') return { palette, silhouette: 'vesicle', appendages: 'cilia', structure: 'vacuoles' }
+  if (entity.role === 'competitor') return { palette, silhouette: 'spark', appendages: 'fins', structure: 'swarm' }
+  if (entity.role === 'prey') return { palette, silhouette: 'swimmer', appendages: 'flagellum', structure: 'teardrop' }
   if (visualRecipeId.includes('armored-spore')) return { palette, silhouette: 'vesicle', appendages: 'spines' }
   if (visualRecipeId.includes('ciliate')) return { palette, silhouette: 'amoeba', appendages: 'cilia' }
   return { palette, silhouette: 'amoeba', appendages: 'cilia' }
+}
+
+export function playerVisualProfile(entity: EntityState, formId: FormId): CellVisualProfile {
+  return { ...cellVisualProfile(entity), silhouette: membraneSilhouette(entity, formId) }
 }
 
 export function drawCell(
@@ -91,7 +119,7 @@ export function drawCell(
   screenY: number,
   radius: number,
   elapsedMs: number,
-  options: { quality?: RenderQuality; build?: BuildState; formId?: FormId; organelleIds?: readonly string[]; stability?: number; synergyIds?: readonly string[]; damageSource?: 'acid' | 'electric' | 'spine' | 'ram' } = {},
+  options: { quality?: RenderQuality; simplified?: boolean; build?: BuildState; formId?: FormId; organelleIds?: readonly string[]; stability?: number; synergyIds?: readonly string[]; edible?: boolean; membraneElapsedMs?: number; reducedFlash?: boolean; damageSource?: 'acid' | 'electric' | 'spine' | 'ram' } = {},
 ): void {
   const baseProfile = cellVisualProfile(entity)
   const playerMorphology = entity.faction === 'player'
@@ -99,17 +127,52 @@ export function drawCell(
       ? morphologyFor(options.formId, options.build ?? createBuildState({ traitIds: (options.organelleIds ?? []) as BuildState['traitIds'] }))
       : morphologyFor(options.build ?? createBuildState({ traitIds: (options.organelleIds ?? []) as BuildState['traitIds'] }))
     : undefined
-  const profile = playerMorphology ? { ...baseProfile, silhouette: playerMorphology.silhouette } : baseProfile
+  const profile = playerMorphology ? options.formId ? playerVisualProfile(entity, options.formId) : { ...baseProfile, silhouette: playerMorphology.silhouette } : baseProfile
+  const family = entity.faction === 'player' && 'visualRecipeId' in entity ? lineageFamily(String(entity.visualRecipeId)) : undefined
+  const definitionId = 'definitionId' in entity ? String(entity.definitionId) : ''
   const palette = profile.palette
-  const toneBands = cellToneBands(palette)
-  const pulse = 1 + Math.sin(elapsedMs / 520 + hashPhase(entity.id)) * 0.025
-  const bodyRadius = radius * pulse * (playerMorphology?.membraneScale ?? 1)
-  const speed = Math.hypot(entity.velocity.x, entity.velocity.y)
-  const heading = speed > 0.5 ? Math.atan2(entity.velocity.y, entity.velocity.x) : hashPhase(entity.id) * 0.08
+  const bodyTime = options.membraneElapsedMs ?? elapsedMs
+  const { pulse, strain, heading } = membranePose(entity, bodyTime)
+  const bodyRadius = radius * pulse
+  let bodyContour: ReturnType<typeof membraneContour> | undefined
+  const paintMembrane = (scale: number, clip = false) => {
+    const path = membranePath(profile.silhouette, bodyTime, entity.id)
+    if (!path) {
+      bodyContour ??= membraneContour(profile.silhouette, bodyTime, entity.id)
+      traceBody(context, profile.silhouette, scale, bodyTime, entity.id, bodyContour)
+      if (clip) context.clip()
+      else { context.fill(); context.stroke() }
+    } else if (clip) {
+      context.scale(scale, scale)
+      context.clip(path)
+      context.scale(1 / scale, 1 / scale)
+    } else {
+      context.save()
+      context.scale(scale, scale)
+      context.lineWidth /= scale
+      context.fill(path); context.stroke(path)
+      context.restore()
+    }
+  }
 
   context.save()
   context.translate(screenX, screenY)
   context.rotate(heading)
+  context.scale(1 + strain, 1 - strain)
+
+  if (options.simplified && entity.faction !== 'player') {
+    context.fillStyle = palette.cytoplasm
+    context.strokeStyle = palette.membrane
+    context.lineWidth = Math.max(1.2, radius * 0.075)
+    paintMembrane(bodyRadius)
+    context.fillStyle = palette.core
+    context.beginPath()
+    context.ellipse(-radius * 0.14, -radius * 0.1, radius * 0.22, radius * 0.17, 0.4, 0, Math.PI * 2)
+    context.fill()
+    context.restore()
+    return
+  }
+  const toneBands = cellToneBands(palette)
 
   // 1. Liquid shadow and refraction.
   context.fillStyle = 'rgb(0 3 16 / 68%)'
@@ -119,94 +182,75 @@ export function drawCell(
   context.fill()
   context.filter = 'none'
 
-  // 2. Membrane outline.
+  // A translucent body with one authoritative outer membrane; interior light never
+  // obscures that collision boundary. All surface details are local to the cell.
   context.shadowColor = palette.glow
   context.shadowBlur = cellShadowBlur(options.quality, 'membrane', entity.role === 'predator' || entity.role === 'boss')
-  context.fillStyle = toneBands[0]
+  // Retained vectors are filled in unit space. Paint coordinates must use that
+  // same space too, otherwise scaling the path would also enlarge the gradient.
+  const paintScale = typeof Path2D === 'undefined' ? 1 : bodyRadius
+  const membrane = context.createRadialGradient(-radius * 0.28 / paintScale, -radius * 0.36 / paintScale, radius * 0.08 / paintScale, 0, 0, bodyRadius / paintScale)
+  membrane.addColorStop(0, mixHex(palette.membrane, '#ffffff', 0.25))
+  membrane.addColorStop(0.25, mixHex(palette.membrane, '#102638', 0.58))
+  membrane.addColorStop(0.75, toneBands[0])
+  membrane.addColorStop(0.94, mixHex(palette.membrane, '#102638', 0.25))
+  membrane.addColorStop(1, palette.membrane)
+  context.fillStyle = membrane
   context.strokeStyle = palette.membrane
   context.lineWidth = cellStrokeWidth(radius)
-  traceBody(context, profile.silhouette, bodyRadius, elapsedMs, entity.id)
-  context.fill()
-  context.stroke()
-
-  // 3. Three opaque arcade tone bands keep small cells readable at speed.
+  paintMembrane(bodyRadius)
   context.shadowBlur = 0
-  context.fillStyle = toneBands[1]
-  traceBody(context, profile.silhouette, radius * 0.82, elapsedMs, entity.id)
-  context.fill()
-  context.fillStyle = toneBands[2]
-  traceBody(context, profile.silhouette, radius * 0.62, elapsedMs, entity.id)
-  context.fill()
 
-  // 4. Core.
-  context.shadowBlur = cellShadowBlur(options.quality, 'core')
-  context.fillStyle = palette.core
-  context.strokeStyle = 'rgb(222 255 255 / 72%)'
-  context.lineWidth = Math.max(1, radius * 0.045)
-  const coreGradient = context.createRadialGradient(-radius * 0.08, -radius * 0.1, 0, 0, 0, radius * 0.38)
-  coreGradient.addColorStop(0, '#ffffff')
-  coreGradient.addColorStop(0.2, palette.core)
-  coreGradient.addColorStop(1, hexWithAlpha(palette.core, 0.28))
-  context.fillStyle = coreGradient
+  // Clip granules, organelles, and structural septa to the actual silhouette.
+  context.save()
+  paintMembrane(bodyRadius * 0.94, true)
+  drawInternalStructure(context, profile, radius, elapsedMs, entity.id, options.quality)
+  if (playerMorphology?.skeleton === 'colony') drawColonyAnatomy(context, radius, elapsedMs, palette, options.quality)
+  if (definitionId !== 'predator-chamber-maw') {
+    const cores = family ? lineageCorePositions(family, playerMorphology?.skeleton) : corePositions(playerMorphology?.skeleton, playerMorphology?.coreCount ?? 1)
+    for (const core of cores) drawCore(context, radius * core.x, radius * core.y, radius * core.radius, palette, options.quality)
+  }
+  if (profile.structure === 'ring') {
+    context.lineWidth = Math.max(2, radius * 0.15)
+    context.strokeStyle = palette.organ
+    context.beginPath()
+    context.arc(0, 0, radius * 0.56, 0, Math.PI * 2)
+    context.stroke()
+    context.strokeStyle = 'rgb(255 236 205 / 75%)'
+    context.lineWidth = Math.max(1, radius * 0.035)
+    context.stroke()
+  }
+  if (playerMorphology?.skeleton === 'ciliate') drawFeedingChannel(context, radius, elapsedMs, palette, options.quality)
+  else if (profile.silhouette === 'ciliate' && definitionId !== 'predator-seam-lurker') drawFeedingChannel(context, radius, elapsedMs, palette, options.quality)
+  if (family) drawLineageStructure(context, family, radius, palette, playerMorphology?.skeleton)
+  drawLateCreatureAnatomy(context, definitionId, radius, elapsedMs, palette, entity.behaviorState === 'recover', options.quality)
+  context.restore()
+
+  // Specular arcs follow the silhouette instead of drawing concentric circles.
+  context.strokeStyle = 'rgb(229 255 255 / 82%)'
+  context.lineWidth = Math.max(1, radius * 0.035)
+  context.lineCap = 'round'
   context.beginPath()
-  context.ellipse(radius * 0.04, radius * 0.06, radius * 0.33, radius * 0.29, -0.2, 0, Math.PI * 2)
-  context.fill()
+  for (let index = 0; index <= 10; index += 1) {
+    const angle = -2.65 + index / 10 * 1.22
+    const point = cellBodyPoint(profile.silhouette, angle, bodyTime, entity.id)
+    if (index === 0) context.moveTo(point.x * bodyRadius * 0.9, point.y * bodyRadius * 0.9)
+    else context.lineTo(point.x * bodyRadius * 0.9, point.y * bodyRadius * 0.9)
+  }
   context.stroke()
 
-  // 5. Installed traits become authored exterior morphology on the player.
-  context.fillStyle = palette.organ
-  context.shadowBlur = cellShadowBlur(options.quality, 'organ')
-  const organelleIds = options.organelleIds
-  if (playerMorphology) drawMorphologyParts(context, playerMorphology.parts, radius, elapsedMs, palette)
-  else {
-    const organCount = organelleIds === undefined ? 3 : organelleIds.length
-    for (let index = 0; index < organCount; index += 1) {
-      const organId = organelleIds?.[index] ?? `${entity.id}:${index}`
-      const angle = hashPhase(organId) + index * Math.PI * 2 / organCount + elapsedMs / 5600
-      context.beginPath()
-      context.ellipse(Math.cos(angle) * radius * 0.53, Math.sin(angle) * radius * 0.48, radius * 0.17, radius * 0.09, angle, 0, Math.PI * 2)
-      context.fill()
-    }
-  }
+  // Installed structures use the same geometry in the game and every preview.
+  if (playerMorphology) drawMorphologyParts(context, playerMorphology.parts, radius, elapsedMs, palette, options.quality)
+  const appendages = playerMorphology?.skeleton === 'ciliate' ? 'cilia' : family ? family === 'dart' ? 'flagellum' : family === 'bloom' ? 'cilia' : 'none'
+    : playerMorphology?.skeleton === 'colony' ? 'fins'
+      : playerMorphology ? 'none' : profile.appendages
+  drawAppendages(context, profile.silhouette, appendages, bodyRadius, elapsedMs, entity.id, palette, options.quality)
+  if (playerMorphology?.skeleton === 'ciliate' && family === 'dart') drawAppendages(context, profile.silhouette, 'flagellum', bodyRadius, elapsedMs, entity.id, palette, options.quality)
+  if (profile.structure === 'armor') drawArmor(context, bodyRadius, elapsedMs, entity.id, profile.silhouette, palette)
 
-  if ((playerMorphology?.coreCount ?? 1) > 1) {
-    context.globalAlpha = 0.82
-    context.fillStyle = palette.core
-    context.beginPath()
-    context.arc(-radius * 0.28, radius * 0.2, radius * 0.16, 0, Math.PI * 2)
-    context.fill()
-  }
-
-  // 6. Non-facial appendages.
-  if (profile.appendages !== 'none') {
-    context.strokeStyle = palette.membrane
-    context.lineWidth = Math.max(1, radius * 0.045)
-    context.globalAlpha = 0.72
-    const baseAppendageCount = profile.appendages === 'cilia' ? 11 : profile.appendages === 'spines' ? 8 : profile.appendages === 'fins' ? 5 : 2
-    const appendageCount = options.quality === 'low' ? Math.min(4, baseAppendageCount) : options.quality === 'high' ? baseAppendageCount + 2 : baseAppendageCount
-    for (let index = 0; index < appendageCount; index += 1) {
-      const angle = index / appendageCount * Math.PI * 2 + hashPhase(entity.id)
-      const length = radius * (profile.appendages === 'spines' ? 0.48 : profile.appendages === 'flagellum' ? 0.72 : profile.appendages === 'fins' ? 0.38 : 0.24)
-      context.beginPath()
-      context.moveTo(Math.cos(angle) * radius * 0.94, Math.sin(angle) * radius * 0.9)
-      if (profile.appendages === 'spines') {
-        context.lineTo(Math.cos(angle) * (radius + length), Math.sin(angle) * (radius + length))
-      } else {
-        const wave = Math.sin(elapsedMs / 180 + index * 1.7) * 0.18
-        context.quadraticCurveTo(
-          Math.cos(angle + 0.22 + wave) * (radius + length * 0.5),
-          Math.sin(angle + 0.22 + wave) * (radius + length * 0.5),
-          Math.cos(angle + wave * 0.35) * (radius + length),
-          Math.sin(angle + wave * 0.35) * (radius + length),
-        )
-      }
-      context.stroke()
-    }
-  }
-
-  // 7. Status shell. No eyes, mouth, teeth, or facial marks.
-  if (entity.role === 'predator' || entity.role === 'elite' || entity.role === 'boss') {
-    context.globalAlpha = 0.68 + Math.sin(elapsedMs / 190) * 0.16
+  // Hostile status remains distinct from anatomical feeding structures.
+  if (!options.edible && (entity.role === 'predator' || entity.role === 'elite' || entity.role === 'boss')) {
+    context.globalAlpha = statusShellOpacity(elapsedMs, options.reducedFlash ?? false)
     context.strokeStyle = '#ff9c72'
     context.lineWidth = Math.max(1.5, radius * 0.055)
     context.setLineDash([radius * 0.22, radius * 0.14])
@@ -251,12 +295,165 @@ export function drawCell(
   context.restore()
 }
 
+/** Symbiotic nuclei are anatomical; they stay visible even at low rendering quality. */
+export function lineageCorePositions(family: LineageFamily, skeleton: string | undefined) {
+  if (skeleton === 'colony') return corePositions('colony', 3)
+  if (skeleton === 'ciliate') return corePositions('ciliate', 2)
+  if (family === 'bloom') return [{ x: -0.12, y: 0, radius: 0.27 }, { x: 0.38, y: -0.25, radius: 0.15 }, { x: 0.38, y: 0.25, radius: 0.15 }]
+  return corePositions('primal', 1)
+}
+
+function drawLineageStructure(context: CanvasRenderingContext2D, family: LineageFamily, radius: number, palette: CellPalette, skeleton: string | undefined) {
+  context.save()
+  context.strokeStyle = hexWithAlpha(palette.organ, 0.84)
+  context.lineWidth = Math.max(1.3, radius * 0.045)
+  if (family === 'dart') {
+    // Paired flow channels converge at a forward feeding vestibule.
+    for (const side of [-1, 1]) {
+      context.beginPath()
+      context.moveTo(-radius * 0.65, side * radius * 0.26)
+      context.quadraticCurveTo(radius * 0.05, side * radius * 0.57, radius * 0.74, side * radius * 0.07)
+      context.stroke()
+    }
+    context.beginPath()
+    context.ellipse(radius * 0.58, 0, radius * 0.18, radius * 0.085, 0, 0, Math.PI * 2)
+    context.stroke()
+  } else if (family === 'bastion') {
+    for (let chamber = -1; chamber <= 1; chamber += 1) {
+      const x = radius * chamber * 0.36
+      context.beginPath()
+      context.moveTo(x, -radius * (skeleton === 'ciliate' ? 0.53 : 0.7))
+      context.quadraticCurveTo(x - radius * 0.12, 0, x, radius * (skeleton === 'ciliate' ? 0.53 : 0.7))
+      context.stroke()
+    }
+  } else {
+    for (const core of lineageCorePositions(family, skeleton)) {
+      context.beginPath()
+      context.arc(core.x * radius, core.y * radius, radius * (core.radius + 0.13), 0, Math.PI * 2)
+      context.stroke()
+      context.beginPath()
+      context.moveTo(0, 0)
+      context.lineTo(core.x * radius, core.y * radius)
+      context.stroke()
+    }
+  }
+  context.restore()
+}
+
+/** Normalized core placement is shared by live rendering and the specimen cards. */
+export function corePositions(skeleton: string | undefined, count: number): Array<{ x: number; y: number; radius: number }> {
+  if (skeleton === 'colony') return [
+    { x: 0.4, y: 0, radius: 0.22 },
+    { x: -0.25, y: -0.35, radius: 0.2 },
+    { x: -0.25, y: 0.35, radius: 0.2 },
+  ]
+  if (skeleton === 'ciliate') return [{ x: -0.32, y: -0.17, radius: 0.22 }, { x: 0.15, y: -0.29, radius: 0.11 }, { x: -0.39, y: 0.25, radius: 0.09 }]
+  if (count > 1) return [{ x: -0.25, y: 0, radius: 0.23 }, { x: 0.28, y: 0.12, radius: 0.2 }]
+  return [{ x: -0.06, y: -0.02, radius: 0.31 }]
+}
+
+function drawCore(context: CanvasRenderingContext2D, x: number, y: number, radius: number, palette: CellPalette, quality: RenderQuality | undefined) {
+  const gradient = context.createRadialGradient(x - radius * 0.3, y - radius * 0.4, 0, x, y, radius)
+  gradient.addColorStop(0, '#edffff')
+  gradient.addColorStop(0.22, mixHex(palette.core, '#ffffff', 0.45))
+  gradient.addColorStop(0.65, palette.core)
+  gradient.addColorStop(1, mixHex(palette.core, '#071c36', 0.55))
+  context.fillStyle = gradient
+  context.strokeStyle = hexWithAlpha(palette.membrane, 0.8)
+  context.shadowColor = palette.core
+  context.shadowBlur = cellShadowBlur(quality, 'core')
+  context.lineWidth = Math.max(1, radius * 0.08)
+  context.beginPath()
+  context.ellipse(x, y, radius, radius * 0.84, -0.28, 0, Math.PI * 2)
+  context.fill()
+  context.stroke()
+  context.shadowBlur = 0
+  context.fillStyle = 'rgb(18 26 58 / 58%)'
+  context.beginPath()
+  context.arc(x + radius * 0.16, y + radius * 0.12, radius * 0.23, 0, Math.PI * 2)
+  context.fill()
+}
+
+function drawInternalStructure(
+  context: CanvasRenderingContext2D,
+  profile: CellVisualProfile,
+  radius: number,
+  elapsedMs: number,
+  id: string,
+  quality: RenderQuality | undefined,
+) {
+  const count = quality === 'low' || radius < 9 ? 3 : quality === 'high' ? 15 : 9
+  for (let index = 0; index < count; index += 1) {
+    const phase = hashPhase(`${id}:granule:${index}`)
+    const angle = phase + Math.sin(elapsedMs / 1700 + index) * 0.06
+    const distance = radius * (0.38 + ((index * 7) % 11) * 0.037)
+    context.fillStyle = index % 3 === 0 ? hexWithAlpha(profile.palette.organ, 0.72) : hexWithAlpha(profile.palette.membrane, 0.32)
+    context.beginPath()
+    context.ellipse(Math.cos(angle) * distance, Math.sin(angle) * distance, Math.max(0.7, radius * (index % 3 === 0 ? 0.085 : 0.026)), Math.max(0.6, radius * 0.028), angle + 0.8, 0, Math.PI * 2)
+    context.fill()
+  }
+  context.strokeStyle = hexWithAlpha(profile.palette.membrane, 0.42)
+  context.lineWidth = Math.max(1, radius * 0.025)
+  if (profile.structure === 'vacuoles' || profile.structure === 'swarm') {
+    for (let index = 0; index < 3; index += 1) {
+      const angle = index / 3 * Math.PI * 2
+      context.beginPath()
+      context.arc(Math.cos(angle) * radius * 0.56, Math.sin(angle) * radius * 0.56, radius * (profile.structure === 'swarm' ? 0.18 : 0.23), 0, Math.PI * 2)
+      context.stroke()
+    }
+  }
+}
+
+function drawAppendages(context: CanvasRenderingContext2D, silhouette: CellVisualProfile['silhouette'], appendages: CellVisualProfile['appendages'], radius: number, elapsedMs: number, id: string, palette: CellPalette, quality: RenderQuality | undefined) {
+  if (appendages === 'none') return
+  const ciliate = silhouette === 'ciliate' || silhouette.endsWith('-ciliate')
+  const baseCount = appendages === 'cilia' ? ciliate ? 40 : 24 : appendages === 'spines' ? 8 : appendages === 'fins' ? 6 : 2
+  const count = quality === 'low' ? Math.ceil(baseCount / 2) : baseCount
+  context.save()
+  context.strokeStyle = hexWithAlpha(palette.membrane, 0.78)
+  context.lineWidth = Math.max(1, radius * 0.025)
+  for (let index = 0; index < count; index += 1) {
+    const angle = appendages === 'flagellum' ? Math.PI + (index - 0.5) * 0.22 : index / count * Math.PI * 2
+    const point = cellBodyPoint(silhouette, angle, elapsedMs, id)
+    const length = appendages === 'flagellum' ? 0.6 : appendages === 'spines' ? 0.28 : appendages === 'cilia' ? 0.16 : 0.21
+    const wave = Math.sin(elapsedMs / 160 - angle * (ciliate ? 3 : 2)) * (ciliate ? 0.2 : 0.09)
+    const tangent = appendages === 'spines' ? 0 : wave + 0.13
+    context.beginPath()
+    context.moveTo(point.x * radius, point.y * radius)
+    context.quadraticCurveTo(
+      (point.x + Math.cos(angle + tangent) * length * 0.5) * radius,
+      (point.y + Math.sin(angle + tangent) * length * 0.5) * radius,
+      (point.x + Math.cos(angle + tangent * 2) * length) * radius,
+      (point.y + Math.sin(angle + tangent * 2) * length) * radius,
+    )
+    context.stroke()
+  }
+  context.restore()
+}
+
+function drawArmor(context: CanvasRenderingContext2D, radius: number, elapsedMs: number, id: string, silhouette: CellVisualProfile['silhouette'], palette: CellPalette) {
+  context.save()
+  context.lineWidth = Math.max(2, radius * 0.16)
+  context.strokeStyle = mixHex(palette.membrane, '#eaffff', 0.2)
+  for (let plate = 0; plate < 6; plate += 1) {
+    context.beginPath()
+    for (let index = 0; index <= 4; index += 1) {
+      const point = cellBodyPoint(silhouette, (plate + 0.14 + index * 0.18) / 6 * Math.PI * 2, elapsedMs, id)
+      if (index === 0) context.moveTo(point.x * radius * 0.86, point.y * radius * 0.86)
+      else context.lineTo(point.x * radius * 0.86, point.y * radius * 0.86)
+    }
+    context.stroke()
+  }
+  context.restore()
+}
+
 function drawMorphologyParts(
   context: CanvasRenderingContext2D,
   parts: readonly string[],
   radius: number,
   elapsedMs: number,
   palette: CellPalette,
+  quality: RenderQuality | undefined,
 ) {
   context.save()
   context.strokeStyle = palette.organ
@@ -264,6 +461,35 @@ function drawMorphologyParts(
   context.lineWidth = Math.max(1.5, radius * 0.06)
   parts.forEach((part, index) => {
     const lane = (index - (parts.length - 1) / 2) * radius * 0.24
+    if (part === 'oral-groove') return // The form skeleton draws this at its directional anchor.
+    if (part.includes('sacs') || part.includes('gland') || part.includes('nodules')) {
+      const electric = part === 'arc-sacs'
+      context.fillStyle = electric ? '#e1ceff' : palette.organ
+      for (const side of [-1, 1]) {
+        const x = radius * (electric ? -0.2 : 0.25)
+        const y = side * radius * 0.62
+        context.beginPath()
+        context.ellipse(x, y, radius * 0.25, radius * 0.16, side * 0.35, 0, Math.PI * 2)
+        context.fill()
+        context.stroke()
+        if (electric) {
+          context.strokeStyle = '#ffffff'
+          context.lineWidth = Math.max(1, radius * 0.025)
+          context.beginPath()
+          context.moveTo(x - radius * 0.12, y)
+          context.lineTo(x, y - radius * 0.07)
+          context.lineTo(x - radius * 0.02, y + radius * 0.05)
+          context.lineTo(x + radius * 0.12, y)
+          context.stroke()
+          context.strokeStyle = palette.organ
+        }
+      }
+      return
+    }
+    if (part.includes('cilia') || part.includes('fringe') || part.includes('fans')) {
+      drawAppendages(context, 'amoeba', 'cilia', radius, elapsedMs, part, palette, quality)
+      return
+    }
     if (part.includes('tail') || part.includes('jet')) {
       context.beginPath()
       context.moveTo(-radius * 0.72, lane * 0.5)
@@ -340,53 +566,27 @@ function fallbackPaletteFor(entity: EntityState): CellPalette {
   }
 }
 
+function anatomyPalette(membrane: string, core: string, organ: string): CellPalette {
+  return { membrane, core, organ, cytoplasm: hexWithAlpha(membrane, 0.24), glow: membrane }
+}
+
 function traceBody(
   context: CanvasRenderingContext2D,
   silhouette: CellVisualProfile['silhouette'],
   radius: number,
   elapsedMs: number,
   id: string,
+  prepared?: readonly { x: number; y: number }[],
 ) {
-  const count = silhouette === 'hunter' || silhouette === 'boss' ? 18 : 22
-  const points = Array.from({ length: count }, (_, index) => {
-    const angle = index / count * Math.PI * 2
-    const point = cellBodyPoint(silhouette, angle, elapsedMs, id)
-    return { x: point.x * radius, y: point.y * radius }
-  })
+  const points = prepared ?? membraneContour(silhouette, elapsedMs, id)
   context.beginPath()
-  const first = points[0]!
-  const last = points.at(-1)!
-  context.moveTo((last.x + first.x) / 2, (last.y + first.y) / 2)
-  for (let index = 0; index < points.length; index += 1) {
-    const point = points[index]!
-    const next = points[(index + 1) % points.length]!
-    context.quadraticCurveTo(point.x, point.y, (point.x + next.x) / 2, (point.y + next.y) / 2)
-  }
+  context.moveTo(points[0]!.x * radius, points[0]!.y * radius)
+  for (let index = 1; index < points.length; index += 1) context.lineTo(points[index]!.x * radius, points[index]!.y * radius)
   context.closePath()
 }
 
-export function cellBodyPoint(
-  silhouette: CellVisualProfile['silhouette'],
-  angle: number,
-  elapsedMs: number,
-  id: string,
-): { x: number; y: number } {
-  if (silhouette === 'pearl') return { x: Math.cos(angle), y: Math.sin(angle) * 0.94 }
-
-  const phase = hashPhase(`${id}:${Math.round(angle * 1000)}`)
-  const organicWave = Math.sin(angle * 3 + elapsedMs / 420 + phase) * (silhouette === 'amoeba' ? 0.035 : 0.018)
-  const silhouetteWave = silhouette === 'spark'
-    ? Math.cos(angle * 6) * 0.055
-    : silhouette === 'vesicle'
-      ? Math.sin(angle - 0.7) * 0.045
-      : silhouette === 'hunter' || silhouette === 'boss'
-        ? Math.cos(angle * 4) * 0.035
-        : Math.cos(angle) * 0.025
-  const base = silhouette === 'spark' ? 0.92 : silhouette === 'swimmer' ? 0.96 : 0.94
-  const minimumRadius = silhouette === 'swimmer' ? 0.96 : 0.94
-  const localRadius = Math.max(minimumRadius, Math.min(1, base + organicWave + silhouetteWave))
-  const height = silhouette === 'swimmer' ? 0.94 : 0.97
-  return { x: Math.cos(angle) * localRadius, y: Math.sin(angle) * localRadius * height }
+export function cellBodyPoint(silhouette: MembraneSilhouette, angle: number, elapsedMs: number, id: string): { x: number; y: number } {
+  return membranePoint(silhouette, angle, elapsedMs, id)
 }
 
 function hexWithAlpha(color: string, alpha: number): string {
@@ -396,15 +596,22 @@ function hexWithAlpha(color: string, alpha: number): string {
   const blue = Number.parseInt(color.slice(5, 7), 16)
   return `rgb(${red} ${green} ${blue} / ${alpha})`
 }
+const mixedColors = new Map<string, string>()
 
 function mixHex(first: string, second: string, secondWeight: number): string {
+  const key = `${first}:${second}:${secondWeight}`
+  const cached = mixedColors.get(key)
+  if (cached !== undefined) return cached
   if (!/^#[\da-f]{6}$/i.test(first) || !/^#[\da-f]{6}$/i.test(second)) return first
   const weight = Math.min(1, Math.max(0, secondWeight))
   const channel = (offset: number) => Math.round(
     Number.parseInt(first.slice(offset, offset + 2), 16) * (1 - weight)
       + Number.parseInt(second.slice(offset, offset + 2), 16) * weight,
   ).toString(16).padStart(2, '0')
-  return `#${channel(1)}${channel(3)}${channel(5)}`
+  const mixed = `#${channel(1)}${channel(3)}${channel(5)}`
+  if (mixedColors.size >= 512) mixedColors.delete(mixedColors.keys().next().value!)
+  mixedColors.set(key, mixed)
+  return mixed
 }
 
 function hashPhase(id: string): number {

@@ -62,7 +62,8 @@ export function stepSwarm(
   if (children.length === 0) return []
   const seconds = Math.max(0, stepMs) / 1000
   const centroid = averagePosition(children)
-  const formationRadius = Math.max(10, Math.sqrt(children.reduce((sum, child) => sum + child.mass, 0) / children.length))
+  // Stopping brings even very large colonies back together; a mass-sized idle ring could never fuse.
+  const formationRadius = intent.strength < 0.08 ? 0 : Math.max(10, Math.sqrt(children.reduce((sum, child) => sum + child.mass, 0) / children.length))
 
   return children.map((child, index) => {
     const angle = index / children.length * Math.PI * 2

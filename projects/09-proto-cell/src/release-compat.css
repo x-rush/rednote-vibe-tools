@@ -1,0 +1,16 @@
+/* Old WebViews retain the same controls without relying on flex-gap or square sizing. */
+.no-flex-gap .settings-panel fieldset label > * + *,
+.no-flex-gap .game-hud__stage > div > * + *,
+.no-flex-gap .migration-overlay header > * + *,
+.no-flex-gap .ecosystem-objective > div > * + *,
+.no-flex-gap .nursery-tabs > * + *,
+.no-flex-gap .lineage-retire > * + * { margin-left: 10px; }
+.no-flex-gap .nursery-incubation > * + * { margin-top: 12px; }
+@supports not (aspect-ratio: 1) {
+  .hatchery-ambient { height: 84vw; max-width: 420px; max-height: 420px; }
+  .prototype-cell { height: 48vw; min-height: 176px; max-height: 218px; }
+  .archive-cell { height: 35vw; min-height: 124px; max-height: 176px; }
+  .archive-cell__satellite { height: 42%; }
+  .error-panel__glyph { height: 72px; }
+}
+button:focus, input:focus, select:focus, textarea:focus { outline-offset: 3px; }

@@ -1,0 +1,102 @@
+[
+  {
+    "width": 375,
+    "height": 812,
+    "game": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "暂停",
+          "rect": {
+            "x": 165.5,
+            "y": 52,
+            "width": 44,
+            "height": 44
+          }
+        }
+      ],
+      "body": "吞噬分\n0\n生态航程\n原始单细胞 · 01/03\n体型\n微生体\n膜完整度\n100%\n原生微滴\n进化压 0%\n\n吞食成长，反猎湛环捕食者\n\n主动捕食 0/180\n器官变异 0/2\n\n湛环捕食者 · 幼小时避开它；长大后从侧面完整包裹。\n\nⅡ",
+      "pauseHit": true
+    },
+    "touch": {
+      "active": "true",
+      "cancelled": "false"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "game": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "暂停",
+          "rect": {
+            "x": 173,
+            "y": 52,
+            "width": 44,
+            "height": 44
+          }
+        }
+      ],
+      "body": "吞噬分\n0\n生态航程\n原始单细胞 · 01/03\n体型\n微生体\n膜完整度\n100%\n原生微滴\n进化压 0%\n\n吞食成长，反猎湛环捕食者\n\n主动捕食 0/180\n器官变异 0/2\n\n湛环捕食者 · 幼小时避开它；长大后从侧面完整包裹。\n\nⅡ",
+      "pauseHit": true
+    },
+    "touch": {
+      "active": "true",
+      "cancelled": "false"
+    },
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "game": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "暂停",
+          "rect": {
+            "x": 193,
+            "y": 52,
+            "width": 44,
+            "height": 44
+          }
+        }
+      ],
+      "body": "吞噬分\n0\n生态航程\n原始单细胞 · 01/03\n体型\n微生体\n膜完整度\n100%\n原生微滴\n进化压 0%\n\n吞食成长，反猎湛环捕食者\n\n主动捕食 0/180\n器官变异 0/2\n\n湛环捕食者 · 幼小时避开它；长大后从侧面完整包裹。\n\nⅡ",
+      "pauseHit": true
+    },
+    "touch": {
+      "active": "true",
+      "cancelled": "false"
+    },
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "game": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "暂停",
+          "rect": {
+            "x": 400,
+            "y": 52,
+            "width": 44,
+            "height": 44
+          }
+        }
+      ],
+      "body": "吞噬分\n0\n生态航程\n原始单细胞 · 01/03\n体型\n微生体\n膜完整度\n100%\n原生微滴\n进化压 0%\n\n吞食成长，反猎湛环捕食者\n\n主动捕食 0/180\n器官变异 0/2\n\n湛环捕食者 · 幼小时避开它；长大后从侧面完整包裹。\n\nⅡ",
+      "pauseHit": true
+    },
+    "touch": {
+      "active": "true",
+      "cancelled": "false"
+    },
+    "errors": []
+  }
+]

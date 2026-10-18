@@ -18,9 +18,19 @@ const renderLab = (hasArchive: boolean) => renderToStaticMarkup(<Lab
 />)
 
 describe('launch lab', () => {
-  it('keeps the first visit focused on one start action', () => {
+  it('previews the selected offspring as a newborn rather than the last adult', () => {
+    const save = createDefaultSave()
+    save.nursery = { seeds: [], hatchedSeedIds: [], selectedLineageId: 'lineage-1234567890abcdef', lineages: [{ id: 'lineage-1234567890abcdef', seedId: 'seed-1234567890abcdef', name: '追猎二代', generation: 2, archetypeId: 'lineage-dart', inheritedOrganelleId: 'organelle-flagellum', bornAtRun: 2 }] }
+    const html = renderToStaticMarkup(<Lab content={getContent()} save={save} hasArchive={true} selectedOriginId="origin-primal-cell" activeModifierIds={[]} dailyRunSeed={727} onSelectOrigin={() => undefined} onToggleModifier={() => undefined} onOpen={() => undefined} onStart={() => undefined} />)
+    expect(html).toContain('追猎二代')
+    expect(html).toContain('data-lineage-id="lineage-1234567890abcdef"')
+    expect(html).toContain(getContent().ui.actions.open_nursery)
+  })
+  it('keeps the first visit focused on play with accessible comfort settings', () => {
     const html = renderLab(false)
-    expect((html.match(/<button/g) ?? [])).toHaveLength(1)
+    expect((html.match(/class="hatchery-start"/g) ?? [])).toHaveLength(1)
+    expect(html).toContain(getContent().ui.actions.open_settings)
+    expect(html).toContain('class="specimen-canvas"')
     expect(html).not.toContain('基因图谱')
   })
 

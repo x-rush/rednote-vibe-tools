@@ -1,0 +1,428 @@
+{
+  "buildStartedAt": "2026-10-18T06:59:03.341Z",
+  "recordedAt": "2026-10-18T06:59:45.669Z",
+  "runtime": "Installed desktop Chrome headless; 390x844 CSS px; DPR2; 1x and 4x CDP CPU throttling. Synthetic idle source fixtures at tier1/2 pressure .65 and 18s. Vite QA transform changes journeyEnabled initialization to true for the directly seeded later tier and exposes qaPopulate; ordinary simulation and renderer algorithms unchanged. Dense initializes 179 extra real environment entity definitions distributed over world, then clones renderer-only entities to 180 all-visible bodies; engine population separately recorded. Actual source compiled in memory, assets from current preview dist. Does not establish physical mobile GPU or Xiaohongshu host performance.",
+  "sourceHashes": {
+    "src/game/engine.ts": "0fdf1361b213f6ed46572e8fac2687809cd5fae0a50d2f3f8845344bf9c3b30a",
+    "src/rendering/renderer.ts": "25095a09814f3357dc418d3b2bcc7eb3f462ab4cfd48ffdce0a8d4c97e73d4ae",
+    "src/rendering/cell.ts": "1a890a7fc5923b45df5df72c2281557c76f119c3b076103d91a29da01c324f77",
+    "src/world/environments.ts": "0942afb34e8e31cce42565ab0068f06ba2cfcd180924bfa4ce6e81d5da32663e",
+    "src/content/content.json": "b7b8ae453be018987eb021a282493ec2984a25399214ed404874bd53ec93991a"
+  },
+  "bundleSha256": "dc58c5694b955d5d04eb07bfcb4ee4dc6240c700f7cd6a0bb2b2a5774765687c",
+  "cases": [
+    {
+      "throttle": 1,
+      "tierIndex": 1,
+      "environmentId": "env-fiber-maze",
+      "quality": "balanced",
+      "dense": false,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 0.3727777785725064,
+        "p50": 0.3999999761581421,
+        "p95": 0.5999999642372131,
+        "max": 0.9000000357627869
+      },
+      "renderMs": {
+        "mean": 1.0244444443119898,
+        "p50": 1,
+        "p95": 1.5,
+        "max": 2
+      },
+      "frameGapMs": {
+        "mean": 6.262222222222222,
+        "p50": 4.2000000000000455,
+        "p95": 12.400000000000091,
+        "max": 25
+      },
+      "framesOver25ms": 0,
+      "longTasks": {
+        "count": 0,
+        "maxMs": 0
+      },
+      "engineEntities": {
+        "min": 11,
+        "max": 11
+      },
+      "lifecycleAtEnd": {
+        "tierIndex": 1,
+        "formId": "form-colony-body",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 61.06,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    },
+    {
+      "throttle": 1,
+      "tierIndex": 1,
+      "environmentId": "env-fiber-maze",
+      "quality": "balanced",
+      "dense": true,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 2.3099999994039537,
+        "p50": 2.300000011920929,
+        "p95": 3,
+        "max": 4.100000023841858
+      },
+      "renderMs": {
+        "mean": 5.185555555423101,
+        "p50": 4.900000035762787,
+        "p95": 7.800000011920929,
+        "max": 10.700000047683716
+      },
+      "frameGapMs": {
+        "mean": 13.28888888888889,
+        "p50": 12.5,
+        "p95": 20.800000000000068,
+        "max": 41.80000000000007
+      },
+      "framesOver25ms": 1,
+      "longTasks": {
+        "count": 0,
+        "maxMs": 0
+      },
+      "engineEntities": {
+        "min": 187,
+        "max": 190
+      },
+      "renderedFixtureEntities": 180,
+      "lifecycleAtEnd": {
+        "tierIndex": 1,
+        "formId": "form-colony-body",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 61.06,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    },
+    {
+      "throttle": 1,
+      "tierIndex": 2,
+      "environmentId": "env-abandoned-chamber",
+      "quality": "balanced",
+      "dense": false,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 0.577222220102946,
+        "p50": 0.5,
+        "p95": 1,
+        "max": 2.899999976158142
+      },
+      "renderMs": {
+        "mean": 1.1783333294921452,
+        "p50": 1,
+        "p95": 1.9000000357627869,
+        "max": 2.800000011920929
+      },
+      "frameGapMs": {
+        "mean": 6.563888888888889,
+        "p50": 4.2000000000000455,
+        "p95": 8.400000000000091,
+        "max": 54.200000000000045
+      },
+      "framesOver25ms": 3,
+      "longTasks": {
+        "count": 0,
+        "maxMs": 0
+      },
+      "engineEntities": {
+        "min": 12,
+        "max": 18
+      },
+      "lifecycleAtEnd": {
+        "tierIndex": 2,
+        "formId": "form-ciliate-composite",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 165.22,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    },
+    {
+      "throttle": 1,
+      "tierIndex": 2,
+      "environmentId": "env-abandoned-chamber",
+      "quality": "balanced",
+      "dense": true,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 2.7683333327372868,
+        "p50": 2.699999988079071,
+        "p95": 3.399999976158142,
+        "max": 3.800000011920929
+      },
+      "renderMs": {
+        "mean": 4.226666668719716,
+        "p50": 4.099999964237213,
+        "p95": 5.399999976158142,
+        "max": 8.300000011920929
+      },
+      "frameGapMs": {
+        "mean": 11.178333333333333,
+        "p50": 12.5,
+        "p95": 12.600000000000136,
+        "max": 45.89999999999998
+      },
+      "framesOver25ms": 1,
+      "longTasks": {
+        "count": 0,
+        "maxMs": 0
+      },
+      "engineEntities": {
+        "min": 191,
+        "max": 191
+      },
+      "renderedFixtureEntities": 180,
+      "lifecycleAtEnd": {
+        "tierIndex": 2,
+        "formId": "form-ciliate-composite",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 165.22,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    },
+    {
+      "throttle": 4,
+      "tierIndex": 1,
+      "environmentId": "env-fiber-maze",
+      "quality": "balanced",
+      "dense": false,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 1.3838888906770281,
+        "p50": 1.199999988079071,
+        "p95": 2.5,
+        "max": 3.399999976158142
+      },
+      "renderMs": {
+        "mean": 4.407777778638733,
+        "p50": 4.300000011920929,
+        "p95": 6.699999988079071,
+        "max": 8.099999964237213
+      },
+      "frameGapMs": {
+        "mean": 7.3261111111111115,
+        "p50": 8.299999999999955,
+        "p95": 12.5,
+        "max": 12.600000000000136
+      },
+      "framesOver25ms": 0,
+      "longTasks": {
+        "count": 0,
+        "maxMs": 0
+      },
+      "engineEntities": {
+        "min": 11,
+        "max": 11
+      },
+      "lifecycleAtEnd": {
+        "tierIndex": 1,
+        "formId": "form-colony-body",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 61.06,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    },
+    {
+      "throttle": 4,
+      "tierIndex": 1,
+      "environmentId": "env-fiber-maze",
+      "quality": "balanced",
+      "dense": true,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 16.83833333187633,
+        "p50": 16.69999998807907,
+        "p95": 22.600000023841858,
+        "max": 32.10000002384186
+      },
+      "renderMs": {
+        "mean": 38.814999999933775,
+        "p50": 37.10000002384186,
+        "p95": 53.700000047683716,
+        "max": 78.69999998807907
+      },
+      "frameGapMs": {
+        "mean": 61.644444444444446,
+        "p50": 58.5,
+        "p95": 79.39999999999964,
+        "max": 104.30000000000018
+      },
+      "framesOver25ms": 180,
+      "longTasks": {
+        "count": 151,
+        "maxMs": 106
+      },
+      "engineEntities": {
+        "min": 187,
+        "max": 190
+      },
+      "renderedFixtureEntities": 180,
+      "lifecycleAtEnd": {
+        "tierIndex": 1,
+        "formId": "form-colony-body",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 61.06,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    },
+    {
+      "throttle": 4,
+      "tierIndex": 2,
+      "environmentId": "env-abandoned-chamber",
+      "quality": "balanced",
+      "dense": false,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 2.2411111093229716,
+        "p50": 2.199999988079071,
+        "p95": 3.300000011920929,
+        "max": 6
+      },
+      "renderMs": {
+        "mean": 5.979444446166356,
+        "p50": 5.800000011920929,
+        "p95": 8.300000011920929,
+        "max": 9.299999952316284
+      },
+      "frameGapMs": {
+        "mean": 9.810555555555556,
+        "p50": 8.400000000000091,
+        "p95": 12.600000000000136,
+        "max": 20.800000000000068
+      },
+      "framesOver25ms": 0,
+      "longTasks": {
+        "count": 0,
+        "maxMs": 0
+      },
+      "engineEntities": {
+        "min": 12,
+        "max": 18
+      },
+      "lifecycleAtEnd": {
+        "tierIndex": 2,
+        "formId": "form-ciliate-composite",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 165.22,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    },
+    {
+      "throttle": 4,
+      "tierIndex": 2,
+      "environmentId": "env-abandoned-chamber",
+      "quality": "balanced",
+      "dense": true,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 21.960555557078784,
+        "p50": 21.100000023841858,
+        "p95": 29.899999976158142,
+        "max": 35.89999997615814
+      },
+      "renderMs": {
+        "mean": 32.9188888884253,
+        "p50": 31.30000001192093,
+        "p95": 44.60000002384186,
+        "max": 50.30000001192093
+      },
+      "frameGapMs": {
+        "mean": 60.71611111111111,
+        "p50": 58.5,
+        "p95": 79.30000000000018,
+        "max": 91.89999999999964
+      },
+      "framesOver25ms": 180,
+      "longTasks": {
+        "count": 171,
+        "maxMs": 88
+      },
+      "engineEntities": {
+        "min": 191,
+        "max": 191
+      },
+      "renderedFixtureEntities": 180,
+      "lifecycleAtEnd": {
+        "tierIndex": 2,
+        "formId": "form-ciliate-composite",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 165.22,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    }
+  ],
+  "errors": []
+}

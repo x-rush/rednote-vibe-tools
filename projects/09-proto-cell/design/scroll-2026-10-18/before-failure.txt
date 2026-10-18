@@ -1,0 +1,1 @@
+Error: User scrolling cannot reach hatch action: {"width":390,"height":700,"before":{"height":1591,"scrollHeight":1591,"scrollTop":0,"overflow":"visible","button":{"top":1510.703125,"bottom":1562.703125},"viewport":700},"wheel":{"height":1591,"scrollHeight":1591,"scrollTop":0,"overflow":"visible","button":{"top":1510.703125,"bottom":1562.703125},"viewport":700},"errors":[]}

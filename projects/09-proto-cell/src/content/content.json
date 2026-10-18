@@ -9,16 +9,24 @@
     "fictionDisclaimer": "本作是显微生态幻想，不构成真实生物学说明。"
   },
   "assetCredits": [
-    { "scope": "本地 SVG、AI 辅助生成 PNG 与程序化 Canvas 美术", "source": "项目原创生成（PNG 由 OpenAI 图像生成工具制作）", "license": "项目内专用" },
-    { "scope": "音乐与音效", "source": "Web Audio 实时合成，无外部采样", "license": "项目内专用" }
+    {
+      "scope": "本地 SVG、AI 辅助生成 PNG 与程序化 Canvas 美术",
+      "source": "项目原创生成（PNG 由 OpenAI 图像生成工具制作）",
+      "license": "项目内专用"
+    },
+    {
+      "scope": "音乐与音效",
+      "source": "Web Audio 实时合成，无外部采样",
+      "license": "项目内专用"
+    }
   ],
   "ui": {
     "actions": {
       "start": "开始孵化",
       "pause": "暂停",
       "resume": "继续游动",
-    "restart": "重新孵化",
-    "restartAfterLife": "再次孵化",
+      "restart": "重新孵化",
+      "restartAfterLife": "再次孵化",
       "confirmMutation": "确认进化",
       "cancelMutation": "再看看",
       "openArchive": "查看生命档案",
@@ -36,7 +44,18 @@
       "clearSave": "清除本机进度",
       "confirmClear": "确认清除",
       "cancel": "取消",
-      "retry": "重建当前视野"
+      "retry": "重建当前视野",
+      "confirmFormTransition": "完成跃迁，进入新生态",
+      "open_nursery": "种源与细胞库",
+      "hatchCell": "开始培育",
+      "finishHatch": "完成孵化",
+      "skipHatch": "跳过演出",
+      "selectLineage": "设为初始生命",
+      "retireLineage": "释放此品系",
+      "cancelRetire": "保留品系",
+      "confirmRetire": "确认释放",
+      "breedOffspring": "培育下一代",
+      "backToNursery": "返回细胞库"
     },
     "labels": {
       "prototypeCell": "一枚正在脉动的原生细胞",
@@ -51,7 +70,7 @@
       "mutationRecombine": "重组",
       "mutationExpand": "扩容",
       "mutationReplaces": "将替换",
-    "mutationSynergy": "组合激活",
+      "mutationSynergy": "组合激活",
       "mutationSynergyAugment": "组合增强",
       "routePredation": "捕食型",
       "routeSurvival": "生存型",
@@ -70,64 +89,112 @@
       "encounterFiberGiant": "纤维巨体",
       "encounterFinalHost": "宿主核心",
       "metamorphosisComplete": "形态跃迁",
-    "archiveDishCode": "培养皿码",
-    "archiveEnvironment": "最远水域",
-    "archivePeakBiomass": "峰值生物质",
-    "archiveKeyOrgans": "关键器官",
-    "archiveSynergies": "形成组合",
-    "archiveSpeciesSeed": "物种种子",
-    "archiveNoOrgans": "未形成稳定器官",
-    "archiveCell": "本次生命留下的最终细胞形态",
-    "lab": "培养舱",
-    "labTools": "培养舱工具",
-    "geneSamples": "基因样本",
-    "birthForm": "出生形态",
-    "unlocked": "已解锁",
-    "unknownEntry": "未知轮廓",
-    "codex_unseen": "未见",
-    "codex_seen": "见过",
-    "codex_defeated-by": "曾被其击败",
-    "codex_complete": "完整记录",
-    "localDaily": "由本机日期生成，不与全球同步",
-    "dishCode": "培养皿码",
-    "dishCodePlaceholder": "粘贴 PC1 培养皿码",
-    "comfortSettings": "声音与舒适度",
-    "setting_music": "音乐",
-    "setting_sfx": "音效",
-    "setting_reducedMotion": "减少动态",
-    "setting_reducedFlash": "减少闪烁",
-    "setting_lowParticles": "减少粒子",
-    "setting_reducedShake": "减少震动",
-    "graphicsQuality": "画质",
-    "graphicsHigh": "高",
-    "graphicsBalanced": "平衡",
-    "graphicsLow": "低",
-    "structuredSave": "结构化存档",
-    "exportedSave": "导出的存档文本",
-    "importedSave": "要导入的存档文本",
-    "journeyRoute": "迁徙分岔",
-    "journeyReward": "收益",
-    "journeyRisk": "代价",
-    "journeyRewardAlgaeFeast": "高密度藻糖，快速积累生物质",
-    "journeyRiskAlgaeFeast": "藻幕会遮蔽大型猎手",
-    "journeyRewardAcidMutation": "矿物碎屑提高进化浓度",
-    "journeyRiskAcidMutation": "酸雾持续侵蚀外膜",
-    "journeyRewardFiberCover": "纤维掩体可甩开追猎者",
-    "journeyRiskFiberCover": "狭道会压缩转向空间",
-    "journeyRewardAntibodyCurrent": "抗体残片带来高额吞噬分",
-    "journeyRiskAntibodyCurrent": "扫荡潮会切断安全路线",
-    "journeyRewardAcidPressure": "危险猎物携带稀有基因",
-    "journeyRiskAcidPressure": "猎手密度随时间上升",
-    "journeyRewardAlgaeBlackout": "暗潮中弱小群落大量刷新",
-    "journeyRiskAlgaeBlackout": "视野会周期性缩窄",
-    "journeyRewardFiberAmbush": "伏击成功可延长吞噬连锁",
-    "journeyRiskFiberAmbush": "伪装捕食者贴近后才显形",
-    "journeyRewardAntibodyHunt": "击溃竞争者可修复细胞膜",
-    "journeyRiskAntibodyHunt": "高速抗体会协同夹击",
-    "journeyRewardChamberWreckage": "残骸群提供终局前最后补给",
-    "journeyRiskChamberWreckage": "腐坏区域限制可用水域",
-    "journeyRewardChamberGauntlet": "强敌携带终局进化样本",
-    "journeyRiskChamberGauntlet": "顶级捕食者提前入场"
+      "archiveDishCode": "培养皿码",
+      "archiveEnvironment": "最远水域",
+      "archivePeakBiomass": "峰值生物质",
+      "archiveKeyOrgans": "关键器官",
+      "archiveSynergies": "形成组合",
+      "archiveSpeciesSeed": "物种种子",
+      "archiveNoOrgans": "未形成稳定器官",
+      "archiveCell": "本次生命留下的最终细胞形态",
+      "lab": "培养舱",
+      "labTools": "培养舱工具",
+      "geneSamples": "基因样本",
+      "birthForm": "出生形态",
+      "unlocked": "已解锁",
+      "unknownEntry": "未知轮廓",
+      "codex_unseen": "未见",
+      "codex_seen": "见过",
+      "codex_defeated-by": "曾被其击败",
+      "codex_complete": "完整记录",
+      "localDaily": "由本机日期生成，不与全球同步",
+      "dishCode": "培养皿码",
+      "dishCodePlaceholder": "粘贴 PC1 培养皿码",
+      "comfortSettings": "声音与舒适度",
+      "setting_music": "音乐",
+      "setting_sfx": "音效",
+      "setting_reducedMotion": "减少动态",
+      "setting_reducedFlash": "减少闪烁",
+      "setting_lowParticles": "减少粒子",
+      "setting_reducedShake": "减少震动",
+      "graphicsQuality": "画质",
+      "graphicsHigh": "高",
+      "graphicsBalanced": "平衡",
+      "graphicsLow": "低",
+      "structuredSave": "结构化存档",
+      "exportedSave": "导出的存档文本",
+      "importedSave": "要导入的存档文本",
+      "journeyRoute": "迁徙分岔",
+      "journeyReward": "收益",
+      "journeyRisk": "代价",
+      "journeyRewardAlgaeFeast": "高密度藻糖，快速积累生物质",
+      "journeyRiskAlgaeFeast": "藻幕会遮蔽大型猎手",
+      "journeyRewardAcidMutation": "矿物碎屑提高进化浓度",
+      "journeyRiskAcidMutation": "酸雾持续侵蚀外膜",
+      "journeyRewardFiberCover": "纤维掩体可甩开追猎者",
+      "journeyRiskFiberCover": "狭道会压缩转向空间",
+      "journeyRewardAntibodyCurrent": "抗体残片带来高额吞噬分",
+      "journeyRiskAntibodyCurrent": "扫荡潮会切断安全路线",
+      "journeyRewardAcidPressure": "危险猎物携带稀有基因",
+      "journeyRiskAcidPressure": "猎手密度随时间上升",
+      "journeyRewardAlgaeBlackout": "暗潮中弱小群落大量刷新",
+      "journeyRiskAlgaeBlackout": "视野会周期性缩窄",
+      "journeyRewardFiberAmbush": "伏击成功可延长吞噬连锁",
+      "journeyRiskFiberAmbush": "伪装捕食者贴近后才显形",
+      "journeyRewardAntibodyHunt": "击溃竞争者可修复细胞膜",
+      "journeyRiskAntibodyHunt": "高速抗体会协同夹击",
+      "journeyRewardChamberWreckage": "残骸群提供终局前最后补给",
+      "journeyRiskChamberWreckage": "腐坏区域限制可用水域",
+      "journeyRewardChamberGauntlet": "强敌携带终局进化样本",
+      "journeyRiskChamberGauntlet": "顶级捕食者提前入场",
+      "evolutionLeap": "生命跃迁",
+      "evolutionLeapDescription": "重组身体，进入更大的食物链。旧日强敌将成为新的猎物。",
+      "nextEcology": "下一生态圈",
+      "challengeOptions": "挑战与培养皿码",
+      "recentLife": "上一段生命",
+      "firstHuntHint": "按住水域拖动，追逐发亮的小猎物",
+      "openingGoal": "先吞食附近的营养，再绕过更大的猎手",
+      "ecologyGuide": "食物链观察",
+      "reversalEdible": "旧敌 · 可吞噬",
+      "reversalThreat": "暂避锋芒",
+      "specimenBefore": "现在的你",
+      "specimenAfter": "进化后的你",
+      "nursery": "生命谱系",
+      "seedBank": "种源库",
+      "cellLibrary": "细胞库",
+      "lineageGeneration": "代",
+      "seedSource": "上一局留下的种源",
+      "heritage": "遗传器官",
+      "noInheritance": "纯净胚体 · 不继承器官",
+      "lineageName": "为新细胞命名",
+      "lineageSelected": "已设为初始",
+      "lineageLocal": "种源与品系保存在本机，可随存档导出",
+      "lineageCapacity": "细胞库容量",
+      "seedConsumed": "已培育",
+      "lineageOrigin": "初始生命",
+      "lineagePreset": "基础细胞",
+      "hatchPhase0": "凝聚胚泡",
+      "hatchPhase1": "遗传表达",
+      "hatchPhase2": "新生破膜",
+      "seedStored": "种源已留存",
+      "lineageParent": "亲代品系",
+      "lineageBorn": "新细胞已诞生",
+      "lineageInherited": "开局继承",
+      "lineageNothing": "无遗传器官",
+      "lineageSeedCount": "枚可用种源",
+      "lineageWaiting": "待培育",
+      "lineagePure": "纯净胚体",
+      "lineageNamingPlaceholder": "留空使用品系名称",
+      "lineageRetireWarning": "释放后无法恢复此细胞；已留下的后代与种源会保留。",
+      "lineageLocked": "代解锁",
+      "lineageGenerationPrefix": "第",
+      "lineageNew": "下一代胚体",
+      "hatchReturn": "取消培育",
+      "lineageChooseSeed": "选择种源",
+      "lineageArchetype": "选择胚体",
+      "lineageAbilities": "遗传选择",
+      "lineageNoSeed": "种源已用完，下一次探索会留下新的生命。",
+      "seedRetention": "保留最近 {count} 枚种源；已培育的品系独立保留。"
     },
     "hud": {
       "membrane": "膜",
@@ -150,31 +217,57 @@
       "bodyStage_microbe": "微生体",
       "bodyStage_hunter": "猎食体",
       "bodyStage_specialist": "特化体",
-    "bodyStage_dominant": "统治体",
-    "bodyStage_ascendant": "升华体",
-    "resultCauseEngulf": "被更大的生命吞噬",
-    "resultCauseRupture": "细胞膜破裂",
-    "resultCauseInstability": "终局稳定性崩解",
-    "resultRoutePredation": "捕食路线",
-    "resultRouteSurvival": "生存路线",
-    "resultRouteColony": "群落路线",
-    "resultRouteUncommitted": "尚未定型",
-    "resultStage": "最终形态",
-    "resultScore": "吞噬分",
-    "resultTraits": "关键进化",
-    "resultJourney": "抵达生态阶段",
-    "resultSameSeed": "重玩本次培养皿",
-    "resultImmediateRestart": "立即重生",
-    "resultBackDish": "返回培养皿"
+      "bodyStage_dominant": "统治体",
+      "bodyStage_ascendant": "升华体",
+      "resultCauseEngulf": "被更大的生命吞噬",
+      "resultCauseRupture": "细胞膜破裂",
+      "resultCauseInstability": "终局稳定性崩解",
+      "resultRoutePredation": "捕食路线",
+      "resultRouteSurvival": "生存路线",
+      "resultRouteColony": "群落路线",
+      "resultRouteUncommitted": "尚未定型",
+      "resultStage": "最终形态",
+      "resultScore": "吞噬分",
+      "resultTraits": "关键进化",
+      "resultJourney": "抵达生态阶段",
+      "resultSameSeed": "重玩本次培养皿",
+      "resultImmediateRestart": "立即重生",
+      "resultBackDish": "返回培养皿",
+      "ecosystemObjective": "当前目标",
+      "activeHunt": "主动捕食",
+      "ecologicalPressure": "进化压",
+      "encounterComplete": "考验完成",
+      "encounterPending": "反猎目标",
+      "reversalCount": "旧敌反猎",
+      "mutationsCompleted": "器官变异",
+      "huntToGrow": "追小躲大，长大再回头",
+      "readyForLeap": "生态考验完成，可以跃迁",
+      "reversalNotice": "猎物易位",
+      "reversalHint": "曾经的猎手，已能被你吞噬",
+      "discoveredThreat": "危险接近",
+      "growth": "成长",
+      "sight": "感知范围",
+      "fiberSqueeze": "黏性纤维 · 可以挤过，成长后阻力减弱",
+      "fiberPush": "已能推开纤维 · 穿过去捕猎",
+      "fiberCover": "纤维掩护 · 强敌已失去视线",
+      "fiberBreakReady": "成熟体 · 持续挤压可撕开纤维",
+      "fiberBroken": "已开辟缺口",
+      "territorySight": "感知",
+      "evolutionWorld": "视野展开 · 旧敌成为猎物 · 新猎场开放",
+      "leviathanArmored": "巨物披甲 · 侧移诱导冲撞",
+      "leviathanExposed": "核心暴露 · 现在反猎",
+      "finalFeast": "吞下旧日巨物，深域归你",
+      "chamberBreak": "成熟纤毛体 · 持续挤压可破开舱壁",
+      "fiberReward": "纤维营养囊已释放"
     },
     "screens": {
       "pauseTitle": "培养皿静止中",
-      "pauseDescription": "生态时间已经暂停，不会补算离开期间的变化。",
+      "pauseDescription": "水域已暂停。休息后继续追猎。",
       "resultTitle": "这一滴水记住了你",
       "resultDescription": "体型不是护身符。换一条游动轨迹，再孵化一次。",
       "survival": "存活",
       "evolutionTitle": "膜正在重写自己",
-      "evolutionDescription": "选择一种被动器官。安装后由公开条件自动触发，不增加操作按钮。",
+      "evolutionDescription": "选择一种器官。看清触发条件与代价，让身体适合下一次狩猎。",
       "contentErrorTitle": "培养液配置不完整",
       "contentErrorDescription": "内容校验未通过，为避免错误生态，本局没有启动。",
       "archiveTitle": "生命档案",
@@ -196,7 +289,20 @@
       "importFailure": "存档不兼容或内容损坏。",
       "clearConfirm": "此操作会清除本机生命档案、图鉴和基因进度，确定继续吗？",
       "canvasErrorTitle": "显微视野暂时中断",
-      "canvasErrorDescription": "本局已经暂停且状态仍然保留。可以原地重建画面；如果问题持续，再返回培养舱调整画质。"
+      "canvasErrorDescription": "本局已经暂停且状态仍然保留。可以原地重建画面；如果问题持续，再返回培养舱调整画质。",
+      "nurseryTitle": "一局结束，生命继续",
+      "nurseryIntro": "选择种源与胚体，只带走一个器官，从幼小重新生长。",
+      "nurseryEmpty": "完成一次探索后，这里会留下种源。失败的生命也能孕育下一代。",
+      "lineageEmpty": "还没有培育出的细胞。选择上方种源，见证第一代诞生。",
+      "nurseryFull": "细胞库已满，请先释放一个品系。种源不会因培育失败而消失。",
+      "nurseryError": "无法完成培育，请检查种源与遗传选择。",
+      "hatchBalance": "只继承一个器官；体型、成长进度与巨物优势从本局重新建立。",
+      "seedOutcome": "本次探索已留下可培育的种源",
+      "seedPoolNote": "可继承的器官来自亲代实际获得的结构；更换胚体可查看其他匹配器官。",
+      "seedNoOrgan": "这枚种源尚未记录可遗传器官，仍可培育纯净后代。",
+      "lineagePreviewNote": "预览与局内使用同一身体和器官绘制",
+      "lineageSaved": "孵化完成，已存入本机细胞库并设为初始生命。",
+      "lineageSessionSaved": "新细胞已加入本次会话并设为初始。关闭后可能丢失，请返回设置导出存档。"
     }
   },
   "environments": [
@@ -204,81 +310,161 @@
       "id": "env-clear-drop",
       "name": "清水滴",
       "order": 0,
-      "durationTargetSec": [110, 130],
+      "durationTargetSec": [
+        110,
+        130
+      ],
       "visibility": 0.95,
       "viscosity": 0.18,
-      "hazardTags": ["open-water", "current"],
+      "hazardTags": [
+        "open-water",
+        "current"
+      ],
       "spawnTableId": "spawn-clear-drop-m1",
-      "eventIds": ["event-nutrient-bloom"],
-      "visualPalette": ["#073d66", "#72f5ff", "#ffbf69"],
+      "eventIds": [
+        "event-nutrient-bloom"
+      ],
+      "visualPalette": [
+        "#073d66",
+        "#72f5ff",
+        "#ffbf69"
+      ],
       "ambientAudioId": "audio-clear-drop"
     },
     {
       "id": "env-algae-glow",
       "name": "藻光层",
       "order": 1,
-      "durationTargetSec": [120, 180],
+      "durationTargetSec": [
+        120,
+        180
+      ],
       "visibility": 0.7,
       "viscosity": 0.28,
-      "hazardTags": ["light-pulse", "algae-cover"],
+      "hazardTags": [
+        "light-pulse",
+        "algae-cover"
+      ],
       "spawnTableId": "spawn-algae-glow",
-      "eventIds": ["event-nutrient-bloom", "event-giant-passage"],
-      "visualPalette": ["#062f35", "#63ffd1", "#c8ff62"],
+      "eventIds": [
+        "event-nutrient-bloom",
+        "event-giant-passage"
+      ],
+      "visualPalette": [
+        "#062f35",
+        "#63ffd1",
+        "#c8ff62"
+      ],
       "ambientAudioId": "audio-algae-glow"
     },
     {
       "id": "env-acid-vesicle",
       "name": "酸性囊泡",
       "order": 2,
-      "durationTargetSec": [120, 180],
+      "durationTargetSec": [
+        120,
+        180
+      ],
       "visibility": 0.58,
       "viscosity": 0.34,
-      "hazardTags": ["acid", "corrosion"],
+      "hazardTags": [
+        "acid",
+        "corrosion"
+      ],
       "spawnTableId": "spawn-acid-vesicle",
-      "eventIds": ["event-acid-leak", "event-giant-passage"],
-      "visualPalette": ["#32152f", "#ff765c", "#dfff68"],
+      "eventIds": [
+        "event-acid-leak",
+        "event-giant-passage"
+      ],
+      "visualPalette": [
+        "#32152f",
+        "#ff765c",
+        "#dfff68"
+      ],
       "ambientAudioId": "audio-acid-vesicle"
     },
     {
       "id": "env-fiber-maze",
       "name": "纤维迷宫",
       "order": 3,
-      "durationTargetSec": [120, 180],
+      "durationTargetSec": [
+        120,
+        180
+      ],
       "visibility": 0.62,
       "viscosity": 0.46,
-      "hazardTags": ["fiber", "adhesion", "narrow-gap"],
+      "hazardTags": [
+        "fiber",
+        "adhesion",
+        "narrow-gap"
+      ],
       "spawnTableId": "spawn-fiber-maze",
-      "eventIds": ["event-nutrient-bloom", "event-antibody-sweep"],
+      "eventIds": [
+        "event-nutrient-bloom",
+        "event-antibody-sweep"
+      ],
       "bossId": "boss-membrane-queen",
-      "visualPalette": ["#101d3d", "#8ae6ff", "#f6c176"],
+      "visualPalette": [
+        "#101d3d",
+        "#8ae6ff",
+        "#f6c176"
+      ],
       "ambientAudioId": "audio-fiber-maze"
     },
     {
       "id": "env-antibody-storm",
       "name": "抗体风暴",
       "order": 4,
-      "durationTargetSec": [120, 180],
+      "durationTargetSec": [
+        120,
+        180
+      ],
       "visibility": 0.76,
       "viscosity": 0.24,
-      "hazardTags": ["antibody", "locking-ring", "sweep"],
+      "hazardTags": [
+        "antibody",
+        "locking-ring",
+        "sweep"
+      ],
       "spawnTableId": "spawn-antibody-storm",
-      "eventIds": ["event-antibody-sweep", "event-giant-passage"],
+      "eventIds": [
+        "event-antibody-sweep",
+        "event-giant-passage"
+      ],
       "bossId": "boss-antibody-crown",
-      "visualPalette": ["#14254b", "#a6c8ff", "#ff7fb2"],
+      "visualPalette": [
+        "#14254b",
+        "#a6c8ff",
+        "#ff7fb2"
+      ],
       "ambientAudioId": "audio-antibody-storm"
     },
     {
       "id": "env-abandoned-chamber",
       "name": "废弃培养舱",
       "order": 5,
-      "durationTargetSec": [120, 240],
+      "durationTargetSec": [
+        120,
+        240
+      ],
       "visibility": 0.5,
       "viscosity": 0.4,
-      "hazardTags": ["chamber", "drain", "host-tissue"],
+      "hazardTags": [
+        "chamber",
+        "drain",
+        "host-tissue"
+      ],
       "spawnTableId": "spawn-abandoned-chamber",
-      "eventIds": ["event-acid-leak", "event-giant-passage"],
+      "eventIds": [
+        "event-acid-leak",
+        "event-giant-passage"
+      ],
       "bossId": "boss-abandoned-host",
-      "visualPalette": ["#1f1735", "#77d5c7", "#ff9b71"],
+      "visualPalette": [
+        "#1f1735",
+        "#77d5c7",
+        "#ff9b71"
+      ],
       "ambientAudioId": "audio-abandoned-chamber"
     }
   ],
@@ -287,42 +473,57 @@
       "id": "nutrient-sugar",
       "name": "糖滴",
       "behaviorId": "restore-energy",
-      "riskTags": ["ambush-attractor"],
+      "riskTags": [
+        "ambush-attractor"
+      ],
       "visualRecipeId": "visual-nutrient-clear"
     },
     {
       "id": "nutrient-protein",
       "name": "蛋白团",
       "behaviorId": "increase-biomass",
-      "riskTags": ["bulky", "slow-carry"],
+      "riskTags": [
+        "bulky",
+        "slow-carry"
+      ],
       "visualRecipeId": "visual-nutrient-protein"
     },
     {
       "id": "nutrient-lipid",
       "name": "脂泡",
       "behaviorId": "increase-membrane",
-      "riskTags": ["temporary-turn-slow"],
+      "riskTags": [
+        "temporary-turn-slow"
+      ],
       "visualRecipeId": "visual-nutrient-lipid"
     },
     {
       "id": "nutrient-mineral",
       "name": "矿物粒",
       "behaviorId": "increase-stability",
-      "riskTags": ["armored", "requires-mouth"],
+      "riskTags": [
+        "armored",
+        "requires-mouth"
+      ],
       "visualRecipeId": "visual-nutrient-mineral"
     },
     {
       "id": "nutrient-lumen",
       "name": "光能泡",
       "behaviorId": "charge-light-route",
-      "riskTags": ["reveals-position"],
+      "riskTags": [
+        "reveals-position"
+      ],
       "visualRecipeId": "visual-nutrient-lumen"
     },
     {
       "id": "nutrient-gene-fragment",
       "name": "基因碎片",
       "behaviorId": "increase-rare-mutation-chance",
-      "riskTags": ["guarded", "scarce"],
+      "riskTags": [
+        "guarded",
+        "scarce"
+      ],
       "visualRecipeId": "visual-nutrient-gene-fragment"
     }
   ],
@@ -331,12 +532,21 @@
       "id": "organelle-flagellum",
       "name": "长鞭毛",
       "category": "move",
-      "slots": ["rear"],
+      "slots": [
+        "rear"
+      ],
       "rarity": "common",
-      "cost": { "biomass": 12 },
-      "tags": ["speed", "straight"],
+      "cost": {
+        "biomass": 12
+      },
+      "tags": [
+        "speed",
+        "straight"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
       "shortEffect": "持续直线游动后逐步加速。",
       "triggerDescription": "同方向游动 1.2 秒后启动。",
       "behaviorId": "straight-line-boost",
@@ -350,12 +560,24 @@
       "id": "organelle-jet-vacuole",
       "name": "喷射泡",
       "category": "move",
-      "slots": ["rear", "left", "right"],
+      "slots": [
+        "rear",
+        "left",
+        "right"
+      ],
       "rarity": "uncommon",
-      "cost": { "energy": 18, "stability": 3 },
-      "tags": ["escape", "burst"],
+      "cost": {
+        "energy": 18,
+        "stability": 3
+      },
+      "tags": [
+        "escape",
+        "burst"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
       "shortEffect": "即将被大部分包裹时自动反冲。",
       "triggerDescription": "包裹比例达到 55% 时启动。",
       "behaviorId": "containment-escape",
@@ -369,12 +591,24 @@
       "id": "organelle-shell-plate",
       "name": "壳板",
       "category": "defend",
-      "slots": ["membrane", "left", "right"],
+      "slots": [
+        "membrane",
+        "left",
+        "right"
+      ],
       "rarity": "common",
-      "cost": { "biomass": 16, "stability": 2 },
-      "tags": ["armor", "ram"],
+      "cost": {
+        "biomass": 16,
+        "stability": 2
+      },
+      "tags": [
+        "armor",
+        "ram"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
       "shortEffect": "降低碰撞伤害，但转向更慢。",
       "triggerDescription": "受到碰撞时自动以外层壳板承伤。",
       "behaviorId": "collision-shell",
@@ -388,12 +622,22 @@
       "id": "organelle-guard-symbiont",
       "name": "护卫共生体",
       "category": "symbiosis",
-      "slots": ["symbiont"],
+      "slots": [
+        "symbiont"
+      ],
       "rarity": "rare",
-      "cost": { "energy": 14, "stability": 4 },
-      "tags": ["guard", "intercept"],
+      "cost": {
+        "energy": 14,
+        "stability": 4
+      },
+      "tags": [
+        "guard",
+        "intercept"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
       "shortEffect": "消耗能量自动拦截一次致命攻击，补充营养后再生。",
       "triggerDescription": "即将受到致命伤时自动拦截。",
       "behaviorId": "fatal-hit-guard",
@@ -407,12 +651,23 @@
       "id": "organelle-repair-vacuole",
       "name": "修复泡",
       "category": "metabolism",
-      "slots": ["internal", "core"],
+      "slots": [
+        "internal",
+        "core"
+      ],
       "rarity": "common",
-      "cost": { "biomass": 10, "energy": 8 },
-      "tags": ["repair", "energy"],
+      "cost": {
+        "biomass": 10,
+        "energy": 8
+      },
+      "tags": [
+        "repair",
+        "energy"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
       "shortEffect": "脱离危险后消耗能量修复膜。",
       "triggerDescription": "3 秒未受伤且膜未满时启动。",
       "behaviorId": "safe-energy-repair",
@@ -426,12 +681,23 @@
       "id": "organelle-division-ring",
       "name": "分裂环",
       "category": "reproduce",
-      "slots": ["core", "internal"],
+      "slots": [
+        "core",
+        "internal"
+      ],
       "rarity": "rare",
-      "cost": { "biomass": 20, "stability": 8 },
-      "tags": ["split", "survival"],
+      "cost": {
+        "biomass": 20,
+        "stability": 8
+      },
+      "tags": [
+        "split",
+        "survival"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-clear-drop"],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
       "shortEffect": "质量充足或遭遇致命包裹时自动分裂。",
       "triggerDescription": "生物质达到 320 或包裹比例达到 62% 时启动。",
       "behaviorId": "mass-or-fatal-split",
@@ -445,12 +711,23 @@
       "id": "organelle-eye-spot",
       "name": "感光斑",
       "category": "sense",
-      "slots": ["front", "membrane"],
+      "slots": [
+        "front",
+        "membrane"
+      ],
       "rarity": "common",
-      "cost": { "biomass": 8 },
-      "tags": ["light", "forecast"],
+      "cost": {
+        "biomass": 8
+      },
+      "tags": [
+        "light",
+        "forecast"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-algae-glow", "env-antibody-storm"],
+      "environmentIds": [
+        "env-algae-glow",
+        "env-antibody-storm"
+      ],
       "shortEffect": "提前显出光脉冲和扫荡方向。",
       "triggerDescription": "危险光场生成时自动标出安全侧。",
       "behaviorId": "light-hazard-forecast",
@@ -464,12 +741,24 @@
       "id": "organelle-echo-sac",
       "name": "回声囊",
       "category": "sense",
-      "slots": ["left", "right", "internal"],
+      "slots": [
+        "left",
+        "right",
+        "internal"
+      ],
       "rarity": "uncommon",
-      "cost": { "energy": 10 },
-      "tags": ["scan", "turbidity"],
+      "cost": {
+        "energy": 10
+      },
+      "tags": [
+        "scan",
+        "turbidity"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-fiber-maze", "env-abandoned-chamber"],
+      "environmentIds": [
+        "env-fiber-maze",
+        "env-abandoned-chamber"
+      ],
       "shortEffect": "浑浊区域周期显出附近轮廓。",
       "triggerDescription": "低可见度持续 1 秒后周期扫描。",
       "behaviorId": "turbidity-echo-scan",
@@ -483,12 +772,25 @@
       "id": "organelle-vibration-cilia",
       "name": "震动纤毛",
       "category": "sense",
-      "slots": ["membrane", "left", "right"],
+      "slots": [
+        "membrane",
+        "left",
+        "right"
+      ],
       "rarity": "rare",
-      "cost": { "biomass": 12, "stability": 2 },
-      "tags": ["vibration", "offscreen"],
+      "cost": {
+        "biomass": 12,
+        "stability": 2
+      },
+      "tags": [
+        "vibration",
+        "offscreen"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-clear-drop", "env-abandoned-chamber"],
+      "environmentIds": [
+        "env-clear-drop",
+        "env-abandoned-chamber"
+      ],
       "shortEffect": "感知屏外巨物造成的液流震动。",
       "triggerDescription": "大型生物接近视野边缘时自动振动。",
       "behaviorId": "giant-vibration-sense",
@@ -502,12 +804,24 @@
       "id": "organelle-cilia-ring",
       "name": "纤毛环",
       "category": "move",
-      "slots": ["membrane", "left", "right"],
+      "slots": [
+        "membrane",
+        "left",
+        "right"
+      ],
       "rarity": "common",
-      "cost": { "biomass": 12 },
-      "tags": ["turn", "adhesion"],
+      "cost": {
+        "biomass": 12
+      },
+      "tags": [
+        "turn",
+        "adhesion"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-fiber-maze", "env-antibody-storm"],
+      "environmentIds": [
+        "env-fiber-maze",
+        "env-antibody-storm"
+      ],
       "shortEffect": "贴近障碍时自动增强转向。",
       "triggerDescription": "膜接近纤维或边界时自动摆动。",
       "behaviorId": "obstacle-turn-assist",
@@ -521,12 +835,24 @@
       "id": "organelle-wide-mouth",
       "name": "包裹口",
       "category": "feed",
-      "slots": ["front"],
+      "slots": [
+        "front"
+      ],
       "rarity": "common",
-      "cost": { "biomass": 10 },
-      "tags": ["contain", "resource"],
-      "conflicts": ["organelle-needle-mouth"],
-      "environmentIds": ["env-clear-drop", "env-algae-glow"],
+      "cost": {
+        "biomass": 10
+      },
+      "tags": [
+        "contain",
+        "resource"
+      ],
+      "conflicts": [
+        "organelle-needle-mouth"
+      ],
+      "environmentIds": [
+        "env-clear-drop",
+        "env-algae-glow"
+      ],
       "shortEffect": "扩大对小型目标的有效吞噬范围。",
       "triggerDescription": "追上更小目标时自动展开前膜。",
       "behaviorId": "wide-prey-containment",
@@ -540,12 +866,25 @@
       "id": "organelle-needle-mouth",
       "name": "针吸口",
       "category": "feed",
-      "slots": ["front"],
+      "slots": [
+        "front"
+      ],
       "rarity": "rare",
-      "cost": { "energy": 16, "stability": 3 },
-      "tags": ["parasite", "weakpoint"],
-      "conflicts": ["organelle-wide-mouth"],
-      "environmentIds": ["env-antibody-storm", "env-abandoned-chamber"],
+      "cost": {
+        "energy": 16,
+        "stability": 3
+      },
+      "tags": [
+        "parasite",
+        "weakpoint"
+      ],
+      "conflicts": [
+        "organelle-wide-mouth"
+      ],
+      "environmentIds": [
+        "env-antibody-storm",
+        "env-abandoned-chamber"
+      ],
       "shortEffect": "贴住大型弱点时自动抽取生物质。",
       "triggerDescription": "前端持续贴住暴露弱点时启动。",
       "behaviorId": "weakpoint-parasite-feed",
@@ -559,12 +898,25 @@
       "id": "organelle-filter-gill",
       "name": "滤食褶",
       "category": "feed",
-      "slots": ["left", "right", "internal"],
+      "slots": [
+        "left",
+        "right",
+        "internal"
+      ],
       "rarity": "uncommon",
-      "cost": { "biomass": 14, "energy": 5 },
-      "tags": ["filter", "current"],
+      "cost": {
+        "biomass": 14,
+        "energy": 5
+      },
+      "tags": [
+        "filter",
+        "current"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-algae-glow", "env-fiber-maze"],
+      "environmentIds": [
+        "env-algae-glow",
+        "env-fiber-maze"
+      ],
       "shortEffect": "顺流游动时自动收集微小营养。",
       "triggerDescription": "沿液流移动时周期吸附营养微粒。",
       "behaviorId": "current-filter-feed",
@@ -578,12 +930,25 @@
       "id": "organelle-transparent-membrane",
       "name": "透明膜",
       "category": "defend",
-      "slots": ["membrane"],
+      "slots": [
+        "membrane"
+      ],
       "rarity": "rare",
-      "cost": { "energy": 12, "stability": 4 },
-      "tags": ["stealth", "slow"],
-      "conflicts": ["organelle-mucus-coat"],
-      "environmentIds": ["env-antibody-storm", "env-abandoned-chamber"],
+      "cost": {
+        "energy": 12,
+        "stability": 4
+      },
+      "tags": [
+        "stealth",
+        "slow"
+      ],
+      "conflicts": [
+        "organelle-mucus-coat"
+      ],
+      "environmentIds": [
+        "env-antibody-storm",
+        "env-abandoned-chamber"
+      ],
       "shortEffect": "低速移动后降低敌对锁定。",
       "triggerDescription": "保持低速 1.5 秒后自动透明。",
       "behaviorId": "slow-movement-cloak",
@@ -597,12 +962,26 @@
       "id": "organelle-mucus-coat",
       "name": "黏液层",
       "category": "defend",
-      "slots": ["membrane", "rear"],
+      "slots": [
+        "membrane",
+        "rear"
+      ],
       "rarity": "uncommon",
-      "cost": { "biomass": 14, "energy": 6 },
-      "tags": ["slow", "trail"],
-      "conflicts": ["organelle-transparent-membrane"],
-      "environmentIds": ["env-fiber-maze", "env-acid-vesicle"],
+      "cost": {
+        "biomass": 14,
+        "energy": 6
+      },
+      "tags": [
+        "slow",
+        "trail"
+      ],
+      "conflicts": [
+        "organelle-transparent-membrane"
+      ],
+      "environmentIds": [
+        "env-fiber-maze",
+        "env-acid-vesicle"
+      ],
       "shortEffect": "接触敌人后留下减速液迹。",
       "triggerDescription": "敌对目标擦过膜时自动分泌。",
       "behaviorId": "contact-slow-trail",
@@ -616,12 +995,25 @@
       "id": "organelle-electric-sac",
       "name": "电囊",
       "category": "attack",
-      "slots": ["left", "right", "internal"],
+      "slots": [
+        "left",
+        "right",
+        "internal"
+      ],
       "rarity": "uncommon",
-      "cost": { "energy": 18, "stability": 2 },
-      "tags": ["electric", "crowd"],
+      "cost": {
+        "energy": 18,
+        "stability": 2
+      },
+      "tags": [
+        "electric",
+        "crowd"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-antibody-storm", "env-clear-drop"],
+      "environmentIds": [
+        "env-antibody-storm",
+        "env-clear-drop"
+      ],
       "shortEffect": "多个敌人近身时自动释放电弧。",
       "triggerDescription": "近身敌对目标达到三个时放电。",
       "behaviorId": "hostile-crowd-discharge",
@@ -635,12 +1027,24 @@
       "id": "organelle-toxin-spine",
       "name": "毒刺",
       "category": "attack",
-      "slots": ["front", "membrane"],
+      "slots": [
+        "front",
+        "membrane"
+      ],
       "rarity": "rare",
-      "cost": { "biomass": 18, "stability": 5 },
-      "tags": ["toxin", "contact"],
+      "cost": {
+        "biomass": 18,
+        "stability": 5
+      },
+      "tags": [
+        "toxin",
+        "contact"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-acid-vesicle", "env-abandoned-chamber"],
+      "environmentIds": [
+        "env-acid-vesicle",
+        "env-abandoned-chamber"
+      ],
       "shortEffect": "被追咬时自动向接触方向竖起毒棘。",
       "triggerDescription": "敌对膜持续压迫时自动竖起。",
       "behaviorId": "pressure-toxin-spine",
@@ -654,12 +1058,23 @@
       "id": "organelle-shock-pulse",
       "name": "震荡核",
       "category": "attack",
-      "slots": ["core", "internal"],
+      "slots": [
+        "core",
+        "internal"
+      ],
       "rarity": "common",
-      "cost": { "energy": 14 },
-      "tags": ["shock", "collision"],
+      "cost": {
+        "energy": 14
+      },
+      "tags": [
+        "shock",
+        "collision"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-fiber-maze", "env-clear-drop"],
+      "environmentIds": [
+        "env-fiber-maze",
+        "env-clear-drop"
+      ],
       "shortEffect": "遭受强碰撞时自动推出近身目标。",
       "triggerDescription": "碰撞强度超过阈值时释放冲击。",
       "behaviorId": "collision-shockwave",
@@ -673,12 +1088,22 @@
       "id": "organelle-photosome",
       "name": "光合体",
       "category": "metabolism",
-      "slots": ["membrane", "internal"],
+      "slots": [
+        "membrane",
+        "internal"
+      ],
       "rarity": "common",
-      "cost": { "biomass": 12 },
-      "tags": ["light", "energy"],
+      "cost": {
+        "biomass": 12
+      },
+      "tags": [
+        "light",
+        "energy"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-algae-glow"],
+      "environmentIds": [
+        "env-algae-glow"
+      ],
       "shortEffect": "停留在安全光区时缓慢恢复能量。",
       "triggerDescription": "安全光照持续 1 秒后启动。",
       "behaviorId": "safe-light-energy",
@@ -692,12 +1117,24 @@
       "id": "organelle-acid-gland",
       "name": "酸腺",
       "category": "metabolism",
-      "slots": ["internal", "rear"],
+      "slots": [
+        "internal",
+        "rear"
+      ],
       "rarity": "rare",
-      "cost": { "energy": 15, "stability": 4 },
-      "tags": ["acid", "digest"],
+      "cost": {
+        "energy": 15,
+        "stability": 4
+      },
+      "tags": [
+        "acid",
+        "digest"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-acid-vesicle", "env-abandoned-chamber"],
+      "environmentIds": [
+        "env-acid-vesicle",
+        "env-abandoned-chamber"
+      ],
       "shortEffect": "吞噬带酸目标时转化腐蚀为能量。",
       "triggerDescription": "大部分包裹酸性目标后自动转化。",
       "behaviorId": "acid-digestion-energy",
@@ -711,12 +1148,24 @@
       "id": "organelle-bud-sac",
       "name": "芽生囊",
       "category": "reproduce",
-      "slots": ["rear", "internal"],
+      "slots": [
+        "rear",
+        "internal"
+      ],
       "rarity": "uncommon",
-      "cost": { "biomass": 18, "stability": 5 },
-      "tags": ["bud", "decoy"],
+      "cost": {
+        "biomass": 18,
+        "stability": 5
+      },
+      "tags": [
+        "bud",
+        "decoy"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-algae-glow", "env-antibody-storm"],
+      "environmentIds": [
+        "env-algae-glow",
+        "env-antibody-storm"
+      ],
       "shortEffect": "生物质充足时自动生成诱饵子体。",
       "triggerDescription": "生物质超过当前阈值时芽生。",
       "behaviorId": "surplus-decoy-bud",
@@ -730,12 +1179,22 @@
       "id": "organelle-recombination-core",
       "name": "重组核",
       "category": "reproduce",
-      "slots": ["core"],
+      "slots": [
+        "core"
+      ],
       "rarity": "rare",
-      "cost": { "energy": 20 },
-      "tags": ["recombine", "stability"],
+      "cost": {
+        "energy": 20
+      },
+      "tags": [
+        "recombine",
+        "stability"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-abandoned-chamber", "env-antibody-storm"],
+      "environmentIds": [
+        "env-abandoned-chamber",
+        "env-antibody-storm"
+      ],
       "shortEffect": "融合完成时自动恢复部分稳定。",
       "triggerDescription": "多个子体稳定融合后启动。",
       "behaviorId": "fusion-stability-repair",
@@ -749,12 +1208,23 @@
       "id": "organelle-cleaner-symbiont",
       "name": "清洁共生体",
       "category": "symbiosis",
-      "slots": ["symbiont"],
+      "slots": [
+        "symbiont"
+      ],
       "rarity": "uncommon",
-      "cost": { "energy": 12, "stability": 3 },
-      "tags": ["clean", "acid"],
+      "cost": {
+        "energy": 12,
+        "stability": 3
+      },
+      "tags": [
+        "clean",
+        "acid"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-acid-vesicle", "env-antibody-storm"],
+      "environmentIds": [
+        "env-acid-vesicle",
+        "env-antibody-storm"
+      ],
       "shortEffect": "离开酸区后自动清除残留腐蚀。",
       "triggerDescription": "酸接触结束后持续清洁外膜。",
       "behaviorId": "post-acid-cleanse",
@@ -768,12 +1238,23 @@
       "id": "organelle-lure-symbiont",
       "name": "诱光共生体",
       "category": "symbiosis",
-      "slots": ["symbiont"],
+      "slots": [
+        "symbiont"
+      ],
       "rarity": "rare",
-      "cost": { "energy": 14, "stability": 4 },
-      "tags": ["lure", "misdirect"],
+      "cost": {
+        "energy": 14,
+        "stability": 4
+      },
+      "tags": [
+        "lure",
+        "misdirect"
+      ],
       "conflicts": [],
-      "environmentIds": ["env-fiber-maze", "env-abandoned-chamber"],
+      "environmentIds": [
+        "env-fiber-maze",
+        "env-abandoned-chamber"
+      ],
       "shortEffect": "追击者锁定时自动投射偏移诱饵。",
       "triggerDescription": "敌对锁定环闭合过半时启动。",
       "behaviorId": "lock-misdirection-lure",
@@ -788,7 +1269,10 @@
     {
       "id": "synergy-ram-jet",
       "name": "喷射冲角",
-      "requires": ["organelle-jet-vacuole", "organelle-shell-plate"],
+      "requires": [
+        "organelle-jet-vacuole",
+        "organelle-shell-plate"
+      ],
       "shortEffect": "反冲转化为破甲撞击。",
       "behaviorId": "jet-armor-ram",
       "revealRule": "on-trigger",
@@ -797,7 +1281,10 @@
     {
       "id": "synergy-guardian-division",
       "name": "留种",
-      "requires": ["organelle-division-ring", "organelle-guard-symbiont"],
+      "requires": [
+        "organelle-division-ring",
+        "organelle-guard-symbiont"
+      ],
       "shortEffect": "致命伤时牺牲主体现存最小子体。",
       "behaviorId": "sacrifice-smallest-body",
       "revealRule": "on-trigger",
@@ -806,10 +1293,19 @@
     {
       "id": "synergy-radar-grid",
       "name": "雷达电网",
-      "requires": ["organelle-echo-sac", "organelle-electric-sac"],
+      "requires": [
+        "organelle-echo-sac",
+        "organelle-electric-sac"
+      ],
       "augments": [
-        { "organId": "organelle-vibration-cilia", "effect": "扩大电网对屏外快速目标的定位范围。" },
-        { "organId": "organelle-shock-pulse", "effect": "电网触发时同步推开近身敌人。" }
+        {
+          "organId": "organelle-vibration-cilia",
+          "effect": "扩大电网对屏外快速目标的定位范围。"
+        },
+        {
+          "organId": "organelle-shock-pulse",
+          "effect": "电网触发时同步推开近身敌人。"
+        }
       ],
       "shortEffect": "声呐命中目标时沿轮廓传导电流。",
       "behaviorId": "echo-electric-conduction",
@@ -819,10 +1315,19 @@
     {
       "id": "synergy-invisible-lure",
       "name": "幽光陷阱",
-      "requires": ["organelle-transparent-membrane", "organelle-lure-symbiont"],
+      "requires": [
+        "organelle-transparent-membrane",
+        "organelle-lure-symbiont"
+      ],
       "augments": [
-        { "organId": "organelle-eye-spot", "effect": "让诱饵自动移向当前安全暗区。" },
-        { "organId": "organelle-recombination-core", "effect": "回收诱饵时恢复少量稳定。" }
+        {
+          "organId": "organelle-eye-spot",
+          "effect": "让诱饵自动移向当前安全暗区。"
+        },
+        {
+          "organId": "organelle-recombination-core",
+          "effect": "回收诱饵时恢复少量稳定。"
+        }
       ],
       "shortEffect": "本体隐形时仅让诱饵保持显形。",
       "behaviorId": "cloak-visible-lure",
@@ -832,7 +1337,10 @@
     {
       "id": "synergy-acid-feeder",
       "name": "溶壳捕食",
-      "requires": ["organelle-acid-gland", "organelle-wide-mouth"],
+      "requires": [
+        "organelle-acid-gland",
+        "organelle-wide-mouth"
+      ],
       "shortEffect": "大部分包裹后快速消化装甲目标。",
       "behaviorId": "acid-wide-shell-digestion",
       "revealRule": "on-trigger",
@@ -841,7 +1349,10 @@
     {
       "id": "synergy-parasite-anchor",
       "name": "锚定寄生",
-      "requires": ["organelle-needle-mouth", "organelle-mucus-coat"],
+      "requires": [
+        "organelle-needle-mouth",
+        "organelle-mucus-coat"
+      ],
       "shortEffect": "黏液固定针口，更难被宿主甩脱。",
       "behaviorId": "needle-mucus-anchor",
       "revealRule": "on-trigger",
@@ -850,7 +1361,10 @@
     {
       "id": "synergy-solar-filter",
       "name": "藻光牧场",
-      "requires": ["organelle-photosome", "organelle-filter-gill"],
+      "requires": [
+        "organelle-photosome",
+        "organelle-filter-gill"
+      ],
       "shortEffect": "安全光区聚成可追随的营养流。",
       "behaviorId": "solar-nutrient-current",
       "revealRule": "on-trigger",
@@ -859,7 +1373,10 @@
     {
       "id": "synergy-spore-cloud",
       "name": "芽生毒群",
-      "requires": ["organelle-bud-sac", "organelle-toxin-spine"],
+      "requires": [
+        "organelle-bud-sac",
+        "organelle-toxin-spine"
+      ],
       "shortEffect": "临时幼体接触后释放弱毒云。",
       "behaviorId": "toxic-bud-cloud",
       "revealRule": "on-trigger",
@@ -868,9 +1385,15 @@
     {
       "id": "synergy-echo-swarm",
       "name": "群体回声",
-      "requires": ["organelle-division-ring", "organelle-echo-sac"],
+      "requires": [
+        "organelle-division-ring",
+        "organelle-echo-sac"
+      ],
       "augments": [
-        { "organId": "organelle-flagellum", "effect": "让子体沿回声方向加速展开。" }
+        {
+          "organId": "organelle-flagellum",
+          "effect": "让子体沿回声方向加速展开。"
+        }
       ],
       "shortEffect": "子体从不同方向共同回声定位。",
       "behaviorId": "split-directional-echo",
@@ -880,7 +1403,10 @@
     {
       "id": "synergy-repair-shell",
       "name": "再生甲",
-      "requires": ["organelle-repair-vacuole", "organelle-shell-plate"],
+      "requires": [
+        "organelle-repair-vacuole",
+        "organelle-shell-plate"
+      ],
       "shortEffect": "破损壳板脱落后转化为修复泡。",
       "behaviorId": "shed-shell-repair",
       "revealRule": "on-trigger",
@@ -889,7 +1415,10 @@
     {
       "id": "synergy-clean-acid",
       "name": "酸域共生",
-      "requires": ["organelle-cleaner-symbiont", "organelle-acid-gland"],
+      "requires": [
+        "organelle-cleaner-symbiont",
+        "organelle-acid-gland"
+      ],
       "shortEffect": "清洁出的酸液被重新储存为能量。",
       "behaviorId": "cleanse-acid-recycle",
       "revealRule": "on-trigger",
@@ -898,7 +1427,10 @@
     {
       "id": "synergy-ghost-cilia",
       "name": "幽灵纤毛",
-      "requires": ["organelle-cilia-ring", "organelle-transparent-membrane"],
+      "requires": [
+        "organelle-cilia-ring",
+        "organelle-transparent-membrane"
+      ],
       "shortEffect": "透明时纤毛只留下误导液流。",
       "behaviorId": "cloaked-current-decoy",
       "revealRule": "on-trigger",
@@ -910,13 +1442,23 @@
       "id": "creature-drifter",
       "name": "漂游体",
       "role": "prey",
-      "sizeRange": [5, 8],
+      "sizeRange": [
+        5,
+        8
+      ],
       "behaviorId": "wander-forage-and-flee",
       "behaviorProfileId": "behavior-skittish",
-      "organelleTags": ["soft-membrane"],
-      "environmentIds": ["env-clear-drop"],
+      "organelleTags": [
+        "soft-membrane"
+      ],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
       "warningCueId": "cue-drifter-contract",
-      "responseTags": ["chase", "contain"],
+      "responseTags": [
+        "chase",
+        "contain"
+      ],
       "dropTableId": "drop-small-prey",
       "visualRecipeId": "visual-prey-drifter"
     },
@@ -924,13 +1466,27 @@
       "id": "creature-spark-swarm",
       "name": "争食闪体",
       "role": "swarm",
-      "sizeRange": [7, 11],
+      "sizeRange": [
+        7,
+        11
+      ],
       "behaviorId": "compete-and-flock",
       "behaviorProfileId": "behavior-competitor",
-      "organelleTags": ["spark-core"],
-      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-acid-vesicle", "env-fiber-maze", "env-abandoned-chamber"],
+      "organelleTags": [
+        "spark-core"
+      ],
+      "environmentIds": [
+        "env-clear-drop",
+        "env-algae-glow",
+        "env-acid-vesicle",
+        "env-fiber-maze",
+        "env-abandoned-chamber"
+      ],
       "warningCueId": "cue-spark-flash",
-      "responseTags": ["race", "ambush"],
+      "responseTags": [
+        "race",
+        "ambush"
+      ],
       "dropTableId": "drop-swarm-prey",
       "visualRecipeId": "visual-competitor-spark"
     },
@@ -938,13 +1494,25 @@
       "id": "creature-vesicle-scavenger",
       "name": "拾荒泡",
       "role": "scavenger",
-      "sizeRange": [9, 13],
+      "sizeRange": [
+        9,
+        13
+      ],
       "behaviorId": "follow-and-scavenge",
       "behaviorProfileId": "behavior-scavenger",
-      "organelleTags": ["fragment-sense"],
-      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-antibody-storm"],
+      "organelleTags": [
+        "fragment-sense"
+      ],
+      "environmentIds": [
+        "env-clear-drop",
+        "env-algae-glow",
+        "env-antibody-storm"
+      ],
       "warningCueId": "cue-scavenger-thread",
-      "responseTags": ["bait", "intercept"],
+      "responseTags": [
+        "bait",
+        "intercept"
+      ],
       "dropTableId": "drop-scavenger",
       "visualRecipeId": "visual-scavenger-vesicle"
     },
@@ -952,13 +1520,23 @@
       "id": "predator-azure-ring",
       "name": "湛环捕食者",
       "role": "hunter",
-      "sizeRange": [20, 25],
+      "sizeRange": [
+        20,
+        25
+      ],
       "behaviorId": "track-wounded-opportunistic-hunt",
       "behaviorProfileId": "behavior-hunter",
-      "organelleTags": ["spine-pulse"],
-      "environmentIds": ["env-clear-drop"],
+      "organelleTags": [
+        "spine-pulse"
+      ],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
       "warningCueId": "cue-spine-ring",
-      "responseTags": ["flee", "use-rival"],
+      "responseTags": [
+        "flee",
+        "use-rival"
+      ],
       "dropTableId": "drop-predator",
       "visualRecipeId": "visual-predator-azure-ring"
     },
@@ -966,13 +1544,27 @@
       "id": "predator-membrane-warden",
       "name": "膜域守卫",
       "role": "elite",
-      "sizeRange": [26, 31],
+      "sizeRange": [
+        26,
+        31
+      ],
       "behaviorId": "guard-territory-and-ram",
       "behaviorProfileId": "behavior-apex",
-      "organelleTags": ["double-membrane", "ram"],
-      "environmentIds": ["env-clear-drop", "env-algae-glow", "env-acid-vesicle", "env-fiber-maze"],
+      "organelleTags": [
+        "double-membrane",
+        "ram"
+      ],
+      "environmentIds": [
+        "env-clear-drop",
+        "env-algae-glow",
+        "env-acid-vesicle",
+        "env-fiber-maze"
+      ],
       "warningCueId": "cue-double-membrane",
-      "responseTags": ["flank", "environment"],
+      "responseTags": [
+        "flank",
+        "environment"
+      ],
       "dropTableId": "drop-elite",
       "visualRecipeId": "visual-elite-membrane-warden"
     },
@@ -980,13 +1572,24 @@
       "id": "creature-algae-speck",
       "name": "藻尘",
       "role": "resource",
-      "sizeRange": [3, 5],
+      "sizeRange": [
+        3,
+        5
+      ],
       "behaviorId": "gather-in-light",
       "behaviorProfileId": "behavior-resource",
-      "organelleTags": ["photosynthetic"],
-      "environmentIds": ["env-clear-drop", "env-algae-glow"],
+      "organelleTags": [
+        "photosynthetic"
+      ],
+      "environmentIds": [
+        "env-clear-drop",
+        "env-algae-glow"
+      ],
       "warningCueId": "cue-light-flicker",
-      "responseTags": ["collect", "wait-dark"],
+      "responseTags": [
+        "collect",
+        "wait-dark"
+      ],
       "dropTableId": "drop-algae",
       "visualRecipeId": "visual-nutrient-protein"
     },
@@ -994,13 +1597,23 @@
       "id": "creature-lumen-drifter",
       "name": "流明漂体",
       "role": "prey",
-      "sizeRange": [6, 9],
+      "sizeRange": [
+        6,
+        9
+      ],
       "behaviorId": "pulse-and-flee",
       "behaviorProfileId": "behavior-skittish",
-      "organelleTags": ["light-core"],
-      "environmentIds": ["env-algae-glow"],
+      "organelleTags": [
+        "light-core"
+      ],
+      "environmentIds": [
+        "env-algae-glow"
+      ],
       "warningCueId": "cue-lumen-contract",
-      "responseTags": ["shadow-chase", "contain"],
+      "responseTags": [
+        "shadow-chase",
+        "contain"
+      ],
       "dropTableId": "drop-light-prey",
       "visualRecipeId": "visual-prey-drifter"
     },
@@ -1008,13 +1621,23 @@
       "id": "creature-pollen-float",
       "name": "花粉浮游体",
       "role": "resource",
-      "sizeRange": [4, 7],
+      "sizeRange": [
+        4,
+        7
+      ],
       "behaviorId": "drift-around-light-pockets",
       "behaviorProfileId": "behavior-resource",
-      "organelleTags": ["swarm-ring"],
-      "environmentIds": ["env-algae-glow"],
+      "organelleTags": [
+        "swarm-ring"
+      ],
+      "environmentIds": [
+        "env-algae-glow"
+      ],
       "warningCueId": "cue-pollen-spiral",
-      "responseTags": ["split-group", "sweep"],
+      "responseTags": [
+        "split-group",
+        "sweep"
+      ],
       "dropTableId": "drop-pollen",
       "visualRecipeId": "visual-competitor-spark"
     },
@@ -1022,13 +1645,23 @@
       "id": "creature-acid-bubble",
       "name": "酸泡幼体",
       "role": "resource",
-      "sizeRange": [4, 6],
+      "sizeRange": [
+        4,
+        6
+      ],
       "behaviorId": "drift-on-acid-edge",
       "behaviorProfileId": "behavior-resource",
-      "organelleTags": ["acid-shell"],
-      "environmentIds": ["env-acid-vesicle"],
+      "organelleTags": [
+        "acid-shell"
+      ],
+      "environmentIds": [
+        "env-acid-vesicle"
+      ],
       "warningCueId": "cue-acid-bubbles",
-      "responseTags": ["harvest-edge", "avoid-burst"],
+      "responseTags": [
+        "harvest-edge",
+        "avoid-burst"
+      ],
       "dropTableId": "drop-acid-resource",
       "visualRecipeId": "visual-nutrient-mineral"
     },
@@ -1036,13 +1669,23 @@
       "id": "creature-mineral-scavenger",
       "name": "矿壳拾荒者",
       "role": "scavenger",
-      "sizeRange": [10, 14],
+      "sizeRange": [
+        10,
+        14
+      ],
       "behaviorId": "scavenge-corroded-shells",
       "behaviorProfileId": "behavior-scavenger",
-      "organelleTags": ["mineral-shell"],
-      "environmentIds": ["env-acid-vesicle"],
+      "organelleTags": [
+        "mineral-shell"
+      ],
+      "environmentIds": [
+        "env-acid-vesicle"
+      ],
       "warningCueId": "cue-shell-scrape",
-      "responseTags": ["bait-acid", "intercept"],
+      "responseTags": [
+        "bait-acid",
+        "intercept"
+      ],
       "dropTableId": "drop-mineral-shell",
       "visualRecipeId": "visual-scavenger-vesicle"
     },
@@ -1050,13 +1693,23 @@
       "id": "creature-vesicle-flee",
       "name": "囊壁逃体",
       "role": "prey",
-      "sizeRange": [7, 10],
+      "sizeRange": [
+        7,
+        10
+      ],
       "behaviorId": "cross-moving-safe-zone",
       "behaviorProfileId": "behavior-skittish",
-      "organelleTags": ["acid-resistant"],
-      "environmentIds": ["env-acid-vesicle"],
+      "organelleTags": [
+        "acid-resistant"
+      ],
+      "environmentIds": [
+        "env-acid-vesicle"
+      ],
       "warningCueId": "cue-safe-zone-shift",
-      "responseTags": ["cutoff", "follow-safe-zone"],
+      "responseTags": [
+        "cutoff",
+        "follow-safe-zone"
+      ],
       "dropTableId": "drop-vesicle-prey",
       "visualRecipeId": "visual-prey-drifter"
     },
@@ -1064,13 +1717,23 @@
       "id": "creature-thread-grazer",
       "name": "纤维啃食体",
       "role": "prey",
-      "sizeRange": [6, 10],
+      "sizeRange": [
+        15,
+        23
+      ],
       "behaviorId": "graze-fiber-edges",
       "behaviorProfileId": "behavior-skittish",
-      "organelleTags": ["adhesive-foot"],
-      "environmentIds": ["env-fiber-maze"],
+      "organelleTags": [
+        "adhesive-foot"
+      ],
+      "environmentIds": [
+        "env-fiber-maze"
+      ],
       "warningCueId": "cue-thread-twitch",
-      "responseTags": ["corner", "contain"],
+      "responseTags": [
+        "corner",
+        "contain"
+      ],
       "dropTableId": "drop-fiber-prey",
       "visualRecipeId": "visual-prey-drifter"
     },
@@ -1078,13 +1741,23 @@
       "id": "creature-fiber-float",
       "name": "纤维浮游体",
       "role": "resource",
-      "sizeRange": [5, 8],
+      "sizeRange": [
+        9,
+        14
+      ],
       "behaviorId": "drift-through-fiber-gaps",
       "behaviorProfileId": "behavior-resource",
-      "organelleTags": ["thread-sense"],
-      "environmentIds": ["env-fiber-maze"],
+      "organelleTags": [
+        "thread-sense"
+      ],
+      "environmentIds": [
+        "env-fiber-maze"
+      ],
       "warningCueId": "cue-knot-ripple",
-      "responseTags": ["use-gap", "scatter"],
+      "responseTags": [
+        "use-gap",
+        "scatter"
+      ],
       "dropTableId": "drop-knot-swarm",
       "visualRecipeId": "visual-competitor-spark"
     },
@@ -1092,13 +1765,23 @@
       "id": "creature-fiber-scavenger",
       "name": "丝路拾荒者",
       "role": "scavenger",
-      "sizeRange": [9, 13],
+      "sizeRange": [
+        22,
+        32
+      ],
       "behaviorId": "follow-trapped-prey",
       "behaviorProfileId": "behavior-scavenger",
-      "organelleTags": ["fiber-hook"],
-      "environmentIds": ["env-fiber-maze"],
+      "organelleTags": [
+        "fiber-hook"
+      ],
+      "environmentIds": [
+        "env-fiber-maze"
+      ],
       "warningCueId": "cue-hook-drag",
-      "responseTags": ["free-prey", "ambush"],
+      "responseTags": [
+        "free-prey",
+        "ambush"
+      ],
       "dropTableId": "drop-fiber-scavenger",
       "visualRecipeId": "visual-scavenger-vesicle"
     },
@@ -1106,13 +1789,23 @@
       "id": "creature-antibody-fragment",
       "name": "抗体碎片",
       "role": "resource",
-      "sizeRange": [4, 7],
+      "sizeRange": [
+        4,
+        7
+      ],
       "behaviorId": "drift-after-sweep",
       "behaviorProfileId": "behavior-resource",
-      "organelleTags": ["charged-fragment"],
-      "environmentIds": ["env-antibody-storm"],
+      "organelleTags": [
+        "charged-fragment"
+      ],
+      "environmentIds": [
+        "env-antibody-storm"
+      ],
       "warningCueId": "cue-fragment-pulse",
-      "responseTags": ["collect-after-sweep", "avoid-lock"],
+      "responseTags": [
+        "collect-after-sweep",
+        "avoid-lock"
+      ],
       "dropTableId": "drop-antibody-fragment",
       "visualRecipeId": "visual-nutrient-lumen"
     },
@@ -1120,13 +1813,23 @@
       "id": "creature-mimic-drifter",
       "name": "拟态漂体",
       "role": "prey",
-      "sizeRange": [7, 11],
+      "sizeRange": [
+        7,
+        11
+      ],
       "behaviorId": "hide-between-sweeps",
       "behaviorProfileId": "behavior-skittish",
-      "organelleTags": ["mimic-membrane"],
-      "environmentIds": ["env-antibody-storm"],
+      "organelleTags": [
+        "mimic-membrane"
+      ],
+      "environmentIds": [
+        "env-antibody-storm"
+      ],
       "warningCueId": "cue-mimic-shimmer",
-      "responseTags": ["track-outline", "contain"],
+      "responseTags": [
+        "track-outline",
+        "contain"
+      ],
       "dropTableId": "drop-mimic-prey",
       "visualRecipeId": "visual-prey-drifter"
     },
@@ -1134,13 +1837,24 @@
       "id": "creature-ring-swarm",
       "name": "闭环群",
       "role": "swarm",
-      "sizeRange": [5, 9],
+      "sizeRange": [
+        5,
+        9
+      ],
       "behaviorId": "form-locking-rings",
       "behaviorProfileId": "behavior-school",
-      "organelleTags": ["ring-link"],
-      "environmentIds": ["env-antibody-storm"],
+      "organelleTags": [
+        "ring-link"
+      ],
+      "environmentIds": [
+        "env-antibody-storm",
+        "env-fiber-maze"
+      ],
       "warningCueId": "cue-ring-close",
-      "responseTags": ["break-gap", "reverse"],
+      "responseTags": [
+        "break-gap",
+        "reverse"
+      ],
       "dropTableId": "drop-ring-swarm",
       "visualRecipeId": "visual-competitor-spark"
     },
@@ -1148,13 +1862,23 @@
       "id": "creature-host-droplet",
       "name": "宿主液滴",
       "role": "resource",
-      "sizeRange": [5, 8],
+      "sizeRange": [
+        16,
+        24
+      ],
       "behaviorId": "pulse-from-tissue",
       "behaviorProfileId": "behavior-resource",
-      "organelleTags": ["host-fluid"],
-      "environmentIds": ["env-abandoned-chamber"],
+      "organelleTags": [
+        "host-fluid"
+      ],
+      "environmentIds": [
+        "env-abandoned-chamber"
+      ],
       "warningCueId": "cue-tissue-pulse",
-      "responseTags": ["collect", "leave-before-drain"],
+      "responseTags": [
+        "collect",
+        "leave-before-drain"
+      ],
       "dropTableId": "drop-host-fluid",
       "visualRecipeId": "visual-nutrient-gene-fragment"
     },
@@ -1162,13 +1886,23 @@
       "id": "creature-cavity-scavenger",
       "name": "空腔拾荒者",
       "role": "scavenger",
-      "sizeRange": [11, 15],
+      "sizeRange": [
+        42,
+        58
+      ],
       "behaviorId": "circle-host-cavities",
       "behaviorProfileId": "behavior-scavenger",
-      "organelleTags": ["cavity-hook"],
-      "environmentIds": ["env-abandoned-chamber"],
+      "organelleTags": [
+        "cavity-hook"
+      ],
+      "environmentIds": [
+        "env-abandoned-chamber"
+      ],
       "warningCueId": "cue-cavity-echo",
-      "responseTags": ["bait-drain", "flank"],
+      "responseTags": [
+        "bait-drain",
+        "flank"
+      ],
       "dropTableId": "drop-cavity-scavenger",
       "visualRecipeId": "visual-scavenger-vesicle"
     },
@@ -1176,13 +1910,23 @@
       "id": "creature-spore-drifter",
       "name": "休眠孢体",
       "role": "prey",
-      "sizeRange": [8, 12],
+      "sizeRange": [
+        30,
+        48
+      ],
       "behaviorId": "wake-on-current",
       "behaviorProfileId": "behavior-skittish",
-      "organelleTags": ["armored-spore"],
-      "environmentIds": ["env-abandoned-chamber"],
+      "organelleTags": [
+        "armored-spore"
+      ],
+      "environmentIds": [
+        "env-abandoned-chamber"
+      ],
       "warningCueId": "cue-spore-open",
-      "responseTags": ["wait-dormant", "contain"],
+      "responseTags": [
+        "wait-dormant",
+        "contain"
+      ],
       "dropTableId": "drop-spore-prey",
       "visualRecipeId": "visual-prey-drifter"
     },
@@ -1190,13 +1934,23 @@
       "id": "predator-glow-siphon",
       "name": "食光虹吸体",
       "role": "hunter",
-      "sizeRange": [18, 24],
+      "sizeRange": [
+        18,
+        24
+      ],
       "behaviorId": "hunt-lit-and-retreat-when-injured",
       "behaviorProfileId": "behavior-hunter",
-      "organelleTags": ["light-siphon"],
-      "environmentIds": ["env-algae-glow"],
+      "organelleTags": [
+        "light-siphon"
+      ],
+      "environmentIds": [
+        "env-algae-glow"
+      ],
       "warningCueId": "cue-light-drain-line",
-      "responseTags": ["enter-shadow", "use-swarm"],
+      "responseTags": [
+        "enter-shadow",
+        "use-swarm"
+      ],
       "dropTableId": "drop-predator",
       "visualRecipeId": "visual-predator-azure-ring"
     },
@@ -1204,13 +1958,23 @@
       "id": "predator-acid-needle",
       "name": "酸针猎体",
       "role": "hunter",
-      "sizeRange": [19, 26],
+      "sizeRange": [
+        19,
+        26
+      ],
       "behaviorId": "drive-prey-into-acid",
       "behaviorProfileId": "behavior-hunter",
-      "organelleTags": ["acid-needle"],
-      "environmentIds": ["env-acid-vesicle"],
+      "organelleTags": [
+        "acid-needle"
+      ],
+      "environmentIds": [
+        "env-acid-vesicle"
+      ],
       "warningCueId": "cue-acid-needle-aim",
-      "responseTags": ["cross-safe-zone", "bait-burst"],
+      "responseTags": [
+        "cross-safe-zone",
+        "bait-burst"
+      ],
       "dropTableId": "drop-predator",
       "visualRecipeId": "visual-predator-azure-ring"
     },
@@ -1218,13 +1982,23 @@
       "id": "predator-fiber-stalker",
       "name": "纤维潜猎体",
       "role": "hunter",
-      "sizeRange": [21, 27],
+      "sizeRange": [
+        46,
+        54
+      ],
       "behaviorId": "ambush-from-fiber",
       "behaviorProfileId": "behavior-ambusher",
-      "organelleTags": ["fiber-camouflage"],
-      "environmentIds": ["env-fiber-maze"],
+      "organelleTags": [
+        "fiber-camouflage"
+      ],
+      "environmentIds": [
+        "env-fiber-maze"
+      ],
       "warningCueId": "cue-fiber-bend",
-      "responseTags": ["change-corridor", "cut-thread"],
+      "responseTags": [
+        "change-corridor",
+        "cut-thread"
+      ],
       "dropTableId": "drop-predator",
       "visualRecipeId": "visual-predator-azure-ring"
     },
@@ -1232,13 +2006,24 @@
       "id": "predator-antibody-leech",
       "name": "抗体寄生环",
       "role": "parasite",
-      "sizeRange": [14, 20],
+      "sizeRange": [
+        55,
+        72
+      ],
       "behaviorId": "attach-to-locked-target",
       "behaviorProfileId": "behavior-hunter",
-      "organelleTags": ["parasite-ring"],
-      "environmentIds": ["env-antibody-storm", "env-abandoned-chamber"],
+      "organelleTags": [
+        "parasite-ring"
+      ],
+      "environmentIds": [
+        "env-antibody-storm",
+        "env-abandoned-chamber"
+      ],
       "warningCueId": "cue-parasite-tether",
-      "responseTags": ["break-line", "use-sweep"],
+      "responseTags": [
+        "break-line",
+        "use-sweep"
+      ],
       "dropTableId": "drop-parasite",
       "visualRecipeId": "visual-predator-azure-ring"
     },
@@ -1246,13 +2031,24 @@
       "id": "predator-crown-sentinel",
       "name": "冠环哨卫",
       "role": "elite",
-      "sizeRange": [28, 34],
+      "sizeRange": [
+        28,
+        34
+      ],
       "behaviorId": "guard-antibody-crown",
       "behaviorProfileId": "behavior-apex",
-      "organelleTags": ["crown", "locking-ring"],
-      "environmentIds": ["env-antibody-storm"],
+      "organelleTags": [
+        "crown",
+        "locking-ring"
+      ],
+      "environmentIds": [
+        "env-antibody-storm"
+      ],
       "warningCueId": "cue-crown-fan",
-      "responseTags": ["stealth", "redirect-sweep"],
+      "responseTags": [
+        "stealth",
+        "redirect-sweep"
+      ],
       "dropTableId": "drop-elite",
       "visualRecipeId": "visual-elite-membrane-warden"
     },
@@ -1260,15 +2056,122 @@
       "id": "predator-chamber-maw",
       "name": "舱壁噬体",
       "role": "elite",
-      "sizeRange": [30, 38],
+      "sizeRange": [
+        98,
+        112
+      ],
       "behaviorId": "close-chamber-corridors",
       "behaviorProfileId": "behavior-apex",
-      "organelleTags": ["host-wall", "drain"],
-      "environmentIds": ["env-abandoned-chamber"],
+      "organelleTags": [
+        "host-wall",
+        "drain"
+      ],
+      "environmentIds": [
+        "env-abandoned-chamber"
+      ],
       "warningCueId": "cue-wall-contraction",
-      "responseTags": ["use-drain", "parasite-core"],
+      "responseTags": [
+        "use-drain",
+        "parasite-core"
+      ],
       "dropTableId": "drop-elite",
-      "visualRecipeId": "visual-elite-membrane-warden"
+      "visualRecipeId": "visual-chamber-leviathan"
+    },
+    {
+      "id": "creature-thornback-forager",
+      "name": "棘背争食体",
+      "role": "swarm",
+      "sizeRange": [
+        27,
+        35
+      ],
+      "behaviorId": "compete-and-flock",
+      "behaviorProfileId": "behavior-thornback",
+      "organelleTags": [
+        "spark-core"
+      ],
+      "environmentIds": [
+        "env-fiber-maze"
+      ],
+      "warningCueId": "cue-spark-flash",
+      "responseTags": [
+        "race",
+        "ambush"
+      ],
+      "dropTableId": "drop-swarm-prey",
+      "visualRecipeId": "visual-creature-thornback-forager"
+    },
+    {
+      "id": "predator-seam-lurker",
+      "name": "缝隙伏猎者",
+      "role": "hunter",
+      "sizeRange": [
+        49,
+        53
+      ],
+      "behaviorId": "ambush-from-fiber",
+      "behaviorProfileId": "behavior-seam-lurker",
+      "organelleTags": [
+        "fiber-camouflage"
+      ],
+      "environmentIds": [
+        "env-fiber-maze"
+      ],
+      "warningCueId": "cue-fiber-bend",
+      "responseTags": [
+        "change-corridor",
+        "cut-thread"
+      ],
+      "dropTableId": "drop-predator",
+      "visualRecipeId": "visual-predator-seam-lurker"
+    },
+    {
+      "id": "creature-lantern-siphon",
+      "name": "灯囊游群",
+      "role": "swarm",
+      "sizeRange": [
+        34,
+        46
+      ],
+      "behaviorId": "form-locking-rings",
+      "behaviorProfileId": "behavior-lantern-school",
+      "organelleTags": [
+        "ring-link"
+      ],
+      "environmentIds": [
+        "env-abandoned-chamber"
+      ],
+      "warningCueId": "cue-ring-close",
+      "responseTags": [
+        "break-gap",
+        "reverse"
+      ],
+      "dropTableId": "drop-ring-swarm",
+      "visualRecipeId": "visual-creature-lantern-siphon"
+    },
+    {
+      "id": "predator-razor-ray",
+      "name": "刃鳍追猎者",
+      "role": "parasite",
+      "sizeRange": [
+        102,
+        114
+      ],
+      "behaviorId": "attach-to-locked-target",
+      "behaviorProfileId": "behavior-razor-ray",
+      "organelleTags": [
+        "parasite-ring"
+      ],
+      "environmentIds": [
+        "env-abandoned-chamber"
+      ],
+      "warningCueId": "cue-parasite-tether",
+      "responseTags": [
+        "break-line",
+        "use-sweep"
+      ],
+      "dropTableId": "drop-parasite",
+      "visualRecipeId": "visual-predator-razor-ray"
     }
   ],
   "events": [
@@ -1276,60 +2179,184 @@
       "id": "event-nutrient-bloom",
       "name": "营养暴发",
       "behaviorId": "nutrient-bloom-field",
-      "environmentIds": ["env-clear-drop"],
-      "durationSec": [24, 36],
-      "telegraphIds": ["cue-warm-flow-lines"],
-      "variantIds": ["bloom-wide", "bloom-dense", "bloom-drifting"],
+      "environmentIds": [
+        "env-clear-drop"
+      ],
+      "durationSec": [
+        24,
+        36
+      ],
+      "telegraphIds": [
+        "cue-warm-flow-lines"
+      ],
+      "variantIds": [
+        "bloom-wide",
+        "bloom-dense",
+        "bloom-drifting"
+      ],
       "telegraphLeadMs": 2200,
       "variants": [
-        { "id": "bloom-wide", "radius": 180, "resourceCount": 18, "attractionStrength": 0.72, "flow": 0.18 },
-        { "id": "bloom-dense", "radius": 110, "resourceCount": 26, "attractionStrength": 0.92, "flow": 0.08 },
-        { "id": "bloom-drifting", "radius": 145, "resourceCount": 20, "attractionStrength": 0.82, "flow": 0.42 }
+        {
+          "id": "bloom-wide",
+          "radius": 180,
+          "resourceCount": 18,
+          "attractionStrength": 0.72,
+          "flow": 0.18
+        },
+        {
+          "id": "bloom-dense",
+          "radius": 110,
+          "resourceCount": 26,
+          "attractionStrength": 0.92,
+          "flow": 0.08
+        },
+        {
+          "id": "bloom-drifting",
+          "radius": 145,
+          "resourceCount": 20,
+          "attractionStrength": 0.82,
+          "flow": 0.42
+        }
       ]
     },
     {
       "id": "event-acid-leak",
       "name": "酸液泄漏",
       "behaviorId": "moving-acid-safe-field",
-      "environmentIds": ["env-acid-vesicle", "env-abandoned-chamber"],
-      "durationSec": [20, 34],
-      "telegraphIds": ["cue-acid-bubbles", "cue-safe-ring-shift"],
-      "variantIds": ["acid-crescent", "acid-channel", "acid-pulse"],
+      "environmentIds": [
+        "env-acid-vesicle",
+        "env-abandoned-chamber"
+      ],
+      "durationSec": [
+        20,
+        34
+      ],
+      "telegraphIds": [
+        "cue-acid-bubbles",
+        "cue-safe-ring-shift"
+      ],
+      "variantIds": [
+        "acid-crescent",
+        "acid-channel",
+        "acid-pulse"
+      ],
       "telegraphLeadMs": 2600,
       "variants": [
-        { "id": "acid-crescent", "radius": 150, "resourceCount": 8, "attractionStrength": 0.44, "flow": 0.24 },
-        { "id": "acid-channel", "radius": 95, "resourceCount": 12, "attractionStrength": 0.58, "flow": 0.52 },
-        { "id": "acid-pulse", "radius": 125, "resourceCount": 10, "attractionStrength": 0.36, "flow": 0.68 }
+        {
+          "id": "acid-crescent",
+          "radius": 150,
+          "resourceCount": 8,
+          "attractionStrength": 0.44,
+          "flow": 0.24
+        },
+        {
+          "id": "acid-channel",
+          "radius": 95,
+          "resourceCount": 12,
+          "attractionStrength": 0.58,
+          "flow": 0.52
+        },
+        {
+          "id": "acid-pulse",
+          "radius": 125,
+          "resourceCount": 10,
+          "attractionStrength": 0.36,
+          "flow": 0.68
+        }
       ]
     },
     {
       "id": "event-antibody-sweep",
       "name": "抗体清扫",
       "behaviorId": "telegraphed-antibody-sweep",
-      "environmentIds": ["env-fiber-maze", "env-antibody-storm"],
-      "durationSec": [18, 30],
-      "telegraphIds": ["cue-locking-rings", "cue-sweep-direction"],
-      "variantIds": ["sweep-lanes", "sweep-spiral", "sweep-cross"],
+      "environmentIds": [
+        "env-fiber-maze",
+        "env-antibody-storm"
+      ],
+      "durationSec": [
+        18,
+        30
+      ],
+      "telegraphIds": [
+        "cue-locking-rings",
+        "cue-sweep-direction"
+      ],
+      "variantIds": [
+        "sweep-lanes",
+        "sweep-spiral",
+        "sweep-cross"
+      ],
       "telegraphLeadMs": 3200,
       "variants": [
-        { "id": "sweep-lanes", "radius": 180, "resourceCount": 6, "attractionStrength": 0.7, "flow": 0.66 },
-        { "id": "sweep-spiral", "radius": 140, "resourceCount": 8, "attractionStrength": 0.62, "flow": 0.8 },
-        { "id": "sweep-cross", "radius": 115, "resourceCount": 10, "attractionStrength": 0.78, "flow": 0.58 }
+        {
+          "id": "sweep-lanes",
+          "radius": 180,
+          "resourceCount": 6,
+          "attractionStrength": 0.7,
+          "flow": 0.66
+        },
+        {
+          "id": "sweep-spiral",
+          "radius": 140,
+          "resourceCount": 8,
+          "attractionStrength": 0.62,
+          "flow": 0.8
+        },
+        {
+          "id": "sweep-cross",
+          "radius": 115,
+          "resourceCount": 10,
+          "attractionStrength": 0.78,
+          "flow": 0.58
+        }
       ]
     },
     {
       "id": "event-giant-passage",
       "name": "巨体经过",
       "behaviorId": "giant-shadow-current-shift",
-      "environmentIds": ["env-algae-glow", "env-acid-vesicle", "env-antibody-storm", "env-abandoned-chamber"],
-      "durationSec": [16, 28],
-      "telegraphIds": ["cue-giant-shadow", "cue-current-lines"],
-      "variantIds": ["giant-near", "giant-distant", "giant-turning"],
+      "environmentIds": [
+        "env-algae-glow",
+        "env-acid-vesicle",
+        "env-antibody-storm",
+        "env-abandoned-chamber"
+      ],
+      "durationSec": [
+        16,
+        28
+      ],
+      "telegraphIds": [
+        "cue-giant-shadow",
+        "cue-current-lines"
+      ],
+      "variantIds": [
+        "giant-near",
+        "giant-distant",
+        "giant-turning"
+      ],
       "telegraphLeadMs": 4200,
       "variants": [
-        { "id": "giant-near", "radius": 210, "resourceCount": 18, "attractionStrength": 0.88, "flow": 0.9 },
-        { "id": "giant-distant", "radius": 260, "resourceCount": 12, "attractionStrength": 0.52, "flow": 0.48 },
-        { "id": "giant-turning", "radius": 190, "resourceCount": 16, "attractionStrength": 0.72, "flow": 0.74 }
+        {
+          "id": "giant-near",
+          "radius": 210,
+          "resourceCount": 18,
+          "attractionStrength": 0.88,
+          "flow": 0.9
+        },
+        {
+          "id": "giant-distant",
+          "radius": 260,
+          "resourceCount": 12,
+          "attractionStrength": 0.52,
+          "flow": 0.48
+        },
+        {
+          "id": "giant-turning",
+          "radius": 190,
+          "resourceCount": 16,
+          "attractionStrength": 0.72,
+          "flow": 0.74
+        }
       ]
     }
   ],
@@ -1339,15 +2366,39 @@
       "name": "膜群母体",
       "environmentId": "env-fiber-maze",
       "phases": [
-        { "id": "dormant", "behaviorId": "queen-dormant" },
-        { "id": "feeding", "behaviorId": "queen-feeding" },
-        { "id": "exposed", "behaviorId": "queen-exposed" },
-        { "id": "enraged", "behaviorId": "queen-enraged" },
-        { "id": "resolved", "behaviorId": "queen-resolved" }
+        {
+          "id": "dormant",
+          "behaviorId": "queen-dormant"
+        },
+        {
+          "id": "feeding",
+          "behaviorId": "queen-feeding"
+        },
+        {
+          "id": "exposed",
+          "behaviorId": "queen-exposed"
+        },
+        {
+          "id": "enraged",
+          "behaviorId": "queen-enraged"
+        },
+        {
+          "id": "resolved",
+          "behaviorId": "queen-resolved"
+        }
       ],
-      "telegraphIds": ["cue-giant-shadow", "cue-membrane-rings"],
-      "resolutionPaths": ["combat", "environment", "stealth"],
-      "rewardIds": ["gene-origin-primal"],
+      "telegraphIds": [
+        "cue-giant-shadow",
+        "cue-membrane-rings"
+      ],
+      "resolutionPaths": [
+        "combat",
+        "environment",
+        "stealth"
+      ],
+      "rewardIds": [
+        "gene-origin-primal"
+      ],
       "visualRecipeId": "visual-boss-membrane-queen",
       "rules": {
         "telegraphLeadMs": 4200,
@@ -1356,7 +2407,10 @@
         "hazardHoldMs": 2000,
         "parasiteHoldMs": 2400,
         "stealthLockMax": 0.65,
-        "environmentHazardIds": ["hazard-acid-fringe", "hazard-fiber-anchor"],
+        "environmentHazardIds": [
+          "hazard-acid-fringe",
+          "hazard-fiber-anchor"
+        ],
         "ramOuterDamage": 24,
         "ramCoreDamage": 18,
         "ramCooldownMs": 650
@@ -1385,15 +2439,40 @@
       "name": "冠状抗体",
       "environmentId": "env-antibody-storm",
       "phases": [
-        { "id": "dormant", "behaviorId": "crown-dormant" },
-        { "id": "feeding", "behaviorId": "crown-locking" },
-        { "id": "exposed", "behaviorId": "crown-gap-exposed" },
-        { "id": "enraged", "behaviorId": "crown-sweep-enraged" },
-        { "id": "resolved", "behaviorId": "crown-resolved" }
+        {
+          "id": "dormant",
+          "behaviorId": "crown-dormant"
+        },
+        {
+          "id": "feeding",
+          "behaviorId": "crown-locking"
+        },
+        {
+          "id": "exposed",
+          "behaviorId": "crown-gap-exposed"
+        },
+        {
+          "id": "enraged",
+          "behaviorId": "crown-sweep-enraged"
+        },
+        {
+          "id": "resolved",
+          "behaviorId": "crown-resolved"
+        }
       ],
-      "telegraphIds": ["cue-crown-fan", "cue-locking-rings", "cue-sweep-direction"],
-      "resolutionPaths": ["combat", "environment", "stealth"],
-      "rewardIds": ["gene-origin-ciliate"],
+      "telegraphIds": [
+        "cue-crown-fan",
+        "cue-locking-rings",
+        "cue-sweep-direction"
+      ],
+      "resolutionPaths": [
+        "combat",
+        "environment",
+        "stealth"
+      ],
+      "rewardIds": [
+        "gene-origin-ciliate"
+      ],
       "visualRecipeId": "visual-boss-antibody-crown",
       "rules": {
         "telegraphLeadMs": 3800,
@@ -1402,7 +2481,10 @@
         "hazardHoldMs": 2400,
         "parasiteHoldMs": 2600,
         "stealthLockMax": 0.5,
-        "environmentHazardIds": ["hazard-antibody-sweep", "hazard-fiber-anchor"],
+        "environmentHazardIds": [
+          "hazard-antibody-sweep",
+          "hazard-fiber-anchor"
+        ],
         "ramOuterDamage": 20,
         "ramCoreDamage": 16,
         "ramCooldownMs": 720
@@ -1431,15 +2513,43 @@
       "name": "废弃宿主",
       "environmentId": "env-abandoned-chamber",
       "phases": [
-        { "id": "dormant", "behaviorId": "host-dormant" },
-        { "id": "feeding", "behaviorId": "host-chamber-feeding" },
-        { "id": "exposed", "behaviorId": "host-core-exposed" },
-        { "id": "enraged", "behaviorId": "host-drain-enraged" },
-        { "id": "resolved", "behaviorId": "host-resolved" }
+        {
+          "id": "dormant",
+          "behaviorId": "host-dormant"
+        },
+        {
+          "id": "feeding",
+          "behaviorId": "host-chamber-feeding"
+        },
+        {
+          "id": "exposed",
+          "behaviorId": "host-core-exposed"
+        },
+        {
+          "id": "enraged",
+          "behaviorId": "host-drain-enraged"
+        },
+        {
+          "id": "resolved",
+          "behaviorId": "host-resolved"
+        }
       ],
-      "telegraphIds": ["cue-wall-contraction", "cue-drain-path", "cue-core-pulse"],
-      "resolutionPaths": ["combat", "environment", "parasite"],
-      "rewardIds": ["ending-stable-species", "ending-swarm-mind", "ending-host-takeover", "gene-origin-armored"],
+      "telegraphIds": [
+        "cue-wall-contraction",
+        "cue-drain-path",
+        "cue-core-pulse"
+      ],
+      "resolutionPaths": [
+        "combat",
+        "environment",
+        "parasite"
+      ],
+      "rewardIds": [
+        "ending-stable-species",
+        "ending-swarm-mind",
+        "ending-host-takeover",
+        "gene-origin-armored"
+      ],
       "visualRecipeId": "visual-boss-abandoned-host",
       "rules": {
         "telegraphLeadMs": 4600,
@@ -1448,7 +2558,10 @@
         "hazardHoldMs": 2800,
         "parasiteHoldMs": 3000,
         "stealthLockMax": 0.6,
-        "environmentHazardIds": ["hazard-chamber-drain", "hazard-acid-discharge"],
+        "environmentHazardIds": [
+          "hazard-chamber-drain",
+          "hazard-acid-discharge"
+        ],
         "ramOuterDamage": 18,
         "ramCoreDamage": 22,
         "ramCooldownMs": 800
@@ -1485,7 +2598,9 @@
       "id": "origin-ciliate-seed",
       "name": "纤毛种",
       "entityDefinitionId": "origin-ciliate-seed",
-      "initialOrganelleIds": ["organelle-cilia-ring"],
+      "initialOrganelleIds": [
+        "organelle-cilia-ring"
+      ],
       "visualRecipeId": "visual-origin-ciliate-seed",
       "unlockId": "gene-origin-ciliate"
     },
@@ -1493,7 +2608,9 @@
       "id": "origin-armored-spore",
       "name": "壳孢子",
       "entityDefinitionId": "origin-armored-spore",
-      "initialOrganelleIds": ["organelle-shell-plate"],
+      "initialOrganelleIds": [
+        "organelle-shell-plate"
+      ],
       "visualRecipeId": "visual-origin-armored-spore",
       "unlockId": "gene-origin-armored"
     }
@@ -1536,7 +2653,9 @@
       "behaviorId": "progressive-acid-coverage",
       "difficultyWeight": 1.8,
       "rewardMultiplier": 1.45,
-      "excludes": ["modifier-permanent-turbidity"],
+      "excludes": [
+        "modifier-permanent-turbidity"
+      ],
       "accessibilityImpact": "酸场同时使用波纹和气泡边界。"
     },
     {
@@ -1556,17 +2675,21 @@
       "behaviorId": "disable-swarm-fusion",
       "difficultyWeight": 2.2,
       "rewardMultiplier": 1.75,
-      "excludes": ["modifier-fragile-membrane"],
+      "excludes": [
+        "modifier-fragile-membrane"
+      ],
       "accessibilityImpact": "每个子体始终保留独立明亮轮廓。"
     },
     {
       "id": "modifier-fragile-membrane",
       "name": "脆弱细胞膜",
-      "shortEffect": "碰撞伤害提高，但 70% 覆盖吞噬判定不变。",
+      "shortEffect": "碰撞伤害提高，完整包裹的吞噬规则不变。",
       "behaviorId": "increased-contact-damage",
       "difficultyWeight": 1.7,
       "rewardMultiplier": 1.4,
-      "excludes": ["modifier-no-merge"],
+      "excludes": [
+        "modifier-no-merge"
+      ],
       "accessibilityImpact": "受伤数字和膜裂纹对比度提高。"
     },
     {
@@ -1599,165 +2722,1003 @@
     }
   ],
   "deathTemplates": [
-    { "id": "death-engulfed", "eventType": "player-died", "requiredTags": ["engulfed"], "priority": 100, "text": "轮廓在更大的膜内消失" },
-    { "id": "death-ruptured", "eventType": "player-died", "requiredTags": ["ruptured"], "priority": 90, "text": "膜在压力脉冲中破裂" },
-    { "id": "death-acid-corrosion", "eventType": "player-died", "requiredTags": ["acid"], "priority": 95, "text": "膜被酸性流场逐层腐蚀" },
-    { "id": "death-spine-pulse", "eventType": "player-died", "requiredTags": ["spine"], "priority": 80, "text": "棘刺脉冲击穿了最后一层膜" },
-    { "id": "death-organelle-instability", "eventType": "player-died", "requiredTags": ["organelle", "instability"], "priority": 98, "text": "器官组合失去稳定，轮廓无法延续" },
-    { "id": "death-energy-exhausted", "eventType": "player-died", "requiredTags": ["energy", "exhausted"], "priority": 84, "text": "能量耗尽后，外膜停止维持轮廓" },
-    { "id": "death-split-collapse", "eventType": "player-died", "requiredTags": ["split", "uncontrolled"], "priority": 93, "text": "失控分裂让所有子体同时崩散" },
-    { "id": "death-antibody-lock", "eventType": "player-died", "requiredTags": ["antibody", "locked"], "priority": 97, "text": "闭合抗体环锁住了最后的游动方向" },
-    { "id": "death-boss-strike", "eventType": "player-died", "requiredTags": ["boss", "attack"], "priority": 99, "text": "区域主宰的攻击压碎了最后一层膜" },
-    { "id": "death-parasite-drain", "eventType": "player-died", "requiredTags": ["parasite"], "priority": 91, "text": "寄生环抽空了维持膜形的能量" },
-    { "id": "death-chamber-crush", "eventType": "player-died", "requiredTags": ["chamber", "crush"], "priority": 94, "text": "收缩舱壁完整合拢在细胞之外" },
-    { "id": "death-lure-ambush", "eventType": "player-died", "requiredTags": ["lure", "ambush"], "priority": 87, "text": "静止诱光后藏着完整展开的捕食膜" },
-    { "id": "death-risk-failed", "eventType": "player-died", "requiredTags": ["risk", "failed"], "priority": 78, "text": "主动逼近稀有碎片时错过了撤离窗口" }
+    {
+      "id": "death-engulfed",
+      "eventType": "player-died",
+      "requiredTags": [
+        "engulfed"
+      ],
+      "priority": 100,
+      "text": "轮廓在更大的膜内消失"
+    },
+    {
+      "id": "death-ruptured",
+      "eventType": "player-died",
+      "requiredTags": [
+        "ruptured"
+      ],
+      "priority": 90,
+      "text": "膜在压力脉冲中破裂"
+    },
+    {
+      "id": "death-acid-corrosion",
+      "eventType": "player-died",
+      "requiredTags": [
+        "acid"
+      ],
+      "priority": 95,
+      "text": "膜被酸性流场逐层腐蚀"
+    },
+    {
+      "id": "death-spine-pulse",
+      "eventType": "player-died",
+      "requiredTags": [
+        "spine"
+      ],
+      "priority": 80,
+      "text": "棘刺脉冲击穿了最后一层膜"
+    },
+    {
+      "id": "death-organelle-instability",
+      "eventType": "player-died",
+      "requiredTags": [
+        "organelle",
+        "instability"
+      ],
+      "priority": 98,
+      "text": "器官组合失去稳定，轮廓无法延续"
+    },
+    {
+      "id": "death-energy-exhausted",
+      "eventType": "player-died",
+      "requiredTags": [
+        "energy",
+        "exhausted"
+      ],
+      "priority": 84,
+      "text": "能量耗尽后，外膜停止维持轮廓"
+    },
+    {
+      "id": "death-split-collapse",
+      "eventType": "player-died",
+      "requiredTags": [
+        "split",
+        "uncontrolled"
+      ],
+      "priority": 93,
+      "text": "失控分裂让所有子体同时崩散"
+    },
+    {
+      "id": "death-antibody-lock",
+      "eventType": "player-died",
+      "requiredTags": [
+        "antibody",
+        "locked"
+      ],
+      "priority": 97,
+      "text": "闭合抗体环锁住了最后的游动方向"
+    },
+    {
+      "id": "death-boss-strike",
+      "eventType": "player-died",
+      "requiredTags": [
+        "boss",
+        "attack"
+      ],
+      "priority": 99,
+      "text": "区域主宰的攻击压碎了最后一层膜"
+    },
+    {
+      "id": "death-parasite-drain",
+      "eventType": "player-died",
+      "requiredTags": [
+        "parasite"
+      ],
+      "priority": 91,
+      "text": "寄生环抽空了维持膜形的能量"
+    },
+    {
+      "id": "death-chamber-crush",
+      "eventType": "player-died",
+      "requiredTags": [
+        "chamber",
+        "crush"
+      ],
+      "priority": 94,
+      "text": "收缩舱壁完整合拢在细胞之外"
+    },
+    {
+      "id": "death-lure-ambush",
+      "eventType": "player-died",
+      "requiredTags": [
+        "lure",
+        "ambush"
+      ],
+      "priority": 87,
+      "text": "静止诱光后藏着完整展开的捕食膜"
+    },
+    {
+      "id": "death-risk-failed",
+      "eventType": "player-died",
+      "requiredTags": [
+        "risk",
+        "failed"
+      ],
+      "priority": 78,
+      "text": "主动逼近稀有碎片时错过了撤离窗口"
+    }
   ],
   "visualRecipes": [
-    { "id": "visual-origin-primal-cell", "kind": "cell", "palette": ["#72f5ff", "#ffbf69"] },
-    { "id": "visual-nutrient-clear", "kind": "cell", "palette": ["#d8ff93", "#72f5ff"] },
-    { "id": "visual-prey-drifter", "kind": "cell", "palette": ["#74f4e8", "#458ee8"] },
-    { "id": "visual-competitor-spark", "kind": "cell", "palette": ["#ffd37a", "#ff7b70"] },
-    { "id": "visual-scavenger-vesicle", "kind": "cell", "palette": ["#b69cff", "#5ce1e6"] },
-    { "id": "visual-predator-azure-ring", "kind": "cell", "palette": ["#5aa9ff", "#ff8b69"] },
-    { "id": "visual-elite-membrane-warden", "kind": "cell", "palette": ["#8fe7ff", "#ff6f91"] },
-    { "id": "visual-organelle-flagellum", "kind": "organelle", "palette": ["#72f5ff"] },
-    { "id": "visual-organelle-jet-vacuole", "kind": "organelle", "palette": ["#8fffe0"] },
-    { "id": "visual-organelle-shell-plate", "kind": "organelle", "palette": ["#fff09a"] },
-    { "id": "visual-organelle-guard-symbiont", "kind": "organelle", "palette": ["#c6fbff"] },
-    { "id": "visual-organelle-repair-vacuole", "kind": "organelle", "palette": ["#9bffb0"] },
-    { "id": "visual-organelle-division-ring", "kind": "organelle", "palette": ["#ff9fd4"] },
-    { "id": "visual-synergy-ram-jet", "kind": "synergy", "palette": ["#72f5ff", "#fff09a"] },
-    { "id": "visual-synergy-guardian-division", "kind": "synergy", "palette": ["#9bffb0", "#ff9fd4"] },
-    { "id": "visual-boss-membrane-queen", "kind": "boss", "palette": ["#4a85ff", "#ff647c"] },
-    { "id": "visual-env-clear-drop", "kind": "environment", "palette": ["#073d66", "#010716"] },
-    { "id": "visual-event-nutrient-bloom", "kind": "event", "palette": ["#ffe38f", "#72f5ff"] },
-    { "id": "visual-nutrient-mineral", "kind": "cell", "palette": ["#e7f0a0", "#83a6c8"] },
-    { "id": "visual-nutrient-protein", "kind": "cell", "palette": ["#b9ff6d", "#48e6bd"] },
-    { "id": "visual-nutrient-lipid", "kind": "cell", "palette": ["#ffb18c", "#a995ff"] },
-    { "id": "visual-nutrient-lumen", "kind": "cell", "palette": ["#a8cfff", "#ff87c3"] },
-    { "id": "visual-nutrient-gene-fragment", "kind": "cell", "palette": ["#72e0c4", "#ffba7b"] },
-    { "id": "visual-origin-ciliate-seed", "kind": "cell", "palette": ["#7ef7ff", "#ffe17b"] },
-    { "id": "visual-origin-armored-spore", "kind": "cell", "palette": ["#b5d6ff", "#ff997a"] },
-    { "id": "visual-organelle-eye-spot", "kind": "organelle", "palette": ["#fff27a", "#66ddff"] },
-    { "id": "visual-organelle-echo-sac", "kind": "organelle", "palette": ["#b899ff", "#66f2ed"] },
-    { "id": "visual-organelle-vibration-cilia", "kind": "organelle", "palette": ["#8cecff"] },
-    { "id": "visual-organelle-cilia-ring", "kind": "organelle", "palette": ["#82ffd1"] },
-    { "id": "visual-organelle-wide-mouth", "kind": "organelle", "palette": ["#ffd680", "#72f5ff"] },
-    { "id": "visual-organelle-needle-mouth", "kind": "organelle", "palette": ["#ff8fa1", "#d8ff75"] },
-    { "id": "visual-organelle-filter-gill", "kind": "organelle", "palette": ["#b7ff8a", "#6ccfff"] },
-    { "id": "visual-organelle-transparent-membrane", "kind": "organelle", "palette": ["#d7fbff", "#7b9cff"] },
-    { "id": "visual-organelle-mucus-coat", "kind": "organelle", "palette": ["#a7ffca", "#ffe37f"] },
-    { "id": "visual-organelle-electric-sac", "kind": "organelle", "palette": ["#fff45e", "#71b7ff"] },
-    { "id": "visual-organelle-toxin-spine", "kind": "organelle", "palette": ["#ff6f9f", "#b5ff62"] },
-    { "id": "visual-organelle-shock-pulse", "kind": "organelle", "palette": ["#9fe8ff", "#ffb174"] },
-    { "id": "visual-organelle-photosome", "kind": "organelle", "palette": ["#dfff65", "#62ffc8"] },
-    { "id": "visual-organelle-acid-gland", "kind": "organelle", "palette": ["#d7ff5f", "#ff765c"] },
-    { "id": "visual-organelle-bud-sac", "kind": "organelle", "palette": ["#ff9ed7", "#8fffe0"] },
-    { "id": "visual-organelle-recombination-core", "kind": "organelle", "palette": ["#b994ff", "#ffe17a"] },
-    { "id": "visual-organelle-cleaner-symbiont", "kind": "organelle", "palette": ["#87ffd1", "#e8ff91"] },
-    { "id": "visual-organelle-lure-symbiont", "kind": "organelle", "palette": ["#ff9fc9", "#7cdcff"] },
-    { "id": "visual-synergy-radar-grid", "kind": "synergy", "palette": ["#fff27a", "#6ccfff"] },
-    { "id": "visual-synergy-invisible-lure", "kind": "synergy", "palette": ["#d7fbff", "#ff9fc9"] },
-    { "id": "visual-synergy-acid-feeder", "kind": "synergy", "palette": ["#d7ff5f", "#ff8fa1"] },
-    { "id": "visual-synergy-parasite-anchor", "kind": "synergy", "palette": ["#ff6f9f", "#fff45e"] },
-    { "id": "visual-synergy-solar-filter", "kind": "synergy", "palette": ["#dfff65", "#6ccfff"] },
-    { "id": "visual-synergy-spore-cloud", "kind": "synergy", "palette": ["#ff9ed7", "#a7ffca"] },
-    { "id": "visual-synergy-echo-swarm", "kind": "synergy", "palette": ["#b899ff", "#72f5ff"] },
-    { "id": "visual-synergy-repair-shell", "kind": "synergy", "palette": ["#9bffb0", "#fff09a"] },
-    { "id": "visual-synergy-clean-acid", "kind": "synergy", "palette": ["#87ffd1", "#d7ff5f"] },
-    { "id": "visual-synergy-ghost-cilia", "kind": "synergy", "palette": ["#d7fbff", "#82ffd1"] },
-    { "id": "visual-boss-antibody-crown", "kind": "boss", "palette": ["#a6c8ff", "#ff7fb2"] },
-    { "id": "visual-boss-abandoned-host", "kind": "boss", "palette": ["#77d5c7", "#ff9b71"] },
-    { "id": "visual-env-algae-glow", "kind": "environment", "palette": ["#062f35", "#63ffd1"] },
-    { "id": "visual-env-acid-vesicle", "kind": "environment", "palette": ["#32152f", "#ff765c"] },
-    { "id": "visual-env-fiber-maze", "kind": "environment", "palette": ["#101d3d", "#8ae6ff"] },
-    { "id": "visual-env-antibody-storm", "kind": "environment", "palette": ["#14254b", "#a6c8ff"] },
-    { "id": "visual-env-abandoned-chamber", "kind": "environment", "palette": ["#1f1735", "#77d5c7"] },
-    { "id": "visual-event-acid-leak", "kind": "event", "palette": ["#dfff68", "#ff765c"] },
-    { "id": "visual-event-antibody-sweep", "kind": "event", "palette": ["#a6c8ff", "#ff7fb2"] },
-    { "id": "visual-event-giant-passage", "kind": "event", "palette": ["#35506f", "#ffba7b"] },
-    { "id": "visual-modifier-permanent-turbidity", "kind": "ui", "palette": ["#6e829c", "#c7d5e8"] },
-    { "id": "visual-modifier-low-energy", "kind": "ui", "palette": ["#8e79b8", "#ffd27d"] },
-    { "id": "visual-modifier-alert-predators", "kind": "ui", "palette": ["#ff7d83", "#7ddcff"] },
-    { "id": "visual-modifier-rising-acid", "kind": "ui", "palette": ["#dfff68", "#ff765c"] },
-    { "id": "visual-modifier-three-organs", "kind": "ui", "palette": ["#8fffe0", "#b994ff"] },
-    { "id": "visual-modifier-no-merge", "kind": "ui", "palette": ["#ff9ed7", "#6ccfff"] },
-    { "id": "visual-modifier-fragile-membrane", "kind": "ui", "palette": ["#ff8c7a", "#d7fbff"] },
-    { "id": "visual-modifier-elite-ecosystem", "kind": "ui", "palette": ["#ffba7b", "#a6c8ff"] }
+    {
+      "id": "visual-origin-primal-cell",
+      "kind": "cell",
+      "palette": [
+        "#72f5ff",
+        "#ffbf69"
+      ]
+    },
+    {
+      "id": "visual-nutrient-clear",
+      "kind": "cell",
+      "palette": [
+        "#d8ff93",
+        "#72f5ff"
+      ]
+    },
+    {
+      "id": "visual-prey-drifter",
+      "kind": "cell",
+      "palette": [
+        "#74f4e8",
+        "#458ee8"
+      ]
+    },
+    {
+      "id": "visual-competitor-spark",
+      "kind": "cell",
+      "palette": [
+        "#ffd37a",
+        "#ff7b70"
+      ]
+    },
+    {
+      "id": "visual-scavenger-vesicle",
+      "kind": "cell",
+      "palette": [
+        "#b69cff",
+        "#5ce1e6"
+      ]
+    },
+    {
+      "id": "visual-predator-azure-ring",
+      "kind": "cell",
+      "palette": [
+        "#5aa9ff",
+        "#ff8b69"
+      ]
+    },
+    {
+      "id": "visual-elite-membrane-warden",
+      "kind": "cell",
+      "palette": [
+        "#8fe7ff",
+        "#ff6f91"
+      ]
+    },
+    {
+      "id": "visual-organelle-flagellum",
+      "kind": "organelle",
+      "palette": [
+        "#72f5ff"
+      ]
+    },
+    {
+      "id": "visual-organelle-jet-vacuole",
+      "kind": "organelle",
+      "palette": [
+        "#8fffe0"
+      ]
+    },
+    {
+      "id": "visual-organelle-shell-plate",
+      "kind": "organelle",
+      "palette": [
+        "#fff09a"
+      ]
+    },
+    {
+      "id": "visual-organelle-guard-symbiont",
+      "kind": "organelle",
+      "palette": [
+        "#c6fbff"
+      ]
+    },
+    {
+      "id": "visual-organelle-repair-vacuole",
+      "kind": "organelle",
+      "palette": [
+        "#9bffb0"
+      ]
+    },
+    {
+      "id": "visual-organelle-division-ring",
+      "kind": "organelle",
+      "palette": [
+        "#ff9fd4"
+      ]
+    },
+    {
+      "id": "visual-synergy-ram-jet",
+      "kind": "synergy",
+      "palette": [
+        "#72f5ff",
+        "#fff09a"
+      ]
+    },
+    {
+      "id": "visual-synergy-guardian-division",
+      "kind": "synergy",
+      "palette": [
+        "#9bffb0",
+        "#ff9fd4"
+      ]
+    },
+    {
+      "id": "visual-boss-membrane-queen",
+      "kind": "boss",
+      "palette": [
+        "#4a85ff",
+        "#ff647c"
+      ]
+    },
+    {
+      "id": "visual-env-clear-drop",
+      "kind": "environment",
+      "palette": [
+        "#073d66",
+        "#010716"
+      ]
+    },
+    {
+      "id": "visual-event-nutrient-bloom",
+      "kind": "event",
+      "palette": [
+        "#ffe38f",
+        "#72f5ff"
+      ]
+    },
+    {
+      "id": "visual-nutrient-mineral",
+      "kind": "cell",
+      "palette": [
+        "#e7f0a0",
+        "#83a6c8"
+      ]
+    },
+    {
+      "id": "visual-nutrient-protein",
+      "kind": "cell",
+      "palette": [
+        "#b9ff6d",
+        "#48e6bd"
+      ]
+    },
+    {
+      "id": "visual-nutrient-lipid",
+      "kind": "cell",
+      "palette": [
+        "#ffb18c",
+        "#a995ff"
+      ]
+    },
+    {
+      "id": "visual-nutrient-lumen",
+      "kind": "cell",
+      "palette": [
+        "#a8cfff",
+        "#ff87c3"
+      ]
+    },
+    {
+      "id": "visual-nutrient-gene-fragment",
+      "kind": "cell",
+      "palette": [
+        "#72e0c4",
+        "#ffba7b"
+      ]
+    },
+    {
+      "id": "visual-origin-ciliate-seed",
+      "kind": "cell",
+      "palette": [
+        "#7ef7ff",
+        "#ffe17b"
+      ]
+    },
+    {
+      "id": "visual-origin-armored-spore",
+      "kind": "cell",
+      "palette": [
+        "#b5d6ff",
+        "#ff997a"
+      ]
+    },
+    {
+      "id": "visual-organelle-eye-spot",
+      "kind": "organelle",
+      "palette": [
+        "#fff27a",
+        "#66ddff"
+      ]
+    },
+    {
+      "id": "visual-organelle-echo-sac",
+      "kind": "organelle",
+      "palette": [
+        "#b899ff",
+        "#66f2ed"
+      ]
+    },
+    {
+      "id": "visual-organelle-vibration-cilia",
+      "kind": "organelle",
+      "palette": [
+        "#8cecff"
+      ]
+    },
+    {
+      "id": "visual-organelle-cilia-ring",
+      "kind": "organelle",
+      "palette": [
+        "#82ffd1"
+      ]
+    },
+    {
+      "id": "visual-organelle-wide-mouth",
+      "kind": "organelle",
+      "palette": [
+        "#ffd680",
+        "#72f5ff"
+      ]
+    },
+    {
+      "id": "visual-organelle-needle-mouth",
+      "kind": "organelle",
+      "palette": [
+        "#ff8fa1",
+        "#d8ff75"
+      ]
+    },
+    {
+      "id": "visual-organelle-filter-gill",
+      "kind": "organelle",
+      "palette": [
+        "#b7ff8a",
+        "#6ccfff"
+      ]
+    },
+    {
+      "id": "visual-organelle-transparent-membrane",
+      "kind": "organelle",
+      "palette": [
+        "#d7fbff",
+        "#7b9cff"
+      ]
+    },
+    {
+      "id": "visual-organelle-mucus-coat",
+      "kind": "organelle",
+      "palette": [
+        "#a7ffca",
+        "#ffe37f"
+      ]
+    },
+    {
+      "id": "visual-organelle-electric-sac",
+      "kind": "organelle",
+      "palette": [
+        "#fff45e",
+        "#71b7ff"
+      ]
+    },
+    {
+      "id": "visual-organelle-toxin-spine",
+      "kind": "organelle",
+      "palette": [
+        "#ff6f9f",
+        "#b5ff62"
+      ]
+    },
+    {
+      "id": "visual-organelle-shock-pulse",
+      "kind": "organelle",
+      "palette": [
+        "#9fe8ff",
+        "#ffb174"
+      ]
+    },
+    {
+      "id": "visual-organelle-photosome",
+      "kind": "organelle",
+      "palette": [
+        "#dfff65",
+        "#62ffc8"
+      ]
+    },
+    {
+      "id": "visual-organelle-acid-gland",
+      "kind": "organelle",
+      "palette": [
+        "#d7ff5f",
+        "#ff765c"
+      ]
+    },
+    {
+      "id": "visual-organelle-bud-sac",
+      "kind": "organelle",
+      "palette": [
+        "#ff9ed7",
+        "#8fffe0"
+      ]
+    },
+    {
+      "id": "visual-organelle-recombination-core",
+      "kind": "organelle",
+      "palette": [
+        "#b994ff",
+        "#ffe17a"
+      ]
+    },
+    {
+      "id": "visual-organelle-cleaner-symbiont",
+      "kind": "organelle",
+      "palette": [
+        "#87ffd1",
+        "#e8ff91"
+      ]
+    },
+    {
+      "id": "visual-organelle-lure-symbiont",
+      "kind": "organelle",
+      "palette": [
+        "#ff9fc9",
+        "#7cdcff"
+      ]
+    },
+    {
+      "id": "visual-synergy-radar-grid",
+      "kind": "synergy",
+      "palette": [
+        "#fff27a",
+        "#6ccfff"
+      ]
+    },
+    {
+      "id": "visual-synergy-invisible-lure",
+      "kind": "synergy",
+      "palette": [
+        "#d7fbff",
+        "#ff9fc9"
+      ]
+    },
+    {
+      "id": "visual-synergy-acid-feeder",
+      "kind": "synergy",
+      "palette": [
+        "#d7ff5f",
+        "#ff8fa1"
+      ]
+    },
+    {
+      "id": "visual-synergy-parasite-anchor",
+      "kind": "synergy",
+      "palette": [
+        "#ff6f9f",
+        "#fff45e"
+      ]
+    },
+    {
+      "id": "visual-synergy-solar-filter",
+      "kind": "synergy",
+      "palette": [
+        "#dfff65",
+        "#6ccfff"
+      ]
+    },
+    {
+      "id": "visual-synergy-spore-cloud",
+      "kind": "synergy",
+      "palette": [
+        "#ff9ed7",
+        "#a7ffca"
+      ]
+    },
+    {
+      "id": "visual-synergy-echo-swarm",
+      "kind": "synergy",
+      "palette": [
+        "#b899ff",
+        "#72f5ff"
+      ]
+    },
+    {
+      "id": "visual-synergy-repair-shell",
+      "kind": "synergy",
+      "palette": [
+        "#9bffb0",
+        "#fff09a"
+      ]
+    },
+    {
+      "id": "visual-synergy-clean-acid",
+      "kind": "synergy",
+      "palette": [
+        "#87ffd1",
+        "#d7ff5f"
+      ]
+    },
+    {
+      "id": "visual-synergy-ghost-cilia",
+      "kind": "synergy",
+      "palette": [
+        "#d7fbff",
+        "#82ffd1"
+      ]
+    },
+    {
+      "id": "visual-boss-antibody-crown",
+      "kind": "boss",
+      "palette": [
+        "#a6c8ff",
+        "#ff7fb2"
+      ]
+    },
+    {
+      "id": "visual-boss-abandoned-host",
+      "kind": "boss",
+      "palette": [
+        "#77d5c7",
+        "#ff9b71"
+      ]
+    },
+    {
+      "id": "visual-env-algae-glow",
+      "kind": "environment",
+      "palette": [
+        "#062f35",
+        "#63ffd1"
+      ]
+    },
+    {
+      "id": "visual-env-acid-vesicle",
+      "kind": "environment",
+      "palette": [
+        "#32152f",
+        "#ff765c"
+      ]
+    },
+    {
+      "id": "visual-env-fiber-maze",
+      "kind": "environment",
+      "palette": [
+        "#101d3d",
+        "#8ae6ff"
+      ]
+    },
+    {
+      "id": "visual-env-antibody-storm",
+      "kind": "environment",
+      "palette": [
+        "#14254b",
+        "#a6c8ff"
+      ]
+    },
+    {
+      "id": "visual-env-abandoned-chamber",
+      "kind": "environment",
+      "palette": [
+        "#1f1735",
+        "#77d5c7"
+      ]
+    },
+    {
+      "id": "visual-event-acid-leak",
+      "kind": "event",
+      "palette": [
+        "#dfff68",
+        "#ff765c"
+      ]
+    },
+    {
+      "id": "visual-event-antibody-sweep",
+      "kind": "event",
+      "palette": [
+        "#a6c8ff",
+        "#ff7fb2"
+      ]
+    },
+    {
+      "id": "visual-event-giant-passage",
+      "kind": "event",
+      "palette": [
+        "#35506f",
+        "#ffba7b"
+      ]
+    },
+    {
+      "id": "visual-modifier-permanent-turbidity",
+      "kind": "ui",
+      "palette": [
+        "#6e829c",
+        "#c7d5e8"
+      ]
+    },
+    {
+      "id": "visual-modifier-low-energy",
+      "kind": "ui",
+      "palette": [
+        "#8e79b8",
+        "#ffd27d"
+      ]
+    },
+    {
+      "id": "visual-modifier-alert-predators",
+      "kind": "ui",
+      "palette": [
+        "#ff7d83",
+        "#7ddcff"
+      ]
+    },
+    {
+      "id": "visual-modifier-rising-acid",
+      "kind": "ui",
+      "palette": [
+        "#dfff68",
+        "#ff765c"
+      ]
+    },
+    {
+      "id": "visual-modifier-three-organs",
+      "kind": "ui",
+      "palette": [
+        "#8fffe0",
+        "#b994ff"
+      ]
+    },
+    {
+      "id": "visual-modifier-no-merge",
+      "kind": "ui",
+      "palette": [
+        "#ff9ed7",
+        "#6ccfff"
+      ]
+    },
+    {
+      "id": "visual-modifier-fragile-membrane",
+      "kind": "ui",
+      "palette": [
+        "#ff8c7a",
+        "#d7fbff"
+      ]
+    },
+    {
+      "id": "visual-modifier-elite-ecosystem",
+      "kind": "ui",
+      "palette": [
+        "#ffba7b",
+        "#a6c8ff"
+      ]
+    },
+    {
+      "id": "visual-lineage-dart",
+      "kind": "cell",
+      "palette": [
+        "#ffb56f",
+        "#ff658e"
+      ]
+    },
+    {
+      "id": "visual-lineage-bastion",
+      "kind": "cell",
+      "palette": [
+        "#a2bfff",
+        "#dfc990"
+      ]
+    },
+    {
+      "id": "visual-lineage-bloom",
+      "kind": "cell",
+      "palette": [
+        "#86f1bd",
+        "#f7e598"
+      ]
+    },
+    {
+      "id": "visual-creature-thornback-forager",
+      "kind": "cell",
+      "palette": [
+        "#e9ba62",
+        "#a06742"
+      ]
+    },
+    {
+      "id": "visual-predator-seam-lurker",
+      "kind": "cell",
+      "palette": [
+        "#bd8be8",
+        "#efb7db"
+      ]
+    },
+    {
+      "id": "visual-creature-lantern-siphon",
+      "kind": "cell",
+      "palette": [
+        "#8be4c2",
+        "#ffd57b"
+      ]
+    },
+    {
+      "id": "visual-predator-razor-ray",
+      "kind": "cell",
+      "palette": [
+        "#ed7d86",
+        "#ffd2a4"
+      ]
+    },
+    {
+      "id": "visual-chamber-leviathan",
+      "kind": "cell",
+      "palette": [
+        "#e5b66e",
+        "#8ef4ce"
+      ]
+    }
   ],
   "spawnTables": [
     {
       "id": "spawn-clear-drop-m1",
       "environmentId": "env-clear-drop",
       "entries": [
-        { "creatureId": "creature-drifter", "weight": 40, "minAtMs": 0 },
-        { "creatureId": "creature-algae-speck", "weight": 18, "minAtMs": 0 },
-        { "creatureId": "creature-spark-swarm", "weight": 24, "minAtMs": 15000 },
-        { "creatureId": "creature-vesicle-scavenger", "weight": 18, "minAtMs": 30000 },
-        { "creatureId": "predator-azure-ring", "weight": 12, "minAtMs": 45000 },
-        { "creatureId": "predator-membrane-warden", "weight": 6, "minAtMs": 75000 }
+        {
+          "creatureId": "creature-drifter",
+          "weight": 40,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "creature-algae-speck",
+          "weight": 18,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "creature-spark-swarm",
+          "weight": 24,
+          "minAtMs": 15000
+        },
+        {
+          "creatureId": "creature-vesicle-scavenger",
+          "weight": 18,
+          "minAtMs": 30000
+        },
+        {
+          "creatureId": "predator-azure-ring",
+          "weight": 12,
+          "minAtMs": 45000
+        },
+        {
+          "creatureId": "predator-membrane-warden",
+          "weight": 6,
+          "minAtMs": 75000
+        }
       ]
     },
     {
       "id": "spawn-algae-glow",
       "environmentId": "env-algae-glow",
       "entries": [
-        { "creatureId": "creature-algae-speck", "weight": 38, "minAtMs": 0 },
-        { "creatureId": "creature-lumen-drifter", "weight": 28, "minAtMs": 8000 },
-        { "creatureId": "creature-pollen-float", "weight": 20, "minAtMs": 18000 },
-        { "creatureId": "creature-spark-swarm", "weight": 12, "minAtMs": 12000 },
-        { "creatureId": "creature-vesicle-scavenger", "weight": 8, "minAtMs": 22000 },
-        { "creatureId": "predator-glow-siphon", "weight": 10, "minAtMs": 8000 },
-        { "creatureId": "predator-membrane-warden", "weight": 4, "minAtMs": 36000 }
+        {
+          "creatureId": "creature-algae-speck",
+          "weight": 38,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "creature-lumen-drifter",
+          "weight": 28,
+          "minAtMs": 8000
+        },
+        {
+          "creatureId": "creature-pollen-float",
+          "weight": 20,
+          "minAtMs": 18000
+        },
+        {
+          "creatureId": "creature-spark-swarm",
+          "weight": 12,
+          "minAtMs": 12000
+        },
+        {
+          "creatureId": "creature-vesicle-scavenger",
+          "weight": 8,
+          "minAtMs": 22000
+        },
+        {
+          "creatureId": "predator-glow-siphon",
+          "weight": 10,
+          "minAtMs": 8000
+        },
+        {
+          "creatureId": "predator-membrane-warden",
+          "weight": 4,
+          "minAtMs": 36000
+        }
       ]
     },
     {
       "id": "spawn-acid-vesicle",
       "environmentId": "env-acid-vesicle",
       "entries": [
-        { "creatureId": "creature-acid-bubble", "weight": 34, "minAtMs": 0 },
-        { "creatureId": "creature-vesicle-flee", "weight": 28, "minAtMs": 9000 },
-        { "creatureId": "creature-spark-swarm", "weight": 12, "minAtMs": 12000 },
-        { "creatureId": "creature-mineral-scavenger", "weight": 18, "minAtMs": 22000 },
-        { "creatureId": "predator-acid-needle", "weight": 11, "minAtMs": 9000 },
-        { "creatureId": "predator-membrane-warden", "weight": 4, "minAtMs": 38000 }
+        {
+          "creatureId": "creature-acid-bubble",
+          "weight": 34,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "creature-vesicle-flee",
+          "weight": 28,
+          "minAtMs": 9000
+        },
+        {
+          "creatureId": "creature-spark-swarm",
+          "weight": 12,
+          "minAtMs": 12000
+        },
+        {
+          "creatureId": "creature-mineral-scavenger",
+          "weight": 18,
+          "minAtMs": 22000
+        },
+        {
+          "creatureId": "predator-acid-needle",
+          "weight": 11,
+          "minAtMs": 9000
+        },
+        {
+          "creatureId": "predator-membrane-warden",
+          "weight": 4,
+          "minAtMs": 38000
+        }
       ]
     },
     {
       "id": "spawn-fiber-maze",
       "environmentId": "env-fiber-maze",
       "entries": [
-        { "creatureId": "creature-thread-grazer", "weight": 34, "minAtMs": 0 },
-        { "creatureId": "creature-fiber-float", "weight": 25, "minAtMs": 12000 },
-        { "creatureId": "creature-spark-swarm", "weight": 14, "minAtMs": 16000 },
-        { "creatureId": "creature-fiber-scavenger", "weight": 18, "minAtMs": 24000 },
-        { "creatureId": "predator-fiber-stalker", "weight": 12, "minAtMs": 7000 },
-        { "creatureId": "predator-membrane-warden", "weight": 5, "minAtMs": 34000 }
+        {
+          "creatureId": "creature-thread-grazer",
+          "weight": 34,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "creature-fiber-float",
+          "weight": 25,
+          "minAtMs": 12000
+        },
+        {
+          "creatureId": "creature-spark-swarm",
+          "weight": 14,
+          "minAtMs": 16000
+        },
+        {
+          "creatureId": "creature-fiber-scavenger",
+          "weight": 18,
+          "minAtMs": 24000
+        },
+        {
+          "creatureId": "predator-fiber-stalker",
+          "weight": 12,
+          "minAtMs": 7000
+        },
+        {
+          "creatureId": "predator-membrane-warden",
+          "weight": 5,
+          "minAtMs": 34000
+        },
+        {
+          "creatureId": "creature-ring-swarm",
+          "weight": 16,
+          "minAtMs": 12000
+        },
+        {
+          "creatureId": "creature-thornback-forager",
+          "weight": 16,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "predator-seam-lurker",
+          "weight": 16,
+          "minAtMs": 0
+        }
       ]
     },
     {
       "id": "spawn-antibody-storm",
       "environmentId": "env-antibody-storm",
       "entries": [
-        { "creatureId": "creature-antibody-fragment", "weight": 32, "minAtMs": 0 },
-        { "creatureId": "creature-mimic-drifter", "weight": 24, "minAtMs": 10000 },
-        { "creatureId": "creature-ring-swarm", "weight": 20, "minAtMs": 18000 },
-        { "creatureId": "creature-vesicle-scavenger", "weight": 14, "minAtMs": 22000 },
-        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 7000 },
-        { "creatureId": "predator-crown-sentinel", "weight": 6, "minAtMs": 64000 }
+        {
+          "creatureId": "creature-antibody-fragment",
+          "weight": 32,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "creature-mimic-drifter",
+          "weight": 24,
+          "minAtMs": 10000
+        },
+        {
+          "creatureId": "creature-ring-swarm",
+          "weight": 20,
+          "minAtMs": 18000
+        },
+        {
+          "creatureId": "creature-vesicle-scavenger",
+          "weight": 14,
+          "minAtMs": 22000
+        },
+        {
+          "creatureId": "predator-antibody-leech",
+          "weight": 12,
+          "minAtMs": 7000
+        },
+        {
+          "creatureId": "predator-crown-sentinel",
+          "weight": 6,
+          "minAtMs": 64000
+        }
       ]
     },
     {
       "id": "spawn-abandoned-chamber",
       "environmentId": "env-abandoned-chamber",
       "entries": [
-        { "creatureId": "creature-host-droplet", "weight": 30, "minAtMs": 0 },
-        { "creatureId": "creature-spore-drifter", "weight": 24, "minAtMs": 8000 },
-        { "creatureId": "creature-spark-swarm", "weight": 16, "minAtMs": 12000 },
-        { "creatureId": "creature-cavity-scavenger", "weight": 18, "minAtMs": 20000 },
-        { "creatureId": "predator-antibody-leech", "weight": 12, "minAtMs": 6000 },
-        { "creatureId": "predator-chamber-maw", "weight": 7, "minAtMs": 62000 }
+        {
+          "creatureId": "creature-host-droplet",
+          "weight": 30,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "creature-spore-drifter",
+          "weight": 24,
+          "minAtMs": 8000
+        },
+        {
+          "creatureId": "creature-spark-swarm",
+          "weight": 16,
+          "minAtMs": 12000
+        },
+        {
+          "creatureId": "creature-cavity-scavenger",
+          "weight": 18,
+          "minAtMs": 20000
+        },
+        {
+          "creatureId": "predator-antibody-leech",
+          "weight": 12,
+          "minAtMs": 6000
+        },
+        {
+          "creatureId": "predator-chamber-maw",
+          "weight": 7,
+          "minAtMs": 62000
+        },
+        {
+          "creatureId": "creature-lantern-siphon",
+          "weight": 16,
+          "minAtMs": 0
+        },
+        {
+          "creatureId": "predator-razor-ray",
+          "weight": 16,
+          "minAtMs": 0
+        }
       ]
     }
   ],
@@ -1766,21 +3727,37 @@
       "id": "gene-origin-primal",
       "name": "原始分支",
       "requires": [],
-      "unlockIds": ["origin-primal-cell", "organelle-flagellum", "organelle-repair-vacuole"],
+      "unlockIds": [
+        "origin-primal-cell",
+        "organelle-flagellum",
+        "organelle-repair-vacuole"
+      ],
       "cost": 0
     },
     {
       "id": "gene-origin-ciliate",
       "name": "纤毛分支",
-      "requires": ["gene-origin-primal"],
-      "unlockIds": ["origin-ciliate-seed", "organelle-cilia-ring", "organelle-echo-sac"],
+      "requires": [
+        "gene-origin-primal"
+      ],
+      "unlockIds": [
+        "origin-ciliate-seed",
+        "organelle-cilia-ring",
+        "organelle-echo-sac"
+      ],
       "cost": 8
     },
     {
       "id": "gene-origin-armored",
       "name": "甲壳分支",
-      "requires": ["gene-origin-primal"],
-      "unlockIds": ["origin-armored-spore", "organelle-shell-plate", "organelle-guard-symbiont"],
+      "requires": [
+        "gene-origin-primal"
+      ],
+      "unlockIds": [
+        "origin-armored-spore",
+        "organelle-shell-plate",
+        "organelle-guard-symbiont"
+      ],
       "cost": 10
     }
   ],
@@ -1921,25 +3898,324 @@
     "throughRunOrdinal": 2,
     "firstFoodDeadlineMs": 5000,
     "warningLeadMultiplier": 1.25,
-    "blockedOpportunityIds": ["giant-passage", "hazard-surge"]
+    "blockedOpportunityIds": [
+      "giant-passage",
+      "hazard-surge"
+    ]
   },
   "ecologyBudgets": [
-    { "environmentId": "env-clear-drop", "resource": [18, 26], "prey": [8, 12], "competitor": [2, 4], "scavenger": [1, 2], "hunter": [1, 2], "apex": [0, 0], "opportunityIntervalMs": [12000, 17000] },
-    { "environmentId": "env-algae-glow", "resource": [20, 28], "prey": [10, 14], "competitor": [3, 5], "scavenger": [1, 3], "hunter": [2, 3], "apex": [0, 1], "opportunityIntervalMs": [11000, 16000] },
-    { "environmentId": "env-acid-vesicle", "resource": [16, 23], "prey": [8, 12], "competitor": [3, 5], "scavenger": [2, 4], "hunter": [2, 4], "apex": [0, 1], "opportunityIntervalMs": [12000, 18000] },
-    { "environmentId": "env-fiber-maze", "resource": [18, 25], "prey": [9, 13], "competitor": [3, 6], "scavenger": [2, 3], "hunter": [3, 5], "apex": [0, 1], "opportunityIntervalMs": [11000, 17000] },
-    { "environmentId": "env-antibody-storm", "resource": [15, 22], "prey": [7, 11], "competitor": [4, 6], "scavenger": [2, 4], "hunter": [3, 6], "apex": [1, 2], "opportunityIntervalMs": [10000, 15000] },
-    { "environmentId": "env-abandoned-chamber", "resource": [17, 24], "prey": [8, 12], "competitor": [3, 5], "scavenger": [3, 5], "hunter": [4, 6], "apex": [1, 2], "opportunityIntervalMs": [10000, 14000] }
+    {
+      "environmentId": "env-clear-drop",
+      "resource": [
+        18,
+        26
+      ],
+      "prey": [
+        8,
+        12
+      ],
+      "competitor": [
+        2,
+        4
+      ],
+      "scavenger": [
+        1,
+        2
+      ],
+      "hunter": [
+        1,
+        2
+      ],
+      "apex": [
+        0,
+        0
+      ],
+      "opportunityIntervalMs": [
+        12000,
+        17000
+      ]
+    },
+    {
+      "environmentId": "env-algae-glow",
+      "resource": [
+        20,
+        28
+      ],
+      "prey": [
+        10,
+        14
+      ],
+      "competitor": [
+        3,
+        5
+      ],
+      "scavenger": [
+        1,
+        3
+      ],
+      "hunter": [
+        2,
+        3
+      ],
+      "apex": [
+        0,
+        1
+      ],
+      "opportunityIntervalMs": [
+        11000,
+        16000
+      ]
+    },
+    {
+      "environmentId": "env-acid-vesicle",
+      "resource": [
+        16,
+        23
+      ],
+      "prey": [
+        8,
+        12
+      ],
+      "competitor": [
+        3,
+        5
+      ],
+      "scavenger": [
+        2,
+        4
+      ],
+      "hunter": [
+        2,
+        4
+      ],
+      "apex": [
+        0,
+        1
+      ],
+      "opportunityIntervalMs": [
+        12000,
+        18000
+      ]
+    },
+    {
+      "environmentId": "env-fiber-maze",
+      "resource": [
+        18,
+        25
+      ],
+      "prey": [
+        9,
+        13
+      ],
+      "competitor": [
+        3,
+        6
+      ],
+      "scavenger": [
+        2,
+        3
+      ],
+      "hunter": [
+        3,
+        5
+      ],
+      "apex": [
+        0,
+        1
+      ],
+      "opportunityIntervalMs": [
+        11000,
+        17000
+      ]
+    },
+    {
+      "environmentId": "env-antibody-storm",
+      "resource": [
+        15,
+        22
+      ],
+      "prey": [
+        7,
+        11
+      ],
+      "competitor": [
+        4,
+        6
+      ],
+      "scavenger": [
+        2,
+        4
+      ],
+      "hunter": [
+        3,
+        6
+      ],
+      "apex": [
+        1,
+        2
+      ],
+      "opportunityIntervalMs": [
+        10000,
+        15000
+      ]
+    },
+    {
+      "environmentId": "env-abandoned-chamber",
+      "resource": [
+        17,
+        24
+      ],
+      "prey": [
+        8,
+        12
+      ],
+      "competitor": [
+        3,
+        5
+      ],
+      "scavenger": [
+        3,
+        5
+      ],
+      "hunter": [
+        4,
+        6
+      ],
+      "apex": [
+        1,
+        2
+      ],
+      "opportunityIntervalMs": [
+        10000,
+        14000
+      ]
+    }
   ],
   "behaviorProfiles": [
-    { "id": "behavior-resource", "family": "resource", "movementPattern": "slow-drift", "weaknessId": "weakness-any-engulf", "perceptionRadius": 1, "abandonAfterMs": 0 },
-    { "id": "behavior-skittish", "family": "skittish", "movementPattern": "flee-burst", "weaknessId": "weakness-cornered", "perceptionRadius": 180, "abandonAfterMs": 1800 },
-    { "id": "behavior-school", "family": "school", "movementPattern": "orbit-flock", "weaknessId": "weakness-isolated", "perceptionRadius": 220, "abandonAfterMs": 2400 },
-    { "id": "behavior-competitor", "family": "competitor", "movementPattern": "contest-food", "weaknessId": "weakness-baited", "perceptionRadius": 240, "abandonAfterMs": 3200 },
-    { "id": "behavior-ambusher", "family": "ambusher", "movementPattern": "hide-lunge-reset", "weaknessId": "weakness-missed-lunge", "perceptionRadius": 210, "abandonAfterMs": 2600 },
-    { "id": "behavior-hunter", "family": "hunter", "movementPattern": "telegraph-chase-recover", "weaknessId": "weakness-turn-radius", "perceptionRadius": 320, "abandonAfterMs": 4200, "pursuitBurstMs": 1200, "recoveryMs": 900, "turnResponseMs": 460 },
-    { "id": "behavior-scavenger", "family": "scavenger", "movementPattern": "circle-wounded", "weaknessId": "weakness-greedy", "perceptionRadius": 280, "abandonAfterMs": 3600 },
-    { "id": "behavior-apex", "family": "apex", "movementPattern": "claim-zone-pursue", "weaknessId": "weakness-telegraphed-charge", "perceptionRadius": 420, "abandonAfterMs": 6000 }
+    {
+      "id": "behavior-resource",
+      "family": "resource",
+      "movementPattern": "slow-drift",
+      "weaknessId": "weakness-any-engulf",
+      "perceptionRadius": 1,
+      "abandonAfterMs": 0
+    },
+    {
+      "id": "behavior-skittish",
+      "family": "skittish",
+      "movementPattern": "flee-burst",
+      "weaknessId": "weakness-cornered",
+      "perceptionRadius": 180,
+      "abandonAfterMs": 1800
+    },
+    {
+      "id": "behavior-school",
+      "family": "school",
+      "movementPattern": "orbit-flock",
+      "weaknessId": "weakness-isolated",
+      "perceptionRadius": 220,
+      "abandonAfterMs": 2400
+    },
+    {
+      "id": "behavior-competitor",
+      "family": "competitor",
+      "movementPattern": "contest-food",
+      "weaknessId": "weakness-baited",
+      "perceptionRadius": 240,
+      "abandonAfterMs": 3200
+    },
+    {
+      "id": "behavior-ambusher",
+      "family": "ambusher",
+      "movementPattern": "hide-lunge-reset",
+      "weaknessId": "weakness-missed-lunge",
+      "perceptionRadius": 210,
+      "abandonAfterMs": 2600,
+      "telegraphMs": 360,
+      "pursuitBurstMs": 520,
+      "recoveryMs": 900
+    },
+    {
+      "id": "behavior-hunter",
+      "family": "hunter",
+      "movementPattern": "telegraph-chase-recover",
+      "weaknessId": "weakness-turn-radius",
+      "perceptionRadius": 320,
+      "abandonAfterMs": 4200,
+      "pursuitBurstMs": 1200,
+      "recoveryMs": 900,
+      "turnResponseMs": 460,
+      "telegraphMs": 420
+    },
+    {
+      "id": "behavior-scavenger",
+      "family": "scavenger",
+      "movementPattern": "circle-wounded",
+      "weaknessId": "weakness-greedy",
+      "perceptionRadius": 280,
+      "abandonAfterMs": 3600
+    },
+    {
+      "id": "behavior-apex",
+      "family": "apex",
+      "movementPattern": "claim-zone-pursue",
+      "weaknessId": "weakness-telegraphed-charge",
+      "perceptionRadius": 420,
+      "abandonAfterMs": 6000,
+      "telegraphMs": 520,
+      "pursuitBurstMs": 720,
+      "recoveryMs": 1100
+    },
+    {
+      "id": "behavior-thornback",
+      "family": "competitor",
+      "movementPattern": "contest-food",
+      "weaknessId": "weakness-baited",
+      "perceptionRadius": 480,
+      "abandonAfterMs": 3200
+    },
+    {
+      "id": "behavior-seam-lurker",
+      "family": "ambusher",
+      "movementPattern": "hide-lunge-reset",
+      "weaknessId": "weakness-missed-lunge",
+      "perceptionRadius": 500,
+      "abandonAfterMs": 2600,
+      "telegraphMs": 650,
+      "pursuitBurstMs": 650,
+      "recoveryMs": 1300
+    },
+    {
+      "id": "behavior-lantern-school",
+      "family": "school",
+      "movementPattern": "orbit-flock",
+      "weaknessId": "weakness-isolated",
+      "perceptionRadius": 700,
+      "abandonAfterMs": 2400
+    },
+    {
+      "id": "behavior-razor-ray",
+      "family": "hunter",
+      "movementPattern": "telegraph-chase-recover",
+      "weaknessId": "weakness-turn-radius",
+      "perceptionRadius": 850,
+      "abandonAfterMs": 4200,
+      "pursuitBurstMs": 1000,
+      "recoveryMs": 1400,
+      "turnResponseMs": 600,
+      "telegraphMs": 550
+    },
+    {
+      "id": "behavior-leviathan",
+      "family": "apex",
+      "movementPattern": "claim-zone-pursue",
+      "weaknessId": "weakness-telegraphed-charge",
+      "perceptionRadius": 1800,
+      "abandonAfterMs": 6000,
+      "telegraphMs": 900,
+      "pursuitBurstMs": 1100,
+      "recoveryMs": 3200
+    }
   ],
   "scaleTiers": [
     {
@@ -1948,11 +4224,17 @@
       "name": "原始单细胞",
       "environmentId": "env-clear-drop",
       "targetDurationMs": 150000,
-      "radiusRange": [12, 22],
-      "screenDiameterRange": [0.16, 0.21],
-      "worldBodyWidths": 30,
+      "radiusRange": [
+        12,
+        30
+      ],
+      "screenDiameterRange": [
+        0.16,
+        0.22
+      ],
+      "worldBodyWidths": 24,
       "minimumCollapsedBodyWidths": 6,
-      "evolutionPressureTarget": 260,
+      "evolutionPressureTarget": 720,
       "ecologyBudgetId": "ecology-tier-single-cell",
       "encounterId": "encounter-primal-shadow",
       "movementBodyLengthsPerSecond": 2.4,
@@ -1964,14 +4246,20 @@
       "name": "聚合多细胞体",
       "environmentId": "env-fiber-maze",
       "targetDurationMs": 210000,
-      "radiusRange": [18, 32],
-      "screenDiameterRange": [0.19, 0.25],
-      "worldBodyWidths": 24,
+      "radiusRange": [
+        40,
+        64
+      ],
+      "screenDiameterRange": [
+        0.18,
+        0.235
+      ],
+      "worldBodyWidths": 22,
       "minimumCollapsedBodyWidths": 6,
-      "evolutionPressureTarget": 540,
+      "evolutionPressureTarget": 1000,
       "ecologyBudgetId": "ecology-tier-colony",
       "encounterId": "encounter-fiber-giant",
-      "movementBodyLengthsPerSecond": 2.0,
+      "movementBodyLengthsPerSecond": 2,
       "turnResponseMs": 170
     },
     {
@@ -1980,11 +4268,17 @@
       "name": "草履虫型复合体",
       "environmentId": "env-abandoned-chamber",
       "targetDurationMs": 270000,
-      "radiusRange": [24, 40],
-      "screenDiameterRange": [0.22, 0.28],
-      "worldBodyWidths": 22,
+      "radiusRange": [
+        88,
+        176
+      ],
+      "screenDiameterRange": [
+        0.2,
+        0.25
+      ],
+      "worldBodyWidths": 20,
       "minimumCollapsedBodyWidths": 6,
-      "evolutionPressureTarget": 900,
+      "evolutionPressureTarget": 1350,
       "ecologyBudgetId": "ecology-tier-ciliate",
       "encounterId": "encounter-final-host",
       "movementBodyLengthsPerSecond": 1.95,
@@ -1993,7 +4287,10 @@
   ],
   "m1": {
     "firstEvolutionAtMs": 45000,
-    "sliceTargetMs": [300000, 480000],
+    "sliceTargetMs": [
+      300000,
+      480000
+    ],
     "ecologyReplenishment": {
       "intervalMs": 2500,
       "targetFoodCount": 14,
@@ -2012,23 +4309,207 @@
       "threatAlertMs": 650
     },
     "stageEntryEcology": [
-      { "stageIndex": 1, "groups": [{ "role": "resource", "count": 5, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }] },
-      { "stageIndex": 2, "groups": [{ "role": "resource", "count": 4, "distance": 90 }, { "role": "prey", "count": 3, "distance": 145 }, { "role": "competitor", "count": 2, "distance": 185 }, { "role": "hunter", "count": 1, "distance": 250 }] },
-      { "stageIndex": 3, "groups": [{ "role": "resource", "count": 4, "distance": 95 }, { "role": "prey", "count": 3, "distance": 150 }, { "role": "competitor", "count": 2, "distance": 195 }, { "role": "hunter", "count": 1, "distance": 240 }] },
-      { "stageIndex": 4, "groups": [{ "role": "resource", "count": 4, "distance": 100 }, { "role": "prey", "count": 3, "distance": 155 }, { "role": "scavenger", "count": 2, "distance": 195 }, { "role": "hunter", "count": 2, "distance": 255 }] },
-      { "stageIndex": 5, "groups": [{ "role": "resource", "count": 4, "distance": 100 }, { "role": "competitor", "count": 3, "distance": 170 }, { "role": "hunter", "count": 2, "distance": 245 }, { "role": "apex", "count": 1, "distance": 300 }] },
-      { "stageIndex": 6, "groups": [{ "role": "resource", "count": 4, "distance": 105 }, { "role": "prey", "count": 3, "distance": 160 }, { "role": "scavenger", "count": 2, "distance": 205 }, { "role": "hunter", "count": 2, "distance": 250 }, { "role": "apex", "count": 1, "distance": 310 }] }
+      {
+        "stageIndex": 1,
+        "groups": [
+          {
+            "role": "resource",
+            "count": 5,
+            "distance": 90
+          },
+          {
+            "role": "prey",
+            "count": 3,
+            "distance": 145
+          }
+        ]
+      },
+      {
+        "stageIndex": 2,
+        "groups": [
+          {
+            "role": "resource",
+            "count": 4,
+            "distance": 90
+          },
+          {
+            "role": "prey",
+            "count": 3,
+            "distance": 145
+          },
+          {
+            "role": "competitor",
+            "count": 2,
+            "distance": 185
+          },
+          {
+            "role": "hunter",
+            "count": 1,
+            "distance": 250
+          }
+        ]
+      },
+      {
+        "stageIndex": 3,
+        "groups": [
+          {
+            "role": "resource",
+            "count": 4,
+            "distance": 95
+          },
+          {
+            "role": "prey",
+            "count": 3,
+            "distance": 150
+          },
+          {
+            "role": "competitor",
+            "count": 2,
+            "distance": 195
+          },
+          {
+            "role": "hunter",
+            "count": 1,
+            "distance": 240
+          }
+        ]
+      },
+      {
+        "stageIndex": 4,
+        "groups": [
+          {
+            "role": "resource",
+            "count": 4,
+            "distance": 100
+          },
+          {
+            "role": "prey",
+            "count": 3,
+            "distance": 155
+          },
+          {
+            "role": "scavenger",
+            "count": 2,
+            "distance": 195
+          },
+          {
+            "role": "hunter",
+            "count": 2,
+            "distance": 255
+          }
+        ]
+      },
+      {
+        "stageIndex": 5,
+        "groups": [
+          {
+            "role": "resource",
+            "count": 4,
+            "distance": 100
+          },
+          {
+            "role": "competitor",
+            "count": 3,
+            "distance": 170
+          },
+          {
+            "role": "hunter",
+            "count": 2,
+            "distance": 245
+          },
+          {
+            "role": "apex",
+            "count": 1,
+            "distance": 300
+          }
+        ]
+      },
+      {
+        "stageIndex": 6,
+        "groups": [
+          {
+            "role": "resource",
+            "count": 4,
+            "distance": 105
+          },
+          {
+            "role": "prey",
+            "count": 3,
+            "distance": 160
+          },
+          {
+            "role": "scavenger",
+            "count": 2,
+            "distance": 205
+          },
+          {
+            "role": "hunter",
+            "count": 2,
+            "distance": 250
+          },
+          {
+            "role": "apex",
+            "count": 1,
+            "distance": 310
+          }
+        ]
+      }
     ],
     "stageThreatProfiles": [
-      { "stageIndex": 1, "hostileCruiseSpeedRatio": 0.68, "pursuitSpeedMultiplier": 1.45, "minimumHunterRadiusRatio": 1.18, "contactDamageMultiplier": 1, "spawnClearance": 88 },
-      { "stageIndex": 2, "hostileCruiseSpeedRatio": 0.82, "pursuitSpeedMultiplier": 1.55, "minimumHunterRadiusRatio": 1.25, "contactDamageMultiplier": 1.6, "spawnClearance": 82 },
-      { "stageIndex": 3, "hostileCruiseSpeedRatio": 0.84, "pursuitSpeedMultiplier": 1.56, "minimumHunterRadiusRatio": 1.28, "contactDamageMultiplier": 1.8, "spawnClearance": 78 },
-      { "stageIndex": 4, "hostileCruiseSpeedRatio": 0.86, "pursuitSpeedMultiplier": 1.58, "minimumHunterRadiusRatio": 1.31, "contactDamageMultiplier": 2, "spawnClearance": 76 },
-      { "stageIndex": 5, "hostileCruiseSpeedRatio": 0.88, "pursuitSpeedMultiplier": 1.6, "minimumHunterRadiusRatio": 1.34, "contactDamageMultiplier": 2.2, "spawnClearance": 74 },
-      { "stageIndex": 6, "hostileCruiseSpeedRatio": 0.9, "pursuitSpeedMultiplier": 1.62, "minimumHunterRadiusRatio": 1.38, "contactDamageMultiplier": 2.4, "spawnClearance": 72 }
+      {
+        "stageIndex": 1,
+        "hostileCruiseSpeedRatio": 0.68,
+        "pursuitSpeedMultiplier": 1.45,
+        "minimumHunterRadiusRatio": 1.18,
+        "contactDamageMultiplier": 1,
+        "spawnClearance": 88
+      },
+      {
+        "stageIndex": 2,
+        "hostileCruiseSpeedRatio": 0.82,
+        "pursuitSpeedMultiplier": 1.55,
+        "minimumHunterRadiusRatio": 1.25,
+        "contactDamageMultiplier": 1.6,
+        "spawnClearance": 82
+      },
+      {
+        "stageIndex": 3,
+        "hostileCruiseSpeedRatio": 0.84,
+        "pursuitSpeedMultiplier": 1.56,
+        "minimumHunterRadiusRatio": 1.28,
+        "contactDamageMultiplier": 1.8,
+        "spawnClearance": 78
+      },
+      {
+        "stageIndex": 4,
+        "hostileCruiseSpeedRatio": 0.86,
+        "pursuitSpeedMultiplier": 1.58,
+        "minimumHunterRadiusRatio": 1.31,
+        "contactDamageMultiplier": 2,
+        "spawnClearance": 76
+      },
+      {
+        "stageIndex": 5,
+        "hostileCruiseSpeedRatio": 0.88,
+        "pursuitSpeedMultiplier": 1.6,
+        "minimumHunterRadiusRatio": 1.34,
+        "contactDamageMultiplier": 2.2,
+        "spawnClearance": 74
+      },
+      {
+        "stageIndex": 6,
+        "hostileCruiseSpeedRatio": 0.9,
+        "pursuitSpeedMultiplier": 1.62,
+        "minimumHunterRadiusRatio": 1.38,
+        "contactDamageMultiplier": 2.4,
+        "spawnClearance": 72
+      }
     ],
     "eventSchedule": [
-      { "eventId": "event-nutrient-bloom", "atMs": 90000 }
+      {
+        "eventId": "event-nutrient-bloom",
+        "atMs": 90000
+      }
     ],
     "bossSpawnAtMs": 240000,
     "routeRifts": [
@@ -2183,14 +4664,446 @@
           }
         ],
         "spawnSchedule": [
-          { "atMs": 0, "definitionId": "nutrient-clear-speck", "count": 96 },
-          { "atMs": 0, "definitionId": "prey-drifter", "count": 28 },
-          { "atMs": 15000, "definitionId": "competitor-spark", "count": 12 },
-          { "atMs": 30000, "definitionId": "scavenger-vesicle", "count": 8 },
-          { "atMs": 45000, "definitionId": "predator-azure-ring", "count": 4 },
-          { "atMs": 75000, "definitionId": "elite-membrane-warden", "count": 2 }
+          {
+            "atMs": 0,
+            "definitionId": "nutrient-clear-speck",
+            "count": 96
+          },
+          {
+            "atMs": 0,
+            "definitionId": "prey-drifter",
+            "count": 28
+          },
+          {
+            "atMs": 15000,
+            "definitionId": "competitor-spark",
+            "count": 12
+          },
+          {
+            "atMs": 30000,
+            "definitionId": "scavenger-vesicle",
+            "count": 8
+          },
+          {
+            "atMs": 45000,
+            "definitionId": "predator-azure-ring",
+            "count": 4
+          },
+          {
+            "atMs": 75000,
+            "definitionId": "elite-membrane-warden",
+            "count": 2
+          }
         ]
       }
     ]
+  },
+  "ecosystems": [
+    {
+      "tierIndex": 0,
+      "name": "原生微滴",
+      "subtitle": "先活下来，再回头狩猎",
+      "objective": "吞食成长，反猎湛环捕食者",
+      "encounterName": "湛环捕食者",
+      "encounterHint": "幼小时借纤维遮住视线；长大后从侧面反猎。",
+      "encounterCreatureId": "predator-azure-ring",
+      "encounterRadius": 22,
+      "encounterAtPressure": 0.08,
+      "activeBiomassTarget": 180,
+      "mutationPressures": [
+        0.28,
+        0.62
+      ],
+      "openingFoodCount": 9,
+      "openingFoodDistance": 33,
+      "sightBodyWidths": [
+        7,
+        10
+      ],
+      "carryoverCreatureIds": [],
+      "enemyNotes": [
+        {
+          "creatureId": "creature-algae-speck",
+          "title": "营养浮游",
+          "behavior": "随水流漂移，聚成可追逐的小群。",
+          "weakness": "靠近并完整包裹，积累最初的成长。"
+        },
+        {
+          "creatureId": "creature-drifter",
+          "title": "警觉猎物",
+          "behavior": "发现大生物后急转逃离。",
+          "weakness": "从水流外侧绕行，截住逃跑方向。"
+        },
+        {
+          "creatureId": "creature-spark-swarm",
+          "title": "争食者",
+          "behavior": "抢先吃掉营养，聚集后形成争食圈。",
+          "weakness": "先抢外侧资源，长大后拆散它们。"
+        },
+        {
+          "creatureId": "creature-vesicle-scavenger",
+          "title": "机会主义者",
+          "behavior": "绕着伤者和残片游动，趁乱收割。",
+          "weakness": "先恢复膜完整度，别让它捡到残片。"
+        },
+        {
+          "creatureId": "predator-azure-ring",
+          "title": "旧日强敌",
+          "behavior": "停顿蓄力后追击，急转能力较弱。",
+          "weakness": "幼时侧移避锋，成熟后主动反猎。"
+        },
+        {
+          "creatureId": "predator-membrane-warden",
+          "title": "领地巨物",
+          "behavior": "守住肥沃水域，用厚膜和冲撞驱赶来客。",
+          "weakness": "当前绕开；进化成聚合体后它会成为猎物。"
+        }
+      ],
+      "openingFoodRadiusRatio": 0.4,
+      "openingFoodSpeed": 8,
+      "encounterDistance": 155,
+      "encounterSpeedBodyLengths": 1.1,
+      "carryoverSpeedBodyLengths": 1.6
+    },
+    {
+      "tierIndex": 1,
+      "name": "聚合水层",
+      "subtitle": "破开纤维，接管争食水层",
+      "objective": "围猎旧敌，找出纤维潜猎体",
+      "encounterName": "纤维潜猎体",
+      "encounterHint": "纤维可以挤过；长大后推开纤维，避开扑击再反猎。",
+      "encounterCreatureId": "predator-fiber-stalker",
+      "encounterRadius": 50,
+      "encounterAtPressure": 0.08,
+      "activeBiomassTarget": 1400,
+      "mutationPressures": [
+        0.28,
+        0.62
+      ],
+      "openingFoodCount": 7,
+      "openingFoodDistance": 95,
+      "sightBodyWidths": [
+        10,
+        14
+      ],
+      "carryoverCreatureIds": [
+        "predator-azure-ring",
+        "predator-membrane-warden"
+      ],
+      "enemyNotes": [
+        {
+          "creatureId": "predator-azure-ring",
+          "title": "旧敌·已可反猎",
+          "behavior": "发现聚合体后会逃离，外形与上一层相同。",
+          "weakness": "利用更大的身体截断逃路。"
+        },
+        {
+          "creatureId": "predator-membrane-warden",
+          "title": "旧敌·领地易主",
+          "behavior": "昔日守卫失去体型优势，厚膜不再阻止包裹。",
+          "weakness": "绕过正面，从侧后方收割。"
+        },
+        {
+          "creatureId": "creature-thread-grazer",
+          "title": "纤维食客",
+          "behavior": "沿纤维觅食，受惊后顺流逃跑。",
+          "weakness": "借助流向截获。"
+        },
+        {
+          "creatureId": "creature-fiber-scavenger",
+          "title": "残片争夺者",
+          "behavior": "追逐破损生物留下的资源。",
+          "weakness": "抢先占住资源外缘。"
+        },
+        {
+          "creatureId": "predator-fiber-stalker",
+          "title": "伏击猎手",
+          "behavior": "借纤维隐蔽，蓄势后直线扑击。",
+          "weakness": "先变向骗过扑击，再回头反猎。"
+        },
+        {
+          "creatureId": "creature-ring-swarm",
+          "title": "闭环游群",
+          "behavior": "沿同伴轨迹聚拢游动，被冲散后重新结队。",
+          "weakness": "先截住游群边缘，再利用大身体封住退路。"
+        },
+        {
+          "creatureId": "creature-thornback-forager",
+          "title": "棘背争食体",
+          "behavior": "沿营养囊争食，受惊后退向同类。",
+          "weakness": "破开纤维后截住争食路线。"
+        },
+        {
+          "creatureId": "predator-seam-lurker",
+          "title": "缝隙伏猎者",
+          "behavior": "停在狭缝蓄势，沿直线扑击后收缩休整。",
+          "weakness": "引出扑击，趁恢复期包裹。"
+        }
+      ],
+      "openingFoodRadiusRatio": 0.4,
+      "openingFoodSpeed": 20,
+      "encounterDistance": 480,
+      "encounterSpeedBodyLengths": 1,
+      "carryoverSpeedBodyLengths": 1.6
+    },
+    {
+      "tierIndex": 2,
+      "name": "纤毛深域",
+      "subtitle": "顺流追猎，夺取巨物的领地",
+      "objective": "连续追猎，吞噬舱壁噬体",
+      "encounterName": "舱壁噬体",
+      "encounterHint": "避开披甲冲撞；巨物收膜恢复时，包裹发光核心。",
+      "encounterCreatureId": "predator-chamber-maw",
+      "encounterRadius": 105,
+      "encounterAtPressure": 0.08,
+      "activeBiomassTarget": 7000,
+      "mutationPressures": [
+        0.28,
+        0.62
+      ],
+      "openingFoodCount": 7,
+      "openingFoodDistance": 205,
+      "sightBodyWidths": [
+        13,
+        18
+      ],
+      "carryoverCreatureIds": [
+        "predator-fiber-stalker",
+        "predator-azure-ring",
+        "predator-membrane-warden"
+      ],
+      "enemyNotes": [
+        {
+          "creatureId": "predator-fiber-stalker",
+          "title": "旧敌·猎物易位",
+          "behavior": "曾经的伏击巨物在复合体面前退缩。",
+          "weakness": "更广的视野让你提前切入逃路。"
+        },
+        {
+          "creatureId": "creature-spore-drifter",
+          "title": "深域猎物",
+          "behavior": "低速漂游，受惊时短促逃离。",
+          "weakness": "保持方向，连续追猎。"
+        },
+        {
+          "creatureId": "creature-cavity-scavenger",
+          "title": "深域拾荒群",
+          "behavior": "围绕资源密集区聚集。",
+          "weakness": "以大身体封住通道，分批吞噬。"
+        },
+        {
+          "creatureId": "predator-antibody-leech",
+          "title": "寄生追猎者",
+          "behavior": "靠近受损的膜，试图贴身消耗。",
+          "weakness": "利用纤毛速度拉开距离再回转。"
+        },
+        {
+          "creatureId": "predator-chamber-maw",
+          "title": "终局领主",
+          "behavior": "守住深域领地，预警后冲撞。",
+          "weakness": "错开冲锋路线，长大后夺取猎场。"
+        },
+        {
+          "creatureId": "creature-lantern-siphon",
+          "title": "灯囊游群",
+          "behavior": "在深流中结队环游，落单后回归游群。",
+          "weakness": "顺流截住边缘个体，连续吞噬。"
+        },
+        {
+          "creatureId": "predator-razor-ray",
+          "title": "刃鳍追猎者",
+          "behavior": "张开刃鳍蓄势，快速追击后需要重新转向。",
+          "weakness": "横向躲过直线冲击，再从侧后反猎。"
+        }
+      ],
+      "openingFoodRadiusRatio": 0.4,
+      "openingFoodSpeed": 40,
+      "encounterDistance": 1050,
+      "encounterSpeedBodyLengths": 1.1,
+      "carryoverSpeedBodyLengths": 1.6
+    }
+  ],
+  "fiberTraversal": {
+    "radiusRange": [
+      24,
+      64
+    ],
+    "speedMultiplierRange": [
+      0.42,
+      0.94
+    ],
+    "contactPadding": 16,
+    "coverMaxRadius": 52,
+    "coverPadding": 40,
+    "breakRadius": 60,
+    "breakHoldMs": 420,
+    "gapBodyRadii": 1.5,
+    "firstLayerShelters": [
+      {
+        "from": [
+          0.32,
+          0.46
+        ],
+        "to": [
+          0.4,
+          0.51
+        ]
+      },
+      {
+        "from": [
+          0.62,
+          0.42
+        ],
+        "to": [
+          0.69,
+          0.48
+        ]
+      }
+    ]
+  },
+  "lineage": {
+    "maxSeeds": 12,
+    "maxLineages": 12,
+    "maxInheritedOrgans": 1,
+    "hatchDurationMs": 3200,
+    "archetypes": [
+      {
+        "id": "lineage-dart",
+        "name": "掠影种",
+        "description": "尖首流线身体，围绕追猎器官塑造后代。",
+        "strength": "截住逃路，近身完成包裹",
+        "weakness": "幼体仍怕巨物；攻击不能替代体型优势",
+        "originId": "origin-primal-cell",
+        "route": "predation",
+        "visualRecipeId": "visual-lineage-dart",
+        "inheritancePool": [
+          "organelle-flagellum",
+          "organelle-repair-vacuole",
+          "organelle-eye-spot",
+          "organelle-cilia-ring",
+          "organelle-wide-mouth",
+          "organelle-needle-mouth",
+          "organelle-electric-sac",
+          "organelle-toxin-spine",
+          "organelle-shock-pulse",
+          "organelle-acid-gland"
+        ],
+        "minGeneration": 1
+      },
+      {
+        "id": "lineage-bastion",
+        "name": "棱甲种",
+        "description": "宽厚分节外膜，在危险边缘寻找成长机会。",
+        "strength": "借防护与恢复器官保持生存",
+        "weakness": "需选位靠近猎物，不能靠等待通关",
+        "originId": "origin-armored-spore",
+        "route": "survival",
+        "visualRecipeId": "visual-lineage-bastion",
+        "inheritancePool": [
+          "organelle-flagellum",
+          "organelle-repair-vacuole",
+          "organelle-eye-spot",
+          "organelle-cilia-ring",
+          "organelle-jet-vacuole",
+          "organelle-shell-plate",
+          "organelle-vibration-cilia",
+          "organelle-transparent-membrane",
+          "organelle-mucus-coat"
+        ],
+        "minGeneration": 1
+      },
+      {
+        "id": "lineage-bloom",
+        "name": "芽簇种",
+        "description": "花瓣状幼膜和共生核心，沿群体路线演化。",
+        "strength": "让共生、滤食与芽生器官逐渐协同",
+        "weakness": "开局只带一个器官，群体优势需要本局建立",
+        "originId": "origin-ciliate-seed",
+        "route": "colony",
+        "visualRecipeId": "visual-lineage-bloom",
+        "inheritancePool": [
+          "organelle-flagellum",
+          "organelle-repair-vacuole",
+          "organelle-eye-spot",
+          "organelle-cilia-ring",
+          "organelle-guard-symbiont",
+          "organelle-division-ring",
+          "organelle-echo-sac",
+          "organelle-filter-gill",
+          "organelle-photosome",
+          "organelle-bud-sac",
+          "organelle-recombination-core",
+          "organelle-cleaner-symbiont",
+          "organelle-lure-symbiont"
+        ],
+        "minGeneration": 2
+      }
+    ]
+  },
+  "lateEcology": {
+    "fiberReward": {
+      "creatureId": "creature-fiber-float",
+      "count": 3
+    },
+    "chamberBreak": {
+      "radius": 144,
+      "holdMs": 600
+    },
+    "chamberWalls": [
+      {
+        "from": [
+          0.16,
+          0.47
+        ],
+        "to": [
+          0.78,
+          0.47
+        ],
+        "gaps": [
+          [
+            0.42,
+            0.58
+          ]
+        ]
+      },
+      {
+        "from": [
+          0.3,
+          0.68
+        ],
+        "to": [
+          0.92,
+          0.68
+        ],
+        "gaps": [
+          [
+            0.3,
+            0.5
+          ]
+        ]
+      },
+      {
+        "from": [
+          0.08,
+          0.84
+        ],
+        "to": [
+          0.72,
+          0.84
+        ],
+        "gaps": [
+          [
+            0.55,
+            0.75
+          ]
+        ]
+      }
+    ],
+    "leviathan": {
+      "armoredRadius": 147,
+      "exposedRadius": 105,
+      "finaleMs": 1500,
+      "profileId": "behavior-leviathan"
+    }
   }
 }

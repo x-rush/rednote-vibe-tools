@@ -1,0 +1,60 @@
+{
+  "sourceHashes": {
+    "src/game/engine.ts": "41178e3c4a62e494bffd811d6c836c5dba00d378bfe705d5ed41fec6040a9517",
+    "src/game/spatial-grid.ts": "d6b582d0fcf12f1b8706b830bde796f733b303b04b59c55e337fdd4bafb1ff3f",
+    "src/domain/membrane.ts": "f518fd8aeea5540038549b717dfd58d4ef4ca0b905ff02795c687ce19d881717",
+    "src/rendering/cell.ts": "ea6b6296ee3db51a3279c70e77d682c4c55187a4157ba64262424e9f93a5810f",
+    "src/rendering/renderer.ts": "25095a09814f3357dc418d3b2bcc7eb3f462ab4cfd48ffdce0a8d4c97e73d4ae",
+    "src/rendering/feedback.ts": "75759a6e790b1b7382f4d8720082055606aab860fb053fbd40e7113c3393e87b"
+  },
+  "bundleHash": "ac324a4311673ec6ecce7c931ddb9b1c75d3cff57e33f23f7dbe8ef62955f0f1",
+  "method": "QA initial late state and 120 real source AI chasers at radius147, food replenishment and membrane protection; real terrain breaks/engulfs. No renderer-only clones. Fixed step and actual RAF catch-up separate; source compiled in memory; not normalplaythrough or physical phone.",
+  "cases": [
+    {
+      "throttle": 4,
+      "count": 120,
+      "frames": 180,
+      "catchUp": false,
+      "update": {
+        "mean": 8.132777778307597,
+        "p50": 7.300000011920929,
+        "p95": 13.599999964237213,
+        "max": 32.60000002384186
+      },
+      "render": {
+        "mean": 33.47166666520967,
+        "p50": 30.100000023841858,
+        "p95": 55.200000047683716,
+        "max": 135.10000002384186
+      },
+      "total": {
+        "mean": 41.88333333233992,
+        "p50": 37.89999997615814,
+        "p95": 66.40000003576279,
+        "max": 162.9000000357628
+      },
+      "frameGap": {
+        "mean": 62.54888888888888,
+        "p50": 58.5,
+        "p95": 104.09999999999854,
+        "max": 175.39999999999964
+      },
+      "population": {
+        "min": 132,
+        "max": 135
+      },
+      "events": {
+        "engulfs": 64,
+        "breaks": 0,
+        "overlapFrames": 0,
+        "maxChasing": 120
+      },
+      "longTasks": {
+        "count": 45,
+        "max": 171
+      },
+      "simulatedMs": 3000.0000000002183
+    }
+  ],
+  "errors": []
+}

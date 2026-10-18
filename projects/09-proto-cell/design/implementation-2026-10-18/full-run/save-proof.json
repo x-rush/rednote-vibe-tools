@@ -1,0 +1,73 @@
+{
+  "environmentRewardCounts": {
+    "environment:env-clear-drop": 1,
+    "environment:env-fiber-maze": 1,
+    "environment:env-abandoned-chamber": 1
+  },
+  "finalArchive": {
+    "speciesNameSeed": 2936477946,
+    "survivalMs": 696483.3333331766,
+    "farthestEnvironmentId": "env-abandoned-chamber",
+    "maxBiomass": 134009,
+    "keyOrganelleIds": [
+      "organelle-electric-sac",
+      "organelle-shock-pulse",
+      "organelle-needle-mouth"
+    ],
+    "synergyIds": [],
+    "endingId": "ending-stable-species",
+    "dishCode": "PC1.eyJ2IjoiMS4wLjAiLCJzIjo3MjcsInIiOlsiZW52LWFjaWQtdmVzaWNsZSIsImVudi1hbnRpYm9keS1zdG9ybSJdfQ.1J4DH6W",
+    "finalMorphology": {
+      "bodyCount": 1,
+      "totalMass": 134009,
+      "radius": 176,
+      "stability": 84,
+      "organelles": [
+        {
+          "id": "organelle-electric-sac",
+          "stage": "installed",
+          "anchor": "left"
+        },
+        {
+          "id": "organelle-shock-pulse",
+          "stage": "installed",
+          "anchor": "core"
+        },
+        {
+          "id": "organelle-needle-mouth",
+          "stage": "installed",
+          "anchor": "front"
+        },
+        {
+          "id": "organelle-toxin-spine",
+          "stage": "installed",
+          "anchor": "membrane"
+        },
+        {
+          "id": "organelle-acid-gland",
+          "stage": "installed",
+          "anchor": "internal"
+        },
+        {
+          "id": "organelle-vibration-cilia",
+          "stage": "installed",
+          "anchor": "right"
+        }
+      ]
+    },
+    "finalBodyStage": "specialist",
+    "finalFormId": "form-ciliate-composite",
+    "finalTierIndex": 2,
+    "ecosystemIds": [
+      "env-clear-drop",
+      "env-fiber-maze",
+      "env-abandoned-chamber"
+    ],
+    "buildRouteCounts": {
+      "predation": 5,
+      "survival": 1,
+      "colony": 0
+    },
+    "journeyStageIndex": 2
+  }
+}

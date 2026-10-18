@@ -1,0 +1,52 @@
+import type { CellPalette } from './cell'
+import type { RenderQuality } from './effects'
+import { drawLateCreatureAnatomy } from './late-anatomy'
+
+const SPECIES = new Set(['creature-thornback-forager', 'predator-seam-lurker', 'creature-lantern-siphon', 'predator-razor-ray', 'predator-chamber-maw'])
+const RESOLUTION = 3
+const MAX_PIXELS = 1_048_576
+type Surface = { canvas: HTMLCanvasElement; context: CanvasRenderingContext2D }
+export type AnatomyLayer = ReturnType<typeof createAnatomyLayer>
+
+/** Renderer-owned, same-frame layers. Every animated input is part of the key.
+ * Only ID-independent interior anatomy is shared; the real membrane stays live.
+ * Surfaces are reused, capped at 8 / 4 MiB, and never persisted. */
+export function createAnatomyLayer(createSurface: () => HTMLCanvasElement | undefined = () => typeof document === 'undefined' ? undefined : document.createElement('canvas')) {
+  const pool: Surface[] = []
+  const frame = new Map<string, Surface>()
+  let used = 0
+  return {
+    beginFrame() { frame.clear(); used = 0 },
+    draw(context: CanvasRenderingContext2D, definitionId: string, radius: number, time: number, palette: CellPalette, exposed: boolean, quality: RenderQuality | undefined): boolean {
+      if (!SPECIES.has(definitionId) || !Number.isFinite(radius) || radius <= 0 || context.globalAlpha !== 1 || context.globalCompositeOperation !== 'source-over') return false
+      const size = Math.ceil((radius * 2 + 4) * RESOLUTION)
+      if (size > 512) return false
+      const key = `${definitionId}:${radius}:${time}:${exposed}:${quality}:${palette.membrane}:${palette.core}:${palette.organ}`
+      let surface = frame.get(key)
+      if (!surface) {
+        if (used >= 8) return false
+        surface = pool[used]
+        const pixels = pool.reduce((sum, slot) => sum + slot.canvas.width * slot.canvas.height, 0)
+        if (pixels - (surface ? surface.canvas.width * surface.canvas.height : 0) + size * size > MAX_PIXELS) return false
+        if (!surface) {
+          const canvas = createSurface(), target = canvas?.getContext('2d')
+          if (!canvas || !target) return false
+          surface = { canvas, context: target }
+          pool.push(surface)
+        }
+        used += 1
+        const { canvas, context: target } = surface
+        if (canvas.width !== size || canvas.height !== size) { canvas.width = size; canvas.height = size }
+        target.setTransform(1, 0, 0, 1, 0, 0)
+        target.clearRect(0, 0, size, size)
+        target.setTransform(RESOLUTION, 0, 0, RESOLUTION, size / 2, size / 2)
+        drawLateCreatureAnatomy(target, definitionId, radius, time, palette, exposed, quality)
+        frame.set(key, surface)
+      }
+      const extent = surface.canvas.width / RESOLUTION
+      context.drawImage(surface.canvas, -extent / 2, -extent / 2, extent, extent)
+      return true
+    },
+    destroy() { frame.clear(); for (const { canvas } of pool) { canvas.width = 0; canvas.height = 0 }; pool.length = 0 },
+  }
+}

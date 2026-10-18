@@ -1,9 +1,20 @@
 import { describe, expect, it } from 'vitest'
 import { eventLog, testContent } from '../tests/fixtures'
-import { createHudViewModel, createResultViewModel, createViewModel } from './view-model'
+import { createArchiveViewModelFromSummary, createHudViewModel, createResultViewModel, createViewModel } from './view-model'
 import { createBuildState } from '../evolution/build'
 
 describe('app result view model', () => {
+  it('reconstructs the real saved form and full installed organs for the shared specimen', () => {
+    const model = createArchiveViewModelFromSummary({
+      speciesNameSeed: 727, survivalMs: 9000, farthestEnvironmentId: 'env-fiber-maze', maxBiomass: 900,
+      keyOrganelleIds: ['organelle-flagellum'], synergyIds: [], dishCode: '', finalBodyStage: 'hunter', finalFormId: 'form-colony-body',
+      buildRouteCounts: { predation: 1, survival: 1, colony: 2 }, journeyStageIndex: 1,
+      finalMorphology: { bodyCount: 1, totalMass: 900, radius: 42, stability: 81, organelles: [{ id: 'organelle-jet-vacuole', stage: 'installed', anchor: 'rear' }] },
+    }, testContent())
+    expect(model.formId).toBe('form-colony-body')
+    expect(model.build.traitIds).toEqual(['organelle-jet-vacuole'])
+    expect(model.build.stability).toBe(81)
+  })
   it('derives result facts from events instead of generic copy', () => {
     const result = createResultViewModel({
       events: [{ type: 'player-died', cause: 'predator-engulf', atMs: 360_000 }],
@@ -20,6 +31,8 @@ describe('app result view model', () => {
     expect(result.route).toBe('uncommitted')
     expect(result.routeLabel).toBe('尚未定型')
     expect(result.keyTraitIds).toContain('organelle-flagellum')
+    expect(result.journeyTotal).toBe(3)
+    expect(result.journeyStage).toBe(3)
   })
 
   it('maps a truthful archive to content-owned labels and environment art direction', () => {

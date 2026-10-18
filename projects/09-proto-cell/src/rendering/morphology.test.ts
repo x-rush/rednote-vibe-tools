@@ -30,7 +30,18 @@ describe('build morphology', () => {
       traitIds: ['organelle-flagellum', 'organelle-jet-vacuole', 'organelle-shell-plate', 'organelle-eye-spot', 'organelle-wide-mouth', 'organelle-mucus-coat', 'organelle-electric-sac'],
     }))
 
-    expect(profile.parts).toHaveLength(6)
+    expect(profile.parts).toHaveLength(7)
     expect(profile.installedTraitCount).toBe(7)
+  })
+
+  it('retains the inherited organ alongside all six new mutations in every form', () => {
+    const build = createBuildState({ traitIds: ['organelle-flagellum', 'organelle-jet-vacuole', 'organelle-shell-plate', 'organelle-eye-spot', 'organelle-wide-mouth', 'organelle-mucus-coat', 'organelle-electric-sac'] })
+    for (const form of ['form-primal-cell', 'form-colony-body', 'form-ciliate-composite'] as const) {
+      const profile = morphologyFor(form, build)
+      expect(profile.parts).toContain('pursuit-tail')
+      expect(profile.parts.filter((part) => part !== 'oral-groove')).toEqual(['pursuit-tail', 'jet-pod', 'shell-plates', 'light-eye', 'wide-maw', 'mucus-rim', 'arc-sacs'])
+      expect(profile.parts).toContain('arc-sacs')
+      if (form === 'form-ciliate-composite') expect(profile.parts).toContain('oral-groove')
+    }
   })
 })

@@ -1,0 +1,221 @@
+{
+  "records": [
+    {
+      "width": 844,
+      "height": 390,
+      "name": "library-full",
+      "mode": "wheel",
+      "controls": 27,
+      "reachable": 26,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 4053,
+        "scroll": 3663,
+        "overflow": "auto"
+      },
+      "gestures": 23
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "codex",
+      "mode": "wheel",
+      "controls": 1,
+      "reachable": 1,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 2303,
+        "scroll": 1913,
+        "overflow": "auto"
+      },
+      "gestures": 48
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "genes",
+      "mode": "wheel",
+      "controls": 4,
+      "reachable": 2,
+      "disabled": 2,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 482,
+        "scroll": 92,
+        "overflow": "auto"
+      },
+      "gestures": 51
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "archive",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1101,
+        "scroll": 711,
+        "overflow": "auto"
+      },
+      "gestures": 56
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "evolution-choices",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 194,
+        "left": 62,
+        "width": 720,
+        "height": 114,
+        "client": 114,
+        "total": 276,
+        "scroll": 162,
+        "overflow": "auto"
+      },
+      "gestures": 61
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "result",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 4,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 824,
+        "scroll": 434,
+        "overflow": "auto"
+      },
+      "gestures": 63
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "result-expanded",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 5,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 876,
+        "scroll": 486,
+        "overflow": "auto"
+      },
+      "gestures": 67
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "settings",
+      "mode": "wheel",
+      "controls": 12,
+      "reachable": 11,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1102,
+        "scroll": 712,
+        "overflow": "auto"
+      },
+      "gestures": 71
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "settings-exported",
+      "mode": "wheel",
+      "controls": 13,
+      "reachable": 12,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1277,
+        "scroll": 887,
+        "overflow": "auto"
+      },
+      "gestures": 80
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "settings-clear-confirm",
+      "mode": "wheel",
+      "controls": 14,
+      "reachable": 13,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1394,
+        "scroll": 1004,
+        "overflow": "auto"
+      },
+      "gestures": 88
+    }
+  ],
+  "failures": [
+    {
+      "width": 844,
+      "height": 390,
+      "mode": "wheel",
+      "name": "home",
+      "message": "Error: Control cannot be reached {\"text\":\"本地每日培养皿由本机日期生成，不与全球同步\",\"rect\":{\"x\":227,\"y\":299.609375,\"width\":390,\"height\":61},\"g\":{\"top\":0,\"left\":0,\"width\":844,\"height\":390,\"client\":390,\"total\":1035,\"scroll\":645,\"overflow\":\"auto\"}}"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "mode": "wheel",
+      "name": "library",
+      "message": "Error: Control cannot be reached {\"text\":\"已设为初始\",\"rect\":{\"x\":188,\"y\":242.953125,\"width\":636,\"height\":46},\"g\":{\"top\":0,\"left\":0,\"width\":844,\"height\":390,\"client\":390,\"total\":4053,\"scroll\":3663,\"overflow\":\"auto\"}}"
+    }
+  ],
+  "method": "Actual production App for lab/settings/library/codex/genes/archive; production overlay components mounted for evolution/result using actual App CSS. Explicit touch and wheel gestures, coordinate taps and elementFromPoint hit tests; no locator.click or scrollIntoView."
+}

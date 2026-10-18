@@ -1,0 +1,196 @@
+{
+  "sourceHashes": {
+    "src/game/engine.ts": "41178e3c4a62e494bffd811d6c836c5dba00d378bfe705d5ed41fec6040a9517",
+    "src/game/spatial-grid.ts": "d6b582d0fcf12f1b8706b830bde796f733b303b04b59c55e337fdd4bafb1ff3f",
+    "src/domain/membrane.ts": "f518fd8aeea5540038549b717dfd58d4ef4ca0b905ff02795c687ce19d881717",
+    "src/rendering/cell.ts": "540ebfbac2d66589e67873fc904af455c1d971e2e5915ba4adf9538e686a0da6",
+    "src/rendering/renderer.ts": "297103bdbd0cb458b068670f4ce2f06a43d184b5e98d026592e92ab28429e109",
+    "src/rendering/feedback.ts": "88b453d474fc843c0dd5b914323e50a34bb1eb3574e4c97d0dbb70d584870016",
+    "src/rendering/body-path.ts": "953b4220fd761031d4bdc314633db0f29790f5a87462e21f53d40e5c53553c75"
+  },
+  "bundleHash": "6efefe39b7372360f8be6bcccc3327304fd7b183ce564a87aa195339b41f55df",
+  "method": "QA initial late state and 120 real source AI chasers at radius147, food replenishment and membrane protection; real terrain breaks/engulfs. No renderer-only clones. Fixed step and actual RAF catch-up separate; source compiled in memory; not normalplaythrough or physical phone.",
+  "cases": [
+    {
+      "throttle": 1,
+      "count": 120,
+      "frames": 300,
+      "catchUp": false,
+      "update": {
+        "mean": 0.9310000018278758,
+        "p50": 0.8999999761581421,
+        "p95": 1.600000023841858,
+        "max": 2.300000011920929
+      },
+      "render": {
+        "mean": 2.332999996940295,
+        "p50": 2.600000023841858,
+        "p95": 3.800000011920929,
+        "max": 4.5
+      },
+      "total": {
+        "mean": 3.288999999364217,
+        "p50": 3.5,
+        "p95": 5.199999988079071,
+        "max": 6.200000047683716
+      },
+      "frameGap": {
+        "mean": 25.08966666666667,
+        "p50": 29.09999999999991,
+        "p95": 45.90000000000009,
+        "max": 100.19999999999982
+      },
+      "population": {
+        "min": 132,
+        "max": 132
+      },
+      "events": {
+        "engulfs": 128,
+        "breaks": 1,
+        "overlapFrames": 47,
+        "maxChasing": 120
+      },
+      "longTasks": {
+        "count": 0,
+        "max": 0
+      },
+      "simulatedMs": 5000.000000000364
+    },
+    {
+      "throttle": 1,
+      "count": 120,
+      "frames": 300,
+      "catchUp": true,
+      "update": {
+        "mean": 0.6983333323399226,
+        "p50": 0.699999988079071,
+        "p95": 1.9000000357627869,
+        "max": 3.700000047683716
+      },
+      "render": {
+        "mean": 1.6543333357572556,
+        "p50": 1.199999988079071,
+        "p95": 3.200000047683716,
+        "max": 5.300000011920929
+      },
+      "total": {
+        "mean": 2.3776666684945424,
+        "p50": 1.800000011920929,
+        "p95": 4.800000011920929,
+        "max": 8.699999988079071
+      },
+      "frameGap": {
+        "mean": 14.833666666666664,
+        "p50": 8.399999999999636,
+        "p95": 33.5,
+        "max": 137.70000000000005
+      },
+      "population": {
+        "min": 132,
+        "max": 140
+      },
+      "events": {
+        "engulfs": 120,
+        "breaks": 1,
+        "overlapFrames": 28,
+        "maxChasing": 120
+      },
+      "longTasks": {
+        "count": 0,
+        "max": 0
+      },
+      "simulatedMs": 4400.00000000032
+    },
+    {
+      "throttle": 4,
+      "count": 120,
+      "frames": 300,
+      "catchUp": false,
+      "update": {
+        "mean": 4.859333330790202,
+        "p50": 4.399999976158142,
+        "p95": 8.5,
+        "max": 14.200000047683716
+      },
+      "render": {
+        "mean": 15.775000000198682,
+        "p50": 16.100000023841858,
+        "p95": 29,
+        "max": 42.5
+      },
+      "total": {
+        "mean": 20.809666666785876,
+        "p50": 21.100000023841858,
+        "p95": 36.40000003576279,
+        "max": 48.5
+      },
+      "frameGap": {
+        "mean": 24.712999999999997,
+        "p50": 25.100000000000364,
+        "p95": 41.79999999999927,
+        "max": 54.19999999999982
+      },
+      "population": {
+        "min": 132,
+        "max": 132
+      },
+      "events": {
+        "engulfs": 128,
+        "breaks": 1,
+        "overlapFrames": 47,
+        "maxChasing": 120
+      },
+      "longTasks": {
+        "count": 1,
+        "max": 50
+      },
+      "simulatedMs": 5000.000000000364
+    },
+    {
+      "throttle": 4,
+      "count": 120,
+      "frames": 300,
+      "catchUp": true,
+      "update": {
+        "mean": 4.809000000953675,
+        "p50": 3.100000023841858,
+        "p95": 17.69999998807907,
+        "max": 93.10000002384186
+      },
+      "render": {
+        "mean": 8.61066666742166,
+        "p50": 5.5,
+        "p95": 28.399999976158142,
+        "max": 61.09999996423721
+      },
+      "total": {
+        "mean": 13.565000000596047,
+        "p50": 7.600000023841858,
+        "p95": 39.80000001192093,
+        "max": 151.19999998807907
+      },
+      "frameGap": {
+        "mean": 15.682333333333332,
+        "p50": 8.400000000000546,
+        "p95": 45.900000000000546,
+        "max": 158.5
+      },
+      "population": {
+        "min": 132,
+        "max": 142
+      },
+      "events": {
+        "engulfs": 145,
+        "breaks": 1,
+        "overlapFrames": 14,
+        "maxChasing": 120
+      },
+      "longTasks": {
+        "count": 14,
+        "max": 157
+      },
+      "simulatedMs": 4500.000000000327
+    }
+  ],
+  "errors": []
+}

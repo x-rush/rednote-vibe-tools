@@ -11,8 +11,8 @@ type CameraPlayer = Pick<EntityState, 'position' | 'velocity'> & { radius: numbe
 type Viewport = { width: number; height: number }
 
 export function targetScreenDiameterRatio(range: readonly [number, number], progress: number): number {
-  const min = finitePositive(range[0], 0.16)
-  const max = Math.max(min, finitePositive(range[1], min))
+  const min = Math.min(0.3, finitePositive(range[0], 0.16))
+  const max = Math.min(0.3, Math.max(min, finitePositive(range[1], min)))
   const normalized = Number.isFinite(progress) ? Math.min(1, Math.max(0, progress)) : 0
   return min + (max - min) * normalized
 }
@@ -20,7 +20,7 @@ export function targetScreenDiameterRatio(range: readonly [number, number], prog
 export function cameraZoomFor(input: { viewport: Viewport; radius: number; screenDiameterRatio: number; world?: { width: number; height: number } }): number {
   const shortSide = Math.min(input.viewport.width, input.viewport.height)
   const radius = finitePositive(input.radius, 1)
-  const ratio = finitePositive(input.screenDiameterRatio, 0.16)
+  const ratio = Math.min(0.3, finitePositive(input.screenDiameterRatio, 0.16))
   const raw = shortSide * ratio / (radius * 2)
   const worldLimit = input.world
     ? Math.min(input.viewport.width / Math.max(1, input.world.width), input.viewport.height / Math.max(1, input.world.height)) * 8
@@ -66,9 +66,10 @@ export function createCameraTracker(): {
       previousPlayerPosition = { ...player.position }
 
       if (!center || elapsedMs < previousElapsedMs || teleported) {
+        const resetZoom = !center || elapsedMs < previousElapsedMs
         center = { ...player.position }
         previousElapsedMs = elapsedMs
-        zoom = targetZoom
+        zoom = resetZoom ? targetZoom : zoom ?? targetZoom
         return { center: { ...center }, zoom, anchor }
       }
 

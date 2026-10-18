@@ -1,11 +1,12 @@
 import type { FormId, JourneyStageDefinition } from '../content'
 import type { BodyShape, EntityState, Vec2 } from '../domain/types'
-import { mostlyContains } from './containment'
+import { fullyContains, mostlyContains } from './containment'
 
 export type DamageSource = 'acid' | 'electric' | 'spine' | 'ram'
 
 export type GameEvent =
-  | { type: 'engulfed'; predatorId: string; preyId: string; predatorDefinitionId?: string; preyDefinitionId?: string; biomass: number; chain?: number; atMs: number }
+  | { type: 'engulfed'; predatorId: string; preyId: string; predatorDefinitionId?: string; preyDefinitionId?: string; biomass: number; chain?: number; reversal?: boolean; finisher?: boolean; atMs: number }
+  | { type: 'terrain-broken'; obstacleId: string; position: Vec2; atMs: number }
   | { type: 'damaged'; targetId: string; amount: number; source: DamageSource; atMs: number }
   | { type: 'blocked'; targetId: string; amount: number; atMs: number }
   | { type: 'ruptured'; targetId: string; fragmentMasses: readonly number[]; atMs: number }
@@ -34,6 +35,7 @@ export type InteractionContext = {
   engulfCoverageThreshold?: number
   engulfMassGainFraction?: number
   engulfChain?: number
+  protectedPreyId?: string
   contactDamage?: {
     source: DamageSource
     amount: number
@@ -56,7 +58,7 @@ export function resolveInteraction(
   context: InteractionContext,
 ): InteractionResult {
   const massBefore = first.mass + second.mass
-  const containment = findContainment(first, second, context.engulfCoverageThreshold ?? 0.7)
+  const containment = findContainment(first, second, context.engulfCoverageThreshold ?? 0.7, context.protectedPreyId)
 
   if (containment) {
     const lockKey = `${containment.predator.id}\u0000${containment.prey.id}`
@@ -150,11 +152,12 @@ export function resolveInteraction(
   }
 }
 
-function findContainment(first: EntityState, second: EntityState, minimumCoveredRatio: number) {
-  if (first.status === 'active' && second.status === 'active' && mostlyContains(first.body, second.body, minimumCoveredRatio)) {
+function findContainment(first: EntityState, second: EntityState, minimumCoveredRatio: number, protectedPreyId?: string) {
+  const contains = (container: BodyShape, target: BodyShape) => minimumCoveredRatio >= 1 ? fullyContains(container, target) : mostlyContains(container, target, minimumCoveredRatio)
+  if (second.id !== protectedPreyId && first.status === 'active' && second.status === 'active' && first.body.radius > second.body.radius && contains(first.body, second.body)) {
     return { predator: first, prey: second }
   }
-  if (first.status === 'active' && second.status === 'active' && mostlyContains(second.body, first.body, minimumCoveredRatio)) {
+  if (first.id !== protectedPreyId && first.status === 'active' && second.status === 'active' && second.body.radius > first.body.radius && contains(second.body, first.body)) {
     return { predator: second, prey: first }
   }
   return undefined

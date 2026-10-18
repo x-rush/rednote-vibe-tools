@@ -1,0 +1,13 @@
+{
+  "tag": "app-unpaced-hud",
+  "at": "2026-10-18T09:33:44.929Z",
+  "bundleHash": "b80548cf1acb21a08fb646e331a5647071b50ffc170a5ce47be99554f8a6d8d1",
+  "sourceHashes": {
+    "src/App.tsx": "2814341b0d20c16a17e2ae5ccbdb759b6e50d30976862d61feb469e55c4c7ec5",
+    "src/app/controller.ts": "dd6a320a64637345b966b550cc6f0319295bb2e3c75913e78dbd90e6215aa5f4",
+    "src/app/event-progress.ts": "300bdce7608c483c4d302180d728bc301dc6dfe4d62dc6e0ed9885adde34e2d7",
+    "src/app/hud-refresh.ts": "d716ab17b047f3d82774a686a280590f761cb13b343f34a9f3e73e4140b5a354",
+    "src/ui/GameCanvas.tsx": "e7130260a99b84acd6a38db07a52b879f68e0eb199b65f4a2782cbe82714eaed",
+    "src/ui/frame-pacing.ts": "730dcf1e4de8c81fac5e1d6814a9d988992f602d0b8d5fe804a94d9875d97a7a"
+  }
+}

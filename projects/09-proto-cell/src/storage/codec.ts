@@ -1,6 +1,7 @@
 import { getContent, type AnchorSlot, type BodyStage, type EnvironmentId, type FormId, type OrganelleId, type SynergyId } from '../content'
 import type { EvolutionRoute } from '../evolution/build'
 import type { PlayerMorphologySnapshot } from '../game/engine'
+import { createNursery, leaveSeed, normalizeLineageName, type CellLineage, type NurseryState, type SeedSource } from '../progression/lineage'
 
 export const MAX_SAVE_BYTES = 1024 * 1024
 
@@ -27,6 +28,7 @@ export type LifeArchiveSummary = {
   finalMorphology?: PlayerMorphologySnapshot
   finalBodyStage: BodyStage
   finalFormId?: FormId
+  finalVisualRecipeId?: string
   finalTierIndex?: number
   ecosystemIds?: EnvironmentId[]
   buildRouteCounts: Record<EvolutionRoute, number>
@@ -52,6 +54,7 @@ export type SaveDataV1 = {
     dailySeeds: Record<string, number>
   }
   lifeArchives: LifeArchiveSummary[]
+  nursery?: NurseryState
 }
 
 export type SaveIssue = { path: string; code: string; message: string }
@@ -114,7 +117,11 @@ export function decodeSave(input: unknown): DecodeSaveResult {
     ...content.bosses.map((item) => item.id),
   ]))
   const records = sanitizeRecords(parsed.records, issues)
-  const lifeArchives = sanitizeArchives(parsed.lifeArchives, issues, content).slice(-30)
+  const normalizedArchives = sanitizeArchives(parsed.lifeArchives, issues, content)
+  const lifeArchives = normalizedArchives.slice(-30)
+  const nursery = parsed.nursery === undefined
+    ? normalizedArchives.reduce((state, archive, index) => leaveSeed(state, archive, index + 1), createNursery())
+    : sanitizeNursery(parsed.nursery, issues, content)
   if (issues.length > 0) return { value: undefined, issues }
   return {
     issues,
@@ -126,6 +133,7 @@ export function decodeSave(input: unknown): DecodeSaveResult {
       codex,
       records,
       lifeArchives,
+      nursery,
     },
   }
 
@@ -185,6 +193,7 @@ export function createDefaultSave(): SaveDataV1 {
     codex: {},
     records: { bestSurvivalMs: 0, bestEnvironmentOrder: 0, maxBiomass: 0, dailySeeds: {} },
     lifeArchives: [],
+    nursery: createNursery(),
   }
 }
 
@@ -201,6 +210,130 @@ function sanitizeSettings(value: unknown, issues: SaveIssue[]): SaveSettings {
   }
   result.graphics = source.graphics === 'high' || source.graphics === 'low' ? source.graphics : 'balanced'
   return result
+}
+
+function sanitizeNursery(value: unknown, issues: SaveIssue[], content: ReturnType<typeof getContent>): NurseryState {
+  const result = createNursery()
+  const issue = (path: string, code: string, message: string) => issues.push({ path, code, message })
+  if (!isRecord(value)) {
+    issue('$.nursery', 'invalid-type', 'nursery must be an object')
+    return result
+  }
+  const list = (field: string, maximum: number): unknown[] => {
+    const candidate = value[field]
+    if (!Array.isArray(candidate)) {
+      issue(`$.nursery.${field}`, 'invalid-type', 'nursery collection must be an array')
+      return []
+    }
+    if (candidate.length > maximum) issue(`$.nursery.${field}`, 'too-many', 'nursery collection exceeds its limit')
+    return candidate.slice(0, maximum)
+  }
+  const counter = (candidate: unknown, path: string, minimum = 0): number => {
+    if (typeof candidate === 'number' && Number.isSafeInteger(candidate) && candidate >= minimum) return candidate
+    issue(path, 'invalid-number', 'nursery counters must be safe integers in range')
+    return minimum
+  }
+  const identifier = (candidate: unknown, path: string, kind: 'seed' | 'lineage'): string => {
+    if (typeof candidate === 'string' && new RegExp(`^${kind}-[a-f0-9]{16}$`).test(candidate)) return candidate
+    issue(path, 'invalid-id', 'nursery identifier is invalid')
+    return ''
+  }
+  const ancestry = (candidate: unknown, path: string): string | undefined => candidate === undefined ? undefined : identifier(candidate, path, 'lineage')
+  const organs = new Set(content.organelles.map((organ) => organ.id))
+  const archiveKeys = new Set<string>()
+  const seedIds = new Set<string>()
+  for (const [index, entry] of list('seeds', content.lineage.maxSeeds).entries()) {
+    const path = `$.nursery.seeds[${index}]`
+    if (!isRecord(entry)) { issue(path, 'invalid-type', 'seed must be an object'); continue }
+    const id = identifier(entry.id, `${path}.id`, 'seed')
+    const archiveKey = typeof entry.archiveKey === 'string' && /^[a-f0-9]{16}$/.test(entry.archiveKey) ? entry.archiveKey : ''
+    if (!archiveKey || id !== `seed-${archiveKey}` || seedIds.has(id) || archiveKeys.has(archiveKey)) issue(path, 'invalid-id', 'seed key must be unique and match its identifier')
+    seedIds.add(id)
+    archiveKeys.add(archiveKey)
+    if (!isFormId(entry.sourceFormId)) issue(`${path}.sourceFormId`, 'unknown-id', 'seed form is unknown')
+    if (!isEvolutionRoute(entry.route)) issue(`${path}.route`, 'invalid-enum', 'seed route is invalid')
+    const organelleIds = knownIds(entry.organelleIds, `${path}.organelleIds`, organs, issues) as OrganelleId[]
+    if (Array.isArray(entry.organelleIds) && (entry.organelleIds.length > organs.size || organelleIds.length !== entry.organelleIds.length)) issue(`${path}.organelleIds`, 'invalid-genes', 'seed genes must be unique and bounded')
+    const parentLineageId = ancestry(entry.parentLineageId, `${path}.parentLineageId`)
+    const seed: SeedSource = {
+      id, archiveKey, organelleIds,
+      generation: counter(entry.generation, `${path}.generation`, 1),
+      earnedAtRun: counter(entry.earnedAtRun, `${path}.earnedAtRun`),
+      sourceFormId: isFormId(entry.sourceFormId) ? entry.sourceFormId : 'form-primal-cell',
+      route: isEvolutionRoute(entry.route) ? entry.route : 'predation',
+      ...(parentLineageId === undefined ? {} : { parentLineageId }),
+    }
+    if (seed.parentLineageId === `lineage-${archiveKey}`) issue(`${path}.parentLineageId`, 'invalid-reference', 'seed cannot be its own ancestor')
+    result.seeds.push(seed)
+  }
+  const consumed = new Set<string>()
+  for (const [index, candidate] of list('hatchedSeedIds', 30 + content.lineage.maxLineages).entries()) {
+    const id = identifier(candidate, `$.nursery.hatchedSeedIds[${index}]`, 'seed')
+    if (consumed.has(id)) issue(`$.nursery.hatchedSeedIds[${index}]`, 'duplicate-id', 'consumed seed identifiers must be unique')
+    consumed.add(id)
+    result.hatchedSeedIds.push(id)
+  }
+  const lineageIds = new Set<string>()
+  const lineageSeedIds = new Set<string>()
+  for (const [index, entry] of list('lineages', content.lineage.maxLineages).entries()) {
+    const path = `$.nursery.lineages[${index}]`
+    if (!isRecord(entry)) { issue(path, 'invalid-type', 'lineage must be an object'); continue }
+    const id = identifier(entry.id, `${path}.id`, 'lineage')
+    const seedId = identifier(entry.seedId, `${path}.seedId`, 'seed')
+    if (lineageIds.has(id) || lineageSeedIds.has(seedId) || id !== seedId.replace(/^seed-/, 'lineage-')) issue(path, 'duplicate-id', 'offspring identifier and seed must match uniquely')
+    lineageIds.add(id)
+    lineageSeedIds.add(seedId)
+    if (!consumed.has(seedId)) issue(`${path}.seedId`, 'invalid-reference', 'offspring must reference a consumed seed')
+    const source = result.seeds.find((seed) => seed.id === seedId)
+    const archetype = content.lineage.archetypes.find((item) => item.id === entry.archetypeId)
+    if (!archetype) issue(`${path}.archetypeId`, 'unknown-id', 'lineage archetype is unknown')
+    let name = ''
+    try { name = normalizeLineageName(entry.name as string) } catch { issue(`${path}.name`, 'invalid-name', 'offspring name must be short plain text') }
+    const generation = counter(entry.generation, `${path}.generation`, 1)
+    const parentLineageId = ancestry(entry.parentLineageId, `${path}.parentLineageId`)
+    const bornAtRun = counter(entry.bornAtRun, `${path}.bornAtRun`)
+    if (archetype && generation < archetype.minGeneration) issue(`${path}.generation`, 'invalid-generation', 'offspring generation is below the archetype requirement')
+    if (parentLineageId === id) issue(`${path}.parentLineageId`, 'invalid-reference', 'offspring cannot be its own parent')
+    if (source && (source.generation !== generation || source.parentLineageId !== parentLineageId || bornAtRun < source.earnedAtRun)) issue(path, 'invalid-reference', 'offspring generation, ancestry and birth must agree with its source')
+    const inheritedOrganelleId = entry.inheritedOrganelleId
+    if (inheritedOrganelleId !== undefined && (typeof inheritedOrganelleId !== 'string' || !organs.has(inheritedOrganelleId as OrganelleId) || !archetype?.inheritancePool.includes(inheritedOrganelleId as OrganelleId) || content.lineage.maxInheritedOrgans < 1 || (source && !source.organelleIds.includes(inheritedOrganelleId as OrganelleId)))) issue(`${path}.inheritedOrganelleId`, 'invalid-genes', 'inherited organ must be a compatible source gene')
+    const lineage: CellLineage = {
+      id, seedId, name, generation, bornAtRun,
+      archetypeId: archetype?.id ?? '',
+      ...(parentLineageId === undefined ? {} : { parentLineageId }),
+      ...(typeof inheritedOrganelleId === 'string' ? { inheritedOrganelleId: inheritedOrganelleId as OrganelleId } : {}),
+    }
+    result.lineages.push(lineage)
+  }
+  for (const [index, seed] of result.seeds.entries()) {
+    const parent = result.lineages.find((lineage) => lineage.id === seed.parentLineageId)
+    if (parent && seed.generation !== parent.generation + 1) issue(`$.nursery.seeds[${index}].generation`, 'invalid-generation', 'seed generation must advance from its parent')
+  }
+  for (const [index, lineage] of result.lineages.entries()) {
+    const parent = result.lineages.find((candidate) => candidate.id === lineage.parentLineageId)
+    if (parent && lineage.generation !== parent.generation + 1) issue(`$.nursery.lineages[${index}].generation`, 'invalid-generation', 'offspring generation must advance from its parent')
+  }
+  if (value.selectedLineageId !== undefined) {
+    if (typeof value.selectedLineageId !== 'string' || !lineageIds.has(value.selectedLineageId)) issue('$.nursery.selectedLineageId', 'invalid-reference', 'selected offspring does not exist')
+    else result.selectedLineageId = value.selectedLineageId
+  }
+  const seen = value.seenArchiveKeys === undefined ? result.seeds.map((seed) => seed.archiveKey) : list('seenArchiveKeys', 30)
+  const seenKeys: string[] = []
+  for (const [index, candidate] of seen.entries()) {
+    if (typeof candidate !== 'string' || !/^[a-f0-9]{16}$/.test(candidate) || seenKeys.includes(candidate)) issue(`$.nursery.seenArchiveKeys[${index}]`, 'invalid-id', 'archive history must contain unique bounded keys')
+    else seenKeys.push(candidate)
+  }
+  result.seenArchiveKeys = seenKeys
+  result.completedRuns = Math.max(
+    value.completedRuns === undefined ? 0 : counter(value.completedRuns, '$.nursery.completedRuns'),
+    ...result.seeds.map((seed) => seed.earnedAtRun),
+    ...result.lineages.map((lineage) => lineage.bornAtRun),
+  )
+  return result
+}
+
+function isEvolutionRoute(value: unknown): value is EvolutionRoute {
+  return value === 'predation' || value === 'survival' || value === 'colony'
 }
 
 function sanitizeCodex(value: unknown, issues: SaveIssue[], knownIds: Set<string>): SaveDataV1['codex'] {
@@ -246,6 +379,7 @@ function sanitizeArchives(value: unknown, issues: SaveIssue[], content: ReturnTy
   const synergies = new Set(content.synergies.map((item) => item.id))
   const deaths = new Set(content.deathTemplates.map((item) => item.id))
   const endings = new Set(content.endings.map((item) => item.id))
+  const cellVisuals = new Set(content.visualRecipes.filter((recipe) => recipe.kind === 'cell').map((recipe) => recipe.id))
   return value.flatMap((entry, index) => {
     const path = `$.lifeArchives[${index}]`
     if (!isRecord(entry)) {
@@ -264,6 +398,7 @@ function sanitizeArchives(value: unknown, issues: SaveIssue[], content: ReturnTy
     const synergyIds = knownIds(entry.synergyIds, `${path}.synergyIds`, synergies, issues) as SynergyId[]
     const deathTemplateId = optionalKnownId(entry.deathTemplateId, `${path}.deathTemplateId`, deaths, issues)
     const endingId = optionalKnownId(entry.endingId, `${path}.endingId`, endings, issues)
+    const finalVisualRecipeId = optionalKnownId(entry.finalVisualRecipeId, `${path}.finalVisualRecipeId`, cellVisuals, issues)
     if (typeof entry.dishCode !== 'string' || !/^PC1\.[A-Za-z0-9_-]+\.[A-Z0-9]{7}$/.test(entry.dishCode)) issues.push({ path: `${path}.dishCode`, code: 'invalid-code', message: 'dish code is invalid' })
     const finalMorphology = sanitizeMorphology(entry.finalMorphology, `${path}.finalMorphology`, organs, issues)
     const finalBodyStage = entry.finalBodyStage === undefined
@@ -300,6 +435,7 @@ function sanitizeArchives(value: unknown, issues: SaveIssue[], content: ReturnTy
       finalMorphology,
       finalBodyStage,
       finalFormId,
+      ...(finalVisualRecipeId === undefined ? {} : { finalVisualRecipeId }),
       finalTierIndex,
       ecosystemIds,
       buildRouteCounts,

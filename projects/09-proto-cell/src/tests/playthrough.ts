@@ -1,17 +1,28 @@
 import type { GameEvent } from '../game/interactions'
-import { createGameEngine } from '../game/engine'
-import { getContent, type ContentPack, type EnvironmentId, type ScaleTierDefinition } from '../content'
+import { createGameEngine, type EcosystemProgressSnapshot } from '../game/engine'
+import { getContent, type ContentPack, type EnvironmentId, type OrganelleId, type ScaleTierDefinition } from '../content'
 import type { LifeEventLogEntry } from '../progression/archive'
 import { deriveLifeArchive } from '../progression/archive'
 import { stepBoss, type BossState } from '../world/bosses'
 import { applyEvolution, createBuildState, offerEvolution, type EvolutionOffer } from '../evolution/build'
 import { morphologyFor } from '../rendering/morphology'
+import { createDefaultSave } from '../storage/codec'
+import { physicalMembrane } from '../domain/membrane'
+import { fullyContains } from '../game/containment'
+import type { ContactDamageDefinition } from '../entities/factory'
+import type { Vec2 } from '../domain/types'
+import { fiberSections, type EnvironmentField } from '../world/environments'
 
 export type HeadlessRunOptions = {
   seed: number
   durationMs?: number
   route?: readonly string[]
   policy?: 'balanced' | 'speed' | 'armor' | 'stealth' | 'parasite' | 'swarm'
+  stopAfterTier?: number
+  runOrdinal?: number
+  unlockedIds?: readonly string[]
+  lineageArchetypeId?: string
+  inheritedOrganelleIds?: readonly OrganelleId[]
 }
 
 export type HeadlessRunReport = {
@@ -28,6 +39,14 @@ export type HeadlessRunReport = {
   behaviorStateCounts: Record<string, number>
   maxActionableGapMs: number
   formSignature: string
+  finalEcosystem?: EcosystemProgressSnapshot
+  fleeingCarryoverIds: string[]
+  consumedCarryoverIds: string[]
+  tierClearTimes: number[]
+  initialRecipeId: string
+  leviathanPhases: string[]
+  finaleStartedAtMs?: number
+  finaleMembraneStable: boolean
 }
 
 export function maximumScreenOccupancy(tiers: readonly Pick<ScaleTierDefinition, 'screenDiameterRange'>[], _viewport: { width: number; height: number }): number {
@@ -42,7 +61,11 @@ const STEP_BATCH_MS = 5 * 1000 / 60
 export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   const durationMs = options.durationMs ?? 600_000
   const policy = options.policy ?? 'balanced'
-  const engine = createGameEngine({ seed: options.seed, environmentId: 'env-clear-drop', runOrdinal: 3 })
+  const engine = createGameEngine({ seed: options.seed, environmentId: 'env-clear-drop', runOrdinal: options.runOrdinal ?? 0,
+    lineageArchetypeId: options.lineageArchetypeId, inheritedOrganelleIds: options.inheritedOrganelleIds })
+  const initialPlayer = engine.renderSnapshot().entities.find((entity) => entity.id === 'player')!
+  const initialRecipeId = 'visualRecipeId' in initialPlayer ? String(initialPlayer.visualRecipeId) : ''
+  const unlockedTraitIds = availableRunTraits(options.unlockedIds)
   const keyEvents: GameEvent[] = []
   const invalidNumbers = new Set<string>()
   let maxEntities = 0
@@ -50,7 +73,7 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   let consumed = 0
   let simulatedMs = 0
   let terminal = false
-  let buildState = createBuildState()
+  let buildState = createBuildState(engine.renderSnapshot().playerBuild)
   let recentTraitIds: BuildStateTraitIds = []
   const visitedStages = new Set<number>([1])
   const opportunityIds: string[] = []
@@ -58,11 +81,15 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   let opportunityCueUntilMs = 0
   let lastActionableAtMs = 0
   let maxActionableGapMs = 0
+  const fleeingCarryoverIds = new Set<string>()
+  const leviathanPhases = new Set<string>()
+  let finaleStartedAtMs: number | undefined
+  let finaleMembrane: number | undefined
+  let finaleMembraneStable = true
 
   engine.start()
   engine.input.start({ x: 0, y: 0 })
   while (simulatedMs + 0.000_001 < durationMs) {
-    keepAuditPlayerAlive(engine)
     const run = engine.runSnapshot()
     if (options.route && (run.phase === 'choosing' || run.phase === 'collapsing')) {
       const routeId = options.route[run.stageIndex]
@@ -84,6 +111,10 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     const events = engine.drainEvents()
     keyEvents.push(...events)
     for (const event of events) {
+      if (event.type === 'form-transition-ready') {
+        engine.advanceForm()
+        keyEvents.push(...engine.drainEvents())
+      }
       if (event.type === 'mutation-ready') {
         const stageIndex = engine.runSnapshot().stageIndex
         const remainingEnvironmentIds = getContent().journey.stages
@@ -94,7 +125,7 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
           environmentId: hud.environmentId as EnvironmentId,
           stageIndex,
           remainingEnvironmentIds,
-          unlockedTraitIds: getContent().organelles.map((organ) => organ.id),
+          unlockedTraitIds,
           recentTraitIds,
         })
         const choice = chooseEvolution(offered, policy)
@@ -116,8 +147,16 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     terminal = events.some((event) => event.type === 'ending-reached' || event.type === 'player-died')
 
     const world = engine.renderSnapshot()
+    if (hud.ecosystem?.leviathanPhase) leviathanPhases.add(hud.ecosystem.leviathanPhase)
+    if (hud.finaleStartedAtMs !== undefined) {
+      finaleStartedAtMs ??= hud.finaleStartedAtMs
+      finaleMembrane ??= hud.membrane
+      finaleMembraneStable &&= hud.membrane === finaleMembrane
+    }
     visitedStages.add(engine.runSnapshot().stageIndex + 1)
+    if (options.stopAfterTier !== undefined && engine.snapshot().tierIndex >= options.stopAfterTier) break
     for (const entity of world.entities) {
+      if (entity.id.startsWith('carryover-') && entity.behaviorState === 'flee') fleeingCarryoverIds.add(entity.id)
       if (!entity.behaviorProfileId || !entity.behaviorState) continue
       const family = getContent().behaviorProfiles.find((profile) => profile.id === entity.behaviorProfileId)?.family
       if (family) behaviorStateCounts[family] = (behaviorStateCounts[family] ?? 0) + 1
@@ -153,9 +192,14 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
   ].join(':')
   const completedSimulationMs = Math.min(durationMs, engine.snapshot().elapsedMs)
   const deathId = deriveLifeArchive(keyEvents.map((event, index) => ({ sequence: index + 1, event })), getContent()).deathTemplateId
+  const finalEcosystem = engine.snapshot().ecosystem
   engine.destroy()
 
   return {
+    leviathanPhases: [...leviathanPhases],
+    finaleStartedAtMs,
+    finaleMembraneStable,
+    initialRecipeId,
     keyEvents,
     simulatedMs: completedSimulationMs,
     maxEntities,
@@ -169,6 +213,10 @@ export function runHeadless(options: HeadlessRunOptions): HeadlessRunReport {
     behaviorStateCounts,
     maxActionableGapMs,
     formSignature,
+    finalEcosystem,
+    fleeingCarryoverIds: [...fleeingCarryoverIds],
+    consumedCarryoverIds: keyEvents.flatMap((event) => event.type === 'engulfed' && event.predatorId === 'player' && event.preyId.startsWith('carryover-') ? [event.preyId] : []),
+    tierClearTimes: keyEvents.filter((event) => event.type === 'form-transitioned' || event.type === 'ending-reached').map((event) => event.atMs),
   }
 }
 
@@ -180,59 +228,6 @@ export function auditOutcomes(content: ContentPack, fixtures: readonly OutcomeFi
     missingEndingIds: content.endings.map((item) => item.id).filter((id) => !foundEndings.has(id)),
     missingDeathIds: content.deathTemplates.map((item) => item.id).filter((id) => !foundDeaths.has(id)),
   }
-}
-
-function keepAuditPlayerAlive(engine: ReturnType<typeof createGameEngine>) {
-  const world = engine.renderSnapshot()
-  const hostiles = world.entities.filter((entity) => entity.faction === 'hostile' && entity.status === 'active')
-  const players = world.entities.filter((entity) => entity.faction === 'player' && entity.status === 'active')
-  for (const hostile of hostiles) {
-    if (hostile.role === 'boss' || players.every((player) => Math.hypot(hostile.position.x - player.position.x, hostile.position.y - player.position.y) > 360)) continue
-    hostile.status = 'ruptured'
-  }
-  for (const entity of world.entities) {
-    if (entity.faction !== 'player' || entity.status !== 'active') continue
-    entity.membrane = Math.max(entity.membrane, 10_000)
-    entity.energy = Math.max(entity.energy, 10_000)
-    const auditRadius = 50
-    if (entity.body.radius !== auditRadius) {
-      entity.mass = Math.max(entity.mass, auditRadius * auditRadius)
-      entity.body = auditBody(entity.position, auditRadius)
-    }
-    const imminentContainment = hostiles.some((hostile) => (
-      hostile.status === 'active'
-      && hostile.body.radius > entity.body.radius
-      && Math.hypot(hostile.position.x - entity.position.x, hostile.position.y - entity.position.y) <= hostile.body.radius + entity.body.radius + 48
-    ))
-    if (imminentContainment) {
-      const margin = entity.body.radius + 18
-      const candidates = [
-        { x: margin, y: margin },
-        { x: world.width - margin, y: margin },
-        { x: margin, y: world.height - margin },
-        { x: world.width - margin, y: world.height - margin },
-      ]
-      const safest = candidates.sort((left, right) => minimumHostileDistance(right, hostiles) - minimumHostileDistance(left, hostiles))[0]!
-      entity.position = safest
-      entity.velocity = { x: 0, y: 0 }
-      entity.body = auditBody(safest, entity.body.radius)
-    }
-  }
-}
-
-function auditBody(position: { x: number; y: number }, radius: number) {
-  return {
-    center: { ...position },
-    radius,
-    contour: Array.from({ length: 24 }, (_, index) => {
-      const angle = index / 24 * Math.PI * 2
-      return { x: position.x + Math.cos(angle) * radius, y: position.y + Math.sin(angle) * radius }
-    }),
-  }
-}
-
-function minimumHostileDistance(position: { x: number; y: number }, hostiles: ReturnType<ReturnType<typeof createGameEngine>['renderSnapshot']>['entities']): number {
-  return hostiles.reduce((minimum, hostile) => Math.min(minimum, Math.hypot(hostile.position.x - position.x, hostile.position.y - position.y) - hostile.body.radius), Number.POSITIVE_INFINITY)
 }
 
 export function resolveBossThroughStateMachine(
@@ -257,6 +252,12 @@ export function resolveBossThroughStateMachine(
 
 type BuildStateTraitIds = ReturnType<typeof createBuildState>['traitIds']
 
+export function availableRunTraits(unlockedIds: readonly string[] = createDefaultSave().progression.unlockedIds): BuildStateTraitIds {
+  const content = getContent()
+  const locked = new Set(content.geneNodes.flatMap((node) => node.unlockIds.filter((id) => id.startsWith('organelle-'))))
+  return content.organelles.filter((organ) => !locked.has(organ.id) || unlockedIds.includes(organ.id)).map((organ) => organ.id)
+}
+
 function chooseEvolution(choices: readonly EvolutionOffer[], policy: NonNullable<HeadlessRunOptions['policy']>): EvolutionOffer | undefined {
   const content = getContent()
   const desired = policy === 'speed' ? ['move']
@@ -274,16 +275,112 @@ function chooseEvolution(choices: readonly EvolutionOffer[], policy: NonNullable
   })[0]
 }
 
-function setPolicyIntent(
+export function setPolicyIntent(
   engine: ReturnType<typeof createGameEngine>,
   elapsedMs: number,
   policy: NonNullable<HeadlessRunOptions['policy']>,
 ) {
+  const world = engine.renderSnapshot()
+  const player = world.entities.find((entity) => entity.id === world.playerId)
+  if (!player) return
+  const swarm = engine.snapshot().swarm
+  if (swarm && swarm.bodyCount > 1 && swarm.minimumRemainingMs <= 0) {
+    engine.input.cancel()
+    return
+  }
+  engine.input.start({ x: 0, y: 0 })
+  const distances = world.entities.filter((entity) => entity.faction !== 'player').map((entity) => ({ entity, distance: Math.hypot(entity.position.x - player.position.x, entity.position.y - player.position.y) }))
+  const membrane = physicalMembrane(player, world.lifecycle.formId, world.elapsedMs, world.playerBuild)
+  const fitByEntity = new Map<typeof player, boolean>()
+  const physicalBodies = new Map([[player, membrane]])
+  const physicalBody = (entity: typeof player) => {
+    let shape = physicalBodies.get(entity)
+    if (!shape) {
+      shape = physicalMembrane(entity, world.lifecycle.formId, world.elapsedMs)
+      physicalBodies.set(entity, shape)
+    }
+    return shape
+  }
+  const centeredFit = (entity: typeof player) => {
+    const cached = fitByEntity.get(entity)
+    if (cached !== undefined) return cached
+    const shape = physicalBody(entity)
+    const offset = { x: player.position.x - entity.position.x, y: player.position.y - entity.position.y }
+    const fits = fullyContains(membrane, { ...shape, center: { ...player.position }, contour: shape.contour.map((point) => ({ x: point.x + offset.x, y: point.y + offset.y })) })
+    fitByEntity.set(entity, fits)
+    return fits
+  }
+  const canEngulfPlayer = (entity: typeof player) => {
+    const shape = physicalBody(entity)
+    const offset = { x: entity.position.x - player.position.x, y: entity.position.y - player.position.y }
+    return fullyContains(shape, { ...membrane, center: { ...entity.position }, contour: membrane.contour.map((point) => ({ x: point.x + offset.x, y: point.y + offset.y })) })
+  }
+  const contactWeapon = (entity: typeof player) => {
+    const damage = 'contactDamage' in entity ? entity.contactDamage as ContactDamageDefinition | undefined : undefined
+    // Spines keep pulsing during movement recovery: budget space for the next pulse too.
+    return Boolean(damage && damage.amount > 0)
+  }
+  const danger = distances.filter(({ entity, distance }) => entity.faction === 'hostile' && distance < entity.body.radius + player.body.radius + 70 && !centeredFit(entity) && (canEngulfPlayer(entity) || contactWeapon(entity)))
+    .sort((left, right) => left.distance - right.distance)[0]
+  const edible = distances.filter(({ entity }) => entity.body.radius < player.body.radius * 0.84 && entity.role !== 'boss' && centeredFit(entity))
+    .map((sample) => ({ ...sample, blocked: blockedHuntPath(player.position, sample.entity.position, player.body.radius, world.environmentField.obstacles) }))
+    .sort((left, right) => {
+      const priority = (sample: typeof left) => sample.entity.id.startsWith('encounter-') ? 0 : sample.entity.id.startsWith('carryover-') ? 1 : 2
+      return Number(left.blocked) - Number(right.blocked) || priority(left) - priority(right) || left.distance - right.distance
+    })[0]
+  if (danger || edible) {
+    const target = danger?.entity ?? edible!.entity
+    const heading = target.behaviorDirection
+    const relative = { x: player.position.x - target.position.x, y: player.position.y - target.position.y }
+    const incoming = heading && heading.x * relative.x + heading.y * relative.y > 0
+      && Math.abs(heading.x * relative.y - heading.y * relative.x) < player.body.radius + target.body.radius
+    if (danger && heading && incoming && ['pursue', 'charge', 'ambush'].includes(target.behaviorState ?? '')) {
+      const side = heading.x * (player.position.y - target.position.y) - heading.y * (player.position.x - target.position.x) >= 0 ? 1 : -1
+      const awayX = player.position.x - target.position.x
+      const awayY = player.position.y - target.position.y
+      const distance = Math.max(1, Math.hypot(awayX, awayY))
+      engine.input.move({ x: (-heading.y * side + awayX / distance * 0.2) * 120, y: (heading.x * side + awayY / distance * 0.2) * 120 })
+      return
+    }
+    const direction = danger ? -1 : 1
+    const x = (target.position.x + (danger ? 0 : target.velocity.x * 0.2) - player.position.x) * direction
+    const y = (target.position.y + (danger ? 0 : target.velocity.y * 0.2) - player.position.y) * direction
+    const length = Math.max(1, Math.hypot(x, y))
+    engine.input.move({ x: x / length * 120, y: y / length * 120 })
+    return
+  }
   const policyOffset = ['balanced', 'speed', 'armor', 'stealth', 'parasite', 'swarm'].indexOf(policy) * 0.47
   const angle = elapsedMs / 4200 + policyOffset
   engine.input.move(
     { x: Math.cos(angle) * 120, y: Math.sin(angle) * 120 },
   )
+}
+
+function blockedHuntPath(from: Vec2, to: Vec2, radius: number, obstacles: EnvironmentField['obstacles']): boolean {
+  const cross = (a: Vec2, b: Vec2) => a.x * b.y - a.y * b.x
+  const path = { x: to.x - from.x, y: to.y - from.y }
+  return obstacles.flatMap((obstacle) => obstacle.kind === 'chamber-wall' ? fiberSections(obstacle) : []).some((obstacle) => {
+    const wall = { x: obstacle.to.x - obstacle.from.x, y: obstacle.to.y - obstacle.from.y }
+    const offset = { x: obstacle.from.x - from.x, y: obstacle.from.y - from.y }
+    const denominator = cross(path, wall)
+    if (Math.abs(denominator) > 0.000001) {
+      const alongPath = cross(offset, wall) / denominator
+      const alongWall = cross(offset, path) / denominator
+      if (alongPath >= 0 && alongPath <= 1 && alongWall >= 0 && alongWall <= 1) return true
+    }
+    // Slightly inside the collision capsule avoids flagging an outward route from its surface.
+    const clearance = Math.max(0, radius - 1)
+    const distance = Math.min(segmentDistanceSquared(from, obstacle.from, obstacle.to), segmentDistanceSquared(to, obstacle.from, obstacle.to), segmentDistanceSquared(obstacle.from, from, to), segmentDistanceSquared(obstacle.to, from, to))
+    return distance < clearance * clearance
+  })
+}
+
+function segmentDistanceSquared(point: Vec2, from: Vec2, to: Vec2): number {
+  const x = to.x - from.x
+  const y = to.y - from.y
+  const lengthSquared = x * x + y * y
+  const along = lengthSquared === 0 ? 0 : Math.max(0, Math.min(1, ((point.x - from.x) * x + (point.y - from.y) * y) / lengthSquared))
+  return (point.x - from.x - x * along) ** 2 + (point.y - from.y - y * along) ** 2
 }
 
 function inspectNumbers(

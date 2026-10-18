@@ -1,5 +1,6 @@
 import { getContent } from '../content'
 import type { Vec2 } from '../domain/types'
+import type { WorldRenderSnapshot } from '../game/engine'
 
 export type RadarMarkerKind = 'boundary' | 'encounter' | 'exit' | 'warned-threat'
 export type RadarMarker = { kind: RadarMarkerKind; x: number; y: number }
@@ -9,6 +10,18 @@ export type RadarInput = {
   encounterPosition?: Vec2
   exitPosition?: Vec2
   warnedThreats: readonly Vec2[]
+}
+
+export function createRadarInput(snapshot: WorldRenderSnapshot): RadarInput | undefined {
+  const player = snapshot.entities.find((entity) => entity.id === snapshot.playerId && entity.status === 'active')
+  if (!player) return undefined
+  return {
+    world: { width: snapshot.width, height: snapshot.height },
+    playerPosition: player.position,
+    encounterPosition: snapshot.ecosystem?.encounterResolved ? undefined : snapshot.ecosystem?.encounterPosition,
+    exitPosition: snapshot.routeRifts.find((rift) => rift.opensAtMs <= snapshot.elapsedMs)?.position,
+    warnedThreats: snapshot.entities.filter((entity) => entity.arrivalPhase === 'alert' && entity.status === 'active').map((entity) => entity.position),
+  }
 }
 
 export function radarMarkers(input: RadarInput): RadarMarker[] {

@@ -9,7 +9,7 @@ export type QueryRect = {
 
 export class SpatialGrid {
   readonly #cellSize: number
-  readonly #cells = new Map<string, EntityState[]>()
+  readonly #rows = new Map<number, Map<number, EntityState[]>>()
 
   constructor(cellSize: number) {
     if (!Number.isFinite(cellSize) || cellSize <= 0) {
@@ -19,43 +19,48 @@ export class SpatialGrid {
   }
 
   clear(): void {
-    this.#cells.clear()
+    this.#rows.clear()
   }
 
   insert(entity: EntityState): void {
-    const bounds = {
-      x: entity.body.center.x - entity.body.radius,
-      y: entity.body.center.y - entity.body.radius,
-      width: entity.body.radius * 2,
-      height: entity.body.radius * 2,
+    const x = entity.body.center.x - entity.body.radius
+    const y = entity.body.center.y - entity.body.radius
+    const extent = Math.max(0, entity.body.radius * 2)
+    const minX = Math.floor(x / this.#cellSize)
+    const minY = Math.floor(y / this.#cellSize)
+    const maxX = Math.floor((x + extent) / this.#cellSize)
+    const maxY = Math.floor((y + extent) / this.#cellSize)
+
+    for (let cellY = minY; cellY <= maxY; cellY += 1) {
+      let row = this.#rows.get(cellY)
+      if (!row) {
+        row = new Map<number, EntityState[]>()
+        this.#rows.set(cellY, row)
+      }
+      for (let cellX = minX; cellX <= maxX; cellX += 1) {
+        const entries = row.get(cellX)
+        if (entries) entries.push(entity)
+        else row.set(cellX, [entity])
+      }
     }
-    this.#visitCells(bounds, (key) => {
-      const entries = this.#cells.get(key)
-      if (entries) entries.push(entity)
-      else this.#cells.set(key, [entity])
-    })
   }
 
   query(rect: QueryRect): EntityState[] {
     const found = new Map<string, EntityState>()
-    this.#visitCells(rect, (key) => {
-      for (const entity of this.#cells.get(key) ?? []) {
-        found.set(entity.id, entity)
-      }
-    })
-    return [...found.values()]
-  }
-
-  #visitCells(rect: QueryRect, visit: (key: string) => void): void {
     const minX = Math.floor(rect.x / this.#cellSize)
     const minY = Math.floor(rect.y / this.#cellSize)
     const maxX = Math.floor((rect.x + Math.max(0, rect.width)) / this.#cellSize)
     const maxY = Math.floor((rect.y + Math.max(0, rect.height)) / this.#cellSize)
 
     for (let cellY = minY; cellY <= maxY; cellY += 1) {
+      const row = this.#rows.get(cellY)
+      if (!row) continue
       for (let cellX = minX; cellX <= maxX; cellX += 1) {
-        visit(`${cellX}:${cellY}`)
+        const entries = row.get(cellX)
+        if (!entries) continue
+        for (const entity of entries) found.set(entity.id, entity)
       }
     }
+    return [...found.values()]
   }
 }

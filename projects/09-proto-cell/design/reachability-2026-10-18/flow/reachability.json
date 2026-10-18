@@ -1,0 +1,263 @@
+{
+  "reachability": [
+    {
+      "name": "actual-evolution-0",
+      "mode": "touch",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 240.21875,
+        "left": 16,
+        "width": 358,
+        "height": 511.78125,
+        "client": 512,
+        "total": 789,
+        "scroll": 277,
+        "overflow": "auto"
+      },
+      "gestures": 1
+    },
+    {
+      "name": "actual-evolution-1",
+      "mode": "touch",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 240.21875,
+        "left": 16,
+        "width": 358,
+        "height": 511.78125,
+        "client": 512,
+        "total": 789,
+        "scroll": 277,
+        "overflow": "auto"
+      },
+      "gestures": 2
+    },
+    {
+      "name": "actual-form-transition",
+      "mode": "touch",
+      "controls": 1,
+      "reachable": 1,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 844,
+        "client": 844,
+        "total": 844,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 2
+    },
+    {
+      "name": "actual-evolution-2",
+      "mode": "touch",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 240.21875,
+        "left": 16,
+        "width": 358,
+        "height": 511.78125,
+        "client": 512,
+        "total": 789,
+        "scroll": 277,
+        "overflow": "auto"
+      },
+      "gestures": 3
+    },
+    {
+      "name": "actual-evolution-3",
+      "mode": "touch",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 240.21875,
+        "left": 16,
+        "width": 358,
+        "height": 511.78125,
+        "client": 512,
+        "total": 789,
+        "scroll": 277,
+        "overflow": "auto"
+      },
+      "gestures": 5
+    },
+    {
+      "name": "actual-form-transition",
+      "mode": "touch",
+      "controls": 1,
+      "reachable": 1,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 844,
+        "client": 844,
+        "total": 844,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 6
+    },
+    {
+      "name": "actual-evolution-4",
+      "mode": "touch",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 240.21875,
+        "left": 16,
+        "width": 358,
+        "height": 511.78125,
+        "client": 512,
+        "total": 789,
+        "scroll": 277,
+        "overflow": "auto"
+      },
+      "gestures": 7
+    },
+    {
+      "name": "actual-evolution-5",
+      "mode": "touch",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 240.21875,
+        "left": 16,
+        "width": 358,
+        "height": 511.78125,
+        "client": 512,
+        "total": 789,
+        "scroll": 277,
+        "overflow": "auto"
+      },
+      "gestures": 9
+    },
+    {
+      "name": "actual-result",
+      "mode": "touch",
+      "controls": 5,
+      "reachable": 4,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 844,
+        "client": 844,
+        "total": 844,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 10
+    },
+    {
+      "name": "actual-result-expanded",
+      "mode": "touch",
+      "controls": 5,
+      "reachable": 5,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 844,
+        "client": 844,
+        "total": 858,
+        "scroll": 14,
+        "overflow": "auto"
+      },
+      "gestures": 11
+    }
+  ],
+  "trace": [
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": 1,
+      "before": 0,
+      "after": 277
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": 1,
+      "before": 0,
+      "after": 277
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": 1,
+      "before": 0,
+      "after": 277
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": -1,
+      "before": 277,
+      "after": 0
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": 1,
+      "before": 0,
+      "after": 277
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": -1,
+      "before": 277,
+      "after": 0
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": 1,
+      "before": 0,
+      "after": 277
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": -1,
+      "before": 277,
+      "after": 0
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": 1,
+      "before": 0,
+      "after": 277
+    },
+    {
+      "root": ".evolution-choices",
+      "mode": "touch",
+      "direction": -1,
+      "before": 277,
+      "after": 0
+    },
+    {
+      "root": ".result-overlay",
+      "mode": "touch",
+      "direction": 1,
+      "before": 0,
+      "after": 14
+    }
+  ]
+}

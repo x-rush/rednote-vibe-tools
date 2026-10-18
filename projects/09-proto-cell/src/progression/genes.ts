@@ -42,6 +42,14 @@ export function awardGenes(progress: GeneProgress, rewards: readonly GeneReward[
   }
 }
 
+export function environmentRewards(progress: GeneProgress, environmentIds: readonly string[]): GeneReward[] {
+  const known = new Set<string>(getContent().environments.map((environment) => environment.id))
+  return [...new Set(environmentIds)].filter((id) => known.has(id)).map((id) => {
+    const repeats = progress.rewardCounts[`environment:${id}`] ?? 0
+    return { kind: 'environment', id, first: repeats === 0, repeats }
+  })
+}
+
 export function unlockNode(progress: GeneProgress, nodeId: string): GeneProgress {
   const content = getContent()
   const node = content.geneNodes.find((item) => item.id === nodeId)

@@ -1,0 +1,373 @@
+[
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 346
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 329
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 329,
+    "after": 0
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 420
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 420,
+    "after": 840
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 840,
+    "after": 1208
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 1208,
+    "after": 788
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 788,
+    "after": 368
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 420
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 420,
+    "after": 840
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 840,
+    "after": 1260
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 1260,
+    "after": 1680
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 1680,
+    "after": 2100
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 2100,
+    "after": 2520
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 2520,
+    "after": 2940
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 2940,
+    "after": 2949
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 2674,
+    "after": 2254
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 2254,
+    "after": 1834
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 1834,
+    "after": 1414
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 1414,
+    "after": 994
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 994,
+    "after": 574
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 574,
+    "after": 154
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 154,
+    "after": 0
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 420
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 420,
+    "after": 745
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 745,
+    "after": 325
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 325,
+    "after": 0
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 267
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 420
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 420,
+    "after": 840
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 840,
+    "after": 1260
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 1260,
+    "after": 1680
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 1680,
+    "after": 2100
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 2100,
+    "after": 2520
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 2520,
+    "after": 2940
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 2940,
+    "after": 3010
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 267
+  },
+  {
+    "root": ".archive-panel",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 356
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 302
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 302,
+    "after": 324
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 324,
+    "after": 22
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 22,
+    "after": 324
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 29
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 29,
+    "after": 0
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 81
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 346
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 346,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 420
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 420,
+    "after": 521
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 521,
+    "after": 101
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": -1,
+    "before": 101,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 0,
+    "after": 420
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "wheel",
+    "direction": 1,
+    "before": 420,
+    "after": 659
+  }
+]

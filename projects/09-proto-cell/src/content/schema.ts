@@ -37,6 +37,30 @@ export type ScaleTierDefinition = {
   turnResponseMs: number
 }
 
+export type EcosystemDefinition = {
+  tierIndex: number
+  name: string
+  subtitle: string
+  objective: string
+  encounterName: string
+  encounterHint: string
+  encounterCreatureId: CreatureId
+  encounterRadius: number
+  encounterAtPressure: number
+  activeBiomassTarget: number
+  mutationPressures: [number, number]
+  openingFoodCount: number
+  openingFoodDistance: number
+  openingFoodRadiusRatio: number
+  openingFoodSpeed: number
+  encounterDistance: number
+  encounterSpeedBodyLengths: number
+  carryoverSpeedBodyLengths: number
+  sightBodyWidths: [number, number]
+  carryoverCreatureIds: CreatureId[]
+  enemyNotes: Array<{ creatureId: CreatureId; title: string; behavior: string; weakness: string }>
+}
+
 export type ContactDamageContent = {
   source: 'acid' | 'electric' | 'spine' | 'ram'
   amount: number
@@ -299,6 +323,28 @@ export type BehaviorProfileDefinition = {
   pursuitBurstMs?: number
   recoveryMs?: number
   turnResponseMs?: number
+  telegraphMs?: number
+}
+
+export type LineageArchetypeDefinition = {
+  id: string
+  name: string
+  description: string
+  strength: string
+  weakness: string
+  originId: OriginId
+  route: 'predation' | 'survival' | 'colony'
+  visualRecipeId: string
+  inheritancePool: OrganelleId[]
+  minGeneration: number
+}
+
+export type LineageDefinition = {
+  maxSeeds: number
+  maxLineages: number
+  maxInheritedOrgans: number
+  hatchDurationMs: number
+  archetypes: LineageArchetypeDefinition[]
 }
 
 export type ContentPack = {
@@ -332,6 +378,15 @@ export type ContentPack = {
   ecologyBudgets: EcologyBudgetDefinition[]
   behaviorProfiles: BehaviorProfileDefinition[]
   scaleTiers: ScaleTierDefinition[]
+  ecosystems: EcosystemDefinition[]
+  lateEcology: {
+    fiberReward: { creatureId: CreatureId; count: number }
+    chamberBreak: { radius: number; holdMs: number }
+    chamberWalls: Array<{ from: [number, number]; to: [number, number]; gaps: Array<[number, number]> }>
+    leviathan: { armoredRadius: number; exposedRadius: number; finaleMs: number; profileId: BehaviorProfileId }
+  }
+  fiberTraversal: { radiusRange: [number, number]; speedMultiplierRange: [number, number]; contactPadding: number; coverMaxRadius: number; coverPadding: number; breakRadius: number; breakHoldMs: number; gapBodyRadii: number; firstLayerShelters: Array<{ from: [number, number]; to: [number, number] }> }
+  lineage: LineageDefinition
   m0: { playerDefinitions: PlayerDefinitionContent[]; environments: M0EnvironmentContent[] }
   m1: {
     sliceTargetMs: [number, number]

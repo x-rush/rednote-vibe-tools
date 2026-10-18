@@ -1,11 +1,13 @@
 import { useState, type KeyboardEvent } from 'react'
-import { getContent } from '../content'
+import { getContent, type FormId } from '../content'
 import { applyEvolution, createBuildState, type BuildState, type EvolutionLane, type EvolutionOffer, type EvolutionRoute } from '../evolution/build'
-import { morphologyFor } from '../rendering/morphology'
+import { SpecimenCanvas } from './SpecimenCanvas'
 
 type EvolutionOverlayProps = {
   choices: readonly EvolutionOffer[]
   currentBuild?: BuildState
+  formId?: FormId
+  visualRecipeId?: string
   onConfirm: (choice: EvolutionOffer) => void
 }
 
@@ -20,10 +22,9 @@ const routeCopyKeys: Record<EvolutionRoute, string> = {
   colony: 'routeColony',
 }
 
-export function EvolutionOverlay({ choices, currentBuild = createBuildState(), onConfirm }: EvolutionOverlayProps) {
+export function EvolutionOverlay({ choices, currentBuild = createBuildState(), formId = 'form-primal-cell', visualRecipeId, onConfirm }: EvolutionOverlayProps) {
   const content = getContent()
   const [selected, setSelected] = useState<EvolutionOffer>()
-  const before = morphologyFor(currentBuild)
 
   return (
     <section className="evolution-overlay" role="dialog" aria-modal="true" aria-labelledby="evolution-title" onKeyDown={trapOverlayFocus}>
@@ -36,7 +37,7 @@ export function EvolutionOverlay({ choices, currentBuild = createBuildState(), o
         {choices.map((choice) => {
           const organ = content.organelles.find((item) => item.id === choice.traitId)
           if (!organ) return null
-          const after = morphologyFor(applyEvolution(currentBuild, choice))
+          const after = applyEvolution(currentBuild, choice)
           const checked = selected?.traitId === choice.traitId
           return (
             <button
@@ -51,9 +52,9 @@ export function EvolutionOverlay({ choices, currentBuild = createBuildState(), o
               <span className="evolution-choice__lane">{content.ui.labels[laneCopyKeys[choice.lane]]}</span>
               <span className={`evolution-choice__route evolution-choice__route--${choice.route}`}>{content.ui.labels[routeCopyKeys[choice.route]]}</span>
               <span className="evolution-choice__preview" aria-hidden="true">
-                <i data-stage={before.bodyStage} data-route={before.dominantRoute}><small>{content.ui.labels.evolutionBefore}</small></i>
+                <span><SpecimenCanvas build={currentBuild} formId={formId} visualRecipeId={visualRecipeId} size={88} /><small>{content.ui.labels.evolutionBefore}</small></span>
                 <b>→</b>
-                <i data-stage={after.bodyStage} data-route={choice.route} data-part={organ.morphologyPartId}><small>{content.ui.labels.evolutionAfter}</small></i>
+                <span><SpecimenCanvas build={after} formId={formId} visualRecipeId={visualRecipeId} size={88} /><small>{content.ui.labels.evolutionAfter}</small></span>
               </span>
               <strong>{organ.name}</strong>
               <span className="evolution-choice__behavior">{choice.behaviorText}</span>

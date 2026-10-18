@@ -1,0 +1,20 @@
+{
+  "files": 79,
+  "bytes": 3426103,
+  "entry": "<!doctype html>\r\n<html lang=\"zh-CN\">\r\n  <head>\r\n    <meta charset=\"UTF-8\" />\r\n    <link rel=\"icon\" type=\"image/webp\" href=\"./assets/ui/proto-cell-logo-v1.webp\" />\r\n    <meta\r\n      name=\"viewport\"\r\n      content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover\"\r\n    />\r\n    <meta name=\"theme-color\" content=\"#020b1c\" />\r\n    <title></title>\r\n    <script defer src=\"./assets/index-B-OeBcBa.js\"></script>\n  </head>\r\n  <body>\r\n    <div id=\"root\"></div>\r\r\n  </body>\r\n</html>\r\n",
+  "entryHash": "941ac47d50c42c22365db719a44d37468ad1e9d80eb3c21e19be78aab0ca20c1",
+  "lint": "pass",
+  "tests": {
+    "files": 89,
+    "passed": 550,
+    "failed": 0
+  },
+  "build": "pass",
+  "artifactAudit": {
+    "files": 79,
+    "warnings": 0
+  },
+  "gitDiffCheck": "pass; line-ending advisories only",
+  "physicalPhone": "not tested",
+  "hostApp": "not tested"
+}

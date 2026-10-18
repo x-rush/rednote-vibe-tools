@@ -1,0 +1,71 @@
+{
+  "policy": "actual production App UI, normal stats, accelerated fixed steps and direction steering, no stat/entity edits; first normal hunt run then a second normal direction-policy run",
+  "firstRun": {
+    "transition": true,
+    "elapsedMs": 160033.33333333174,
+    "ecosystem": {
+      "tierIndex": 2,
+      "name": "纤毛深域",
+      "objective": "连续追猎，吞噬舱壁噬体",
+      "pressure": 0.0552617079889807,
+      "activeBiomass": 4012,
+      "activeBiomassTarget": 7000,
+      "encounterName": "舱壁噬体",
+      "encounterHint": "避开领地冲撞，成长到足够尺寸后完整包裹。",
+      "encounterResolved": false,
+      "readyToEvolve": false,
+      "reversalCount": 7,
+      "mutationsCompleted": 0,
+      "mutationTarget": 2
+    },
+    "choices": 4,
+    "leaps": 2,
+    "ending": [
+      {
+        "type": "player-died",
+        "cause": "engulfed-or-ruptured",
+        "defeatedByDefinitionId": "predator-antibody-leech",
+        "atMs": 160016.66666666509
+      }
+    ]
+  },
+  "cancellationPreservedSeed": true,
+  "childStart": {
+    "tier": 0,
+    "radius": 12,
+    "traits": [
+      "organelle-wide-mouth"
+    ],
+    "recipe": "visual-lineage-dart"
+  },
+  "bloomStart": {
+    "tier": 0,
+    "recipe": "visual-lineage-bloom",
+    "traits": [
+      "organelle-filter-gill"
+    ]
+  },
+  "completedRuns": 2,
+  "lineages": [
+    {
+      "id": "lineage-0ee9db6736ad586f",
+      "seedId": "seed-0ee9db6736ad586f",
+      "name": "潮汐掠影一代",
+      "generation": 1,
+      "bornAtRun": 1,
+      "archetypeId": "lineage-dart",
+      "inheritedOrganelleId": "organelle-wide-mouth"
+    },
+    {
+      "id": "lineage-9c5f691e54209f12",
+      "seedId": "seed-9c5f691e54209f12",
+      "name": "潮汐芽簇二代",
+      "generation": 2,
+      "bornAtRun": 2,
+      "archetypeId": "lineage-bloom",
+      "parentLineageId": "lineage-0ee9db6736ad586f",
+      "inheritedOrganelleId": "organelle-filter-gill"
+    }
+  ],
+  "errors": []
+}

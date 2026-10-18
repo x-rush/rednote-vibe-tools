@@ -1,0 +1,359 @@
+[
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 626
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 368
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 368,
+    "after": 0
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 626
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 626,
+    "after": 1247
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1247,
+    "after": 717
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 626
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 626,
+    "after": 1252
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 1252,
+    "after": 1878
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 1878,
+    "after": 2504
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 2504,
+    "after": 3088
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 2813,
+    "after": 2283
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 2283,
+    "after": 1753
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1753,
+    "after": 1223
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1223,
+    "after": 693
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 693,
+    "after": 163
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 163,
+    "after": 0
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 626
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 626,
+    "after": 924
+  },
+  {
+    "root": ".nursery-incubation",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 0
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 924,
+    "after": 394
+  },
+  {
+    "root": ".nursery-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 394,
+    "after": 0
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 368
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 626
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 626,
+    "after": 1252
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 1252,
+    "after": 1878
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 1878,
+    "after": 2504
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 2504,
+    "after": 3130
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 3130,
+    "after": 3197
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 368
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 25
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 368
+  },
+  {
+    "root": ".archive-panel",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 510
+  },
+  {
+    "root": ".archive-panel",
+    "mode": "touch",
+    "direction": -1,
+    "before": 510,
+    "after": 0
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 405
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": 1,
+    "before": 405,
+    "after": 453
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": -1,
+    "before": 453,
+    "after": 56
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": 1,
+    "before": 56,
+    "after": 453
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 138
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": -1,
+    "before": 138,
+    "after": 0
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 190
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 626
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 626,
+    "after": 633
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 633,
+    "after": 103
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 103,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 626
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 626,
+    "after": 808
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 808,
+    "after": 278
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 278,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 626
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 626,
+    "after": 946
+  }
+]

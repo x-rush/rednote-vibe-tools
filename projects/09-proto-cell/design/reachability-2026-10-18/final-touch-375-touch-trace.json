@@ -1,0 +1,261 @@
+[
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 633
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 368
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 368,
+    "after": 0
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 998
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1247,
+    "after": 577
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 521,
+    "after": 1247
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1247,
+    "after": 535
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 507,
+    "after": 1247
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1247,
+    "after": 588
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 955
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 1006,
+    "after": 2314
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 2418,
+    "after": 3197
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 368
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 25
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 368
+  },
+  {
+    "root": ".archive-panel",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 510
+  },
+  {
+    "root": ".archive-panel",
+    "mode": "touch",
+    "direction": -1,
+    "before": 510,
+    "after": 0
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 453
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": -1,
+    "before": 453,
+    "after": 0
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 453
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 138
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": -1,
+    "before": 138,
+    "after": 0
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 190
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 633
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 633,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 633
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 633,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 808
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 808,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 808
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 808,
+    "after": 168
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 107,
+    "after": 808
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 808,
+    "after": 149
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 137,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 946
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 946,
+    "after": 235
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 77,
+    "after": 946
+  }
+]

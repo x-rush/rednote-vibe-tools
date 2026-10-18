@@ -20,24 +20,18 @@ describe('launch outcome and build coverage', () => {
     }
   })
 
-  it('produces diverse builds and successful six-stage terminal runs', () => {
-    const routes = [
-      ['journey-route-algae-feast', 'journey-route-fiber-cover', 'journey-route-acid-pressure', 'journey-route-fiber-ambush', 'journey-route-chamber-wreckage'],
-      ['journey-route-algae-feast', 'journey-route-antibody-current', 'journey-route-algae-blackout', 'journey-route-antibody-hunt', 'journey-route-chamber-gauntlet'],
-      ['journey-route-acid-mutation', 'journey-route-fiber-cover', 'journey-route-acid-pressure', 'journey-route-antibody-hunt', 'journey-route-chamber-wreckage'],
-      ['journey-route-acid-mutation', 'journey-route-antibody-current', 'journey-route-algae-blackout', 'journey-route-fiber-ambush', 'journey-route-chamber-gauntlet'],
-    ] as const
+  it('produces diverse builds and successful three-ecosystem runs with normal stats', () => {
     const policies = ['speed', 'armor', 'stealth', 'parasite', 'swarm'] as const
     const reports = Array.from({ length: 10 }, (_, index) => runHeadless({
       seed: [17, 43, 91, 127, 211, 307, 419, 557, 701, 887][index]!,
       durationMs: 560_000,
-      route: routes[index % routes.length],
       policy: policies[index % policies.length],
     }))
 
     expect(new Set(reports.map((report) => report.morphologySignature)).size).toBeGreaterThanOrEqual(6)
     expect(reports.filter((report) => report.endingId).length).toBeGreaterThanOrEqual(4)
-    expect(reports.every((report) => report.stageSignature === '1>2>3>4>5>6')).toBe(true)
+    expect(reports.filter((report) => report.endingId).every((report) => report.stageSignature === '1>2>3')).toBe(true)
+    expect(reports.every((report) => ['1', '1>2', '1>2>3'].includes(report.stageSignature))).toBe(true)
     expect(reports.flatMap((report) => report.invalidNumbers)).toEqual([])
   }, 120_000)
 })

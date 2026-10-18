@@ -1,0 +1,198 @@
+{
+  "lineage": "lineage-1464cc05833767a3",
+  "child": {
+    "tier": 0,
+    "recipe": "visual-lineage-dart",
+    "traits": [
+      "organelle-wide-mouth"
+    ],
+    "nativeSave": {
+      "schemaVersion": 1,
+      "contentVersion": "1.0.0",
+      "settings": {
+        "music": true,
+        "sfx": true,
+        "reducedMotion": true,
+        "reducedFlash": true,
+        "lowParticles": false,
+        "reducedShake": true,
+        "graphics": "balanced"
+      },
+      "progression": {
+        "genePoints": 79,
+        "unlockedIds": [
+          "origin-primal-cell"
+        ],
+        "discoveredSynergyIds": [
+          "synergy-acid-feeder"
+        ],
+        "completedModifierIds": [],
+        "rewardCounts": {
+          "codex-complete:nutrient-sugar": 1,
+          "codex-complete:creature-drifter": 1,
+          "codex-complete:creature-vesicle-scavenger": 1,
+          "codex-complete:predator-azure-ring": 1,
+          "codex-complete:nutrient-mineral": 1,
+          "codex-complete:predator-membrane-warden": 1,
+          "codex-complete:creature-thornback-forager": 1,
+          "codex-complete:creature-fiber-float": 1,
+          "codex-complete:creature-thread-grazer": 1,
+          "codex-complete:predator-fiber-stalker": 1,
+          "codex-complete:nutrient-gene-fragment": 1,
+          "codex-complete:creature-host-droplet": 1,
+          "codex-complete:creature-spore-drifter": 1,
+          "codex-complete:predator-antibody-leech": 1,
+          "codex-complete:creature-lantern-siphon": 1,
+          "synergy:synergy-acid-feeder": 2,
+          "codex-complete:creature-cavity-scavenger": 1,
+          "codex-complete:predator-chamber-maw": 1,
+          "codex-complete:creature-spark-swarm": 1,
+          "ending:ending-stable-species": 1,
+          "environment:env-clear-drop": 1,
+          "environment:env-fiber-maze": 1,
+          "environment:env-abandoned-chamber": 1
+        }
+      },
+      "codex": {
+        "nutrient-sugar": "complete",
+        "creature-drifter": "complete",
+        "predator-azure-ring": "complete",
+        "creature-vesicle-scavenger": "complete",
+        "creature-spark-swarm": "complete",
+        "creature-fiber-float": "complete",
+        "creature-thread-grazer": "complete",
+        "creature-thornback-forager": "complete",
+        "predator-fiber-stalker": "complete",
+        "nutrient-mineral": "complete",
+        "predator-membrane-warden": "complete",
+        "predator-seam-lurker": "seen",
+        "creature-fiber-scavenger": "seen",
+        "creature-host-droplet": "complete",
+        "creature-spore-drifter": "complete",
+        "predator-antibody-leech": "complete",
+        "nutrient-gene-fragment": "complete",
+        "predator-chamber-maw": "complete",
+        "creature-lantern-siphon": "complete",
+        "creature-cavity-scavenger": "complete",
+        "event-giant-passage": "seen",
+        "predator-razor-ray": "seen"
+      },
+      "records": {
+        "bestSurvivalMs": 0,
+        "bestEnvironmentOrder": 0,
+        "maxBiomass": 0,
+        "dailySeeds": {}
+      },
+      "lifeArchives": [
+        {
+          "speciesNameSeed": 860108381,
+          "survivalMs": 146166.66666667315,
+          "farthestEnvironmentId": "env-abandoned-chamber",
+          "maxBiomass": 85855,
+          "keyOrganelleIds": [
+            "organelle-acid-gland",
+            "organelle-wide-mouth",
+            "organelle-jet-vacuole"
+          ],
+          "synergyIds": [
+            "synergy-acid-feeder"
+          ],
+          "endingId": "ending-stable-species",
+          "dishCode": "PC1.eyJ2IjoiMS4wLjAiLCJzIjo3MjcsInIiOlsiZW52LWFjaWQtdmVzaWNsZSIsImVudi1hbnRpYm9keS1zdG9ybSJdfQ.1J4DH6W",
+          "finalMorphology": {
+            "bodyCount": 1,
+            "totalMass": 85855,
+            "radius": 176,
+            "stability": 88,
+            "organelles": [
+              {
+                "id": "organelle-wide-mouth",
+                "stage": "installed",
+                "anchor": "front"
+              },
+              {
+                "id": "organelle-jet-vacuole",
+                "stage": "installed",
+                "anchor": "rear"
+              },
+              {
+                "id": "organelle-needle-mouth",
+                "stage": "installed",
+                "anchor": "front"
+              },
+              {
+                "id": "organelle-shock-pulse",
+                "stage": "installed",
+                "anchor": "core"
+              },
+              {
+                "id": "organelle-acid-gland",
+                "stage": "installed",
+                "anchor": "internal"
+              },
+              {
+                "id": "organelle-electric-sac",
+                "stage": "installed",
+                "anchor": "left"
+              }
+            ]
+          },
+          "finalBodyStage": "specialist",
+          "finalFormId": "form-ciliate-composite",
+          "finalVisualRecipeId": "visual-origin-primal-cell",
+          "finalTierIndex": 2,
+          "ecosystemIds": [
+            "env-clear-drop",
+            "env-fiber-maze",
+            "env-abandoned-chamber"
+          ],
+          "buildRouteCounts": {
+            "predation": 5,
+            "survival": 1,
+            "colony": 0
+          },
+          "journeyStageIndex": 2
+        }
+      ],
+      "nursery": {
+        "seeds": [
+          {
+            "id": "seed-1464cc05833767a3",
+            "archiveKey": "1464cc05833767a3",
+            "organelleIds": [
+              "organelle-wide-mouth",
+              "organelle-jet-vacuole",
+              "organelle-needle-mouth",
+              "organelle-shock-pulse",
+              "organelle-acid-gland",
+              "organelle-electric-sac"
+            ],
+            "generation": 1,
+            "earnedAtRun": 1,
+            "sourceFormId": "form-ciliate-composite",
+            "route": "predation"
+          }
+        ],
+        "lineages": [
+          {
+            "id": "lineage-1464cc05833767a3",
+            "seedId": "seed-1464cc05833767a3",
+            "name": "交付验收一代",
+            "generation": 1,
+            "bornAtRun": 1,
+            "archetypeId": "lineage-dart",
+            "inheritedOrganelleId": "organelle-wide-mouth"
+          }
+        ],
+        "hatchedSeedIds": [
+          "seed-1464cc05833767a3"
+        ],
+        "seenArchiveKeys": [
+          "1464cc05833767a3"
+        ],
+        "completedRuns": 1,
+        "selectedLineageId": "lineage-1464cc05833767a3"
+      }
+    }
+  }
+}

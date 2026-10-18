@@ -3,6 +3,17 @@ import { cameraZoomFor, createCameraTracker, targetScreenDiameterRatio, visibleW
 import { backdropTileOrigins, edgeWarningPosition, isFiniteEntityGeometry, materializationPresentation, renderPixelRatio, swarmTransitionPresentation, worldBoundaryScreenRect, worldTextureOffset } from './renderer'
 
 describe('stage camera', () => {
+  it('snaps the new habitat center but unfolds the field of view after evolution', () => {
+    const camera = createCameraTracker()
+    const viewport = { width: 390, height: 844 }
+    const initial = camera.update({ position: { x: 720, y: 1200 }, velocity: { x: 0, y: 0 }, radius: 30 }, viewport, { screenDiameterRatio: 0.22 }, 1000)
+    const evolved = camera.update({ position: { x: 1408, y: 2393 }, velocity: { x: 0, y: 0 }, radius: 40 }, viewport, { screenDiameterRatio: 0.18 }, 1016)
+    expect(evolved.center).toEqual({ x: 1408, y: 2393 })
+    expect(evolved.zoom).toBe(initial.zoom)
+    const unfolding = camera.update({ position: { x: 1408, y: 2393 }, velocity: { x: 0, y: 0 }, radius: 40 }, viewport, { screenDiameterRatio: 0.18 }, 1066)
+    expect(unfolding.zoom).toBeLessThan(initial.zoom)
+    expect(unfolding.zoom).toBeGreaterThan(cameraZoomFor({ viewport, radius: 40, screenDiameterRatio: 0.18 }))
+  })
   it('keeps a growing player inside the tier screen-diameter band', () => {
     expect(cameraZoomFor({ viewport: { width: 390, height: 844 }, radius: 12, screenDiameterRatio: 0.16 })).toBeCloseTo(2.6)
     expect(cameraZoomFor({ viewport: { width: 390, height: 844 }, radius: 40, screenDiameterRatio: 0.28 })).toBeCloseTo(1.365)
@@ -15,6 +26,9 @@ describe('stage camera', () => {
   it('interpolates the target screen ratio with finite tier progress', () => {
     expect(targetScreenDiameterRatio([0.16, 0.21], 0.5)).toBeCloseTo(0.185)
     expect(targetScreenDiameterRatio([0.16, 0.21], Number.NaN)).toBe(0.16)
+    expect(targetScreenDiameterRatio([0.4, 0.9], 1)).toBe(0.3)
+    const zoom = cameraZoomFor({ viewport: { width: 375, height: 812 }, radius: 128, screenDiameterRatio: 0.9 })
+    expect(128 * 2 * zoom / 375).toBeLessThanOrEqual(0.3)
   })
 
   it('uses a lower player anchor and looks ahead along velocity', () => {

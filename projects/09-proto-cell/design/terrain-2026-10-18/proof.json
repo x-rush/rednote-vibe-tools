@@ -1,0 +1,352 @@
+{
+  "method": "Production App, normal first-layer hunt and evolution; mature second-layer body steered across a real fiber interior. Direction inputs and fixed-step acceleration only; no entity or stat edits.",
+  "contact": true,
+  "crossed": true,
+  "crossing": {
+    "id": "fiber-main",
+    "center": {
+      "x": 900.254320144474,
+      "y": 1547.9150133445619
+    },
+    "normal": {
+      "x": -0.8060121029103711,
+      "y": 0.5918990538613838
+    },
+    "side": 1,
+    "from": {
+      "x": 829.2464605335651,
+      "y": 1600.0599932631733
+    },
+    "to": {
+      "x": 971.2621797553829,
+      "y": 1495.7700334259505
+    },
+    "distance": 965.2967601021186,
+    "phase": "done",
+    "startedAtMs": 94383.33333333791,
+    "radius": 58.0977585256
+  },
+  "trace": [
+    {
+      "atMs": 94383.33333333791,
+      "phase": "approach",
+      "signed": 965.2967601021187
+    },
+    {
+      "atMs": 94466.66666667127,
+      "phase": "approach",
+      "signed": 965.1148213763561
+    },
+    {
+      "atMs": 94550.00000000463,
+      "phase": "approach",
+      "signed": 956.585601492312
+    },
+    {
+      "atMs": 94650.00000000466,
+      "phase": "approach",
+      "signed": 941.1703046981487
+    },
+    {
+      "atMs": 94733.33333333801,
+      "phase": "approach",
+      "signed": 925.7583883968264
+    },
+    {
+      "atMs": 94816.66666667137,
+      "phase": "approach",
+      "signed": 908.9707842729192
+    },
+    {
+      "atMs": 94900.00000000473,
+      "phase": "approach",
+      "signed": 891.3410664925836
+    },
+    {
+      "atMs": 94983.33333333809,
+      "phase": "approach",
+      "signed": 873.1957865741992
+    },
+    {
+      "atMs": 95066.66666667144,
+      "phase": "approach",
+      "signed": 854.7347726309965
+    },
+    {
+      "atMs": 95150.0000000048,
+      "phase": "approach",
+      "signed": 836.0802953959969
+    },
+    {
+      "atMs": 95233.33333333816,
+      "phase": "approach",
+      "signed": 817.3071647796535
+    },
+    {
+      "atMs": 95316.66666667152,
+      "phase": "approach",
+      "signed": 798.4611501737795
+    },
+    {
+      "atMs": 95400.00000000487,
+      "phase": "approach",
+      "signed": 779.5702530564707
+    },
+    {
+      "atMs": 95483.33333333823,
+      "phase": "approach",
+      "signed": 760.6516048159353
+    },
+    {
+      "atMs": 95566.66666667159,
+      "phase": "approach",
+      "signed": 741.715687302311
+    },
+    {
+      "atMs": 95650.00000000495,
+      "phase": "approach",
+      "signed": 722.7689151051547
+    },
+    {
+      "atMs": 95733.3333333383,
+      "phase": "approach",
+      "signed": 703.8152154199794
+    },
+    {
+      "atMs": 95816.66666667166,
+      "phase": "approach",
+      "signed": 684.8569946140977
+    },
+    {
+      "atMs": 95900.00000000502,
+      "phase": "approach",
+      "signed": 665.8957295867889
+    },
+    {
+      "atMs": 95983.33333333838,
+      "phase": "approach",
+      "signed": 646.9323296050645
+    },
+    {
+      "atMs": 96066.66666667174,
+      "phase": "approach",
+      "signed": 627.967357748377
+    },
+    {
+      "atMs": 96166.66666667176,
+      "phase": "approach",
+      "signed": 605.2078148963154
+    },
+    {
+      "atMs": 96250.00000000512,
+      "phase": "approach",
+      "signed": 586.2404749954998
+    },
+    {
+      "atMs": 96333.33333333848,
+      "phase": "approach",
+      "signed": 567.2723026587083
+    },
+    {
+      "atMs": 96416.66666667184,
+      "phase": "approach",
+      "signed": 548.3033986679878
+    },
+    {
+      "atMs": 96500.0000000052,
+      "phase": "approach",
+      "signed": 529.3338399173703
+    },
+    {
+      "atMs": 96583.33333333855,
+      "phase": "approach",
+      "signed": 510.3636911104987
+    },
+    {
+      "atMs": 96683.33333333858,
+      "phase": "approach",
+      "signed": 487.598824914507
+    },
+    {
+      "atMs": 96766.66666667194,
+      "phase": "approach",
+      "signed": 468.6276053870082
+    },
+    {
+      "atMs": 96850.0000000053,
+      "phase": "approach",
+      "signed": 449.65599017810314
+    },
+    {
+      "atMs": 96933.33333333865,
+      "phase": "approach",
+      "signed": 430.6840566072882
+    },
+    {
+      "atMs": 97016.66666667201,
+      "phase": "approach",
+      "signed": 411.71189279040186
+    },
+    {
+      "atMs": 97100.00000000537,
+      "phase": "approach",
+      "signed": 392.7396012607785
+    },
+    {
+      "atMs": 97183.33333333873,
+      "phase": "approach",
+      "signed": 373.767303140683
+    },
+    {
+      "atMs": 97266.66666667208,
+      "phase": "approach",
+      "signed": 354.7951432690446
+    },
+    {
+      "atMs": 97350.00000000544,
+      "phase": "approach",
+      "signed": 335.82329679802126
+    },
+    {
+      "atMs": 97433.3333333388,
+      "phase": "approach",
+      "signed": 316.85197797253875
+    },
+    {
+      "atMs": 97516.66666667216,
+      "phase": "approach",
+      "signed": 297.8814521571238
+    },
+    {
+      "atMs": 97600.00000000552,
+      "phase": "approach",
+      "signed": 278.912052778141
+    },
+    {
+      "atMs": 97700.00000000554,
+      "phase": "approach",
+      "signed": 256.1508114562562
+    },
+    {
+      "atMs": 97783.3333333389,
+      "phase": "approach",
+      "signed": 237.1854596758144
+    },
+    {
+      "atMs": 97866.66666667226,
+      "phase": "approach",
+      "signed": 218.22319162419953
+    },
+    {
+      "atMs": 97950.00000000562,
+      "phase": "approach",
+      "signed": 199.2650948494641
+    },
+    {
+      "atMs": 98033.33333333897,
+      "phase": "approach",
+      "signed": 180.31275844127612
+    },
+    {
+      "atMs": 98116.66666667233,
+      "phase": "approach",
+      "signed": 161.36863461842958
+    },
+    {
+      "atMs": 98216.66666667236,
+      "phase": "approach",
+      "signed": 138.65190083517246
+    },
+    {
+      "atMs": 98300.00000000572,
+      "phase": "approach",
+      "signed": 119.74475025900318
+    },
+    {
+      "atMs": 98383.33333333908,
+      "phase": "approach",
+      "signed": 100.88475336834773
+    },
+    {
+      "atMs": 98466.66666667243,
+      "phase": "cross",
+      "signed": 82.20057630122515
+    },
+    {
+      "atMs": 98550.00000000579,
+      "phase": "cross",
+      "signed": 63.65154594308147,
+      "fiberControl": 0.85942897546
+    },
+    {
+      "atMs": 98633.33333333915,
+      "phase": "cross",
+      "signed": 45.84068794648864,
+      "fiberControl": 0.85942897546
+    },
+    {
+      "atMs": 98933.33333333924,
+      "phase": "cross",
+      "signed": -15.006509855195679,
+      "fiberControl": 0.85942897546
+    },
+    {
+      "atMs": 99016.6666666726,
+      "phase": "cross",
+      "signed": -31.538531474506463,
+      "fiberControl": 0.85942897546
+    },
+    {
+      "atMs": 99100.00000000595,
+      "phase": "cross",
+      "signed": -48.012434415165224,
+      "fiberControl": 0.85942897546
+    },
+    {
+      "atMs": 99183.33333333931,
+      "phase": "cross",
+      "signed": -64.448723018145,
+      "fiberControl": 0.85942897546
+    }
+  ],
+  "hud": {
+    "membrane": 154.28746,
+    "energy": 124.19164,
+    "stability": 94,
+    "biomass": 6782,
+    "peakBiomass": 6782,
+    "evolutionThreshold": 1080,
+    "elapsedMs": 99300.00000000601,
+    "environmentId": "env-fiber-maze",
+    "paused": false,
+    "engulfScore": 6638,
+    "journeyIndex": 2,
+    "journeyTotal": 3,
+    "bodyStage": "hunter",
+    "bodyStageProgress": 1,
+    "formId": "form-colony-body",
+    "tierIndex": 1,
+    "tierProgress": 0.51597,
+    "membraneRatio": 1,
+    "ecosystem": {
+      "tierIndex": 1,
+      "name": "聚合水层",
+      "objective": "围猎旧敌，找出纤维潜猎体",
+      "pressure": 0.51597,
+      "activeBiomass": 5565,
+      "activeBiomassTarget": 1400,
+      "encounterName": "纤维潜猎体",
+      "encounterHint": "纤维可以挤过；长大后推开纤维，避开扑击再反猎。",
+      "encounterResolved": false,
+      "encounterPosition": {
+        "x": 1356.0853193630871,
+        "y": 2615.429222660113
+      },
+      "readyToEvolve": false,
+      "reversalCount": 3,
+      "mutationsCompleted": 1,
+      "mutationTarget": 2
+    }
+  },
+  "errors": []
+}

@@ -1,0 +1,119 @@
+[
+  {
+    "seed": 727,
+    "time": 88066.66666666941,
+    "stages": "1>2",
+    "forms": "form-primal-cell>form-colony-body",
+    "events": [
+      {
+        "type": "mutation-selected",
+        "entityId": "player",
+        "organId": "organelle-wide-mouth",
+        "action": "install",
+        "atMs": 37616.66666666692
+      },
+      {
+        "type": "mutation-selected",
+        "entityId": "player",
+        "organId": "organelle-flagellum",
+        "action": "install",
+        "atMs": 58716.66666666385
+      },
+      {
+        "type": "engulfed",
+        "predatorId": "player",
+        "preyId": "encounter-0",
+        "predatorDefinitionId": "origin-primal-cell",
+        "preyDefinitionId": "predator-azure-ring",
+        "biomass": 514,
+        "chain": 1,
+        "atMs": 88066.66666666941
+      },
+      {
+        "type": "form-transitioned",
+        "fromFormId": "form-primal-cell",
+        "toFormId": "form-colony-body",
+        "atMs": 88066.66666666941
+      }
+    ],
+    "invalid": []
+  },
+  {
+    "seed": 728,
+    "time": 32066.66666666757,
+    "stages": "1>2",
+    "forms": "form-primal-cell>form-colony-body",
+    "events": [
+      {
+        "type": "mutation-selected",
+        "entityId": "player",
+        "organId": "organelle-jet-vacuole",
+        "action": "install",
+        "atMs": 21750.000000000153
+      },
+      {
+        "type": "mutation-selected",
+        "entityId": "player",
+        "organId": "organelle-repair-vacuole",
+        "action": "install",
+        "atMs": 31983.33333333423
+      },
+      {
+        "type": "engulfed",
+        "predatorId": "player",
+        "preyId": "encounter-0",
+        "predatorDefinitionId": "origin-primal-cell",
+        "preyDefinitionId": "predator-azure-ring",
+        "biomass": 490,
+        "chain": 1,
+        "atMs": 32033.333333334234
+      },
+      {
+        "type": "form-transitioned",
+        "fromFormId": "form-primal-cell",
+        "toFormId": "form-colony-body",
+        "atMs": 32066.66666666757
+      }
+    ],
+    "invalid": []
+  },
+  {
+    "seed": 729,
+    "time": 52066.666666664816,
+    "stages": "1>2",
+    "forms": "form-primal-cell>form-colony-body",
+    "events": [
+      {
+        "type": "mutation-selected",
+        "entityId": "player",
+        "organId": "organelle-flagellum",
+        "action": "install",
+        "atMs": 26950.00000000053
+      },
+      {
+        "type": "mutation-selected",
+        "entityId": "player",
+        "organId": "organelle-wide-mouth",
+        "action": "install",
+        "atMs": 41199.99999999973
+      },
+      {
+        "type": "engulfed",
+        "predatorId": "player",
+        "preyId": "encounter-0",
+        "predatorDefinitionId": "origin-primal-cell",
+        "preyDefinitionId": "predator-azure-ring",
+        "biomass": 487,
+        "chain": 1,
+        "atMs": 52049.99999999815
+      },
+      {
+        "type": "form-transitioned",
+        "fromFormId": "form-primal-cell",
+        "toFormId": "form-colony-body",
+        "atMs": 52066.666666664816
+      }
+    ],
+    "invalid": []
+  }
+]

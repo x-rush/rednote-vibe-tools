@@ -14,6 +14,10 @@ export type EnvironmentTelegraph = {
   radius: number
 }
 
+export type FiberGap = { fromT: number; toT: number; atMs: number; natural?: boolean }
+export type TerrainBreak = { obstacleId: string; position: Vec2; radius: number; atMs: number }
+export type EnvironmentObstacle = { id: string; kind: 'fiber' | 'chamber-wall'; from: Vec2; to: Vec2; adhesive: boolean; gaps?: FiberGap[]; strainMs?: number; strainPosition?: Vec2; anchorY?: number }
+
 export type EnvironmentField = {
   environmentId: EnvironmentId
   seed: number
@@ -24,7 +28,8 @@ export type EnvironmentField = {
   baseFlow: Vec2
   safeCenters: Vec2[]
   safeRadius: number
-  obstacles: Array<{ id: string; kind: 'fiber' | 'chamber-wall'; from: Vec2; to: Vec2; adhesive: boolean }>
+  obstacles: EnvironmentObstacle[]
+  recentBreaks?: TerrainBreak[]
   telegraphs: EnvironmentTelegraph[]
   activeHazardIds: string[]
   hazardCenters: Record<string, Vec2>
@@ -67,18 +72,18 @@ export function createEnvironmentField(environmentId: EnvironmentId, seed: numbe
     baseFlow: { x: Math.cos(angle) * environment.viscosity, y: Math.sin(angle) * environment.viscosity },
     safeCenters: [],
     safeRadius: environmentId === 'env-acid-vesicle' || environmentId === 'env-antibody-storm' ? 132 : 92,
-    obstacles: environmentId === 'env-fiber-maze'
+    obstacles: environmentId === 'env-clear-drop'
+      ? getContent().fiberTraversal.firstLayerShelters.map((shelter, index) => ({ id: `shelter-${index}`, kind: 'fiber' as const, adhesive: true, from: { x: shelter.from[0] * dimensions.width, y: shelter.from[1] * dimensions.height }, to: { x: shelter.to[0] * dimensions.width, y: shelter.to[1] * dimensions.height } }))
+      : environmentId === 'env-fiber-maze'
       ? [
           { id: 'fiber-main', kind: 'fiber', from: point(90, 220), to: point(550, 760), adhesive: true },
           { id: 'fiber-upper', kind: 'fiber', from: point(620, 180), to: point(1160, 640), adhesive: true },
           { id: 'fiber-lower', kind: 'fiber', from: point(260, 980), to: point(880, 1420), adhesive: true },
         ]
       : environmentId === 'env-abandoned-chamber'
-        ? [
-          { id: 'chamber-gate', kind: 'chamber-wall', from: point(80, 520), to: point(560, 520), adhesive: false },
-          { id: 'chamber-lane-upper', kind: 'chamber-wall', from: point(180, 940), to: point(820, 940), adhesive: false },
-          { id: 'chamber-lane-lower', kind: 'chamber-wall', from: point(720, 1520), to: point(1420, 1520), adhesive: false },
-          ]
+        ? getContent().lateEcology.chamberWalls.map((wall, index) => ({ id: `chamber-plate-${index}`, kind: 'chamber-wall' as const, adhesive: false,
+          from: { x: wall.from[0] * dimensions.width, y: wall.from[1] * dimensions.height }, to: { x: wall.to[0] * dimensions.width, y: wall.to[1] * dimensions.height }, anchorY: wall.from[1] * dimensions.height,
+          gaps: wall.gaps.map(([fromT, toT]) => ({ fromT, toT, atMs, natural: true })) }))
         : [],
     telegraphs: [{ cueId: rule.cueId, hazardId: rule.hazardId, shape: rule.shape, startsAtMs: atMs, activatesAtMs: atMs + rule.leadMs, center, radius: 90 + rng.int(0, 80) }],
     activeHazardIds: [],
@@ -117,8 +122,8 @@ export function stepEnvironmentField(state: EnvironmentField, atMs: number): Env
     safeCenters = Object.values(hazardCenters).map((center) => ({ x: pingPong(center.x + dimensions.width * 0.12, Math.max(70, dimensions.width * 0.08), Math.min(dimensions.width - 70, dimensions.width * 0.92)), y: center.y }))
   }
   const obstacles = state.environmentId === 'env-abandoned-chamber'
-    ? state.obstacles.map((obstacle) => {
-        const y = 520 + Math.sin(elapsedSeconds * 0.7) * 105
+    ? state.obstacles.map((obstacle, index) => {
+        const y = (obstacle.anchorY ?? obstacle.from.y) + Math.sin(elapsedSeconds * 0.7 + index * 1.4) * Math.min(105, dimensions.height * 0.012)
         return { ...obstacle, from: { ...obstacle.from, y }, to: { ...obstacle.to, y } }
       })
     : state.obstacles
@@ -190,6 +195,16 @@ export type EnvironmentSample = {
   damage: number
   hazardId?: string
   blocked: boolean
+  fiberControl?: number
+}
+
+/** Growth changes terrain resistance, while every body can still squeeze through. */
+export function fiberTraversalFor(radius: number): { control: number; speedMultiplier: number } {
+  const rule = getContent().fiberTraversal
+  const safeRadius = Number.isFinite(radius) ? radius : 0
+  const control = Math.max(0, Math.min(1, (safeRadius - rule.radiusRange[0]) / (rule.radiusRange[1] - rule.radiusRange[0])))
+  const [minimum, maximum] = rule.speedMultiplierRange
+  return { control, speedMultiplier: minimum + (maximum - minimum) * control }
 }
 
 export function sampleEnvironmentField(
@@ -204,10 +219,10 @@ export function sampleEnvironmentField(
     return Boolean(center && cue && distance(center, position) <= cue.radius + radius)
   })
   const touchesAdhesive = state.obstacles.some((obstacle) => (
-    obstacle.adhesive && distanceToSegment(position, obstacle.from, obstacle.to) <= radius + 16
+    obstacle.adhesive && fiberSections(obstacle).some((section) => distanceToSegment(position, section.from, section.to) <= radius + getContent().fiberTraversal.contactPadding)
   ))
   const touchesWall = state.obstacles.some((obstacle) => (
-    obstacle.kind === 'chamber-wall' && distanceToSegment(position, obstacle.from, obstacle.to) <= radius + 5
+    obstacle.kind === 'chamber-wall' && fiberSections(obstacle).some((section) => distanceToSegment(position, section.from, section.to) <= radius + 5)
   ))
   const acidExposed = state.environmentId === 'env-acid-vesicle'
     && state.activeHazardIds.includes('hazard-acid-discharge')
@@ -218,7 +233,8 @@ export function sampleEnvironmentField(
   )))
   return {
     flow: { ...state.flow },
-    speedMultiplier: touchesAdhesive ? 0.42 : 1,
+    speedMultiplier: touchesAdhesive ? fiberTraversalFor(radius).speedMultiplier : 1,
+    fiberControl: touchesAdhesive ? fiberTraversalFor(radius).control : undefined,
     damage: damagingHazard
       ? state.environmentId === 'env-abandoned-chamber' ? 12 : state.environmentId === 'env-acid-vesicle' || state.environmentId === 'env-antibody-storm' ? 6 : 8
       : 0,
@@ -234,39 +250,18 @@ export function resolveEnvironmentMovement(
   radius: number,
 ): Vec2 {
   for (const obstacle of state.obstacles) {
-    if (obstacle.kind === 'fiber') {
-      const fromDistance = distanceToSegment(from, obstacle.from, obstacle.to)
-      const toDistance = distanceToSegment(to, obstacle.from, obstacle.to)
-      const nearSegment = toDistance <= radius + 2
-      if (nearSegment) {
-        if (toDistance > fromDistance) return { ...to }
-        return slideAlongCapsule(from, to, obstacle.from, obstacle.to)
-      }
-      continue
-    }
+    // Fibers resist through the movement sample; treating them as walls traps
+    // the player permanently on one side, regardless of size or growth.
     if (obstacle.kind !== 'chamber-wall') continue
-    const crosses = (from.y < obstacle.from.y && to.y + radius >= obstacle.from.y)
-      || (from.y > obstacle.from.y && to.y - radius <= obstacle.from.y)
-    const withinSpan = to.x >= Math.min(obstacle.from.x, obstacle.to.x) - radius
-      && to.x <= Math.max(obstacle.from.x, obstacle.to.x) + radius
-    if (crosses && withinSpan) return { x: to.x, y: from.y < obstacle.from.y ? obstacle.from.y - radius : obstacle.from.y + radius }
+    for (const section of fiberSections(obstacle)) {
+    const crosses = (from.y < section.from.y && to.y + radius >= section.from.y)
+      || (from.y > section.from.y && to.y - radius <= section.from.y)
+    const withinSpan = to.x >= Math.min(section.from.x, section.to.x) - radius
+      && to.x <= Math.max(section.from.x, section.to.x) + radius
+    if (crosses && withinSpan) return { x: to.x, y: from.y < section.from.y ? section.from.y - radius : section.from.y + radius }
+    }
   }
   return to
-}
-
-function slideAlongCapsule(from: Vec2, to: Vec2, segmentFrom: Vec2, segmentTo: Vec2): Vec2 {
-  const closest = closestPointOnSegment(from, segmentFrom, segmentTo)
-  const normalX = from.x - closest.x
-  const normalY = from.y - closest.y
-  const normalLength = Math.hypot(normalX, normalY)
-  if (normalLength === 0) return { ...from }
-  const normal = { x: normalX / normalLength, y: normalY / normalLength }
-  const travel = { x: to.x - from.x, y: to.y - from.y }
-  const inward = Math.min(0, travel.x * normal.x + travel.y * normal.y)
-  return {
-    x: from.x + travel.x - normal.x * inward,
-    y: from.y + travel.y - normal.y * inward,
-  }
 }
 
 function distance(first: Vec2, second: Vec2): number {
@@ -277,13 +272,28 @@ function distanceToSegment(point: Vec2, from: Vec2, to: Vec2): number {
   return distance(point, closestPointOnSegment(point, from, to))
 }
 
-function closestPointOnSegment(point: Vec2, from: Vec2, to: Vec2): Vec2 {
+export function closestPointOnSegment(point: Vec2, from: Vec2, to: Vec2): Vec2 {
   const dx = to.x - from.x
   const dy = to.y - from.y
   const lengthSquared = dx * dx + dy * dy
   if (lengthSquared === 0) return { ...from }
   const ratio = Math.max(0, Math.min(1, ((point.x - from.x) * dx + (point.y - from.y) * dy) / lengthSquared))
   return { x: from.x + dx * ratio, y: from.y + dy * ratio }
+}
+
+/** The same intact sections drive resistance, sight blocking and rendering. */
+export function fiberSections(obstacle: EnvironmentObstacle): Array<{ from: Vec2; to: Vec2 }> {
+  const gaps = obstacle.gaps ?? []
+  if (gaps.length === 0) return [{ from: obstacle.from, to: obstacle.to }]
+  const sections: Array<{ from: Vec2; to: Vec2 }> = []
+  const point = (t: number) => ({ x: obstacle.from.x + (obstacle.to.x - obstacle.from.x) * t, y: obstacle.from.y + (obstacle.to.y - obstacle.from.y) * t })
+  let start = 0
+  for (const gap of gaps) {
+    if (gap.fromT > start) sections.push({ from: point(start), to: point(gap.fromT) })
+    start = Math.max(start, gap.toT)
+  }
+  if (start < 1) sections.push({ from: point(start), to: point(1) })
+  return sections
 }
 
 function pingPong(value: number, min: number, max: number): number {

@@ -1,0 +1,46 @@
+import { membraneContour, membranePoint, type MembraneSilhouette } from '../domain/membrane'
+
+const paths = new Map<string, { atMs: number; path: Path2D }>()
+const armorPaths = new Map<string, { atMs: number; paths: Path2D[] }>()
+
+function identityKey(silhouette: MembraneSilhouette, id: string) {
+  const shared = silhouette === 'pearl' || silhouette === 'colony' || silhouette === 'ciliate' || silhouette === 'swimmer'
+    || silhouette.startsWith('dart-') || silhouette.startsWith('bastion-') || silhouette.startsWith('bloom-')
+  return `${silhouette}:${shared ? '' : id}`
+}
+
+/** Each plate remains a separate stroke, retaining overlapping round endcaps. */
+export function membraneArmorPaths(silhouette: MembraneSilhouette, atMs: number, id: string): readonly Path2D[] | undefined {
+  if (typeof Path2D === 'undefined') return undefined
+  const key = identityKey(silhouette, id), cached = armorPaths.get(key)
+  if (cached?.atMs === atMs) return cached.paths
+  const retained = Array.from({ length: 6 }, (_, plate) => {
+    const path = new Path2D()
+    for (let index = 0; index <= 4; index += 1) {
+      const point = membranePoint(silhouette, (plate + 0.14 + index * 0.18) / 6 * Math.PI * 2, atMs, id)
+      if (index === 0) path.moveTo(point.x * 0.86, point.y * 0.86)
+      else path.lineTo(point.x * 0.86, point.y * 0.86)
+    }
+    return path
+  })
+  if (!cached && armorPaths.size >= 256) armorPaths.delete(armorPaths.keys().next().value!)
+  armorPaths.set(key, { atMs, paths: retained })
+  return retained
+}
+
+/** Exact retained vectors, never a raster sprite or a lower-resolution outline. */
+export function membranePath(silhouette: MembraneSilhouette, atMs: number, id: string, cueSamples?: number): Path2D | undefined {
+  if (typeof Path2D === 'undefined') return undefined
+  const key = `${identityKey(silhouette, id)}:${cueSamples ?? 'body'}`
+  const cached = paths.get(key)
+  if (cached?.atMs === atMs) return cached.path
+  const points = cueSamples === undefined ? membraneContour(silhouette, atMs, id)
+    : Array.from({ length: cueSamples + 1 }, (_, index) => membranePoint(silhouette, index / cueSamples * Math.PI * 2, atMs, id))
+  const path = new Path2D()
+  path.moveTo(points[0]!.x, points[0]!.y)
+  for (let index = 1; index < points.length; index += 1) path.lineTo(points[index]!.x, points[index]!.y)
+  if (cueSamples === undefined) path.closePath()
+  if (!cached && paths.size >= 512) paths.delete(paths.keys().next().value!)
+  paths.set(key, { atMs, path })
+  return path
+}

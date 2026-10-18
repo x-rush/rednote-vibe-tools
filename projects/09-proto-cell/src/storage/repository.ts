@@ -1,7 +1,9 @@
+import { createHostStorageDriver } from './host-storage'
 import { createDefaultSave, decodeSave, encodeSave, type SaveDataV1, type SaveIssue, type SaveSettings } from './codec'
 
 export type IndexedDbDriver = {
   open(): Promise<void>
+  usesHostStorage?(): boolean
   read(store: string, key: string): Promise<unknown>
   write(store: string, key: string, value: unknown): Promise<void>
   clear(store: string): Promise<void>
@@ -25,7 +27,7 @@ const CURRENT_KEY = 'current'
 const RECOVERY_KEY = 'rejected'
 
 export function createRepository(
-  driver: IndexedDbDriver = createBrowserIndexedDb(safeIndexedDb()),
+  driver: IndexedDbDriver = createHostStorageDriver(createBrowserIndexedDb(safeIndexedDb())),
   settingsStorage: SettingsStorage = safeSettingsStorage(),
 ): GameRepository {
   let mode: RepositoryMode = 'persistent'
@@ -45,7 +47,7 @@ export function createRepository(
           current = { ...createDefaultSave(), settings }
           return result([])
         }
-        const decoded = decodeSave({ ...(isRecord(raw) ? raw : {}), settings })
+        const decoded = decodeSave({ ...(isRecord(raw) ? raw : {}), settings: driver.usesHostStorage?.() && isRecord(raw) && isRecord(raw.settings) ? raw.settings : settings })
         if (!decoded.value) {
           await preserve(raw, decoded.issues)
           mode = 'session'
@@ -69,11 +71,11 @@ export function createRepository(
         return result(decoded.issues)
       }
       current = decoded.value
-      saveSettings(settingsStorage, current.settings)
+      if (!driver.usesHostStorage?.()) saveSettings(settingsStorage, current.settings)
       if (mode === 'persistent') {
         try {
           await ensureOpen()
-          await driver.write('save', CURRENT_KEY, withoutSettings(current))
+          await driver.write('save', CURRENT_KEY, driver.usesHostStorage?.() ? current : withoutSettings(current))
       } catch (error) {
         mode = 'session'
         recovery = safeRecoveryPayload(recoveryFrom(error) ?? structuredClone(value))

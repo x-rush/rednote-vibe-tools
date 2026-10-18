@@ -1,8 +1,52 @@
 import { describe, expect, it, vi } from 'vitest'
 import { testDependencies } from '../tests/fixtures'
 import { createController } from './controller'
+import { createGameEngine } from '../game/engine'
+import type { OrganelleId, OriginId } from '../content'
 
 describe('M0 app controller', () => {
+  it('records a dense event batch from one authoritative frame snapshot', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
+    const engine = controller.engine()!, hud = vi.spyOn(engine, 'snapshot'), render = vi.spyOn(engine, 'renderSnapshot')
+    const events = Array.from({ length: 120 }, () => ({ type: 'organ-triggered' as const, entityId: 'player', organId: 'organelle-flagellum' as const, atMs: 0 }))
+    controller.handleMany(events)
+    expect(hud).toHaveBeenCalledTimes(1)
+    expect(render).toHaveBeenCalledTimes(1)
+    expect(controller.snapshot().eventLog).toHaveLength(120)
+    controller.destroy()
+  })
+  it('keeps the full independent journal available while HUD snapshots skip copying it', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
+    controller.handle({ type: 'organ-triggered', entityId: 'player', organId: 'organelle-flagellum', atMs: 0 })
+    expect(controller.snapshot({ includeEventLog: false }).eventLog).toEqual([])
+    expect(controller.snapshot({ includeEventLog: 'result' }).eventLog).toEqual([])
+    const first = controller.snapshot()
+    ;(first.eventLog[0]!.snapshot!.organelleIds as string[]).push('organelle-eye-spot')
+    expect(controller.snapshot().eventLog[0]!.snapshot!.organelleIds).not.toContain('organelle-eye-spot')
+    expect(controller.snapshot().eventLog).toHaveLength(1)
+    controller.handle({ type: 'ending-reached', endingId: 'ending-stable-species', atMs: 2000 })
+    expect(controller.snapshot({ includeEventLog: 'result' }).eventLog).toHaveLength(2)
+    controller.destroy()
+  })
+  it('keeps route counters independent between exported entries from one event batch', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
+    controller.handleMany(Array.from({ length: 2 }, () => ({ type: 'organ-triggered' as const, entityId: 'player', organId: 'organelle-flagellum' as const, atMs: 0 })))
+    const snapshot = controller.snapshot()
+    snapshot.eventLog[0]!.snapshot!.buildRouteCounts!.predation = 99
+    expect(snapshot.eventLog[1]!.snapshot!.buildRouteCounts!.predation).toBe(0)
+    expect(controller.snapshot().eventLog[0]!.snapshot!.buildRouteCounts!.predation).toBe(0)
+    controller.destroy()
+  })
+  it('records the real form and scale with life events for later specimens', () => {
+    const controller = createController(testDependencies())
+    controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
+    controller.handle({ type: 'organ-triggered', entityId: 'player', organId: 'organelle-flagellum', atMs: 0 })
+    expect(controller.snapshot().eventLog[0]?.snapshot).toMatchObject({ formId: 'form-primal-cell', tierIndex: 0 })
+    controller.destroy()
+  })
   it('starts, dies, and restarts with a fresh run seed', () => {
     const controller = createController(testDependencies())
     controller.startRun({ seed: 727, originId: 'origin-primal-cell' })
@@ -23,6 +67,19 @@ describe('M0 app controller', () => {
 
     controller.restart()
     expect(controller.engine()?.runSnapshot().runOrdinal).toBe(5)
+  })
+
+  it('restarts the same lineage with its inherited organ and fresh lifetime progress', () => {
+    const dependencies = testDependencies()
+    dependencies.createEngine = (input) => createGameEngine({ ...input, originId: input.originId as OriginId })
+    const controller = createController(dependencies)
+    const inheritedOrganelleIds: OrganelleId[] = ['organelle-flagellum']
+    controller.startRun({ seed: 727, originId: 'origin-armored-spore', lineageArchetypeId: 'lineage-bastion', inheritedOrganelleIds })
+    inheritedOrganelleIds.push('organelle-eye-spot')
+    controller.restart()
+    expect(controller.snapshot()).toMatchObject({ seed: 728, hud: { tierIndex: 0, elapsedMs: 0 } })
+    expect(controller.engine()?.evolutionSnapshot().organelles.map((organ) => organ.id)).toEqual(['organelle-flagellum'])
+    expect(controller.engine()?.renderSnapshot().entities.find((entity) => entity.id === 'player')).toMatchObject({ visualRecipeId: 'visual-lineage-bastion' })
   })
 
   it('keeps visibility and user pauses independent', () => {

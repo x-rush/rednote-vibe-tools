@@ -1,14 +1,22 @@
 import { createRng } from '../domain/rng'
 import type { EntityState, Vec2 } from '../domain/types'
 import type { WorldRenderSnapshot } from '../game/engine'
-import { cellVisualProfile, drawCell } from './cell'
+import { cellBodyPoint, cellVisualProfile, drawCell } from './cell'
+import type { FormId } from '../content'
+import { metamorphosisPresentation } from './metamorphosis'
 import { collapsePresentation, drawAmbientParticles, drawDangerTelegraph, drawLiquidField, type AmbientParticle, type RenderQuality } from './effects'
 import type { NumberEffect, NumberFeed } from './numbers'
 import { assetPath } from '../content/assets'
 import rawContent from '../content/content.json'
 import { createCameraTracker, targetScreenDiameterRatio, type CameraFrame } from './camera'
-import { relationshipCue, relationshipPulse, type RelationshipCue } from './feedback'
+import { createRelationshipFrame, relationshipPulse, type RelationshipCue } from './feedback'
 import { isMaterializing } from '../game/materialization'
+import { membraneContour, membranePose, membraneSilhouette } from '../domain/membrane'
+import { behaviorCuePresentation, drawAssimilation } from './assimilation'
+import { fiberStrandPoints } from './fibers'
+import { fiberSections } from '../world/environments'
+import { engulfRecoilScale } from './combat-feel'
+import { membranePath } from './body-path'
 
 export type CanvasRenderer = {
   render(snapshot: WorldRenderSnapshot, numbers: NumberFeed): void
@@ -63,6 +71,16 @@ export function swarmTransitionPresentation(ageMs: number, reducedMotion: boolea
   return { radiusScale: 1.15 + progress * 1.8, textOffset: progress * 12, alpha: 1 - progress }
 }
 
+export function reversalPresentation(ageMs: number, reducedMotion: boolean, reducedFlash: boolean): { radiusScale: number; textOffset: number; alpha: number } | undefined {
+  if (!Number.isFinite(ageMs) || ageMs < 0 || ageMs >= 900) return undefined
+  const progress = ageMs / 900
+  return {
+    radiusScale: reducedMotion ? 1.15 : 1.08 + progress * 0.65,
+    textOffset: reducedMotion ? 0 : progress * 9,
+    alpha: (reducedFlash ? 0.55 : 0.85) * Math.min(1, (1 - progress) * 2),
+  }
+}
+
 export function materializationPresentation(
   ageMs: number,
   durationMs: number,
@@ -113,9 +131,65 @@ export function isFiniteEntityGeometry(
     && entity.body.radius > 0
 }
 
+export function useSimpleCell(entity: Pick<EntityState, 'id' | 'faction' | 'role'>, screenRadius: number, visibleCount: number, proximityRank: number): boolean {
+  if (entity.faction === 'player' || entity.role === 'boss' || entity.id.startsWith('encounter-') || entity.id.startsWith('carryover-')) return false
+  return screenRadius < 9 || visibleCount > 40 && proximityRank >= 18
+}
+
+function drawLateWater(context: CanvasRenderingContext2D, snapshot: WorldRenderSnapshot, camera: CameraFrame, width: number, height: number, visualTime: number) {
+  const colony = snapshot.environmentId === 'env-fiber-maze'
+  const chamber = snapshot.environmentId === 'env-abandoned-chamber'
+  if (!colony && !chamber) return
+  context.save()
+  const water = context.createLinearGradient(0, 0, width, height)
+  water.addColorStop(0, colony ? 'rgb(4 66 50 / 38%)' : 'rgb(44 12 70 / 42%)')
+  water.addColorStop(0.6, 'rgb(4 17 36 / 0%)')
+  water.addColorStop(1, colony ? 'rgb(97 90 24 / 18%)' : 'rgb(5 51 73 / 34%)')
+  context.fillStyle = water
+  context.fillRect(0, 0, width, height)
+  context.strokeStyle = colony ? '#9bd99e' : '#d4b1ff'
+  context.lineWidth = 1
+  context.globalAlpha = 0.12
+  const spacing = colony ? 310 : 680
+  for (let index = 0; index < 12; index += 1) {
+    const wx = (index * 971 + 230) % snapshot.width
+    const wy = (index * spacing + visualTime * (colony ? 0.004 : 0.04)) % snapshot.height
+    const x = camera.anchor.x + (wx - camera.center.x) * camera.zoom
+    const y = camera.anchor.y + (wy - camera.center.y) * camera.zoom
+    if (x < -100 || x > width + 100 || y < -100 || y > height + 100) continue
+    context.beginPath()
+    if (colony) context.ellipse(x, y, 33 * camera.zoom, 85 * camera.zoom, -0.6, 0, Math.PI * 2)
+    else {
+      context.moveTo(x - 16, y - 80)
+      context.bezierCurveTo(x + 40, y - 35, x - 40, y + 35, x + 16, y + 100)
+    }
+    context.stroke()
+  }
+  context.restore()
+}
+
+function drawDomainClaim(context: CanvasRenderingContext2D, center: Vec2, radius: number, width: number, height: number, ageMs: number, reducedMotion: boolean, reducedFlash: boolean) {
+  const progress = Math.min(1, Math.max(0, ageMs / rawContent.lateEcology.leviathan.finaleMs))
+  const reach = reducedMotion ? Math.hypot(width, height) * 0.6 : radius + Math.hypot(width, height) * 0.8 * (1 - (1 - progress) ** 3)
+  context.save()
+  context.globalAlpha = (reducedFlash ? 0.12 : 0.32) * (1 - progress * 0.7)
+  const glow = context.createRadialGradient(center.x, center.y, radius * 0.4, center.x, center.y, Math.max(radius, reach))
+  glow.addColorStop(0, '#ffe6a1')
+  glow.addColorStop(0.32, '#7beac6')
+  glow.addColorStop(1, 'rgb(26 120 110 / 0%)')
+  context.fillStyle = glow
+  context.fillRect(0, 0, width, height)
+  context.strokeStyle = '#c4ffe2'
+  context.lineWidth = 3 * (1 - progress) + 1
+  context.beginPath()
+  context.arc(center.x, center.y, reach, 0, Math.PI * 2)
+  context.stroke()
+  context.restore()
+}
+
 export function createCanvasRenderer(
   canvas: HTMLCanvasElement,
-  options: { quality?: RenderQuality; visualSeed?: number; reducedMotion?: boolean; reducedFlash?: boolean; lowParticles?: boolean } = {},
+  options: { quality?: RenderQuality; visualSeed?: number; reducedMotion?: boolean; reducedShake?: boolean; reducedFlash?: boolean; lowParticles?: boolean } = {},
 ): CanvasRenderer {
   const context = canvas.getContext('2d')
   if (!context) throw new Error('Canvas 2D context unavailable')
@@ -127,12 +201,15 @@ export function createCanvasRenderer(
     radius: 0.8 + visualRng.next() * 2.4,
     phase: visualRng.next() * Math.PI * 2,
   }))
-  const displayedRadii = new Map<string, number>()
   const assetImages = new Map<string, HTMLImageElement>()
   const cameraTracker = createCameraTracker()
   let currentPlayerScreenPosition = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 }
   let quality = options.quality ?? 'balanced'
   let destroyed = false
+  let lastFormId: FormId | undefined
+  let formBloom: { from: FormId; to: FormId; atMs: number } | undefined
+  let lastReversalCount: number | undefined
+  let reversalAtMs = Number.NEGATIVE_INFINITY
 
   return {
     render(snapshot, numbers) {
@@ -140,6 +217,16 @@ export function createCanvasRenderer(
       const { width, height } = resizeCanvas(canvas, context, quality)
       const renderableEntities = snapshot.entities.filter(isFiniteEntityGeometry)
       const player = renderableEntities.find((entity) => entity.id === snapshot.playerId)
+      const reversalCount = snapshot.ecosystem?.reversalCount ?? 0
+      if (lastReversalCount !== undefined && reversalCount > lastReversalCount) reversalAtMs = snapshot.elapsedMs
+      lastReversalCount = reversalCount
+      const geometryRelationship = player ? createRelationshipFrame(player, { formId: snapshot.lifecycle.formId, build: snapshot.playerBuild, elapsedMs: snapshot.elapsedMs }) : undefined
+      const relationship = (target: EntityState): RelationshipCue => target.id === 'encounter-2' && snapshot.ecosystem?.leviathanPhase === 'armored' ? 'danger' : geometryRelationship?.(target) ?? 'neutral'
+      if (lastFormId && lastFormId !== snapshot.lifecycle.formId) {
+        formBloom = { from: lastFormId, to: snapshot.lifecycle.formId, atMs: snapshot.elapsedMs }
+      }
+      lastFormId = snapshot.lifecycle.formId
+      const transformation = formBloom ? metamorphosisPresentation(snapshot.elapsedMs - formBloom.atMs, formBloom.from, formBloom.to, options.reducedMotion ?? false) : undefined
       const viewport = { width, height }
       const tier = rawContent.scaleTiers[snapshot.lifecycle.tierIndex]
       const cameraFrame = player
@@ -158,18 +245,19 @@ export function createCanvasRenderer(
       } : { ...cameraFrame.anchor }
 
       context.clearRect(0, 0, width, height)
-      const impact = screenImpactOffset(numbers.visible(), snapshot.elapsedMs, options.reducedMotion ?? false)
+      const impact = screenImpactOffset(numbers.visible(), snapshot.elapsedMs, !!(options.reducedMotion || options.reducedShake))
       context.save()
       context.translate(impact.x, impact.y)
       const visualTime = options.reducedMotion ? 0 : snapshot.elapsedMs
       drawLiquidField(context, width, height, visualTime, camera)
-      drawBackdropAsset(context, loadAsset(`${snapshot.environmentId}:arcade`), width, height, camera, zoom, 0.34, 0.07)
-      drawBackdropAsset(context, loadAsset('environment-caustics'), width, height, camera, zoom, 0.3, 0.12)
-      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height, camera, zoom, 0.24, 0.2)
+      drawBackdropAsset(context, loadAsset(`${snapshot.environmentId}:arcade`), width, height, camera, zoom, 0.16, 0.07)
+      drawBackdropAsset(context, loadAsset('environment-caustics'), width, height, camera, zoom, 0.12, 0.12)
+      drawBackdropAsset(context, loadAsset(snapshot.environmentId), width, height, camera, zoom, 0.12, 0.2)
       if (quality !== 'low' && usesFiberBackdrop(snapshot.environmentId)) {
-        drawBackdropAsset(context, loadAsset('environment-fibers'), width, height, camera, zoom, 0.11, 0.34)
+        drawBackdropAsset(context, loadAsset('environment-fibers'), width, height, camera, zoom, 0.055, 0.34)
       }
-      drawEnvironmentField(context, snapshot, cameraFrame, width, height)
+      drawLateWater(context, snapshot, cameraFrame, width, height, visualTime)
+      drawEnvironmentField(context, snapshot, cameraFrame, width, height, options.reducedMotion ?? false, options.reducedFlash ?? false)
       drawWorldBoundary(context, snapshot, cameraFrame, width, height, visualTime)
       drawEventField(context, snapshot, cameraFrame)
       if (snapshot.activeEvent && snapshot.activeEvent.phase !== 'expired') {
@@ -179,10 +267,13 @@ export function createCanvasRenderer(
       }
 
       const drawables = renderableEntities
-        .map((entity) => toDrawable(entity, cameraFrame, displayedRadii))
-        .filter((item) => item.x + item.radius * 2 > 0 && item.x - item.radius * 2 < width && item.y + item.radius * 2 > 0 && item.y - item.radius * 2 < height)
+        .map((entity) => toDrawable(entity, cameraFrame))
+        .filter((item) => (!player || item.entity.faction === 'player' || Math.hypot(item.entity.position.x - player.position.x, item.entity.position.y - player.position.y) <= (snapshot.territory?.sightRadius ?? Number.POSITIVE_INFINITY) + item.entity.body.radius)
+          && item.x + item.radius * 2 > 0 && item.x - item.radius * 2 < width && item.y + item.radius * 2 > 0 && item.y - item.radius * 2 < height)
         .sort((left, right) => Number(left.entity.id === snapshot.playerId) - Number(right.entity.id === snapshot.playerId))
 
+      const detailRanks = new Map([...drawables].filter((item) => item.entity.faction !== 'player').sort((a, b) => Math.hypot(a.x - currentPlayerScreenPosition.x, a.y - currentPlayerScreenPosition.y) - Math.hypot(b.x - currentPlayerScreenPosition.x, b.y - currentPlayerScreenPosition.y)).map((item, index) => [item.entity.id, index]))
+      const simplified = (item: typeof drawables[number]) => useSimpleCell(item.entity, item.radius, drawables.length, detailRanks.get(item.entity.id) ?? 0)
       for (const entity of renderableEntities) {
         if (entity.faction !== 'hostile' || !isMaterializing(entity, snapshot.elapsedMs)) continue
         const point = {
@@ -194,28 +285,31 @@ export function createCanvasRenderer(
       }
 
       for (const item of drawables) {
+        if (relationship?.(item.entity) === 'edible') continue
         if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase === 'dormant') {
           drawBossArrivalTelegraph(context, item.x, item.y, item.radius, snapshot.elapsedMs)
         } else {
-          drawDangerTelegraph(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs, options.reducedFlash)
+          drawDangerTelegraph(context, item.entity, item.x, item.y, item.radius, snapshot.elapsedMs, options.reducedFlash || options.reducedMotion)
         }
       }
       drawAmbientParticles(context, particles, width, height, visualTime, options.lowParticles ? 'low' : quality, camera)
       drawRouteRifts(context, snapshot, cameraFrame)
       for (const item of drawables) {
-        if (!isMaterializing(item.entity, snapshot.elapsedMs)) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
+        if (!simplified(item) && !isMaterializing(item.entity, snapshot.elapsedMs)) drawMotionWake(context, item.entity, item.x, item.y, item.radius, quality)
       }
       if (player) {
         for (const item of drawables) {
           if (item.entity.id === player.id) continue
           drawRelationshipCue(
             context,
-            relationshipCue(player, item.entity),
+            relationship?.(item.entity) ?? 'neutral',
             item.x,
             item.y,
             item.radius,
             snapshot.elapsedMs,
             options.reducedFlash ?? false,
+            item.entity,
+            simplified(item),
           )
         }
       }
@@ -234,14 +328,18 @@ export function createCanvasRenderer(
         context.save()
         if (item.entity.behaviorState === 'hide') context.globalAlpha = 0.38
         if (materialization) context.globalAlpha *= materialization.alpha
-        drawCell(context, item.entity, item.x, item.y, item.radius * (materialization?.radiusScale ?? 1), visualTime, {
+        drawCell(context, item.entity, item.x, item.y, item.radius * (materialization?.radiusScale ?? 1) * (item.entity.faction === 'player' ? (transformation?.scale ?? 1) * engulfRecoilScale(snapshot.elapsedMs - reversalAtMs, options.reducedMotion ?? false) : 1), visualTime, {
           quality,
+          simplified: simplified(item),
           build: item.entity.faction === 'player' ? snapshot.playerBuild : undefined,
           formId: item.entity.faction === 'player' ? snapshot.lifecycle.formId : undefined,
           organelleIds: item.entity.faction === 'player' ? snapshot.playerOrganelleIdsByEntity[item.entity.id] ?? [] : undefined,
           stability: item.entity.faction === 'player' ? snapshot.playerStability : undefined,
           synergyIds: item.entity.faction === 'player' ? snapshot.playerSynergyIds : undefined,
           damageSource: item.entity.faction === 'player' ? snapshot.playerDamage?.source : undefined,
+          edible: relationship?.(item.entity) === 'edible',
+          membraneElapsedMs: snapshot.elapsedMs,
+          reducedFlash: options.reducedFlash,
         })
         context.restore()
         if (item.entity.id === snapshot.boss?.id && snapshot.boss.phase !== 'dormant') {
@@ -250,14 +348,27 @@ export function createCanvasRenderer(
           drawBossPhase(context, item.x, item.y, item.radius, snapshot.boss, snapshot.elapsedMs)
         }
       }
+      for (const event of snapshot.recentEngulfs ?? []) {
+        const predator = drawables.find((item) => item.entity.id === event.predatorId)
+        if (!predator) continue
+        drawAssimilation(context, predator.entity, event.prey,
+          { x: predator.x, y: predator.y, radius: predator.radius, zoom },
+          snapshot.lifecycle.formId, snapshot.elapsedMs - event.atMs, snapshot.elapsedMs,
+          { quality, reducedMotion: options.reducedMotion, reducedFlash: options.reducedFlash, durationMs: event.finisher ? rawContent.lateEcology.leviathan.finaleMs : undefined })
+      }
       if (snapshot.swarmTransition && player) {
         drawSwarmTransition(context, currentPlayerScreenPosition, player.body.radius * zoom, snapshot.swarmTransition, snapshot.elapsedMs, options.reducedMotion ?? false)
       }
       if (player) {
-        drawEngulfBursts(context, currentPlayerScreenPosition, player.body.radius * zoom, numbers.visible(), snapshot.elapsedMs, options.reducedMotion ?? false)
+        if (transformation) drawFormBloom(context, currentPlayerScreenPosition, player.body.radius * zoom, transformation.bloom, transformation.alpha, options.reducedMotion ?? false, options.reducedFlash ?? false)
+        drawEngulfBursts(context, currentPlayerScreenPosition, player.body.radius * zoom, numbers.visible(), snapshot.elapsedMs, options.reducedMotion ?? false, options.reducedFlash ?? false, quality)
+        const reversal = reversalPresentation(snapshot.elapsedMs - reversalAtMs, options.reducedMotion ?? false, options.reducedFlash ?? false)
+        if (reversal) drawReversal(context, snapshot, player, currentPlayerScreenPosition, player.body.radius * zoom, viewport, reversal)
       }
-      drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height, cameraFrame.anchor)
+      drawEcologicalObjective(context, snapshot, cameraFrame, viewport, visualTime)
+      drawVisibilityVeil(context, snapshot.environmentField.visibility, width, height, cameraFrame.anchor, snapshot.territory ? snapshot.territory.sightRadius * zoom : undefined)
       drawEcologyCollapse(context, snapshot, width, height, cameraFrame.anchor, options.reducedMotion ?? false)
+      if (snapshot.finaleStartedAtMs !== undefined && player) drawDomainClaim(context, currentPlayerScreenPosition, player.body.radius * zoom, width, height, snapshot.elapsedMs - snapshot.finaleStartedAtMs, options.reducedMotion ?? false, options.reducedFlash ?? false)
       context.restore()
       numbers.draw(context, width, height, snapshot.elapsedMs)
     },
@@ -269,7 +380,6 @@ export function createCanvasRenderer(
     },
     destroy() {
       destroyed = true
-      displayedRadii.clear()
       assetImages.clear()
     },
   }
@@ -297,6 +407,8 @@ function drawBehaviorStateCue(
   if (!entity.behaviorState || entity.faction === 'player') return
   context.save()
   context.translate(x, y)
+  const behaviorCue = behaviorCuePresentation(entity)
+  if (behaviorCue && behaviorCue.phase !== 'recover') context.rotate(behaviorCue.heading)
   if (entity.behaviorState === 'steal' || entity.behaviorState === 'harvest') {
     context.globalAlpha = 0.72
     context.strokeStyle = '#ffdc85'
@@ -312,11 +424,21 @@ function drawBehaviorStateCue(
     context.beginPath()
     context.arc(0, 0, radius * 1.22, 0, Math.PI * 2)
     context.stroke()
-  } else if (entity.behaviorState === 'charge' || entity.behaviorState === 'ambush') {
+  } else if (behaviorCue?.phase === 'prepare') {
+    context.globalAlpha = 0.9
+    context.strokeStyle = '#ffc18b'
+    context.lineWidth = Math.max(2, radius * 0.075)
+    context.setLineDash([5, 5])
+    context.beginPath()
+    context.moveTo(radius * 0.85, -radius * 0.42)
+    context.lineTo(radius * 2.3, 0)
+    context.lineTo(radius * 0.85, radius * 0.42)
+    context.stroke()
+  } else if (behaviorCue?.phase === 'strike') {
     context.globalAlpha = 0.82
     context.fillStyle = '#fff1a4'
     context.beginPath()
-    context.moveTo(radius * 1.42, 0)
+    context.moveTo(radius * 1.8, 0)
     context.lineTo(radius * 1.08, -radius * 0.2)
     context.lineTo(radius * 1.08, radius * 0.2)
     context.closePath()
@@ -399,21 +521,42 @@ function drawRelationshipCue(
   radius: number,
   elapsedMs: number,
   reducedFlash: boolean,
+  entity: EntityState,
+  simplified = false,
 ) {
   if (cue === 'neutral') return
   const pulse = relationshipPulse(elapsedMs, reducedFlash)
   const haloRadius = radius * (cue === 'edible' ? 1.22 : 1.3) * pulse
   context.save()
   context.translate(x, y)
-  context.globalAlpha = cue === 'edible' ? 0.82 : 0.9
-  context.strokeStyle = cue === 'edible' ? '#c9ffff' : '#ff806f'
+  const speed = Math.hypot(entity.velocity.x, entity.velocity.y)
+  if (speed > 0.5) context.rotate(Math.atan2(entity.velocity.y, entity.velocity.x))
+  context.globalAlpha = cue === 'edible' ? 0.6 : 0.84
+  context.strokeStyle = cue === 'edible' ? '#b5ffe2' : '#ff806f'
   context.shadowColor = context.strokeStyle
-  context.shadowBlur = reducedFlash ? 5 : 11
-  context.lineWidth = Math.max(2.5, radius * 0.08)
-  context.setLineDash(cue === 'edible' ? [] : [radius * 0.22, radius * 0.14])
-  context.beginPath()
-  context.arc(0, 0, haloRadius, 0, Math.PI * 2)
-  context.stroke()
+  context.shadowBlur = 0
+  context.lineWidth = Math.max(1.5, radius * 0.045)
+  const pattern = cue === 'edible' ? [radius * 0.3, radius * 0.52] : [radius * 0.22, radius * 0.14]
+  context.setLineDash(pattern)
+  const silhouette = cellVisualProfile(entity).silhouette
+  const samples = simplified ? 16 : 48
+  const retained = membranePath(silhouette, elapsedMs, entity.id, samples)
+  if (retained) {
+    context.save()
+    context.scale(haloRadius, haloRadius)
+    context.lineWidth /= haloRadius
+    context.setLineDash(pattern.map((length) => length / haloRadius))
+    context.stroke(retained)
+    context.restore()
+  } else {
+    context.beginPath()
+    for (let index = 0; index <= samples; index += 1) {
+      const point = cellBodyPoint(silhouette, index / samples * Math.PI * 2, elapsedMs, entity.id)
+      if (index === 0) context.moveTo(point.x * haloRadius, point.y * haloRadius)
+      else context.lineTo(point.x * haloRadius, point.y * haloRadius)
+    }
+    context.stroke()
+  }
   if (cue === 'danger') {
     context.setLineDash([])
     context.lineWidth = Math.max(2, radius * 0.06)
@@ -425,6 +568,126 @@ function drawRelationshipCue(
       context.stroke()
     }
   }
+  context.restore()
+}
+
+export function objectiveScreenCue(point: Vec2, viewport: { width: number; height: number }): (Vec2 & { angle: number; edge: boolean }) | undefined {
+  if (![point.x, point.y, viewport.width, viewport.height].every(Number.isFinite) || viewport.width < 1 || viewport.height < 1) return undefined
+  // The named ecology objective is public information. Keep its edge label below
+  // the HUD and clear of both physical host buttons in portrait and landscape.
+  const top = Math.min(180, viewport.height * 0.4)
+  const bottom = Math.min(64, viewport.height * 0.15)
+  const margin = Math.min(40, viewport.width * 0.12, (viewport.height - top - bottom) / 4)
+  const warning = edgeWarningPosition({ x: point.x, y: point.y - top }, { width: viewport.width, height: viewport.height - top - bottom }, margin)
+  return warning ? { ...warning, y: warning.y + top, edge: true } : { ...point, angle: 0, edge: false }
+}
+
+function drawEcologicalObjective(context: CanvasRenderingContext2D, snapshot: WorldRenderSnapshot, camera: CameraFrame, viewport: { width: number; height: number }, elapsedMs: number) {
+  const ecosystem = snapshot.ecosystem
+  const position = ecosystem?.encounterPosition
+  if (!ecosystem || ecosystem.encounterResolved || !position) return
+  const point = {
+    x: camera.anchor.x + (position.x - camera.center.x) * camera.zoom,
+    y: camera.anchor.y + (position.y - camera.center.y) * camera.zoom,
+  }
+  const cue = objectiveScreenCue(point, viewport)
+  if (!cue) return
+  const entity = snapshot.entities.find((candidate) => Math.hypot(candidate.position.x - position.x, candidate.position.y - position.y) < 1)
+  const radius = entity ? entity.body.radius * camera.zoom + 10 : 24
+  context.save()
+  context.translate(cue.x, cue.y)
+  context.strokeStyle = '#ffe4a2'
+  context.fillStyle = '#ffe4a2'
+  context.lineWidth = 2
+  context.globalAlpha = 0.8
+  if (cue.edge) {
+    context.rotate(cue.angle)
+    context.beginPath()
+    context.moveTo(10, 0)
+    context.lineTo(-4, -7)
+    context.lineTo(-4, 7)
+    context.closePath()
+    context.fill()
+    context.rotate(-cue.angle)
+  } else {
+    // Four open, quiet brackets distinguish the encounter from ordinary threats.
+    for (let index = 0; index < 4; index += 1) {
+      const angle = index / 4 * Math.PI * 2 + Math.PI / 4
+      context.beginPath()
+      context.arc(0, 0, radius + Math.sin(elapsedMs / 650) * 1.5, angle - 0.19, angle + 0.19)
+      context.stroke()
+    }
+  }
+  context.globalAlpha = 1
+  context.font = '600 12px sans-serif'
+  context.textAlign = 'center'
+  const labelWidth = Math.min(viewport.width - 40, context.measureText(ecosystem.encounterName).width + 20)
+  const labelX = Math.max(16 + labelWidth / 2 - cue.x, Math.min(viewport.width - 16 - labelWidth / 2 - cue.x, 0))
+  const safeTop = Math.min(180, viewport.height * 0.4)
+  const preferredLabelY = cue.edge ? 24 : cue.y - radius - 24 < safeTop ? radius + 24 : -radius - 10
+  const labelY = Math.max(safeTop + 14 - cue.y, Math.min(viewport.height - 20 - cue.y, preferredLabelY))
+  context.fillStyle = 'rgb(7 20 34 / 90%)'
+  context.fillRect(labelX - labelWidth / 2, labelY - 14, labelWidth, 22)
+  context.fillStyle = '#ffe4a2'
+  context.fillText(ecosystem.encounterName, labelX, labelY + 1, labelWidth - 10)
+  context.restore()
+}
+
+function drawFormBloom(context: CanvasRenderingContext2D, position: Vec2, radius: number, bloom: number, alpha: number, reducedMotion: boolean, reducedFlash: boolean) {
+  context.save()
+  context.translate(position.x, position.y)
+  context.globalAlpha = alpha * (reducedMotion || reducedFlash ? 0.2 : Math.max(0, 1 - bloom) * 0.75)
+  context.strokeStyle = '#d6ffe9'
+  context.lineWidth = Math.max(1.5, radius * 0.035)
+  context.beginPath()
+  context.arc(0, 0, radius * (reducedMotion ? 1.15 : 1.05 + bloom * 3.8), 0, Math.PI * 2)
+  context.stroke()
+  for (let ray = 0; ray < (reducedMotion ? 3 : 12); ray += 1) {
+    const angle = ray / 12 * Math.PI * 2
+    context.beginPath()
+    const inner = radius * (0.7 + bloom * 0.5)
+    const outer = radius * (1.1 + bloom * 0.8)
+    context.moveTo(Math.cos(angle) * inner, Math.sin(angle) * inner)
+    context.quadraticCurveTo(Math.cos(angle + 0.12) * outer, Math.sin(angle + 0.12) * outer, Math.cos(angle) * outer, Math.sin(angle) * outer)
+    context.stroke()
+  }
+  context.restore()
+}
+
+function drawReversal(context: CanvasRenderingContext2D, snapshot: WorldRenderSnapshot, player: EntityState, position: Vec2, radius: number, viewport: { width: number; height: number }, presentation: { radiusScale: number; textOffset: number; alpha: number }) {
+  const pose = membranePose(player, snapshot.elapsedMs)
+  const contour = membraneContour(membraneSilhouette(player, snapshot.lifecycle.formId), snapshot.elapsedMs, player.id)
+  const shell = radius * pose.pulse * presentation.radiusScale
+  context.save()
+  context.globalAlpha = presentation.alpha
+  context.translate(position.x, position.y)
+  context.rotate(pose.heading)
+  context.scale(1 + pose.strain, 1 - pose.strain)
+  context.strokeStyle = '#ffe3a1'
+  context.lineWidth = 2
+  context.beginPath()
+  for (const [index, point] of contour.entries()) {
+    if (index === 0) context.moveTo(point.x * shell, point.y * shell)
+    else context.lineTo(point.x * shell, point.y * shell)
+  }
+  context.closePath()
+  context.stroke()
+  context.restore()
+
+  // Keep the reward close to the player while leaving the host buttons and HUD clear.
+  const x = Math.max(125, Math.min(viewport.width - 125, position.x))
+  const y = Math.max(Math.min(180, viewport.height * 0.4) + 20, position.y - radius - 32 - presentation.textOffset)
+  context.save()
+  context.globalAlpha = presentation.alpha
+  context.textAlign = 'center'
+  context.shadowColor = '#071725'
+  context.shadowBlur = 4
+  context.font = '800 19px sans-serif'
+  context.fillStyle = '#ffe3a1'
+  context.fillText(rawContent.ui.hud.reversalNotice, x, y)
+  context.font = '500 12px sans-serif'
+  context.fillStyle = '#e0f7ed'
+  context.fillText(rawContent.ui.hud.reversalHint, x, y + 19, viewport.width - 32)
   context.restore()
 }
 
@@ -463,30 +726,32 @@ function drawEngulfBursts(
   effects: readonly NumberEffect[],
   elapsedMs: number,
   reducedMotion: boolean,
+  reducedFlash: boolean,
+  quality: RenderQuality,
 ): void {
   effects.filter((effect) => effect.kind === 'biomass' && effect.entityId === 'player').forEach((effect) => {
     const age = elapsedMs - effect.atMs
     if (age < 0 || age > 520) return
     const progress = age / 520
-    const rings = effect.chain > 1 ? 2 : 1
+    const rings = effect.chain > 1 && quality !== 'low' ? 2 : 1
     context.save()
     context.translate(position.x, position.y)
-    context.globalAlpha = 0.72 * (1 - progress)
+    context.globalAlpha = (reducedFlash ? 0.3 : 0.62) * (1 - progress)
     context.strokeStyle = effect.chain > 2 ? '#ffe68a' : '#8effef'
     context.shadowColor = context.strokeStyle
-    context.shadowBlur = reducedMotion ? 4 : 16
+    context.shadowBlur = quality === 'high' && !reducedFlash ? 10 : 0
     context.lineWidth = Math.max(2, radius * 0.08)
     for (let index = 0; index < rings; index += 1) {
       context.beginPath()
-      context.arc(0, 0, radius * (1.2 + progress * (1.35 + index * 0.35)), 0, Math.PI * 2)
+      context.arc(0, 0, radius * (1.04 + index * 0.08 + (reducedMotion ? 0 : progress * 0.1)), -0.55, 0.55)
       context.stroke()
     }
-    if (effect.chain > 1 && !reducedMotion) {
+    if (effect.chain > 1 && !reducedMotion && quality !== 'low') {
       context.lineWidth = 2
       for (let index = 0; index < Math.min(8, effect.chain + 2); index += 1) {
         const angle = index / Math.min(8, effect.chain + 2) * Math.PI * 2
-        const inner = radius * (1.05 + progress * 0.7)
-        const outer = inner + radius * 0.24
+        const inner = radius * (1.04 + progress * 0.08)
+        const outer = inner + radius * 0.08
         context.beginPath()
         context.moveTo(Math.cos(angle) * inner, Math.sin(angle) * inner)
         context.lineTo(Math.cos(angle) * outer, Math.sin(angle) * outer)
@@ -687,27 +952,104 @@ function drawEnvironmentField(
   camera: CameraFrame,
   width: number,
   height: number,
+  reducedMotion = false,
+  reducedFlash = false,
 ) {
   const field = snapshot.environmentField
   const { center, anchor, zoom } = camera
   context.save()
+  const bodies = snapshot.entities.filter((entity) => entity.faction === 'player' && entity.status === 'active')
+    .map((entity) => ({ position: entity.position, radius: entity.body.radius }))
   for (const obstacle of field.obstacles) {
+    if (obstacle.kind === 'fiber') {
+      for (const section of fiberSections(obstacle)) {
+      const points = fiberStrandPoints(section.from, section.to, bodies).map((point) => ({
+        x: anchor.x + (point.x - center.x) * zoom,
+        y: anchor.y + (point.y - center.y) * zoom,
+      }))
+      context.setLineDash([])
+      context.lineCap = 'round'
+      context.lineJoin = 'round'
+      // A translucent sheath and continuous strands distinguish tissue from a border.
+      for (const [stroke, lineWidth, alpha, offset] of [
+        ['#4caa96', Math.max(8, 16 * zoom), 0.16, 0],
+        ['#70cdb0', Math.max(1.5, 3 * zoom), 0.7, -2.5 * zoom],
+        ['#b6eac8', Math.max(1, 1.8 * zoom), 0.65, 2.5 * zoom],
+      ] as const) {
+        context.strokeStyle = stroke
+        context.lineWidth = lineWidth
+        context.globalAlpha = alpha
+        context.beginPath()
+        points.forEach((point, index) => {
+          const previous = points[Math.max(0, index - 1)]!
+          const next = points[Math.min(points.length - 1, index + 1)]!
+          const length = Math.hypot(next.x - previous.x, next.y - previous.y) || 1
+          const x = point.x - (next.y - previous.y) / length * offset
+          const y = point.y + (next.x - previous.x) / length * offset
+          if (index === 0) context.moveTo(x, y)
+          else context.lineTo(x, y)
+        })
+        context.stroke()
+      }
+      }
+      if (obstacle.strainMs && obstacle.strainPosition) {
+        context.globalAlpha = reducedFlash ? 0.25 : 0.6
+        context.strokeStyle = '#ffe3a1'
+        context.lineWidth = 2
+        context.beginPath()
+        context.arc(anchor.x + (obstacle.strainPosition.x - center.x) * zoom, anchor.y + (obstacle.strainPosition.y - center.y) * zoom, (8 + obstacle.strainMs / rawContent.fiberTraversal.breakHoldMs * 12) * zoom, 0, Math.PI * 2)
+        context.stroke()
+      }
+      continue
+    }
+    for (const section of fiberSections(obstacle)) {
     const from = {
-      x: anchor.x + (obstacle.from.x - center.x) * zoom,
-      y: anchor.y + (obstacle.from.y - center.y) * zoom,
+      x: anchor.x + (section.from.x - center.x) * zoom,
+      y: anchor.y + (section.from.y - center.y) * zoom,
     }
     const to = {
-      x: anchor.x + (obstacle.to.x - center.x) * zoom,
-      y: anchor.y + (obstacle.to.y - center.y) * zoom,
+      x: anchor.x + (section.to.x - center.x) * zoom,
+      y: anchor.y + (section.to.y - center.y) * zoom,
     }
     context.globalAlpha = 0.72
-    context.strokeStyle = obstacle.adhesive ? '#89e2c5' : '#87a3be'
-    context.lineWidth = obstacle.kind === 'chamber-wall' ? 8 : 5
+    context.strokeStyle = obstacle.adhesive ? '#89e2c5' : '#9a89bc'
+    context.lineWidth = obstacle.kind === 'chamber-wall' ? Math.max(5, 10 * zoom) : 5
     context.setLineDash(obstacle.adhesive ? [4, 7] : [])
     context.beginPath()
     context.moveTo(from.x, from.y)
     context.lineTo(to.x, to.y)
     context.stroke()
+    if (obstacle.kind === 'chamber-wall') {
+      context.strokeStyle = '#e7bc88'
+      context.lineWidth = Math.max(1, 2 * zoom)
+      context.beginPath()
+      context.moveTo(from.x, from.y - 2)
+      context.lineTo(to.x, to.y - 2)
+      context.stroke()
+      const count = Math.min(30, Math.floor(Math.hypot(to.x - from.x, to.y - from.y) / 24))
+      context.globalAlpha = 0.35
+      for (let index = 1; index <= count; index += 1) {
+        const t = index / (count + 1), x = from.x + (to.x - from.x) * t, y = from.y + (to.y - from.y) * t
+        context.beginPath(); context.moveTo(x - 3, y - 5); context.lineTo(x + 3, y + 5); context.stroke()
+      }
+    }
+    }
+  }
+  for (const broken of field.recentBreaks ?? []) {
+    const age = snapshot.elapsedMs - broken.atMs
+    if (age < 0 || age >= 1100) continue
+    const progress = age / 1100
+    const x = anchor.x + (broken.position.x - center.x) * zoom
+    const y = anchor.y + (broken.position.y - center.y) * zoom
+    context.globalAlpha = (reducedFlash ? 0.25 : 0.7) * (1 - progress)
+    context.strokeStyle = '#c7f5cf'
+    context.lineWidth = 2
+    for (let index = 0; index < (reducedMotion ? 4 : 10); index += 1) {
+      const angle = index * 2.39996
+      const travel = broken.radius * zoom * (reducedMotion ? 0.3 : 0.2 + progress * 0.8)
+      const px = x + Math.cos(angle) * travel, py = y + Math.sin(angle) * travel
+      context.beginPath(); context.moveTo(px, py); context.lineTo(px + Math.cos(angle + 0.7) * 7, py + Math.sin(angle + 0.7) * 7); context.stroke()
+    }
   }
   if (field.environmentId === 'env-acid-vesicle' && field.safeCenters.length > 0) {
     const safe = field.safeCenters[0]!
@@ -780,12 +1122,14 @@ function drawVisibilityVeil(
   width: number,
   height: number,
   anchor: { x: number; y: number },
+  sightRadius?: number,
 ) {
   const opacity = Math.max(0, Math.min(0.38, (1 - visibility) * 0.5))
-  if (opacity <= 0) return
-  const gradient = context.createRadialGradient(anchor.x, anchor.y, Math.min(width, height) * 0.12, anchor.x, anchor.y, Math.max(width, height) * 0.65)
+  if (opacity <= 0 && sightRadius === undefined) return
+  const radius = Math.max(32, sightRadius ?? Math.max(width, height) * 0.65)
+  const gradient = context.createRadialGradient(anchor.x, anchor.y, radius * 0.72, anchor.x, anchor.y, radius)
   gradient.addColorStop(0, 'rgba(4, 10, 20, 0)')
-  gradient.addColorStop(1, `rgba(4, 10, 20, ${opacity})`)
+  gradient.addColorStop(1, `rgba(4, 10, 20, ${sightRadius === undefined ? opacity : 0.72})`)
   context.save()
   context.fillStyle = gradient
   context.fillRect(0, 0, width, height)
@@ -1030,14 +1374,10 @@ function resizeCanvas(canvas: HTMLCanvasElement, context: CanvasRenderingContext
 function toDrawable(
   entity: EntityState,
   camera: CameraFrame,
-  displayedRadii: Map<string, number>,
 ) {
-  const cachedRadius = displayedRadii.get(entity.id)
-  const previousRadius = cachedRadius !== undefined && Number.isFinite(cachedRadius) && cachedRadius > 0
-    ? cachedRadius
-    : entity.body.radius
-  const radius = previousRadius + (entity.body.radius - previousRadius) * 0.1
-  displayedRadii.set(entity.id, radius)
+  // Physics and the membrane share the exact radius. Delaying its visual growth
+  // could swallow prey before the rendered membrane has actually enclosed it.
+  const radius = entity.body.radius
   return {
     entity,
     radius: radius * camera.zoom,

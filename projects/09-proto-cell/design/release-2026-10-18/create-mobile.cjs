@@ -1,0 +1,6 @@
+const fs=require('node:fs');let s=fs.readFileSync('design/lineage-2026-10-18/mobile-matrix.cjs','utf8');s=s.replace("const actual = JSON.parse(fs.readFileSync('design/lineage-2026-10-18/actual-flow/actual-save.json', 'utf8'))", "const actual = JSON.parse(fs.readFileSync('design/release-2026-10-18/native/offspring-proof.json','utf8')).child.nativeSave;actual.settings.reducedMotion=false")
+s=s.replace("const out = 'design/lineage-2026-10-18/mobile'","const out = 'design/release-2026-10-18/mobile'")
+const flow=fs.readFileSync('design/release-2026-10-18/flow.cjs','utf8');const route=flow.slice(flow.indexOf('const manifest='),flow.indexOf(' await page.addInitScript'))
+s=s.replace("await page.goto('http://127.0.0.1:4110/')",()=>route+"\nawait page.goto('http://proto-cell.offline/')")
+s=s.replace('console.log(JSON.stringify(results, null, 2))',"console.log(JSON.stringify({ok:true,layouts:results.length,errors:results.flatMap(r=>r.errors)}))")
+fs.writeFileSync('design/release-2026-10-18/mobile-matrix.cjs',s)

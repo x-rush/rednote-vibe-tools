@@ -3,7 +3,8 @@ import type { HudSnapshot } from '../game/engine'
 import { deriveLifeArchive, type LifeEventLogEntry } from '../progression/archive'
 import type { LifeArchiveSummary } from '../storage/codec'
 import type { EnvironmentId } from '../content'
-import type { BuildState, EvolutionRoute } from '../evolution/build'
+import { createBuildState, type BuildState, type EvolutionRoute } from '../evolution/build'
+import type { FormId } from '../content'
 import type { GameEvent } from '../game/interactions'
 
 export type ResultInput = {
@@ -14,6 +15,7 @@ export type ResultInput = {
   engulfScore: number
   survivalMs: number
   seed: number
+  formId?: FormId
 }
 
 export function createResultViewModel(input: ResultInput, content: ContentPack) {
@@ -29,6 +31,8 @@ export function createResultViewModel(input: ResultInput, content: ContentPack) 
   const keyTraitIds = input.finalBuild.traitIds.slice(-3)
   return {
     cause,
+    build: input.finalBuild,
+    formId: input.formId ?? 'form-primal-cell',
     bodyStage: input.finalBuild.bodyStage,
     stageLabel: content.ui.hud[`bodyStage_${input.finalBuild.bodyStage}`] ?? input.finalBuild.bodyStage,
     route,
@@ -40,8 +44,8 @@ export function createResultViewModel(input: ResultInput, content: ContentPack) 
       const organ = content.organelles.find((candidate) => candidate.id === id)
       return organ ? [{ id, name: organ.name, morphologyPartId: organ.morphologyPartId }] : []
     }),
-    journeyStage: Math.max(1, Math.min(content.journey.stages.length, input.journeyStageIndex + 1)),
-    journeyTotal: content.journey.stages.length,
+    journeyStage: Math.max(1, Math.min(content.scaleTiers.length, input.journeyStageIndex + 1)),
+    journeyTotal: content.scaleTiers.length,
     environmentIds: [...input.environmentIds],
     engulfScore: Math.max(0, Math.round(input.engulfScore)),
     survivalMs: Math.max(0, input.survivalMs),
@@ -131,6 +135,9 @@ export function createArchiveViewModelFromSummary(
 
   return {
     ...archive,
+    finalVisualRecipeId: 'finalVisualRecipeId' in archive ? archive.finalVisualRecipeId : undefined,
+    build: createBuildState({ bodyStage: archive.finalBodyStage, stability: archive.finalMorphology?.stability ?? 100, synergyIds: archive.synergyIds, traitIds: archive.finalMorphology?.organelles.map((organ) => organ.id) ?? archive.keyOrganelleIds, routeCounts: archive.buildRouteCounts }),
+    formId: archive.finalFormId ?? (archive.finalBodyStage === 'ascendant' ? 'form-ciliate-composite' : archive.finalBodyStage === 'dominant' || archive.finalBodyStage === 'specialist' ? 'form-colony-body' : 'form-primal-cell'),
     title: content.ui.screens.archiveTitle,
     environmentName: environment?.name ?? archive.farthestEnvironmentId,
     palette: environment?.visualPalette ?? ['#073d66', '#72f5ff', '#ffbf69'],

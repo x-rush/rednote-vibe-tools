@@ -11,10 +11,10 @@ describe('launch content completeness', () => {
     expect(pack.nutrients).toHaveLength(6)
     expect(pack.organelles).toHaveLength(24)
     expect(pack.synergies).toHaveLength(12)
-    expect(pack.creatures.filter((item) => item.id.startsWith('predator-'))).toHaveLength(8)
+    expect(pack.creatures.filter((item) => item.id.startsWith('predator-'))).toHaveLength(10)
     expect(pack.creatures.filter((item) => item.id.startsWith('predator-') && item.role === 'elite')).toHaveLength(3)
-    expect(pack.creatures.filter((item) => item.id.startsWith('predator-') && item.role !== 'elite')).toHaveLength(5)
-    expect(pack.creatures.filter((item) => !item.id.startsWith('predator-'))).toHaveLength(18)
+    expect(pack.creatures.filter((item) => item.id.startsWith('predator-') && item.role !== 'elite')).toHaveLength(7)
+    expect(pack.creatures.filter((item) => !item.id.startsWith('predator-'))).toHaveLength(20)
     expect(pack.events).toHaveLength(4)
     expect(pack.bosses).toHaveLength(3)
     expect(pack.origins).toHaveLength(3)
@@ -24,7 +24,8 @@ describe('launch content completeness', () => {
     expect(pack.journey.stages).toHaveLength(6)
     expect(pack.scaleTiers).toHaveLength(3)
     expect(pack.ecologyBudgets).toHaveLength(6)
-    expect(pack.behaviorProfiles.map((profile) => profile.family).sort()).toEqual([
+    expect(pack.behaviorProfiles).toHaveLength(13)
+    expect([...new Set(pack.behaviorProfiles.map((profile) => profile.family))].sort()).toEqual([
       'ambusher', 'apex', 'competitor', 'hunter', 'resource', 'scavenger', 'school', 'skittish',
     ])
     expect(pack.creatures.every((creature) => pack.behaviorProfiles.some((profile) => profile.id === creature.behaviorProfileId))).toBe(true)
@@ -73,10 +74,10 @@ describe('launch content completeness', () => {
     expect(ids(pack.endings)).toEqual(['ending-host-takeover', 'ending-stable-species', 'ending-swarm-mind'])
     expect(ids(pack.creatures)).toEqual([
       'creature-acid-bubble', 'creature-algae-speck', 'creature-antibody-fragment', 'creature-cavity-scavenger', 'creature-drifter', 'creature-fiber-float',
-      'creature-fiber-scavenger', 'creature-host-droplet', 'creature-lumen-drifter', 'creature-mimic-drifter', 'creature-mineral-scavenger', 'creature-pollen-float',
-      'creature-ring-swarm', 'creature-spark-swarm', 'creature-spore-drifter', 'creature-thread-grazer', 'creature-vesicle-flee', 'creature-vesicle-scavenger',
+      'creature-fiber-scavenger', 'creature-host-droplet', 'creature-lantern-siphon', 'creature-lumen-drifter', 'creature-mimic-drifter', 'creature-mineral-scavenger', 'creature-pollen-float',
+      'creature-ring-swarm', 'creature-spark-swarm', 'creature-spore-drifter', 'creature-thornback-forager', 'creature-thread-grazer', 'creature-vesicle-flee', 'creature-vesicle-scavenger',
       'predator-acid-needle', 'predator-antibody-leech', 'predator-azure-ring', 'predator-chamber-maw', 'predator-crown-sentinel', 'predator-fiber-stalker',
-      'predator-glow-siphon', 'predator-membrane-warden',
+      'predator-glow-siphon', 'predator-membrane-warden', 'predator-razor-ray', 'predator-seam-lurker',
     ])
   })
 
@@ -110,7 +111,7 @@ describe('launch content completeness', () => {
 
     expect(ordinary.filter((item) => item.role === 'resource')).toHaveLength(6)
     expect(ordinary.filter((item) => item.role === 'prey')).toHaveLength(6)
-    expect(ordinary.filter((item) => item.role === 'scavenger' || item.role === 'swarm' || item.role === 'parasite')).toHaveLength(6)
+    expect(ordinary.filter((item) => item.role === 'scavenger' || item.role === 'swarm' || item.role === 'parasite')).toHaveLength(8)
     for (const environment of pack.environments) {
       const spawned = (bySpawnId.get(environment.spawnTableId)?.entries ?? []).flatMap((entry) => byCreatureId.get(entry.creatureId) ?? [])
       expect(spawned.some((item) => item.role === 'resource'), `${environment.id}:resource`).toBe(true)

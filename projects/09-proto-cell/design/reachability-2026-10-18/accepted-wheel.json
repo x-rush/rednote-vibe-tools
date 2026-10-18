@@ -1,0 +1,1751 @@
+{
+  "records": [
+    {
+      "width": 375,
+      "height": 667,
+      "name": "home",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 8,
+      "disabled": 11,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 1035,
+        "scroll": 368,
+        "overflow": "auto"
+      },
+      "gestures": 3
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "home-expanded",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 19,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 1914,
+        "scroll": 1247,
+        "overflow": "auto"
+      },
+      "gestures": 7
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "library-full",
+      "mode": "wheel",
+      "controls": 27,
+      "reachable": 26,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 3755,
+        "scroll": 3088,
+        "overflow": "auto"
+      },
+      "gestures": 17
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "mode": "wheel",
+      "name": "retire-confirm",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "seed-bank",
+      "mode": "wheel",
+      "controls": 10,
+      "reachable": 10,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 1591,
+        "scroll": 924,
+        "overflow": "auto"
+      },
+      "gestures": 27
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "hatch-dialog",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 2,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 713,
+        "scroll": 46,
+        "overflow": "auto"
+      },
+      "gestures": 28
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "hatch-ready",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 667,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 28
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "codex",
+      "mode": "wheel",
+      "controls": 1,
+      "reachable": 1,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 3864,
+        "scroll": 3197,
+        "overflow": "auto"
+      },
+      "gestures": 39
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "genes",
+      "mode": "wheel",
+      "controls": 4,
+      "reachable": 2,
+      "disabled": 2,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 692,
+        "scroll": 25,
+        "overflow": "auto"
+      },
+      "gestures": 41
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "archive",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 1177,
+        "scroll": 510,
+        "overflow": "auto"
+      },
+      "gestures": 44
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "evolution-choices",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 239.21875,
+        "left": 16,
+        "width": 343,
+        "height": 335.78125,
+        "client": 336,
+        "total": 789,
+        "scroll": 453,
+        "overflow": "auto"
+      },
+      "gestures": 48
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "result",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 4,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 805,
+        "scroll": 138,
+        "overflow": "auto"
+      },
+      "gestures": 50
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "result-expanded",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 5,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 857,
+        "scroll": 190,
+        "overflow": "auto"
+      },
+      "gestures": 52
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "settings",
+      "mode": "wheel",
+      "controls": 12,
+      "reachable": 11,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 1300,
+        "scroll": 633,
+        "overflow": "auto"
+      },
+      "gestures": 54
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "settings-exported",
+      "mode": "wheel",
+      "controls": 13,
+      "reachable": 12,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 1475,
+        "scroll": 808,
+        "overflow": "auto"
+      },
+      "gestures": 58
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "settings-clear-confirm",
+      "mode": "wheel",
+      "controls": 14,
+      "reachable": 13,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 1613,
+        "scroll": 946,
+        "overflow": "auto"
+      },
+      "gestures": 63
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "pause",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 667,
+        "scroll": 0,
+        "overflow": "visible"
+      },
+      "gestures": 63
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "name": "canvas-error",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 375,
+        "height": 667,
+        "client": 667,
+        "total": 667,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 63
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "home",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 8,
+      "disabled": 11,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 1105,
+        "scroll": 405,
+        "overflow": "auto"
+      },
+      "gestures": 3
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "home-expanded",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 19,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 1984,
+        "scroll": 1284,
+        "overflow": "auto"
+      },
+      "gestures": 8
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "library-full",
+      "mode": "wheel",
+      "controls": 27,
+      "reachable": 26,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 3755,
+        "scroll": 3055,
+        "overflow": "auto"
+      },
+      "gestures": 18
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "mode": "wheel",
+      "name": "retire-confirm",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "seed-bank",
+      "mode": "wheel",
+      "controls": 10,
+      "reachable": 10,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 1591,
+        "scroll": 891,
+        "overflow": "auto"
+      },
+      "gestures": 28
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "hatch-dialog",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 2,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 713,
+        "scroll": 13,
+        "overflow": "auto"
+      },
+      "gestures": 29
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "hatch-ready",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 700,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 29
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "codex",
+      "mode": "wheel",
+      "controls": 1,
+      "reachable": 1,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 3844,
+        "scroll": 3144,
+        "overflow": "auto"
+      },
+      "gestures": 40
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "genes",
+      "mode": "wheel",
+      "controls": 4,
+      "reachable": 2,
+      "disabled": 2,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 700,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 41
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "archive",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 1155,
+        "scroll": 455,
+        "overflow": "auto"
+      },
+      "gestures": 44
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "evolution-choices",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 240.21875,
+        "left": 16,
+        "width": 358,
+        "height": 367.78125,
+        "client": 368,
+        "total": 789,
+        "scroll": 421,
+        "overflow": "auto"
+      },
+      "gestures": 47
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "result",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 4,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 806,
+        "scroll": 106,
+        "overflow": "auto"
+      },
+      "gestures": 49
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "result-expanded",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 5,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 858,
+        "scroll": 158,
+        "overflow": "auto"
+      },
+      "gestures": 51
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "settings",
+      "mode": "wheel",
+      "controls": 12,
+      "reachable": 11,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 1301,
+        "scroll": 601,
+        "overflow": "auto"
+      },
+      "gestures": 53
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "settings-exported",
+      "mode": "wheel",
+      "controls": 13,
+      "reachable": 12,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 1476,
+        "scroll": 776,
+        "overflow": "auto"
+      },
+      "gestures": 57
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "settings-clear-confirm",
+      "mode": "wheel",
+      "controls": 14,
+      "reachable": 13,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 1614,
+        "scroll": 914,
+        "overflow": "auto"
+      },
+      "gestures": 62
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "pause",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 700,
+        "scroll": 0,
+        "overflow": "visible"
+      },
+      "gestures": 62
+    },
+    {
+      "width": 390,
+      "height": 700,
+      "name": "canvas-error",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 700,
+        "client": 700,
+        "total": 700,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 62
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "home",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 8,
+      "disabled": 11,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 1109,
+        "scroll": 329,
+        "overflow": "auto"
+      },
+      "gestures": 2
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "home-expanded",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 19,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 1988,
+        "scroll": 1208,
+        "overflow": "auto"
+      },
+      "gestures": 6
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "library-full",
+      "mode": "wheel",
+      "controls": 27,
+      "reachable": 26,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 3729,
+        "scroll": 2949,
+        "overflow": "auto"
+      },
+      "gestures": 16
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "mode": "wheel",
+      "name": "retire-confirm",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "seed-bank",
+      "mode": "wheel",
+      "controls": 10,
+      "reachable": 10,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 1525,
+        "scroll": 745,
+        "overflow": "auto"
+      },
+      "gestures": 25
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "hatch-dialog",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 2,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 780,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 25
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "hatch-ready",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 780,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 25
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "codex",
+      "mode": "wheel",
+      "controls": 1,
+      "reachable": 1,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 3790,
+        "scroll": 3010,
+        "overflow": "auto"
+      },
+      "gestures": 36
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "genes",
+      "mode": "wheel",
+      "controls": 4,
+      "reachable": 2,
+      "disabled": 2,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 780,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 37
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "archive",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 1136,
+        "scroll": 356,
+        "overflow": "auto"
+      },
+      "gestures": 39
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "evolution-choices",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 223.109375,
+        "left": 16,
+        "width": 398,
+        "height": 464.890625,
+        "client": 465,
+        "total": 789,
+        "scroll": 324,
+        "overflow": "auto"
+      },
+      "gestures": 41
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "result",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 4,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 809,
+        "scroll": 29,
+        "overflow": "auto"
+      },
+      "gestures": 44
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "result-expanded",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 5,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 861,
+        "scroll": 81,
+        "overflow": "auto"
+      },
+      "gestures": 46
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "settings",
+      "mode": "wheel",
+      "controls": 12,
+      "reachable": 11,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 1126,
+        "scroll": 346,
+        "overflow": "auto"
+      },
+      "gestures": 47
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "settings-exported",
+      "mode": "wheel",
+      "controls": 13,
+      "reachable": 12,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 1301,
+        "scroll": 521,
+        "overflow": "auto"
+      },
+      "gestures": 50
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "settings-clear-confirm",
+      "mode": "wheel",
+      "controls": 14,
+      "reachable": 13,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 1439,
+        "scroll": 659,
+        "overflow": "auto"
+      },
+      "gestures": 54
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "pause",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 780,
+        "scroll": 0,
+        "overflow": "visible"
+      },
+      "gestures": 54
+    },
+    {
+      "width": 430,
+      "height": 780,
+      "name": "canvas-error",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 430,
+        "height": 780,
+        "client": 780,
+        "total": 780,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 54
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "home",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 8,
+      "disabled": 11,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1035,
+        "scroll": 645,
+        "overflow": "auto"
+      },
+      "gestures": 7
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "home-expanded",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 19,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1914,
+        "scroll": 1524,
+        "overflow": "auto"
+      },
+      "gestures": 17
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "library-full",
+      "mode": "wheel",
+      "controls": 27,
+      "reachable": 26,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 4053,
+        "scroll": 3663,
+        "overflow": "auto"
+      },
+      "gestures": 36
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "mode": "wheel",
+      "name": "retire-confirm",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "seed-bank",
+      "mode": "wheel",
+      "controls": 10,
+      "reachable": 10,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1143,
+        "scroll": 753,
+        "overflow": "auto"
+      },
+      "gestures": 55
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "hatch-dialog",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 637,
+        "scroll": 247,
+        "overflow": "auto"
+      },
+      "gestures": 58
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "hatch-ready",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 637,
+        "scroll": 247,
+        "overflow": "auto"
+      },
+      "gestures": 60
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "codex",
+      "mode": "wheel",
+      "controls": 1,
+      "reachable": 1,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 2303,
+        "scroll": 1913,
+        "overflow": "auto"
+      },
+      "gestures": 73
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "genes",
+      "mode": "wheel",
+      "controls": 4,
+      "reachable": 2,
+      "disabled": 2,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 482,
+        "scroll": 92,
+        "overflow": "auto"
+      },
+      "gestures": 76
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "archive",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1101,
+        "scroll": 711,
+        "overflow": "auto"
+      },
+      "gestures": 81
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "evolution-choices",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 194,
+        "left": 62,
+        "width": 720,
+        "height": 114,
+        "client": 114,
+        "total": 276,
+        "scroll": 162,
+        "overflow": "auto"
+      },
+      "gestures": 86
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "result",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 4,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 824,
+        "scroll": 434,
+        "overflow": "auto"
+      },
+      "gestures": 88
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "result-expanded",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 5,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 876,
+        "scroll": 486,
+        "overflow": "auto"
+      },
+      "gestures": 92
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "settings",
+      "mode": "wheel",
+      "controls": 12,
+      "reachable": 11,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1102,
+        "scroll": 712,
+        "overflow": "auto"
+      },
+      "gestures": 96
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "settings-exported",
+      "mode": "wheel",
+      "controls": 13,
+      "reachable": 12,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1277,
+        "scroll": 887,
+        "overflow": "auto"
+      },
+      "gestures": 105
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "settings-clear-confirm",
+      "mode": "wheel",
+      "controls": 14,
+      "reachable": 13,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 1394,
+        "scroll": 1004,
+        "overflow": "auto"
+      },
+      "gestures": 113
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "pause",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 390,
+        "scroll": 0,
+        "overflow": "visible"
+      },
+      "gestures": 114
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "name": "canvas-error",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 844,
+        "height": 390,
+        "client": 390,
+        "total": 504,
+        "scroll": 114,
+        "overflow": "auto"
+      },
+      "gestures": 115
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "home",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 8,
+      "disabled": 11,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 1035,
+        "scroll": 515,
+        "overflow": "auto"
+      },
+      "gestures": 4
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "home-expanded",
+      "mode": "wheel",
+      "controls": 19,
+      "reachable": 19,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 1914,
+        "scroll": 1394,
+        "overflow": "auto"
+      },
+      "gestures": 11
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "library-full",
+      "mode": "wheel",
+      "controls": 27,
+      "reachable": 26,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 3755,
+        "scroll": 3235,
+        "overflow": "auto"
+      },
+      "gestures": 23
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "mode": "wheel",
+      "name": "retire-confirm",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "seed-bank",
+      "mode": "wheel",
+      "controls": 10,
+      "reachable": 10,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 1591,
+        "scroll": 1071,
+        "overflow": "auto"
+      },
+      "gestures": 36
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "hatch-dialog",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 2,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 657,
+        "scroll": 137,
+        "overflow": "auto"
+      },
+      "gestures": 38
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "hatch-ready",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 657,
+        "scroll": 137,
+        "overflow": "auto"
+      },
+      "gestures": 40
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "codex",
+      "mode": "wheel",
+      "controls": 1,
+      "reachable": 1,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 3844,
+        "scroll": 3324,
+        "overflow": "auto"
+      },
+      "gestures": 54
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "genes",
+      "mode": "wheel",
+      "controls": 4,
+      "reachable": 2,
+      "disabled": 2,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 693,
+        "scroll": 173,
+        "overflow": "auto"
+      },
+      "gestures": 56
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "archive",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 1155,
+        "scroll": 635,
+        "overflow": "auto"
+      },
+      "gestures": 59
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "evolution-choices",
+      "mode": "wheel",
+      "controls": 3,
+      "reachable": 3,
+      "disabled": 0,
+      "geometry": {
+        "top": 240.21875,
+        "left": 16,
+        "width": 358,
+        "height": 187.78125,
+        "client": 188,
+        "total": 789,
+        "scroll": 601,
+        "overflow": "auto"
+      },
+      "gestures": 66
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "result",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 4,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 806,
+        "scroll": 286,
+        "overflow": "auto"
+      },
+      "gestures": 71
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "result-expanded",
+      "mode": "wheel",
+      "controls": 5,
+      "reachable": 5,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 858,
+        "scroll": 338,
+        "overflow": "auto"
+      },
+      "gestures": 73
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "settings",
+      "mode": "wheel",
+      "controls": 12,
+      "reachable": 11,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 1301,
+        "scroll": 781,
+        "overflow": "auto"
+      },
+      "gestures": 77
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "settings-exported",
+      "mode": "wheel",
+      "controls": 13,
+      "reachable": 12,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 1476,
+        "scroll": 956,
+        "overflow": "auto"
+      },
+      "gestures": 85
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "settings-clear-confirm",
+      "mode": "wheel",
+      "controls": 14,
+      "reachable": 13,
+      "disabled": 1,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 1614,
+        "scroll": 1094,
+        "overflow": "auto"
+      },
+      "gestures": 92
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "pause",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 520,
+        "scroll": 0,
+        "overflow": "visible"
+      },
+      "gestures": 92
+    },
+    {
+      "width": 390,
+      "height": 520,
+      "name": "canvas-error",
+      "mode": "wheel",
+      "controls": 2,
+      "reachable": 2,
+      "disabled": 0,
+      "geometry": {
+        "top": 0,
+        "left": 0,
+        "width": 390,
+        "height": 520,
+        "client": 520,
+        "total": 520,
+        "scroll": 0,
+        "overflow": "auto"
+      },
+      "gestures": 92
+    }
+  ],
+  "failures": [],
+  "method": "Actual production App for lab/settings/library/codex/genes/archive; production overlay components mounted for evolution/result using actual App CSS. Explicit touch and wheel gestures, coordinate taps and elementFromPoint hit tests; no locator.click or scrollIntoView."
+}

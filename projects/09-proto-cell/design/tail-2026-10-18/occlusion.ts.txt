@@ -1,0 +1,68 @@
+import type { EntityState } from '../domain/types'
+import { membraneContour, membranePose } from '../domain/membrane'
+import { isMaterializing } from '../game/materialization'
+import { cellVisualProfile } from './cell'
+
+const TILE = 8
+const MAX_TILES = 65_536
+
+/** A tile is marked only when its farthest corner is strictly inside an opaque
+ * membrane disk. Unmarked pixels are always rendered. No sampling approximation
+ * may classify a partly visible cell as hidden. */
+export function createOpaqueCoverage() {
+  let tiles = new Uint8Array(0), columns = 0, rows = 0, width = 0, height = 0
+  const radii = new Map<string, number>()
+  return {
+    reset(nextWidth: number, nextHeight: number) {
+      width = nextWidth; height = nextHeight
+      columns = Math.ceil(width / TILE); rows = Math.ceil(height / TILE)
+      const count = columns * rows
+      if (!Number.isFinite(count) || count <= 0 || count > MAX_TILES) { columns = 0; rows = 0; return }
+      if (tiles.length !== count) tiles = new Uint8Array(count)
+      else tiles.fill(0)
+      radii.clear()
+    },
+    addDisk(x: number, y: number, radius: number) {
+      if (!columns || !Number.isFinite(x + y + radius) || radius <= 1) return
+      const safeRadius = radius - 1 // Keep antialiased boundary pixels out of the opaque mask.
+      const minX = Math.max(0, Math.floor((x - safeRadius) / TILE)), maxX = Math.min(columns - 1, Math.floor((x + safeRadius) / TILE))
+      const minY = Math.max(0, Math.floor((y - safeRadius) / TILE)), maxY = Math.min(rows - 1, Math.floor((y + safeRadius) / TILE))
+      for (let ty = minY; ty <= maxY; ty += 1) for (let tx = minX; tx <= maxX; tx += 1) {
+        const dx = Math.max(Math.abs(tx * TILE - x), Math.abs((tx + 1) * TILE - x))
+        const dy = Math.max(Math.abs(ty * TILE - y), Math.abs((ty + 1) * TILE - y))
+        if (dx * dx + dy * dy < safeRadius * safeRadius) tiles[ty * columns + tx] = 1
+      }
+    },
+    addCell(entity: EntityState, x: number, y: number, radius: number, atMs: number, simplified: boolean) {
+      if (simplified || entity.faction === 'player' || entity.behaviorState === 'hide' || isMaterializing(entity, atMs)) return
+      const profile = cellVisualProfile(entity)
+      if (!/^#[\da-f]{6}$/i.test(profile.palette.membrane)) return
+      const shared = ['pearl', 'colony', 'ciliate', 'swimmer'].includes(profile.silhouette)
+      const key = `${profile.silhouette}:${atMs}:${shared ? '' : entity.id}`
+      let inradius = radii.get(key)
+      if (inradius === undefined) {
+        const contour = membraneContour(profile.silhouette, atMs, entity.id)
+        let squared = Number.POSITIVE_INFINITY
+        for (let index = 0; index < contour.length; index += 1) {
+          const a = contour[index]!, b = contour[(index + 1) % contour.length]!
+          const dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy
+          const t = length ? Math.max(0, Math.min(1, -(a.x * dx + a.y * dy) / length)) : 0
+          squared = Math.min(squared, (a.x + t * dx) ** 2 + (a.y + t * dy) ** 2)
+        }
+        inradius = Math.sqrt(squared)
+        radii.set(key, inradius)
+      }
+      const pose = membranePose(entity, atMs)
+      this.addDisk(x, y, inradius * radius * pose.pulse * (1 - pose.strain))
+    },
+    covers(x: number, y: number, boxWidth: number, boxHeight: number): boolean {
+      if (!columns || !Number.isFinite(x + y + boxWidth + boxHeight) || boxWidth < 0 || boxHeight < 0) return false
+      const left = Math.max(0, x), top = Math.max(0, y), right = Math.min(width, x + boxWidth), bottom = Math.min(height, y + boxHeight)
+      if (right <= left || bottom <= top) return false
+      const minX = Math.floor(left / TILE), maxX = Math.min(columns - 1, Math.floor(right / TILE))
+      const minY = Math.floor(top / TILE), maxY = Math.min(rows - 1, Math.floor(bottom / TILE))
+      for (let ty = minY; ty <= maxY; ty += 1) for (let tx = minX; tx <= maxX; tx += 1) if (!tiles[ty * columns + tx]) return false
+      return true
+    },
+  }
+}

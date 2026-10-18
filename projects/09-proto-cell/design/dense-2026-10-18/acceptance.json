@@ -1,0 +1,43 @@
+{
+  "recordedAt": "2026-10-18T08:49:19.897Z",
+  "productionEntry": "./assets/index-BDySOtKJ.js",
+  "runs": [
+    {
+      "file": "flow-proof.json",
+      "comfort": false,
+      "choices": 6,
+      "layouts": 12,
+      "finisherAtMs": 137716.66666667807,
+      "endingAtMs": 155800.00000000087,
+      "wallBreaks": 3,
+      "errors": [],
+      "finalePauseClockAssertPassed": true,
+      "terminalIntakeOverlayAssertPassed": true
+    },
+    {
+      "file": "comfort/flow-proof.json",
+      "comfort": true,
+      "choices": 6,
+      "layouts": 12,
+      "finisherAtMs": 129733.3333333482,
+      "endingAtMs": 131250.00000001516,
+      "wallBreaks": 1,
+      "errors": [],
+      "finalePauseClockAssertPassed": true,
+      "terminalIntakeOverlayAssertPassed": true
+    }
+  ],
+  "performanceSourceHashesCurrent": true,
+  "distribution": {
+    "files": 79,
+    "bytes": 3425415,
+    "extensions": [
+      ".html",
+      ".js",
+      ".svg",
+      ".webp"
+    ]
+  },
+  "physicalPhoneVerified": false,
+  "xiaohongshuHostVerified": false
+}

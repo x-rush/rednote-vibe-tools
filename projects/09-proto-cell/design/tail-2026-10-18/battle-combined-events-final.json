@@ -1,0 +1,3082 @@
+{
+  "sourceHashes": {
+    "src/game/engine.ts": "640c6c90e3214a8b36f5247a0cffe82b2ea9f7c23c637ecef7dc70ac8bfcb372",
+    "src/game/spatial-grid.ts": "d6b582d0fcf12f1b8706b830bde796f733b303b04b59c55e337fdd4bafb1ff3f",
+    "src/domain/membrane.ts": "f518fd8aeea5540038549b717dfd58d4ef4ca0b905ff02795c687ce19d881717",
+    "src/rendering/cell.ts": "b72abc56be22a4b8c83b1e0136cd29d406d87f3c1393c0ce50a2198bb38b3438",
+    "src/rendering/renderer.ts": "6b78c7db222476b2351aff8d5d9ed8a9b6717bc1e71b09617241c6f7f50860ae",
+    "src/rendering/feedback.ts": "88b453d474fc843c0dd5b914323e50a34bb1eb3574e4c97d0dbb70d584870016",
+    "src/rendering/body-path.ts": "6cde6327033f21e3400c3e6a19b6e5a90d856d542d2f728fe53ef3fbd5bedddf",
+    "src/app/controller.ts": "dd6a320a64637345b966b550cc6f0319295bb2e3c75913e78dbd90e6215aa5f4"
+  },
+  "bundleHash": "c525ce118d0832dd7ad459365bb9166db2a03c0227327baa2f4c7e52a8210050",
+  "method": "QA initial late state and 120 real source AI chasers at radius147, food replenishment and membrane protection; real terrain breaks/engulfs. No renderer-only clones. Fixed step and actual RAF catch-up separate; source compiled in memory; not normalplaythrough or physical phone.",
+  "cases": [
+    {
+      "throttle": 4,
+      "count": 120,
+      "frames": 300,
+      "catchUp": false,
+      "update": {
+        "mean": 6.229666666587193,
+        "p50": 5.300000011920929,
+        "p95": 13.699999988079071,
+        "p99": 21.69999998807907,
+        "max": 37.39999997615814
+      },
+      "render": {
+        "mean": 24.339666667779287,
+        "p50": 26.80000001192093,
+        "p95": 46.39999997615814,
+        "p99": 53.69999998807907,
+        "max": 72.80000001192093
+      },
+      "eventHandling": {
+        "mean": 0.03833333333333333,
+        "p50": 0,
+        "p95": 0.20000004768371582,
+        "p99": 0.6000000238418579,
+        "max": 0.9000000357627869
+      },
+      "total": {
+        "mean": 30.831666667262713,
+        "p50": 32.80000001192093,
+        "p95": 56.10000002384186,
+        "p99": 77.39999997615814,
+        "max": 90.70000004768372
+      },
+      "frameGap": {
+        "mean": 37.696333333333335,
+        "p50": 37.600000000000364,
+        "p95": 62.600000000000364,
+        "p99": 91.90000000000055,
+        "max": 142
+      },
+      "population": {
+        "min": 132,
+        "max": 132
+      },
+      "events": {
+        "engulfs": 128,
+        "breaks": 1,
+        "overlapFrames": 47,
+        "maxChasing": 120
+      },
+      "longTasks": {
+        "count": 35,
+        "max": 97
+      },
+      "overlap": {
+        "mean": 36.17872340628441,
+        "p50": 35.40000003576279,
+        "p95": 45,
+        "p99": 56.10000002384186,
+        "max": 56.10000002384186
+      },
+      "frameData": [
+        {
+          "frame": 0,
+          "atMs": 18516.666666666704,
+          "update": 6.299999952316284,
+          "render": 28.5,
+          "total": 35.09999996423721,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 1,
+          "atMs": 18533.333333333372,
+          "update": 6,
+          "render": 27.400000035762787,
+          "total": 33.80000001192093,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 2,
+          "atMs": 18550.00000000004,
+          "update": 4.399999976158142,
+          "render": 31,
+          "total": 35.69999998807907,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 3,
+          "atMs": 18566.666666666708,
+          "update": 5.300000011920929,
+          "render": 31,
+          "total": 36.5,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 4,
+          "atMs": 18583.333333333376,
+          "update": 4.5,
+          "render": 30.400000035762787,
+          "total": 35.10000002384186,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 5,
+          "atMs": 18600.000000000044,
+          "update": 8.200000047683716,
+          "render": 50.69999998807907,
+          "total": 60.40000003576279,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 6,
+          "atMs": 18616.66666666671,
+          "update": 8.5,
+          "render": 37.59999996423721,
+          "total": 46.299999952316284,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 7,
+          "atMs": 18633.33333333338,
+          "update": 6.100000023841858,
+          "render": 40.200000047683716,
+          "total": 46.60000002384186,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 8,
+          "atMs": 18650.000000000047,
+          "update": 6.100000023841858,
+          "render": 30.30000001192093,
+          "total": 36.60000002384186,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 9,
+          "atMs": 18666.666666666715,
+          "update": 4.300000011920929,
+          "render": 28.600000023841858,
+          "total": 33.10000002384186,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 8
+        },
+        {
+          "frame": 10,
+          "atMs": 18683.333333333383,
+          "update": 6.800000011920929,
+          "render": 27.399999976158142,
+          "total": 34.19999998807907,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 8
+        },
+        {
+          "frame": 11,
+          "atMs": 18700.00000000005,
+          "update": 4.100000023841858,
+          "render": 21.600000023841858,
+          "total": 25.900000035762787,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 8
+        },
+        {
+          "frame": 12,
+          "atMs": 18716.66666666672,
+          "update": 8.599999964237213,
+          "render": 26.19999998807907,
+          "total": 35.19999998807907,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 13,
+          "atMs": 18733.333333333387,
+          "update": 4.600000023841858,
+          "render": 27.30000001192093,
+          "total": 32.10000002384186,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 14,
+          "atMs": 18750.000000000055,
+          "update": 6,
+          "render": 30.19999998807907,
+          "total": 36.39999997615814,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 15,
+          "atMs": 18766.666666666722,
+          "update": 5.5,
+          "render": 29,
+          "total": 34.69999998807907,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 16,
+          "atMs": 18783.33333333339,
+          "update": 5.699999988079071,
+          "render": 27.5,
+          "total": 33.5,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 17,
+          "atMs": 18800.00000000006,
+          "update": 4.399999976158142,
+          "render": 28.80000001192093,
+          "total": 33.60000002384186,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 18,
+          "atMs": 18816.666666666726,
+          "update": 6.899999976158142,
+          "render": 29.899999976158142,
+          "total": 37.19999998807907,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 19,
+          "atMs": 18833.333333333394,
+          "update": 6.899999976158142,
+          "render": 26.600000023841858,
+          "total": 33.69999998807907,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 20,
+          "atMs": 18850.000000000062,
+          "update": 5.300000011920929,
+          "render": 27.30000001192093,
+          "total": 32.700000047683716,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 21,
+          "atMs": 18866.66666666673,
+          "update": 5,
+          "render": 31.799999952316284,
+          "total": 36.799999952316284,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 22,
+          "atMs": 18883.333333333398,
+          "update": 7.100000023841858,
+          "render": 36.80000001192093,
+          "total": 44.30000001192093,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 23,
+          "atMs": 18900.000000000065,
+          "update": 6.699999988079071,
+          "render": 28.100000023841858,
+          "total": 34.80000001192093,
+          "overlapping": false,
+          "chasing": 0,
+          "meals": 12
+        },
+        {
+          "frame": 24,
+          "atMs": 18916.666666666733,
+          "update": 6.300000011920929,
+          "render": 29.899999976158142,
+          "total": 37,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 25,
+          "atMs": 18933.3333333334,
+          "update": 5.800000011920929,
+          "render": 27,
+          "total": 32.80000001192093,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 26,
+          "atMs": 18950.00000000007,
+          "update": 5,
+          "render": 23.399999976158142,
+          "total": 28.599999964237213,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 27,
+          "atMs": 18966.666666666737,
+          "update": 5.199999988079071,
+          "render": 27.400000035762787,
+          "total": 33,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 28,
+          "atMs": 18983.333333333405,
+          "update": 5.900000035762787,
+          "render": 26.80000001192093,
+          "total": 33.10000002384186,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 29,
+          "atMs": 19000.000000000073,
+          "update": 5.699999988079071,
+          "render": 24.5,
+          "total": 30.399999976158142,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 30,
+          "atMs": 19016.66666666674,
+          "update": 4,
+          "render": 34.799999952316284,
+          "total": 39,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 8
+        },
+        {
+          "frame": 31,
+          "atMs": 19033.33333333341,
+          "update": 4.900000035762787,
+          "render": 25.30000001192093,
+          "total": 30.400000035762787,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 8
+        },
+        {
+          "frame": 32,
+          "atMs": 19050.000000000076,
+          "update": 5.300000011920929,
+          "render": 25.299999952316284,
+          "total": 30.899999976158142,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 8
+        },
+        {
+          "frame": 33,
+          "atMs": 19066.666666666744,
+          "update": 9.899999976158142,
+          "render": 27.19999998807907,
+          "total": 37.5,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 34,
+          "atMs": 19083.333333333412,
+          "update": 4.599999964237213,
+          "render": 25.69999998807907,
+          "total": 30.399999976158142,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 35,
+          "atMs": 19100.00000000008,
+          "update": 4.700000047683716,
+          "render": 36.09999996423721,
+          "total": 41,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 36,
+          "atMs": 19116.666666666748,
+          "update": 7,
+          "render": 34.10000002384186,
+          "total": 41.60000002384186,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 37,
+          "atMs": 19133.333333333416,
+          "update": 7.099999964237213,
+          "render": 34.90000003576279,
+          "total": 42.19999998807907,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 38,
+          "atMs": 19150.000000000084,
+          "update": 5.899999976158142,
+          "render": 29.30000001192093,
+          "total": 35.69999998807907,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 39,
+          "atMs": 19166.66666666675,
+          "update": 4.800000011920929,
+          "render": 25.600000023841858,
+          "total": 30.600000023841858,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 40,
+          "atMs": 19183.33333333342,
+          "update": 4.5,
+          "render": 27.80000001192093,
+          "total": 32.5,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 41,
+          "atMs": 19200.000000000087,
+          "update": 6.600000023841858,
+          "render": 28.600000023841858,
+          "total": 35.40000003576279,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 42,
+          "atMs": 19216.666666666755,
+          "update": 4.900000035762787,
+          "render": 33.69999998807907,
+          "total": 38.80000001192093,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 43,
+          "atMs": 19233.333333333423,
+          "update": 5.700000047683716,
+          "render": 27.599999964237213,
+          "total": 33.30000001192093,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 44,
+          "atMs": 19250.00000000009,
+          "update": 5.099999964237213,
+          "render": 26.600000023841858,
+          "total": 32,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 45,
+          "atMs": 19266.66666666676,
+          "update": 4.699999988079071,
+          "render": 29.399999976158142,
+          "total": 34.09999996423721,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 46,
+          "atMs": 19283.333333333427,
+          "update": 6,
+          "render": 38,
+          "total": 44.30000001192093,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 47,
+          "atMs": 19300.000000000095,
+          "update": 6.600000023841858,
+          "render": 39.5,
+          "total": 46.40000003576279,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 48,
+          "atMs": 19316.666666666762,
+          "update": 6.600000023841858,
+          "render": 32.10000002384186,
+          "total": 39.10000002384186,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 49,
+          "atMs": 19333.33333333343,
+          "update": 6.5,
+          "render": 31.80000001192093,
+          "total": 38.5,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 50,
+          "atMs": 19350.0000000001,
+          "update": 5.799999952316284,
+          "render": 32.5,
+          "total": 38.89999997615814,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 51,
+          "atMs": 19366.666666666766,
+          "update": 5.099999964237213,
+          "render": 26.600000023841858,
+          "total": 31.69999998807907,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 8
+        },
+        {
+          "frame": 52,
+          "atMs": 19383.333333333434,
+          "update": 8.899999976158142,
+          "render": 27.5,
+          "total": 36.59999996423721,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 8
+        },
+        {
+          "frame": 53,
+          "atMs": 19400.000000000102,
+          "update": 5.5,
+          "render": 23.19999998807907,
+          "total": 28.899999976158142,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 8
+        },
+        {
+          "frame": 54,
+          "atMs": 19416.66666666677,
+          "update": 9.200000047683716,
+          "render": 24.599999964237213,
+          "total": 34.5,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 55,
+          "atMs": 19433.333333333438,
+          "update": 8.400000035762787,
+          "render": 30.69999998807907,
+          "total": 39.30000001192093,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 56,
+          "atMs": 19450.000000000106,
+          "update": 7.300000011920929,
+          "render": 48.700000047683716,
+          "total": 56.10000002384186,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 57,
+          "atMs": 19466.666666666773,
+          "update": 7.699999988079071,
+          "render": 28.5,
+          "total": 36.40000003576279,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 58,
+          "atMs": 19483.33333333344,
+          "update": 5.100000023841858,
+          "render": 26.19999998807907,
+          "total": 31.899999976158142,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 59,
+          "atMs": 19500.00000000011,
+          "update": 6,
+          "render": 25.600000023841858,
+          "total": 32,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 60,
+          "atMs": 19516.666666666777,
+          "update": 6.300000011920929,
+          "render": 24.5,
+          "total": 31.30000001192093,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 61,
+          "atMs": 19533.333333333445,
+          "update": 6.699999988079071,
+          "render": 31.5,
+          "total": 38.69999998807907,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 62,
+          "atMs": 19550.000000000113,
+          "update": 8.099999964237213,
+          "render": 36.69999998807907,
+          "total": 45,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 63,
+          "atMs": 19566.66666666678,
+          "update": 7.300000011920929,
+          "render": 29.80000001192093,
+          "total": 37.5,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 64,
+          "atMs": 19583.33333333345,
+          "update": 8,
+          "render": 28.5,
+          "total": 36.60000002384186,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 65,
+          "atMs": 19600.000000000116,
+          "update": 7.599999964237213,
+          "render": 27.19999998807907,
+          "total": 35.19999998807907,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 66,
+          "atMs": 19616.666666666784,
+          "update": 6.5,
+          "render": 27.200000047683716,
+          "total": 34.30000001192093,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 67,
+          "atMs": 19633.333333333452,
+          "update": 9,
+          "render": 28.900000035762787,
+          "total": 38,
+          "overlapping": true,
+          "chasing": 120,
+          "meals": 12
+        },
+        {
+          "frame": 68,
+          "atMs": 19650.00000000012,
+          "update": 7.899999976158142,
+          "render": 26.100000023841858,
+          "total": 34.30000001192093,
+          "overlapping": true,
+          "chasing": 119,
+          "meals": 12
+        },
+        {
+          "frame": 69,
+          "atMs": 19666.666666666788,
+          "update": 7.199999988079071,
+          "render": 27.80000001192093,
+          "total": 35.30000001192093,
+          "overlapping": true,
+          "chasing": 119,
+          "meals": 12
+        },
+        {
+          "frame": 70,
+          "atMs": 19683.333333333456,
+          "update": 8.800000011920929,
+          "render": 30.399999976158142,
+          "total": 39.30000001192093,
+          "overlapping": true,
+          "chasing": 118,
+          "meals": 12
+        },
+        {
+          "frame": 71,
+          "atMs": 19700.000000000124,
+          "update": 10.800000011920929,
+          "render": 33.30000001192093,
+          "total": 44.30000001192093,
+          "overlapping": false,
+          "chasing": 118,
+          "meals": 12
+        },
+        {
+          "frame": 72,
+          "atMs": 19716.66666666679,
+          "update": 9.799999952316284,
+          "render": 34.19999998807907,
+          "total": 44.19999998807907,
+          "overlapping": false,
+          "chasing": 117,
+          "meals": 8
+        },
+        {
+          "frame": 73,
+          "atMs": 19733.33333333346,
+          "update": 8.199999988079071,
+          "render": 27.69999998807907,
+          "total": 36.5,
+          "overlapping": false,
+          "chasing": 116,
+          "meals": 8
+        },
+        {
+          "frame": 74,
+          "atMs": 19750.000000000127,
+          "update": 7.899999976158142,
+          "render": 28.200000047683716,
+          "total": 36.5,
+          "overlapping": false,
+          "chasing": 114,
+          "meals": 8
+        },
+        {
+          "frame": 75,
+          "atMs": 19766.666666666795,
+          "update": 15,
+          "render": 27.69999998807907,
+          "total": 43.80000001192093,
+          "overlapping": false,
+          "chasing": 113,
+          "meals": 12
+        },
+        {
+          "frame": 76,
+          "atMs": 19783.333333333463,
+          "update": 7.800000011920929,
+          "render": 27.099999964237213,
+          "total": 35,
+          "overlapping": false,
+          "chasing": 113,
+          "meals": 12
+        },
+        {
+          "frame": 77,
+          "atMs": 19800.00000000013,
+          "update": 7.100000023841858,
+          "render": 27,
+          "total": 34.39999997615814,
+          "overlapping": false,
+          "chasing": 112,
+          "meals": 12
+        },
+        {
+          "frame": 78,
+          "atMs": 19816.6666666668,
+          "update": 12.699999988079071,
+          "render": 31.400000035762787,
+          "total": 44.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 79,
+          "atMs": 19833.333333333467,
+          "update": 7.699999988079071,
+          "render": 24.80000001192093,
+          "total": 32.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 80,
+          "atMs": 19850.000000000135,
+          "update": 9.700000047683716,
+          "render": 50.60000002384186,
+          "total": 60.60000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 81,
+          "atMs": 19866.666666666802,
+          "update": 14.399999976158142,
+          "render": 46.5,
+          "total": 61.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 82,
+          "atMs": 19883.33333333347,
+          "update": 12,
+          "render": 37.09999996423721,
+          "total": 49.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 83,
+          "atMs": 19900.00000000014,
+          "update": 14.800000011920929,
+          "render": 43.59999996423721,
+          "total": 58.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 84,
+          "atMs": 19916.666666666806,
+          "update": 17.30000001192093,
+          "render": 72.80000001192093,
+          "total": 90.70000004768372,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 85,
+          "atMs": 19933.333333333474,
+          "update": 14.5,
+          "render": 37.30000001192093,
+          "total": 52.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 86,
+          "atMs": 19950.000000000142,
+          "update": 13.900000035762787,
+          "render": 32.60000002384186,
+          "total": 46.80000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 87,
+          "atMs": 19966.66666666681,
+          "update": 14.5,
+          "render": 38.19999998807907,
+          "total": 52.89999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 88,
+          "atMs": 19983.333333333478,
+          "update": 14,
+          "render": 39,
+          "total": 53.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 89,
+          "atMs": 20000.000000000146,
+          "update": 9.5,
+          "render": 32,
+          "total": 41.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 90,
+          "atMs": 20016.666666666813,
+          "update": 10.900000035762787,
+          "render": 35.5,
+          "total": 47,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 91,
+          "atMs": 20033.33333333348,
+          "update": 9.699999988079071,
+          "render": 32.89999997615814,
+          "total": 42.89999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 92,
+          "atMs": 20050.00000000015,
+          "update": 9.5,
+          "render": 27.80000001192093,
+          "total": 37.60000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 93,
+          "atMs": 20066.666666666817,
+          "update": 7.600000023841858,
+          "render": 29.69999998807907,
+          "total": 37.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 94,
+          "atMs": 20083.333333333485,
+          "update": 13.699999988079071,
+          "render": 44.19999998807907,
+          "total": 58.299999952316284,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 95,
+          "atMs": 20100.000000000153,
+          "update": 14.5,
+          "render": 36.799999952316284,
+          "total": 51.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 96,
+          "atMs": 20116.66666666682,
+          "update": 21.69999998807907,
+          "render": 43.60000002384186,
+          "total": 66.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 97,
+          "atMs": 20133.33333333349,
+          "update": 11.699999988079071,
+          "render": 37.200000047683716,
+          "total": 49.10000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 98,
+          "atMs": 20150.000000000156,
+          "update": 10.399999976158142,
+          "render": 33,
+          "total": 43.59999996423721,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 99,
+          "atMs": 20166.666666666824,
+          "update": 14.800000011920929,
+          "render": 28.700000047683716,
+          "total": 43.700000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 100,
+          "atMs": 20183.333333333492,
+          "update": 9.800000011920929,
+          "render": 27.19999998807907,
+          "total": 37.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 101,
+          "atMs": 20200.00000000016,
+          "update": 12.199999988079071,
+          "render": 27.099999964237213,
+          "total": 39.39999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 102,
+          "atMs": 20216.666666666828,
+          "update": 7.599999964237213,
+          "render": 30.80000001192093,
+          "total": 38.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 103,
+          "atMs": 20233.333333333496,
+          "update": 6.899999976158142,
+          "render": 33.90000003576279,
+          "total": 41,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 104,
+          "atMs": 20250.000000000164,
+          "update": 37.39999997615814,
+          "render": 49,
+          "total": 86.80000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 105,
+          "atMs": 20266.66666666683,
+          "update": 12.399999976158142,
+          "render": 49.90000003576279,
+          "total": 63.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 106,
+          "atMs": 20283.3333333335,
+          "update": 9.800000011920929,
+          "render": 34.90000003576279,
+          "total": 44.80000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 107,
+          "atMs": 20300.000000000167,
+          "update": 8.299999952316284,
+          "render": 24.599999964237213,
+          "total": 33.299999952316284,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 108,
+          "atMs": 20316.666666666835,
+          "update": 7.399999976158142,
+          "render": 30.5,
+          "total": 38.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 109,
+          "atMs": 20333.333333333503,
+          "update": 5.600000023841858,
+          "render": 29.30000001192093,
+          "total": 35.10000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 110,
+          "atMs": 20350.00000000017,
+          "update": 7.099999964237213,
+          "render": 29.30000001192093,
+          "total": 36.59999996423721,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 111,
+          "atMs": 20366.66666666684,
+          "update": 5.699999988079071,
+          "render": 26.69999998807907,
+          "total": 32.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 112,
+          "atMs": 20383.333333333507,
+          "update": 4.400000035762787,
+          "render": 25.099999964237213,
+          "total": 29.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 113,
+          "atMs": 20400.000000000175,
+          "update": 5.100000023841858,
+          "render": 25.399999976158142,
+          "total": 30.80000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 114,
+          "atMs": 20416.666666666843,
+          "update": 7.099999964237213,
+          "render": 28.69999998807907,
+          "total": 36.299999952316284,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 115,
+          "atMs": 20433.33333333351,
+          "update": 5.800000011920929,
+          "render": 30,
+          "total": 36.10000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 116,
+          "atMs": 20450.00000000018,
+          "update": 8.699999988079071,
+          "render": 29.600000023841858,
+          "total": 38.40000003576279,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 117,
+          "atMs": 20466.666666666846,
+          "update": 11.699999988079071,
+          "render": 33.799999952316284,
+          "total": 46.39999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 118,
+          "atMs": 20483.333333333514,
+          "update": 6.699999988079071,
+          "render": 35.59999996423721,
+          "total": 42.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 119,
+          "atMs": 20500.000000000182,
+          "update": 7.300000011920929,
+          "render": 29.69999998807907,
+          "total": 37.09999996423721,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 120,
+          "atMs": 20516.66666666685,
+          "update": 6.600000023841858,
+          "render": 26.80000001192093,
+          "total": 33.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 121,
+          "atMs": 20533.333333333518,
+          "update": 6.099999964237213,
+          "render": 27.19999998807907,
+          "total": 33.299999952316284,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 122,
+          "atMs": 20550.000000000186,
+          "update": 6.900000035762787,
+          "render": 18.80000001192093,
+          "total": 25.900000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 123,
+          "atMs": 20566.666666666853,
+          "update": 4.099999964237213,
+          "render": 34.299999952316284,
+          "total": 38.59999996423721,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 124,
+          "atMs": 20583.33333333352,
+          "update": 6.5,
+          "render": 32.89999997615814,
+          "total": 39.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 125,
+          "atMs": 20600.00000000019,
+          "update": 6.300000011920929,
+          "render": 32.69999998807907,
+          "total": 39.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 126,
+          "atMs": 20616.666666666857,
+          "update": 6.5,
+          "render": 31.600000023841858,
+          "total": 38.39999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 127,
+          "atMs": 20633.333333333525,
+          "update": 5.300000011920929,
+          "render": 33.80000001192093,
+          "total": 39.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 128,
+          "atMs": 20650.000000000193,
+          "update": 7.300000011920929,
+          "render": 32,
+          "total": 39.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 129,
+          "atMs": 20666.66666666686,
+          "update": 4.5,
+          "render": 29.69999998807907,
+          "total": 34.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 130,
+          "atMs": 20683.33333333353,
+          "update": 4.900000035762787,
+          "render": 25.899999976158142,
+          "total": 31,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 131,
+          "atMs": 20700.000000000196,
+          "update": 4.699999988079071,
+          "render": 29.80000001192093,
+          "total": 34.60000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 132,
+          "atMs": 20716.666666666864,
+          "update": 5.299999952316284,
+          "render": 29.30000001192093,
+          "total": 35.09999996423721,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 133,
+          "atMs": 20733.333333333532,
+          "update": 4.900000035762787,
+          "render": 29.5,
+          "total": 34.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 134,
+          "atMs": 20750.0000000002,
+          "update": 6,
+          "render": 29.400000035762787,
+          "total": 35.90000003576279,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 135,
+          "atMs": 20766.666666666868,
+          "update": 4.200000047683716,
+          "render": 20.700000047683716,
+          "total": 25.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 136,
+          "atMs": 20783.333333333536,
+          "update": 4.100000023841858,
+          "render": 21.80000001192093,
+          "total": 26.100000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 137,
+          "atMs": 20800.000000000204,
+          "update": 4.399999976158142,
+          "render": 22.600000023841858,
+          "total": 27.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 138,
+          "atMs": 20816.66666666687,
+          "update": 8.199999988079071,
+          "render": 21.5,
+          "total": 30,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 139,
+          "atMs": 20833.33333333354,
+          "update": 4,
+          "render": 29.900000035762787,
+          "total": 34.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 140,
+          "atMs": 20850.000000000207,
+          "update": 6,
+          "render": 24.80000001192093,
+          "total": 31.100000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 141,
+          "atMs": 20866.666666666875,
+          "update": 4.799999952316284,
+          "render": 33.19999998807907,
+          "total": 38.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 142,
+          "atMs": 20883.333333333543,
+          "update": 4.699999988079071,
+          "render": 25.19999998807907,
+          "total": 30.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 143,
+          "atMs": 20900.00000000021,
+          "update": 5.099999964237213,
+          "render": 23.69999998807907,
+          "total": 29.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 144,
+          "atMs": 20916.66666666688,
+          "update": 5.400000035762787,
+          "render": 46.39999997615814,
+          "total": 52.10000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 145,
+          "atMs": 20933.333333333547,
+          "update": 6.099999964237213,
+          "render": 47.10000002384186,
+          "total": 53.39999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 146,
+          "atMs": 20950.000000000215,
+          "update": 6.199999988079071,
+          "render": 46.39999997615814,
+          "total": 52.89999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 147,
+          "atMs": 20966.666666666883,
+          "update": 6.300000011920929,
+          "render": 50.09999996423721,
+          "total": 56.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 148,
+          "atMs": 20983.33333333355,
+          "update": 6.300000011920929,
+          "render": 34.5,
+          "total": 40.90000003576279,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 149,
+          "atMs": 21000.00000000022,
+          "update": 5.299999952316284,
+          "render": 38.69999998807907,
+          "total": 44.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 150,
+          "atMs": 21016.666666666886,
+          "update": 6.899999976158142,
+          "render": 42.10000002384186,
+          "total": 49.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 151,
+          "atMs": 21033.333333333554,
+          "update": 8.099999964237213,
+          "render": 35.19999998807907,
+          "total": 43.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 152,
+          "atMs": 21050.000000000222,
+          "update": 4.900000035762787,
+          "render": 31.5,
+          "total": 36.60000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 153,
+          "atMs": 21066.66666666689,
+          "update": 4.899999976158142,
+          "render": 23.5,
+          "total": 28.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 154,
+          "atMs": 21083.333333333558,
+          "update": 5.300000011920929,
+          "render": 31.099999964237213,
+          "total": 36.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 155,
+          "atMs": 21100.000000000226,
+          "update": 5.300000011920929,
+          "render": 34.69999998807907,
+          "total": 40.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 156,
+          "atMs": 21116.666666666893,
+          "update": 5.800000011920929,
+          "render": 37.60000002384186,
+          "total": 43.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 157,
+          "atMs": 21133.33333333356,
+          "update": 6.899999976158142,
+          "render": 61,
+          "total": 68,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 158,
+          "atMs": 21150.00000000023,
+          "update": 8.100000023841858,
+          "render": 32.30000001192093,
+          "total": 40.60000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 159,
+          "atMs": 21166.666666666897,
+          "update": 13.800000011920929,
+          "render": 35.40000003576279,
+          "total": 50.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 160,
+          "atMs": 21183.333333333565,
+          "update": 7.5,
+          "render": 48.5,
+          "total": 56.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 161,
+          "atMs": 21200.000000000233,
+          "update": 6.5,
+          "render": 36.30000001192093,
+          "total": 43.40000003576279,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 162,
+          "atMs": 21216.6666666669,
+          "update": 5.100000023841858,
+          "render": 37.30000001192093,
+          "total": 43.10000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 163,
+          "atMs": 21233.33333333357,
+          "update": 6.699999988079071,
+          "render": 38.60000002384186,
+          "total": 45.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 164,
+          "atMs": 21250.000000000236,
+          "update": 5.899999976158142,
+          "render": 34.200000047683716,
+          "total": 40.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 165,
+          "atMs": 21266.666666666904,
+          "update": 5.5,
+          "render": 23.30000001192093,
+          "total": 29,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 166,
+          "atMs": 21283.333333333572,
+          "update": 4.600000023841858,
+          "render": 22.5,
+          "total": 27.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 167,
+          "atMs": 21300.00000000024,
+          "update": 3.799999952316284,
+          "render": 15.799999952316284,
+          "total": 19.799999952316284,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 168,
+          "atMs": 21316.666666666908,
+          "update": 4.600000023841858,
+          "render": 17.5,
+          "total": 22.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 169,
+          "atMs": 21333.333333333576,
+          "update": 4.199999988079071,
+          "render": 20.30000001192093,
+          "total": 24.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 170,
+          "atMs": 21350.000000000244,
+          "update": 5.600000023841858,
+          "render": 28.100000023841858,
+          "total": 33.90000003576279,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 171,
+          "atMs": 21366.66666666691,
+          "update": 5.100000023841858,
+          "render": 27.100000023841858,
+          "total": 32.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 172,
+          "atMs": 21383.33333333358,
+          "update": 4.199999988079071,
+          "render": 26.600000023841858,
+          "total": 31,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 173,
+          "atMs": 21400.000000000247,
+          "update": 5.399999976158142,
+          "render": 22.30000001192093,
+          "total": 27.899999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 174,
+          "atMs": 21416.666666666915,
+          "update": 4.5,
+          "render": 21.30000001192093,
+          "total": 26.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 175,
+          "atMs": 21433.333333333583,
+          "update": 5.5,
+          "render": 29,
+          "total": 34.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 176,
+          "atMs": 21450.00000000025,
+          "update": 4.699999988079071,
+          "render": 29,
+          "total": 34,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 177,
+          "atMs": 21466.66666666692,
+          "update": 5.199999988079071,
+          "render": 26.899999976158142,
+          "total": 32.39999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 178,
+          "atMs": 21483.333333333587,
+          "update": 5.800000011920929,
+          "render": 23,
+          "total": 29.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 179,
+          "atMs": 21500.000000000255,
+          "update": 5.100000023841858,
+          "render": 23.100000023841858,
+          "total": 28.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 180,
+          "atMs": 21516.666666666923,
+          "update": 9.699999988079071,
+          "render": 27.5,
+          "total": 38,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 181,
+          "atMs": 21533.33333333359,
+          "update": 4.200000047683716,
+          "render": 27.100000023841858,
+          "total": 31.400000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 182,
+          "atMs": 21550.00000000026,
+          "update": 5.300000011920929,
+          "render": 34.69999998807907,
+          "total": 40.39999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 183,
+          "atMs": 21566.666666666926,
+          "update": 5.900000035762787,
+          "render": 38.5,
+          "total": 44.60000002384186,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 184,
+          "atMs": 21583.333333333594,
+          "update": 5.5,
+          "render": 45.5,
+          "total": 51.40000003576279,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 185,
+          "atMs": 21600.000000000262,
+          "update": 12.600000023841858,
+          "render": 52.69999998807907,
+          "total": 65.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 186,
+          "atMs": 21616.66666666693,
+          "update": 6.899999976158142,
+          "render": 26.5,
+          "total": 33.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 187,
+          "atMs": 21633.333333333598,
+          "update": 5.100000023841858,
+          "render": 30.69999998807907,
+          "total": 36.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 188,
+          "atMs": 21650.000000000266,
+          "update": 5.199999988079071,
+          "render": 26.5,
+          "total": 31.80000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 189,
+          "atMs": 21666.666666666933,
+          "update": 5.5,
+          "render": 41.30000001192093,
+          "total": 47,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 190,
+          "atMs": 21683.3333333336,
+          "update": 6.5,
+          "render": 29.600000023841858,
+          "total": 36.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 191,
+          "atMs": 21700.00000000027,
+          "update": 4.5,
+          "render": 21.69999998807907,
+          "total": 26.400000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 192,
+          "atMs": 21716.666666666937,
+          "update": 4.400000035762787,
+          "render": 23.899999976158142,
+          "total": 28.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 193,
+          "atMs": 21733.333333333605,
+          "update": 5.099999964237213,
+          "render": 22.899999976158142,
+          "total": 28.099999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 194,
+          "atMs": 21750.000000000273,
+          "update": 4.600000023841858,
+          "render": 25.599999964237213,
+          "total": 30.30000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 195,
+          "atMs": 21766.66666666694,
+          "update": 5.200000047683716,
+          "render": 26.100000023841858,
+          "total": 31.400000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 196,
+          "atMs": 21783.33333333361,
+          "update": 4.199999988079071,
+          "render": 27.100000023841858,
+          "total": 31.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 197,
+          "atMs": 21800.000000000276,
+          "update": 23.30000001192093,
+          "render": 53.69999998807907,
+          "total": 77.39999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 198,
+          "atMs": 21816.666666666944,
+          "update": 6.699999988079071,
+          "render": 27.599999964237213,
+          "total": 35.39999997615814,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 199,
+          "atMs": 21833.333333333612,
+          "update": 4,
+          "render": 28.19999998807907,
+          "total": 32.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 200,
+          "atMs": 21850.00000000028,
+          "update": 5,
+          "render": 19.600000023841858,
+          "total": 24.900000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 201,
+          "atMs": 21866.666666666948,
+          "update": 10.899999976158142,
+          "render": 26.5,
+          "total": 38,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 202,
+          "atMs": 21883.333333333616,
+          "update": 6.199999988079071,
+          "render": 24.5,
+          "total": 30.900000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 203,
+          "atMs": 21900.000000000284,
+          "update": 4.399999976158142,
+          "render": 18,
+          "total": 22.399999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 204,
+          "atMs": 21916.66666666695,
+          "update": 3.700000047683716,
+          "render": 24.100000023841858,
+          "total": 28.100000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 205,
+          "atMs": 21933.33333333362,
+          "update": 4.300000011920929,
+          "render": 19.30000001192093,
+          "total": 23.600000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 206,
+          "atMs": 21950.000000000287,
+          "update": 3.300000011920929,
+          "render": 19.700000047683716,
+          "total": 23.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 207,
+          "atMs": 21966.666666666955,
+          "update": 2.599999964237213,
+          "render": 25.80000001192093,
+          "total": 28.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 208,
+          "atMs": 21983.333333333623,
+          "update": 3.899999976158142,
+          "render": 21.30000001192093,
+          "total": 25.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 209,
+          "atMs": 22000.00000000029,
+          "update": 3.200000047683716,
+          "render": 22.5,
+          "total": 25.900000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 210,
+          "atMs": 22016.66666666696,
+          "update": 3.200000047683716,
+          "render": 18.5,
+          "total": 21.80000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 211,
+          "atMs": 22033.333333333627,
+          "update": 2.799999952316284,
+          "render": 16.5,
+          "total": 19.399999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 212,
+          "atMs": 22050.000000000295,
+          "update": 4.200000047683716,
+          "render": 22.80000001192093,
+          "total": 27.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 213,
+          "atMs": 22066.666666666963,
+          "update": 5.600000023841858,
+          "render": 21.80000001192093,
+          "total": 27.600000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 214,
+          "atMs": 22083.33333333363,
+          "update": 5.600000023841858,
+          "render": 22.899999976158142,
+          "total": 28.69999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 215,
+          "atMs": 22100.0000000003,
+          "update": 3.600000023841858,
+          "render": 17.700000047683716,
+          "total": 21.600000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 216,
+          "atMs": 22116.666666666966,
+          "update": 6.100000023841858,
+          "render": 17.399999976158142,
+          "total": 23.80000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 217,
+          "atMs": 22133.333333333634,
+          "update": 3.399999976158142,
+          "render": 12.899999976158142,
+          "total": 16.399999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 218,
+          "atMs": 22150.000000000302,
+          "update": 3.600000023841858,
+          "render": 15.300000011920929,
+          "total": 19.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 219,
+          "atMs": 22166.66666666697,
+          "update": 3.700000047683716,
+          "render": 17.100000023841858,
+          "total": 21.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 220,
+          "atMs": 22183.333333333638,
+          "update": 3.699999988079071,
+          "render": 13.899999976158142,
+          "total": 17.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 221,
+          "atMs": 22200.000000000306,
+          "update": 3.900000035762787,
+          "render": 9.399999976158142,
+          "total": 13.300000011920929,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 222,
+          "atMs": 22216.666666666973,
+          "update": 5.800000011920929,
+          "render": 11.199999988079071,
+          "total": 17.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 223,
+          "atMs": 22233.33333333364,
+          "update": 5.599999964237213,
+          "render": 10.299999952316284,
+          "total": 16.099999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 224,
+          "atMs": 22250.00000000031,
+          "update": 4.399999976158142,
+          "render": 6.400000035762787,
+          "total": 11,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 225,
+          "atMs": 22266.666666666977,
+          "update": 4.899999976158142,
+          "render": 10,
+          "total": 15.300000011920929,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 226,
+          "atMs": 22283.333333333645,
+          "update": 4.399999976158142,
+          "render": 12.600000023841858,
+          "total": 17.19999998807907,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 227,
+          "atMs": 22300.000000000313,
+          "update": 3.5,
+          "render": 6.599999964237213,
+          "total": 10.199999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 228,
+          "atMs": 22316.66666666698,
+          "update": 3.800000011920929,
+          "render": 6.200000047683716,
+          "total": 10.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 229,
+          "atMs": 22333.33333333365,
+          "update": 3.600000023841858,
+          "render": 9.300000011920929,
+          "total": 12.900000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 230,
+          "atMs": 22350.000000000317,
+          "update": 3.900000035762787,
+          "render": 8.699999988079071,
+          "total": 12.600000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 231,
+          "atMs": 22366.666666666984,
+          "update": 3.699999988079071,
+          "render": 5.900000035762787,
+          "total": 9.699999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 232,
+          "atMs": 22383.333333333652,
+          "update": 3.300000011920929,
+          "render": 10.5,
+          "total": 13.800000011920929,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 233,
+          "atMs": 22400.00000000032,
+          "update": 4.200000047683716,
+          "render": 7.799999952316284,
+          "total": 12,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 234,
+          "atMs": 22416.666666666988,
+          "update": 2.799999952316284,
+          "render": 7.199999988079071,
+          "total": 10.199999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 235,
+          "atMs": 22433.333333333656,
+          "update": 2.800000011920929,
+          "render": 4.5,
+          "total": 7.300000011920929,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 236,
+          "atMs": 22450.000000000324,
+          "update": 3.199999988079071,
+          "render": 7.699999988079071,
+          "total": 11.199999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 237,
+          "atMs": 22466.66666666699,
+          "update": 3.599999964237213,
+          "render": 7.300000011920929,
+          "total": 11,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 238,
+          "atMs": 22483.33333333366,
+          "update": 3.600000023841858,
+          "render": 6,
+          "total": 9.600000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 239,
+          "atMs": 22500.000000000327,
+          "update": 3.199999988079071,
+          "render": 5.5,
+          "total": 8.899999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 240,
+          "atMs": 22516.666666666995,
+          "update": 3,
+          "render": 3.399999976158142,
+          "total": 6.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 241,
+          "atMs": 22533.333333333663,
+          "update": 3.599999964237213,
+          "render": 4.900000035762787,
+          "total": 8.699999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 242,
+          "atMs": 22550.00000000033,
+          "update": 2.5,
+          "render": 3.300000011920929,
+          "total": 5.899999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 243,
+          "atMs": 22566.666666667,
+          "update": 5.5,
+          "render": 7,
+          "total": 13.199999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 244,
+          "atMs": 22583.333333333667,
+          "update": 3.5,
+          "render": 8.200000047683716,
+          "total": 12.100000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 245,
+          "atMs": 22600.000000000335,
+          "update": 4.100000023841858,
+          "render": 4.599999964237213,
+          "total": 8.699999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 246,
+          "atMs": 22616.666666667003,
+          "update": 4.399999976158142,
+          "render": 6.300000011920929,
+          "total": 11,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 247,
+          "atMs": 22633.33333333367,
+          "update": 3.800000011920929,
+          "render": 6.300000011920929,
+          "total": 10.399999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 248,
+          "atMs": 22650.00000000034,
+          "update": 3.800000011920929,
+          "render": 5.299999952316284,
+          "total": 9.099999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 249,
+          "atMs": 22666.666666667006,
+          "update": 3.600000023841858,
+          "render": 3.5,
+          "total": 7.200000047683716,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 250,
+          "atMs": 22683.333333333674,
+          "update": 3.299999952316284,
+          "render": 5,
+          "total": 8.399999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 251,
+          "atMs": 22700.000000000342,
+          "update": 3.400000035762787,
+          "render": 10.099999964237213,
+          "total": 13.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 252,
+          "atMs": 22716.66666666701,
+          "update": 3,
+          "render": 8.800000011920929,
+          "total": 12.100000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 253,
+          "atMs": 22733.333333333678,
+          "update": 3.5,
+          "render": 9.899999976158142,
+          "total": 13.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 254,
+          "atMs": 22750.000000000346,
+          "update": 3.699999988079071,
+          "render": 9.699999988079071,
+          "total": 13.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 255,
+          "atMs": 22766.666666667013,
+          "update": 4.300000011920929,
+          "render": 9.600000023841858,
+          "total": 14,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 256,
+          "atMs": 22783.33333333368,
+          "update": 3.699999988079071,
+          "render": 11.199999988079071,
+          "total": 15,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 257,
+          "atMs": 22800.00000000035,
+          "update": 4.800000011920929,
+          "render": 10.900000035762787,
+          "total": 16,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 258,
+          "atMs": 22816.666666667017,
+          "update": 4.899999976158142,
+          "render": 10.300000011920929,
+          "total": 15.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 259,
+          "atMs": 22833.333333333685,
+          "update": 4.599999964237213,
+          "render": 13,
+          "total": 17.80000001192093,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 260,
+          "atMs": 22850.000000000353,
+          "update": 6.5,
+          "render": 11.200000047683716,
+          "total": 17.900000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 261,
+          "atMs": 22866.66666666702,
+          "update": 5.900000035762787,
+          "render": 8.899999976158142,
+          "total": 15,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 262,
+          "atMs": 22883.33333333369,
+          "update": 7.599999964237213,
+          "render": 9.300000011920929,
+          "total": 17,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 263,
+          "atMs": 22900.000000000357,
+          "update": 5,
+          "render": 8.199999988079071,
+          "total": 13.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 264,
+          "atMs": 22916.666666667024,
+          "update": 10.199999988079071,
+          "render": 11.899999976158142,
+          "total": 22.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 265,
+          "atMs": 22933.333333333692,
+          "update": 5.5,
+          "render": 10,
+          "total": 15.699999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 266,
+          "atMs": 22950.00000000036,
+          "update": 4,
+          "render": 9.199999988079071,
+          "total": 13.399999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 267,
+          "atMs": 22966.666666667028,
+          "update": 3.799999952316284,
+          "render": 6.899999976158142,
+          "total": 10.899999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 268,
+          "atMs": 22983.333333333696,
+          "update": 3.399999976158142,
+          "render": 6.900000035762787,
+          "total": 10.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 269,
+          "atMs": 23000.000000000364,
+          "update": 3.600000023841858,
+          "render": 5.199999988079071,
+          "total": 9,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 270,
+          "atMs": 23016.66666666703,
+          "update": 2.899999976158142,
+          "render": 6.199999988079071,
+          "total": 9.099999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 271,
+          "atMs": 23033.3333333337,
+          "update": 2.600000023841858,
+          "render": 4.799999952316284,
+          "total": 7.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 272,
+          "atMs": 23050.000000000367,
+          "update": 3,
+          "render": 6.400000035762787,
+          "total": 9.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 273,
+          "atMs": 23066.666666667035,
+          "update": 4.700000047683716,
+          "render": 8.099999964237213,
+          "total": 13,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 274,
+          "atMs": 23083.333333333703,
+          "update": 3.599999964237213,
+          "render": 8.699999988079071,
+          "total": 12.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 275,
+          "atMs": 23100.00000000037,
+          "update": 3.400000035762787,
+          "render": 5.599999964237213,
+          "total": 9.199999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 276,
+          "atMs": 23116.66666666704,
+          "update": 4.599999964237213,
+          "render": 7.600000023841858,
+          "total": 13,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 277,
+          "atMs": 23133.333333333707,
+          "update": 3.799999952316284,
+          "render": 6.5,
+          "total": 10.299999952316284,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 278,
+          "atMs": 23150.000000000375,
+          "update": 3.599999964237213,
+          "render": 6.699999988079071,
+          "total": 10.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 279,
+          "atMs": 23166.666666667043,
+          "update": 3.599999964237213,
+          "render": 9.100000023841858,
+          "total": 13.199999988079071,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 280,
+          "atMs": 23183.33333333371,
+          "update": 3.5,
+          "render": 5.300000011920929,
+          "total": 8.800000011920929,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 281,
+          "atMs": 23200.00000000038,
+          "update": 3.600000023841858,
+          "render": 6.800000011920929,
+          "total": 10.600000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 282,
+          "atMs": 23216.666666667046,
+          "update": 3.400000035762787,
+          "render": 4.600000023841858,
+          "total": 8.100000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 283,
+          "atMs": 23233.333333333714,
+          "update": 4.399999976158142,
+          "render": 6.5,
+          "total": 10.899999976158142,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 284,
+          "atMs": 23250.000000000382,
+          "update": 3.100000023841858,
+          "render": 6.300000011920929,
+          "total": 9.400000035762787,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 8
+        },
+        {
+          "frame": 285,
+          "atMs": 23266.66666666705,
+          "update": 7.399999976158142,
+          "render": 9.799999952316284,
+          "total": 17.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 286,
+          "atMs": 23283.333333333718,
+          "update": 3.800000011920929,
+          "render": 7.699999988079071,
+          "total": 11.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 287,
+          "atMs": 23300.000000000386,
+          "update": 3.699999988079071,
+          "render": 7.400000035762787,
+          "total": 11.100000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 288,
+          "atMs": 23316.666666667054,
+          "update": 3.899999976158142,
+          "render": 7.5,
+          "total": 11.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 289,
+          "atMs": 23333.33333333372,
+          "update": 4.199999988079071,
+          "render": 9.400000035762787,
+          "total": 14,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 290,
+          "atMs": 23350.00000000039,
+          "update": 3.699999988079071,
+          "render": 9.300000011920929,
+          "total": 13,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 291,
+          "atMs": 23366.666666667057,
+          "update": 3.400000035762787,
+          "render": 7.5,
+          "total": 11.100000023841858,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 292,
+          "atMs": 23383.333333333725,
+          "update": 4.5,
+          "render": 8.100000023841858,
+          "total": 13,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 293,
+          "atMs": 23400.000000000393,
+          "update": 4.600000023841858,
+          "render": 9.699999988079071,
+          "total": 14.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 294,
+          "atMs": 23416.66666666706,
+          "update": 3.100000023841858,
+          "render": 6.299999952316284,
+          "total": 9.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 295,
+          "atMs": 23433.33333333373,
+          "update": 3.099999964237213,
+          "render": 5.399999976158142,
+          "total": 8.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 296,
+          "atMs": 23450.000000000397,
+          "update": 3.5,
+          "render": 6.800000011920929,
+          "total": 10.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 297,
+          "atMs": 23466.666666667064,
+          "update": 4.099999964237213,
+          "render": 8.399999976158142,
+          "total": 12.599999964237213,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 298,
+          "atMs": 23483.333333333732,
+          "update": 3.600000023841858,
+          "render": 7.699999988079071,
+          "total": 11.5,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        },
+        {
+          "frame": 299,
+          "atMs": 23500.0000000004,
+          "update": 3.800000011920929,
+          "render": 7.800000011920929,
+          "total": 11.800000011920929,
+          "overlapping": false,
+          "chasing": 110,
+          "meals": 12
+        }
+      ],
+      "simulatedMs": 5000.000000000364
+    }
+  ],
+  "errors": []
+}

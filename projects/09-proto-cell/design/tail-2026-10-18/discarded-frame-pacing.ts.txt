@@ -1,0 +1,21 @@
+/** Rendering may settle at 30 fps under sustained CPU pressure. Simulation and
+ * input are deliberately outside this gate and keep their original clock. */
+export function createFramePacer() {
+  let fps: 30 | 60 = 60, lastRender = Number.NEGATIVE_INFINITY
+  let average = 0, slowFrames = 0, quietFrames = 0
+  return {
+    shouldRender(now: number, priority = false) { return priority || now - lastRender >= 1000 / fps - 1 },
+    record(now: number, costMs: number) {
+      lastRender = now
+      const cost = Math.max(0, Number.isFinite(costMs) ? costMs : 0)
+      average = average ? average * 0.8 + cost * 0.2 : cost
+      slowFrames = average > 18 ? slowFrames + 1 : Math.max(0, slowFrames - 1)
+      if (fps === 60 && slowFrames >= 6) { fps = 30; quietFrames = 0 }
+      if (fps === 30) {
+        quietFrames = average < 8 ? quietFrames + 1 : 0
+        if (quietFrames >= 120) { fps = 60; slowFrames = 0 }
+      }
+    },
+    targetFps() { return fps },
+  }
+}

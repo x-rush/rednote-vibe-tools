@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties, type KeyboardEventHandler, type RefObject } from 'react'
 import type { ArchiveViewModel } from '../app/view-model'
-import { assetPath } from '../content/assets'
+import { SpecimenCanvas } from './SpecimenCanvas'
 
 export function Archive({
   model,
@@ -45,30 +45,9 @@ export function Archive({
       </button>
       {onLab && <button className="game-overlay__secondary archive-panel__lab" type="button" onClick={onLab}>{labLabel}</button>}
 
-      {model.finalMorphology && (
-        <div
-          className="archive-cell"
-          role="img"
-          aria-label={model.cellLabel}
-          data-body-count={model.finalMorphology.bodyCount}
-          data-mass={Math.round(model.finalMorphology.totalMass)}
-          data-stability={Math.round(model.finalMorphology.stability)}
-        >
-          {Array.from({ length: Math.max(0, model.finalMorphology.bodyCount - 1) }, (_, index) => (
-            <span key={index} className={`archive-cell__satellite archive-cell__satellite--${index + 1}`} />
-          ))}
-          <span className="archive-cell__membrane" />
-          <span className="archive-cell__core" />
-          {model.visualOrganelles.slice(0, 6).map((organ, index) => (
-            <span
-              key={`${organ.id}-${organ.anchor}-${index}`}
-              className={`archive-cell__organ archive-cell__organ--${organ.anchor}`}
-              data-stage={organ.stage}
-              title={organ.name}
-            ><img src={assetPath(organ.id)} alt="" /></span>
-          ))}
-        </div>
-      )}
+      <div className="archive-specimen" data-form-id={model.formId} data-body-count={model.finalMorphology?.bodyCount ?? 1} role="img" aria-label={model.cellLabel}>
+        <SpecimenCanvas build={model.build} formId={model.formId} visualRecipeId={model.finalVisualRecipeId} size={176} />
+      </div>
 
       <dl className="archive-stats">
         <Stat label={model.labels.survival} value={model.survivalMs} format={formatElapsed} />

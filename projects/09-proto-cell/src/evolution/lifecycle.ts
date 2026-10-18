@@ -30,10 +30,14 @@ export function applyLifecycleBiomass(
   state: LifecycleState,
   gain: number,
   tiers: readonly ScaleTierDefinition[],
+  pressureMode: 'absolute' | 'relative' = 'absolute',
 ): LifecycleState {
   const acceptedGain = finiteNonNegative(gain)
   const tier = tierAt(tiers, state.tierIndex)
-  const tierBiomass = state.tierBiomass + acceptedGain
+  const pressureGain = pressureMode === 'relative'
+    ? acceptedGain * (tierAt(tiers, 0).radiusRange[0] / tier.radiusRange[0]) ** 2
+    : acceptedGain
+  const tierBiomass = state.tierBiomass + pressureGain
   const evolutionPressure = clamp01(tierBiomass / tier.evolutionPressureTarget)
   return {
     ...state,

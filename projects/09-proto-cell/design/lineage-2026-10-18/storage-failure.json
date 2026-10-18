@@ -1,0 +1,6 @@
+{
+  "storage": "Both IndexedDB and localStorage deliberately unavailable in isolated browser context",
+  "explicitSessionWarning": true,
+  "exportContainsOffspring": true,
+  "errors": []
+}

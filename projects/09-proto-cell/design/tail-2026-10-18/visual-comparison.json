@@ -1,0 +1,44 @@
+[
+  {
+    "tag": "combined-before",
+    "captures": [
+      {
+        "frame": 60,
+        "hash": 651410992
+      },
+      {
+        "frame": 90,
+        "hash": 657702356
+      },
+      {
+        "frame": 120,
+        "hash": 3522222558
+      },
+      {
+        "frame": 180,
+        "hash": 1552279151
+      }
+    ]
+  },
+  {
+    "tag": "combined-final",
+    "captures": [
+      {
+        "frame": 60,
+        "hash": 651410992
+      },
+      {
+        "frame": 90,
+        "hash": 657702356
+      },
+      {
+        "frame": 120,
+        "hash": 3522222558
+      },
+      {
+        "frame": 180,
+        "hash": 1552279151
+      }
+    ]
+  }
+]

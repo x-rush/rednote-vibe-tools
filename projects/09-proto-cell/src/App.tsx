@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { createController, type AppController } from './app/controller'
+import { applyEventProgress } from './app/event-progress'
+import { needsImmediateHudRefresh } from './app/hud-refresh'
 import { wrappedModalFocusIndex } from './app/focus'
 import rawContent from './content/content.json'
 import { ContentValidationError, getContent, type ContentPack, type ModifierId, type OriginId } from './content'
@@ -12,7 +14,7 @@ import { Hud } from './ui/Hud'
 import { Archive } from './ui/Archive'
 import { createArchiveViewModelFromSummary, createResultViewModel, createViewModel } from './app/view-model'
 import { createDefaultSave } from './storage/codec'
-import { awardGenes, unlockNode } from './progression/genes'
+import { awardGenes, environmentRewards, unlockNode } from './progression/genes'
 import { applyModifiers, dailySeed } from './progression/challenges'
 import { Lab, type LabPanelId } from './ui/Lab'
 import { GeneGraph } from './ui/GeneGraph'
@@ -26,6 +28,10 @@ import { Settings } from './ui/Settings'
 import { ErrorPanel } from './ui/ErrorPanel'
 import { MigrationOverlay } from './ui/MigrationOverlay'
 import { ResultOverlay } from './ui/ResultOverlay'
+import { SpecimenCanvas } from './ui/SpecimenCanvas'
+import { createRadarInput } from './ui/EcologyRadar'
+import { Nursery } from './ui/Nursery'
+import { createNursery, hatchLineage, leaveSeed, lineageLaunch, retireLineage, selectLineage, type HatchOptions } from './progression/lineage'
 import './App.css'
 
 function App() {
@@ -34,7 +40,7 @@ function App() {
   } catch (error) {
     if (!(error instanceof ContentValidationError)) throw error
     return (
-      <main className="hatchery-shell"><ErrorPanel title={rawContent.ui.screens.contentErrorTitle} description={rawContent.ui.screens.contentErrorDescription} detail={String(error.issues.length)} /></main>
+      <main className="hatchery-shell lab-detail"><ErrorPanel title={rawContent.ui.screens.contentErrorTitle} description={rawContent.ui.screens.contentErrorDescription} detail={String(error.issues.length)} /></main>
     )
   }
 }
@@ -49,7 +55,7 @@ function GameApp({ content }: { content: ContentPack }) {
   const controllerRef = useRef<AppController | null>(null)
   if (controllerRef.current === null) {
     controllerRef.current = createController({
-      createEngine: ({ seed, originId, modifierIds, route, runOrdinal }) => createGameEngine({ seed, originId: originId as `origin-${string}`, environmentId: 'env-clear-drop', modifierIds, route, runOrdinal }),
+      createEngine: ({ seed, originId, modifierIds, route, runOrdinal, inheritedOrganelleIds, lineageArchetypeId }) => createGameEngine({ seed, originId: originId as `origin-${string}`, environmentId: 'env-clear-drop', modifierIds, route, runOrdinal, inheritedOrganelleIds, lineageArchetypeId }),
       nextSeed: (seed) => (seed + 1) >>> 0,
       recordResult: () => undefined,
     })
@@ -62,11 +68,18 @@ function GameApp({ content }: { content: ContentPack }) {
   const unlockedTraitIdsRef = useRef<BuildState['traitIds']>(content.organelles.map((organ) => organ.id))
   const metamorphTimerRef = useRef<number | undefined>(undefined)
   const [mutationChoices, setMutationChoices] = useState<EvolutionOffer[]>([])
+  const [formTransition, setFormTransition] = useState<Extract<GameEvent, { type: 'form-transition-ready' }>>()
+  const formTransitionRef = useRef<Extract<GameEvent, { type: 'form-transition-ready' }> | undefined>(undefined)
   const [metamorphosis, setMetamorphosis] = useState<{ bodyStage: BuildState['bodyStage']; route: EvolutionOffer['route'] }>()
   const [migrationRoutes, setMigrationRoutes] = useState<ContentPack['journey']['stages'][number]['routeOffers']>([])
   const [save, setSave] = useState(createDefaultSave)
   const [hasArchive, setHasArchive] = useState(false)
   const [selectedOriginId, setSelectedOriginId] = useState<OriginId>('origin-primal-cell')
+  const runLineageRef = useRef<string | undefined>(undefined)
+  const runRecipeRef = useRef<string | undefined>(undefined)
+  const runResultRecordedRef = useRef(false)
+  const nursery = save.nursery ?? createNursery()
+  const selectedLineage = nursery.lineages.find((lineage) => lineage.id === nursery.selectedLineageId)
   const [activeModifierIds, setActiveModifierIds] = useState<ModifierId[]>([])
   const [labPanel, setLabPanel] = useState<LabPanelId | null>(null)
   const [lastArchive, setLastArchive] = useState<ReturnType<typeof createViewModel>['archive']>()
@@ -76,7 +89,7 @@ function GameApp({ content }: { content: ContentPack }) {
   const [canvasFailure, setCanvasFailure] = useState<CanvasFailure>()
   const [canvasGeneration, setCanvasGeneration] = useState(0)
   const canvasAutoRetryUsedRef = useRef(false)
-  const sync = useCallback(() => setView(controller.snapshot()), [controller])
+  const sync = useCallback(() => setView(controller.snapshot({ includeEventLog: 'result' })), [controller])
   const handleCanvasError = useCallback((failure: CanvasFailure) => {
     if (!canvasAutoRetryUsedRef.current) {
       canvasAutoRetryUsedRef.current = true
@@ -146,7 +159,7 @@ function GameApp({ content }: { content: ContentPack }) {
     const timer = window.setInterval(() => {
       const snapshot = controller.engine()?.renderSnapshot()
       const playerBodies = snapshot?.entities.filter((entity) => entity.faction === 'player') ?? []
-      const sightRadius = 260 * (snapshot?.environmentField.visibility ?? 1)
+      const sightRadius = snapshot?.territory?.sightRadius ?? 260 * (snapshot?.environmentField.visibility ?? 1)
       const knownCodexIds = new Set<string>([...content.nutrients, ...content.creatures].map((item) => item.id))
       const observed = snapshot?.entities.flatMap((entity) => {
         const id = 'definitionId' in entity ? String(entity.definitionId) : ''
@@ -174,33 +187,23 @@ function GameApp({ content }: { content: ContentPack }) {
   }, [controller, sync])
 
   const handleEvents = useCallback((events: readonly GameEvent[]) => {
+    const transition = events.find((event): event is Extract<GameEvent, { type: 'form-transition-ready' }> => event.type === 'form-transition-ready')
+    if (transition) {
+      controller.engine()?.pause('evolution')
+      formTransitionRef.current = transition
+      setFormTransition(transition)
+    }
     const offeredMigration = events.find((event): event is Extract<GameEvent, { type: 'migration-ready' }> => event.type === 'migration-ready')
     if (offeredMigration) setMigrationRoutes(offeredMigration.routes.map((route) => ({ ...route })))
     if (events.some((event) => event.type === 'route-selected')) setMigrationRoutes([])
     events.forEach((event) => audioRef.current?.handle(event))
-    events.forEach((event) => controller.handle(event))
-    setSave((current) => {
-      let codex = current.codex
-      const completedIds: string[] = []
-      const knownCodexIds = new Set<string>([...content.nutrients, ...content.creatures, ...content.events, ...content.bosses].map((item) => item.id))
-      const advance = (id: Parameters<typeof advanceCodex>[1], state: 'seen' | 'defeated-by' | 'complete') => {
-        if (!knownCodexIds.has(id)) return
-        if (state === 'complete' && codex[id] !== 'complete') completedIds.push(id)
-        codex = advanceCodex(codex, id, state)
-      }
-      for (const event of events) {
-        if (event.type === 'event-phase') advance(event.eventId, event.phase === 'expired' ? 'complete' : 'seen')
-        if (event.type === 'boss-resolved') advance(event.bossId, 'complete')
-        if (event.type === 'engulfed' && event.predatorId.startsWith('player') && event.preyDefinitionId) advance(event.preyDefinitionId as Parameters<typeof advanceCodex>[1], 'complete')
-        if (event.type === 'engulfed' && event.preyId.startsWith('player') && event.predatorDefinitionId) advance(event.predatorDefinitionId as Parameters<typeof advanceCodex>[1], 'defeated-by')
-        if (event.type === 'player-died' && event.defeatedByDefinitionId) advance(event.defeatedByDefinitionId as Parameters<typeof advanceCodex>[1], 'defeated-by')
-      }
-      const { awarded: _awarded, ...progression } = awardGenes(current.progression, completedIds.map((id) => ({ kind: 'codex-complete', id, first: (current.progression.rewardCounts[`codex-complete:${id}`] ?? 0) === 0 })))
-      return { ...current, codex, progression }
-    })
-    if (events.some((event) => event.type === 'player-died' || event.type === 'ending-reached')) {
+    controller.handleMany(events)
+    setSave((current) => applyEventProgress(current, events, content))
+    if (events.some((event) => event.type === 'player-died' || event.type === 'ending-reached') && !runResultRecordedRef.current) {
+      runResultRecordedRef.current = true
       setHasArchive(true)
-      const completedArchive = createViewModel(controller.snapshot(), content).archive
+      const derivedArchive = createViewModel(controller.snapshot(), content).archive
+      const completedArchive = derivedArchive ? { ...derivedArchive, finalVisualRecipeId: playerRecipe(controller) ?? runRecipeRef.current } : undefined
       setLastArchive(completedArchive)
       setSave((current) => {
         const successful = events.some((event) => event.type === 'ending-reached')
@@ -208,8 +211,7 @@ function GameApp({ content }: { content: ContentPack }) {
         const rewardCount = (kind: string, id: string) => current.progression.rewardCounts[`${kind}:${id}`] ?? 0
         const rewardFact = <T extends 'environment' | 'boss-path' | 'modifier' | 'ending'>(kind: T, id: string) => ({ kind, id, first: rewardCount(kind, id) === 0, repeats: rewardCount(kind, id) })
         const modifierRewards = successful ? activeModifierIds.map((id) => rewardFact('modifier', id)) : []
-        const visitedEnvironments = ['env-clear-drop', ...controller.snapshot().eventLog.flatMap((entry) => entry.event.type === 'route-selected' ? [entry.event.environmentId] : [])]
-        const routeRewards = [...new Set(visitedEnvironments)].map((id) => rewardFact('environment', id))
+        const routeRewards = environmentRewards(current.progression, completedArchive?.ecosystemIds ?? ['env-clear-drop'])
         const bossRewards = controller.snapshot().eventLog.flatMap((entry) => entry.event.type === 'boss-resolved' ? [rewardFact('boss-path', `${entry.event.bossId}:${entry.event.path}`)] : [])
         const outcomeId = controller.snapshot().cause ?? 'run'
         const outcomeRewards = successful ? [rewardFact('ending', outcomeId)] : []
@@ -228,15 +230,20 @@ function GameApp({ content }: { content: ContentPack }) {
           finalBodyStage: completedArchive.finalBodyStage,
           buildRouteCounts: completedArchive.buildRouteCounts,
           journeyStageIndex: completedArchive.journeyStageIndex,
+          finalFormId: completedArchive.finalFormId,
+          finalTierIndex: completedArchive.finalTierIndex,
+          ecosystemIds: completedArchive.ecosystemIds,
+          finalVisualRecipeId: completedArchive.finalVisualRecipeId,
         } : undefined
         return {
           ...current,
           progression: { ...progression, completedModifierIds: successful ? [...new Set([...progression.completedModifierIds, ...activeModifierIds])] : progression.completedModifierIds },
           lifeArchives: archive ? [...current.lifeArchives, archive].slice(-30) : current.lifeArchives,
+          nursery: archive ? leaveSeed(current.nursery ?? createNursery(), archive, Math.max(current.nursery?.completedRuns ?? 0, current.lifeArchives.length) + 1, runLineageRef.current) : current.nursery,
         }
       })
     }
-    const canEvolve = !['lab', 'result'].includes(controller.snapshot().screen)
+    const canEvolve = !['lab', 'result'].includes(controller.snapshot({ includeEventLog: false }).screen)
       && mutationChoicesRef.current.length === 0
       && events.some((event) => event.type === 'mutation-ready')
     if (canEvolve) {
@@ -248,7 +255,7 @@ function GameApp({ content }: { content: ContentPack }) {
         .slice(stageIndex + 1)
         .flatMap((stage) => stage.routeOffers.map((route) => route.destinationEnvironmentId))
       const choices = offerEvolution(buildStateRef.current, {
-        seed: controller.snapshot().seed ?? 727,
+        seed: controller.snapshot({ includeEventLog: false }).seed ?? 727,
         environmentId,
         stageIndex,
         remainingEnvironmentIds,
@@ -262,7 +269,7 @@ function GameApp({ content }: { content: ContentPack }) {
         setMutationChoices(choices)
       }
     }
-    sync()
+    if (needsImmediateHudRefresh(events)) sync()
   }, [activeModifierIds, content, controller, sync])
 
   const confirmMutation = useCallback((choice: EvolutionOffer) => {
@@ -287,10 +294,9 @@ function GameApp({ content }: { content: ContentPack }) {
     })
     mutationChoicesRef.current = []
     setMutationChoices([])
-    setMigrationRoutes([])
     if (metamorphTimerRef.current !== undefined) window.clearTimeout(metamorphTimerRef.current)
     metamorphTimerRef.current = window.setTimeout(() => {
-      controller.engine()?.resume('evolution')
+      if (!formTransitionRef.current) controller.engine()?.resume('evolution')
       setMetamorphosis(undefined)
       metamorphTimerRef.current = undefined
     }, save.settings.reducedMotion ? 180 : 900)
@@ -298,36 +304,63 @@ function GameApp({ content }: { content: ContentPack }) {
   }, [controller, save.settings.reducedMotion, sync])
 
   const resetMutationRun = useCallback(() => {
+    runResultRecordedRef.current = false
     const geneLockedOrgans = new Set(content.geneNodes.flatMap((node) => node.unlockIds.filter((id) => id.startsWith('organelle-'))))
     const availableOrgans = content.organelles.filter((organ) => !geneLockedOrgans.has(organ.id) || save.progression.unlockedIds.includes(organ.id)).map((organ) => organ.id)
     const origin = content.origins.find((candidate) => candidate.id === selectedOriginId)
-    const initialTraitIds = origin?.initialOrganelleIds.filter((id) => availableOrgans.includes(id)) ?? []
+    const initialTraitIds = selectedLineage ? lineageLaunch(selectedLineage).inheritedOrganelleIds : origin?.initialOrganelleIds.filter((id) => availableOrgans.includes(id)) ?? []
     const routeCounts = initialTraitIds.reduce<BuildState['routeCounts']>((counts, id) => {
       const route = content.organelles.find((organ) => organ.id === id)?.evolutionRoute
       if (route) counts[route] += 1
       return counts
     }, { predation: 0, survival: 0, colony: 0 })
     buildStateRef.current = createBuildState({ traitIds: initialTraitIds, routeCounts })
-    unlockedTraitIdsRef.current = availableOrgans
+    unlockedTraitIdsRef.current = [...new Set([...availableOrgans, ...initialTraitIds])]
     recentTraitIdsRef.current = []
     setMetamorphosis(undefined)
+    formTransitionRef.current = undefined
+    setFormTransition(undefined)
+    setMigrationRoutes([])
     mutationChoicesRef.current = []
     setMutationChoices([])
     if (metamorphTimerRef.current !== undefined) window.clearTimeout(metamorphTimerRef.current)
-  }, [content, save.progression.unlockedIds, selectedOriginId])
+  }, [content, save.progression.unlockedIds, selectedOriginId, selectedLineage])
+
+  const startSelectedRun = (seed: number, route?: readonly `env-${string}`[]) => {
+    void audioRef.current?.unlock()
+    resetMutationRun()
+    runLineageRef.current = selectedLineage?.id
+    const launch = selectedLineage ? lineageLaunch(selectedLineage) : { originId: selectedOriginId }
+    controller.startRun({ seed, ...launch, modifierIds: activeModifierIds, route, runOrdinal: nursery.completedRuns ?? save.lifeArchives.length })
+    runRecipeRef.current = playerRecipe(controller)
+    buildStateRef.current = controller.engine()?.renderSnapshot().playerBuild ?? buildStateRef.current
+    sync()
+  }
+
+  const hatchOffspring = (options: HatchOptions) => {
+    // Validate before scheduling a React updater so failures remain in the dialog.
+    const next = hatchLineage(nursery, options, nursery.completedRuns ?? save.lifeArchives.length)
+    const born = next.lineages.at(-1)!
+    setSave((current) => {
+      const hatched = hatchLineage(current.nursery ?? createNursery(), options, current.nursery?.completedRuns ?? current.lifeArchives.length)
+      return { ...current, nursery: selectLineage(hatched, born.id) }
+    })
+  }
 
   const engine = controller.engine()
+  const liveVisualRecipeId = playerRecipe(controller) ?? runRecipeRef.current
   const resultModel = view.screen === 'result' && view.hud ? createResultViewModel({
     events: view.eventLog.map((entry) => entry.event),
     finalBuild: buildStateRef.current,
     journeyStageIndex: Math.max(0, view.hud.journeyIndex - 1),
-    environmentIds: [...new Set(view.eventLog.flatMap((entry) => entry.event.type === 'route-selected' ? [entry.event.environmentId] : []))] as ContentPack['environments'][number]['id'][],
+    environmentIds: [...new Set(view.eventLog.flatMap((entry) => entry.snapshot ? [entry.snapshot.environmentId] : []))] as ContentPack['environments'][number]['id'][],
     engulfScore: view.hud.engulfScore,
     survivalMs: view.hud.elapsedMs,
     seed: view.seed ?? 0,
+    formId: view.hud.formId,
   }, content) : undefined
   if (!saveReady) return <main className="hatchery-shell"><section className="hatchery-card" aria-live="polite"><p className="hatchery-region">{content.ui.labels.lab}</p><h1>{content.ui.screens.loadingSave}</h1></section></main>
-  if (canvasFailure) return <main className="hatchery-shell"><ErrorPanel
+  if (canvasFailure) return <main className="hatchery-shell lab-detail"><ErrorPanel
     title={content.ui.screens.canvasErrorTitle}
     description={content.ui.screens.canvasErrorDescription}
     detail={`${canvasFailure.phase}: ${canvasFailure.message}`}
@@ -348,11 +381,12 @@ function GameApp({ content }: { content: ContentPack }) {
   if (view.screen !== 'lab' && engine) {
     return (
       <main className="game-shell">
-        <div className="game-stage" inert={mutationChoices.length > 0} aria-hidden={mutationChoices.length > 0 || undefined}>
+        <div className="game-stage" inert={mutationChoices.length > 0 || !!formTransition} aria-hidden={mutationChoices.length > 0 || !!formTransition || undefined}>
           <GameCanvas key={canvasGeneration} engine={engine} label={content.ui.labels.gameCanvas} settings={save.settings} onEvents={handleEvents} onCanvasError={handleCanvasError} />
           {view.hud && view.screen !== 'result' && (
             <Hud
               snapshot={view.hud}
+              radar={createRadarInput(engine.renderSnapshot())}
               onPause={() => {
                 controller.pause('user')
                 sync()
@@ -370,7 +404,7 @@ function GameApp({ content }: { content: ContentPack }) {
           )}
           {metamorphosis && (
             <div className={`metamorphosis metamorphosis--${metamorphosis.route}`} role="status" aria-live="polite">
-              <span data-stage={metamorphosis.bodyStage} aria-hidden="true"><i /><b /><em /></span>
+              <SpecimenCanvas build={buildStateRef.current} formId={engine.snapshot().formId} size={176} />
               <strong>{content.ui.labels.metamorphosisComplete}</strong>
               <small>{content.ui.labels[`bodyStage${metamorphosis.bodyStage[0].toUpperCase()}${metamorphosis.bodyStage.slice(1)}`]}</small>
             </div>
@@ -409,6 +443,8 @@ function GameApp({ content }: { content: ContentPack }) {
           {view.screen === 'result' && resultModel && (
             <ResultOverlay
               model={resultModel}
+              visualRecipeId={liveVisualRecipeId}
+              onBreed={() => { controller.returnToLab(); setLabPanel('nursery'); sync() }}
               restartButtonRef={modalButtonRef}
               onKeyDown={trapModalFocus}
               onRestart={() => {
@@ -423,27 +459,39 @@ function GameApp({ content }: { content: ContentPack }) {
               }}
               onReplaySeed={() => {
                 const seed = view.seed ?? 727
-                resetMutationRun()
-                controller.startRun({ seed, originId: selectedOriginId, modifierIds: activeModifierIds, runOrdinal: save.lifeArchives.length })
-                sync()
+                startSelectedRun(seed)
               }}
             />
           )}
         </div>
-        {mutationChoices.length > 0 && <EvolutionOverlay choices={mutationChoices} currentBuild={buildStateRef.current} onConfirm={confirmMutation} />}
+        {mutationChoices.length > 0 && <EvolutionOverlay choices={mutationChoices} currentBuild={buildStateRef.current} formId={engine.snapshot().formId} visualRecipeId={liveVisualRecipeId} onConfirm={confirmMutation} />}
+        {formTransition && mutationChoices.length === 0 && <section className="form-transition-overlay" data-reduced-motion={save.settings.reducedMotion || undefined} data-reduced-flash={save.settings.reducedFlash || undefined} role="dialog" aria-modal="true" aria-labelledby="form-transition-title" onKeyDown={trapModalFocus}>
+          <p className="hatchery-region">{content.ui.labels.evolutionLeap}</p>
+          <h2 id="form-transition-title">{content.ui.labels.evolutionLeapDescription}</h2>
+          <div className="form-transition-specimens"><SpecimenCanvas build={buildStateRef.current} formId={formTransition.fromFormId} visualRecipeId={liveVisualRecipeId} size={128} /><b aria-hidden="true">→</b><SpecimenCanvas build={buildStateRef.current} formId={formTransition.toFormId} visualRecipeId={liveVisualRecipeId} size={176} /></div>
+          <strong>{content.ui.labels.nextEcology} · {content.scaleTiers.find((tier) => tier.formId === formTransition.toFormId)?.name}</strong>
+          <p className="form-transition-world">{content.ui.hud.evolutionWorld}</p>
+          <button autoFocus className="hatchery-start" type="button" onClick={() => { formTransitionRef.current = undefined; setFormTransition(undefined); engine.advanceForm(); engine.resume('evolution'); sync() }}>{content.ui.actions.confirmFormTransition}</button>
+        </section>}
       </main>
     )
   }
 
+  if (labPanel === 'nursery') return <Nursery content={content} nursery={nursery} reducedMotion={save.settings.reducedMotion} storageMode={storageMode} onHatch={hatchOffspring} onSelect={(id) => setSave((current) => ({ ...current, nursery: selectLineage(current.nursery ?? createNursery(), id) }))} onRetire={(id) => setSave((current) => ({ ...current, nursery: retireLineage(current.nursery ?? createNursery(), id) }))} onClose={() => setLabPanel(null)} />
   if (labPanel === 'gene') return <main className="hatchery-shell lab-detail"><GeneGraph content={content} progress={save.progression} onUnlock={(id) => setSave((current) => ({ ...current, progression: unlockNode(current.progression, id) }))} /><button className="game-overlay__secondary" type="button" onClick={() => setLabPanel(null)}>{content.ui.actions.backToLab}</button></main>
   if (labPanel === 'codex') return <main className="hatchery-shell lab-detail"><Codex content={content} progress={save.codex} onClose={() => setLabPanel(null)} /></main>
-  if (labPanel === 'archive' && lastArchive) return <main className="game-shell"><Archive model={lastArchive} restartButtonRef={modalButtonRef} onRestart={() => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds, runOrdinal: save.lifeArchives.length }); setLabPanel(null); sync() }} onLab={() => setLabPanel(null)} labLabel={content.ui.actions.backToLab} onKeyDown={trapModalFocus} /></main>
+  if (labPanel === 'archive' && lastArchive) return <main className="game-shell"><Archive model={lastArchive} restartButtonRef={modalButtonRef} onRestart={() => { startSelectedRun(Date.now() >>> 0); setLabPanel(null) }} onLab={() => setLabPanel(null)} labLabel={content.ui.actions.backToLab} onKeyDown={trapModalFocus} /></main>
   if (labPanel === 'settings') {
     const recoveryPayload = repository.recoveryPayload()
     return <main className="hatchery-shell lab-detail"><Settings content={content} settings={save.settings} storageMode={storageMode} storageIssues={storageIssues} onChange={(settings) => setSave((current) => ({ ...current, settings }))} onExport={() => repository.exportJson()} onExportRecovery={recoveryPayload === undefined ? undefined : async () => JSON.stringify(recoveryPayload, null, 2)} onImport={async (raw) => { const result = await repository.importJson(raw); setStorageMode(result.mode); setStorageIssues(result.issues); if (result.issues.length === 0) { setSave(result.value); setHasArchive(result.value.lifeArchives.length > 0); const latest = result.value.lifeArchives.at(-1); setLastArchive(latest ? createArchiveViewModelFromSummary(latest, content) : undefined); const unlockedOrigin = content.origins.find((origin) => result.value.progression.unlockedIds.includes(origin.id)); setSelectedOriginId(unlockedOrigin?.id ?? 'origin-primal-cell'); setActiveModifierIds([]) } return { ok: result.issues.length === 0, issues: result.issues } }} onClear={async () => { await repository.clear(); const cleared = createDefaultSave(); setSave(cleared); setHasArchive(false); setLastArchive(undefined); setActiveModifierIds([]); setSelectedOriginId('origin-primal-cell'); controller.returnToLab(); sync() }} onClose={() => setLabPanel(null)} /></main>
   }
 
-  return <Lab content={content} save={save} hasArchive={hasArchive} selectedOriginId={selectedOriginId} activeModifierIds={activeModifierIds} dailyRunSeed={dailySeed(new Date(), content.contentVersion)} storageWarning={storageMode === 'session' || storageIssues.length > 0} onSelectOrigin={setSelectedOriginId} onToggleModifier={(id) => setActiveModifierIds((current) => applyModifiers(current.includes(id) ? current.filter((item) => item !== id) : [...current, id], { baseTelegraphLeadMs: 1400 }).activeIds)} onOpen={setLabPanel} onStart={(seed, route) => { void audioRef.current?.unlock(); resetMutationRun(); controller.startRun({ seed: seed ?? Date.now() >>> 0, originId: selectedOriginId, modifierIds: activeModifierIds, route, runOrdinal: save.lifeArchives.length }); sync() }} />
+  return <Lab content={content} save={save} hasArchive={hasArchive} selectedOriginId={selectedOriginId} activeModifierIds={activeModifierIds} dailyRunSeed={dailySeed(new Date(), content.contentVersion)} storageWarning={storageMode === 'session' || storageIssues.length > 0} onSelectOrigin={(id) => { setSelectedOriginId(id); setSave((current) => ({ ...current, nursery: selectLineage(current.nursery ?? createNursery()) })) }} onToggleModifier={(id) => setActiveModifierIds((current) => applyModifiers(current.includes(id) ? current.filter((item) => item !== id) : [...current, id], { baseTelegraphLeadMs: 1400 }).activeIds)} onOpen={setLabPanel} onStart={(seed, route) => startSelectedRun(seed ?? Date.now() >>> 0, route)} />
+}
+
+function playerRecipe(controller: AppController): string | undefined {
+  const entity = controller.engine()?.renderSnapshot().entities.find((body) => body.faction === 'player')
+  return entity && 'visualRecipeId' in entity ? String(entity.visualRecipeId) : undefined
 }
 
 function trapModalFocus(event: KeyboardEvent<HTMLElement>): void {

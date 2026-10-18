@@ -1,0 +1,212 @@
+[
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 346
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 329
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 329,
+    "after": 0
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 1101
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1208,
+    "after": 302
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 227,
+    "after": 1208
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1208,
+    "after": 241
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 188,
+    "after": 1208
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1208,
+    "after": 305
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 261,
+    "after": 1208
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1208,
+    "after": 39
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 1110
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": -1,
+    "before": 1208,
+    "after": 277
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 967
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 1031,
+    "after": 2518
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 2728,
+    "after": 3010
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 329
+  },
+  {
+    "root": ".lab-shell",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 329
+  },
+  {
+    "root": ".archive-panel",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 356
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 324
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": -1,
+    "before": 324,
+    "after": 0
+  },
+  {
+    "root": ".evolution-choices",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 324
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 29
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": -1,
+    "before": 29,
+    "after": 0
+  },
+  {
+    "root": ".result-overlay",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 81
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 346
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 346,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 521
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": -1,
+    "before": 521,
+    "after": 0
+  },
+  {
+    "root": ".lab-detail",
+    "mode": "touch",
+    "direction": 1,
+    "before": 0,
+    "after": 659
+  }
+]

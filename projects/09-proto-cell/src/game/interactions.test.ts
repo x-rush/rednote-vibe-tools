@@ -3,6 +3,14 @@ import { entity, testInteractionContext } from '../tests/fixtures'
 import { resolveInteraction, type GameEvent } from './interactions'
 
 describe('entity interactions', () => {
+  it('keeps armored prey alive without preventing it from swallowing a weaker player', () => {
+    const armor = entity('giant', 147)
+    const adult = entity('adult', 220)
+    const context = { ...testInteractionContext(), protectedPreyId: armor.id }
+    expect(resolveInteraction(adult, armor, context).events).toEqual([])
+    expect(resolveInteraction(armor, entity('young', 30), context).events).toContainEqual(expect.objectContaining({ type: 'engulfed', preyId: 'young' }))
+    expect(resolveInteraction(adult, armor, testInteractionContext()).events).toContainEqual(expect.objectContaining({ type: 'engulfed', preyId: 'giant' }))
+  })
   it('keeps migration events structured for deterministic replay', () => {
     const event: GameEvent = {
       type: 'route-selected',

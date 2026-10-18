@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Late anatomy rendering fixture — not gameplay</title>
+<style>body{margin:0;background:#061329;color:#d7faff;font:15px system-ui}h1,p{margin:14px 24px}canvas{display:block;max-width:100%;height:auto}p{color:#9eb5ca}</style>
+<h1>晚期形态与生态标本</h1><p>绘制夹具 / 非实际游戏画面。左：群体；右：纤毛。包含七个器官。下方为新生态四物种与终极巨噬兽。</p>
+<canvas width="1160" height="1050"></canvas>
+<script type="module">
+import { drawCell } from '/src/rendering/cell.ts'
+import { createEntity } from '/src/entities/factory.ts'
+import { createBuildState } from '/src/evolution/build.ts'
+const context = document.querySelector('canvas').getContext('2d')
+const organs = ['organelle-flagellum','organelle-jet-vacuole','organelle-shell-plate','organelle-eye-spot','organelle-wide-mouth','organelle-mucus-coat','organelle-electric-sac']
+const make = (id,role,recipe=id,radius=70) => createEntity({id,role,faction:role==='player'?'player':role==='prey'||role==='competitor'?'neutral':'hostile',radius,mass:radius*radius,membrane:100,energy:100,maxSpeed:30,visualRecipeId:`visual-${recipe}`},{id:`specimen-${id}`,position:{x:0,y:0},velocity:{x:1,y:0}})
+const label=(text,x,y)=>{context.fillStyle='#c9e8f7';context.font='17px system-ui';context.textAlign='center';context.fillText(text,x,y)}
+for(let row=0;row<3;row++) {
+  const family=['dart','bastion','bloom'][row]
+  for(let column=0;column<2;column++) {
+    const x=290+column*580,y=115+row*210
+    drawCell(context,make('player','player',`lineage-${family}`),x,y,81,800,{formId:column?'form-ciliate-composite':'form-colony-body',build:createBuildState({traitIds:organs}),quality:'balanced'})
+    label(`${family} · ${column?'纤毛复合体':'三腔群体'}`,x,y+95)
+  }
+}
+const late=[['creature-thornback-forager','competitor','甲棘觅食者'],['predator-seam-lurker','predator','缝隙伏猎者'],['creature-lantern-siphon','prey','灯囊游群'],['predator-razor-ray','predator','刃鳍猎手']]
+late.forEach(([id,role,title],index)=>{const x=145+index*290;drawCell(context,make(id,role,id),x,730,69,800,{quality:'balanced'});label(title,x,820)})
+for(let index=0;index<2;index++) {
+  const entity=make('predator-chamber-maw','boss','predator-chamber-maw',index?105:147)
+  entity.behaviorState=index?'recover':'cruise'
+  drawCell(context,entity,310+index*540,920,index?76:106,800,{quality:'balanced'})
+  label(index?'巨噬兽 · 核心暴露':'巨噬兽 · 琥珀重甲',310+index*540,1040)
+}
+</script>

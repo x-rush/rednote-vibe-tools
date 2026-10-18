@@ -1,0 +1,5465 @@
+{
+  "policy": "normal production App, fixed-step time acceleration, directional input API steering, actual UI mutation selections; no stats/entity edits",
+  "transition": true,
+  "leaps": 2,
+  "choices": 6,
+  "last": {
+    "membrane": 208,
+    "energy": 148,
+    "stability": 84,
+    "biomass": 134009,
+    "peakBiomass": 134009,
+    "evolutionThreshold": 4853,
+    "elapsedMs": 696483.3333331766,
+    "environmentId": "env-abandoned-chamber",
+    "paused": true,
+    "engulfScore": 133865,
+    "journeyIndex": 3,
+    "journeyTotal": 3,
+    "bodyStage": "specialist",
+    "bodyStageProgress": 1,
+    "formId": "form-ciliate-composite",
+    "tierIndex": 2,
+    "tierProgress": 1,
+    "membraneRatio": 1,
+    "ecosystem": {
+      "tierIndex": 2,
+      "name": "纤毛深域",
+      "objective": "连续追猎，吞噬舱壁噬体",
+      "pressure": 1,
+      "activeBiomass": 72501,
+      "activeBiomassTarget": 7000,
+      "encounterName": "舱壁噬体",
+      "encounterHint": "避开领地冲撞，成长到足够尺寸后完整包裹。",
+      "encounterResolved": true,
+      "readyToEvolve": true,
+      "reversalCount": 8,
+      "mutationsCompleted": 2,
+      "mutationTarget": 2
+    }
+  },
+  "errors": [],
+  "events": [
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-8",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 1,
+      "atMs": 849.9999999999994
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-7",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 2,
+      "atMs": 916.666666666666
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-6",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 3,
+      "atMs": 949.9999999999992
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-5",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 4,
+      "atMs": 1033.3333333333323
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-4",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 5,
+      "atMs": 1149.9999999999995
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-3",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 6,
+      "atMs": 1216.6666666666665
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-2",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 7,
+      "atMs": 1283.3333333333335
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-1",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 8,
+      "atMs": 1366.6666666666672
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-0-0",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 9,
+      "chain": 9,
+      "atMs": 1416.6666666666674
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-0",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 4516.66666666666
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-113",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 7300.000000000044
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-15",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 9400.000000000016
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-6",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 12883.333333333223
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-91",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 14366.666666666502
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-clear-drop",
+      "atMs": 14983.333333333147
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-55",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 15099.999999999809
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-40",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 15616.666666666457
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-4",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 16466.666666666435
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-129",
+      "preyId": "env-clear-drop-727-69",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 17499.999999999844
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-66",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 19966.66666666669
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-68",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 20566.666666666733
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-129",
+      "preyId": "env-clear-drop-727-30",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 21633.333333333478
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-64",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 21733.333333333485
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-7",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 22050.000000000175
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-134",
+      "preyId": "env-clear-drop-727-75",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 22633.33333333355
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-53",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 5,
+      "atMs": 23083.333333333583
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-134",
+      "preyId": "env-clear-drop-727-72",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 23100.00000000025
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-129",
+      "preyId": "env-clear-drop-727-49",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 23133.333333333587
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-134",
+      "preyId": "env-clear-drop-727-34",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 23666.66666666696
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-129",
+      "preyId": "env-clear-drop-727-47",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 24000.000000000317
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-71",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 26466.666666667163
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-129",
+      "preyId": "env-clear-drop-727-78",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 26716.66666666718
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-22",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 26783.333333333852
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-99",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 28700.00000000066
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-82",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 31183.333333334172
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-38",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 31350.00000000085
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-clear-drop",
+      "atMs": 31933.333333334227
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-3",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 32516.666666667603
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-2",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 33433.333333334194
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-108",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 35016.6666666673
+    },
+    {
+      "type": "mutation-ready",
+      "entityId": "player",
+      "atMs": 35016.6666666673
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-25",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 36716.66666666705
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-121",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 39833.33333333326
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-10",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 40816.66666666645
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-16",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 41333.333333333045
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-29",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 42683.33333333285
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-116",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 5,
+      "atMs": 43766.666666666024
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-clear-drop",
+      "atMs": 45316.6666666658
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-14",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 45633.33333333242
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-7",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 46316.66666666565
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-8",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 46399.999999998974
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-6",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 46649.99999999894
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-9",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 5,
+      "atMs": 46999.99999999889
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-10",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 6,
+      "atMs": 47133.3333333322
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-11",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 7,
+      "atMs": 47316.66666666551
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-12",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 8,
+      "atMs": 47533.33333333214
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-21",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 9,
+      "atMs": 48633.33333333198
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-56",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 50249.999999998414
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-111",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 2,
+      "atMs": 51499.99999999823
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-65",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 51816.66666666485
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-8",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 52133.33333333147
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-109",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 53766.66666666457
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-12",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 53949.999999997875
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-61",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 54999.99999999772
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-11",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 55466.66666666432
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-110",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 57633.33333333067
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-144",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-azure-ring",
+      "biomass": 380,
+      "chain": 1,
+      "atMs": 59299.9999999971
+    },
+    {
+      "type": "mutation-ready",
+      "entityId": "player",
+      "atMs": 59299.9999999971
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-39",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 60333.33333333028
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-clear-drop",
+      "atMs": 61149.99999999683
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-118",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 61949.99999999671
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-clear-drop-16",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 68,
+      "chain": 2,
+      "atMs": 62999.99999999656
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-clear-drop-15",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 68,
+      "chain": 3,
+      "atMs": 63649.999999996464
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-competitor-env-clear-drop-17",
+      "preyId": "env-clear-drop-727-31",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 65166.66666666291
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-clear-drop-13",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 68,
+      "chain": 1,
+      "atMs": 65266.666666662895
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-18",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 66116.66666666302
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-19",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 66199.99999999638
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-20",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 66266.66666666306
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-21",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 5,
+      "atMs": 66416.6666666631
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-22",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 6,
+      "atMs": 66499.99999999646
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-23",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 7,
+      "atMs": 66616.66666666316
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-138",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-vesicle-scavenger",
+      "biomass": 92,
+      "chain": 8,
+      "atMs": 67816.66666666351
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-clear-drop-17",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 71,
+      "chain": 1,
+      "atMs": 70716.66666666436
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-29",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 71199.99999999783
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-28",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 71283.33333333119
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-27",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 4,
+      "atMs": 71383.33333333122
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-25",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 6,
+      "atMs": 71583.33333333128
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-clear-drop-24",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 7,
+      "atMs": 71683.3333333313
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-19",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 73283.33333333177
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-clear-drop",
+      "atMs": 73733.3333333319
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-36",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 2,
+      "atMs": 74466.66666666545
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-28",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 3,
+      "atMs": 75433.3333333324
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-125",
+      "preyId": "env-clear-drop-727-41",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 78383.33333333326
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "encounter-0",
+      "preyId": "env-clear-drop-727-98",
+      "predatorDefinitionId": "predator-azure-ring",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 78850.00000000006
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-clear-drop-727-103",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-drifter",
+      "biomass": 30,
+      "chain": 1,
+      "atMs": 79433.33333333356
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "env-clear-drop-727-133",
+      "preyId": "env-clear-drop-727-90",
+      "predatorDefinitionId": "creature-spark-swarm",
+      "preyDefinitionId": "nutrient-sugar",
+      "biomass": 3,
+      "chain": 1,
+      "atMs": 79566.66666666693
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "encounter-0",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-azure-ring",
+      "biomass": 514,
+      "chain": 1,
+      "atMs": 82900.00000000124
+    },
+    {
+      "type": "form-transition-ready",
+      "fromFormId": "form-primal-cell",
+      "toFormId": "form-colony-body",
+      "atMs": 82900.00000000124
+    },
+    {
+      "type": "tier-encounter-resolved",
+      "tierIndex": 0,
+      "encounterId": "encounter-primal-shadow",
+      "atMs": 82916.66666666791
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-1-3",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 84133.33333333493
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-1-2",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 84183.33333333494
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-1-1",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 84250.00000000163
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-1-4",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 84250.00000000163
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "carryover-1-predator-azure-ring",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-azure-ring",
+      "biomass": 484,
+      "chain": 5,
+      "atMs": 85300.00000000194
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "carryover-1-predator-membrane-warden",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-membrane-warden",
+      "biomass": 812,
+      "chain": 1,
+      "atMs": 88983.33333333634
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-47",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 90416.66666667009
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-46",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 90483.33333333678
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-45",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 90733.33333333685
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-44",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 90816.66666667021
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-43",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 90916.66666667024
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-42",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 91083.33333333695
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-1-6",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 93000.00000000418
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-1-5",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 93050.00000000419
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 97533.33333333883
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-35",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 113133.33333334337
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-34",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 113200.00000001006
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-33",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 113283.33333334341
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-38",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-thread-grazer",
+      "biomass": 361,
+      "chain": 6,
+      "atMs": 114300.00000001038
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 114466.66666667709
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-36",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-thread-grazer",
+      "biomass": 361,
+      "chain": 7,
+      "atMs": 114500.00000001043
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-37",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-thread-grazer",
+      "biomass": 361,
+      "chain": 8,
+      "atMs": 115400.0000000107
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-39",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 9,
+      "atMs": 116650.00000001106
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-40",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 10,
+      "atMs": 116666.66666667773
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-4",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-thread-grazer",
+      "biomass": 361,
+      "chain": 11,
+      "atMs": 117666.66666667802
+    },
+    {
+      "type": "mutation-ready",
+      "entityId": "player",
+      "atMs": 117666.66666667802
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-20",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 1,
+      "atMs": 119866.66666667866
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-55",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 121250.0000000124
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-56",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 121350.00000001243
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-54",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 121466.66666667913
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-57",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 121866.66666667924
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-58",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 122033.33333334596
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-59",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 122133.33333334599
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-food-env-fiber-maze-65",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 127583.33333334757
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-food-env-fiber-maze-64",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 128766.66666668125
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-food-env-fiber-maze-62",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 132900.0000000142
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 142733.3333333418
+    },
+    {
+      "type": "event-phase",
+      "eventId": "event-antibody-sweep",
+      "phase": "telegraph",
+      "atMs": 142966.666666675
+    },
+    {
+      "type": "event-phase",
+      "eventId": "event-antibody-sweep",
+      "phase": "active",
+      "atMs": 146166.66666667315
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 154416.66666666834
+    },
+    {
+      "type": "event-phase",
+      "eventId": "event-antibody-sweep",
+      "phase": "expired",
+      "atMs": 165683.33333332845
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 170549.9999999923
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-scavenger-env-fiber-maze-74",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 171266.66666665854
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-scavenger-env-fiber-maze-75",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 172216.66666665798
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-scavenger-env-fiber-maze-76",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 174799.9999999898
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-scavenger-env-fiber-maze-77",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 177216.66666665507
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 183333.33333331818
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 194766.66666664486
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-89",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 1,
+      "atMs": 195483.3333333111
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-85",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 1,
+      "atMs": 196283.33333331064
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-88",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 1,
+      "atMs": 197366.66666664334
+    },
+    {
+      "type": "ruptured",
+      "targetId": "eco-competitor-env-fiber-maze-87",
+      "fragmentMasses": [
+        15.026666666666669,
+        15.026666666666669,
+        15.026666666666669
+      ],
+      "atMs": 198766.66666664253
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-87-fragment-1",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 198783.3333333092
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-87-fragment-2",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 198783.3333333092
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-87-fragment-3",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 198899.9999999758
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 209466.6666666363
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 224666.66666662745
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 237099.99999995355
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 252333.33333327802
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "event-antibody-sweep-0-2",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 253133.33333327755
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-103",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 1,
+      "atMs": 254149.99999994363
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-95",
+      "preyId": "eco-food-env-fiber-maze-61",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 255566.66666660947
+    },
+    {
+      "type": "ruptured",
+      "targetId": "eco-competitor-env-fiber-maze-104",
+      "fragmentMasses": [
+        15.026666666666669,
+        15.026666666666669,
+        15.026666666666669
+      ],
+      "atMs": 258166.66666660795
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-104-fragment-2",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 258933.33333327417
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-104-fragment-3",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 258966.6666666075
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-48",
+      "preyId": "eco-competitor-env-fiber-maze-104-fragment-1",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 258983.33333327415
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-94",
+      "preyId": "eco-food-env-fiber-maze-66",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 261616.66666660595
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-78",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 265033.3333332757
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-0",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 265766.6666666099
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-79",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 266399.99999994395
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 267266.6666666116
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-80",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 268349.9999999462
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-81",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 270816.66666661575
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-82",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 272033.33333328384
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-83",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 274333.3333332865
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-84",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 276516.6666666224
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-67",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 3,
+      "atMs": 279499.9999999592
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-68",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 4,
+      "atMs": 279499.9999999592
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-69",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 5,
+      "atMs": 279499.9999999592
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-70",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 6,
+      "atMs": 279499.9999999592
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-71",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 7,
+      "atMs": 279499.9999999592
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 279966.6666666264
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-110",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 280099.9999999599
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-111",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 9,
+      "atMs": 280233.3333332934
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-112",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 10,
+      "atMs": 280399.99999996024
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-113",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 11,
+      "atMs": 280533.33333329373
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-114",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 12,
+      "atMs": 280633.33333329385
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-119",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 282899.99999996315
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "event-antibody-sweep-0-3",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 284649.9999999652
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-101",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 285599.9999999663
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-100",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 285683.3333332997
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-102",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 285783.33333329984
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "event-antibody-sweep-0-0",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 287999.9999999691
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "event-antibody-sweep-0-5",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 288966.6666666369
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "event-antibody-sweep-0-4",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 291349.999999973
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 291416.66666663974
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-99",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 294433.3333333099
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-98",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 295033.3333333106
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "event-antibody-sweep-0-1",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 295466.66666664445
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 306916.6666666578
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-141",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 1,
+      "atMs": 310683.33333332883
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-128",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 2,
+      "atMs": 310833.333333329
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-competitor-env-fiber-maze-86",
+      "preyId": "eco-food-env-fiber-maze-125",
+      "predatorDefinitionId": "creature-ring-swarm",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 311483.33333332976
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-96",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 311783.3333333301
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-97",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 311866.66666666354
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-142",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 1,
+      "atMs": 311949.999999997
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-126",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 311966.66666666366
+    },
+    {
+      "type": "ruptured",
+      "targetId": "eco-competitor-env-fiber-maze-140",
+      "fragmentMasses": [
+        15.026666666666669,
+        15.026666666666669,
+        15.026666666666669
+      ],
+      "atMs": 312499.9999999976
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-140-fragment-2",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 312799.99999999796
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-140-fragment-1",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 312816.66666666465
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-140-fragment-3",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 312883.3333333314
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-124",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 312883.3333333314
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-123",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 314383.33333333314
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-competitor-env-fiber-maze-86",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 1,
+      "atMs": 314966.66666666715
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-147",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 317450.0000000034
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-148",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 317500.00000000343
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-149",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 317633.3333333369
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-146",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 318033.3333333374
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-145",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 318200.00000000425
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-144",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 318283.3333333377
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-122",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 318500.0000000046
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-138",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 318933.33333333844
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-137",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 319433.333333339
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-95",
+      "preyId": "eco-food-env-fiber-maze-60",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 319466.6666666724
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-136",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 320283.33333334
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-135",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 320450.00000000687
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-133",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 321050.00000000757
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-134",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 321183.33333334106
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-155",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 321233.3333333411
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 321450.00000000803
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-131",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 324116.6666666778
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-130",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 325150.00000001234
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-scavenger-env-fiber-maze-118",
+      "preyId": "eco-food-env-fiber-maze-129",
+      "predatorDefinitionId": "creature-fiber-scavenger",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 326783.3333333476
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-158",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 336183.3333333585
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-159",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 336316.666666692
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-160",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 336416.6666666921
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-161",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 336616.66666669236
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-162",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 336800.0000000259
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-163",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 336833.3333333593
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 338100.0000000274
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 352083.333333377
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-174",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 358000.0000000506
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-175",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 360333.33333338663
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 367350.00000006147
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-176",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 376433.3333334054
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-153",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 376866.6666667392
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-172",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 376866.6666667392
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-152",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 376883.3333334059
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-154",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 376900.0000000726
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-171",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 376933.33333340596
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-151",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 376950.00000007264
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-150",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 376983.333333406
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-170",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 9,
+      "atMs": 377116.6666667395
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-173",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 10,
+      "atMs": 377166.66666673956
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-169",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 11,
+      "atMs": 377233.3333334063
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-168",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 12,
+      "atMs": 377300.00000007305
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-179",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 14,
+      "atMs": 377500.0000000733
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-177",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 15,
+      "atMs": 377516.66666673997
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-178",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 16,
+      "atMs": 377550.00000007334
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-118",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 2236,
+      "chain": 17,
+      "atMs": 378650.0000000746
+    },
+    {
+      "type": "mutation-ready",
+      "entityId": "player",
+      "atMs": 378650.0000000746
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-92",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 379883.3333334094
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-93",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 2,
+      "atMs": 379883.3333334094
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-94",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 3,
+      "atMs": 379883.3333334094
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-95",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 4,
+      "atMs": 379883.3333334094
+    },
+    {
+      "type": "collapse-warning",
+      "stageIndex": 2,
+      "atMs": 379900.0000000761
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-167",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 5,
+      "atMs": 379900.0000000761
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-186",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 380616.6666667436
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-188",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 380616.6666667436
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-189",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 380616.6666667436
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 380983.3333334107
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-181",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 9,
+      "atMs": 381283.333333411
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-182",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 10,
+      "atMs": 381283.333333411
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-183",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 11,
+      "atMs": 381283.333333411
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-184",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 12,
+      "atMs": 381283.333333411
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-185",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 13,
+      "atMs": 381283.333333411
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-187",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 14,
+      "atMs": 382616.6666667459
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 395083.3333334271
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 409583.33333344397
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 424583.3333334614
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 439016.66666681156
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 452383.3333334938
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-scavenger-env-fiber-maze-218",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 455983.333333498
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-scavenger-env-fiber-maze-219",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 463183.33333350637
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 463716.6666668403
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-223",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 464466.6666668412
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-191",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 466133.3333335098
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-190",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 466150.0000001765
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-224",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 466633.3333335104
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-207",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 467716.666666845
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-225",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 467716.666666845
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-208",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 467833.3333335118
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-205",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 467933.3333335119
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-226",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 9,
+      "atMs": 467966.66666684527
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-204",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 10,
+      "atMs": 468000.00000017864
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-227",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 11,
+      "atMs": 468016.6666668453
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-228",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 12,
+      "atMs": 468050.0000001787
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-209",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 13,
+      "atMs": 468983.3333335131
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-210",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 14,
+      "atMs": 469883.33333351417
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-194",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 473683.3333335186
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-195",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 476300.0000001883
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-196",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 478616.66666685767
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 480500.0000001932
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-197",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 481316.6666668608
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-198",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 486333.3333335333
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-199",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 487550.0000002014
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-91",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 1,
+      "atMs": 489150.00000020326
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-192",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 2,
+      "atMs": 490300.0000002046
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-193",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 3,
+      "atMs": 491483.3333335393
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 492566.6666668739
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-235",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 492600.0000002073
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-222",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 493333.33333354146
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-165",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 1,
+      "atMs": 494750.0000002098
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-164",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 2,
+      "atMs": 494766.66666687647
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-166",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 3,
+      "atMs": 494766.66666687647
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-203",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 4,
+      "atMs": 495183.3333335436
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-202",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 5,
+      "atMs": 495233.3333335437
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-201",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 6,
+      "atMs": 495400.00000021054
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-200",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 7,
+      "atMs": 495516.66666687734
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-213",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 8,
+      "atMs": 496650.000000212
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-214",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 9,
+      "atMs": 496650.000000212
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-215",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 10,
+      "atMs": 496650.000000212
+    },
+    {
+      "type": "ruptured",
+      "targetId": "eco-competitor-env-fiber-maze-211",
+      "fragmentMasses": [
+        15.026666666666669,
+        15.026666666666669,
+        15.026666666666669
+      ],
+      "atMs": 499850.0000002157
+    },
+    {
+      "type": "ruptured",
+      "targetId": "eco-competitor-env-fiber-maze-212",
+      "fragmentMasses": [
+        15.026666666666669,
+        15.026666666666669,
+        15.026666666666669
+      ],
+      "atMs": 499866.6666668824
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-211-fragment-3",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 500200.0000002161
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-212-fragment-3",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 500200.0000002161
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-211-fragment-1",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 500216.6666668828
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-212-fragment-1",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 500216.6666668828
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-212-fragment-2",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 500250.0000002162
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "eco-hunter-env-fiber-maze-90",
+      "preyId": "eco-competitor-env-fiber-maze-211-fragment-2",
+      "predatorDefinitionId": "predator-fiber-stalker",
+      "biomass": 15.026666666666669,
+      "chain": 1,
+      "atMs": 501383.33333355084
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-248",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 502733.3333335524
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-249",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 502833.3333335525
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-250",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 502983.3333335527
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-251",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 503150.00000021956
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-252",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 503300.00000021973
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-253",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 503400.00000021985
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 507933.33333355846
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-237",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 508983.3333335597
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-259",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 509133.33333355986
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-260",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 509250.00000022666
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-261",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 509416.6666668935
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-262",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 509566.6666668937
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-263",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 509683.3333335605
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-238",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 510400.000000228
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-239",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 9,
+      "atMs": 511266.6666668957
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-216",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 10,
+      "atMs": 512533.3333335638
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-217",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 11,
+      "atMs": 513416.6666668982
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-269",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 514866.66666689987
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-268",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 514933.3333335666
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-267",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 515083.3333335668
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-266",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 515216.6666669003
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-265",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 515333.3333335671
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-264",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 515433.3333335672
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-18",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 517233.3333335693
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-221",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 2,
+      "atMs": 517983.33333357016
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-220",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 3,
+      "atMs": 518000.00000023685
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-240",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 1,
+      "atMs": 520200.0000002394
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 521250.00000024063
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-241",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 1,
+      "atMs": 525733.3333335741
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-276",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 525916.666666907
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-277",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 525950.0000002403
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-278",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 526116.6666669066
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-279",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 526200.0000002397
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-280",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 526333.3333335727
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-281",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 526450.0000002391
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-282",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 526533.3333335723
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-270",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 9,
+      "atMs": 526683.3333335719
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-271",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 10,
+      "atMs": 526750.0000002384
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-272",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 11,
+      "atMs": 526900.0000002381
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-273",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 12,
+      "atMs": 527000.0000002378
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-274",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 533150.0000002235
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-275",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 536416.6666668826
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 536433.3333335492
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-15",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 538650.0000002107
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-287",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 1,
+      "atMs": 541216.6666668714
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-2",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 541600.0000002038
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-284",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 3,
+      "atMs": 542066.6666668694
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-285",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 4,
+      "atMs": 542066.6666668694
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-286",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 5,
+      "atMs": 542066.6666668694
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-fiber-maze-283",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-ring-swarm",
+      "biomass": 49,
+      "chain": 6,
+      "atMs": 542316.6666668688
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-16",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-float",
+      "biomass": 132,
+      "chain": 1,
+      "atMs": 544083.3333335314
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-3",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 544783.3333335298
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-5",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-thread-grazer",
+      "biomass": 361,
+      "chain": 1,
+      "atMs": 548283.3333335216
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 549733.3333335182
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 563883.3333334853
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-301",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 568583.3333334744
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-299",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 568783.3333334739
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-298",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 568950.0000001402
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-297",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 569083.3333334732
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-293",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 569100.0000001398
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-294",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 569116.6666668064
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-296",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 9,
+      "atMs": 569200.0000001396
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-292",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 10,
+      "atMs": 569233.3333334728
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-290",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 12,
+      "atMs": 569500.0000001389
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-31",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-membrane-warden",
+      "biomass": 812,
+      "chain": 1,
+      "atMs": 572600.0000001317
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-306",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 573483.333333463
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-307",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 573566.6666667961
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-308",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 573733.3333334624
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-309",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 573866.6666667954
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-310",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 573950.0000001285
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-311",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 574083.3333334615
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-fiber-maze-727-30",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 1,
+      "atMs": 576533.3333334558
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 578883.3333334504
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-312",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 579800.0000001149
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-fiber-maze",
+      "atMs": 590816.6666667559
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-330",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 600783.3333333994
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-331",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 600816.6666667326
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-332",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 600983.3333333989
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-333",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 601200.0000000651
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-334",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 601316.6666667315
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-335",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 601433.3333333979
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-fiber-maze",
+      "atMs": 603200.0000000604
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-340",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 605016.6666667229
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-339",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 605066.6666667227
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-341",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 605183.3333333891
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-338",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 605416.6666667219
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-343",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 606033.3333333872
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-324",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 607350.0000000508
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-323",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 607483.3333333838
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-318",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 9,
+      "atMs": 607566.6666667169
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-319",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 10,
+      "atMs": 607566.6666667169
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-321",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 11,
+      "atMs": 607566.6666667169
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-320",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 12,
+      "atMs": 607583.3333333835
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-322",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 13,
+      "atMs": 607583.3333333835
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-313",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 609383.3333333794
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-315",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 609416.6666667126
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-317",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 609433.3333333792
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-314",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 609450.0000000459
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-316",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 609450.0000000459
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-247",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 609550.0000000456
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-246",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 609583.3333333789
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-245",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 609650.0000000454
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-243",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 9,
+      "atMs": 609666.666666712
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-244",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 10,
+      "atMs": 609683.3333333787
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-242",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 11,
+      "atMs": 609716.6666667119
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-337",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 1,
+      "atMs": 612883.3333333712
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-fiber-maze-336",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 2,
+      "atMs": 613383.33333337
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-349",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 614600.0000000339
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-348",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 614716.6666667003
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-347",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 614783.3333333668
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-346",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 614916.6666666998
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-345",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 615050.0000000328
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-344",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 8,
+      "atMs": 615200.0000000325
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-fiber-maze",
+      "atMs": 617533.3333333604
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-356",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 618766.6666666908
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-355",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 618816.6666666907
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-357",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 618850.000000024
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-354",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 619200.0000000232
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-359",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 619783.3333333551
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-353",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 7,
+      "atMs": 620783.3333333528
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-352",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 8,
+      "atMs": 621166.6666666853
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-351",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 9,
+      "atMs": 621616.6666666842
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-fiber-maze-350",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-fiber-scavenger",
+      "biomass": 729,
+      "chain": 10,
+      "atMs": 622000.0000000166
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-363",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 624783.3333333435
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-362",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 624816.6666666768
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-361",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 624916.6666666765
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-364",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 625083.3333333428
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-365",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 625266.6666666757
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-fiber-maze-360",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-mineral",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 625783.3333333412
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "event-antibody-sweep-1-0",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 7,
+      "atMs": 627116.6666666714
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-fiber-maze",
+      "atMs": 632083.3333333265
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "encounter-1",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 1,
+      "atMs": 635099.9999999861
+    },
+    {
+      "type": "form-transition-ready",
+      "fromFormId": "form-colony-body",
+      "toFormId": "form-ciliate-composite",
+      "atMs": 635099.9999999861
+    },
+    {
+      "type": "tier-encounter-resolved",
+      "tierIndex": 1,
+      "encounterId": "encounter-fiber-giant",
+      "atMs": 635116.6666666528
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-379",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 1,
+      "atMs": 635949.9999999842
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-381",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 2,
+      "atMs": 635983.3333333174
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-380",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 3,
+      "atMs": 635983.3333333174
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-382",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 4,
+      "atMs": 636033.3333333173
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-383",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spore-drifter",
+      "biomass": 1521,
+      "chain": 5,
+      "atMs": 636316.66666665
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-384",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spore-drifter",
+      "biomass": 1521,
+      "chain": 6,
+      "atMs": 636433.3333333164
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-abandoned-chamber-386",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 7,
+      "atMs": 636583.333333316
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-385",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spore-drifter",
+      "biomass": 1521,
+      "chain": 8,
+      "atMs": 636683.3333333158
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-abandoned-chamber-387",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 9,
+      "atMs": 636783.3333333156
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-2-0",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 10,
+      "atMs": 637083.3333333149
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-2-1",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 11,
+      "atMs": 637149.9999999814
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-2-2",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 12,
+      "atMs": 637283.3333333144
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-2-3",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 13,
+      "atMs": 637333.3333333143
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "carryover-2-predator-fiber-stalker",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-fiber-stalker",
+      "biomass": 2500,
+      "chain": 14,
+      "atMs": 637633.3333333136
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-2-6",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 15,
+      "atMs": 637899.9999999796
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-2-5",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 16,
+      "atMs": 637933.3333333129
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "opening-food-2-4",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 17,
+      "atMs": 637983.3333333128
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "carryover-2-predator-azure-ring",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-azure-ring",
+      "biomass": 484,
+      "chain": 18,
+      "atMs": 639083.3333333102
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "carryover-2-predator-membrane-warden",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-membrane-warden",
+      "biomass": 812,
+      "chain": 19,
+      "atMs": 639983.3333333081
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-389",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 20,
+      "atMs": 641316.6666666383
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-390",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 21,
+      "atMs": 641383.3333333049
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-391",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 22,
+      "atMs": 641516.6666666379
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-393",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 24,
+      "atMs": 641783.3333333039
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-394",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 25,
+      "atMs": 641949.9999999702
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-abandoned-chamber-388",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-antibody-leech",
+      "biomass": 4032,
+      "chain": 1,
+      "atMs": 644599.999999964
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-abandoned-chamber-727-13",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spore-drifter",
+      "biomass": 1521,
+      "chain": 2,
+      "atMs": 644849.9999999634
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-abandoned-chamber",
+      "atMs": 647516.6666666239
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-395",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 1,
+      "atMs": 648283.3333332888
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-396",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 2,
+      "atMs": 648366.6666666219
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-397",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 3,
+      "atMs": 648566.6666666215
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-398",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 4,
+      "atMs": 648666.6666666212
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-399",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 5,
+      "atMs": 648816.6666666209
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-400",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 6,
+      "atMs": 648899.999999954
+    },
+    {
+      "type": "mutation-ready",
+      "entityId": "player",
+      "atMs": 648899.999999954
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-abandoned-chamber-401",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-antibody-leech",
+      "biomass": 4032,
+      "chain": 1,
+      "atMs": 654383.3333332746
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-hunter-env-abandoned-chamber-402",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-antibody-leech",
+      "biomass": 4032,
+      "chain": 2,
+      "atMs": 655399.9999999389
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-abandoned-chamber-727-18",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 3,
+      "atMs": 655883.3333332711
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-403",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 4,
+      "atMs": 656616.6666666027
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-404",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 5,
+      "atMs": 656749.9999999357
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-405",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 6,
+      "atMs": 656849.9999999355
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-406",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 7,
+      "atMs": 657016.6666666018
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-407",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 8,
+      "atMs": 657083.3333332683
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-408",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 9,
+      "atMs": 657216.6666666013
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-abandoned-chamber-727-25",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-cavity-scavenger",
+      "biomass": 2500,
+      "chain": 10,
+      "atMs": 657716.6666666002
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-409",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 1,
+      "atMs": 660283.3333332608
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-410",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 2,
+      "atMs": 660399.9999999272
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-411",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 3,
+      "atMs": 660533.3333332603
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-412",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 4,
+      "atMs": 660733.3333332598
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-413",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 5,
+      "atMs": 660849.9999999262
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "carcass-rush",
+      "environmentId": "env-abandoned-chamber",
+      "atMs": 661483.333333258
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-abandoned-chamber-727-3",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 7,
+      "atMs": 661849.9999999239
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "env-abandoned-chamber-727-27",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-antibody-leech",
+      "biomass": 4032,
+      "chain": 1,
+      "atMs": 663399.9999999203
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-abandoned-chamber-418",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-cavity-scavenger",
+      "biomass": 2500,
+      "chain": 2,
+      "atMs": 663916.6666665857
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-abandoned-chamber-417",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-cavity-scavenger",
+      "biomass": 2500,
+      "chain": 3,
+      "atMs": 664099.9999999186
+    },
+    {
+      "type": "mutation-ready",
+      "entityId": "player",
+      "atMs": 664099.9999999186
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-abandoned-chamber-416",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-cavity-scavenger",
+      "biomass": 2500,
+      "chain": 1,
+      "atMs": 664416.6666665846
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-scavenger-env-abandoned-chamber-415",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-cavity-scavenger",
+      "biomass": 2500,
+      "chain": 2,
+      "atMs": 664649.9999999173
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-424",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 1,
+      "atMs": 666649.9999999127
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-423",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 2,
+      "atMs": 666699.9999999126
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-422",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 3,
+      "atMs": 666833.3333332456
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-421",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 4,
+      "atMs": 666983.3333332452
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-420",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 5,
+      "atMs": 667116.6666665783
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-419",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 6,
+      "atMs": 667199.9999999114
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "food-bloom",
+      "environmentId": "env-abandoned-chamber",
+      "atMs": 672599.9999998988
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "encounter-2",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "predator-chamber-maw",
+      "biomass": 11025,
+      "chain": 1,
+      "atMs": 672866.6666665649
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-431",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 2,
+      "atMs": 673066.6666665644
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-432",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 3,
+      "atMs": 673066.6666665644
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-433",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 4,
+      "atMs": 673066.6666665644
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-434",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 5,
+      "atMs": 673066.6666665644
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-435",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 6,
+      "atMs": 673083.333333231
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-436",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 7,
+      "atMs": 673149.9999998976
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-437",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 8,
+      "atMs": 673183.3333332308
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-425",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 9,
+      "atMs": 674583.3333332276
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-426",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 10,
+      "atMs": 674699.999999894
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-427",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 11,
+      "atMs": 674866.6666665602
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-428",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 12,
+      "atMs": 674949.9999998934
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-429",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 13,
+      "atMs": 675099.999999893
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-430",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 14,
+      "atMs": 675199.9999998928
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-442",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 678316.6666665522
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-443",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 678366.6666665521
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-441",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 678433.3333332186
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-440",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 678549.999999885
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-439",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 678666.6666665514
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-438",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 678766.6666665511
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-446",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 1,
+      "atMs": 684549.999999871
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-445",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 2,
+      "atMs": 684616.6666665375
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-447",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 3,
+      "atMs": 684683.333333204
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-444",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 4,
+      "atMs": 684866.6666665369
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-448",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 5,
+      "atMs": 685166.6666665362
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-449",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "nutrient-gene-fragment",
+      "biomass": 36,
+      "chain": 6,
+      "atMs": 685333.3333332025
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "school-migration",
+      "environmentId": "env-abandoned-chamber",
+      "atMs": 685666.6666665351
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-abandoned-chamber-450",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 1,
+      "atMs": 688433.3333331953
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-abandoned-chamber-451",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 2,
+      "atMs": 688866.6666665276
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-abandoned-chamber-452",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 3,
+      "atMs": 689283.3333331933
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-abandoned-chamber-453",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 4,
+      "atMs": 689683.3333331924
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-competitor-env-abandoned-chamber-454",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-spark-swarm",
+      "biomass": 81,
+      "chain": 5,
+      "atMs": 689983.3333331917
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-459",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 6,
+      "atMs": 690366.6666665241
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-460",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 7,
+      "atMs": 690399.9999998574
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-458",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 8,
+      "atMs": 690449.9999998573
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-457",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 9,
+      "atMs": 690599.9999998569
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-456",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 10,
+      "atMs": 690666.6666665234
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-455",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 11,
+      "atMs": 690799.9999998565
+    },
+    {
+      "type": "event-phase",
+      "eventId": "event-giant-passage",
+      "phase": "telegraph",
+      "atMs": 695149.9999998463
+    },
+    {
+      "type": "ecology-opportunity",
+      "opportunityId": "predator-conflict",
+      "environmentId": "env-abandoned-chamber",
+      "atMs": 696133.3333331774
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-466",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 1,
+      "atMs": 696316.6666665103
+    },
+    {
+      "type": "engulfed",
+      "predatorId": "player",
+      "preyId": "eco-food-env-abandoned-chamber-465",
+      "predatorDefinitionId": "origin-primal-cell",
+      "preyDefinitionId": "creature-host-droplet",
+      "biomass": 400,
+      "chain": 2,
+      "atMs": 696466.6666665099
+    },
+    {
+      "type": "ending-reached",
+      "endingId": "ending-stable-species",
+      "atMs": 696483.3333331766
+    }
+  ]
+}

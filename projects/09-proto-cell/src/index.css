@@ -1,5 +1,9 @@
 :root {
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --host-button-width: 64px;
+  --host-button-height: 48px;
+  --host-button-inset: 12px;
+  --host-corner-clearance: calc(var(--host-button-height) + var(--host-button-inset));
   color: #ecffff;
   background: #020817;
   color-scheme: dark;

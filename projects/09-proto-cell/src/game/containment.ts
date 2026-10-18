@@ -51,6 +51,23 @@ export function fullyContains(container: BodyShape, target: BodyShape, tolerance
     return false
   }
 
+  // An interior center and its nearest edge define a disk wholly inside even a
+  // concave polygon. If every target vertex is in that disk, the full contour
+  // is contained. Recompute from the current geometry; bodies are mutable.
+  if (pointInsideContour(container.center, container.contour, 0)) {
+    let diskRadiusSquared = Number.POSITIVE_INFINITY
+    for (let index = 0; index < container.contour.length; index += 1) {
+      diskRadiusSquared = Math.min(diskRadiusSquared, distanceToSegmentSquared(
+        container.center, container.contour[index]!, container.contour[(index + 1) % container.contour.length]!,
+      ))
+    }
+    if (target.contour.every((point) => {
+      const x = point.x - container.center.x
+      const y = point.y - container.center.y
+      return x * x + y * y < diskRadiusSquared
+    })) return true
+  }
+
   return target.contour.every((point) => pointInsideContour(point, container.contour, acceptedTolerance))
 }
 
@@ -61,7 +78,7 @@ function pointInsideContour(point: Vec2, contour: readonly Vec2[], tolerance: nu
     const current = contour[currentIndex]
     const previous = contour[previousIndex]
 
-    if (distanceToSegment(point, previous, current) <= tolerance) {
+    if (distanceToSegmentSquared(point, previous, current) <= tolerance * tolerance) {
       return true
     }
 
@@ -73,13 +90,15 @@ function pointInsideContour(point: Vec2, contour: readonly Vec2[], tolerance: nu
   return inside
 }
 
-function distanceToSegment(point: Vec2, start: Vec2, end: Vec2): number {
+function distanceToSegmentSquared(point: Vec2, start: Vec2, end: Vec2): number {
   const segmentX = end.x - start.x
   const segmentY = end.y - start.y
   const squaredLength = segmentX * segmentX + segmentY * segmentY
 
   if (squaredLength === 0) {
-    return Math.hypot(point.x - start.x, point.y - start.y)
+    const x = point.x - start.x
+    const y = point.y - start.y
+    return x * x + y * y
   }
 
   const projection = Math.min(1, Math.max(0,
@@ -87,7 +106,9 @@ function distanceToSegment(point: Vec2, start: Vec2, end: Vec2): number {
   ))
   const nearestX = start.x + projection * segmentX
   const nearestY = start.y + projection * segmentY
-  return Math.hypot(point.x - nearestX, point.y - nearestY)
+  const x = point.x - nearestX
+  const y = point.y - nearestY
+  return x * x + y * y
 }
 
 function clampCosine(value: number): number {

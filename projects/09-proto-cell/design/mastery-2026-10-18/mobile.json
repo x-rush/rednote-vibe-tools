@@ -1,0 +1,38 @@
+[
+  {
+    "width": 375,
+    "height": 812,
+    "safeAreaTop": 44,
+    "overflow": false,
+    "collisions": [],
+    "hudOverlap": false,
+    "territoryHint": "感知 5.5×已开辟缺口 1"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "safeAreaTop": 44,
+    "overflow": false,
+    "collisions": [],
+    "hudOverlap": false,
+    "territoryHint": "感知 5.5×已开辟缺口 1"
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "safeAreaTop": 44,
+    "overflow": false,
+    "collisions": [],
+    "hudOverlap": false,
+    "territoryHint": "感知 5.5×已开辟缺口 1"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "safeAreaTop": 44,
+    "overflow": false,
+    "collisions": [],
+    "hudOverlap": false,
+    "territoryHint": "感知 5.5×已开辟缺口 1"
+  }
+]

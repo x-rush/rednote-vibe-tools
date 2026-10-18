@@ -1,0 +1,10 @@
+{
+  "runtime": "installed desktop Chrome, headless, 390x844, production dist, one 120-frame baseline sample; not mobile GPU evidence",
+  "frames": {
+    "sampleFrames": 120,
+    "averageMs": 5.427499999999999,
+    "p95Ms": 4.300000000000068
+  },
+  "externalRequests": [],
+  "console": []
+}

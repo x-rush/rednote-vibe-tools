@@ -1,0 +1,1767 @@
+[
+  {
+    "width": 375,
+    "height": 667,
+    "equal": true,
+    "before": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 375,
+          "height": 667,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "18px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 343,
+          "height": 109.21875,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "8px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 16,
+          "y": 239.21875,
+          "width": 343,
+          "height": 335.78125,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 243.21875,
+          "width": 335,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 504.125,
+          "width": 335,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 765.03125,
+          "width": 335,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 42.5,
+          "y": 593,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 375,
+          "height": 667,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 142.5,
+          "y": 112,
+          "width": 90,
+          "height": 51,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 18,
+          "y": 509,
+          "width": 339,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 42.5,
+          "y": 564,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 42.5,
+          "y": 620,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 42.5,
+          "y": 676,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 139.5,
+          "y": 789,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    },
+    "after": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 375,
+          "height": 667,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "18px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 343,
+          "height": 109.21875,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "8px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 16,
+          "y": 239.21875,
+          "width": 343,
+          "height": 335.78125,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 243.21875,
+          "width": 335,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 504.125,
+          "width": 335,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 765.03125,
+          "width": 335,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 42.5,
+          "y": 593,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 375,
+          "height": 667,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 142.5,
+          "y": 112,
+          "width": 90,
+          "height": 51,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 18,
+          "y": 509,
+          "width": 339,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 42.5,
+          "y": 564,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 42.5,
+          "y": 620,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 42.5,
+          "y": 676,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 139.5,
+          "y": 789,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "height": 700,
+    "equal": true,
+    "before": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 700,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "18px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 358,
+          "height": 110.21875,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "8px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 16,
+          "y": 240.21875,
+          "width": 358,
+          "height": 367.78125,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 244.21875,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 505.125,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 766.03125,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 50,
+          "y": 626,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 700,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 148.1875,
+          "y": 112,
+          "width": 93.609375,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 18,
+          "y": 510,
+          "width": 354,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 50,
+          "y": 565,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 50,
+          "y": 621,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 50,
+          "y": 677,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 147,
+          "y": 790,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    },
+    "after": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 700,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "18px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 358,
+          "height": 110.21875,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "8px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 16,
+          "y": 240.21875,
+          "width": 358,
+          "height": 367.78125,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 244.21875,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 505.125,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 766.03125,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 50,
+          "y": 626,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 700,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 148.1875,
+          "y": 112,
+          "width": 93.609375,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 18,
+          "y": 510,
+          "width": 354,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 50,
+          "y": 565,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 50,
+          "y": 621,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 50,
+          "y": 677,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 147,
+          "y": 790,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    }
+  },
+  {
+    "width": 430,
+    "height": 780,
+    "equal": true,
+    "before": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 780,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "18px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 398,
+          "height": 93.109375,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "8px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 16,
+          "y": 223.109375,
+          "width": 398,
+          "height": 464.890625,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 227.109375,
+          "width": 390,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 488.015625,
+          "width": 390,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 748.921875,
+          "width": 390,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 70,
+          "y": 706,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 780,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 163.390625,
+          "y": 112,
+          "width": 103.203125,
+          "height": 55,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 20,
+          "y": 513,
+          "width": 390,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 70,
+          "y": 568,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 70,
+          "y": 624,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 70,
+          "y": 680,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 167,
+          "y": 793,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    },
+    "after": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 780,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "18px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 398,
+          "height": 93.109375,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "8px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 16,
+          "y": 223.109375,
+          "width": 398,
+          "height": 464.890625,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 227.109375,
+          "width": 390,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 488.015625,
+          "width": 390,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 748.921875,
+          "width": 390,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 70,
+          "y": 706,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 780,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 163.390625,
+          "y": 112,
+          "width": 103.203125,
+          "height": 55,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 20,
+          "y": 513,
+          "width": 390,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 70,
+          "y": 568,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 70,
+          "y": 624,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 70,
+          "y": 680,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 167,
+          "y": 793,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    }
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "equal": true,
+    "before": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 844,
+          "height": 390,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "8px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 812,
+          "height": 74,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "3px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 62,
+          "y": 194,
+          "width": 720,
+          "height": 114,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 66,
+          "y": 194,
+          "width": 230.65625,
+          "height": 260,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "12px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 306.65625,
+          "y": 194,
+          "width": 230.671875,
+          "height": 260,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "12px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 547.328125,
+          "y": 194,
+          "width": 230.671875,
+          "height": 260,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "12px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 277,
+          "y": 316,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 844,
+          "height": 390,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 348.390625,
+          "y": 112,
+          "width": 147.203125,
+          "height": 70,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 227,
+          "y": 528,
+          "width": 390,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 277,
+          "y": 583,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 277,
+          "y": 639,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 277,
+          "y": 695,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 374,
+          "y": 808,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    },
+    "after": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 844,
+          "height": 390,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "8px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 812,
+          "height": 74,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "3px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 62,
+          "y": 194,
+          "width": 720,
+          "height": 114,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 66,
+          "y": 194,
+          "width": 230.65625,
+          "height": 260,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "12px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 306.65625,
+          "y": 194,
+          "width": 230.671875,
+          "height": 260,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "12px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 547.328125,
+          "y": 194,
+          "width": 230.671875,
+          "height": 260,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "12px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 277,
+          "y": 316,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 844,
+          "height": 390,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 348.390625,
+          "y": 112,
+          "width": 147.203125,
+          "height": 70,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 227,
+          "y": 528,
+          "width": 390,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 277,
+          "y": 583,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 277,
+          "y": 639,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 277,
+          "y": 695,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 374,
+          "y": 808,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "height": 520,
+    "equal": true,
+    "before": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 520,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "18px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 358,
+          "height": 110.21875,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "8px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 16,
+          "y": 240.21875,
+          "width": 358,
+          "height": 187.78125,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 240.21875,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 501.125,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 762.03125,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 50,
+          "y": 446,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 520,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 148.1875,
+          "y": 112,
+          "width": 93.609375,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 18,
+          "y": 510,
+          "width": 354,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 50,
+          "y": 565,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 50,
+          "y": 621,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 50,
+          "y": 677,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 147,
+          "y": 790,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    },
+    "after": {
+      "evolution": [
+        {
+          "tag": "SECTION",
+          "class": "evolution-overlay",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 520,
+          "align": "normal",
+          "overflow": "hidden",
+          "padding": "112px 16px 22px",
+          "gap": "18px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "evolution-overlay__header",
+          "x": 16,
+          "y": 112,
+          "width": 358,
+          "height": 110.21875,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "8px"
+        },
+        {
+          "tag": "DIV",
+          "class": "evolution-choices",
+          "x": 16,
+          "y": 240.21875,
+          "width": 358,
+          "height": 187.78125,
+          "align": "start",
+          "overflow": "auto",
+          "padding": "4px 4px 12px",
+          "gap": "10px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 240.21875,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 501.125,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "evolution-choice",
+          "x": 20,
+          "y": 762.03125,
+          "width": 350,
+          "height": 250.90625,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "14px 15px",
+          "gap": "8px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start evolution-overlay__confirm",
+          "x": 50,
+          "y": 446,
+          "width": 290,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ],
+      "result": [
+        {
+          "tag": "SECTION",
+          "class": "result-overlay result-overlay--uncommitted",
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 520,
+          "align": "safe center",
+          "overflow": "auto",
+          "padding": "112px 18px 24px",
+          "gap": "14px"
+        },
+        {
+          "tag": "HEADER",
+          "class": "",
+          "x": 148.1875,
+          "y": 112,
+          "width": 93.609375,
+          "height": 52,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "5px"
+        },
+        {
+          "tag": "SECTION",
+          "class": "result-traits",
+          "x": 18,
+          "y": 510,
+          "width": 354,
+          "height": 41,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "0px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "hatchery-start",
+          "x": 50,
+          "y": 565,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "game-overlay__secondary",
+          "x": 50,
+          "y": 621,
+          "width": 290,
+          "height": 48,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "result-breed",
+          "x": 50,
+          "y": 677,
+          "width": 290,
+          "height": 75,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "15px 20px",
+          "gap": "5px"
+        },
+        {
+          "tag": "BUTTON",
+          "class": "",
+          "x": 147,
+          "y": 790,
+          "width": 96,
+          "height": 44,
+          "align": "normal",
+          "overflow": "visible",
+          "padding": "1px 6px",
+          "gap": "normal"
+        }
+      ]
+    }
+  }
+]

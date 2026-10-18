@@ -10,6 +10,9 @@ import { decideSchool } from './behaviors/school'
 import { decideSkittish } from './behaviors/skittish'
 import {
   deterministicWander,
+  activeNeighbors,
+  movementAway,
+  nearest as nearestBehaviorNeighbor,
   result,
   transition,
   type BehaviorContext,
@@ -43,6 +46,12 @@ export function decideBehavior(
   }
   if (context.profile.family === 'resource') {
     return result(transition(memory, 'forage', context.atMs), deterministicWander(entity.id, context.atMs, 0.12))
+  }
+  const largerPlayer = nearestBehaviorNeighbor(entity, activeNeighbors(entity, context).filter((neighbor) => (
+    neighbor.faction === 'player' && neighbor.body.radius > entity.body.radius * 1.18
+  )))
+  if (largerPlayer && entity.role !== 'boss' && context.profile.id !== 'behavior-leviathan') {
+    return result(transition(memory, 'flee', context.atMs, largerPlayer.id), movementAway(entity.position, largerPlayer.position))
   }
   const handler = behaviorHandlers[context.profile.family]
   return handler

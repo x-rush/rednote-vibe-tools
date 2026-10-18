@@ -1,0 +1,20 @@
+{
+  "policy": "Actual offspring launched from actual exported save; deliberately steered toward larger hostile entities using direction input, no stat changes",
+  "elapsedMs": 20683.33333333341,
+  "deathTemplateId": "death-engulfed",
+  "finalVisualRecipeId": "visual-lineage-bloom",
+  "completedRuns": 3,
+  "newSeed": {
+    "id": "seed-f5f83c85551752bd",
+    "archiveKey": "f5f83c85551752bd",
+    "organelleIds": [
+      "organelle-filter-gill"
+    ],
+    "generation": 3,
+    "earnedAtRun": 3,
+    "sourceFormId": "form-primal-cell",
+    "route": "colony",
+    "parentLineageId": "lineage-9c5f691e54209f12"
+  },
+  "errors": []
+}

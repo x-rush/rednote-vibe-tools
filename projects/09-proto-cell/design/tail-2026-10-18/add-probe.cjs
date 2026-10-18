@@ -1,0 +1,1 @@
+const fs=require('node:fs'),p='design/tail-2026-10-18/battle.cjs';let s=fs.readFileSync(p,'utf8');s=s.replace('transform(source,id){',`transform(source,id){if(tag.includes('opaque')&&id.replaceAll('\\\\','/').endsWith('/src/rendering/renderer.ts'))return source.replace("canvas.getContext('2d')","canvas.getContext('2d',{alpha:false})");`);fs.writeFileSync(p,s)

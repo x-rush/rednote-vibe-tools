@@ -1,0 +1,68 @@
+{
+  "buildStartedAt": "2026-10-18T06:54:34.669Z",
+  "recordedAt": "2026-10-18T06:54:48.793Z",
+  "runtime": "Installed desktop Chrome headless; 390x844 CSS px; DPR2; 1x and 4x CDP CPU throttling. Synthetic idle source fixtures at tier1/2 pressure .65 and 18s. Vite QA transform changes journeyEnabled initialization to true for the directly seeded later tier and exposes qaPopulate; ordinary simulation and renderer algorithms unchanged. Dense initializes 179 extra real environment entity definitions distributed over world, then clones renderer-only entities to 180 all-visible bodies; engine population separately recorded. Actual source compiled in memory, assets from current preview dist. Does not establish physical mobile GPU or Xiaohongshu host performance.",
+  "sourceHashes": {
+    "src/game/engine.ts": "0fdf1361b213f6ed46572e8fac2687809cd5fae0a50d2f3f8845344bf9c3b30a",
+    "src/rendering/renderer.ts": "dbfe0e6ca112c192fc6e0031b6e23fafb4271626aa21affd58715c35b90e6624",
+    "src/rendering/cell.ts": "55cf38420fe0eed1ce61f47d34c9c9309d390d8fa46ce2d78323491f0a0c0d11",
+    "src/world/environments.ts": "0942afb34e8e31cce42565ab0068f06ba2cfcd180924bfa4ce6e81d5da32663e",
+    "src/content/content.json": "08a5b66890c405e3a65b271ce1716b18340c1a5f5d13dcb720395800efa53cb3"
+  },
+  "bundleSha256": "15ef1a4f7a55c4702bc52bfeed879f9f65a4efdd3b82ff7973b7d940a8fd8776",
+  "cases": [
+    {
+      "throttle": 4,
+      "tierIndex": 2,
+      "environmentId": "env-abandoned-chamber",
+      "quality": "balanced",
+      "dense": true,
+      "frames": 180,
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "dpr": 2
+      },
+      "updateMs": {
+        "mean": 19.522222222884498,
+        "p50": 18.600000023841858,
+        "p95": 27.400000035762787,
+        "max": 39.5
+      },
+      "renderMs": {
+        "mean": 34.621666666203076,
+        "p50": 33.09999996423721,
+        "p95": 50.39999997615814,
+        "max": 68.60000002384186
+      },
+      "frameGapMs": {
+        "mean": 58.629999999999995,
+        "p50": 54.30000000000109,
+        "p95": 79.39999999999964,
+        "max": 100.20000000000073
+      },
+      "framesOver25ms": 180,
+      "longTasks": {
+        "count": 149,
+        "maxMs": 98
+      },
+      "engineEntities": {
+        "min": 191,
+        "max": 191
+      },
+      "renderedFixtureEntities": 180,
+      "lifecycleAtEnd": {
+        "tierIndex": 2,
+        "formId": "form-ciliate-composite",
+        "totalBiomass": 144,
+        "tierBiomass": 0,
+        "evolutionPressure": 0.65,
+        "bodyRadius": 165.22,
+        "encounterResolved": false
+      },
+      "elapsedMs": 21500.000000000255,
+      "playerActiveAtEnd": true
+    }
+  ],
+  "errors": []
+}

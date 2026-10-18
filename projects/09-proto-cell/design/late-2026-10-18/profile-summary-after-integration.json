@@ -1,0 +1,353 @@
+{
+  "runtime": "Diagnostic-only unminified tier2 dense4x; sampled inclusive CPU includes30 warm+180 measured frames and initialization. Totals overlap and must not be summed.",
+  "selfTop": [
+    [
+      "(anonymous)",
+      3042.675999999999
+    ],
+    [
+      "membranePoint",
+      1635.5869999999961
+    ],
+    [
+      "(program)",
+      1282.501000000002
+    ],
+    [
+      "drawCell",
+      926.8450000000008
+    ],
+    [
+      "drawRelationshipCue",
+      667.7259999999994
+    ],
+    [
+      "membraneContour",
+      610.842
+    ],
+    [
+      "membranePhase",
+      436.60899999999987
+    ],
+    [
+      "query",
+      270.5590000000001
+    ],
+    [
+      "render",
+      248.43699999999984
+    ],
+    [
+      "(garbage collector)",
+      243.322
+    ],
+    [
+      "_visitCells",
+      211.1290000000001
+    ],
+    [
+      "physicalMembrane",
+      181.835
+    ],
+    [
+      "traceBody",
+      179.071
+    ],
+    [
+      "channel",
+      163.437
+    ],
+    [
+      "drawInternalStructure",
+      160.7980000000001
+    ],
+    [
+      "drawBehaviorStateCue",
+      138.564
+    ],
+    [
+      "(idle)",
+      135.26900000000003
+    ],
+    [
+      "_assertClassBrand",
+      133.65900000000005
+    ],
+    [
+      "movementDecision",
+      111.89299999999997
+    ],
+    [
+      "centralRadiusSquared",
+      102.791
+    ],
+    [
+      "hexWithAlpha$1",
+      102.73399999999995
+    ],
+    [
+      "moveEntities",
+      98.64300000000006
+    ],
+    [
+      "drawBackdropAsset",
+      85.511
+    ],
+    [
+      "bounds",
+      85.117
+    ],
+    [
+      "cellVisualProfile",
+      84.71799999999999
+    ],
+    [
+      "drawCore",
+      77.07499999999999
+    ],
+    [
+      "drawMotionWake",
+      74.82000000000001
+    ],
+    [
+      "moveEntity",
+      70.29500000000002
+    ],
+    [
+      "insert",
+      63.69899999999999
+    ],
+    [
+      "simulateStep",
+      62.415
+    ]
+  ],
+  "inclusiveTop": [
+    [
+      "(root)",
+      13294.96100000004
+    ],
+    [
+      "window.runFixture",
+      11620.25800000001
+    ],
+    [
+      "render",
+      7161.356999999978
+    ],
+    [
+      "(anonymous)",
+      5089.595
+    ],
+    [
+      "advance",
+      4130.418000000009
+    ],
+    [
+      "simulateStep",
+      4124.665000000008
+    ],
+    [
+      "moveEntities",
+      3185.600000000006
+    ],
+    [
+      "drawCell",
+      2814.482999999996
+    ],
+    [
+      "movementDecision",
+      2723.798000000004
+    ],
+    [
+      "_visitCells",
+      2606.808000000002
+    ],
+    [
+      "query",
+      2579.2410000000045
+    ],
+    [
+      "membranePoint",
+      2055.8769999999963
+    ],
+    [
+      "drawRelationshipCue",
+      1947.7979999999986
+    ],
+    [
+      "membraneContour",
+      1607.2319999999988
+    ],
+    [
+      "geometricRelationship",
+      1506.167999999999
+    ],
+    [
+      "centeredMembrane",
+      1331.2059999999983
+    ],
+    [
+      "physicalMembrane",
+      1296.8769999999995
+    ],
+    [
+      "(program)",
+      1282.501000000002
+    ],
+    [
+      "cellBodyPoint",
+      1220.459999999997
+    ],
+    [
+      "traceBody",
+      1043.4709999999998
+    ],
+    [
+      "membranePhase",
+      436.60899999999987
+    ],
+    [
+      "rebuildGrid",
+      383.58299999999974
+    ],
+    [
+      "resolveNearbyInteractions",
+      378.489
+    ],
+    [
+      "runStableEntityPass",
+      376.942
+    ],
+    [
+      "insert",
+      371.2499999999997
+    ],
+    [
+      "decideBehavior",
+      283.738
+    ],
+    [
+      "cellToneBands",
+      255.159
+    ],
+    [
+      "mixHex",
+      249.65300000000002
+    ],
+    [
+      "(garbage collector)",
+      243.322
+    ],
+    [
+      "geometricallyFits",
+      193.75599999999997
+    ],
+    [
+      "cellVisualProfile",
+      189.58699999999993
+    ],
+    [
+      "drawInternalStructure",
+      182.4510000000001
+    ],
+    [
+      "_classPrivateFieldGet2",
+      178.33900000000006
+    ],
+    [
+      "channel",
+      163.437
+    ],
+    [
+      "drawBehaviorStateCue",
+      141.78199999999998
+    ],
+    [
+      "(idle)",
+      135.26900000000003
+    ],
+    [
+      "_assertClassBrand",
+      133.65900000000005
+    ],
+    [
+      "moveEntity",
+      121.24399999999997
+    ],
+    [
+      "hexWithAlpha$1",
+      120.27199999999995
+    ],
+    [
+      "sampleEnvironmentField",
+      115.84599999999999
+    ]
+  ],
+  "selected": {
+    "render": {
+      "selfMs": 248.43699999999984,
+      "inclusiveMs": 7161.356999999978
+    },
+    "drawRelationshipCue": {
+      "selfMs": 667.7259999999994,
+      "inclusiveMs": 1947.7979999999986
+    },
+    "createRelationshipFrame": {
+      "selfMs": 0,
+      "inclusiveMs": 18.682
+    },
+    "geometricRelationship": {
+      "selfMs": 1.557,
+      "inclusiveMs": 1506.167999999999
+    },
+    "geometricallyFits": {
+      "selfMs": 5.848,
+      "inclusiveMs": 193.75599999999997
+    },
+    "drawCell": {
+      "selfMs": 926.8450000000008,
+      "inclusiveMs": 2814.482999999996
+    },
+    "drawBehaviorStateCue": {
+      "selfMs": 138.564,
+      "inclusiveMs": 141.78199999999998
+    },
+    "drawDangerTelegraph": {
+      "selfMs": 0,
+      "inclusiveMs": 0
+    },
+    "membraneContour": {
+      "selfMs": 610.842,
+      "inclusiveMs": 1607.2319999999988
+    },
+    "membranePoint": {
+      "selfMs": 1635.5869999999961,
+      "inclusiveMs": 2055.8769999999963
+    },
+    "fullyContains": {
+      "selfMs": 0,
+      "inclusiveMs": 0
+    },
+    "centralRadiusSquared": {
+      "selfMs": 102.791,
+      "inclusiveMs": 102.791
+    },
+    "simulateStep": {
+      "selfMs": 62.415,
+      "inclusiveMs": 4124.665000000008
+    },
+    "resolveNearbyInteractions": {
+      "selfMs": 1.547,
+      "inclusiveMs": 378.489
+    },
+    "coveredRatio": {
+      "selfMs": 0,
+      "inclusiveMs": 0
+    },
+    "perceptionFor": {
+      "selfMs": 0,
+      "inclusiveMs": 0
+    }
+  }
+}

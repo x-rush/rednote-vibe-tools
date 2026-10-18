@@ -1,0 +1,86 @@
+[
+  {
+    "formId": "form-primal-cell",
+    "family": "",
+    "channelsBeyond2": 0,
+    "meanAbsoluteDifference": 0,
+    "maxDifference": 0
+  },
+  {
+    "formId": "form-primal-cell",
+    "family": "dart",
+    "channelsBeyond2": 0,
+    "meanAbsoluteDifference": 0,
+    "maxDifference": 0
+  },
+  {
+    "formId": "form-primal-cell",
+    "family": "bastion",
+    "channelsBeyond2": 0,
+    "meanAbsoluteDifference": 0,
+    "maxDifference": 0
+  },
+  {
+    "formId": "form-primal-cell",
+    "family": "bloom",
+    "channelsBeyond2": 1,
+    "meanAbsoluteDifference": 0.0000484375,
+    "maxDifference": 3
+  },
+  {
+    "formId": "form-colony-body",
+    "family": "",
+    "channelsBeyond2": 14,
+    "meanAbsoluteDifference": 0.0003328125,
+    "maxDifference": 4
+  },
+  {
+    "formId": "form-colony-body",
+    "family": "dart",
+    "channelsBeyond2": 10,
+    "meanAbsoluteDifference": 0.0003125,
+    "maxDifference": 5
+  },
+  {
+    "formId": "form-colony-body",
+    "family": "bastion",
+    "channelsBeyond2": 16,
+    "meanAbsoluteDifference": 0.0003421875,
+    "maxDifference": 5
+  },
+  {
+    "formId": "form-colony-body",
+    "family": "bloom",
+    "channelsBeyond2": 20,
+    "meanAbsoluteDifference": 0.0003765625,
+    "maxDifference": 6
+  },
+  {
+    "formId": "form-ciliate-composite",
+    "family": "",
+    "channelsBeyond2": 2,
+    "meanAbsoluteDifference": 0.0000484375,
+    "maxDifference": 5
+  },
+  {
+    "formId": "form-ciliate-composite",
+    "family": "dart",
+    "channelsBeyond2": 3,
+    "meanAbsoluteDifference": 0.000046875,
+    "maxDifference": 5
+  },
+  {
+    "formId": "form-ciliate-composite",
+    "family": "bastion",
+    "channelsBeyond2": 3,
+    "meanAbsoluteDifference": 0.0000546875,
+    "maxDifference": 5
+  },
+  {
+    "formId": "form-ciliate-composite",
+    "family": "bloom",
+    "channelsBeyond2": 4,
+    "meanAbsoluteDifference": 0.000046875,
+    "maxDifference": 5
+  }
+]

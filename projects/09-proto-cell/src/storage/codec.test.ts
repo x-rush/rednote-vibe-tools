@@ -1,8 +1,82 @@
 import { describe, expect, it } from 'vitest'
 import { saveFixture } from '../tests/fixtures'
 import { decodeSave, encodeSave } from './codec'
+import { getContent } from '../content'
+import { createNursery, hatchLineage, leaveSeed, selectLineage } from '../progression/lineage'
 
 describe('versioned save codec', () => {
+  it('preserves the final cell family appearance through export and import without changing legacy archives', () => {
+    const fixture = saveFixture()
+    const visualRecipeId = getContent().lineage.archetypes[0]!.visualRecipeId
+    Object.assign(fixture.lifeArchives[0]!, { finalVisualRecipeId: visualRecipeId })
+    const restored = decodeSave(encodeSave(fixture))
+    expect(restored.issues).toEqual([])
+    expect(restored.value?.lifeArchives[0]).toMatchObject({ finalVisualRecipeId: visualRecipeId })
+    expect(decodeSave(saveFixture()).value?.lifeArchives[0]).not.toHaveProperty('finalVisualRecipeId')
+  })
+
+  it('rejects unknown or non-cell archive visual recipes', () => {
+    const nonCellRecipeId = getContent().visualRecipes.find((recipe) => recipe.kind !== 'cell')!.id
+    for (const finalVisualRecipeId of ['visual-missing', nonCellRecipeId]) {
+      const fixture = saveFixture()
+      Object.assign(fixture.lifeArchives[0]!, { finalVisualRecipeId })
+      expect(decodeSave(fixture)).toMatchObject({ value: undefined, issues: [expect.objectContaining({ path: '$.lifeArchives[0].finalVisualRecipeId', code: 'unknown-id' })] })
+    }
+  })
+
+  it('migrates legacy archives to bounded seed sources once and keeps the release version', () => {
+    const fixture = saveFixture({ archiveCount: 30 })
+    const migrated = decodeSave(fixture)
+    expect(migrated.issues).toEqual([])
+    expect(migrated.value?.nursery?.seeds).toHaveLength(12)
+    expect(migrated.value?.nursery?.lineages).toEqual([])
+    expect(migrated.value?.nursery?.seenArchiveKeys).toHaveLength(30)
+    expect(migrated.value?.contentVersion).toBe(fixture.contentVersion)
+    expect(decodeSave(encodeSave(migrated.value!)).value?.nursery).toEqual(migrated.value?.nursery)
+  })
+
+  it('preserves completed run ordinals beyond the archive cap through export and reload', () => {
+    const fixture = saveFixture({ archiveCount: 35 })
+    const migrated = decodeSave(fixture)
+    expect(migrated.value?.nursery?.completedRuns).toBe(35)
+    expect(migrated.value?.nursery?.seeds.at(-1)?.earnedAtRun).toBe(35)
+    expect(migrated.value?.lifeArchives).toHaveLength(30)
+    const reloaded = decodeSave(encodeSave(migrated.value!))
+    expect(reloaded.value?.nursery?.completedRuns).toBe(35)
+    const next = leaveSeed(reloaded.value!.nursery!, fixture.lifeArchives.at(-1)!, 36)
+    expect(next.completedRuns).toBe(36)
+    expect(next.seeds.at(-1)?.earnedAtRun).toBe(36)
+    for (const completedRuns of [-1, 1.5, Infinity, Number.MAX_SAFE_INTEGER + 1]) expect(decodeSave({ ...migrated.value, nursery: { ...migrated.value?.nursery, completedRuns } }).value).toBeUndefined()
+  })
+
+  it('exports and reloads selected offspring without losing consumed source state', () => {
+    const fixture = saveFixture()
+    const source = leaveSeed(createNursery(), fixture.lifeArchives[0]!, 1)
+    const hatched = hatchLineage(source, { seedId: source.seeds[0]!.id, archetypeId: getContent().lineage.archetypes[0]!.id, name: '下一代' }, 2)
+    fixture.nursery = selectLineage(hatched, hatched.lineages[0]!.id)
+    const reloaded = decodeSave(encodeSave(fixture))
+    expect(reloaded.issues).toEqual([])
+    expect(reloaded.value?.nursery).toEqual(fixture.nursery)
+    expect(() => hatchLineage(reloaded.value!.nursery!, { seedId: source.seeds[0]!.id, archetypeId: getContent().lineage.archetypes[0]!.id, name: '重复' }, 2)).toThrow()
+  })
+
+  it('rejects malformed nursery identifiers, generations, inheritance, missing references and oversized collections', () => {
+    const base = saveFixture()
+    const seeded = leaveSeed(createNursery(), base.lifeArchives[0]!, 1)
+    const hatched = hatchLineage(seeded, { seedId: seeded.seeds[0]!.id, archetypeId: getContent().lineage.archetypes[0]!.id, name: '后代' }, 2)
+    const cases = [
+      { ...hatched, selectedLineageId: 'lineage-missing' },
+      { ...hatched, lineages: [{ ...hatched.lineages[0], generation: Number.MAX_SAFE_INTEGER + 1 }] },
+      { ...hatched, lineages: [{ ...hatched.lineages[0], archetypeId: 'lineage-missing' }] },
+      { ...hatched, lineages: [{ ...hatched.lineages[0], seedId: 'seed-missing' }] },
+      { ...hatched, lineages: [{ ...hatched.lineages[0], inheritedOrganelleId: 'organelle-guard-symbiont' }] },
+      { ...hatched, seeds: Array.from({ length: 13 }, () => seeded.seeds[0]) },
+    ]
+    for (const nursery of cases) {
+      expect(decodeSave({ ...base, nursery })).toMatchObject({ value: undefined, issues: expect.arrayContaining([expect.objectContaining({ path: expect.stringContaining('$.nursery') })]) })
+    }
+  })
+
   it.each([
     ['microbe', 'form-primal-cell'],
     ['hunter', 'form-primal-cell'],

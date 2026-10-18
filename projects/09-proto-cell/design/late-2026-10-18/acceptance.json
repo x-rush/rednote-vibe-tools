@@ -1,0 +1,31 @@
+{
+  "productionEntry": "./assets/index-BIzvpkFx.js",
+  "runs": [
+    {
+      "file": "flow-proof.json",
+      "comfort": false,
+      "choices": 6,
+      "layouts": 12,
+      "giantAtMs": 151533.3333333367,
+      "endingAtMs": 166033.33333332825,
+      "finaleDurationMs": 1516.6666666657839,
+      "wallBreaks": 1,
+      "errors": [],
+      "finaleSamples": 1,
+      "finalePauseClockAssertPassed": true
+    },
+    {
+      "file": "comfort/flow-proof.json",
+      "comfort": true,
+      "choices": 6,
+      "layouts": 12,
+      "giantAtMs": 167799.9999999939,
+      "endingAtMs": 177566.66666665487,
+      "finaleDurationMs": 1516.6666666657839,
+      "wallBreaks": 1,
+      "errors": [],
+      "finaleSamples": 1,
+      "finalePauseClockAssertPassed": true
+    }
+  ]
+}

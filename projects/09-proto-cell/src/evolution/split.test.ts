@@ -3,6 +3,17 @@ import { playerWith } from '../tests/fixtures'
 import { advanceFusionStability, splitBody, stepSwarm, tryFuse } from './split'
 
 describe('automatic split and fusion', () => {
+  it.each([1000, 10_000, 100_000])('lets a mass $0 swarm converge and fuse after the player stops', (mass) => {
+    let children = splitBody(playerWith('organelle-division-ring', { mass }), { count: 2, lossFraction: 0.05 }).children
+    let stableForMs = 0
+    let fused: ReturnType<typeof tryFuse>
+    for (let step = 0; step < 600 && !fused; step += 1) {
+      children = stepSwarm(children, { direction: { x: 0, y: 0 }, strength: 0 }, 1000 / 60)
+      stableForMs = advanceFusionStability(children, stableForMs, 1000 / 60, 36)
+      fused = tryFuse(children, { proximity: 36, stableForMs, requiredStableMs: 1200 })
+    }
+    expect(fused?.mass).toBeCloseTo(mass * 0.95)
+  })
   it('conserves mass after explicit split loss and distributes organ ownership', () => {
     const player = playerWith(['organelle-division-ring', 'organelle-repair-vacuole'], { mass: 400 })
     const result = splitBody(player, { count: 2, lossFraction: 0.05 })

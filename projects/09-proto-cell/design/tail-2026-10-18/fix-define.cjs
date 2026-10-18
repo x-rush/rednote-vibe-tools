@@ -1,0 +1,1 @@
+const fs=require('node:fs'),p='design/tail-2026-10-18/app-stress.cjs';let s=fs.readFileSync(p,'utf8');s=s.replace("configFile:false,logLevel:'error'",`configFile:false,logLevel:'error',define:{'process.env.NODE_ENV':'"production"'}`);fs.writeFileSync(p,s)

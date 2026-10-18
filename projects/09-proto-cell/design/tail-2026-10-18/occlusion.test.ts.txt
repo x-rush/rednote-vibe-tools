@@ -1,0 +1,27 @@
+import { describe, expect, it } from 'vitest'
+import { createOpaqueCoverage } from './occlusion'
+
+describe('conservative opaque coverage', () => {
+ it('skips only rectangles whose entire pixel area is hidden by opaque disks', () => {
+  const coverage=createOpaqueCoverage();coverage.reset(96,96)
+  const disks=[{x:24,y:36,r:25},{x:54,y:36,r:25},{x:39,y:60,r:25}]
+  for(const d of disks)coverage.addDisk(d.x,d.y,d.r)
+  let hidden=0
+  for(let y=0;y<96;y+=4)for(let x=0;x<96;x+=4){
+   if(!coverage.covers(x,y,6,6))continue
+   hidden++
+   for(let py=y;py<=Math.min(95,y+6);py++)for(let px=x;px<=Math.min(95,x+6);px++)expect(disks.some(d=>Math.hypot(px-d.x,py-d.y)<d.r)).toBe(true)
+  }
+  expect(hidden).toBeGreaterThan(10)
+  expect(coverage.covers(0,0,96,96)).toBe(false)
+  coverage.reset(96,96);expect(coverage.covers(32,32,8,8)).toBe(false)
+ })
+ it('handles viewport edges, reset and unreasonable dimensions without unbounded allocation', () => {
+  const c=createOpaqueCoverage();c.reset(96,96);c.addDisk(0,48,40)
+  expect(c.covers(-100,40,110,4)).toBe(true)
+  expect(c.covers(0,0,10,10)).toBe(false)
+  c.reset(1_000_000,1_000_000);c.addDisk(0,0,1_000_000)
+  expect(c.covers(0,0,10,10)).toBe(false)
+  c.reset(390,844);expect(c.covers(10,10,20,20)).toBe(false)
+ })
+})

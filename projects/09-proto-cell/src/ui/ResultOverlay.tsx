@@ -1,13 +1,15 @@
-import type { CSSProperties, KeyboardEventHandler, RefObject } from 'react'
+import type { KeyboardEventHandler, RefObject } from 'react'
 import type { createResultViewModel } from '../app/view-model'
 import { getContent } from '../content'
-import { assetPath } from '../content/assets'
+import { SpecimenCanvas } from './SpecimenCanvas'
 
 export function ResultOverlay({
   model,
   onRestart,
   onLab,
   onReplaySeed,
+  onBreed,
+  visualRecipeId,
   restartButtonRef,
   onKeyDown,
 }: {
@@ -15,6 +17,8 @@ export function ResultOverlay({
   onRestart(): void
   onLab(): void
   onReplaySeed(): void
+  onBreed?(): void
+  visualRecipeId?: string
   restartButtonRef?: RefObject<HTMLButtonElement | null>
   onKeyDown?: KeyboardEventHandler<HTMLElement>
 }) {
@@ -25,10 +29,7 @@ export function ResultOverlay({
         <p className="hatchery-region">{model.routeLabel}</p>
         <h2 id="result-title">{model.cause}</h2>
       </header>
-      <div className="result-morphology" data-stage={model.bodyStage} role="img" aria-label={model.stageLabel}>
-        <i />
-        {model.keyTraits.map((trait, index) => <span key={trait.id} data-part={trait.morphologyPartId} style={{ '--part-index': index } as CSSProperties}><img src={assetPath(trait.id)} alt="" /></span>)}
-      </div>
+      <div className="result-specimen" data-stage={model.bodyStage} role="img" aria-label={model.stageLabel}><SpecimenCanvas build={model.build} formId={model.formId} visualRecipeId={visualRecipeId} size={176} /></div>
       <dl className="result-facts">
         <div><dt>{content.ui.hud.resultStage}</dt><dd>{model.stageLabel}</dd></div>
         <div><dt>{content.ui.screens.survival}</dt><dd>{formatElapsed(model.survivalMs)}</dd></div>
@@ -39,6 +40,7 @@ export function ResultOverlay({
       <div className="result-actions">
         <button ref={restartButtonRef} className="hatchery-start" type="button" onClick={onRestart}>{content.ui.hud.resultImmediateRestart}</button>
         <button className="game-overlay__secondary" type="button" onClick={onLab}>{content.ui.hud.resultBackDish}</button>
+        {onBreed && <button className="result-breed" type="button" onClick={onBreed}><strong>{content.ui.actions.breedOffspring}</strong><span>{content.ui.screens.seedOutcome}</span></button>}
       </div>
       <details><summary>{content.ui.hud.resultSameSeed}</summary><button type="button" onClick={onReplaySeed}>{model.seed}</button></details>
     </section>

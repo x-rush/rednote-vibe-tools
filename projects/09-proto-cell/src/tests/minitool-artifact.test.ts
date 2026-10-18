@@ -37,6 +37,8 @@ describe('mini-tool production artifact', () => {
 
       const script = await readFile(join(outDir, 'assets', entryName!), 'utf8')
       expect(script).not.toContain('navigator.connection')
+      expect(script.includes('.game-overlay,.result-overlay{align-content:start}')).toBe(true)
+      expect(script.includes('@supports (align-content:safe center)')).toBe(true)
     } finally {
       await rm(outDir, { recursive: true, force: true })
     }

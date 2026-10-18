@@ -150,6 +150,32 @@ export function validateContent(input: unknown): ContentValidationResult {
   validateEnvironments(collections.get('environments') ?? [], spawnTableIds, spawnTableEnvironmentById, eventIds, bossIds)
   validateJourney(input.journey, environmentIds)
   validateScaleTiers(input.scaleTiers, environmentIds)
+  validateEcosystems(input.ecosystems, input.scaleTiers)
+  if (isRecord(input.lateEcology)) {
+    const late = input.lateEcology
+    const reward = isRecord(late.fiberReward) ? late.fiberReward : {}
+    reference(reward.creatureId, creatureIds, '$.lateEcology.fiberReward.creatureId', 'fiber reward species')
+    require(Number.isInteger(reward.count) && Number(reward.count) >= 1 && Number(reward.count) <= 4, '$.lateEcology.fiberReward.count', 'reward count must be bounded')
+    const wall = isRecord(late.chamberBreak) ? late.chamberBreak : {}
+    require(typeof wall.radius === 'number' && wall.radius >= 128 && wall.radius <= 176 && typeof wall.holdMs === 'number' && wall.holdMs >= 400 && wall.holdMs <= 2000, '$.lateEcology.chamberBreak', 'wall breaking must require a mature body and sustained pressure')
+    require(Array.isArray(late.chamberWalls) && late.chamberWalls.length >= 1 && late.chamberWalls.length <= 4 && late.chamberWalls.every((entry) => isRecord(entry) && [entry.from, entry.to].every((point) => isFinitePair(point) && point.every((value) => value >= 0.05 && value <= 0.95)) && isFinitePair(entry.from) && isFinitePair(entry.to) && entry.from[1] === entry.to[1] && Array.isArray(entry.gaps) && entry.gaps.every((gap) => isFinitePair(gap) && gap[0] >= 0 && gap[1] <= 1 && gap[1] > gap[0])), '$.lateEcology.chamberWalls', 'chamber walls and open lanes must fit inside the world')
+    const leviathan = isRecord(late.leviathan) ? late.leviathan : {}
+    reference(leviathan.profileId, behaviorProfileIds, '$.lateEcology.leviathan.profileId', 'leviathan behavior')
+    require(typeof leviathan.armoredRadius === 'number' && typeof leviathan.exposedRadius === 'number' && leviathan.exposedRadius > 0 && leviathan.armoredRadius > leviathan.exposedRadius && leviathan.armoredRadius <= 176, '$.lateEcology.leviathan', 'armored giant must shrink to its edible core')
+    require(typeof leviathan.finaleMs === 'number' && leviathan.finaleMs >= 1000 && leviathan.finaleMs <= 3000, '$.lateEcology.leviathan.finaleMs', 'final absorption must stay brief')
+  } else require(false, '$.lateEcology', 'late ecology rules are required')
+  if (isRecord(input.fiberTraversal)) {
+    validateIncreasingRange(input.fiberTraversal.radiusRange, '$.fiberTraversal.radiusRange', 0, 176)
+    validateIncreasingRange(input.fiberTraversal.speedMultiplierRange, '$.fiberTraversal.speedMultiplierRange', 0, 1)
+    require(typeof input.fiberTraversal.contactPadding === 'number' && Number.isFinite(input.fiberTraversal.contactPadding) && input.fiberTraversal.contactPadding >= 0 && input.fiberTraversal.contactPadding <= 32, '$.fiberTraversal.contactPadding', 'fiber contact padding must be between zero and 32')
+    for (const [key, maximum] of [['coverMaxRadius', 64], ['coverPadding', 80], ['breakRadius', 176], ['breakHoldMs', 2000], ['gapBodyRadii', 3]] as const) {
+      const value = input.fiberTraversal[key]
+      require(typeof value === 'number' && Number.isFinite(value) && value > 0 && value <= maximum, `$.fiberTraversal.${key}`, 'terrain parameter must be finite and within its supported range')
+    }
+    require(Number(input.fiberTraversal.breakRadius) > Number(input.fiberTraversal.coverMaxRadius), '$.fiberTraversal.breakRadius', 'breaking must require a larger body than concealment')
+    require(Array.isArray(input.fiberTraversal.firstLayerShelters) && input.fiberTraversal.firstLayerShelters.length > 0 && input.fiberTraversal.firstLayerShelters.length <= 4 && input.fiberTraversal.firstLayerShelters.every((shelter) => isRecord(shelter) && [shelter.from, shelter.to].every((point) => isFinitePair(point) && point.every((value) => value >= 0.05 && value <= 0.95))), '$.fiberTraversal.firstLayerShelters', 'first-life shelters must use bounded normalized world positions')
+  } else require(false, '$.fiberTraversal', 'fiber traversal rules are required')
+  validateLineage(input.lineage)
   validateFirstRunAssist(input.firstRunAssist)
   validateEcologyBudgets(input.ecologyBudgets, environmentIds)
   validateBehaviorProfiles(collections.get('behaviorProfiles') ?? [])
@@ -218,6 +244,43 @@ export function validateContent(input: unknown): ContentValidationResult {
       if (item.bossId !== undefined) reference(item.bossId, bosses, `${base}.bossId`, 'boss')
       requireStringArray(item.visualPalette, `${base}.visualPalette`, true)
       requiredString(item.ambientAudioId, `${base}.ambientAudioId`)
+    })
+  }
+
+  function validateEcosystems(value: unknown, tiers: unknown) {
+    if (!Array.isArray(value)) {
+      issues.push({ path: '$.ecosystems', message: 'three playable ecosystems are required' })
+      return
+    }
+    require(value.length === 3, '$.ecosystems', 'exactly three ecosystems are required')
+    value.forEach((ecology, index) => {
+      const base = `$.ecosystems[${index}]`
+      if (!isRecord(ecology)) {
+        issues.push({ path: base, message: 'ecosystem must be an object' })
+        return
+      }
+      require(ecology.tierIndex === index, `${base}.tierIndex`, 'ecosystems must be unique and ordered')
+      for (const field of ['name', 'subtitle', 'objective', 'encounterName', 'encounterHint']) requiredString(ecology[field], `${base}.${field}`)
+      reference(ecology.encounterCreatureId, creatureIds, `${base}.encounterCreatureId`, 'creature')
+      const tier = Array.isArray(tiers) ? tiers[index] : undefined
+      const maximumRadius = isRecord(tier) && isFinitePair(tier.radiusRange) ? tier.radiusRange[1] : 0
+      require(typeof ecology.encounterRadius === 'number' && ecology.encounterRadius > 0 && ecology.encounterRadius < maximumRadius / 1.15, `${base}.encounterRadius`, 'mature body must be able to engulf the encounter')
+      finiteRange(ecology.encounterAtPressure, 0, 0.8, `${base}.encounterAtPressure`)
+      positiveFinite(ecology.activeBiomassTarget, `${base}.activeBiomassTarget`, 'active hunting target must be positive')
+      validateIncreasingRange(ecology.mutationPressures, `${base}.mutationPressures`, 0, 1)
+      positiveFinite(ecology.openingFoodCount, `${base}.openingFoodCount`, 'opening food must be provided')
+      positiveFinite(ecology.openingFoodDistance, `${base}.openingFoodDistance`, 'opening food must be within reach')
+      finiteRange(ecology.openingFoodRadiusRatio, 0.1, 0.7, `${base}.openingFoodRadiusRatio`)
+      for (const field of ['openingFoodSpeed', 'encounterDistance', 'encounterSpeedBodyLengths', 'carryoverSpeedBodyLengths']) positiveFinite(ecology[field], `${base}.${field}`, 'ecology movement parameter must be positive')
+      validateIncreasingRange(ecology.sightBodyWidths, `${base}.sightBodyWidths`, 0, 30)
+      references(ecology.carryoverCreatureIds, creatureIds, `${base}.carryoverCreatureIds`, 'creature')
+      require(Array.isArray(ecology.enemyNotes) && ecology.enemyNotes.length >= 4, `${base}.enemyNotes`, 'every ecosystem needs distinct enemy roles')
+      if (Array.isArray(ecology.enemyNotes)) ecology.enemyNotes.forEach((note, noteIndex) => {
+        const notePath = `${base}.enemyNotes[${noteIndex}]`
+        if (!isRecord(note)) { issues.push({ path: notePath, message: 'enemy note must be an object' }); return }
+        reference(note.creatureId, creatureIds, `${notePath}.creatureId`, 'creature')
+        for (const field of ['title', 'behavior', 'weakness']) requiredString(note[field], `${notePath}.${field}`)
+      })
     })
   }
 
@@ -472,23 +535,48 @@ export function validateContent(input: unknown): ContentValidationResult {
     })
   }
 
+  function validateLineage(value: unknown) {
+    if (!isRecord(value)) { issues.push({ path: '$.lineage', message: 'lineage rules are required' }); return }
+    for (const field of ['maxSeeds', 'maxLineages'] as const) require(Number.isInteger(value[field]) && Number(value[field]) >= 3 && Number(value[field]) <= 30, `$.lineage.${field}`, 'capacity must be between three and thirty')
+    require(value.maxInheritedOrgans === 1, '$.lineage.maxInheritedOrgans', 'offspring inherit one organ at most')
+    require(typeof value.hatchDurationMs === 'number' && Number.isFinite(value.hatchDurationMs) && value.hatchDurationMs >= 1000 && value.hatchDurationMs <= 10000, '$.lineage.hatchDurationMs', 'hatching must be brief and skippable')
+    if (!Array.isArray(value.archetypes)) { issues.push({ path: '$.lineage.archetypes', message: 'lineage archetypes are required' }); return }
+    require(value.archetypes.length === 3, '$.lineage.archetypes', 'three distinct lineage strategies are required')
+    const seen = new Set<string>()
+    value.archetypes.forEach((item, index) => {
+      const base = `$.lineage.archetypes[${index}]`
+      if (!isRecord(item)) { issues.push({ path: base, message: 'archetype must be an object' }); return }
+      require(typeof item.id === 'string' && /^lineage-[a-z-]+$/.test(item.id) && !seen.has(item.id), `${base}.id`, 'unique lineage id required')
+      if (typeof item.id === 'string') seen.add(item.id)
+      for (const field of ['name', 'description', 'strength', 'weakness']) requiredString(item[field], `${base}.${field}`)
+      reference(item.originId, new Set((collections.get('origins') ?? []).map((origin) => String(origin.id))), `${base}.originId`, 'origin')
+      reference(item.visualRecipeId, visualsByKind.cell, `${base}.visualRecipeId`, 'visual recipe')
+      require(typeof item.route === 'string' && LEGAL_EVOLUTION_ROUTES.has(item.route), `${base}.route`, 'valid route required')
+      require(Number.isInteger(item.minGeneration) && Number(item.minGeneration) >= 1 && Number(item.minGeneration) <= 30, `${base}.minGeneration`, 'generation must be bounded')
+      if (Array.isArray(item.inheritancePool) && item.inheritancePool.length >= 3) item.inheritancePool.forEach((id, organIndex) => reference(id, organelleIds, `${base}.inheritancePool[${organIndex}]`, 'organelle'))
+      else issues.push({ path: `${base}.inheritancePool`, message: 'at least three heritable organs required' })
+    })
+  }
+
   function validateBehaviorProfiles(items: Record<string, unknown>[]) {
-    require(items.length === LEGAL_BEHAVIOR_FAMILIES.size, '$.behaviorProfiles', 'one profile is required for every behavior family')
+    require(items.length >= LEGAL_BEHAVIOR_FAMILIES.size, '$.behaviorProfiles', 'a profile is required for every behavior family')
     const families = new Set<string>()
     items.forEach((profile, index) => {
       const base = `$.behaviorProfiles[${index}]`
-      require(typeof profile.family === 'string' && LEGAL_BEHAVIOR_FAMILIES.has(profile.family) && !families.has(profile.family), `${base}.family`, 'behavior family must be valid and unique')
+      require(typeof profile.family === 'string' && LEGAL_BEHAVIOR_FAMILIES.has(profile.family), `${base}.family`, 'behavior family must be valid')
       if (typeof profile.family === 'string') families.add(profile.family)
       requiredString(profile.movementPattern, `${base}.movementPattern`)
       requiredString(profile.weaknessId, `${base}.weaknessId`)
       require(typeof profile.perceptionRadius === 'number' && Number.isFinite(profile.perceptionRadius) && profile.perceptionRadius > 0, `${base}.perceptionRadius`, 'perception radius must be positive')
       require(typeof profile.abandonAfterMs === 'number' && Number.isFinite(profile.abandonAfterMs) && profile.abandonAfterMs >= 0, `${base}.abandonAfterMs`, 'abandon timer must be non-negative')
+      if (profile.telegraphMs !== undefined) require(typeof profile.telegraphMs === 'number' && Number.isFinite(profile.telegraphMs) && profile.telegraphMs >= 250 && profile.telegraphMs <= 1500, `${base}.telegraphMs`, 'attack warning must leave time to react')
       if (profile.family === 'hunter') {
         require(typeof profile.pursuitBurstMs === 'number' && Number.isFinite(profile.pursuitBurstMs) && profile.pursuitBurstMs >= 600, `${base}.pursuitBurstMs`, 'hunter pursuit bursts must stay readable')
         require(typeof profile.recoveryMs === 'number' && Number.isFinite(profile.recoveryMs) && profile.recoveryMs >= 400, `${base}.recoveryMs`, 'hunter recovery must leave an escape window')
         require(typeof profile.turnResponseMs === 'number' && Number.isFinite(profile.turnResponseMs) && profile.turnResponseMs >= 250, `${base}.turnResponseMs`, 'hunter turning must remain readable')
       }
     })
+    require([...LEGAL_BEHAVIOR_FAMILIES].every((family) => families.has(family)), '$.behaviorProfiles', 'all eight behavior families must remain represented')
   }
 
   function validateEcologySpawnCoverage(

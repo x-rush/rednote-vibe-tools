@@ -1,0 +1,82 @@
+[
+  {
+    "width": 375,
+    "height": 812,
+    "game": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "暂停",
+          "rect": {
+            "x": 321,
+            "y": 54,
+            "width": 44,
+            "height": 44
+          }
+        }
+      ],
+      "body": "吞噬分\n0\n生态航程\n原始单细胞 · 01/06\n体型\n微生体\n膜完整度\n100%\nⅡ"
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "game": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "暂停",
+          "rect": {
+            "x": 336,
+            "y": 54,
+            "width": 44,
+            "height": 44
+          }
+        }
+      ],
+      "body": "吞噬分\n0\n生态航程\n原始单细胞 · 01/06\n体型\n微生体\n膜完整度\n100%\nⅡ"
+    },
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "game": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "暂停",
+          "rect": {
+            "x": 376,
+            "y": 54,
+            "width": 44,
+            "height": 44
+          }
+        }
+      ],
+      "body": "吞噬分\n0\n生态航程\n原始单细胞 · 01/06\n体型\n微生体\n膜完整度\n100%\nⅡ"
+    },
+    "errors": []
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "game": {
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "暂停",
+          "rect": {
+            "x": 790,
+            "y": 54,
+            "width": 44,
+            "height": 44
+          }
+        }
+      ],
+      "body": "吞噬分\n0\n生态航程\n原始单细胞 · 01/06\n体型\n微生体\n膜完整度\n100%\nⅡ"
+    },
+    "errors": []
+  }
+]

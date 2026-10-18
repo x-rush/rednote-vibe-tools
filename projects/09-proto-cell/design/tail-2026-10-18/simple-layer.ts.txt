@@ -1,0 +1,61 @@
+import type { CellVisualProfile } from './cell'
+import { membraneContour } from '../domain/membrane'
+
+const RESOLUTION = 3
+const MAX_PIXELS = 1_048_576
+type Surface = { canvas: HTMLCanvasElement; context: CanvasRenderingContext2D }
+export type SimpleCellLayer = ReturnType<typeof createSimpleCellLayer>
+
+/** Only the already-simple, ID-independent distant NPC bodies use this layer.
+ * Full anatomy, players and encounters keep live vectors. Animation is rebuilt
+ * each frame; radius rounding is bounded by 1/64 CSS px, below a device pixel.
+ * Supersampled surfaces are renderer-owned, reused and capped at 4 MiB. */
+export function createSimpleCellLayer(createSurface: () => HTMLCanvasElement | undefined = () => typeof document === 'undefined' ? undefined : document.createElement('canvas')) {
+  const pool: Surface[] = [], frame = new Map<string, Surface>()
+  let used = 0
+  return {
+    beginFrame() { frame.clear(); used = 0 },
+    draw(context: CanvasRenderingContext2D, profile: CellVisualProfile, radius: number, bodyRadius: number, atMs: number): boolean {
+      if (!['pearl', 'colony', 'ciliate', 'swimmer'].includes(profile.silhouette)
+        || context.globalAlpha !== 1 || context.globalCompositeOperation !== 'source-over'
+        || !Number.isFinite(radius + bodyRadius) || radius < 0.25 || bodyRadius < 0.25) return false
+      const membraneRadius = Math.round(bodyRadius * 32) / 32, lineWidth = Math.max(1.2, radius * 0.075)
+      const size = Math.ceil((Math.max(radius, membraneRadius) + lineWidth + 2) * 2 * RESOLUTION)
+      if (size > 512) return false
+      const { palette } = profile
+      const key = `${profile.silhouette}:${radius}:${membraneRadius}:${atMs}:${palette.membrane}:${palette.cytoplasm}:${palette.core}`
+      let surface = frame.get(key)
+      if (!surface) {
+        if (used >= 16) return false
+        surface = pool[used]
+        const pixels = pool.reduce((sum, slot) => sum + slot.canvas.width * slot.canvas.height, 0)
+        if (pixels - (surface ? surface.canvas.width * surface.canvas.height : 0) + size * size > MAX_PIXELS) return false
+        if (!surface) {
+          const canvas = createSurface(), target = canvas?.getContext('2d')
+          if (!canvas || !target) return false
+          surface = { canvas, context: target }; pool.push(surface)
+        }
+        used += 1
+        const { canvas, context: target } = surface
+        if (canvas.width !== size || canvas.height !== size) { canvas.width = size; canvas.height = size }
+        target.setTransform(1, 0, 0, 1, 0, 0); target.clearRect(0, 0, size, size)
+        target.setTransform(RESOLUTION, 0, 0, RESOLUTION, size / 2, size / 2)
+        target.fillStyle = palette.cytoplasm; target.strokeStyle = palette.membrane; target.lineWidth = lineWidth
+        target.beginPath()
+        const contour = membraneContour(profile.silhouette, atMs, 'shared-simple')
+        contour.forEach((point, index) => {
+          if (index === 0) target.moveTo(point.x * membraneRadius, point.y * membraneRadius)
+          else target.lineTo(point.x * membraneRadius, point.y * membraneRadius)
+        })
+        target.closePath(); target.fill(); target.stroke()
+        target.fillStyle = palette.core; target.beginPath()
+        target.ellipse(-radius * 0.14, -radius * 0.1, radius * 0.22, radius * 0.17, 0.4, 0, Math.PI * 2); target.fill()
+        frame.set(key, surface)
+      }
+      const extent = surface.canvas.width / RESOLUTION
+      context.drawImage(surface.canvas, -extent / 2, -extent / 2, extent, extent)
+      return true
+    },
+    destroy() { frame.clear(); for (const { canvas } of pool) { canvas.width = 0; canvas.height = 0 }; pool.length = 0 },
+  }
+}

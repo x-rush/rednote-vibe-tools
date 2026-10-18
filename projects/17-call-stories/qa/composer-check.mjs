@@ -17,7 +17,7 @@ try{await mkdir(join(root,'qa/profile'),{recursive:true});let target;for(let i=0
   const snap=async name=>{const r=await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile(join(root,'qa/output',name+'.png'),Buffer.from(r.data,'base64'));};
   for(const width of [375,390,430,844]){
     await command('Emulation.setDeviceMetricsOverride',{width,height:width===844?390:844,deviceScaleFactor:1,mobile:true});await evaluate("document.documentElement.style.setProperty('--safe-area-inset-top','24px');document.documentElement.style.setProperty('--safe-area-inset-bottom','16px')");
-    await click('[data-action=preview-add-self]');await assert("document.querySelectorAll('[data-composer-kind]').length===8",'Missing type choices');
+    await click('[data-action=preview-add-self]');await assert("document.querySelectorAll('[data-composer-kind]').length===9",'Missing type choices');
     if(width===390)await snap('composer-types-390');
     await assert("(()=>{const s=document.querySelector('.message-composer').getBoundingClientRect(),b=document.querySelector('.composer-close').getBoundingClientRect();return s.top>=72&&s.width<=innerWidth&&s.bottom<=innerHeight&&b.top>=72})()",'Sheet overlaps host control zone');
     await click('[data-composer-kind=voice]');await assert("!document.querySelector('.chat-body .chat-edit-card')&&!document.querySelector('.message-composer .studio-message')&&document.querySelectorAll('.message-composer .composer-person').length===1",'Legacy nested editor remains');

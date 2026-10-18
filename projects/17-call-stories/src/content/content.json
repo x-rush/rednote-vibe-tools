@@ -657,6 +657,31 @@
       "otherBefore": "你领取了",
       "otherAfter": "的",
       "word": "红包"
+    },
+    "video": {
+      "choose": "选择本地视频",
+      "replace": "重新选择视频",
+      "remove": "移除视频",
+      "loading": "正在读取视频…",
+      "note": "仅本次使用，刷新后需重新选择。视频不会上传。",
+      "formatNote": "单个视频不超过 20MB，推荐 MP4（H.264）。",
+      "missing": "视频待重新选择",
+      "play": "播放视频",
+      "description": "视频说明（可选）",
+      "required": "请先选择一个视频",
+      "invalid": "这个视频无法读取，请换用 MP4（H.264）视频。",
+      "large": "视频超过 20MB，请先压缩或截短。",
+      "format": "小红书内请选择 MP4 视频。",
+      "unsupported": "当前环境暂不支持本地视频，请升级客户端后重试。",
+      "timeout": "读取视频超时，请换一个较小的文件。",
+      "playFailed": "视频暂时无法播放，请更换文件后重试。",
+      "close": "关闭视频",
+      "pause": "暂停",
+      "resume": "播放",
+      "seek": "视频进度",
+      "speed": "倍速",
+      "tapPlay": "点击播放继续观看",
+      "rateFailed": "这个视频暂不支持切换倍速。"
     }
   },
   "messageComposer": {
@@ -683,6 +708,7 @@
       "text": "文字",
       "voice": "语音",
       "image": "图片",
+      "video": "视频",
       "location": "位置",
       "transfer": "转账",
       "redpacket": "红包",
@@ -765,6 +791,11 @@
         "icon": "camera"
       },
       {
+        "kind": "video",
+        "label": "视频",
+        "icon": "video"
+      },
+      {
         "kind": "voice",
         "label": "语音消息",
         "icon": "mic"
@@ -805,6 +836,13 @@
     "editVoiceText": "编辑转文字",
     "saveVoiceText": "保存文字",
     "voiceTextTitle": "填写语音文字",
-    "voiceTextNote": "自己填写这段语音的内容，保存后显示在语音消息下方。"
+    "voiceTextNote": "自己填写这段语音的内容，保存后显示在语音消息下方。",
+    "deleteMessage": "删除",
+    "switchPerson": "切换人物",
+    "selectSpeaker": "选择发言人物",
+    "closeSpeakers": "关闭人物选择",
+    "speakerSelf": "我",
+    "speakerOther": "对方",
+    "speakerMember": "群成员"
   }
 }

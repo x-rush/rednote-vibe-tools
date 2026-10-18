@@ -1,5 +1,6 @@
 import {escapeHtml as e} from './model.mjs';
 import {voiceWidth,transferStatus} from './chat-messages.mjs';
+import {videoTime} from './video-message.mjs';
 
 function redpacketIcon(opened=false,small=false){
   if(small)return '<svg viewBox="0 0 18 20" aria-hidden="true"><rect x="1" y="1" width="16" height="18" rx="1.5" fill="#ff3144"/><path d="M1 2h16v6c-4 3-12 3-16 0Z" fill="#ff514d"/><circle cx="9" cy="9" r="3" fill="#ffd05b"/></svg>';
@@ -18,6 +19,12 @@ function mapIllustration(label){return `<svg class="map-illustration" viewBox="0
 export function createChatUI({data,person,avatar,icon,media}){
   const config=data.chatMessages,L=config.labels;
   function previewContent(m,i,mine){const kind=m.kind||'text',resource=media.get(m.id);
+    if(kind==='video'){
+      const V=data.chatMessages.video;
+      if(!resource||resource.kind!=='video')return `<span class="message-image-missing message-video-missing">${icon('video')}<small>${e(V.missing)}</small><small>${videoTime(m.duration)}</small></span>`;
+      const scale=Math.min(198/resource.width,198/resource.height,1),width=Math.max(1,Math.round(resource.width*scale)),height=Math.max(1,Math.round(resource.height*scale));
+      return `<button class="message-video" data-view-message-video="${i}" aria-label="${e(V.play)} ${videoTime(resource.duration)}"><img src="${e(resource.posterUrl)}" width="${width}" height="${height}" alt="${e(m.description||V.play)}"><span class="message-video-play" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="m12 8 13 8-13 8Z" fill="currentColor"/></svg></span><small>${videoTime(resource.duration)}</small></button>`;
+    }
     if(kind==='voice'){const width=voiceWidth(m.seconds);return `<button class="bubble voice-bubble" style="width:${width}px" data-voice-transcript="${i}" aria-label="${e(m.showTranscript?L.collapseTranscript:L.expandTranscript)}" aria-expanded="${!!m.showTranscript}">${richIcon('voice',mine)}<span>${m.seconds}"</span>${m.unread&&!mine?'<i class="voice-unread" aria-hidden="true"></i>':''}</button>${m.showTranscript&&m.transcript?`<p class="voice-transcript">${e(m.transcript)}</p>`:''}`;}
     if(kind==='image'){
       if(!resource)return `<span class="message-image-missing">${icon('camera')}<small>${e(L.imageLost)}</small></span>`;
@@ -31,7 +38,7 @@ export function createChatUI({data,person,avatar,icon,media}){
     return `<p class="bubble ${kind==='call'?'call-record':''}">${kind==='call'?icon('phone'):''}${e(m.text)}</p>`;
   }
   function previewMessage(m,i,ch){
-    if(m.kind==='narration')return `<div class="chat-narration">${e(m.text)}</div>`;
+    if(m.kind==='narration')return `<div class="chat-narration" data-message-row="${i}">${e(m.text)}</div>`;
     const mine=m.personId===ch.selfId;
     const receipt=m.kind==='redpacket'&&m.status==='received'?`<div class="redpacket-receipt">${redpacketIcon(false,true)}<span>${mine?e(person(ch.personId).name)+e(config.receipt.mine):e(config.receipt.otherBefore)+e(person(m.personId).name)+e(config.receipt.otherAfter)}<em>${e(config.receipt.word)}</em></span></div>`:'';
     return `<div class="bubble-row ${mine?'me':'them'}" data-message-row="${i}">${mine?'':avatar(m.personId,'small')}<div class="message-stack">${ch.mode==='group'&&!mine?`<small class="bubble-name">${e(person(m.personId).name)}</small>`:''}${previewContent(m,i,mine)}</div>${mine?avatar(m.personId,'small'):''}</div>${receipt}`;

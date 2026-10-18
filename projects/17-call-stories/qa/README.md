@@ -9,3 +9,6 @@
 没有实际 MP3 或小红书真机验收。没有 CSS 旋转模拟横屏入口。
 
 根 QA 目录中的历史 PNG 与 `profile/` 仅为旧版生成物，删除被环境自动审批拦截，已排除版本控制；它们不参与运行和构建。
+
+
+本地视频检查：先在 `qa/output/test-video.mp4` 放置一段约 3 秒、320×240 的 H.264/AAC MP4，另准备同样 3 秒、320×568 的 `qa/output/test-video-portrait.mp4`，再运行 `node qa/video-check.mjs`。测试视频不进版本控制或 ZIP。脚本覆盖真实播放、导入取消和媒体释放、内存草稿、平台桥接模拟及失败处理，并生成 `video-native-*.png` / `video-export-*.png` 用于像素比较。报告中的 `nativeHostTested: false` 表示宿主真机未验收。

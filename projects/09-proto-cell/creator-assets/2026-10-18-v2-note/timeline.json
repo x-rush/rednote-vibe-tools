@@ -1,0 +1,97 @@
+{
+  "duration": 43.6,
+  "scenes": [
+    {
+      "start": 0,
+      "end": 1.8,
+      "source": "finisher",
+      "caption": "以前追着我跑的，现在一口吞。"
+    },
+    {
+      "start": 1.8,
+      "end": 4.4,
+      "source": "home",
+      "caption": "小工具大赛虽然结束了，"
+    },
+    {
+      "start": 4.4,
+      "end": 8.2,
+      "source": "juvenile",
+      "caption": "但玩这个小游戏的人，慢慢多起来了。"
+    },
+    {
+      "start": 8.2,
+      "end": 11.2,
+      "source": "evolution-choices",
+      "caption": "所以回来，认真填了一波坑。"
+    },
+    {
+      "start": 11.2,
+      "end": 14.6,
+      "source": "new-form-0",
+      "caption": "第二版，先把成长和进化补上。"
+    },
+    {
+      "start": 14.6,
+      "end": 18.6,
+      "source": "tier-1",
+      "caption": "小时候躲着走，长大了回来反杀。"
+    },
+    {
+      "start": 18.6,
+      "end": 22.6,
+      "source": "tier-2",
+      "caption": "新形态，也有了更大的猎场。"
+    },
+    {
+      "start": 22.6,
+      "end": 25.4,
+      "source": "wall-break",
+      "caption": "以前用来躲敌人的地形，现在能破开。"
+    },
+    {
+      "start": 25.4,
+      "end": 28.6,
+      "source": "exposed",
+      "caption": "连以前的强敌，也能变成食物。"
+    },
+    {
+      "start": 28.6,
+      "end": 30.4,
+      "source": "finisher",
+      "caption": "吞下去的那一下，也重新打磨了。"
+    },
+    {
+      "start": 30.4,
+      "end": 33.0,
+      "source": "seed-bank",
+      "caption": "上一局留下种源，"
+    },
+    {
+      "start": 33.0,
+      "end": 34.8,
+      "source": "lineage-armored",
+      "caption": "不同品系，外观也不一样。"
+    },
+    {
+      "start": 34.8,
+      "end": 38.0,
+      "source": "hatching",
+      "caption": "下一局，孵化一颗不同的新细胞。"
+    },
+    {
+      "start": 38.0,
+      "end": 40.4,
+      "source": "cell-library",
+      "caption": "带走一点能力，再从小小一颗长大。"
+    },
+    {
+      "start": 40.4,
+      "end": 43.6,
+      "source": "offspring-start",
+      "caption": "更新了第二版。欢迎回来看看。"
+    }
+  ],
+  "audio": "None; final delivery has no audio tracks",
+  "footageMethod": "Actual production UI and normal stats. Game chapters use automated direction steering and accelerated fixed steps between selected scenes. Nursery is a separate take using a genuinely earned seed reconstructed to its pre-hatch state through the normal import UI. Edited demonstration, not an uncut human playthrough."
+}

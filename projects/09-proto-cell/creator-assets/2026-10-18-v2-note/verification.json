@@ -1,0 +1,31 @@
+{
+  "title": "更新了第二版",
+  "video": {
+    "file": "更新了第二版-无音乐版.mp4",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "duration": 43.6,
+    "codec": "h264",
+    "audioTracks": 0,
+    "audio": "none; add music when publishing",
+    "bytes": 15542032,
+    "sha256": "cf723bd2cb465b565b7e3df78a69f81087d26b832a231ea9239adbe0575cc81f",
+    "fullDecode": "pass",
+    "videoStreamUnchangedAfterRemovingAudio": true
+  },
+  "cover": {
+    "width": 1024,
+    "height": 1536,
+    "tool": "built-in image_gen",
+    "visualTextReview": "pass"
+  },
+  "visualReview": "12 scene samples plus opening engulf, home and hatching frames; captions legible and no gray recording padding",
+  "published": false,
+  "cleanup": {
+    "operation": "recoverable local archive excluded from Git",
+    "path": "staging-release/obsolete-20261018-note",
+    "topLevelItems": 6,
+    "bytes": 67970145
+  }
+}

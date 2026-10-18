@@ -1,52 +1,101 @@
-# 1.3.5 保留 banner、按正文锚点阅读
+# 高性价比人生指南1.3.5 · 验证与交付记录
 
-日期：2026-10-17。用户说明每章顶部都应存在完整 banner，仅自动将滚动位置定位在正文。
+文档复核：2026-10-18（北京时间）。本次只整理文档，没有改变代码、业务内容或图片，版本仍为1.3.5。
 
-## 产物
+## 当前产物
 
-高性价比人生指南-1.3.5-小红书小工具.zip
-1225504 bytes（1.17 MiB）
-SHA256：8f92f5578c5c7cf55abb549a1f9bf02528594db7aafae2ac3415e25395a143e2
-10 个白名单文件，index.html 位于 ZIP 根。构建对最终 ZIP 逐文件检查路径、扩展名、长度、解压及 CRC。
+| 项目 | 实际值 |
+| --- | --- |
+| ZIP | [高性价比人生指南-1.3.5-小红书小工具.zip](高性价比人生指南-1.3.5-小红书小工具.zip) |
+| 文件大小 | 1,225,504 bytes，约1.17MiB |
+| 文件数量 | 10个白名单文件，index.html在根目录 |
+| 内容来源 | 上游提交5f210ca953b7b538c042ad8515d5c355b766a194 |
+| 品牌 | 高性价比人生指南；简介“陪你把日子过得更好”（9字） |
+| 图片 | 480×322 WebP插画、512×512 PNG图标 |
+| Git | 已进入main，原PR #1已合并；只在main继续开发 |
 
-## 修复
+ZIP SHA256：
 
-删除 reading-view 对 hero/search-wrap 的 display:none 规则；每章保留完整 banner 和小猫，翻章/目录/回到章首只按安全区及吸顶工具栏高度计算正文锚点。向上滑可自然回到 banner，首页入口只改变滚动位置。SVG 箭头、筛选和单章替换继续保留。
+`8f92f5578c5c7cf55abb549a1f9bf02528594db7aafae2ac3415e25395a143e2`
 
-布局签名新增 cover 标识。旧版曾隐藏 banner 时保存的 scrollY 不直接用于新布局，改用文字锚点迁移；旧章首记录定位章标题。新记录继续精确保存滚动位置，避免 banner 高度改变导致旧进度偏移。
+逐文件清单及哈希见 [package-manifest.json](package-manifest.json)，源内容见 [import-report.json](import-report.json)。
 
-## 实际验证
+## 本次实际复核
 
-- pnpm --ignore-workspace lint / test / build：通过，22 项测试，无新增依赖。
-- pnpm --ignore-workspace qa：77 个状态通过，控制台错误 0，外部请求 0。375/390/430 CSS px、844×390 与 932×430 横屏；顶部24px/底部20px安全区，左右宿主按钮覆盖模拟。
-- 新增：切到第二章后正文标题在吸顶工具栏下方12px，banner 仍有实际尺寸且位于视口上方；刷新保持正文位置；滚动到页面顶部看到完整大 banner。三种竖屏宽度均验证。
-- node qa/cover-migration-check.mjs：6 个场景通过。覆盖三种手机宽度的旧紧凑布局章首与正文中间记录迁移、关闭页面后重入恢复、上滑完整 banner。
-- 顺序遍历34章765条，始终仅一章正文 DOM，滚到底不追加其他章节。SVG 箭头与标题间距6px、垂直居中、长标题与筛选单行检查继续通过。
-- node qa/offline-check.mjs：file 协议检查通过，9篇附文、许可、筛选、章切换与章内位置恢复；0外部请求、0控制台错误。
-- 官方本地目录审计：10文件、0错误，content.js 2.47 MiB 警告保留；正文按用户全量要求保留，内容元数据仅新增名称、简介和图标路径，765条正文的上游逐字段对照继续通过，只渲染当前章。真实低端机解析和内存待实测。
-- 官方本地 ZIP 大小审计通过；ZIP 内容另由本项目构建脚本解压及 CRC 校验。
+2026-10-18在项目目录重新执行，全部通过：
 
-## 证据与待验范围
+```powershell
+pnpm --ignore-workspace lint
+pnpm --ignore-workspace test
+pnpm --ignore-workspace build
+```
 
-qa/output/browser-report.json、qa/output/cover-migration-report.json、qa/output/offline-report.json；chapter-reading-scroll-up-cover-*.png 展示第二章顶部完整 banner，preview-chapter-next.png 展示切章后直接定位正文。
+22项测试通过、0失败、0跳过。本机存在固定版本.upstream检出，原始Markdown对照实际执行。重建后ZIP大小和SHA256保持不变。
 
-当前预览已刷新。开发浏览器检查不等于宿主验收；创服平台模拟器、Android真机扫码、iOS真机扫码待使用同一ZIP完成。Chrome61/Android8.1实际兼容性及低端机性能未实测。无CSS模拟旋转功能。没有登录平台、上传或发布。
+本次对照代码、内容计数、清单、图片及已有报告更新文档；没有重新执行全部浏览器或真机测试。
 
+## 已保存的1.3.5开发证据
 
-## 命名、图标与清理
+| 检查 | 保存结果 | 证据 |
+| --- | --- | --- |
+| 单测 | 22项，含逐字段解析器对照、180组筛选组合、首开和存储 | tests/，本次终端结果 |
+| 浏览器回归 | 83状态，0控制台错误、0外部请求 | [browser-report.json](../qa/output/browser-report.json) |
+| 旧布局迁移 | 6场景，三种宽度的章首/章内位置及关页重入 | [cover-migration-report.json](../qa/output/cover-migration-report.json) |
+| file协议 | 9篇附文、许可、筛选、章切换、字号、进度；0外部请求、0控制台错误 | [offline-report.json](../qa/output/offline-report.json) |
+| 目录审计 | 10文件、0错误、1条content.js体积警告 | [audit-directory-1.3.5.txt](audit-directory-1.3.5.txt) |
+| ZIP大小审计 | 通过；该脚本只检查压缩包大小 | [audit-zip-1.3.5.txt](audit-zip-1.3.5.txt) |
+| 最终ZIP内容 | 构建逐文件检查路径、扩展名、解压、长度与CRC | tools.mjs和package-manifest.json |
 
-本次应用名“高性价比人生指南”，简介“陪你把日子过得更好”（9字）。图标由内置imagegen依据现有原创小猫生成，经缩放压缩为512×512 PNG，160890 bytes，随包交付并作为favicon。品牌字段统一记录在src/content/content.json的meta中，导入脚本同步保留；原作者与内容许可不变。
+JSON浏览器报告没有独立的运行时间字段；按报告版本及结果引用，不将本次文档复核日期当作全部场景执行日期。旧文档77/83并存的问题，已统一为当前报告的83状态。
 
-本地旧版ZIP/审计/归档验证文件17个和多余QA截图已删除，具体计数见cleanup-report.json。当前保留10个代表性截图/报告文件；历史QA脚本与测试保留，未删除测试。
+### 阅读器覆盖
 
+- 首开、仅偏好、旧第一条零偏移占位均从banner开始；刷新、宿主高度变化仍为scrollY=0。
+- 有真实进度或明确进入章首阅读时恢复原位置；旧紧凑布局按文字锚点迁移。
+- 原生上下滚动，最多一章DOM，滚到底不追加，切章移除旧章；遍历34章核对765个ID。
+- 每章banner始终存在，切章标题位于工具栏下方约12px；上滑或首页可看完整封面。
+- 来源搜索、关键词、原筛选、空结果、引用跳转/返回、附文及术语面板有覆盖。
+- 字号/横屏变化保留锚点；长标题省略、筛选单行；SVG箭头间距6px、中心误差≤1px。
+- 宿主Storage模拟、本机镜像、较新检查点选择、存储失败提示有覆盖；模拟不等于真实宿主接口验收。
 
-## 名称修正
+### 布局与安全区
 
-根据用户要求，应用名称改为“高性价比人生指南”，同步页面标题、顶部标题、banner、内容元数据、导入脚本与交付包名；图标和9字简介保持不变。1.3.5重新通过lint/test/build、83个浏览器状态、file离线检查和6个迁移场景。preview-brand.png为新版名称验证截图。
+覆盖375/390/430竖屏，844×390及932×430横屏，以及首页宿主高度变化。注入24px顶部、20px底部系统安全区和左右82×42宿主按钮覆盖层。首页、正文、章末、目录、筛选、导读、来源、附文、术语及空结果已有开发检查。
 
+安全区与宿主占位独立，默认host-clearance=56px、host-side-clearance=94px。没有CSS模拟旋转功能，也未引入未经确认的设备API；宿主实际参数仍待校准。
 
-## 首次打开首页
+## 复现检查
 
-启动时区分真实阅读记录与首次首页占位记录。无记录、仅有偏好、旧版第一条零偏移且未进入阅读时，显式滚动到页面顶部，不调用正文锚点恢复。实际章内偏移和明确的阅读状态继续恢复；主动翻章和交叉引用仍正常定位。
+先构建并启动预览：
 
-新增模型回归验证占位、明确章首阅读、首页零偏移与实际滚动记录的区别。375/390/430三种宽度新增6个浏览器场景，覆盖旧占位、只有偏好状态、刷新及宿主高度变化，断言scrollY=0且完整banner处于视口内。1.3.5实测22项单元测试、83个浏览器状态、6个布局迁移场景及file离线检查全部通过。
+```powershell
+pnpm --ignore-workspace build
+node tools.mjs preview
+```
+
+保持服务在4328端口运行，在另一终端执行：
+
+```powershell
+pnpm --ignore-workspace qa
+node qa/offline-check.mjs
+node qa/cover-migration-check.mjs
+```
+
+Playwright及Chrome路径在这三个QA实现文件中，换机需先调整开发路径。qa/browser-check.mjs仅导入chapter-reader-check.mjs；历史1.1.0/1.2.0检查不作为当前入口。
+
+## 证据与清理
+
+目前qa/output保留12文件：3份JSON报告和9张PNG。示例：[首页](../qa/output/preview-home.png)、[切章正文](../qa/output/preview-chapter-next.png)、[第二章顶部banner](../qa/output/chapter-reading-scroll-up-cover-390.png)、[旧占位首次首页](../qa/output/chapter-first-open-home-placeholder-390.png)。
+
+[cleanup-report.json](cleanup-report.json)记录较早一次清理：17个旧交付文件、201个旧/重复截图及当时保留10个证据文件；后续补充2张，不是当前总数。当前只有1个ZIP，历史QA脚本与测试保留。
+
+审计TXT、JSON报告及上游许可证是原始/生成证据，不为更新说明而改写结果。图片和许可见 [ASSET-SOURCES.md](../ASSET-SOURCES.md)。
+
+## 待验收与限制
+
+- 创服平台模拟器上传运行，以及Android/iOS真机扫码加载同一个ZIP。
+- 真实宿主按钮、系统安全区、软键盘、横屏和存储接口校准。
+- Chrome61/Android8.1实际兼容性，以及低端机解析、内存和滚动性能。
+- 全量content.js为2,590,600 bytes，约2.47MiB，单文件体积警告保留。ZIP约1.17MiB未超10MiB门禁，压缩体积不能替代解压后的性能实测。
+
+本地浏览器/file验证不代表小红书宿主验收通过。代码和ZIP已进入GitHub main，不据此声称已上传、发布小红书或通过真机验收。

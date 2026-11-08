@@ -1,6 +1,5 @@
 .tools/
 assets/source/
-assets/*.mp3
 dist/
 screenshots/
 
@@ -12,8 +11,6 @@ screenshots/
 # Recordings and packages include music restricted to local preview.
 release/**/*.mp4
 release/**/*.webm
-release/**/*.zip
-release/*.zip
 release/xiaohongshu/video/part-*
 release/xiaohongshu/video/cut-clean.*
 release/xiaohongshu/video/ending-frame.png

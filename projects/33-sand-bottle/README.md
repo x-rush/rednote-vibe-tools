@@ -76,12 +76,13 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1
 
 | 项目 | 状态 |
 |---|---|
-| lint / test（15 项）/ build | 通过 |
-| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 9 文件 73.9 KiB |
+| lint / test（18 项）/ build | 通过 |
+| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 10 文件 76.0 KiB（含 `mini_tool.json`） |
 | qa-mobile-check（375 / 390 / 430 + 安全区 + 宿主按钮覆盖层 + 横屏宿主避让） | 通过，四档 `errors: []`，无横向溢出 |
 | qa-flow（真实倒沙 → 换色 → 塑形拖拽 → 挖沙 → 封口 → 结算不自行推进 → 八瓶 → 纪录卡 → 保存兜底） | 通过，`errors: []` |
 | qa-balance-check（八关可达、塑形确实起作用、随手玩家 98%–100% 过关） | 通过 |
-| 打包 ZIP | `release/sand-bottle-v1.zip` 24,902 bytes，9 条目，`index.html` 在根目录，SHA256 `850B9E6D767A5B5279B2B753E420FE4FFE17C50373183DE2BC3D35346FF209E8`；解压后独立复验 PASS |
+| 打包 ZIP | `release/sand-bottle-v1.zip` 25,229 bytes，10 条目，`index.html` 在根目录，SHA256 `1297EEE010A8BDD919D7B0A395C7F0F195C2666E99BDC3F253F711BB6B495B27`；解压后独立复验 PASS |
+| 高消耗标记 | `mini_tool.json` = `{"is_high_consumption_scene": false}`（只用 Canvas 2D / Web Audio / localStorage，未使用 Worker、离屏渲染、WebAssembly 或游戏引擎） |
 | 创服平台模拟器 | **未验收** |
 | Android 真机扫码 | **未验收** |
 | iOS 真机扫码 | **未验收** |

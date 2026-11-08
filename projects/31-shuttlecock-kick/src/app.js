@@ -499,7 +499,9 @@
   /* ---------- 初始化 ---------- */
   function loadPreferences() {
     var storedMuted = root.JianziStorage.read('jianzi-muted');
-    if (storedMuted === 'true') {
+    /* 兼容两种落盘形态：容器 Storage API 存的是字符串 'true'，
+       早期版本在 localStorage 里存过裸值 true（解析后是布尔） */
+    if (storedMuted === true || storedMuted === 'true') {
       muted = audio.setMuted(true);
       $('muteBtn').textContent = copy.muteOff;
       $('muteBtn').setAttribute('aria-pressed', 'false');

@@ -1,6 +1,6 @@
 # 小工具 ZIP 静态包构建规范
 
-> 小工具是基于离线 H5 的 app 形式，**纯本地、不联网**，所有资源须打包在 zip 内。窗口样式、导航栏、下拉刷新等外壳行为由**容器**统一控制，无需在包内声明。
+> 小工具是基于离线 H5 的 app 形式，所有页面资源须打包在 zip 内，网页不能直接联网；可用平台能力以在线文档的对外内容为准。窗口样式、导航栏、下拉刷新等外壳行为由**容器**统一控制，无需在包内声明。
 
 ## 目录
 
@@ -42,11 +42,13 @@ tool.zip
 | 路径 | 要求 | 说明 |
 | --- | --- | --- |
 | `index.html` | **必须在 zip 根目录** | 唯一入口；不可改名、不可放进子目录 |
+| `mini_tool.json` | 识别完成时位于根目录 | 按 [标记规则](mini-tool-manifest.md) 生成；未知时清除旧标记并省略 |
 | 其余文件 / 文件夹 | 自由 | JS / CSS / 图片 / 音频等，平铺或分目录皆可，相对路径引用 |
 
 ### 禁止出现在 zip 内
 
 - `node_modules`、`.git`、`.DS_Store`
+- `.high_consumption`：Android 在 hash 包目录生成的本地派生标记，不属于 ZIP 产物
 - `*.map`、构建配置文件（`vite.config.*`、`webpack.config.*` 等）
 - 把整个项目多包一层目录，导致 `index.html` 不在根（错误：`app/index.html`；正确：根目录就有 `index.html`）
 
@@ -184,7 +186,7 @@ zip 内仅允许以下类型：
 
 ### 端能力（见 [device-capabilities.md](./device-capabilities.md)）
 
-- [ ] 未使用不可用能力（网络请求、定位、剪贴板、传感器、Worker、WebRTC 等）
+- [ ] 未使用不可用能力（网页网络请求、定位、剪贴板、传感器、Worker、WebRTC 等）；使用的平台能力均有在线文档的明确对外说明
 - [ ] 相机 / 麦克风 / 选图用法符合「用户手势触发 + 授权」
 - [ ] 获取[小工具在线文档](https://miniapp-sandbox.xiaohongshu.com/minitool/doc)，实现符合当前容器规则
 

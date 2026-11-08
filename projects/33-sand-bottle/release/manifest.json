@@ -2,8 +2,8 @@
   "name": "彩沙瓶",
   "description": "一层一层，堆出你的瓶子",
   "zip": "sand-bottle-v1.zip",
-  "bytes": 24902,
-  "sha256": "850B9E6D767A5B5279B2B753E420FE4FFE17C50373183DE2BC3D35346FF209E8",
+  "bytes": 25229,
+  "sha256": "1297EEE010A8BDD919D7B0A395C7F0F195C2666E99BDC3F253F711BB6B495B27",
   "entries": [
     "app.js",
     "audio.js",
@@ -11,6 +11,7 @@
     "game.js",
     "index.html",
     "logo.svg",
+    "mini_tool.json",
     "render.js",
     "storage.js",
     "style.css"

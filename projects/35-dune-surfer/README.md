@@ -120,12 +120,13 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1
 
 | 项目 | 状态 |
 |---|---|
-| lint / test（12 项）/ build | 通过 |
-| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 9 文件 79.2 KiB |
+| lint / test（15 项）/ build | 通过 |
+| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 10 文件 81.5 KiB（含 `mini_tool.json`） |
 | qa-mobile-check（375 / 390 / 430 + 安全区 + 宿主按钮覆盖层 + 横屏宿主避让 + 真实拖拽切弯） | 通过，四档 `errors: []`，无横向溢出 |
 | qa-flow（开场 → 切弯 → HUD 刷新 → 推进 → 被追上 → 结算 → 720×960 纪录卡 → 保存兜底 → 再来一次） | 通过，`errors: []` |
 | qa-balance-check（熟练/随手玩家曲线、可解性、难度曲线） | 通过 |
-| 打包 ZIP | `release/dune-surfer-v1.zip` 28,850 bytes，9 条目，`index.html` 在根目录，SHA256 `61BAAB0132E4ABE9157C6D15C13264F72B853FFF46DBA30329644D04E3A046AA`；解压后独立复验 PASS |
+| 打包 ZIP | `release/dune-surfer-v1.zip` 29,177 bytes，10 条目，`index.html` 在根目录，SHA256 `BF83B44A76E6D9CA741C3F9413DAC9AEF72C352D6C8EBA91B20B9FFF206C8D65`；解压后独立复验 PASS |
+| 高消耗标记 | `mini_tool.json` = `{"is_high_consumption_scene": false}`（只用 Canvas 2D / Web Audio / localStorage，未使用 Worker、离屏渲染、WebAssembly 或游戏引擎） |
 | 创服平台模拟器 | **未验收** |
 | Android 真机扫码 | **未验收** |
 | iOS 真机扫码 | **未验收** |

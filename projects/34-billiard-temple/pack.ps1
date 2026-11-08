@@ -16,6 +16,15 @@ if (Test-Path -LiteralPath $repoAudit) {
   if ($LASTEXITCODE -ne 0) { throw 'Directory audit failed' }
 }
 
+# 按小工具开发规范写高消耗标记（mini_tool.json，与 index.html 同级）：
+# 本项目只用 Canvas 2D / Web Audio / localStorage，未使用 Worker、离屏渲染、
+# WebAssembly 或 Unity/Cocos 等游戏引擎 → is_high_consumption_scene = false
+$manifestWriter = Join-Path (Split-Path -Parent $projectRoot) '..\.codex\minitool-zip-builder\scripts\write_manifest.mjs'
+if (Test-Path -LiteralPath $manifestWriter) {
+  node $manifestWriter $outputRoot false
+  if ($LASTEXITCODE -ne 0) { throw 'mini_tool.json generation failed' }
+}
+
 # 压缩 dist 的「内容」而不是 dist 目录本身：解压后 index.html 必须直接位于根目录
 Compress-Archive -Path (Join-Path $outputRoot '*') -DestinationPath $zipTarget -CompressionLevel Optimal -Force
 

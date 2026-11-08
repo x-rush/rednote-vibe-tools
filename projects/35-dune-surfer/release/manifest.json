@@ -2,8 +2,8 @@
   "name": "沙丘速降",
   "description": "贴着雪崩，甩出一道漂亮的尾迹",
   "zip": "dune-surfer-v1.zip",
-  "bytes": 28850,
-  "sha256": "61BAAB0132E4ABE9157C6D15C13264F72B853FFF46DBA30329644D04E3A046AA",
+  "bytes": 29177,
+  "sha256": "BF83B44A76E6D9CA741C3F9413DAC9AEF72C352D6C8EBA91B20B9FFF206C8D65",
   "entries": [
     "app.js",
     "audio.js",
@@ -11,6 +11,7 @@
     "game.js",
     "index.html",
     "logo.svg",
+    "mini_tool.json",
     "render.js",
     "storage.js",
     "style.css"

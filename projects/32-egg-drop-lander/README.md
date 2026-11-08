@@ -78,12 +78,13 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1
 
 | 项目 | 状态 |
 |---|---|
-| lint / test（9 项）/ build | 通过 |
-| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 9 文件 70.4 KiB |
+| lint / test（12 项）/ build | 通过 |
+| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 10 文件 72.9 KiB（含 `mini_tool.json`） |
 | qa-mobile-check（375 / 390 / 430 + 安全区 + 宿主按钮覆盖层 + 横屏） | 通过，`errors: []`，无横向溢出 |
 | qa-flow（通关 → 结算不自行推进 → 下一关 → 落地失败 → 重试 → 纪录卡 → 保存兜底） | 通过，`errors: []` |
 | qa-balance-check（12 关真人通过率 20/20 → 10/20，每关至少喷两次，乱喷无效） | 通过 |
-| 打包 ZIP | `release/egg-drop-lander-v1.zip` 23,727 bytes，9 条目，`index.html` 在根目录，SHA256 `27451332689D0FA37FCD659A950851C403F6E7AB9C0D524C8DFF0302D8D00DDE`；解压后独立复验 PASS |
+| 打包 ZIP | `release/egg-drop-lander-v1.zip` 24,255 bytes，10 条目，`index.html` 在根目录，SHA256 `AEB45645014822004EAA3785EA392851E7FEFA178ACEBF80FBDF1E9A2B2AF404`；解压后独立复验 PASS |
+| 高消耗标记 | `mini_tool.json` = `{"is_high_consumption_scene": false}`（只用 Canvas 2D / Web Audio / localStorage，未使用 Worker、离屏渲染、WebAssembly 或游戏引擎） |
 | 创服平台模拟器 | **未验收** |
 | Android 真机扫码 | **未验收** |
 | iOS 真机扫码 | **未验收** |

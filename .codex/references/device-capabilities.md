@@ -1,6 +1,6 @@
 # 小工具能力清单
 
-> 小工具运行在受限容器中：**纯本地、不联网**，把它当作一个能力受限的浏览器页面。
+> 小工具运行在受限容器中：页面资源本地加载，网页不能直接联网；可用平台能力以在线文档的对外内容为准。
 > **以本文为基线**：命中「不可用」项必须移除或改用替代写法。
 >
 > **实现优先级**：先获取[小工具在线文档](https://miniapp-sandbox.xiaohongshu.com/minitool/doc)并查找匹配的容器能力；文档明确支持时必须优先使用，仅在没有匹配能力或当前环境不满足文档条件时才采用兼容的 Web 方案。
@@ -67,7 +67,7 @@
 
 | 行为 | 说明 | 替代方案 |
 | --- | --- | --- |
-| 网络请求 | `fetch` / `XMLHttpRequest`、加载外部图片 / 字体 / 媒体等一切联网请求 | 所有资源打包在内，改本地相对引用；仅小型配置 / 数据可随包提供，大型只读数据集不适合小工具，见 [performance-budget.md](./performance-budget.md) §2 |
+| 网页网络请求 | `fetch` / `XMLHttpRequest`、加载外部图片 / 字体 / 媒体等联网请求 | 所有资源打包在内，改本地相对引用；仅小型配置 / 数据可随包提供，大型只读数据集不适合小工具，见 [performance-budget.md](./performance-budget.md) §2 |
 | 动态执行代码 | `eval()`、`new Function()` | 改写为静态逻辑 |
 | WebAssembly | WASM 编译执行（依赖 WASM 的库无法运行） | 移除或改用纯 JS 实现 |
 | iframe / object | 内嵌 iframe / object，或被外部页面嵌入 | 内容直接写进页面 |
@@ -92,7 +92,7 @@
 | 依赖 Worker 的离屏渲染（OffscreenCanvas + Worker） | 🔴 |
 | SharedArrayBuffer 多线程 | 🔴 |
 
-WebGL 适合用包内资源做本地渲染；AI 图像处理等重计算（需联网或 WASM 模型）无法支持。WebGL 可用不等于低端真机性能足够：DPR、像素、纹理、draw call、几何预算、动态降档与兜底必须遵守 [performance-budget.md](./performance-budget.md) §4–5。
+WebGL 适合用包内资源做本地渲染；依赖外部模型或 WASM 模型的重计算无法通过普通 Web 能力实现，在线文档明确开放的平台能力除外。WebGL 可用不等于低端真机性能足够：DPR、像素、纹理、draw call、几何预算、动态降档与兜底必须遵守 [performance-budget.md](./performance-budget.md) §4–5。
 
 ---
 

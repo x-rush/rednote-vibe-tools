@@ -55,7 +55,15 @@
   function read(key) {
     if (cache[key] !== undefined) return cache[key];
     try {
-      return localStorage.getItem(key);
+      var raw = localStorage.getItem(key);
+      if (raw === null || raw === undefined) return null;
+      /* 降级路径写入时做了 JSON 序列化，这里必须成对解析：
+         不解析的话读回来是带引号的 "123"，Number() 会得到 NaN，最高分被读成 0。 */
+      try {
+        return JSON.parse(raw);
+      } catch (error) {
+        return raw;
+      }
     } catch (error) {
       return null;
     }

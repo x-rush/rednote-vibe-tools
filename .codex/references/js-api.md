@@ -179,7 +179,7 @@ Storage API 在客户端 9.46+ 可用。`data` 只支持 JSON 字符串；对象
 | --- | --- | --- |
 | `setStorage` | `key: string`、`data: string`、`encrypt?: boolean` | 写入或覆盖缓存 |
 | `getStorage` | `key: string`、`encrypt?: boolean` | 返回 `{ data }`；`encrypt` 与写入时一致 |
-| `getStorageInfo` | 无业务参数 | 返回 `{ keys, currentSize, limitSize }`，单位 KB |
+| `getStorageInfo` | 无业务参数 | 返回 `{ keys, usedBytes, limitBytes }`；`usedBytes` 为已用容量，`limitBytes` 为容量上限，单位均为字节 |
 | `removeStorage` | `key: string` | 删除指定缓存 |
 | `clearStorage` | 无业务参数 | 清空当前小工具缓存 |
 

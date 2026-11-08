@@ -74,12 +74,13 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1
 
 | 项目 | 状态 |
 |---|---|
-| lint / test（10 项）/ build | 通过 |
-| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 9 文件 72.4 KiB |
+| lint / test（13 项）/ build | 通过 |
+| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 10 文件 75.3 KiB（含 `mini_tool.json`） |
 | qa-mobile-check（375 / 390 / 430 + 安全区 + 宿主按钮覆盖层 + 横屏） | 通过，`errors: []`，无横向溢出 |
 | qa-flow（通关 → 结算不自行推进 → 下一关 → 落地失败 → 重试 → 纪录卡 → 保存兜底） | 通过，`errors: []` |
 | qa-balance-check（8 关窗口 458ms → 283ms） | 通过 |
-| 打包 ZIP | `release/shuttlecock-kick-v1.zip` 24,692 bytes，9 条目，`index.html` 在根目录，SHA256 `B1298FAAF11B5AADA527C1B2723905884A32172D3577EF20E5653C2DD98C6D5E`；解压后独立复验 PASS |
+| 打包 ZIP | `release/shuttlecock-kick-v1.zip` 25,292 bytes，10 条目，`index.html` 在根目录，SHA256 `8FD0EC9E18E98EEC5A8FB4CAF6432D9FAF059224CA0CC727A384B8BE887E6B47`；解压后独立复验 PASS |
+| 高消耗标记 | `mini_tool.json` = `{"is_high_consumption_scene": false}`（只用 Canvas 2D / Web Audio / localStorage，未使用 Worker、离屏渲染、WebAssembly 或游戏引擎） |
 | 创服平台模拟器 | **未验收** |
 | Android 真机扫码 | **未验收** |
 | iOS 真机扫码 | **未验收** |

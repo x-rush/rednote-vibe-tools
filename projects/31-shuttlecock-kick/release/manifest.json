@@ -2,8 +2,8 @@
   "name": "毽子连击",
   "description": "一脚接一脚，踢到天黑",
   "zip": "shuttlecock-kick-v1.zip",
-  "bytes": 24692,
-  "sha256": "B1298FAAF11B5AADA527C1B2723905884A32172D3577EF20E5653C2DD98C6D5E",
+  "bytes": 25292,
+  "sha256": "8FD0EC9E18E98EEC5A8FB4CAF6432D9FAF059224CA0CC727A384B8BE887E6B47",
   "entries": [
     "app.js",
     "audio.js",
@@ -11,6 +11,7 @@
     "game.js",
     "index.html",
     "logo.svg",
+    "mini_tool.json",
     "render.js",
     "storage.js",
     "style.css"

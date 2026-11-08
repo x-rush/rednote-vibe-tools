@@ -2,8 +2,8 @@
   "name": "蛋落地",
   "description": "轻轻放，才不会碎",
   "zip": "egg-drop-lander-v1.zip",
-  "bytes": 23727,
-  "sha256": "27451332689D0FA37FCD659A950851C403F6E7AB9C0D524C8DFF0302D8D00DDE",
+  "bytes": 24255,
+  "sha256": "AEB45645014822004EAA3785EA392851E7FEFA178ACEBF80FBDF1E9A2B2AF404",
   "entries": [
     "app.js",
     "audio.js",
@@ -11,6 +11,7 @@
     "game.js",
     "index.html",
     "logo.svg",
+    "mini_tool.json",
     "render.js",
     "storage.js",
     "style.css"

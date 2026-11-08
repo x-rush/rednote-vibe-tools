@@ -2,8 +2,8 @@
   "name": "弹珠神殿",
   "description": "一杆清空，满室生光",
   "zip": "billiard-temple-v1.zip",
-  "bytes": 25280,
-  "sha256": "030455178564C1C7927DF2CE769023F221601D8015195B059A4ECF96A4079FF4",
+  "bytes": 25607,
+  "sha256": "086E97B2B82948578846C7D4CCA91C3B9D3A0872AE99C1B73C4BBBE2AB7CC615",
   "entries": [
     "app.js",
     "audio.js",
@@ -11,6 +11,7 @@
     "game.js",
     "index.html",
     "logo.svg",
+    "mini_tool.json",
     "render.js",
     "storage.js",
     "style.css"

@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "珍珠消消乐",
+    "subtitle": "点掉三颗同色珍珠，连锁越多越上头",
+    "seedBase": 20261108,
+    "boardCols": 6,
+    "boardRows": 8,
+    "chainWords": ["漂亮", "够狠", "丝滑", "上头", "封神"],
+    "chainWordAt": 2
+  },
+  "flavors": [
+    { "id": "brown", "name": "黑糖", "body": "#8a5a3b", "light": "#c99065", "dark": "#452a15", "accent": "#e9bd94" },
+    { "id": "taro", "name": "芋泥", "body": "#b49ae0", "light": "#ddcaf6", "dark": "#6d55a3", "accent": "#efe4ff" },
+    { "id": "matcha", "name": "抹茶", "body": "#8fc07a", "light": "#c3e1ae", "dark": "#4f7a41", "accent": "#e6f6d9" },
+    { "id": "straw", "name": "草莓", "body": "#f0869f", "light": "#ffc0cd", "dark": "#b64f6b", "accent": "#ffe3ea" },
+    { "id": "mango", "name": "芒果", "body": "#f5b755", "light": "#ffd98f", "dark": "#c98a24", "accent": "#fff1d2" },
+    { "id": "coco", "name": "椰奶", "body": "#f2e3c8", "light": "#fffaf0", "dark": "#c9b191", "accent": "#fffdf7" }
+  ],
+  "levels": [
+    { "name": "第一杯 · 试饮", "palette": ["brown", "taro", "matcha", "straw"], "target": 56, "taps": 7 },
+    { "name": "第二杯 · 换料", "palette": ["brown", "taro", "matcha", "straw"], "target": 76, "taps": 9 },
+    { "name": "第三杯 · 加芒", "palette": ["brown", "taro", "matcha", "straw", "mango"], "target": 90, "taps": 11 },
+    { "name": "第四杯 · 双拼", "palette": ["brown", "taro", "matcha", "straw", "mango"], "target": 105, "taps": 12 },
+    { "name": "第五杯 · 椰香", "palette": ["brown", "taro", "matcha", "straw", "mango", "coco"], "target": 115, "taps": 15 },
+    { "name": "第六杯 · 满杯", "palette": ["brown", "taro", "matcha", "straw", "mango", "coco"], "target": 128, "taps": 18 },
+    { "name": "第七杯 · 连锁", "palette": ["brown", "taro", "matcha", "straw", "mango", "coco"], "target": 168, "taps": 18 },
+    { "name": "第八杯 · 珍珠盛筵", "palette": ["brown", "taro", "matcha", "straw", "mango", "coco"], "target": 180, "taps": 22 }
+  ],
+  "copy": {
+    "startTitle": "珍珠消消乐",
+    "startLines": [
+      "轻点 3 颗以上相连的同色珍珠，整片消失",
+      "上方珍珠会砸落，连锁自动接续，分数翻倍",
+      "右侧「接下来」会预告补充颜色，提前规划"
+    ],
+    "startButton": "开始啵啵",
+    "levelLabel": "第 %d 杯",
+    "targetLabel": "目标 %d / %d",
+    "tapLabel": "剩余 %d 步",
+    "scoreLabel": "分数",
+    "chainLabel": "连锁 ×%d",
+    "levelClearTitle": "第 %d 杯 · 满",
+    "levelClearLines": ["这一杯喝得漂亮", "下一杯颜色更多，连锁更狠"],
+    "nextButton": "再来一杯",
+    "gameOverTitle": "珍珠还剩不少",
+    "gameOverLines": ["步数用完了，差一点点", "看清「接下来」的颜色再点，能多串几条连锁"],
+    "retryButton": "再试一次",
+    "finalTitle": "八杯见底",
+    "finalScoreLabel": "本局得分",
+    "finalChainLabel": "最长连锁",
+    "finalBestLabel": "历史最佳",
+    "finalChain": "×%d",
+    "finalScore": "%d",
+    "finalBest": "%d",
+    "finalNewBest": "新纪录！",
+    "againButton": "再喝一轮",
+    "saveCard": "保存成绩卡",
+    "saved": "成绩卡已保存到相册",
+    "saveFailed": "保存失败，可以长按图片手动保存",
+    "saveUnavailable": "当前环境不支持保存，长按图片手动存",
+    "muteOn": "声音 开",
+    "muteOff": "声音 关",
+    "hintShort": "三颗起消",
+    "hintTooFew": "再找找同伴",
+    "replayLabel": "最佳连锁回放"
+  }
+}

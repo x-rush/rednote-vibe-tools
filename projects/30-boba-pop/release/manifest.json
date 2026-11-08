@@ -1,0 +1,23 @@
+{
+  "name": "珍珠消消乐",
+  "description": "点掉三颗同色珍珠，砸落连锁，越喝越上头",
+  "zip": "boba-pop-v1.zip",
+  "bytes": 27993,
+  "sha256": "A696284BF8EBAB632EE5F8FC190CDFF8DCA2D094D284E6DF669F95CBCC87B6EF",
+  "entries": [
+    "app.js",
+    "audio.js",
+    "content.js",
+    "game.js",
+    "index.html",
+    "render.js",
+    "storage.js",
+    "style.css"
+  ],
+  "sourceAudioBytes": 0,
+  "usage": "local-preview-only",
+  "platformSimulator": "pending",
+  "androidDevice": "pending",
+  "iosDevice": "pending",
+  "chrome61Runtime": "not-tested"
+}

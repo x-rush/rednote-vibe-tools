@@ -70,13 +70,13 @@ body { overflow: hidden; }
   color: var(--pearl);
 }
 
-.brand .dot {
-  width: 9px;
-  height: 9px;
-  margin-right: 8px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 28%, #fff6e8, var(--pearl) 48%, var(--pearl-deep) 100%);
-  box-shadow: 0 0 10px rgba(255, 190, 130, 0.65);
+.brand-logo {
+  display: block;
+  width: 26px;
+  height: 26px;
+  margin-right: 9px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
 }
 
 #subtitle {
@@ -379,6 +379,16 @@ body { overflow: hidden; }
   font-weight: 800;
   letter-spacing: 0.02em;
   color: #fff3e0;
+}
+
+.panel-logo {
+  position: relative;
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 12px;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 214, 172, 0.22);
 }
 
 .lines {

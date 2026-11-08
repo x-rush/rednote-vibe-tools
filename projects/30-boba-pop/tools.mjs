@@ -9,6 +9,7 @@ import http from 'node:http';
 const root = process.cwd();
 const COPY = [
   ['index.html', 'index.html'],
+  ['assets/logo.svg', 'logo.svg'],
   ['src/style.css', 'style.css'],
   ['src/game.js', 'game.js'],
   ['src/render.js', 'render.js'],
@@ -89,7 +90,11 @@ if (process.argv[2] === 'build') {
           ? 'text/javascript'
           : target.endsWith('.css')
             ? 'text/css'
-            : 'text/html';
+            : target.endsWith('.svg')
+              ? 'image/svg+xml'
+              : target.endsWith('.json')
+                ? 'application/json'
+                : 'text/html';
         res.setHeader('Content-Type', type);
         res.end(data);
       });

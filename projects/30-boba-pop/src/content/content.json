@@ -1,7 +1,19 @@
 {
+  "brand": {
+    "toolName": "啵啵消消乐",
+    "tagline": "戳三颗同色珍珠，砸出上头连锁",
+    "logo": "./logo.svg",
+    "logoPng": "assets/logo-512.png",
+    "intro": "轻点 3 颗以上相连的同色珍珠，整片消失；砸落自动接续连锁，越玩越上头"
+  },
+  "xiaohongshuDraft": {
+    "title": "啵啵消消乐｜戳三颗同色珍珠，砸出上头连锁",
+    "body": "奶茶味的消除小游戏：轻点三颗以上相连的同色珍珠，整片消失；上方珍珠砸落下来，新成的组合自动接上连锁，连锁越深分数越翻。一关比一关颜色更多，八杯见底，看看你能刷到多少连锁。",
+    "hashtags": ["#小游戏", "#消消乐", "#奶茶", "#解压", "#上头", "#小红书小游戏"]
+  },
   "meta": {
-    "title": "珍珠消消乐",
-    "subtitle": "点掉三颗同色珍珠，连锁越多越上头",
+    "title": "啵啵消消乐",
+    "subtitle": "戳三颗同色珍珠，砸出上头连锁",
     "seedBase": 20261108,
     "boardCols": 6,
     "boardRows": 8,
@@ -27,7 +39,7 @@
     { "name": "第八杯 · 珍珠盛筵", "palette": ["brown", "taro", "matcha", "straw", "mango", "coco"], "target": 180, "taps": 22 }
   ],
   "copy": {
-    "startTitle": "珍珠消消乐",
+    "startTitle": "啵啵消消乐",
     "startLines": [
       "轻点 3 颗以上相连的同色珍珠，整片消失",
       "上方珍珠会砸落，连锁自动接续，分数翻倍",

@@ -613,8 +613,9 @@
     /* 调试与自检钩子：供自动化检查定位格子坐标 */
     root.__bobaRenderer = renderer;
     Object.defineProperty(root, '__bobaState', { get: function () { return state; }, configurable: true });
-    $('title').textContent = copy.startTitle;
-    $('subtitle').textContent = copy.subtitle;
+    /* 顶栏与开场面板统一走 brand：工具名与 14 字内简介只在这里维护一处 */
+    $('title').textContent = content.brand.toolName;
+    $('subtitle').textContent = content.brand.tagline;
     $('startLines').innerHTML = copy.startLines.map(function (l) { return '<p>' + l + '</p>'; }).join('');
     $('startBtn').textContent = copy.startButton;
     $('hint').textContent = copy.hintShort;

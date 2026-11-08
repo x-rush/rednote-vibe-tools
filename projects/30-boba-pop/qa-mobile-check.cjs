@@ -32,7 +32,13 @@ function serve() {
         }
         res.setHeader(
           'Content-Type',
-          target.endsWith('.js') ? 'text/javascript' : target.endsWith('.css') ? 'text/css' : 'text/html'
+          target.endsWith('.js')
+            ? 'text/javascript'
+            : target.endsWith('.css')
+              ? 'text/css'
+              : target.endsWith('.svg')
+                ? 'image/svg+xml'
+                : 'text/html'
         );
         res.writeHead(200);
         res.end(data);

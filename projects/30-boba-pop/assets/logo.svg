@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="啵啵消消乐">
+  <title>啵啵消消乐</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a2e1c"/>
+      <stop offset="0.52" stop-color="#3d2015"/>
+      <stop offset="1" stop-color="#1d0f0b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.1" r="0.72">
+      <stop offset="0" stop-color="#ffba7a" stop-opacity="0.46"/>
+      <stop offset="0.55" stop-color="#ffba7a" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#ffba7a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="milk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff6e6" stop-opacity="0.95"/>
+      <stop offset="0.42" stop-color="#f0d4a8" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#d9a163" stop-opacity="0.92"/>
+    </linearGradient>
+    <linearGradient id="tea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a2622f" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#6b3a18" stop-opacity="0.82"/>
+    </linearGradient>
+    <linearGradient id="straw" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff6e6"/>
+      <stop offset="0.55" stop-color="#f2e3c8"/>
+      <stop offset="1" stop-color="#d8bd97"/>
+    </linearGradient>
+    <radialGradient id="pTaro" cx="0.34" cy="0.28" r="0.82">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.22" stop-color="#efe4ff"/>
+      <stop offset="0.58" stop-color="#b49ae0"/>
+      <stop offset="1" stop-color="#5d4790"/>
+    </radialGradient>
+    <radialGradient id="pStraw" cx="0.34" cy="0.28" r="0.82">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.22" stop-color="#ffe3ea"/>
+      <stop offset="0.58" stop-color="#f0869f"/>
+      <stop offset="1" stop-color="#a8435e"/>
+    </radialGradient>
+    <radialGradient id="pMatcha" cx="0.34" cy="0.28" r="0.82">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.22" stop-color="#e6f6d9"/>
+      <stop offset="0.58" stop-color="#8fc07a"/>
+      <stop offset="1" stop-color="#456b39"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 底板 -->
+  <rect x="16" y="16" width="480" height="480" rx="116" fill="url(#bg)"/>
+  <rect x="16" y="16" width="480" height="480" rx="116" fill="url(#glow)"/>
+
+  <!-- 吸管 -->
+  <g transform="rotate(-17 268 168)">
+    <rect x="254" y="42" width="28" height="196" rx="14" fill="url(#straw)"/>
+    <rect x="254" y="150" width="28" height="20" fill="#c08a4a" opacity="0.55"/>
+  </g>
+
+  <!-- 杯身 -->
+  <path d="M136 172 L376 172 L322 424 Q314 456 284 456 L228 456 Q198 456 190 424 Z" fill="url(#milk)"/>
+  <!-- 茶汤 -->
+  <path d="M176 330 L336 330 L322 424 Q314 456 284 456 L228 456 Q198 456 190 424 Z" fill="url(#tea)"/>
+
+  <!-- 三颗珍珠 -->
+  <g>
+    <circle cx="212" cy="360" r="38" fill="url(#pMatcha)"/>
+    <circle cx="300" cy="360" r="38" fill="url(#pStraw)"/>
+    <circle cx="256" cy="406" r="42" fill="url(#pTaro)"/>
+  </g>
+  <!-- 珍珠高光 -->
+  <g fill="#ffffff" opacity="0.82">
+    <ellipse cx="200" cy="346" rx="11" ry="8" transform="rotate(-28 200 346)"/>
+    <ellipse cx="288" cy="346" rx="11" ry="8" transform="rotate(-28 288 346)"/>
+    <ellipse cx="242" cy="390" rx="12" ry="9" transform="rotate(-28 242 390)"/>
+  </g>
+
+  <!-- 杯沿与描边 -->
+  <rect x="120" y="148" width="272" height="34" rx="17" fill="#fff6e6" opacity="0.92"/>
+  <rect x="120" y="148" width="272" height="34" rx="17" fill="none" stroke="#c08a4a" stroke-opacity="0.35" stroke-width="3"/>
+  <path d="M136 172 L376 172 L322 424 Q314 456 284 456 L228 456 Q198 456 190 424 Z" fill="none" stroke="#ffe6c4" stroke-opacity="0.4" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- 啵：爆开的星芒 -->
+  <g fill="#ffd9a8">
+    <path d="M404 92 L414 120 L442 130 L414 140 L404 168 L394 140 L366 130 L394 120 Z" opacity="0.95"/>
+    <path d="M120 236 L126 254 L144 260 L126 266 L120 284 L114 266 L96 260 L114 254 Z" opacity="0.7"/>
+  </g>
+</svg>

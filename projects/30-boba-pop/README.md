@@ -1,9 +1,23 @@
-# 珍珠消消乐（Boba Pop）
+# 啵啵消消乐（Boba Pop）
 
 复刻自 [eazo.ai](https://eazo.ai/) 的热门小游戏 **Boba Pop**：点掉三颗以上相连的同色珍珠，
 上方珍珠砸落并自动接续连锁，连锁越深分数越高。共 8 杯（关卡），颜色从 4 种逐步增加到 6 种。
 
 纯前端、离线、零运行时依赖：无后端、无 CDN、无外部 API、无音频文件（音效由 Web Audio 实时合成）。
+
+## 上架物料
+
+| 项 | 值 |
+| --- | --- |
+| 工具名 | 啵啵消消乐 |
+| 简介（14 字内） | 戳三颗同色珍珠，砸出上头连锁 |
+| Logo | `assets/logo.svg`（源文件）、`assets/logo-512.png`（512×512，平台上架用） |
+| 标题 / 正文 / 话题 | `src/content/content.json` 的 `xiaohongshuDraft` |
+
+- 名称、简介、Logo 引用统一维护在 `src/content/content.json` 的 `brand` 字段，页面顶栏与开场面板都从那里取值。
+- Logo 为原创手绘 SVG（奶茶杯 + 三色珍珠 + 啵的星芒），未复用任何历史条目素材。
+- 重新生成 PNG：`node tools/logo-png.cjs`（复用仓库既有 Playwright 运行时，不新增依赖）。
+
 
 ## 玩法
 
@@ -16,6 +30,8 @@
 
 ```
 index.html            入口（zip 根目录）
+assets/logo.svg       品牌 Logo（原创手绘 SVG，同时随包提供 favicon）
+assets/logo-512.png   Logo 位图（平台上架用，不进 zip）
 src/style.css         样式：Chrome 61 基线、安全区、宿主按钮避让、横竖屏适配
 src/game.js           玩法核心：匹配 / 重力 / 补充 / 连锁 / 关卡 / 计分（纯逻辑，可单测）
 src/render.js         Canvas 2D 渲染：珍珠球体质感、粒子、涟漪、震屏、糖浆光晕

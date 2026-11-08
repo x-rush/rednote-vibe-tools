@@ -47,8 +47,8 @@ if ($file.Length -gt 10MB) { throw 'ZIP exceeds 10 MiB' }
 $hasher = [Security.Cryptography.SHA256]::Create()
 try { $hashValue = [BitConverter]::ToString($hasher.ComputeHash([IO.File]::ReadAllBytes($zipTarget))).Replace('-', '') } finally { $hasher.Dispose() }
 $manifest = [ordered]@{
-  name = '珍珠消消乐'
-  description = '点掉三颗同色珍珠，砸落连锁，越喝越上头'
+  name = '啵啵消消乐'
+  description = '戳三颗同色珍珠，砸出上头连锁'
   zip = $file.Name
   bytes = $file.Length
   sha256 = $hashValue

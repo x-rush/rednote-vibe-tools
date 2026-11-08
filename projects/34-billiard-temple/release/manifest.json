@@ -3,7 +3,7 @@
   "description": "一杆清空，满室生光",
   "zip": "billiard-temple-v1.zip",
   "bytes": 25280,
-  "sha256": "7084BB3360F5AB3EB01142E4CB83D609A27DBD5853964F319B6393183AD039E9",
+  "sha256": "030455178564C1C7927DF2CE769023F221601D8015195B059A4ECF96A4079FF4",
   "entries": [
     "app.js",
     "audio.js",

@@ -90,10 +90,11 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1
 | 项目 | 状态 |
 |---|---|
 | lint / test（12 项）/ build | 通过 |
-| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 9 文件 70.9 KiB |
+| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 9 文件 71.5 KiB |
 | qa-mobile-check（375 / 390 / 430 + 安全区 + 宿主按钮覆盖层 + 横屏宿主避让 + 真实拖拽击球） | 通过，四档 `errors: []`，无横向溢出 |
 | qa-flow（真实拖拽瞄准 → 发射 → 反弹收宝 → 八殿标称杆过关 → 结算不自行推进 → 图鉴 8/8 → 720×960 技巧卡 → 保存兜底） | 通过，`errors: []` |
 | qa-balance-check（标称杆一杆清空 / 与机关留足余量 / 相位无关 / 随手玩家在杆数内通关） | 通过 |
+| 打包 ZIP | `release/billiard-temple-v1.zip` 25,280 bytes，9 条目，`index.html` 在根目录，SHA256 `030455178564C1C7927DF2CE769023F221601D8015195B059A4ECF96A4079FF4`；解压后独立复验 PASS |
 | 创服平台模拟器 | **未验收** |
 | Android 真机扫码 | **未验收** |
 | iOS 真机扫码 | **未验收** |

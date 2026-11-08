@@ -3,7 +3,7 @@
   "description": "一脚接一脚，踢到天黑",
   "zip": "shuttlecock-kick-v1.zip",
   "bytes": 24692,
-  "sha256": "CB7665B42FB19E564A0FC49EFCAB6F77C2AC5877F3CCCCE9BEF83585F31E2B07",
+  "sha256": "B1298FAAF11B5AADA527C1B2723905884A32172D3577EF20E5653C2DD98C6D5E",
   "entries": [
     "app.js",
     "audio.js",

@@ -79,6 +79,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1
 | qa-mobile-check（375 / 390 / 430 + 安全区 + 宿主按钮覆盖层 + 横屏） | 通过，`errors: []`，无横向溢出 |
 | qa-flow（通关 → 结算不自行推进 → 下一关 → 落地失败 → 重试 → 纪录卡 → 保存兜底） | 通过，`errors: []` |
 | qa-balance-check（8 关窗口 458ms → 283ms） | 通过 |
+| 打包 ZIP | `release/shuttlecock-kick-v1.zip` 24,692 bytes，9 条目，`index.html` 在根目录，SHA256 `B1298FAAF11B5AADA527C1B2723905884A32172D3577EF20E5653C2DD98C6D5E`；解压后独立复验 PASS |
 | 创服平台模拟器 | **未验收** |
 | Android 真机扫码 | **未验收** |
 | iOS 真机扫码 | **未验收** |

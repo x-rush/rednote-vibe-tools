@@ -29,20 +29,15 @@ async function checkSurface(page, label) {
         overlaps.push(button.dataset.action || button.textContent.trim());
       }
     }
-    const badge = document.querySelector('.campaign-badge');
-    const badgeRect = badge?.getBoundingClientRect();
-    const badgeOverlap = badgeRect && getComputedStyle(badge).display !== 'none' && corners.some(zone => badgeRect.left < zone.right && badgeRect.right > zone.left && badgeRect.top < zone.bottom && badgeRect.bottom > zone.top);
     const modal = document.querySelector('#modal');
     const rect = modal?.open ? modal.getBoundingClientRect() : null;
     return {
       overlaps,
-      badgeOverlap,
       horizontalOverflow: document.documentElement.scrollWidth - innerWidth,
       modalOutside: rect ? rect.left < 0 || rect.top < 0 || rect.right > innerWidth || rect.bottom > innerHeight : false,
     };
   });
   assert.deepEqual(result.overlaps, [], `${label}: host-button overlap`);
-  assert.equal(result.badgeOverlap, false, `${label}: campaign badge overlaps a host-button zone`);
   assert.ok(result.horizontalOverflow <= 1, `${label}: horizontal overflow ${result.horizontalOverflow}px`);
   assert.equal(result.modalOutside, false, `${label}: modal outside viewport`);
 }

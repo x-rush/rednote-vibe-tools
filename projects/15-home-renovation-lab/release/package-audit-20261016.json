@@ -2,9 +2,9 @@
   "passed": true,
   "skill": "minitool-zip-builder 1.8.0",
   "date": "2026-10-16",
-  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.4.12-minitool.zip",
-  "bytes": 1373496,
-  "sha256": "885a5ea91179be2cd7fb7a2fbe62dea0dac958394580b7385863ebf73c2c83a7",
+  "zip": "D:\\project\\trae\\小红书小工具\\rednote-vibe-tools\\projects\\15-home-renovation-lab\\release\\roomish-1.4.13-minitool.zip",
+  "bytes": 1179336,
+  "sha256": "b06a26dbfd3ac8550c9670d05922f8710a8dbf7d131cf3bb922d40abfd39690f",
   "files": [
     "assets/app.js",
     "assets/content.js",
@@ -12,7 +12,6 @@
     "assets/logo-roomish.png",
     "assets/style.css",
     "assets/thumbnails.js",
-    "assets/xhs-renovation-badge.png",
     "index.html"
   ],
   "checks": {
@@ -22,7 +21,6 @@
     "localReferences": true,
     "classicScripts": true,
     "forbiddenCapabilitiesAbsent": true,
-    "badgeRgba": true,
     "base64": {
       "count": 61,
       "maxDecodedBytes": 2722

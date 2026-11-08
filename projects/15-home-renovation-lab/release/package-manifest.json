@@ -1,10 +1,10 @@
 {
-  "zip": "C:\\Users\\77958\\Documents\\ChatGPT\\小红书小工具\\projects\\15-home-renovation-lab\\release\\roomish-1.4.12-minitool.zip",
-  "bytes": 1373496,
+  "zip": "D:\\project\\trae\\小红书小工具\\rednote-vibe-tools\\projects\\15-home-renovation-lab\\release\\roomish-1.4.13-minitool.zip",
+  "bytes": 1179336,
   "files": [
     {
       "name": "assets/app.js",
-      "bytes": 1565687
+      "bytes": 1565265
     },
     {
       "name": "assets/content.js",
@@ -12,7 +12,7 @@
     },
     {
       "name": "assets/licenses.json",
-      "bytes": 1150
+      "bytes": 1192
     },
     {
       "name": "assets/logo-roomish.png",
@@ -20,15 +20,11 @@
     },
     {
       "name": "assets/style.css",
-      "bytes": 90961
+      "bytes": 89683
     },
     {
       "name": "assets/thumbnails.js",
       "bytes": 151479
-    },
-    {
-      "name": "assets/xhs-renovation-badge.png",
-      "bytes": 256481
     },
     {
       "name": "index.html",

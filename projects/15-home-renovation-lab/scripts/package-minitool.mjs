@@ -16,12 +16,10 @@ Object.assign(content.ui,{exportImage:'查看 / 保存设计图',exportCSV:'查�
 await writeFile(join(out,'assets/content.js'),'window.ROOMISH_CONTENT='+JSON.stringify(content)+';');
 await cp(join(root,'assets/thumbnails.js'),join(out,'assets/thumbnails.js'));
 await cp(join(root,'src/logo-roomish.png'),join(out,'assets/logo-roomish.png'));
-await cp(join(root,'src/xhs-renovation-badge.png'),join(out,'assets/xhs-renovation-badge.png'));
 await writeFile(join(out,'assets/licenses.json'),JSON.stringify({three:{version:'0.186.0',license:await readFile(join(root,'src/vendor/package/LICENSE'),'utf8')}}));
 const replace=(s,find,value)=>{assert(s.includes(find),'Container adaptation source changed: '+find.slice(0,70));return s.replace(find,value);};
 let source=await readFile(join(root,'src/app.js'),'utf8');
 source=replace(source,'./src/logo-roomish.png','./assets/logo-roomish.png');
-source=replace(source,'./src/xhs-renovation-badge.png','./assets/xhs-renovation-badge.png');
 source="import {createContainerStorage} from './container-storage.js';\n"+source;
 source=replace(source,"import {RoomScene} from './scene.js';","import './container-compat.js';\nimport {RoomScene} from './container-scene.js';");
 source=source.replace(/^const catalog=await fetch[^\n]+$/m,'const catalog=window.ROOMISH_CONTENT;');assert(!/^const catalog=await/m.test(source));

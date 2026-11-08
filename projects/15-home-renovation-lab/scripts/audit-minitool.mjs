@@ -34,7 +34,6 @@ const html=contents.get('index.html').toString();
 assert(/viewport-fit=cover/.test(html));assert(!/<script(?![^>]*\bsrc=)[^>]*>\s*\S|type=["']module|<base\b|<iframe\b|<object\b|http-equiv=["']Content-Security-Policy/i.test(html));
 const app=contents.get('assets/app.js').toString();
 for(const rule of [/\bfetch\s*\(/,/\bXMLHttpRequest\b/,/\bnew\s+(?:Worker|SharedWorker|WebSocket|EventSource|RTCPeerConnection)\s*\(/,/\beval\s*\(/,/\bnew\s+Function\s*\(/,/\bWebAssembly\b/,/navigator\.(?:clipboard|geolocation|bluetooth|usb|hid|serial|serviceWorker|credentials|locks|connection)/,/\b(?:requestFullscreen|webkitRequestFullscreen)\s*\(/,/\bwindow\.(?:open|prompt)\s*\(/,/\.download\s*=/,/\bimport\s*\(/])assert(!rule.test(app),`Forbidden capability: ${rule}`);
-const badge=contents.get('assets/xhs-renovation-badge.png');assert(badge&&badge.readUInt32BE(0)===0x89504e47&&badge[25]===6,'Badge must be RGBA PNG');
 const zip=await readFile(manifest.zip);assert(zip.length<=10*1024*1024);
 let end=zip.length-22;while(end>=0&&zip.readUInt32LE(end)!==0x06054b50)end--;assert(end>=0,'Missing ZIP directory');
 let cursor=zip.readUInt32LE(end+16);const count=zip.readUInt16LE(end+10),zipNames=[];
@@ -46,6 +45,6 @@ for(let i=0;i<count;i++){
   assert.equal(data.length,size);assert(contents.has(name)&&data.equals(contents.get(name)),`ZIP differs from audited artifact: ${name}`);zipNames.push(name);cursor+=46+nameSize+extra+comment;
 }
 assert.deepEqual(zipNames.sort(),names);
-const report={passed:true,skill:'minitool-zip-builder 1.8.0',date:'2026-10-16',zip:manifest.zip,bytes:zip.length,sha256:createHash('sha256').update(zip).digest('hex'),files:names,checks:{rootEntry:true,extensions:true,zipMatchesDirectory:true,localReferences:true,classicScripts:true,forbiddenCapabilitiesAbsent:true,badgeRgba:true,base64:{count:base64Count,maxDecodedBytes:maxBase64Bytes}},pending:['Platform simulator acceptance','Android native acceptance','iOS native acceptance','Chrome 61 runtime/CSS acceptance','Physical device performance and native bridge acceptance']};
+const report={passed:true,skill:'minitool-zip-builder 1.8.0',date:'2026-10-16',zip:manifest.zip,bytes:zip.length,sha256:createHash('sha256').update(zip).digest('hex'),files:names,checks:{rootEntry:true,extensions:true,zipMatchesDirectory:true,localReferences:true,classicScripts:true,forbiddenCapabilitiesAbsent:true,base64:{count:base64Count,maxDecodedBytes:maxBase64Bytes}},pending:['Platform simulator acceptance','Android native acceptance','iOS native acceptance','Chrome 61 runtime/CSS acceptance','Physical device performance and native bridge acceptance']};
 await writeFile(join(root,'release/package-audit-20261016.json'),JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));

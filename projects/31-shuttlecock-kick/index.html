@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>毽子连击</title>
+<meta name="description" content="一脚接一脚，踢到天黑">
+<link rel="icon" href="./logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="./logo.svg" alt="" width="26" height="26">
+      <span id="title">毽子连击</span>
+    </div>
+    <p id="subtitle"></p>
+  </header>
+
+  <section id="hud" hidden>
+    <div class="hud-row">
+      <span class="level" id="levelName"></span>
+      <span class="combo-box"><b id="combo">0</b><small>连击</small></span>
+    </div>
+    <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="接住进度">
+      <i id="progressFill"></i>
+    </div>
+    <div class="hud-row small">
+      <span id="targetText"></span>
+      <span id="livesText" class="lives"></span>
+    </div>
+  </section>
+
+  <section id="stage">
+    <canvas id="field" aria-label="毽子连击场地"></canvas>
+    <div id="flash" role="status" aria-live="polite"></div>
+    <div id="hint" role="status" aria-live="polite"></div>
+  </section>
+
+  <footer id="footbar">
+    <button id="muteBtn" type="button" aria-pressed="true">声音 开</button>
+    <span id="bestHint"></span>
+  </footer>
+
+  <section id="intro" class="panel-layer">
+    <div class="panel">
+      <div class="panel-glow"></div>
+      <img class="panel-logo" src="./logo.svg" alt="毽子连击" width="72" height="72">
+      <h2 id="startTitle">毽子连击</h2>
+      <div id="startLines" class="lines"></div>
+      <button id="startBtn" type="button" class="primary">开踢</button>
+      <p class="tip">点一下画面即可踢起毽子</p>
+    </div>
+  </section>
+
+  <section id="levelPanel" class="panel-layer" hidden>
+    <div class="panel">
+      <div class="panel-glow"></div>
+      <h2 id="levelTitle"></h2>
+      <div id="levelLines" class="lines"></div>
+      <button id="nextBtn" type="button" class="primary">继续踢</button>
+    </div>
+  </section>
+
+  <section id="result" class="panel-layer" hidden>
+    <div class="panel wide">
+      <div class="panel-glow"></div>
+      <h2 id="resultTitle"></h2>
+      <div class="result-stats">
+        <div><b id="resultScore">0</b><span id="resultScoreLabel">总分</span></div>
+        <div><b id="resultCombo">0</b><span id="resultComboLabel">最高连击</span></div>
+        <div><b id="resultBest">0</b><span id="resultBestLabel">历史最佳</span></div>
+      </div>
+      <p id="bestFlag" class="best-flag" hidden>新纪录！</p>
+      <canvas id="shareCard" width="720" height="960" aria-label="连击纪录卡"></canvas>
+      <div class="actions">
+        <button id="againBtn" type="button" class="primary">再踢一场</button>
+        <button id="saveBtn" type="button" class="ghost">保存纪录卡</button>
+      </div>
+      <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+</div>
+<script src="./content.js"></script>
+<script src="./game.js"></script>
+<script src="./render.js"></script>
+<script src="./audio.js"></script>
+<script src="./storage.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

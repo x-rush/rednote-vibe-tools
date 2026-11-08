@@ -1,0 +1,24 @@
+{
+  "name": "毽子连击",
+  "description": "一脚接一脚，踢到天黑",
+  "zip": "shuttlecock-kick-v1.zip",
+  "bytes": 24692,
+  "sha256": "CB7665B42FB19E564A0FC49EFCAB6F77C2AC5877F3CCCCE9BEF83585F31E2B07",
+  "entries": [
+    "app.js",
+    "audio.js",
+    "content.js",
+    "game.js",
+    "index.html",
+    "logo.svg",
+    "render.js",
+    "storage.js",
+    "style.css"
+  ],
+  "sourceAudioBytes": 0,
+  "usage": "local-preview-only",
+  "platformSimulator": "pending",
+  "androidDevice": "pending",
+  "iosDevice": "pending",
+  "chrome61Runtime": "not-tested"
+}

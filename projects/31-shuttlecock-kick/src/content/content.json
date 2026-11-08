@@ -1,0 +1,221 @@
+{
+  "brand": {
+    "toolName": "毽子连击",
+    "tagline": "一脚接一脚，踢到天黑",
+    "logo": "logo.svg",
+    "logoPng": "assets/logo-512.png",
+    "intro": "点一下把毽子踢起来，在落点之前再点一下，就能一直连着踢。"
+  },
+  "xiaohongshuDraft": {
+    "title": "踢毽子这件事，我在手机上又练回来了",
+    "body": "小时候一下午能踢两百个，现在手机上一屏也能踢。\n规则就一条：毽子掉下来之前点一下，落点踩准就不断连。\n连到 25 脚，毽子会变成极光羽。\n你小时候最多连过几个？",
+    "hashtags": ["#童年游戏", "#毽子", "#解压小游戏", "#怀旧", "#连击挑战"]
+  },
+  "meta": {
+    "title": "毽子连击",
+    "viewHeight": 640,
+    "groundY": 592,
+    "tiers": [
+      {
+        "min": 0,
+        "name": "素羽",
+        "sky": ["#ffd9a0", "#ff9d76", "#8e5a86"],
+        "sun": "#fff3c4",
+        "stars": 0,
+        "ground": "#3d2b3f",
+        "groundEdge": "#f0b183",
+        "accent": "#ffcf8d",
+        "feathers": ["#f6efe4", "#e6d8c4", "#fffdf7"]
+      },
+      {
+        "min": 5,
+        "name": "双羽",
+        "sky": ["#ffbe8a", "#f2738a", "#5b3a76"],
+        "sun": "#ffe6b0",
+        "stars": 0,
+        "ground": "#33253c",
+        "groundEdge": "#ef9a86",
+        "accent": "#ffb3a0",
+        "feathers": ["#fff4e2", "#ffb0a0", "#ffe0c8"]
+      },
+      {
+        "min": 10,
+        "name": "夜羽",
+        "sky": ["#6a5a9e", "#3c3470", "#1e1c40"],
+        "sun": "#f4f0ff",
+        "stars": 1,
+        "ground": "#26213a",
+        "groundEdge": "#8f7ec4",
+        "accent": "#c9b8ff",
+        "feathers": ["#efe8ff", "#b9a6ff", "#8f79e0"]
+      },
+      {
+        "min": 16,
+        "name": "星羽",
+        "sky": ["#3b3f7a", "#26285a", "#12122e"],
+        "sun": "#ffffff",
+        "stars": 1,
+        "ground": "#1d1c33",
+        "groundEdge": "#6f74c8",
+        "accent": "#9fd8ff",
+        "feathers": ["#e8f6ff", "#8fd4ff", "#5aa8e8"]
+      },
+      {
+        "min": 25,
+        "name": "极光羽",
+        "sky": ["#1f6f6a", "#2b4a7a", "#141c33"],
+        "sun": "#d8fff4",
+        "stars": 1,
+        "ground": "#17242f",
+        "groundEdge": "#63e0b8",
+        "accent": "#7cf0c8",
+        "feathers": ["#e2fff4", "#7cf0c8", "#4bbfa0"]
+      }
+    ],
+    "catchWords": ["稳", "还稳", "连上了", "停不下来", "起飞了"],
+    "shuttleNames": ["素羽毽子", "双羽毽子", "夜羽毽子", "星羽毽子", "极光毽子"]
+  },
+  "levels": [
+    {
+      "name": "热身 · 踢起来",
+      "target": 5,
+      "lives": 3,
+      "gravity": 1150,
+      "kickSpeed": 760,
+      "catchFactor": 0.9,
+      "perfectRatio": 0.24,
+      "sway": 0.03,
+      "baseScore": 10,
+      "comboStep": 2,
+      "perfectBonus": 15
+    },
+    {
+      "name": "上手 · 找到落点",
+      "target": 7,
+      "lives": 3,
+      "gravity": 1200,
+      "kickSpeed": 775,
+      "catchFactor": 0.87,
+      "perfectRatio": 0.23,
+      "sway": 0.04,
+      "baseScore": 10,
+      "comboStep": 2,
+      "perfectBonus": 15
+    },
+    {
+      "name": "起风 · 微微晃",
+      "target": 9,
+      "lives": 3,
+      "gravity": 1260,
+      "kickSpeed": 790,
+      "catchFactor": 0.85,
+      "perfectRatio": 0.22,
+      "sway": 0.07,
+      "baseScore": 12,
+      "comboStep": 3,
+      "perfectBonus": 18
+    },
+    {
+      "name": "快脚 · 追着落",
+      "target": 11,
+      "lives": 3,
+      "gravity": 1320,
+      "kickSpeed": 805,
+      "catchFactor": 0.83,
+      "perfectRatio": 0.21,
+      "sway": 0.09,
+      "baseScore": 12,
+      "comboStep": 3,
+      "perfectBonus": 18
+    },
+    {
+      "name": "暮色 · 垫步",
+      "target": 14,
+      "lives": 3,
+      "gravity": 1380,
+      "kickSpeed": 820,
+      "catchFactor": 0.81,
+      "perfectRatio": 0.2,
+      "sway": 0.11,
+      "baseScore": 14,
+      "comboStep": 3,
+      "perfectBonus": 22
+    },
+    {
+      "name": "快板 · 连起来",
+      "target": 17,
+      "lives": 2,
+      "gravity": 1440,
+      "kickSpeed": 835,
+      "catchFactor": 0.79,
+      "perfectRatio": 0.2,
+      "sway": 0.13,
+      "baseScore": 14,
+      "comboStep": 4,
+      "perfectBonus": 22
+    },
+    {
+      "name": "夜场 · 别断",
+      "target": 21,
+      "lives": 2,
+      "gravity": 1500,
+      "kickSpeed": 850,
+      "catchFactor": 0.77,
+      "perfectRatio": 0.19,
+      "sway": 0.15,
+      "baseScore": 16,
+      "comboStep": 4,
+      "perfectBonus": 26
+    },
+    {
+      "name": "极限 · 一口气",
+      "target": 26,
+      "lives": 2,
+      "gravity": 1560,
+      "kickSpeed": 865,
+      "catchFactor": 0.75,
+      "perfectRatio": 0.18,
+      "sway": 0.17,
+      "baseScore": 16,
+      "comboStep": 5,
+      "perfectBonus": 30
+    }
+  ],
+  "copy": {
+    "startLines": [
+      "毽子掉下来之前点一下",
+      "接住一次就多连一脚",
+      "落地会少一格机会"
+    ],
+    "startButton": "开踢",
+    "hintShort": "点一下踢起来",
+    "targetLabel": "接住 %d / %d",
+    "comboLabel": "连击 ×%d",
+    "livesLabel": "机会",
+    "tierLabel": "%s",
+    "catchLabel": "接住",
+    "perfectLabel": "完美",
+    "whiffLabel": "踢早了",
+    "landLabel": "落地",
+    "levelClearTitle": "第 %d 关 · 稳住了",
+    "levelClearLines": ["这一关的落点你已经记住了", "下一关毽子会跳得更高"],
+    "nextButton": "继续踢",
+    "levelFailTitle": "第 %d 关 · 落地了",
+    "levelFailLines": ["落点差一点点也算数", "看准毽子过接球线再点"],
+    "retryButton": "再踢一次",
+    "finalTitle": "全场踢完",
+    "gameOverTitle": "毽子落地了",
+    "finalScoreLabel": "总分",
+    "finalComboLabel": "最高连击",
+    "finalBestLabel": "历史最佳",
+    "finalScore": "%d",
+    "finalCombo": "%d",
+    "finalBest": "%d",
+    "againButton": "再踢一场",
+    "saveUnavailable": "当前环境不支持保存，长按图片手动存",
+    "saved": "已保存到相册",
+    "saveFailed": "保存失败，长按图片手动存",
+    "muteOn": "声音 开",
+    "muteOff": "声音 关"
+  }
+}

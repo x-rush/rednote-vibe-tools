@@ -1,0 +1,15 @@
+{
+  "video": "更新了第二版-配音底片-无字幕无音乐.mp4",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "duration": 43.6,
+  "audioTracks": 0,
+  "addedBurnedText": false,
+  "originalGameUIRetained": true,
+  "subtitleSegments": 7,
+  "subtitleOverlaps": 0,
+  "decode": "pass",
+  "sha256": "7bd7395a2b9a4a52fc1b2a1e5f70db9e5e5b898755cb5af4e94f8bbcb934f8a8",
+  "voiceover": "Script only; user supplies voice. No claim of measured TTS duration."
+}

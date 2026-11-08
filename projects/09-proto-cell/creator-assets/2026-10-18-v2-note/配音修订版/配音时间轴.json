@@ -1,0 +1,41 @@
+{
+  "duration": 43.6,
+  "timing": "Suggested placement windows; align to the actual chosen voice after generating speech.",
+  "sentences": [
+    {
+      "start": 0.4,
+      "end": 7.6,
+      "text": "大赛结束了，玩这个小游戏的人却慢慢多了。"
+    },
+    {
+      "start": 8.5,
+      "end": 11.0,
+      "text": "所以，回来填坑。"
+    },
+    {
+      "start": 11.5,
+      "end": 18.2,
+      "text": "从小细胞，一路长成大猎手。"
+    },
+    {
+      "start": 18.9,
+      "end": 25.0,
+      "text": "长大以后，连地形都能破开。"
+    },
+    {
+      "start": 25.7,
+      "end": 30.1,
+      "text": "以前追着你跑的，现在一口吞。"
+    },
+    {
+      "start": 30.8,
+      "end": 39.8,
+      "text": "结束一局，还能留下种源，孵化新的细胞。"
+    },
+    {
+      "start": 40.7,
+      "end": 43.3,
+      "text": "第二版，回来试试？"
+    }
+  ]
+}

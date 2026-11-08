@@ -1,7 +1,7 @@
 import {cardView} from './card-view.js';
 import {attachCardDecor} from './card-decor.js';
 import {paintCard} from './card-art.js';
-import {saveCardToAlbum} from './album.js';
+import {saveCardToAlbum,saveCardOutsideBridge} from './album.js';
 import {createAtelier} from './scene.js';
 import {nextPhrase} from './decorations.js';
 export function openShareCard(content,recipe,name,view){
@@ -26,7 +26,7 @@ export function openShareCard(content,recipe,name,view){
   controls.append(button(s.angle,()=>void renderFrame(null)),button(s.currentAngle,()=>void renderFrame(view)));
   decor=attachCardDecor({content,controls,image,button,paint,backgroundColor:view?.lightsOff?'#493d56':'#f5eee6',setBackground(value){studio?.setCardBackground(value);void renderFrame(currentView);}});
   const shimmerTimer=setInterval(()=>{if(!alive||!frame||document.hidden)return;const preview=image.getContext('2d');preview.clearRect(0,0,1080,1440);preview.drawImage(canvas,0,0);decor?.shimmer(preview,Date.now());decor?.outline(preview);},120);
-  const save=button(s.save,async()=>{if(busy||!frame)return;const bridge=window.xhs?.miniTool;if(!bridge?.saveImageToPhotosAlbum){status.textContent=s.fallback;return;}busy=true;save.disabled=true;try{await saveCardToAlbum(bridge,canvas.toDataURL('image/png')); if(alive)status.textContent=s.success;}catch{if(alive)status.textContent=s.error;}finally{busy=false;save.disabled=false;}});save.className='primary';const actions=document.createElement('div');actions.className='share-actions';actions.append(save,button(s.close,()=>dialog.close()));
+  const save=button(s.save,async()=>{if(busy||!frame)return;const bridge=window.xhs?.miniTool;if(!bridge?.saveImageToPhotosAlbum){try{const mode=saveCardOutsideBridge(canvas.toDataURL('image/png'),content.brand.name,s.longPress,s.close);if(alive)status.textContent=mode==='download'?s.download:s.longPress;}catch{if(alive)status.textContent=s.fallback;}return;}busy=true;save.disabled=true;try{await saveCardToAlbum(bridge,canvas.toDataURL('image/png')); if(alive)status.textContent=s.success;}catch{if(alive)status.textContent=s.error;}finally{busy=false;save.disabled=false;}});save.className='primary';const actions=document.createElement('div');actions.className='share-actions';actions.append(save,button(s.close,()=>dialog.close()));
   dialog.append(title,image,status,controls,actions);document.body.append(dialog);dialog.addEventListener('close',()=>{alive=false;clearInterval(shimmerTimer);renderTicket++;decor?.dispose();studio?.dispose();host.remove();image.removeAttribute('src');canvas.width=canvas.height=0;dialog.remove();});dialog.showModal();
   try{studio=createAtelier(host,content,{preview:true,showcase:true,capture:true});studio.setRecipe(structuredClone(recipe),'ready',1);void renderFrame(null).catch(()=>{if(alive)status.textContent=s.renderError;});}catch{status.textContent=s.renderError;}
 }

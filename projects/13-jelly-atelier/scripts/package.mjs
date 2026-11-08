@@ -36,7 +36,7 @@ await copyFile(resolve(project,'src/assets/card-font.woff'),resolve(dest,'assets
 await writeFile(resolve(dest,'assets/card-font-license.json'),JSON.stringify({name:'ZCOOL KuaiLe',license:await readFile(resolve(project,'src/assets/card-font-license.txt'),'utf8')}));
 await copyFile(resolve(project,'src/assets/logo.png'),resolve(dest,'assets/logo.png'));
 await copyFile(resolve(project,'src/assets/logo.png'),resolve(project,'release/果冻慢慢-logo.png'));
-await writeFile(resolve(project,'release/上架资料.json'),JSON.stringify({...content.listing,descriptionLength:14,logo:'果冻慢慢-logo.png',package:'guodong-manman-2.0.48.zip'},null,2));
+await writeFile(resolve(project,'release/上架资料.json'),JSON.stringify({...content.listing,descriptionLength:14,logo:'果冻慢慢-logo.png',package:'guodong-manman-2.0.49.zip'},null,2));
 await writeFile(resolve(dest,'assets/licenses.json'),JSON.stringify({three:{version:'0.180.0',license,modification:'Build removes unused WebXR subsystem; ordinary WebGL rendering retained.'}},null,2));
 // Validate the exact output, not just source files.
 const js=await readFile(resolve(dest,'assets/app.js'),'utf8');

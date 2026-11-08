@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>蛋落地</title>
+<meta name="description" content="轻轻放，才不会碎">
+<link rel="icon" href="./logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="./logo.svg" alt="" width="26" height="26">
+      <span id="title">蛋落地</span>
+    </div>
+    <p id="subtitle"></p>
+  </header>
+
+  <section id="hud" hidden>
+    <div class="hud-row">
+      <span class="level" id="levelName"></span>
+      <span class="score-box"><b id="score">0</b><small>分</small></span>
+    </div>
+    <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="落次进度">
+      <i id="progressFill"></i>
+    </div>
+    <div class="hud-row small">
+      <span id="dropText"></span>
+      <span id="gasText" class="gas"></span>
+    </div>
+    <div class="speed-wrap">
+      <span class="speed-label">落地速度</span>
+      <div class="speed-bar"><i id="speedFill"></i><em class="speed-mark"></em></div>
+      <span id="speedText" class="speed-text">稳</span>
+    </div>
+  </section>
+
+  <section id="stage">
+    <canvas id="field" aria-label="蛋落地的场地"></canvas>
+    <div id="flash" role="status" aria-live="polite"></div>
+    <div id="hint" role="status" aria-live="polite"></div>
+  </section>
+
+  <footer id="footbar">
+    <button id="muteBtn" type="button" aria-pressed="true">声音 开</button>
+    <span id="bestHint"></span>
+  </footer>
+
+  <section id="intro" class="panel-layer">
+    <div class="panel">
+      <div class="panel-glow"></div>
+      <img class="panel-logo" src="./logo.svg" alt="蛋落地" width="72" height="72">
+      <h2 id="startTitle">蛋落地</h2>
+      <div id="startLines" class="lines"></div>
+      <button id="startBtn" type="button" class="primary">开始接蛋</button>
+      <p class="tip">点蛋附近喷气：偏哪打哪</p>
+    </div>
+  </section>
+
+  <section id="levelPanel" class="panel-layer" hidden>
+    <div class="panel">
+      <div class="panel-glow"></div>
+      <h2 id="levelTitle"></h2>
+      <div id="levelLines" class="lines"></div>
+      <button id="nextBtn" type="button" class="primary">再落一次</button>
+    </div>
+  </section>
+
+  <section id="result" class="panel-layer" hidden>
+    <div class="panel wide">
+      <div class="panel-glow"></div>
+      <h2 id="resultTitle"></h2>
+      <div class="result-stats">
+        <div><b id="resultScore">0</b><span id="resultScoreLabel">总分</span></div>
+        <div><b id="resultSoft">0</b><span id="resultSoftLabel">软着陆</span></div>
+        <div><b id="resultBest">0</b><span id="resultBestLabel">历史最佳</span></div>
+      </div>
+      <p id="bestFlag" class="best-flag" hidden>新纪录！</p>
+      <canvas id="shareCard" width="720" height="960" aria-label="软着陆纪录卡"></canvas>
+      <div class="actions">
+        <button id="againBtn" type="button" class="primary">再来十二落</button>
+        <button id="saveBtn" type="button" class="ghost">保存纪录卡</button>
+      </div>
+      <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+</div>
+<script src="./content.js"></script>
+<script src="./game.js"></script>
+<script src="./render.js"></script>
+<script src="./audio.js"></script>
+<script src="./storage.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

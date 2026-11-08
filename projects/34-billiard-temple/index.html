@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>弹珠神殿</title>
+<meta name="description" content="一杆清空，满室生光">
+<link rel="icon" href="./logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="./logo.svg" alt="" width="26" height="26">
+      <span id="title">弹珠神殿</span>
+    </div>
+    <p id="subtitle"></p>
+  </header>
+
+  <section id="hud" hidden>
+    <div class="hud-row">
+      <span class="level" id="chamberName"></span>
+      <span class="score-box"><b id="score">0</b><small>分</small></span>
+    </div>
+    <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="神殿进度">
+      <i id="progressFill"></i>
+    </div>
+    <div class="hud-row small">
+      <span id="levelHint"></span>
+    </div>
+    <div class="stat-row">
+      <span class="stat"><i class="dot shots"></i><em id="shotsLabel">剩余杆数</em><b id="shotsLeft">0</b></span>
+      <span class="stat"><i class="dot gems"></i><em id="gemLabel">宝石</em><b id="gemCount">0/0</b></span>
+    </div>
+  </section>
+
+  <section id="stage">
+    <canvas id="field" aria-label="神殿殿堂与玉球"></canvas>
+    <div id="flash" role="status" aria-live="polite"></div>
+  </section>
+
+  <section id="tools" hidden>
+    <button id="shotBtn" type="button" class="shot" disabled>拖住玉球瞄准，松手发射</button>
+  </section>
+
+  <footer id="footbar">
+    <button id="muteBtn" type="button" aria-pressed="true">声音 开</button>
+    <span id="bestHint"></span>
+  </footer>
+
+  <section id="intro" class="panel-layer">
+    <div class="panel">
+      <div class="panel-glow"></div>
+      <img class="panel-logo" src="./logo.svg" alt="弹珠神殿" width="72" height="72">
+      <h2 id="startTitle">弹珠神殿</h2>
+      <div id="startLines" class="lines"></div>
+      <button id="startBtn" type="button" class="primary">进入神殿</button>
+      <p class="tip">拖住玉球瞄准方向，松手就会飞出去；撞墙会反弹，宝石碰到就收</p>
+    </div>
+  </section>
+
+  <section id="levelPanel" class="panel-layer" hidden>
+    <div class="panel">
+      <div class="panel-glow"></div>
+      <h2 id="levelTitle"></h2>
+      <div id="levelLines" class="lines"></div>
+      <button id="nextBtn" type="button" class="primary">下一殿</button>
+    </div>
+  </section>
+
+  <section id="result" class="panel-layer" hidden>
+    <div class="panel wide">
+      <div class="panel-glow"></div>
+      <h2 id="resultTitle"></h2>
+      <div class="result-stats">
+        <div><b id="resultScore">0</b><span>总分</span></div>
+        <div><b id="resultGems">0</b><span>宝石</span></div>
+        <div><b id="resultBest">0</b><span>历史最佳</span></div>
+      </div>
+      <p id="bestFlag" class="best-flag" hidden>新纪录！</p>
+      <p class="shelf-label" id="shelfLabel">宝石图鉴</p>
+      <div id="codex" class="codex"></div>
+      <canvas id="shareCard" width="720" height="960" aria-label="弹珠神殿技巧卡"></canvas>
+      <div class="actions">
+        <button id="againBtn" type="button" class="primary">再走一遍</button>
+        <button id="saveBtn" type="button" class="ghost">保存技巧卡</button>
+      </div>
+      <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+</div>
+<script src="./content.js"></script>
+<script src="./game.js"></script>
+<script src="./render.js"></script>
+<script src="./audio.js"></script>
+<script src="./storage.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

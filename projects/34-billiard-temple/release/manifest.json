@@ -1,0 +1,24 @@
+{
+  "name": "弹珠神殿",
+  "description": "一杆清空，满室生光",
+  "zip": "billiard-temple-v1.zip",
+  "bytes": 25280,
+  "sha256": "7084BB3360F5AB3EB01142E4CB83D609A27DBD5853964F319B6393183AD039E9",
+  "entries": [
+    "app.js",
+    "audio.js",
+    "content.js",
+    "game.js",
+    "index.html",
+    "logo.svg",
+    "render.js",
+    "storage.js",
+    "style.css"
+  ],
+  "sourceAudioBytes": 0,
+  "usage": "local-preview-only",
+  "platformSimulator": "pending",
+  "androidDevice": "pending",
+  "iosDevice": "pending",
+  "chrome61Runtime": "not-tested"
+}

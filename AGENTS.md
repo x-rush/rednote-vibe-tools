@@ -62,3 +62,16 @@
 - 头像仅保存在用户本机浏览器，不上传任何服务器；界面文案须向用户说明「保存在本机」。
 - lint 的 `readAsDataURL` 禁令继续生效：压缩统一走 `createObjectURL` + `canvas.toDataURL`，不引入 FileReader 读 Base64 的路径。
 - 从存储读回的头像必须经 normalize 校验（MIME 白名单 image/png|jpeg|webp、长度上限），非法或超限数据直接丢弃，不得原样渲染。
+
+## 全项目共享记忆：项目级 Skill 与 redapp-cli（2026-11-08）
+
+用户明确要求把小红书官方开发规范装成**项目级 Skill**，覆盖本地同名 skill，并随仓库提交，供全团队共用。
+
+- 仓库根目录 `.codex/` 即项目级 Skill 目录（Codex CLI 作用域）。MiniMax Code 本身没有项目级 Skill 作用域，只有内置、用户级 `C:\Users\77958\.minimax\skills\`、Agent 私有三级；因此规范落在 `.codex/`，需**每次显式调用**，不要指望自动加载。
+- `.codex/minitool-zip-builder/`（v1.9.0-beta.20261023.1，含 `references/mini-tool-manifest.md`、`scripts/write_manifest.mjs`）与 `.codex/redapp-cli/`（含 `references/{dev,form-limits,operations,session,workflows}.md`、`scripts/ensure-cli.mjs`）是同一 Skill 的两处入口，**必须同步到同一版本**，否则同名冲突。`.codex/` 顶层（SKILL.md / skill-package.json / references×8 / scripts×3）须与 `.codex/minitool-zip-builder/` 保持一致。
+- 官方原始包 `.codex/minitool-zip-builder-1.9.0-beta.20261023.1.skill` 入库保留，便于恢复与分发；旧版本从 git 历史恢复。
+- 每次打包前跑 `node .codex/minitool-zip-builder/scripts/audit_artifact.mjs <dist>`；`mini_tool.json` 在压缩前由 `write_manifest.mjs` 写入根目录，`is_high_consumption_scene` 依实际能力判定（无 Worker/OffscreenCanvas/WASM/Unity/Cocos 时为 `false`）。
+- 权威规范以在线文档 `https://miniapp-sandbox.xiaohongshu.com/minitool/doc` 为准，`.codex/` 内副本可能滞后，对冲突项以在线文档为准。
+- redapp CLI：每条业务命令带 `--agent`；查询/预览/送审/编辑需 `--source thirdAgent`；写入类命令先 `--dry-run` 再用 `planHash` `--confirm`；送审前必须手机预览并取得用户「预览通过」。CLI 通过 `node .codex/redapp-cli/scripts/ensure-cli.mjs` 就绪（prod/latest=1.0.4，beta=1.0.5-beta.2，默认口令走 prod）。
+- 授权走 `redapp login --agent`（设备码 + 二维码，凭证有效期约 24 小时、refresh 约 60 天）。**登录、预览、上传、送审属于账号写操作，必须先取得用户当次授权**，不得因为规范已安装就自行执行。
+- 本机无 pnpm，用 `npm run` 等价执行；npm 与 git 均需走代理 `http://127.0.0.1:7890`。

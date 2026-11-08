@@ -121,6 +121,20 @@ async function run() {
   });
   await page.screenshot({ path: path.join(OUT, 'flow-level-clear.png') });
 
+  /*
+   * 关键断言：结算面板弹出后若玩家不点「再来一杯」，关卡不得自行推进。
+   * 面板出现后静置 3 秒，若关卡名仍停在第一杯，说明没有自动跳关。
+   */
+  await page.waitForTimeout(3000);
+  const levelBeforeNext = await page.evaluate(() => ({
+    levelName: document.querySelector('#levelName').textContent,
+    levelIndex: window.__bobaState.levelIndex,
+    panelVisible: !document.querySelector('#levelPanel').hidden
+  }));
+  if (levelBeforeNext.levelIndex !== 0 || !levelBeforeNext.panelVisible) {
+    errors.push('[flow] 结算面板未等待确认就自行推进到下一关');
+  }
+
   /* 进入下一关 */
   await page.click('#nextBtn');
   await page.waitForTimeout(600);
@@ -175,6 +189,7 @@ async function run() {
     tapsUsed: taps,
     cleared: cleared,
     levelPanel: levelPanel,
+    levelBeforeNext: levelBeforeNext,
     secondLevel: secondLevel,
     resultPanel: resultPanel,
     saveStatus: saveStatus,

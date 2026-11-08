@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>彩沙瓶</title>
+<meta name="description" content="一层一层，堆出你的瓶子">
+<link rel="icon" href="./logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="./logo.svg" alt="" width="26" height="26">
+      <span id="title">彩沙瓶</span>
+    </div>
+    <p id="subtitle"></p>
+  </header>
+
+  <section id="hud" hidden>
+    <div class="hud-row">
+      <span class="level" id="levelName"></span>
+      <span class="score-box"><b id="score">0</b><small>分</small></span>
+    </div>
+    <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="堆瓶进度">
+      <i id="progressFill"></i>
+    </div>
+    <div class="hud-row small">
+      <span id="levelHint"></span>
+      <span id="budgetText" class="budget"></span>
+    </div>
+    <div class="match-wrap">
+      <span class="match-label">吻合度</span>
+      <div class="match-bar"><i id="matchFill"></i></div>
+      <span id="matchText" class="match-text">0%</span>
+    </div>
+  </section>
+
+  <section id="stage">
+    <canvas id="field" aria-label="彩沙瓶与堆积的沙"></canvas>
+    <div id="flash" role="status" aria-live="polite"></div>
+    <div id="hint" role="status" aria-live="polite"></div>
+  </section>
+
+  <div id="side">
+    <section id="palette" hidden>
+      <div id="swatches" role="radiogroup" aria-label="选择沙的颜色"></div>
+    </section>
+
+    <section id="tools" hidden>
+      <div class="tool-row">
+        <button class="tool" type="button" data-tool="pour">倒沙</button>
+        <button class="tool" type="button" data-tool="shape">塑形</button>
+        <button class="tool" type="button" data-tool="scoop">挖沙</button>
+      </div>
+      <button id="sealBtn" type="button" class="seal" disabled>封口收藏</button>
+    </section>
+  </div>
+
+  <footer id="footbar">
+    <button id="muteBtn" type="button" aria-pressed="true">声音 开</button>
+    <span id="bestHint"></span>
+  </footer>
+
+  <section id="intro" class="panel-layer">
+    <div class="panel">
+      <div class="panel-glow"></div>
+      <img class="panel-logo" src="./logo.svg" alt="彩沙瓶" width="72" height="72">
+      <h2 id="startTitle">彩沙瓶</h2>
+      <div id="startLines" class="lines"></div>
+      <button id="startBtn" type="button" class="primary">开始堆沙</button>
+      <p class="tip">沙会自己滑出斜坡，想堆成山形就用小棒推</p>
+    </div>
+  </section>
+
+  <section id="levelPanel" class="panel-layer" hidden>
+    <div class="panel">
+      <div class="panel-glow"></div>
+      <h2 id="levelTitle"></h2>
+      <div id="levelLines" class="lines"></div>
+      <button id="nextBtn" type="button" class="primary">再堆一瓶</button>
+    </div>
+  </section>
+
+  <section id="result" class="panel-layer" hidden>
+    <div class="panel wide">
+      <div class="panel-glow"></div>
+      <h2 id="resultTitle"></h2>
+      <div class="result-stats">
+        <div><b id="resultScore">0</b><span id="resultScoreLabel">总分</span></div>
+        <div><b id="resultBottles">0</b><span id="resultBottlesLabel">封口</span></div>
+        <div><b id="resultBest">0</b><span id="resultBestLabel">历史最佳</span></div>
+      </div>
+      <p id="bestFlag" class="best-flag" hidden>新纪录！</p>
+      <canvas id="shareCard" width="720" height="960" aria-label="彩沙瓶收藏卡"></canvas>
+      <p class="shelf-label" id="shelfLabel">收藏架</p>
+      <canvas id="shelf" width="640" height="200" aria-label="收藏的彩沙瓶"></canvas>
+      <div class="actions">
+        <button id="againBtn" type="button" class="primary">重开一排</button>
+        <button id="saveBtn" type="button" class="ghost">保存收藏卡</button>
+      </div>
+      <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+</div>
+<script src="./content.js"></script>
+<script src="./game.js"></script>
+<script src="./render.js"></script>
+<script src="./audio.js"></script>
+<script src="./storage.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

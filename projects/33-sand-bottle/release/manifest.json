@@ -1,0 +1,24 @@
+{
+  "name": "彩沙瓶",
+  "description": "一层一层，堆出你的瓶子",
+  "zip": "sand-bottle-v1.zip",
+  "bytes": 24791,
+  "sha256": "4CAB2A772B190A042BA98B130BF241865DBC2A07982AC09A4C80ED3CF5DE54A7",
+  "entries": [
+    "app.js",
+    "audio.js",
+    "content.js",
+    "game.js",
+    "index.html",
+    "logo.svg",
+    "render.js",
+    "storage.js",
+    "style.css"
+  ],
+  "sourceAudioBytes": 0,
+  "usage": "local-preview-only",
+  "platformSimulator": "pending",
+  "androidDevice": "pending",
+  "iosDevice": "pending",
+  "chrome61Runtime": "not-tested"
+}

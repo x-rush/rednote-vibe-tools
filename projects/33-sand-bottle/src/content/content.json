@@ -1,0 +1,260 @@
+{
+  "brand": {
+    "toolName": "彩沙瓶",
+    "tagline": "一层一层，堆出你的瓶子",
+    "logo": "logo.svg",
+    "logoPng": "assets/logo-512.png",
+    "intro": "挑一种颜色倒进瓶里，用小棒把沙堆塑出想要的形状。"
+  },
+  "xiaohongshuDraft": {
+    "title": "我把八瓶彩沙都堆好了，最后一瓶没舍得封口",
+    "body": "选好颜色倒进瓶子，沙会自己滑出一道斜坡。\n想堆成山形，就用小棒把沙一列一列推过去。\n照着上面的目标图堆到八九不离十，就能封口收藏。\n你堆的第一瓶会是什么样？",
+    "hashtags": [
+      "#解压小游戏",
+      "#治愈手作",
+      "#彩沙瓶",
+      "#小红书小游戏",
+      "#慢下来"
+    ]
+  },
+  "meta": {
+    "title": "彩沙瓶",
+    "viewHeight": 430,
+    "cols": 24,
+    "maxHeight": 34,
+    "maxSlope": 2,
+    "palette": [
+      "#e8735a",
+      "#f2a154",
+      "#f5d76e",
+      "#7fc9a6",
+      "#63b6d6",
+      "#a892d6",
+      "#f0e6d2",
+      "#6d5b8f"
+    ],
+    "paletteNames": [
+      "珊瑚",
+      "蜜橘",
+      "明黄",
+      "薄荷",
+      "湖蓝",
+      "薰衣草",
+      "奶白",
+      "墨紫"
+    ],
+    "bottle": {
+      "neckRatio": 0.34,
+      "shoulderTop": 0.34,
+      "shoulderBottom": 0.46,
+      "baseRatio": 0.86
+    },
+    "wood": [
+      "#6b4a32",
+      "#8a6444"
+    ]
+  },
+  "levels": [
+    {
+      "name": "第一瓶 · 单色",
+      "hint": "往最矮处倒，沙会自己滑",
+      "bands": [
+        {
+          "color": 0,
+          "height": 5
+        }
+      ],
+      "peak": null,
+      "tolerance": 0.94,
+      "heightTolerance": 2,
+      "budgetRatio": 1.35
+    },
+    {
+      "name": "第二瓶 · 两层",
+      "hint": "先铺满底层，再换颜色铺第二层",
+      "bands": [
+        {
+          "color": 1,
+          "height": 4
+        },
+        {
+          "color": 2,
+          "height": 4
+        }
+      ],
+      "peak": null,
+      "tolerance": 0.93,
+      "heightTolerance": 2,
+      "budgetRatio": 1.35
+    },
+    {
+      "name": "第三瓶 · 高低层",
+      "hint": "底下薄一点、上面厚一点",
+      "bands": [
+        {
+          "color": 4,
+          "height": 3
+        },
+        {
+          "color": 3,
+          "height": 6
+        }
+      ],
+      "peak": null,
+      "tolerance": 0.92,
+      "heightTolerance": 2,
+      "budgetRatio": 1.35
+    },
+    {
+      "name": "第四瓶 · 小山",
+      "hint": "堆山要用塑形棒往上顶",
+      "bands": [
+        {
+          "color": 5,
+          "height": 5
+        }
+      ],
+      "peak": {
+        "color": 2,
+        "center": 0.5,
+        "halfWidth": 0.13,
+        "height": 10
+      },
+      "tolerance": 0.92,
+      "heightTolerance": 1,
+      "budgetRatio": 1.45
+    },
+    {
+      "name": "第五瓶 · 双色山",
+      "hint": "先铺底，再换色堆山",
+      "bands": [
+        {
+          "color": 3,
+          "height": 4
+        }
+      ],
+      "peak": {
+        "color": 0,
+        "center": 0.38,
+        "halfWidth": 0.12,
+        "height": 9
+      },
+      "tolerance": 0.91,
+      "heightTolerance": 1,
+      "budgetRatio": 1.45
+    },
+    {
+      "name": "第六瓶 · 长坡",
+      "hint": "山要够宽，两边都要托住",
+      "bands": [
+        {
+          "color": 7,
+          "height": 4
+        },
+        {
+          "color": 6,
+          "height": 4
+        }
+      ],
+      "peak": {
+        "color": 2,
+        "center": 0.5,
+        "halfWidth": 0.22,
+        "height": 16
+      },
+      "tolerance": 0.91,
+      "heightTolerance": 1,
+      "budgetRatio": 1.5
+    },
+    {
+      "name": "第七瓶 · 细颈",
+      "hint": "尖峰最陡，沙会自己滑",
+      "bands": [
+        {
+          "color": 4,
+          "height": 6
+        }
+      ],
+      "peak": {
+        "color": 1,
+        "center": 0.5,
+        "halfWidth": 0.08,
+        "height": 8
+      },
+      "tolerance": 0.9,
+      "heightTolerance": 1,
+      "budgetRatio": 1.5
+    },
+    {
+      "name": "第八瓶 · 收工",
+      "hint": "三层加一座山，这瓶最难",
+      "bands": [
+        {
+          "color": 1,
+          "height": 4
+        },
+        {
+          "color": 6,
+          "height": 4
+        },
+        {
+          "color": 4,
+          "height": 4
+        }
+      ],
+      "peak": {
+        "color": 0,
+        "center": 0.62,
+        "halfWidth": 0.11,
+        "height": 10
+      },
+      "tolerance": 0.9,
+      "heightTolerance": 1,
+      "budgetRatio": 1.55
+    }
+  ],
+  "copy": {
+    "startLines": [
+      "挑一种沙，倒进空瓶子里",
+      "沙会自己滑出斜坡",
+      "照着目标图堆好，就能封口"
+    ],
+    "startButton": "开始堆沙",
+    "hintShort": "选颜色，点瓶内倒沙",
+    "targetLabel": "目标图",
+    "matchLabel": "吻合度",
+    "budgetLabel": "余沙",
+    "paletteLabel": "颜色",
+    "toolPour": "倒沙",
+    "toolShape": "塑形",
+    "toolLabel": "工具",
+    "sealButton": "封口收藏",
+    "sealHint": "吻合度够高才能封口",
+    "reasonColor": "颜色还没对",
+    "reasonShort": "沙还不够铺满",
+    "reasonAmount": "沙量不对",
+    "reasonHeight": "沙面还不够平",
+    "reasonPeak": "山还不够高",
+    "sealed": "封好了",
+    "levelClearTitle": "第 %d 瓶 · 封好了",
+    "levelClearLines": [
+      "这一瓶摆得还算稳",
+      "下一瓶换个花样"
+    ],
+    "nextButton": "再堆一瓶",
+    "finalTitle": "八瓶全封",
+    "finalScoreLabel": "总分",
+    "finalBestLabel": "历史最佳",
+    "finalScore": "%d",
+    "finalBest": "%d",
+    "finalShelfLabel": "收藏架",
+    "finalShelfEmpty": "架上还空着",
+    "againButton": "重开一排",
+    "saveUnavailable": "当前环境不支持保存，长按图片手动存",
+    "saved": "已保存到相册",
+    "saveFailed": "保存失败，长按图片手动存",
+    "muteOn": "声音 开",
+    "muteOff": "声音 关",
+    "finalBottlesLabel": "封口"
+  }
+}

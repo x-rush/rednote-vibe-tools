@@ -1,0 +1,24 @@
+{
+  "name": "沙丘速降",
+  "description": "贴着雪崩，甩出一道漂亮的尾迹",
+  "zip": "dune-surfer-v1.zip",
+  "bytes": 28850,
+  "sha256": "61BAAB0132E4ABE9157C6D15C13264F72B853FFF46DBA30329644D04E3A046AA",
+  "entries": [
+    "app.js",
+    "audio.js",
+    "content.js",
+    "game.js",
+    "index.html",
+    "logo.svg",
+    "render.js",
+    "storage.js",
+    "style.css"
+  ],
+  "sourceAudioBytes": 0,
+  "usage": "local-preview-only",
+  "platformSimulator": "pending",
+  "androidDevice": "pending",
+  "iosDevice": "pending",
+  "chrome61Runtime": "not-tested"
+}

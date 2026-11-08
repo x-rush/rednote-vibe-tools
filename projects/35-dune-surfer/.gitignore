@@ -1,0 +1,7 @@
+# 构建产物与自检证据不入库
+dist/
+qa/
+
+# 交付用 ZIP 为本地产物，不入库（体积与平台上传流程以 release/manifest.json 为准）
+release/*.zip
+release/unpacked/

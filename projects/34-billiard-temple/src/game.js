@@ -1,32 +1,86 @@
 /*
- * 弹珠神殿 · 玩法逻辑
+ * 弹珠神殿（玉球金殿）· 玩法逻辑 —— 三期严格 1:1 复刻 eazo 原版
  *
- * 一颗翠玉弹珠在殿堂里弹跳：拖拽瞄准、松手发射，球撞墙反弹并沿路收集宝石，
- * 房间里的宝石收齐就算过关，但杆数有限。
+ * 依据（按优先级）：
+ *   1. projects/31-shuttlecock-kick/PLAN.md 第 8 章（严格 1:1，含原版 bug）
+ *   2. projects/34-billiard-temple/reference/eazo-spec.txt（原版源码逐段提取）
+ *   3. 原版 chunk %TEMP%\eazo-original\34\206-z57hflno4.js（切片核对）
  *
- * 两套运动必须分清：
- *   1. 球：真实物理。直线减速、撞墙按恢复系数反弹、切向有损失，停下来就停在那儿。
- *   2. 障碍（滑块 / 转闸）：会动。位置随本次飞行的时间变化，所以同一个杆在不同时间打出去，
- *      走位可能不同——这也是「宝石要留在可行位置」必须靠模拟验证的原因。
+ * 原版机制（逐条照抄，含缺陷）：
+ *   · 弹弓：按住玉球向后拖 → 松手发射；速度 = min(0.62, 0.0042 * 拖拽距离)（px/ms）；
+ *     球在滚动中也允许再补一杆（直接替换当前速度），每杆扣 1 发；
+ *   · 宝石：殿内随机撒，数量 = 5 + min(5, 殿号)，位置 = 区域内缩 34px 随机，
+ *     每颗带随机相位 ph = 6.28 * rand()；
+ *   · 连锁：撞到的宝石变身新球继续在场滚动；
+ *     速度继承 = max(0.18, 0.9 * 撞击速度)，扇出偏转 = 撞击角 ± (0.6 + 0.5 * rand) 弧度，
+ *     并发上限 12 颗，寿命 7000ms，速度 ≤ 0.03 或寿命耗尽即消散；
+ *   · 连锁球不与主球互撞，连锁球之间也不互撞（原版就没有球间碰撞，重叠穿过）；
+ *   · 摩擦是「每帧乘一次」，不是按时间归一：主球 ×0.9975 / 帧（仅玩法中），
+ *     连锁球 ×0.997 / 帧 —— 高刷设备停得更快，这是原版缺陷，照抄；
+ *   · 有剩余杆数时主球速度被托底到 0.08（永远不停，可以一直补杆）；
+ *     杆数用完后球滑行到 0.035 以下才算停；
+ *   · 一殿结束只有两条路：宝石收齐（立即），或杆尽后主球滑停。原版没有「杆尽重打本殿」，
+ *     结束后直接进下一殿（宝石按新一殿重新随机撒）；第 8 殿结束进结算；
+ *   · 统计字段与原版一致：{room, shots, gems, bestRun, runGems}，
+ *     bestRun 是「单殿最多宝石」，不是单杆连锁数；
+ *   · 非玩法状态（封面/结算）是演示模式：区域变小（0.07/0.44），玉球自动匀速滚
+ *     （vx=.26, vy=-.2），无摩擦、静默收宝石，收齐自动重撒。
  *
- * 坐标系是固定的虚拟画布（ARENA_W × ARENA_H），渲染层再等比缩放到屏幕。
- * 所有物理都用固定步长 DT 推进，保证「求解器算的」和「玩家打的」是同一条轨迹。
+ * 唯一与原版不同的地方（用户明确要求保留的输入 bug 修复，不是玩法改动）：
+ *   · 画布 touch-action:none、pointercancel 中止瞄准绝不发射、pointerId 归属、
+ *     最短按住 80ms、最小拖拽 14px（原版阈值 18px、无按住时长要求）。
+ *
+ * 坐标系：直接用画布 CSS 像素（与原版一致）。殿内区域 =
+ *   { x:26, y:H*(玩法?0.16:0.07), w:W-52, h:H*(玩法?0.56:0.44) }。
+ * 连锁扇出用 Math.random()（原版如此，非确定性）；
+ * 测试可通过 game.setRng(fn) 注入种子随机，不影响运行时路径。
  */
 (function (root) {
   'use strict';
 
-  var ARENA_W = 300;
-  var ARENA_H = 480;
-  var BALL_R = 7;
-  var GEM_R = 10;
-  var FRICTION = 430;        /* 每秒减速（虚拟像素/秒²） */
-  var RESTITUTION = 0.88;    /* 墙面恢复系数 */
-  var TANGENT_LOSS = 0.97;   /* 墙面切向损失 */
-  var STOP_SPEED = 16;       /* 低于这个速度就停 */
-  var MIN_SPEED = 150;
-  var MAX_SPEED = 880;
-  var MAX_DRAG = 150;        /* 拖拽多长算满力 */
-  var DT = 1 / 240;          /* 固定步长：最远一帧位移 3.7px < 球半径 */
+  /* ---------- 原版常量（eazo-spec.txt 对照，勿改） ---------- */
+  var ROOM_COUNT = 8;          /* 殿数 8 */
+  var SHOTS_PER_ROOM = 4;      /* 每殿 4 杆 */
+  var AREA_X = 26;             /* 区域左 */
+  var AREA_TOP_PLAY = 0.16;    /* 玩法：区域上沿 = H * 0.16 */
+  var AREA_H_PLAY = 0.56;      /* 玩法：区域高 = H * 0.56 */
+  var AREA_TOP_MENU = 0.07;    /* 非玩法（演示）：区域上沿 */
+  var AREA_H_MENU = 0.44;      /* 非玩法（演示）：区域高 */
+  var GEM_INSET = 34;          /* 撒宝石内缩 */
+  var BALL_R = 13;             /* 主球半径（撞墙内缩同值） */
+  var CHAIN_R = 9;             /* 连锁球半径 */
+  var FRICTION_MAIN = 0.9975;  /* 主球每帧摩擦（原版：仅玩法中生效） */
+  var FRICTION_CHAIN = 0.997;  /* 连锁球每帧摩擦 */
+  var SPEED_FLOOR = 0.08;      /* 有杆数时的主球速度托底 */
+  var REST_SPEED = 0.035;      /* 杆尽后的静止判定 */
+  var LAUNCH_K = 0.0042;       /* 拖拽距离 → 速度 系数 */
+  var LAUNCH_MAX = 0.62;       /* 发射速度上限 */
+  var CHAIN_KEEP = 0.9;        /* 连锁球继承撞击速度比例 */
+  var CHAIN_MIN = 0.18;        /* 连锁球最低速度 */
+  var CHAIN_FAN = 0.6;         /* 扇出偏转基数（弧度） */
+  var CHAIN_FAN_RAND = 0.5;    /* 扇出偏转随机幅度 */
+  var CHAIN_LIFE = 7000;       /* 连锁球寿命 ms */
+  var CHAIN_CAP = 12;          /* 连锁球并发上限 */
+  var PICKUP_MAIN = 24;        /* 主球收宝石判定距离 */
+  var PICKUP_CHAIN = 20;       /* 连锁球收宝石判定距离 */
+  var DEMO_VX = 0.26;          /* 演示模式自动滚动速度 */
+  var DEMO_VY = -0.2;
+  var TRAIL_DECAY = 0.0022;    /* 球迹每 ms 衰减 */
+  var TRAIL_KEEP = 0.02;       /* 低于即删 */
+  var TRAIL_CAP = 120;
+  var PARTICLE_COUNT = 14;     /* 每颗宝石收集时的粒子数 */
+  var PARTICLE_DECAY = 0.0013;
+  var PARTICLE_KEEP = 0.03;
+  var PARTICLE_CAP = 200;
+  var PATH_MAX = 260;          /* 单殿路径记录上限 */
+  var DT_CAP = 48;             /* 单帧步长上限 ms */
+
+  /* ---------- 输入 bug 修复（保留项，非原版机制） ---------- */
+  var AIM_MIN_DRAG = 14;       /* 原版 18；真机误触回归后取 14 */
+  var AIM_MIN_HOLD_MS = 80;    /* 原版无；防「还没松手就发射」 */
+
+  /* 随机源：默认 Math.random（原版如此），测试可注入种子随机 */
+  var rng = Math.random;
 
   function clamp(v, lo, hi) {
     if (v < lo) return lo;
@@ -34,431 +88,485 @@
     return v;
   }
 
-  function createRun(content) {
+  /* 原版经济：第 n 殿宝石数 = 5 + min(5, n)（n 从 1 起） */
+  function gemsForRoom(room) {
+    return 5 + Math.min(5, room);
+  }
+
+  /* 原版区域公式 K(w, h, demo) */
+  function areaFor(w, h, demo) {
+    return {
+      x: AREA_X,
+      y: h * (demo ? AREA_TOP_MENU : AREA_TOP_PLAY),
+      w: w - 52,
+      h: h * (demo ? AREA_H_MENU : AREA_H_PLAY)
+    };
+  }
+
+  /* 殿内随机撒宝石（原版 G）：内缩 34，随机相位 */
+  function scatterGems(room, area) {
+    var list = [];
+    var count = gemsForRoom(room);
+    for (var i = 0; i < count; i++) {
+      list.push({
+        x: area.x + GEM_INSET + rng() * (area.w - GEM_INSET * 2),
+        y: area.y + GEM_INSET + rng() * (area.h - GEM_INSET * 2),
+        got: false,
+        ph: 6.28 * rng()
+      });
+    }
+    return list;
+  }
+
+  /* ---------- 弹弓输入状态机（保留的输入修复，逐字未动） ----------
+   * 输入事件（pointerdown / move / up / cancel）先进这台状态机，
+   * 它裁定「什么时候才算一杆」：
+   *   · 按住拖动期间绝不发射，松手那一刻才结算；
+   *   · pointercancel（浏览器接管手势 / 来电打断）= 中止，绝不发射；
+   *   · 只认「按下的那根手指」，第二根手指的按下 / 移动 / 抬起全部忽略；
+   *   · 快速点按（< minHoldMs）或拖拽距离不足（< minDrag）不发射。
+   * 弹弓方向：发射方向 = 球心 - 指尖，向后拖、朝反方向飞（原版同款）。
+   */
+  function createAimInput(opts) {
+    var minDrag = (opts && opts.minDrag) || AIM_MIN_DRAG;
+    var minHoldMs = (opts && opts.minHoldMs) || AIM_MIN_HOLD_MS;
+    var active = false;
+    var pointerId = null;
+    var startMs = 0;
+    var angle = 0;
+    var dist = 0;
+    var power = 0;
+
+    function track(fx, fy, ballX, ballY) {
+      var dx = ballX - fx;
+      var dy = ballY - fy;
+      var len = Math.sqrt(dx * dx + dy * dy);
+      if (len < 1) return;
+      dist = len;
+      angle = Math.atan2(dy, dx);
+      power = dragSpeed(len);
+    }
+
+    function down(id, fx, fy, ballX, ballY, nowMs) {
+      if (active) return false; /* 已经在瞄准：第二根手指不接管 */
+      active = true;
+      pointerId = id;
+      startMs = nowMs;
+      dist = 0;
+      power = 0;
+      angle = 0;
+      track(fx, fy, ballX, ballY);
+      return true;
+    }
+
+    function move(id, fx, fy, ballX, ballY) {
+      if (!active || id !== pointerId) return false;
+      track(fx, fy, ballX, ballY);
+      return true;
+    }
+
+    function up(id, nowMs) {
+      if (!active || id !== pointerId) return { fired: false };
+      active = false;
+      pointerId = null;
+      if (nowMs - startMs < minHoldMs) return { fired: false };
+      if (dist < minDrag) return { fired: false };
+      return { fired: true, angle: angle, dist: dist, power: power };
+    }
+
+    function cancel(id) {
+      if (!active || id !== pointerId) return false;
+      active = false;
+      pointerId = null;
+      return true; /* 中止瞄准：绝不发射 */
+    }
+
+    function reset() {
+      active = false;
+      pointerId = null;
+      dist = 0;
+      power = 0;
+      angle = 0;
+    }
+
+    return {
+      down: down,
+      move: move,
+      up: up,
+      cancel: cancel,
+      reset: reset,
+      isActive: function () { return active; },
+      getAim: function () { return { active: active, angle: angle, dist: dist, power: power }; }
+    };
+  }
+
+  /* 拖拽长度 → 发射速度（原版 D：min(0.62, 0.0042 * dist)，px/ms） */
+  function dragSpeed(dragLength) {
+    return Math.min(LAUNCH_MAX, LAUNCH_K * dragLength);
+  }
+
+  /* ---------- 一局 ---------- */
+  function createRun(content, viewportW, viewportH) {
+    var w = viewportW || 390;
+    var h = viewportH || 600;
     var state = {
       content: content,
-      levelIndex: 0,
-      level: null,
-      ball: { x: 0, y: 0, vx: 0, vy: 0 },
-      shot: null,
-      gems: [],
-      gemsLeft: 0,
-      shotsLeft: 0,
-      shotsUsed: 0,
-      score: 0,
-      cleared: [],
-      best: null,
-      phase: 'aim',
-      settled: false,
-      time: 0,
-      lastEvents: []
+      mode: 'demo',            /* 'demo'（封面/结算演示） | 'play' */
+      w: w,
+      h: h,
+      /* 原版统计字段 N = {room, shots, gems, bestRun, runGems} */
+      room: 1,
+      shots: SHOTS_PER_ROOM,
+      gems: 0,
+      bestRun: 0,
+      runGems: 0,
+      area: areaFor(w, h, true),
+      ball: { x: 0, y: 0, vx: 0, vy: 0, moving: false },
+      chains: [],              /* 连锁球 {x,y,vx,vy,life} */
+      gemList: [],
+      trail: [],               /* E：球迹光点 {x,y,life} */
+      particles: [],           /* j：收集粒子 {x,y,vx,vy,life,r,hue} */
+      pathRecord: [],          /* F：本殿路径（归一化坐标） */
+      bestPath: [],            /* k：最佳单殿路径 */
+      finished: false,
+      events: []
     };
-    loadChamber(state, 0);
+    setupRoom(state, 1, true);
     return state;
   }
 
-  function loadChamber(state, index) {
-    var levels = state.content.levels;
-    var next = clamp(index, 0, levels.length - 1);
-    state.levelIndex = next;
-    state.level = levels[next];
-    state.ball.x = state.level.ball[0];
-    state.ball.y = state.level.ball[1];
+  /* 原版 G：撒宝石 + 摆主球 + 清球迹/路径/连锁球 */
+  function setupRoom(state, room, demo) {
+    state.area = areaFor(state.w, state.h, demo);
+    state.gemList = scatterGems(room, state.area);
+    state.ball.x = state.area.x + state.area.w / 2;
+    state.ball.y = state.area.y + state.area.h - 40;
     state.ball.vx = 0;
     state.ball.vy = 0;
-    state.shot = null;
-    state.gems = [];
-    state.gemsLeft = 0;
-    for (var i = 0; i < state.level.gems.length; i++) {
-      var g = state.level.gems[i];
-      state.gems.push({ x: g[0], y: g[1], taken: false, order: i });
-      state.gemsLeft++;
-    }
-    state.shotsLeft = state.level.budget;
-    state.shotsUsed = 0;
-    state.phase = 'aim';
-    state.settled = false;
-    state.time = 0;
-    state.lastEvents = [];
+    state.ball.moving = false;
+    state.trail = [];
+    state.pathRecord = [];
+    state.chains = [];
+  }
+
+  /* 原版 L：整局重开（回第 1 殿，清最佳路径与粒子） */
+  function restart(state) {
+    state.room = 1;
+    state.shots = SHOTS_PER_ROOM;
+    state.gems = 0;
+    state.bestRun = 0;
+    state.runGems = 0;
+    state.bestPath = [];
+    state.particles = [];
+    state.finished = false;
+    setupRoom(state, 1, state.mode !== 'play');
     return state;
   }
 
-  /* ---------- 障碍 ---------- */
-  /* 障碍分两类：固定的石柱（blocks）与会动的石条（props）。 */
-  /* 石条位置随飞行时间变化：slide 沿轴往复 */
-  function propRect(prop, t) {
-    var w = prop.w;
-    var h = prop.h;
-    if (prop.type === 'slide') {
-      var offset = Math.sin(t * prop.speed + prop.phase) * prop.range;
-      if (prop.axis === 'x') return { x: prop.x + offset, y: prop.y, w: w, h: h };
-      return { x: prop.x, y: prop.y + offset, w: w, h: h };
-    }
-    return { x: prop.x, y: prop.y, w: w, h: h };
+  function setViewport(state, w, h) {
+    if (w === state.w && h === state.h) return;
+    state.w = w;
+    state.h = h;
+    state.area = areaFor(w, h, state.mode !== 'play');
   }
 
-  /* 障碍的扫掠区域：不论石条在哪一相位，球都不能穿过去 */
-  function propSwept(prop) {
-    if (prop.type === 'slide') {
-      if (prop.axis === 'x') {
-        return { x: prop.x - prop.range - BALL_R, y: prop.y - BALL_R, w: prop.w + prop.range * 2 + BALL_R * 2, h: prop.h + BALL_R * 2 };
+  function setMode(state, mode) {
+    if (state.mode === mode) return;
+    state.mode = mode;
+    state.area = areaFor(state.w, state.h, mode !== 'play');
+  }
+
+  function pushEvent(state, ev) {
+    state.events.push(ev);
+    if (state.events.length > 240) state.events.splice(0, state.events.length - 240);
+  }
+
+  function takeEvents(state) {
+    var list = state.events;
+    state.events = [];
+    return list;
+  }
+
+  /* 原版 p：宝石被任何球撞到 → 收集（+变身连锁球）。演示模式下静默。 */
+  function collectGem(state, gem, hitVx, hitVy, byChain) {
+    gem.got = true;
+    var demo = state.mode !== 'play';
+    if (!demo) {
+      state.gems += 1;
+      state.runGems += 1;
+      if (state.chains.length < CHAIN_CAP) {
+        /* 原版连锁：速度继承 + 随机扇出（Math.random，非确定性） */
+        var impact = Math.sqrt(hitVx * hitVx + hitVy * hitVy);
+        var speed = Math.max(CHAIN_MIN, CHAIN_KEEP * impact);
+        var sign = rng() < 0.5 ? -1 : 1;
+        var angle = Math.atan2(hitVy, hitVx) + sign * (CHAIN_FAN + CHAIN_FAN_RAND * rng());
+        state.chains.push({
+          x: gem.x,
+          y: gem.y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: CHAIN_LIFE
+        });
+        pushEvent(state, { t: 'convert', x: gem.x, y: gem.y });
       }
-      return { x: prop.x - BALL_R, y: prop.y - prop.range - BALL_R, w: prop.w + BALL_R * 2, h: prop.h + prop.range * 2 + BALL_R * 2 };
+      pushEvent(state, { t: 'gem', x: gem.x, y: gem.y, byChain: byChain ? 1 : 0 });
     }
-    return { x: prop.x - BALL_R, y: prop.y - BALL_R, w: prop.w + BALL_R * 2, h: prop.h + BALL_R * 2 };
+    for (var i = 0; i < PARTICLE_COUNT; i++) {
+      state.particles.push({
+        x: gem.x,
+        y: gem.y,
+        vx: (rng() - 0.5) * 0.6,
+        vy: (rng() - 0.5) * 0.6,
+        life: 1,
+        r: 2 + 4 * rng(),
+        hue: 44
+      });
+    }
+    if (state.particles.length > PARTICLE_CAP) {
+      state.particles.splice(0, state.particles.length - PARTICLE_CAP);
+    }
   }
 
-  /* 某一时刻场上的所有矩形：固定石柱 + 会动的石条 */
-  function levelRects(state, t) {
-    var rects = [];
-    var blocks = state.level.blocks || [];
-    for (var i = 0; i < blocks.length; i++) rects.push(blocks[i]);
-    var props = state.level.props || [];
-    for (var j = 0; j < props.length; j++) rects.push(propRect(props[j], t));
-    return rects;
+  /* 原版 f：一殿结束。原版没有重打：直接推进下一殿，第 8 殿结束进结算。 */
+  function endRoom(state) {
+    state.ball.moving = false;
+    state.ball.vx = 0;
+    state.ball.vy = 0;
+    state.chains = [];
+    if (state.runGems > state.bestRun) {
+      state.bestRun = state.runGems;
+      state.bestPath = state.pathRecord.slice();
+    }
+    state.runGems = 0;
+    state.pathRecord = [];
+    if (state.room >= ROOM_COUNT) {
+      state.finished = true;
+      pushEvent(state, { t: 'finish', gems: state.gems });
+      /* 结算后面是演示模式：把球摆好让演示继续 */
+      setMode(state, 'demo');
+      setupRoom(state, 1, true);
+      return;
+    }
+    var finishedRoom = state.room;
+    state.room += 1;
+    state.shots = SHOTS_PER_ROOM;
+    setupRoom(state, state.room, false);
+    pushEvent(state, { t: 'room', room: state.room, cleared: finishedRoom - 1 });
   }
 
-  /* ---------- 一次击球 ---------- */
-  /*
-   * 击球时刻 state.time 就是这一杆的起始时刻：
-   * 会动的石条按「殿堂内的绝对时间」走，所以玩家的瞄准快慢不影响石条位置，
-   * 但这杆的走位仍然可复算——关卡设计已经把「解」摆成与石条相位无关的路径。
-   */
-  function makeShot(state, angle, speed) {
-    var start = state.time || 0;
-    return {
-      x: state.ball.x,
-      y: state.ball.y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      t: start,
-      t0: start,
-      path: [{ x: state.ball.x, y: state.ball.y }],
-      collected: [],
-      bounces: 0,
-      wallBounces: 0,
-      propHits: 0,
-      done: false,
-      reason: '',
-      acc: 0
-    };
+  /* 原版 D（发射）：替换当前速度（允许球在滚动中补杆），扣 1 杆 */
+  function launchFromAim(state, aimResult) {
+    if (state.mode !== 'play') return null;
+    if (state.shots <= 0) return null;
+    if (!aimResult || !aimResult.fired) return null;
+    state.ball.vx = Math.cos(aimResult.angle) * aimResult.power;
+    state.ball.vy = Math.sin(aimResult.angle) * aimResult.power;
+    state.ball.moving = true;
+    state.shots -= 1;
+    pushEvent(state, { t: 'fire', power: aimResult.power, x: state.ball.x, y: state.ball.y });
+    return { power: aimResult.power };
   }
 
-  /* 球与障碍的碰撞：把球推出障碍并按法线反弹 */
-  function hitProp(state, shot, rect) {
-    var nx = shot.x;
-    var ny = shot.y;
-    var cx = clamp(nx, rect.x, rect.x + rect.w);
-    var cy = clamp(ny, rect.y, rect.y + rect.h);
-    var dx = nx - cx;
-    var dy = ny - cy;
-    var d2 = dx * dx + dy * dy;
-    if (d2 >= BALL_R * BALL_R) return false;
-
-    var vx;
-    var vy;
-    if (d2 > 0.0001) {
-      var d = Math.sqrt(d2);
-      vx = dx / d;
-      vy = dy / d;
-      shot.x = cx + vx * BALL_R;
-      shot.y = cy + vy * BALL_R;
-    } else {
-      /* 球心陷在障碍里：沿最浅的一侧顶出去 */
-      var left = nx - rect.x;
-      var right = rect.x + rect.w - nx;
-      var top = ny - rect.y;
-      var bottom = rect.y + rect.h - ny;
-      var m = Math.min(left, right, top, bottom);
-      if (m === left) { vx = -1; vy = 0; shot.x = rect.x - BALL_R; }
-      else if (m === right) { vx = 1; vy = 0; shot.x = rect.x + rect.w + BALL_R; }
-      else if (m === top) { vx = 0; vy = -1; shot.y = rect.y - BALL_R; }
-      else { vx = 0; vy = 1; shot.y = rect.y + rect.h + BALL_R; }
+  /* 单球撞墙（原版：原速反弹，无恢复系数损耗）；返回是否撞墙 */
+  function bounceWalls(ball, area, radius) {
+    var hit = null;
+    if (ball.x < area.x + radius) {
+      ball.x = area.x + radius;
+      ball.vx = Math.abs(ball.vx);
+      hit = { x: area.x, y: ball.y };
+    } else if (ball.x > area.x + area.w - radius) {
+      ball.x = area.x + area.w - radius;
+      ball.vx = -Math.abs(ball.vx);
+      hit = { x: area.x + area.w, y: ball.y };
     }
-    var dot = shot.vx * vx + shot.vy * vy;
-    if (dot < 0) {
-      shot.vx -= 2 * dot * vx;
-      shot.vy -= 2 * dot * vy;
-      shot.vx *= TANGENT_LOSS;
-      shot.vy *= TANGENT_LOSS;
-      shot.bounces++;
-      shot.propHits++;
+    if (ball.y < area.y + radius) {
+      ball.y = area.y + radius;
+      ball.vy = Math.abs(ball.vy);
+      hit = hit || { x: ball.x, y: area.y };
+    } else if (ball.y > area.y + area.h - radius) {
+      ball.y = area.y + area.h - radius;
+      ball.vy = -Math.abs(ball.vy);
+      hit = hit || { x: ball.x, y: area.y + area.h };
     }
-    return true;
+    return hit;
   }
 
-  /* 固定步长推进一颗球 */
-  function physicsStep(state, shot) {
-    shot.x += shot.vx * DT;
-    shot.y += shot.vy * DT;
-    shot.t += DT;
+  /* ---------- 原版主循环（每帧一次；摩擦逐帧相乘，原版缺陷照抄） ---------- */
+  function frame(state, dtMs) {
+    var dt = clamp(dtMs, 0, DT_CAP);
+    var demo = state.mode !== 'play';
+    var area = state.area;
+    var ball = state.ball;
+    var i;
 
-    /* 四面墙 */
-    if (shot.x < BALL_R) {
-      shot.x = BALL_R;
-      if (shot.vx < 0) { shot.vx = -shot.vx * RESTITUTION; shot.vy *= TANGENT_LOSS; shot.bounces++; shot.wallBounces++; }
-    } else if (shot.x > ARENA_W - BALL_R) {
-      shot.x = ARENA_W - BALL_R;
-      if (shot.vx > 0) { shot.vx = -shot.vx * RESTITUTION; shot.vy *= TANGENT_LOSS; shot.bounces++; shot.wallBounces++; }
-    }
-    if (shot.y < BALL_R) {
-      shot.y = BALL_R;
-      if (shot.vy < 0) { shot.vy = -shot.vy * RESTITUTION; shot.vx *= TANGENT_LOSS; shot.bounces++; shot.wallBounces++; }
-    } else if (shot.y > ARENA_H - BALL_R) {
-      shot.y = ARENA_H - BALL_R;
-      if (shot.vy > 0) { shot.vy = -shot.vy * RESTITUTION; shot.vx *= TANGENT_LOSS; shot.bounces++; shot.wallBounces++; }
+    /* 演示模式：玉球自动匀速滚动，永不摩擦 */
+    if (demo && !ball.moving) {
+      ball.vx = DEMO_VX;
+      ball.vy = DEMO_VY;
+      ball.moving = true;
     }
 
-    /* 障碍：固定石柱 + 会动的石条 */
-    var rects = levelRects(state, shot.t);
-    for (var i = 0; i < rects.length; i++) {
-      hitProp(state, shot, rects[i]);
-    }
-
-    /* 宝石 */
-    var reach = BALL_R + GEM_R;
-    for (var j = 0; j < state.gems.length; j++) {
-      var gem = state.gems[j];
-      if (gem.taken) continue;
-      var gx = gem.x - shot.x;
-      var gy = gem.y - shot.y;
-      if (gx * gx + gy * gy <= reach * reach) {
-        gem.taken = true;
-        state.gemsLeft--;
-        shot.collected.push(gem.order);
-        state.lastEvents.push({ type: 'gem', x: gem.x, y: gem.y });
+    if (ball.moving) {
+      ball.x += ball.vx * dt;
+      ball.y += ball.vy * dt;
+      var hit = bounceWalls(ball, area, BALL_R);
+      if (hit && !demo) pushEvent(state, { t: 'bounce', x: hit.x, y: hit.y, big: 1 });
+      if (!demo) ball.vx *= FRICTION_MAIN, ball.vy *= FRICTION_MAIN;
+      state.trail.push({ x: ball.x, y: ball.y, life: 1 });
+      if (!demo) {
+        state.pathRecord.push({ x: (ball.x - area.x) / area.w, y: (ball.y - area.y) / area.h });
+        if (state.pathRecord.length > PATH_MAX) state.pathRecord.shift();
       }
-    }
-
-    /* 减速与停止 */
-    var speed = Math.sqrt(shot.vx * shot.vx + shot.vy * shot.vy);
-    if (speed > 0) {
-      var next = speed - FRICTION * DT;
-      if (next <= STOP_SPEED) {
-        shot.vx = 0;
-        shot.vy = 0;
-        shot.done = true;
-        shot.reason = 'stop';
-      } else {
-        shot.vx = (shot.vx / speed) * next;
-        shot.vy = (shot.vy / speed) * next;
-      }
-    } else {
-      shot.done = true;
-      shot.reason = 'stop';
-    }
-  }
-
-  /* 把一杆推进 dt 秒（内部按固定步长走，保证与求解器完全一致） */
-  function advanceShot(state, shot, dt) {
-    shot.acc += dt;
-    var guard = 0;
-    while (shot.acc >= DT && !shot.done && guard++ < 600) {
-      shot.acc -= DT;
-      physicsStep(state, shot);
-      shot.path.push({ x: shot.x, y: shot.y });
-    }
-    if (shot.done) {
-      state.ball.x = shot.x;
-      state.ball.y = shot.y;
-    }
-    return shot.done;
-  }
-
-  /*
-   * 无界面地模拟一杆：给定角度与初速，返回路径、吃到的宝石、反弹次数。
-   * 求解器与「随手玩家」模型都用它，保证判定口径一致。
-   * 用一份克隆的宝石状态，绝不污染真实局面。
-   */
-  function simulate(state, angle, speed) {
-    var fake = {
-      level: state.level,
-      ball: state.ball,
-      time: state.time || 0,
-      gems: [],
-      gemsLeft: state.gemsLeft,
-      lastEvents: []
-    };
-    for (var i = 0; i < state.gems.length; i++) {
-      fake.gems.push({ x: state.gems[i].x, y: state.gems[i].y, taken: state.gems[i].taken, order: i });
-    }
-    var shot = makeShot(fake, angle, speed);
-    var guard = 0;
-    while (!shot.done && guard++ < 4000) {
-      physicsStep(fake, shot);
-      shot.path.push({ x: shot.x, y: shot.y });
-    }
-    return {
-      path: shot.path,
-      collected: shot.collected,
-      bounces: shot.bounces,
-      wallBounces: shot.wallBounces,
-      propHits: shot.propHits,
-      x: shot.x,
-      y: shot.y
-    };
-  }
-
-  /* ---------- 瞄准 ---------- */
-  function aimAngle(dx, dy) {
-    return Math.atan2(dy, dx);
-  }
-
-  function dragSpeed(dragLength) {
-    var t = clamp(dragLength / MAX_DRAG, 0, 1);
-    return MIN_SPEED + (MAX_SPEED - MIN_SPEED) * t;
-  }
-
-  /*
-   * 射线预测反弹：瞄准线画到第一个障碍（最多两段），这是本作的难度来源。
-   * 返回命中点列表，元素带 kind（wall / prop）。
-   */
-  function raycast(state, angle) {
-    var x = state.ball.x;
-    var y = state.ball.y;
-    var dx = Math.cos(angle);
-    var dy = Math.sin(angle);
-    var hits = [];
-    var rects = levelRects(state, 0);
-
-    for (var step = 0; step < 3; step++) {
-      var tWall = Infinity;
-      var wnx = 0;
-      var wny = 0;
-      if (dx > 1e-6) {
-        tWall = (ARENA_W - BALL_R - x) / dx;
-        wnx = -1;
-      } else if (dx < -1e-6) {
-        tWall = (BALL_R - x) / dx;
-        wnx = 1;
-      }
-      if (dy > 1e-6) {
-        var ty = (ARENA_H - BALL_R - y) / dy;
-        if (ty < tWall) { tWall = ty; wnx = 0; wny = -1; }
-      } else if (dy < -1e-6) {
-        var ty2 = (BALL_R - y) / dy;
-        if (ty2 < tWall) { tWall = ty2; wnx = 0; wny = 1; }
-      }
-      var best = null;
-      if (isFinite(tWall)) best = { t: tWall, nx: wnx, ny: wny, kind: 'wall' };
-
-      for (var i = 0; i < rects.length; i++) {
-        var hit = rayRect(x, y, dx, dy, rects[i]);
-        if (hit && (!best || hit.t < best.t)) {
-          best = { t: hit.t, nx: hit.nx, ny: hit.ny, kind: 'prop' };
+      for (i = 0; i < state.gemList.length; i++) {
+        var gem = state.gemList[i];
+        if (!gem.got && Math.abs(gem.x - ball.x) < PICKUP_MAIN) {
+          if (Math.sqrt((gem.x - ball.x) * (gem.x - ball.x) + (gem.y - ball.y) * (gem.y - ball.y)) < PICKUP_MAIN) {
+            collectGem(state, gem, ball.vx, ball.vy, false);
+          }
         }
       }
-      if (!best) break;
-
-      var hx = x + dx * best.t;
-      var hy = y + dy * best.t;
-      hits.push({ x: hx, y: hy, kind: best.kind });
-      if (hits.length >= 2) break;
-
-      var dot = dx * best.nx + dy * best.ny;
-      dx -= 2 * dot * best.nx;
-      dy -= 2 * dot * best.ny;
-      x = hx;
-      y = hy;
-    }
-    return hits;
-  }
-
-  /* 射线与矩形相交的最早距离与命中面的法线 */
-  function rayRect(x, y, dx, dy, rect) {
-    var tmin = 0;
-    var tmax = Infinity;
-    var axis = 0;
-    var axes = [
-      [x, dx, rect.x, rect.x + rect.w],
-      [y, dy, rect.y, rect.y + rect.h]
-    ];
-    for (var i = 0; i < 2; i++) {
-      var o = axes[i][0];
-      var d = axes[i][1];
-      var lo = axes[i][2];
-      var hi = axes[i][3];
-      if (Math.abs(d) < 0.000001) {
-        if (o < lo || o > hi) return null;
-        continue;
+      if (!demo) {
+        var speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+        var left = 0;
+        for (i = 0; i < state.gemList.length; i++) {
+          if (!state.gemList[i].got) left++;
+        }
+        if (left === 0) {
+          endRoom(state);
+        } else if (state.shots > 0 && speed > 0 && speed < SPEED_FLOOR) {
+          /* 有杆数：托底到 0.08，主球永不停（原版如此） */
+          ball.vx = (ball.vx / speed) * SPEED_FLOOR;
+          ball.vy = (ball.vy / speed) * SPEED_FLOOR;
+        } else if (state.shots <= 0 && speed < REST_SPEED) {
+          /* 杆尽：滑停即结束本殿（原版直接进下一殿） */
+          endRoom(state);
+        }
+      } else {
+        var demoLeft = 0;
+        for (i = 0; i < state.gemList.length; i++) {
+          if (!state.gemList[i].got) demoLeft++;
+        }
+        if (demoLeft === 0) setupRoom(state, 1, true);
       }
-      var t1 = (lo - o) / d;
-      var t2 = (hi - o) / d;
-      var entry = t1 < t2 ? t1 : t2;
-      var exitT = t1 < t2 ? t2 : t1;
-      if (entry > tmin) { tmin = entry; axis = i; }
-      if (exitT < tmax) tmax = exitT;
-      if (tmin > tmax) return null;
     }
-    if (tmin === Infinity) return null;
-    var d = axes[axis][1];
-    var face = d > 0 ? -1 : 1;
-    return { t: tmin, nx: axis === 0 ? face : 0, ny: axis === 1 ? face : 0 };
+
+    /* 连锁球：只在玩法中存在；不与主球互撞、相互之间也不撞（原版如此） */
+    if (!demo && state.chains.length) {
+      var alive = [];
+      for (i = 0; i < state.chains.length; i++) {
+        var c = state.chains[i];
+        c.x += c.vx * dt;
+        c.y += c.vy * dt;
+        bounceWalls(c, area, CHAIN_R);
+        c.vx *= FRICTION_CHAIN;
+        c.vy *= FRICTION_CHAIN;
+        c.life -= dt;
+        for (var k = 0; k < state.gemList.length; k++) {
+          var g2 = state.gemList[k];
+          if (!g2.got && Math.abs(g2.x - c.x) < PICKUP_CHAIN) {
+            var ddx = g2.x - c.x;
+            var ddy = g2.y - c.y;
+            if (ddx * ddx + ddy * ddy < PICKUP_CHAIN * PICKUP_CHAIN) {
+              collectGem(state, g2, c.vx, c.vy, true);
+            }
+          }
+        }
+        var cspeed = Math.sqrt(c.vx * c.vx + c.vy * c.vy);
+        /* 原版存活条件：寿命未尽且速度 > 0.03 */
+        if (c.life > 0 && cspeed > 0.03) alive.push(c);
+      }
+      state.chains = alive;
+      if (!state.ball.moving) {
+        var allGot = true;
+        for (i = 0; i < state.gemList.length; i++) {
+          if (!state.gemList[i].got) { allGot = false; break; }
+        }
+        if (allGot) endRoom(state);
+      }
+    }
+
+    /* 球迹与粒子（原版 dt 缩放衰减） */
+    var keep = [];
+    for (i = 0; i < state.trail.length; i++) {
+      var e = state.trail[i];
+      e.life -= TRAIL_DECAY * dt;
+      if (e.life > TRAIL_KEEP) keep.push(e);
+    }
+    state.trail = keep.length > TRAIL_CAP ? keep.slice(keep.length - TRAIL_CAP) : keep;
+    keep = [];
+    for (i = 0; i < state.particles.length; i++) {
+      var p2 = state.particles[i];
+      p2.x += p2.vx * dt;
+      p2.y += p2.vy * dt;
+      p2.life -= PARTICLE_DECAY * dt;
+      if (p2.life > PARTICLE_KEEP) keep.push(p2);
+    }
+    state.particles = keep.length > PARTICLE_CAP ? keep.slice(keep.length - PARTICLE_CAP) : keep;
   }
 
-  /* ---------- 一杆的完整流程 ---------- */
-  function launch(state, angle, speed) {
-    if (state.phase !== 'aim') return null;
-    if (state.shotsLeft <= 0) return null;
-    state.shotsLeft--;
-    state.shotsUsed++;
-    state.lastEvents = [];
-    var shot = makeShot(state, angle, speed);
-    state.shot = shot;
-    state.phase = 'roll';
-    return shot;
-  }
-
-  function settle(state) {
-    var shot = state.shot;
-    if (!shot) return;
-    state.ball.x = shot.x;
-    state.ball.y = shot.y;
-    state.shot = null;
-    if (!state.best || shot.path.length > state.best.path.length) {
-      state.best = {
-        path: shot.path.slice(),
-        bounces: shot.bounces,
-        wallBounces: shot.wallBounces,
-        level: state.levelIndex
-      };
-    }
-    if (state.gemsLeft <= 0) {
-      state.phase = 'cleared';
-      var bonus = state.shotsLeft * 300;
-      if (state.shotsUsed === 1) bonus += 1500;
-      state.score += 1000 + bonus;
-      state.cleared[state.levelIndex] = { shots: state.shotsUsed, left: state.shotsLeft, score: 1000 + bonus };
-    } else if (state.shotsLeft <= 0) {
-      state.phase = 'out';
-    } else {
-      state.phase = 'aim';
+  /* 供测试/自检快速推进（与 rAF 无关；dt 分片以贴近 60fps 语义） */
+  function fastForward(state, ms) {
+    var left = ms;
+    while (left > 0) {
+      var step = left > 16.7 ? 16.7 : left;
+      frame(state, step);
+      left -= step;
+      if (state.finished) break;
     }
   }
 
   root.BilliardGame = {
-    ARENA_W: ARENA_W,
-    ARENA_H: ARENA_H,
+    /* 常量（原版值，供测试对照） */
+    ROOM_COUNT: ROOM_COUNT,
+    SHOTS_PER_ROOM: SHOTS_PER_ROOM,
+    AREA_X: AREA_X,
+    AREA_TOP_PLAY: AREA_TOP_PLAY,
+    AREA_H_PLAY: AREA_H_PLAY,
+    AREA_TOP_MENU: AREA_TOP_MENU,
+    AREA_H_MENU: AREA_H_MENU,
+    GEM_INSET: GEM_INSET,
     BALL_R: BALL_R,
-    GEM_R: GEM_R,
-    DT: DT,
-    MIN_SPEED: MIN_SPEED,
-    MAX_SPEED: MAX_SPEED,
-    MAX_DRAG: MAX_DRAG,
-    FRICTION: FRICTION,
-    createRun: createRun,
-    loadChamber: loadChamber,
-    makeShot: makeShot,
-    advanceShot: advanceShot,
-    simulate: simulate,
-    launch: launch,
-    settle: settle,
-    raycast: raycast,
-    propRect: propRect,
-    propSwept: propSwept,
-    levelRects: levelRects,
-    aimAngle: aimAngle,
+    CHAIN_R: CHAIN_R,
+    FRICTION_MAIN: FRICTION_MAIN,
+    FRICTION_CHAIN: FRICTION_CHAIN,
+    SPEED_FLOOR: SPEED_FLOOR,
+    REST_SPEED: REST_SPEED,
+    LAUNCH_K: LAUNCH_K,
+    LAUNCH_MAX: LAUNCH_MAX,
+    CHAIN_KEEP: CHAIN_KEEP,
+    CHAIN_MIN: CHAIN_MIN,
+    CHAIN_FAN: CHAIN_FAN,
+    CHAIN_FAN_RAND: CHAIN_FAN_RAND,
+    CHAIN_LIFE: CHAIN_LIFE,
+    CHAIN_CAP: CHAIN_CAP,
+    PICKUP_MAIN: PICKUP_MAIN,
+    PICKUP_CHAIN: PICKUP_CHAIN,
+    DEMO_VX: DEMO_VX,
+    DEMO_VY: DEMO_VY,
+    TRAIL_CAP: TRAIL_CAP,
+    PARTICLE_COUNT: PARTICLE_COUNT,
+    PARTICLE_CAP: PARTICLE_CAP,
+    PATH_MAX: PATH_MAX,
+    DT_CAP: DT_CAP,
+    AIM_MIN_DRAG: AIM_MIN_DRAG,
+    AIM_MIN_HOLD_MS: AIM_MIN_HOLD_MS,
+    /* API */
+    gemsForRoom: gemsForRoom,
+    areaFor: areaFor,
+    scatterGems: scatterGems,
+    setRng: function (fn) { rng = fn || Math.random; },
+    createAimInput: createAimInput,
     dragSpeed: dragSpeed,
-    physicsStep: physicsStep
+    createRun: createRun,
+    restart: restart,
+    setViewport: setViewport,
+    setMode: setMode,
+    launchFromAim: launchFromAim,
+    frame: frame,
+    fastForward: fastForward,
+    takeEvents: takeEvents,
+    bounceWalls: bounceWalls,
+    collectGem: collectGem,
+    endRoom: endRoom
   };
 })(typeof window !== 'undefined' ? window : global);

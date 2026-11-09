@@ -1,7 +1,7 @@
 /*
- * 弹珠神殿 · 本地存储
+ * 弹珠神殿（玉球金殿）· 本地存储
  * 优先使用小工具容器 Storage API（9.46+），低版本降级 localStorage。
- * 只保存结构化状态：最高分、宝石图鉴的收集清单、静音偏好，不保存任何用户媒体。
+ * 只保存结构化状态：宝石图鉴的收集清单、静音偏好，不保存任何用户媒体。
  */
 (function (root) {
   'use strict';
@@ -9,7 +9,7 @@
   var native = null;
   var ready = false;
   var cache = {};
-  var KEYS = ['temple-best-score', 'temple-codex', 'temple-muted'];
+  var KEYS = ['temple-codex', 'temple-muted'];
   var STORAGE_MIN_CLIENT_VERSION = 9460;
 
   function readBuildVersion(launchOptions) {

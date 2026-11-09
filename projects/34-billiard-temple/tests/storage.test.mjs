@@ -48,14 +48,14 @@ test('localStorage 降级路径：写入是 JSON，下一次启动能读回原�
 
   const first = freshStorage();
   await first.loaded;
-  assert.ok(await first.write('temple-best-score', 1234), '写入应该成功');
-  assert.strictEqual(store['temple-best-score'], '1234', '落盘内容应该是 JSON 数字');
+  assert.ok(await first.write('temple-muted', 1), '写入应该成功');
+  assert.strictEqual(store['temple-muted'], '1', '落盘内容应该是 JSON 数字');
 
   const second = freshStorage();
   await second.loaded;
-  const value = second.read('temple-best-score');
-  assert.strictEqual(value, 1234, '读回来应该是数字 1234');
-  assert.strictEqual(Number(value), 1234, 'Number() 也应该拿到 1234');
+  const value = second.read('temple-muted');
+  assert.strictEqual(value, 1, '读回来应该是数字 1');
+  assert.strictEqual(Number(value), 1, 'Number() 也应该拿到 1');
 });
 
 test('localStorage 降级路径：宝石图鉴清单能原样往返', async () => {
@@ -87,6 +87,6 @@ test('存储不可用时也不能抛异常（容器不允许时静默降级）',
 
   const storage = freshStorage();
   await storage.loaded;
-  assert.strictEqual(storage.read('temple-best-score'), null, '读不到应该返回 null 而不是抛错');
-  assert.strictEqual(await storage.write('temple-best-score', 1), false, '写不了应该返回 false 而不是抛错');
+  assert.strictEqual(storage.read('temple-muted'), null, '读不到应该返回 null 而不是抛错');
+  assert.strictEqual(await storage.write('temple-muted', 1), false, '写不了应该返回 false 而不是抛错');
 });

@@ -49,7 +49,8 @@ body { overflow: hidden; }
   min-height: 520px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #1a1f33 0%, #232a47 55%, #171b2e 100%);
+  background: linear-gradient(180deg, var(--shell-top, #1a1f33) 0%, var(--shell-mid, #232a47) 55%, var(--shell-bottom, #171b2e) 100%);
+  transition: background 320ms ease;
 }
 
 /* ---------- 顶栏：避开宿主左右按钮 ---------- */
@@ -86,66 +87,57 @@ body { overflow: hidden; }
   color: var(--ink-dim);
 }
 
-/* ---------- HUD ---------- */
+/* ---------- HUD：玻璃拟态卡片 ---------- */
+/*
+ * 二期返工：顶部信息不再用裸文字行压画布，
+ * 全部装进半透明深色底 + 1px 高光描边 + 圆角 18px + 轻微外阴影的玻璃卡片里。
+ */
+.glass {
+  background: linear-gradient(158deg, rgba(38, 45, 78, 0.74) 0%, rgba(17, 21, 40, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
 #hud {
   flex: 0 0 auto;
-  margin: 10px auto 0;
+  margin: 8px auto 0;
   padding: 0 calc(var(--host-side) + 2px);
   width: 100%;
   max-width: 460px;
 }
 
-.hud-row {
+.hud-card {
+  padding: 11px 13px 10px;
+}
+
+.hud-top {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2px;
+  align-items: baseline;
 }
 
-.hud-row .level {
+.hud-top .chamber {
   font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-  opacity: 0.92;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--gold);
 }
 
-.hud-row.small {
-  margin-top: 6px;
-  font-size: 11px;
+.hud-top .chamber-name {
+  margin-left: 10px;
+  font-size: 12px;
   color: var(--ink-dim);
-}
-
-#levelHint {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.score-box {
-  display: inline-flex;
-  align-items: baseline;
-}
-
-.score-box b {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--gold);
-  text-shadow: 0 2px 12px rgba(230, 196, 127, 0.28);
-}
-
-.score-box small {
-  margin-left: 3px;
-  font-size: 11px;
-  color: var(--ink-dim);
-}
-
 .progress {
   position: relative;
-  height: 7px;
+  height: 6px;
   margin-top: 8px;
-  border-radius: 4px;
-  background: rgba(230, 196, 127, 0.14);
+  border-radius: 3px;
+  background: rgba(230, 196, 127, 0.16);
   overflow: hidden;
 }
 
@@ -155,52 +147,68 @@ body { overflow: hidden; }
   left: 0;
   bottom: 0;
   width: 0%;
-  border-radius: 4px;
-  background: linear-gradient(90deg, #f2dfae 0%, #e6c47f 55%, #b8934a 100%);
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f6e6bd 0%, #e6c47f 55%, #b8934a 100%);
   transition: width 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* 杆数与宝石 */
-.stat-row {
+/* 主数值：剩余杆数 / 宝石 */
+.hud-main {
   display: flex;
-  margin-top: 8px;
+  margin-top: 9px;
 }
 
 .stat {
   display: inline-flex;
-  align-items: center;
-  margin-right: 18px;
-  font-size: 11px;
-  color: var(--ink-dim);
+  align-items: baseline;
+  margin-right: 20px;
 }
 
 .stat em {
   font-style: normal;
-  margin-left: 5px;
+  font-size: 12px;
+  color: var(--ink-dim);
 }
 
 .stat b {
   margin-left: 6px;
-  font-size: 14px;
+  font-size: 28px;
   font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   color: var(--gold);
+  text-shadow: 0 2px 14px rgba(230, 196, 127, 0.26);
 }
 
-.dot {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
+.hud-hint {
+  margin: 7px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(244, 236, 220, 0.55);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.dot.shots {
-  background: var(--jade);
-  box-shadow: 0 0 8px rgba(143, 227, 198, 0.6);
+/* 图鉴条：八颗宝石，通关一殿点亮一颗 */
+.codex-ribbon {
+  display: flex;
+  margin-top: 9px;
 }
 
-.dot.gems {
-  background: #f4d35e;
-  box-shadow: 0 0 8px rgba(244, 211, 94, 0.6);
+.codex-slot {
+  display: block;
+  width: 11px;
+  height: 11px;
+  margin-right: 5px;
+  border-radius: 3px;
+  transform: rotate(45deg);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.codex-slot.on {
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* ---------- 场地 ---------- */
@@ -217,52 +225,122 @@ body { overflow: hidden; }
   display: block;
   width: 100%;
   height: 100%;
-  touch-action: manipulation;
+  /* 必须是 none：manipulation 允许浏览器接管拖动手势，
+     真机拖动瞄准时一旦被判成平移就发 pointercancel，
+     旧代码把它当 pointerup 处理 → 「还没松手就发射了」。 */
+  touch-action: none;
 }
 
 #flash {
   position: absolute;
-  top: 8px;
+  top: 42%;
   left: 0;
   width: 100%;
   text-align: center;
-  font-size: 20px;
+  font-size: 34px;
   font-weight: 800;
-  color: var(--gold);
+  letter-spacing: 0.12em;
+  color: #fff3c4;
+  text-shadow: 0 0 22px rgba(255, 226, 150, 0.85), 0 4px 18px rgba(0, 0, 0, 0.6);
   opacity: 0;
+  transform: scale(0.86);
   pointer-events: none;
 }
 
-/* ---------- 工具栏 ---------- */
-#tools {
-  flex: 0 0 auto;
-  padding: 0 16px;
-  padding-bottom: 8px;
+#flash.show {
+  animation: flashBanner 1400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* hidden 时必须真的收起来：横屏媒体查询里的 display:flex 会盖掉 UA 的 [hidden] */
-#tools[hidden] { display: none; }
+@keyframes flashBanner {
+  0% { opacity: 0; transform: scale(0.7); }
+  16% { opacity: 1; transform: scale(1.06); }
+  34% { transform: scale(1); }
+  74% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.04); }
+}
 
-button.shot {
-  display: block;
+/* ---------- 工具栏：已移除发射按钮（原版无按钮，拖拽即发射） ---------- */
+
+/* ---------- 原版提示 chip：标题 / 标语 / howto1（第一杆前显示） ---------- */
+.hint-chip {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  min-height: 46px;
-  padding: 0 16px;
-  border: 1px solid rgba(230, 196, 127, 0.5);
-  border-radius: 23px;
-  background: linear-gradient(135deg, rgba(230, 196, 127, 0.22) 0%, rgba(184, 147, 74, 0.18) 100%);
-  color: var(--gold);
-  font: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  cursor: pointer;
+  padding: 10px 28px 0;
+  text-align: center;
+  pointer-events: none;
+  z-index: 5;
 }
 
-button.shot[disabled] {
-  border-color: rgba(244, 236, 220, 0.14);
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(244, 236, 220, 0.32);
+.hint-chip[hidden] { display: none; }
+
+.hint-chip h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+}
+
+.hint-chip p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.78);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+.hint-chip .hint-howto {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 5px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* ---------- 原版手势提示：脉动圆环 + 「拖动瞄准」 ---------- */
+.gesture-hint-wrap {
+  position: absolute;
+  left: 0;
+  bottom: 6%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.gesture-hint-wrap[hidden] { display: none; }
+
+.gesture-hint {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  animation: gesturePulse 1.6s ease-in-out infinite;
+}
+
+.gesture-hint-wrap p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+@keyframes gesturePulse {
+  0% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.22); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.85; }
 }
 
 /* ---------- 底栏 ---------- */
@@ -433,38 +511,26 @@ button.ghost {
 
 button.ghost:active { opacity: 0.72; }
 
-/* ---------- 结果面板 ---------- */
-.result-stats {
-  display: flex;
-  margin: 16px 0 4px;
+/* ---------- 结果面板（原版字段：大数字 + 颗宝石） ---------- */
+.result-gems {
+  margin: 14px 0 2px;
 }
 
-.result-stats > div {
-  flex: 1 1 0;
-  min-width: 0;
-  padding: 0 4px;
-}
-
-.result-stats b {
+.result-gems b {
   display: block;
-  font-size: 22px;
+  font-size: 58px;
   font-weight: 800;
-  color: var(--gold);
+  line-height: 1.1;
   letter-spacing: -0.02em;
+  color: var(--gold);
+  text-shadow: 0 0 26px rgba(255, 200, 110, 0.6);
 }
 
-.result-stats span {
+.result-gems span {
   display: block;
-  margin-top: 3px;
-  font-size: 10px;
-  color: rgba(244, 236, 220, 0.5);
-}
-
-.best-flag {
-  margin: 8px 0 0;
-  font-size: 13px;
-  font-weight: 800;
-  color: #8fe3c6;
+  margin-top: 4px;
+  font-size: 14px;
+  color: rgba(244, 236, 220, 0.75);
 }
 
 .shelf-label {
@@ -554,12 +620,17 @@ button.ghost:active { opacity: 0.72; }
   .lines { font-size: 12px; line-height: 1.7; margin: 10px 0 14px; }
   #shareCard { max-width: 150px; }
   .codex-cell small { font-size: 8px; }
-  button.shot { min-height: 40px; font-size: 13px; }
+  .hud-card { padding: 9px 12px 8px; }
+  .stat b { font-size: 24px; }
+  .hint-chip h2 { font-size: 24px; }
+  .gesture-hint { width: 38px; height: 38px; }
 }
 
 @media (max-height: 580px) {
-  .stat-row { margin-top: 5px; }
-  .score-box b { font-size: 21px; }
+  .hud-main { margin-top: 6px; }
+  .score b { font-size: 18px; }
+  .stat b { font-size: 22px; }
+  .codex-ribbon { margin-top: 7px; }
 }
 
 /* ---------- 横屏 ---------- */
@@ -574,21 +645,7 @@ button.ghost:active { opacity: 0.72; }
     padding: calc(var(--safe-top) + var(--host-top)) 10px 0 56px;
     max-width: none;
   }
-  #levelHint {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    line-height: 1.4;
-  }
   #stage { flex: 1 1 auto; min-width: 0; margin-top: 0; }
-  #tools {
-    flex: 0 0 30%;
-    min-width: 0;
-    display: flex;
-    align-items: flex-start;
-    /* 再多留 16px：让发射按钮彻底离开右上操作键的触摸余量 */
-    padding-top: calc(var(--safe-top) + var(--host-top) + 16px);
-  }
   #footbar {
     position: absolute;
     left: 0;
@@ -601,7 +658,9 @@ button.ghost:active { opacity: 0.72; }
   .panel { padding: 18px 18px 16px; }
   .panel h2 { font-size: 21px; }
   .lines { margin: 8px 0 12px; line-height: 1.6; }
-  .tip { display: none; }
+  .hint-chip h2 { font-size: 22px; }
+  .hint-chip { padding-top: 6px; }
+  .gesture-hint-wrap { bottom: 10%; }
 }
 
 /* ---------- 减少动态 ---------- */

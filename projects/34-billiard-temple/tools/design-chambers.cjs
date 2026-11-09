@@ -1,10 +1,17 @@
 /*
- * 弹珠神殿 · 关卡设计工具
+ * 弹珠神殿 · 关卡设计工具（玩法重建版）
  *
- * 思路是「先有解、后摆宝」：
- *   1. 用真实物理扫一遍角度与力度，挑出一条反弹次数、路径长度都合适的杆；
- *   2. 把宝石摆在这条路径上（留一点横向偏移，看起来更像散落在殿堂里）；
- *   3. 于是「一杆清空满室宝石」是构造上成立的，不是碰运气撞出来的。
+ * 思路仍是「先有解、后摆宝」，但玩法重建后解的结构变了：
+ *   1. 用真实物理扫一遍角度与力度，挑出一条余量充足、路径够长的「标称杆」；
+ *   2. 把一半宝石（parGems）摆在标称杆的轨迹上——标称杆的直接收获是构造保证的；
+ *   3. 其余宝石按「连锁走廊」散布：都在标称杆轨迹附近 24~210 虚拟像素的带状区里，
+ *      标称杆撞出的连锁球能滚到它们，随手玩家的直瞄杆也能打到它们；
+ *   4. 经济按原版：每殿 4 杆，宝石数 = 5 + min(5, 殿数)（第 1 殿 6 颗，第 5 殿起 10 颗）。
+ *      一杆收齐全殿不再是被构造保证的事——连锁滚多远由玩家与随机扇出共同决定，
+ *      可玩性由 qa-balance-check.cjs 的闭环真人模型（随手 / 熟练）守住。
+ *
+ * 连锁的扇出偏转是确定性的（宝石坐标哈希，见 src/game.js），
+ * 所以「标称杆直接收齐 parGems 且不蹭机关」在任意起手时刻都成立，本工具自检这一条。
  *
  * 这个工具只用来生成关卡，不参与打包，也不参与运行时。
  * 跑法：node tools/design-chambers.cjs
@@ -16,133 +23,141 @@ const ROOT = path.resolve(__dirname, '..');
 require(path.join(ROOT, 'src/game.js'));
 const game = global.BilliardGame;
 
+/* ---------- 可调参数（平衡迭代时改这里） ---------- */
+const SEED = 20261108;          // 散布用伪随机种子：同一批关卡可复现
+const PATH_GEM_RATIO = 0.5;     // 摆在标称杆轨迹上的宝石比例（至少 1 颗）
+const SCATTER_BAND_MIN = 24;    // 散布宝石离标称杆轨迹的最近距离
+const SCATTER_BAND_MAX = 200;   // 散布宝石离标称杆轨迹的最远距离（连锁走廊宽度）
+const GEM_GAP = 36;             // 路径宝石两两最小间距（太密会让一杆变身出整队连锁球）
+const SCATTER_GAP = 44;         // 散布宝石两两最小间距的默认值
+/* 按殿分级的散布间距：前殿宝石少、摊更开（难度补偿），后殿 10 颗收拢保证 4 杆可通 */
+const SCATTER_GAPS = [60, 58, 52, 42, 40, 36, 46, 46];
+const CLEARANCE = Number(process.argv[2]) || 8; // 标称杆与障碍的额外余量
+
 /*
  * 每个殿堂的规格：
  *   ball     球初始位置
- *   gems     宝石数量
- *   bounces  期望的反弹次数
+ *   gemCount 宝石数（原版经济：5 + min(5, 殿数)）
+ *   bounces  期望的（主球撞墙）反弹次数
  *   speeds   力度区间
  *   props    会动的障碍（后面再校验不挡路）
- *   budget   给玩家的杆数
  */
+const GEM_COUNTS = [6, 7, 8, 9, 10, 10, 10, 10];
 const SPECS = [
   {
     name: '第一殿 · 晨钟',
     gemName: '晨光黄晶',
     theme: 'dawn',
-    hint: '拖住玉球瞄准，松手发射',
-    ball: [150, 428],
-    gems: 3,
+    hint: '按住玉球向后拖动，松手击球',
+    ball: [120, 286],
     bounces: 1,
-    speeds: [560, 760],
-    budget: 4,
+    speeds: [360, 640],
     props: []
   },
   {
     name: '第二殿 · 双廊',
     gemName: '琥珀蜜珠',
     theme: 'amber',
-    hint: '撞一次墙，宝石就在拐角后面',
-    ball: [64, 430],
-    gems: 4,
+    hint: '撞到的宝石会变成新的球，让连锁继续',
+    ball: [52, 288],
     bounces: 2,
-    speeds: [560, 780],
-    budget: 5,
+    speeds: [380, 660],
     props: []
   },
   {
     name: '第三殿 · 回环',
     gemName: '湖心碧玉',
     theme: 'lake',
-    hint: '连撞两次，路线自己会绕回来',
-    ball: [236, 424],
-    gems: 5,
+    hint: '连锁越滚越大，一杆能收一片',
+    ball: [188, 284],
     bounces: 2,
-    speeds: [600, 820],
-    budget: 5,
+    speeds: [420, 700],
     props: []
   },
   {
     name: '第四殿 · 逆旋',
     gemName: '霜纹青晶',
     theme: 'frost',
-    hint: '会滑的石柱挡着路，找空档穿过去',
-    ball: [150, 436],
-    gems: 5,
+    hint: '闸条每 4 秒来回一次，看准空档穿过去',
+    ball: [120, 292],
     bounces: 3,
-    speeds: [640, 860],
-    budget: 5,
+    speeds: [420, 720],
     props: [
-      { type: 'slide', x: 96, y: 232, w: 58, h: 12, axis: 'x', range: 34, speed: 0.9, phase: 0 }
+      { type: 'slide', x: 72, y: 150, w: 52, h: 10, axis: 'x', range: 42, period: 4, phase: 0, duty: 0.5 }
     ]
   },
   {
     name: '第五殿 · 分岔',
     gemName: '暮山紫晶',
     theme: 'dusk',
-    hint: '两根石柱来回走，角度要算准',
-    ball: [52, 300],
-    gems: 6,
+    hint: '两条闸条一去一回，让连锁球替你跑腿',
+    ball: [44, 236],
     bounces: 3,
-    speeds: [620, 840],
-    budget: 6,
+    speeds: [400, 700],
     props: [
-      { type: 'slide', x: 118, y: 150, w: 54, h: 12, axis: 'x', range: 30, speed: 0.8, phase: 0.6 },
-      { type: 'slide', x: 132, y: 330, w: 54, h: 12, axis: 'x', range: 30, speed: 1.1, phase: 2.1 }
+      { type: 'slide', x: 86, y: 112, w: 48, h: 10, axis: 'x', range: 34, period: 4, phase: 0, duty: 0.5 },
+      { type: 'slide', x: 96, y: 214, w: 48, h: 10, axis: 'x', range: 34, period: 4, phase: 0.5, duty: 0.5 }
     ]
   },
   {
     name: '第六殿 · 窄门',
     gemName: '血珀红莲',
     theme: 'ember',
-    hint: '门缝只有一条线，擦着过去',
-    ball: [150, 448],
-    gems: 6,
+    hint: '两扇石门上下开合，缝隙只有一条线',
+    ball: [120, 296],
     bounces: 3,
-    speeds: [640, 860],
-    budget: 6,
+    speeds: [420, 720],
     props: [
-      { type: 'slide', x: 36, y: 214, w: 78, h: 12, axis: 'y', range: 36, speed: 0.9, phase: 0.3 },
-      { type: 'slide', x: 186, y: 214, w: 78, h: 12, axis: 'y', range: 36, speed: 0.9, phase: 1.9 }
+      { type: 'slide', x: 30, y: 150, w: 66, h: 10, axis: 'y', range: 40, period: 4, phase: 0, duty: 0.5 },
+      { type: 'slide', x: 144, y: 150, w: 66, h: 10, axis: 'y', range: 40, period: 4, phase: 0.5, duty: 0.5 }
     ]
   },
   {
     name: '第七殿 · 绕塔',
     gemName: '玄夜墨钻',
     theme: 'night',
-    hint: '绕着石塔走一圈，宝石在背面',
-    ball: [40, 440],
-    gems: 7,
-    bounces: 4,
-    speeds: [540, 880],
-    budget: 8,
+    hint: '绕着石塔走一圈，宝石在塔的背面',
+    ball: [34, 288],
+    bounces: 3,
+    speeds: [400, 740],
+    sweptPad: 26,
     blocks: [
-      { x: 116, y: 196, w: 68, h: 16 },
-      { x: 116, y: 268, w: 68, h: 16 }
+      { x: 92, y: 122, w: 56, h: 12 },
+      { x: 92, y: 176, w: 56, h: 12 }
     ],
     props: [
-      { type: 'slide', x: 60, y: 96, w: 60, h: 12, axis: 'x', range: 26, speed: 1.0, phase: 1.2 }
+      { type: 'slide', x: 48, y: 66, w: 52, h: 10, axis: 'x', range: 28, period: 4, phase: 0.25, duty: 0.5 }
     ]
   },
   {
     name: '第八殿 · 满室',
     gemName: '圣辉金钻',
     theme: 'gold',
-    hint: '最后一殿，一杆走完全程',
-    ball: [150, 452],
-    gems: 8,
-    bounces: 4,
-    speeds: [680, 875],
-    budget: 8,
+    hint: '十颗宝石，看你的神来一杆',
+    ball: [120, 298],
+    bounces: 3,
+    speeds: [420, 740],
     blocks: [
-      { x: 210, y: 330, w: 16, h: 60 }
+      { x: 166, y: 206, w: 12, h: 44 }
     ],
     props: [
-      { type: 'slide', x: 20, y: 120, w: 62, h: 12, axis: 'y', range: 30, speed: 0.85, phase: 0.2 },
-      { type: 'slide', x: 216, y: 150, w: 62, h: 12, axis: 'y', range: 30, speed: 1.05, phase: 1.5 }
+      { type: 'slide', x: 16, y: 94, w: 46, h: 10, axis: 'y', range: 26, period: 4, phase: 0, duty: 0.5 },
+      { type: 'slide', x: 178, y: 114, w: 46, h: 10, axis: 'y', range: 26, period: 4, phase: 0.5, duty: 0.5 }
     ]
   }
 ];
+
+/* 确定性伪随机（mulberry32）：同一批关卡可复现 */
+function makeRandom(seed) {
+  let s = seed >>> 0;
+  return function () {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 /* 造一个只含这一关的假局面 */
 function makeState(spec) {
@@ -150,36 +165,25 @@ function makeState(spec) {
     name: spec.name,
     gems: [],
     blocks: spec.blocks || [],
-    props: spec.props || [],
-    budget: spec.budget
+    props: spec.props || []
   };
+  const main = { x: spec.ball[0], y: spec.ball[1], vx: 0, vy: 0, r: game.BALL_R, chain: false, done: true };
   const state = {
     content: { levels: [level] },
     level: level,
-    ball: { x: spec.ball[0], y: spec.ball[1], vx: 0, vy: 0 },
+    balls: [main],
+    ball: main,
     gems: [],
-    gemsLeft: 0
+    gemsLeft: 0,
+    phase: 'aim',
+    shotsLeft: 99,
+    shotsUsed: 0,
+    time: 0,
+    runGems: 0,
+    lastEvents: []
   };
   return state;
 }
-
-function resetGems(state) {
-  state.gems = [];
-  state.gemsLeft = 0;
-}
-
-/*
- * 路径与障碍的安全余量。
- *
- * 固定石柱：碰到就一定改道，所以路径必须绕开。
- * 会动的石条：扫掠区整条带都要避开，这样无论石条走到哪一相位，
- * 这一杆的走法都成立——「宝石要留在可行位置」靠的就是这条。
- *
- * 关键是要「有余量」，不能只判断「有没有压到」。
- * 早期版本用严格不等式判断，结果第六殿的标称轨迹正好擦过扫掠区的角点
- * （球心 x 恰好等于扫掠区左边界），被判成没压到；石条换个相位球就蹭上去，
- * 一杆清空直接失效。这里改成算「点到障碍矩形的最短距离」，要求留足 CLEARANCE。
- */
 
 /* 点到矩形的距离；在矩形内为 0 */
 function pointRectDistance(px, py, rect) {
@@ -188,7 +192,7 @@ function pointRectDistance(px, py, rect) {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-/* 轨迹到所有障碍扫掠区的最短距离 */
+/* 轨迹到所有障碍扫掠区的最短距离（主球口径，机关必须整条避开） */
 function minClearance(state, path) {
   let best = Infinity;
   const blocks = state.level.blocks || [];
@@ -210,21 +214,51 @@ function minClearance(state, path) {
   return best;
 }
 
-/* 宝石是不是落在了机关的扫掠区里（落在里面看起来像石条会压住宝石） */
-function gemInSwept(state, gx, gy) {
+/* 宝石是不是落在了机关的扫掠区（或太贴近它）里：贴边的宝石最难打 */
+function gemInSwept(state, gx, gy, pad) {
   const props = state.level.props || [];
   for (const prop of props) {
     const swept = game.propSwept(prop);
-    if (gx > swept.x && gx < swept.x + swept.w && gy > swept.y && gy < swept.y + swept.h) return true;
+    const m = pad || 0;
+    if (gx > swept.x - m && gx < swept.x + swept.w + m && gy > swept.y - m && gy < swept.y + swept.h + m) return true;
+  }
+  return false;
+}
+
+/* 宝石是不是压在石柱上（压在柱子上既看不见也收不到） */
+function gemInBlock(state, gx, gy) {
+  const pad = game.GEM_R + 6;
+  for (const b of state.level.blocks || []) {
+    if (
+      gx > b.x - pad && gx < b.x + b.w + pad &&
+      gy > b.y - pad && gy < b.y + b.h + pad
+    ) return true;
+  }
+  return false;
+}
+
+/* 宝石是不是在四角的夹角口袋里：两墙夹角的进攻窗口太窄，随手玩家收不稳 */
+function gemInCorner(gx, gy) {
+  const r = 60;
+  const corners = [
+    [0, 0],
+    [game.ARENA_W, 0],
+    [0, game.ARENA_H],
+    [game.ARENA_W, game.ARENA_H]
+  ];
+  for (const c of corners) {
+    const dx = gx - c[0];
+    const dy = gy - c[1];
+    if (dx * dx + dy * dy < r * r) return true;
   }
   return false;
 }
 
 /* 沿路径按比例取点，并加上一点横向偏移 */
-function placeGems(path, count) {
+function placeGems(state, path, count) {
   const usable = path.slice(0, Math.max(2, path.length - 4));
   const picks = [];
-  const start = 0.16;
+  const start = 0.24; /* 避开出发段：玉球从底边出发，起步段贴墙摆不了宝石 */
   const end = 0.9;
   for (let i = 0; i < count; i++) {
     const f = count === 1 ? 0.5 : start + ((end - start) * i) / (count - 1);
@@ -236,119 +270,271 @@ function placeGems(path, count) {
     const len = Math.sqrt(dx * dx + dy * dy) || 1;
     dx /= len;
     dy /= len;
-    /* 法线方向偏移几个像素，看起来像散落而不是排成一条线 */
-    const off = (i % 2 === 0 ? 1 : -1) * (3 + (i % 3) * 2);
-    picks.push({
-      x: Math.round((a.x - dy * off) * 10) / 10,
-      y: Math.round((a.y + dx * off) * 10) / 10
-    });
+    /* 法线方向偏移几个像素，看起来像散落而不是排成一条线；
+     * 偏进扫掠区/石柱就换另一侧 */
+    let off = (i % 2 === 0 ? 1 : -1) * (3 + (i % 3) * 2);
+    let px = a.x - dy * off;
+    let py = a.y + dx * off;
+    if (gemInSwept(state, px, py) || gemInBlock(state, px, py)) {
+      off = -off;
+      px = a.x - dy * off;
+      py = a.y + dx * off;
+    }
+    picks.push({ x: px, y: py });
   }
-  /* 宝石之间不能叠在一起 */
+  /*
+   * 松弛推挤：自交叉的轨迹会让两颗宝石落得太近。
+   * 成对推开（各让一半），推完不回投影——推得离轨迹太远的候选直接被否掉，换下一杆。
+   */
+  const margin = 16;
+  for (let pass = 0; pass < 20; pass++) {
+    let moved = false;
+    for (let i = 0; i < picks.length; i++) {
+      for (let j = i + 1; j < picks.length; j++) {
+        let ddx = picks[j].x - picks[i].x;
+        let ddy = picks[j].y - picks[i].y;
+        let d = Math.sqrt(ddx * ddx + ddy * ddy);
+        if (d >= GEM_GAP) continue;
+        if (d < 0.001) { ddx = 1; ddy = 0; d = 1; }
+        const push = (GEM_GAP - d) / 2 + 0.5;
+        const ux = ddx / d;
+        const uy = ddy / d;
+        picks[i].x -= ux * push;
+        picks[i].y -= uy * push;
+        picks[j].x += ux * push;
+        picks[j].y += uy * push;
+        moved = true;
+      }
+    }
+    for (const p of picks) {
+      p.x = Math.max(margin, Math.min(game.ARENA_W - margin, p.x));
+      p.y = Math.max(margin, Math.min(game.ARENA_H - margin, p.y));
+    }
+    if (!moved) break;
+  }
+  for (const p of picks) {
+    p.x = Math.round(p.x * 10) / 10;
+    p.y = Math.round(p.y * 10) / 10;
+  }
+  return picks;
+}
+
+/* 摆放校验：两两间距足够、每颗都还在轨迹的收取范围内、都不在障碍/扫掠区里 */
+function verifyPathGems(state, path, picks) {
   for (let i = 0; i < picks.length; i++) {
     for (let j = i + 1; j < picks.length; j++) {
-      const ddx = picks[i].x - picks[j].x;
-      const ddy = picks[i].y - picks[j].y;
-      if (Math.sqrt(ddx * ddx + ddy * ddy) < 26) {
-        picks[j].x += (j % 2 === 0 ? 14 : -14);
+      const d = Math.sqrt(
+        (picks[i].x - picks[j].x) * (picks[i].x - picks[j].x) +
+        (picks[i].y - picks[j].y) * (picks[i].y - picks[j].y)
+      );
+      if (d < 30) return false;
+    }
+  }
+  const reach = game.BALL_R + game.GEM_R - 3;
+  for (const p of picks) {
+    if (pathDistance(path, p.x, p.y) > reach) return false;
+    /* 离墙至少 26px：贴墙的宝石进攻角度太窄 */
+    if (p.x < 26 || p.x > game.ARENA_W - 26 || p.y < 26 || p.y > game.ARENA_H - 26) return false;
+    if (gemInCorner(p.x, p.y)) return false;
+    if (gemInSwept(state, p.x, p.y)) return false;
+    if (gemInBlock(state, p.x, p.y)) return false;
+  }
+  return true;
+}
+
+/* 点到路径的最短距离 */
+function pathDistance(path, x, y) {
+  let best = Infinity;
+  for (const p of path) {
+    const d = Math.sqrt((p.x - x) * (p.x - x) + (p.y - y) * (p.y - y));
+    if (d < best) best = d;
+  }
+  return best;
+}
+
+/*
+ * 连锁走廊散布：一半宝石落在标称杆轨迹附近的带状区里（连锁球滚得到），
+ * 另一半放到远离轨迹的「远区」（>210px，连锁球够不着）——
+ * 一殿至少要两条进攻线，一杆连锁扫不全殿。
+ */
+function scatterGems(spec, state, path, placed, count, rand, scatterGap) {
+  const margin = 30; /* 离墙至少 30px：贴墙的宝石进攻角度太窄 */
+  const picks = placed.slice();
+  /* 远区宝石数量：宝石少的殿放一半；10 颗宝石的大殿只放 1 颗（否则随手玩家 4 杆不够） */
+  const farCount = count >= 9 ? 1 : Math.max(1, Math.ceil(count / 2));
+  const nearCount = count - farCount;
+  let remainingNear = nearCount;
+  let remainingFar = farCount;
+  while (remainingNear + remainingFar > 0) {
+    let progress = false;
+    for (let attempt = 0; attempt < 4000 && remainingNear + remainingFar > 0; attempt++) {
+      const x = margin + rand() * (game.ARENA_W - margin * 2);
+      const y = margin + rand() * (game.ARENA_H - margin * 2);
+      /* 好位置优先：先避开扫掠区边缘 26px；空间不够（窄门这类大扫掠殿）退化到 20px，
+       * 不把宝石塞进扫掠区边缘的窄缝口袋（那里的宝石进攻角度太窄）。
+       * 个别殿（spec.sweptPad）强制固定缓冲，不退化。 */
+      const sweptPad = spec.sweptPad || (attempt < 1200 ? 26 : 20);
+      if (gemInSwept(state, x, y, sweptPad)) continue;
+      if (gemInBlock(state, x, y)) continue;
+      if (gemInCorner(x, y)) continue;
+      const bd = Math.sqrt((x - state.ball.x) * (x - state.ball.x) + (y - state.ball.y) * (y - state.ball.y));
+      if (bd < 45) continue;
+      let tooClose = false;
+      for (const p of picks) {
+        if (Math.sqrt((p.x - x) * (p.x - x) + (p.y - y) * (p.y - y)) < scatterGap) { tooClose = true; break; }
       }
+      if (tooClose) continue;
+      const pd = pathDistance(path, x, y);
+      const wantFar = remainingFar > 0 && (remainingNear === 0 || rand() < 0.5);
+      if (wantFar) {
+        /* 远区：先要求 >210，放不下逐级放宽到 >170 */
+        const minFar = attempt < 1500 ? 210 : 170;
+        if (pd < minFar) continue;
+        picks.push({ x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 });
+        remainingFar--;
+        progress = true;
+      } else {
+        /* 走廊内：[24, 200]，放不下逐级放宽 */
+        const bandMax = attempt < 1500 ? SCATTER_BAND_MAX : SCATTER_BAND_MAX + 80;
+        if (pd < SCATTER_BAND_MIN || pd > bandMax) continue;
+        picks.push({ x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 });
+        remainingNear--;
+        progress = true;
+      }
+    }
+    if (!progress) {
+      /* 放不下：优先放弃远区约束（把远区宝石转回走廊） */
+      if (remainingFar > 0) { remainingNear += remainingFar; remainingFar = 0; continue; }
+      console.error('宝石散布失败：' + spec_name(state));
+      process.exit(1);
     }
   }
   return picks;
 }
 
-const levels = [];
-
-/* 与障碍的安全余量（虚拟殿堂像素）。球半径之外的额外余量 */
-const CLEARANCE = Number(process.argv[2]) || 8;
+function spec_name(state) {
+  return state.level.name;
+}
 
 /*
  * 相位无关性校验：石条按殿堂绝对时间运动，玩家什么时候出杆都不该影响标称解。
- * 这里把起手时间在 0–8 秒之间密集扫一遍（覆盖石条的一个完整运动周期），
- * 要求每一次起手，标称杆都照样一杆清空。
+ * 标称杆必须「任何时候都直接收齐 parGems、主球完全不蹭机关、撞墙次数一致」。
+ * 连锁球滚到哪是允许随相位变化的（机关本来就参与连锁的混乱）。
  */
-function phaseIndependent(state, angle, speed, gemCount, wallBounces) {
+function phaseIndependent(state, angle, speed, parGems, wallBounces) {
   for (let t = 0; t <= 8; t += 0.05) {
     state.time = t;
     const sim = game.simulate(state, angle, speed);
-    if (sim.collected.length !== gemCount) return { ok: false, at: t, got: sim.collected.length };
-    if (sim.propHits > 0) return { ok: false, at: t, got: -1 };
-    if (sim.wallBounces !== wallBounces) return { ok: false, at: t, got: -2 };
+    if (sim.collected.length < parGems) return { ok: false, at: t, got: sim.collected.length };
+    for (let g = 0; g < parGems; g++) {
+      if (sim.collected.indexOf(g) < 0) return { ok: false, at: t, got: -1 };
+    }
+    if (sim.propHits > 0) return { ok: false, at: t, got: -2 };
+    if (sim.wallBounces !== wallBounces) return { ok: false, at: t, got: -3 };
   }
   return { ok: true };
 }
 
+const levels = [];
+
 for (let s = 0; s < SPECS.length; s++) {
   const spec = SPECS[s];
+  const gemCount = GEM_COUNTS[s];
   const state = makeState(spec);
-  let best = null;
-  let rejected = { clearance: 0, phase: 0 };
+  const candidates = [];
+  let rejected = { clearance: 0 };
 
   for (let deg = 0; deg < 360; deg += 0.5) {
     const angle = (deg * Math.PI) / 180;
     for (let speed = spec.speeds[0]; speed <= spec.speeds[1]; speed += 10) {
-      resetGems(state);
+      state.gems = [];
+      state.gemsLeft = 0;
+      state.balls[0].x = spec.ball[0];
+      state.balls[0].y = spec.ball[1];
+      state.balls[0].vx = 0;
+      state.balls[0].vy = 0;
+      state.ball = state.balls[0];
       state.time = 0;
       const sim = game.simulate(state, angle, speed);
-      /* 只认撞墙的反弹次数；撞机关的杆直接否掉——
-         标称杆一旦蹭到机关，石条换个相位这一杆就不成立了 */
+      /* 只认主球撞墙的反弹次数；主球蹭机关的杆直接否掉 */
       if (sim.wallBounces !== spec.bounces) continue;
       if (sim.propHits > 0) continue;
       if (sim.path.length < 120) continue;
+      /* 贴墙的杆不做候选：沿墙跑的轨迹会把宝石摆在墙边，进攻角度太窄。
+       * 起步段例外——玉球本来就停在殿堂底部，前 80 个轨迹点（约 0.35s）不算贴墙。 */
+      let hug = 0;
+      const rest = sim.path.length > 80 ? sim.path.slice(80) : sim.path;
+      for (const p of rest) {
+        if (p.x < 30 || p.x > game.ARENA_W - 30 || p.y < 30 || p.y > game.ARENA_H - 30) hug++;
+      }
+      if (hug > rest.length * 0.25) continue;
       const clearance = minClearance(state, sim.path);
       if (clearance < CLEARANCE) {
         rejected.clearance++;
         continue;
       }
-      /* 路径要够长（能摆下所有宝石），停下的位置也别贴角 */
+      /* 路径要够长（能摆下路径宝石），停下的位置也别贴角 */
       const end = sim.path[sim.path.length - 1];
       const nearCorner =
-        end.x < 40 || end.x > 260 || end.y < 40 || end.y > 440;
+        end.x < 40 || end.x > 200 || end.y < 40 || end.y > 280;
       /* 余量优先，其次才比路径长度：余量大的杆在玩家手抖时更不容易蹭到机关 */
       const score = Math.min(clearance, 60) * 1000 + sim.path.length - (nearCorner ? 260 : 0);
-      if (!best || score > best.score) {
-        best = { score: score, angle: angle, deg: deg, speed: speed, path: sim.path, sim: sim, clearance: clearance };
-      }
+      candidates.push({
+        score: score,
+        angle: angle,
+        deg: deg,
+        speed: speed,
+        path: sim.path,
+        wallBounces: sim.wallBounces,
+        clearance: clearance
+      });
     }
   }
 
-  if (!best) {
+  if (!candidates.length) {
     console.error(
       '关卡没找到合适的杆：' + spec.name +
       '（余量不足被否 ' + rejected.clearance + ' 条）'
     );
     process.exit(1);
   }
+  candidates.sort((a, b) => b.score - a.score);
 
-  /* 摆好宝石后，再做一次相位无关校验：这一杆必须任何时候打都成立 */
-  const gems = placeGems(best.path, spec.gems);
-  /* 宝石别落在机关的扫掠区里 */
-  for (let i = 0; i < gems.length; i++) {
-    if (gemInSwept(state, gems[i].x, gems[i].y)) {
-      /* 沿路径找一个不落在扫掠区里的点 */
-      let moved = false;
-      for (let k = 0; k < best.path.length; k++) {
-        const p = best.path[k];
-        if (!gemInSwept(state, p.x, p.y)) {
-          gems[i].x = Math.round(p.x * 10) / 10;
-          gems[i].y = Math.round(p.y * 10) / 10;
-          moved = true;
-          break;
-        }
-      }
-      if (!moved) {
-        console.error('宝石放不进安全区：' + spec.name);
-        process.exit(1);
-      }
-    }
+  /*
+   * 按分数顺序逐条候选杆尝试摆宝：路径宝石必须两两留距、都在轨迹收取范围内。
+   * 折返型轨迹（后段回到出发点附近）摆不下就换下一杆，全量尝试保证找到非折返的解。
+   */
+  const parGems = Math.max(1, Math.round(gemCount * PATH_GEM_RATIO));
+  let chosen = null;
+  for (const cand of candidates) {
+    const picks = placeGems(state, cand.path, parGems);
+    if (!verifyPathGems(state, cand.path, picks)) continue;
+    chosen = { cand: cand, picks: picks };
+    break;
+  }
+  if (!chosen) {
+    console.error(spec.name + '：' + candidates.length + ' 条候选杆都摆不下路径宝石');
+    process.exit(1);
   }
 
+  /* 其余宝石在连锁走廊里散布（间距按殿分级） */
+  const gems = scatterGems(
+    spec,
+    state,
+    chosen.cand.path,
+    chosen.picks,
+    gemCount - parGems,
+    makeRandom(SEED + s * 977),
+    SCATTER_GAPS[s] || SCATTER_GAP
+  );
+
   const checkState = makeState(spec);
-  checkState.gems = gems.map((g) => ({ x: g.x, y: g.y, taken: false, order: 0 }));
+  checkState.gems = gems.map((g, i) => ({ x: g.x, y: g.y, taken: false, order: i }));
   checkState.gemsLeft = gems.length;
-  const phase = phaseIndependent(checkState, best.angle, best.speed, gems.length, spec.bounces);
+  const phase = phaseIndependent(checkState, chosen.cand.angle, chosen.cand.speed, parGems, spec.bounces);
   if (!phase.ok) {
     console.error(
-      spec.name + '：标称杆在起手 ' + phase.at.toFixed(2) + 's 时失效（收到 ' + phase.got + '），相位无关性不成立'
+      spec.name + '：标称杆在起手 ' + phase.at.toFixed(2) + 's 时失效（got=' + phase.got + '），相位无关性不成立'
     );
     process.exit(1);
   }
@@ -359,20 +545,25 @@ for (let s = 0; s < SPECS.length; s++) {
     theme: spec.theme,
     hint: spec.hint,
     ball: spec.ball,
-    budget: spec.budget,
+    budget: 4,
     gems: gems.map((g) => [g.x, g.y]),
+    parGems: parGems,
     blocks: spec.blocks || [],
     props: spec.props,
-    par: { angle: Math.round(best.deg * 100) / 100, speed: best.speed, bounces: best.sim.wallBounces }
+    par: {
+      angle: Math.round(chosen.cand.deg * 100) / 100,
+      speed: chosen.cand.speed,
+      bounces: chosen.cand.wallBounces
+    }
   });
 
   console.log(
     spec.name +
-      '  角度 ' + best.deg + '°  力度 ' + best.speed +
-      '  撞墙 ' + best.sim.wallBounces +
-      '  路径点 ' + best.path.length +
-      '  余量 ' + (best.clearance === Infinity ? '∞' : best.clearance.toFixed(1) + 'px') +
-      '  停点 ' + JSON.stringify(best.path[best.path.length - 1])
+      '  角度 ' + chosen.cand.deg + '°  力度 ' + chosen.cand.speed +
+      '  撞墙 ' + chosen.cand.wallBounces +
+      '  路径点 ' + chosen.cand.path.length +
+      '  余量 ' + (chosen.cand.clearance === Infinity ? '∞' : chosen.cand.clearance.toFixed(1) + 'px') +
+      '  宝石 ' + gemCount + '（路径 ' + parGems + ' + 散布 ' + (gemCount - parGems) + '）'
   );
 }
 

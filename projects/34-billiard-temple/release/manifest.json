@@ -1,9 +1,9 @@
 {
   "name": "弹珠神殿",
-  "description": "一杆清空，满室生光",
+  "description": "一颗玉球，八重金殿",
   "zip": "billiard-temple-v1.zip",
-  "bytes": 25607,
-  "sha256": "086E97B2B82948578846C7D4CCA91C3B9D3A0872AE99C1B73C4BBBE2AB7CC615",
+  "bytes": 38068,
+  "sha256": "FA162CDD3DF02ED9716E3339B3EF3DB854C3A464B0EBF4070C11325EC928B491",
   "entries": [
     "app.js",
     "audio.js",

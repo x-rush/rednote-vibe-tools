@@ -1,56 +1,98 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
-      <stop offset="0" stop-color="#2b3355"/>
-      <stop offset="0.55" stop-color="#1e2440"/>
-      <stop offset="1" stop-color="#111527"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#2b1d3f"/>
+      <stop offset="0.52" stop-color="#7a4650"/>
+      <stop offset="1" stop-color="#3a222c"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe4a3" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#ffe4a3" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f6e3b0"/>
-      <stop offset="0.55" stop-color="#e6c47f"/>
+      <stop offset="0" stop-color="#fff0c4"/>
+      <stop offset="0.55" stop-color="#f0cd86"/>
       <stop offset="1" stop-color="#b8934a"/>
     </linearGradient>
-    <radialGradient id="jade" cx="0.36" cy="0.32" r="0.78">
+    <linearGradient id="gemFaceL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff6d4"/>
+      <stop offset="1" stop-color="#f4d35e"/>
+    </linearGradient>
+    <linearGradient id="gemFaceR" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4d35e"/>
+      <stop offset="1" stop-color="#a97b1e"/>
+    </linearGradient>
+    <radialGradient id="gemGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff3b8" stop-opacity="0.72"/>
+      <stop offset="0.6" stop-color="#ffd76a" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffd76a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="jade" cx="0.34" cy="0.3" r="0.82">
       <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="0.35" stop-color="#a8f0d6"/>
-      <stop offset="0.75" stop-color="#5fc3a3"/>
-      <stop offset="1" stop-color="#256b5b"/>
+      <stop offset="0.32" stop-color="#a8f0d6"/>
+      <stop offset="0.72" stop-color="#4fc3a1"/>
+      <stop offset="1" stop-color="#1c6b58"/>
     </radialGradient>
     <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#8fe3c6" stop-opacity="0.55"/>
+      <stop offset="0" stop-color="#8fe3c6" stop-opacity="0.5"/>
       <stop offset="1" stop-color="#8fe3c6" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="gemGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#ffe9b8" stop-opacity="0.7"/>
-      <stop offset="1" stop-color="#ffe9b8" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
   <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bg)"/>
-  <rect x="24" y="24" width="464" height="464" rx="94" fill="none" stroke="url(#gold)" stroke-width="3" stroke-opacity="0.38"/>
+  <rect x="22" y="22" width="468" height="468" rx="94" fill="none" stroke="url(#gold)" stroke-width="3" stroke-opacity="0.34"/>
 
-  <g fill="none" stroke="url(#gold)" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M150 402 L150 264 A106 106 0 0 1 362 264 L362 402" stroke-width="9" stroke-opacity="0.46"/>
-    <path d="M192 402 L192 270 A64 64 0 0 1 320 270 L320 402" stroke-width="5" stroke-opacity="0.24"/>
-    <path d="M114 402 L398 402" stroke-width="9" stroke-opacity="0.58"/>
+  <!-- 殿堂拱门 -->
+  <path d="M128 402 L128 250 A128 128 0 0 1 384 250 L384 402 Z" fill="url(#beam)"/>
+  <path d="M128 402 L128 250 A128 128 0 0 1 384 250 L384 402" fill="none" stroke="url(#gold)" stroke-width="8" stroke-opacity="0.5"/>
+  <path d="M166 402 L166 258 A90 90 0 0 1 346 258 L346 402" fill="none" stroke="url(#gold)" stroke-width="4" stroke-opacity="0.22"/>
+
+  <!-- 石砖台沿 -->
+  <g fill="#4b3555" fill-opacity="0.9">
+    <rect x="96" y="402" width="64" height="26" rx="4"/>
+    <rect x="162" y="402" width="64" height="26" rx="4"/>
+    <rect x="228" y="402" width="64" height="26" rx="4"/>
+    <rect x="294" y="402" width="64" height="26" rx="4"/>
+  </g>
+  <g fill="none" stroke="#f0cd86" stroke-width="2" stroke-opacity="0.3">
+    <rect x="96" y="402" width="64" height="26" rx="4"/>
+    <rect x="162" y="402" width="64" height="26" rx="4"/>
+    <rect x="228" y="402" width="64" height="26" rx="4"/>
+    <rect x="294" y="402" width="64" height="26" rx="4"/>
   </g>
 
-  <path d="M168 370 Q322 360 410 246 Q396 158 308 150"
-        fill="none" stroke="url(#gold)" stroke-width="7" stroke-linecap="round"
-        stroke-dasharray="2 22" stroke-opacity="0.85"/>
+  <!-- 能量轨迹 -->
+  <path d="M148 356 Q232 300 262 246" fill="none" stroke="#d8fff2" stroke-width="7" stroke-linecap="round"
+        stroke-dasharray="3 20" stroke-opacity="0.85"/>
 
-  <circle cx="308" cy="150" r="58" fill="url(#gemGlow)"/>
-  <path d="M308 116 L332 150 L308 184 L284 150 Z" fill="url(#gold)"/>
-  <path d="M308 116 L332 150 L308 150 Z" fill="#fff6dd" fill-opacity="0.55"/>
+  <!-- 多面切割宝石：正面六角刻面 + 台面 -->
+  <circle cx="268" cy="196" r="112" fill="url(#gemGlow)"/>
+  <g>
+    <polygon points="185,148 268,100 268,140 232,161" fill="#fff6d4"/>
+    <polygon points="268,100 351,148 304,161 268,140" fill="#ffe9a8"/>
+    <polygon points="351,148 351,244 304,203 304,161" fill="#c79a26"/>
+    <polygon points="351,244 268,292 268,224 304,203" fill="#8a6414"/>
+    <polygon points="268,292 185,244 232,203 268,224" fill="#d9ae35"/>
+    <polygon points="185,244 185,148 232,161 232,203" fill="#f4d35e"/>
+    <polygon points="268,140 304,161 304,203 268,224 232,203 232,161" fill="#fff3b8" fill-opacity="0.88"/>
+    <polygon points="268,100 351,148 351,244 268,292 185,244 185,148" fill="none" stroke="#fff3b8" stroke-width="3" stroke-opacity="0.9"/>
+    <polygon points="268,140 304,161 304,203 268,224 232,203 232,161" fill="none" stroke="#a97b1e" stroke-width="1.6" stroke-opacity="0.5"/>
+    <ellipse cx="240" cy="146" rx="15" ry="9" fill="#ffffff" fill-opacity="0.85" transform="rotate(-30 240 146)"/>
+  </g>
 
-  <circle cx="168" cy="370" r="52" fill="url(#halo)"/>
-  <circle cx="168" cy="370" r="34" fill="url(#jade)"/>
-  <circle cx="168" cy="370" r="34" fill="none" stroke="#e8fff6" stroke-width="3" stroke-opacity="0.5"/>
-  <ellipse cx="155" cy="356" rx="10" ry="8" fill="#ffffff" fill-opacity="0.82"/>
+  <!-- 玻璃玉球 -->
+  <circle cx="140" cy="360" r="74" fill="url(#halo)"/>
+  <circle cx="140" cy="360" r="52" fill="url(#jade)"/>
+  <circle cx="140" cy="360" r="52" fill="none" stroke="#e8fff6" stroke-width="3" stroke-opacity="0.55"/>
+  <path d="M104 384 A44 44 0 0 0 172 396" fill="none" stroke="#d8fff2" stroke-width="4" stroke-opacity="0.7" stroke-linecap="round"/>
+  <ellipse cx="124" cy="340" rx="13" ry="9" fill="#ffffff" fill-opacity="0.88" transform="rotate(-28 124 340)"/>
+  <circle cx="162" cy="382" r="6" fill="#ffffff" fill-opacity="0.45"/>
 
-  <g fill="#ffe9b8">
-    <circle cx="424" cy="150" r="4" fill-opacity="0.7"/>
-    <circle cx="96" cy="206" r="3" fill-opacity="0.5"/>
-    <circle cx="236" cy="330" r="3" fill-opacity="0.4"/>
+  <!-- 尘埃 -->
+  <g fill="#ffe4a3">
+    <circle cx="418" cy="146" r="5" fill-opacity="0.6"/>
+    <circle cx="86" cy="206" r="4" fill-opacity="0.45"/>
+    <circle cx="392" cy="330" r="3.5" fill-opacity="0.35"/>
+    <circle cx="66" cy="316" r="3" fill-opacity="0.3"/>
   </g>
 </svg>

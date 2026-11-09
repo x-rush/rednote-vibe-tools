@@ -81,11 +81,29 @@
     osc.stop(now + 0.18);
   }
 
-  /* 收宝石：清亮的双音 */
-  function playGem(index) {
-    var base = 660 + (index || 0) * 55;
-    tone(base, base * 1.5, 0.26, 0.11, 'sine', 0);
-    tone(base * 2, base * 2.4, 0.22, 0.07, 'triangle', 0.04);
+  /* 收宝石：音阶递进——连收越多，音调越高 */
+  /* 五声音阶：听起来是一串上行，不会打架 */
+  var GEM_SCALE = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51];
+
+  function playGem(index, combo) {
+    var step = combo || 0;
+    if (step < 0) step = 0;
+    if (step > GEM_SCALE.length - 1) step = GEM_SCALE.length - 1;
+    /* 每殿的基音略微上移，八殿越打越高 */
+    var base = GEM_SCALE[step] + (index || 0) * 14;
+    tone(base, base * 1.5, 0.28, 0.12, 'sine', 0);
+    tone(base * 2, base * 2.4, 0.22, 0.07, 'triangle', 0.045);
+    tone(base * 3, base * 3, 0.14, 0.035, 'sine', 0.09);
+  }
+
+  /* 一杆清空：全屏光爆的音效，音阶一路冲上去 */
+  function playOneShotClear() {
+    var steps = [523.25, 659.25, 783.99, 1046.5, 1318.51];
+    for (var i = 0; i < steps.length; i++) {
+      tone(steps[i], steps[i], 0.5 - i * 0.04, 0.11, 'triangle', i * 0.075);
+      tone(steps[i] * 2, steps[i] * 2.6, 0.36, 0.05, 'sine', i * 0.075 + 0.02);
+    }
+    tone(1567.98, 2093, 0.7, 0.09, 'sine', 0.42);
   }
 
   /* 过关：上行三音 */
@@ -106,6 +124,7 @@
     playBounce: playBounce,
     playShoot: playShoot,
     playGem: playGem,
+    playOneShotClear: playOneShotClear,
     playSuccess: playSuccess,
     playFail: playFail,
     setMuted: function (v) {

@@ -1,7 +1,8 @@
 /*
- * 弹珠神殿 · 移动端视觉与交互自检
+ * 弹珠神殿（玉球金殿）· 移动端视觉与交互自检
  * 复用仓库既有 Playwright 运行时，不新增依赖。
  * 覆盖：375 / 390 / 430 CSS px、非零安全区、左右宿主按钮覆盖层、横屏、真实拖拽击球。
+ * 三期起无发射按钮（原版拖拽即发射），交互控件只有底部静音按钮。
  */
 const fs = require('fs');
 const path = require('path');
@@ -70,7 +71,7 @@ function overlap(a, b) {
   return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 }
 
-/* 殿堂坐标 → 屏幕坐标 */
+/* 画布坐标 → 屏幕坐标（三期起缩放恒为 1，保留同一公式） */
 async function arenaToScreen(page, box, ax, ay) {
   const view = await page.evaluate(() => {
     const r = window.__templeRenderer;
@@ -129,6 +130,16 @@ async function run() {
     await page.waitForTimeout(500);
     await page.screenshot({ path: path.join(OUT, 'field-' + width + '.png') });
 
+    /* 首杆提示必须出现（原版 hint chip + 手势提示） */
+    const hints = await page.evaluate(() => ({
+      hintVisible: !document.querySelector('#hintChip').hidden,
+      gestureVisible: !document.querySelector('#gestureHint').hidden,
+      hudVisible: !document.querySelector('#hud').hidden
+    }));
+    if (!hints.hintVisible || !hints.gestureVisible) {
+      errors.push('[mobile] 首杆前提示 chip / 手势提示没有显示');
+    }
+
     /* 宿主按钮覆盖层 */
     await page.addStyleTag({ content: HOST_CSS });
     await page.evaluate(() => {
@@ -146,8 +157,8 @@ async function run() {
     /* 交互：真实拖拽击球，验证球确实动了、杆数确实扣了 */
     const box = await page.locator('#field').boundingBox();
     const before = await page.evaluate(() => ({
-      shots: window.__templeState.shotsLeft,
-      phase: window.__templeState.phase,
+      shots: window.__templeState.shots,
+      moving: window.__templeState.ball.moving,
       ball: { x: window.__templeState.ball.x, y: window.__templeState.ball.y }
     }));
     const from = await arenaToScreen(page, box, before.ball.x, before.ball.y);
@@ -155,11 +166,19 @@ async function run() {
     await page.mouse.move(from.x, from.y);
     await page.mouse.down();
     await page.mouse.move(to.x, to.y, { steps: 6 });
+    /* 弹弓输入有最短按住时长（快速点按不发射）：拖住一会儿再松手 */
+    await page.waitForTimeout(180);
+    const aiming = await page.evaluate(() => ({
+      shots: window.__templeState.shots,
+      hintVisible: !document.querySelector('#hintChip').hidden
+    }));
+    if (aiming.shots !== before.shots) errors.push('[mobile] 拖住瞄准时扣了杆数');
+    if (aiming.hintVisible) errors.push('[mobile] 按下后提示 chip 未收起');
     await page.mouse.up();
     await page.waitForTimeout(200);
     const after = await page.evaluate(() => ({
-      shots: window.__templeState.shotsLeft,
-      phase: window.__templeState.phase,
+      shots: window.__templeState.shots,
+      moving: window.__templeState.ball.moving,
       ball: { x: window.__templeState.ball.x, y: window.__templeState.ball.y }
     }));
     await page.screenshot({ path: path.join(OUT, 'play-' + width + '.png') });
@@ -167,8 +186,8 @@ async function run() {
     if (after.shots !== before.shots - 1) {
       errors.push('[mobile] 真实拖拽没有击出这一杆（shots ' + before.shots + ' → ' + after.shots + '）');
     }
-    if (after.phase !== 'roll') {
-      errors.push('[mobile] 松手后球没有进入滚动状态，phase=' + after.phase);
+    if (!after.moving) {
+      errors.push('[mobile] 松手后球没有滚动起来');
     }
 
     const layout = await page.evaluate(() => {
@@ -189,9 +208,7 @@ async function run() {
         topbar: rectOf('#topbar'),
         hud: rectOf('#hud'),
         stage: rectOf('#stage'),
-        tools: rectOf('#tools'),
         footbar: rectOf('#footbar'),
-        shot: rectOf('#shotBtn'),
         mute: rectOf('#muteBtn'),
         canvasSize: [canvas.width, canvas.height],
         scale: view.getScale()
@@ -205,7 +222,6 @@ async function run() {
     /* 自己的交互控件不能落在宿主按钮占位区里 */
     const zones = hostZones(width, SAFE_TOP);
     const interactive = [];
-    if (layout.shot) interactive.push({ name: 'shotBtn', ...layout.shot });
     if (layout.mute) interactive.push({ name: 'muteBtn', ...layout.mute });
     for (const zone of zones) {
       for (const el of interactive) {
@@ -215,20 +231,16 @@ async function run() {
       }
     }
     /* 主要区块必须在可视区域内 */
-    for (const key of ['hud', 'stage', 'tools', 'footbar']) {
+    for (const key of ['hud', 'stage', 'footbar']) {
       const r = layout[key];
       if (!r || r.bottom > layout.clientHeight + 1 || r.top < -1) {
         errors.push('[mobile] ' + key + ' 超出可视区域');
       }
     }
-    /* 工具栏与发射按钮必须真的在画面里（hidden 的元素量出来是 0×0） */
-    if (!layout.tools || layout.tools.bottom - layout.tools.top < 30) {
-      errors.push('[mobile] 工具栏没有显示出来，高度 ' + (layout.tools ? layout.tools.bottom - layout.tools.top : 0));
+    /* 静音按钮必须真的在画面里 */
+    if (!layout.mute || layout.mute.bottom - layout.mute.top < 20) {
+      errors.push('[mobile] 静音按钮没有显示出来');
     }
-    if (!layout.shot || layout.shot.bottom - layout.shot.top < 30) {
-      errors.push('[mobile] 发射按钮没有显示出来');
-    }
-    /* 殿堂必须等比缩放后完整放进舞台 */
     if (!layout.scale || layout.scale <= 0) errors.push('[mobile] 渲染缩放比无效');
     if (layout.stage && layout.stage.bottom - layout.stage.top < 200) {
       errors.push('[mobile] 舞台高度过小：' + (layout.stage.bottom - layout.stage.top) + 'px');
@@ -306,10 +318,8 @@ async function run() {
       clientHeight: doc.clientHeight,
       canvasRect: { top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right) },
       canvasBuffer: [c.width, c.height],
-      scale: window.__templeRenderer.getScale(),
       hud: rectOf('#hud'),
       stage: rectOf('#stage'),
-      shot: rectOf('#shotBtn'),
       mute: rectOf('#muteBtn')
     };
   });
@@ -324,11 +334,7 @@ async function run() {
   }
   const landZones = hostZones(844, SAFE_TOP);
   const landInteractive = [];
-  if (landLayout.shot) landInteractive.push({ name: 'shotBtn', ...landLayout.shot });
   if (landLayout.mute) landInteractive.push({ name: 'muteBtn', ...landLayout.mute });
-  if (!landLayout.shot || landLayout.shot.bottom - landLayout.shot.top < 30) {
-    landErrors.push('[landscape] 发射按钮没有显示出来');
-  }
   for (const zone of landZones) {
     for (const el of landInteractive) {
       if (overlap(el, zone)) {

@@ -1,7 +1,8 @@
 /*
  * 毽子连击 · 本地存储
  * 优先使用小工具容器 Storage API（9.46+），低版本降级 localStorage。
- * 只保存结构化状态：最高连击、总分、静音偏好，不保存任何用户媒体。
+ * 只保存结构化状态：最高连踢/连击/总分、庭院纪录、踢法图鉴、静音偏好，
+ * 不保存任何用户媒体。
  */
 (function (root) {
   'use strict';
@@ -9,7 +10,14 @@
   var native = null;
   var ready = false;
   var cache = {};
-  var KEYS = ['jianzi-best-combo', 'jianzi-best-score', 'jianzi-muted'];
+  var KEYS = [
+    'jianzi-best-rally',
+    'jianzi-best-combo',
+    'jianzi-best-score',
+    'jianzi-best-courtyard',
+    'jianzi-kicks-ever',
+    'jianzi-muted'
+  ];
   var STORAGE_MIN_CLIENT_VERSION = 9460;
 
   function readBuildVersion(launchOptions) {

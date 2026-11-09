@@ -92,7 +92,19 @@
       noise(0.085, 0.12, 0, 900);
     }
 
-    /* 踢早了：闷、钝的一声 */
+    /* 踢法命中：皮托「啪」+ 铜铃音高随踢法倍率抬升，正中带心再加一层亮铃 */
+    function playKickType(multiplier, strength) {
+      playKick();
+      var m = Math.max(1, multiplier || 1);
+      var freq = 740 * Math.pow(m, 1.35);
+      bell(freq, 0.34, 0.09);
+      if (strength >= 0.55) {
+        bell(freq * 1.5, 0.3, 0.06, 0.05);
+        tone(freq * 3, 0.14, 'triangle', 0.045, 0.03);
+      }
+    }
+
+    /* 踢空：闷、钝的一声（原 playWhiff 语义） */
     function playWhiff() {
       tone(148, 0.13, 'sine', 0.1, 0, 86);
       noise(0.17, 0.05, 0.005, 460);
@@ -103,6 +115,8 @@
       var step = Math.min(combo || 1, 20);
       var freq = 1180 * Math.pow(1.022, step - 1);
       bell(freq, 0.42, 0.1);
+      /* 升调：一小段上滑，落地瞬间听得出「接住了」 */
+      tone(freq * 0.9, 0.16, 'triangle', 0.05, 0.02, freq * 1.32);
     }
 
     /* 完美接住：双铃 + 一点糖 */
@@ -112,6 +126,13 @@
       bell(freq, 0.5, 0.12);
       bell(freq * 1.5, 0.36, 0.07, 0.07);
       tone(freq * 3, 0.18, 'triangle', 0.05, 0.02);
+      tone(freq * 0.85, 0.2, 'triangle', 0.05, 0.03, freq * 1.4);
+    }
+
+    /* 擦边：接住了但没计入连击，音短、偏闷，向上收一下提示「差一点」 */
+    function playEdge() {
+      tone(520, 0.13, 'sine', 0.075, 0, 760);
+      noise(0.1, 0.05, 0, 780);
     }
 
     /* 落地：闷响 + 羽毛飘落 */
@@ -127,6 +148,28 @@
         bell(notes[i], 0.6, 0.075, i * 0.085);
       }
       noise(0.5, 0.035, 0.05, 4200);
+    }
+
+    /* 新踢法解锁：两声短铃上行，轻快不抢戏 */
+    function playUnlockKick() {
+      bell(988, 0.3, 0.08);
+      bell(1318, 0.36, 0.07, 0.09);
+    }
+
+    /* 新庭院解锁：低沉钟声三连，场景感 */
+    function playCourtyard() {
+      bell(523, 0.7, 0.1);
+      bell(659, 0.66, 0.08, 0.14);
+      bell(784, 0.72, 0.08, 0.28);
+      noise(0.6, 0.028, 0.1, 3200);
+    }
+
+    /* 新纪录：快速上行的四连亮铃 */
+    function playBest() {
+      var notes = [1046, 1318, 1568, 2093];
+      for (var i = 0; i < notes.length; i++) {
+        bell(notes[i], 0.4, 0.075, i * 0.07);
+      }
     }
 
     /* 过关：铃音上行 */
@@ -158,11 +201,16 @@
     return {
       resume: resume,
       playKick: playKick,
+      playKickType: playKickType,
       playWhiff: playWhiff,
       playCatch: playCatch,
       playPerfect: playPerfect,
+      playEdge: playEdge,
       playLand: playLand,
       playTier: playTier,
+      playUnlockKick: playUnlockKick,
+      playCourtyard: playCourtyard,
+      playBest: playBest,
       playWin: playWin,
       playLose: playLose,
       playUi: playUi,

@@ -1,7 +1,8 @@
 /*
  * 彩沙瓶 · 移动端视觉与交互自检
  * 复用仓库既有 Playwright 运行时，不新增依赖。
- * 覆盖：375 / 390 / 430 CSS px、非零安全区、左右宿主按钮覆盖层、横屏、真实点击倒沙。
+ * 覆盖：375 / 390 / 430 CSS px、非零安全区、左右宿主按钮覆盖层、
+ *       五瓶型选择页截图、真实点击倒沙（55%/60% 高度）、真实横屏。
  */
 const fs = require('fs');
 const path = require('path');
@@ -69,6 +70,14 @@ function overlap(a, b) {
   return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 }
 
+function rectOf(el) {
+  if (!el) return null;
+  const r = el.getBoundingClientRect();
+  return { top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right) };
+}
+
+const INTERACTIVE_SELECTOR = '.swatch, .tool, #sealBtn, #footbar button';
+
 async function run() {
   fs.mkdirSync(OUT, { recursive: true });
   const server = await serve();
@@ -83,6 +92,8 @@ async function run() {
   const SAFE_TOP = 44;
 
   for (const width of [375, 390, 430]) {
+    /* 三种宽度各玩一种瓶型：375 圆肩 / 390 高圆筒 / 430 泪滴 */
+    const shapeId = width === 375 ? 'round' : width === 390 ? 'cylinder' : 'teardrop';
     const context = await browser.newContext({
       viewport: { width, height: 844 },
       deviceScaleFactor: 2,
@@ -106,6 +117,24 @@ async function run() {
 
     await page.click('#startBtn');
     await page.waitForTimeout(500);
+    await page.screenshot({ path: path.join(OUT, 'shape-' + width + '.png') });
+    const pickState = await page.evaluate(() => ({
+      visible: !document.querySelector('#shapeSelect').hidden,
+      cards: [].slice.call(document.querySelectorAll('.shape-card')).map((el) => el.getAttribute('data-shape'))
+    }));
+    if (!pickState.visible) errors.push('[mobile] 五瓶型选择页没有出现');
+    if (pickState.cards.length !== 5) {
+      errors.push('[mobile] 选瓶页应有 5 张卡片，实际 ' + pickState.cards.length);
+    }
+    await page.click('.shape-card[data-shape="' + shapeId + '"]');
+    await page.waitForTimeout(600);
+    const playingShape = await page.evaluate(() => {
+      const e = window.__sandEngine;
+      return e ? e.shape.id : null;
+    });
+    if (playingShape !== shapeId) {
+      errors.push('[mobile] 选中的瓶型不对：期望 ' + shapeId + ' 实际 ' + playingShape);
+    }
     await page.screenshot({ path: path.join(OUT, 'field-' + width + '.png') });
 
     /* 宿主按钮覆盖层 */
@@ -122,56 +151,44 @@ async function run() {
     await page.waitForTimeout(200);
     await page.screenshot({ path: path.join(OUT, 'host-' + width + '.png') });
 
-    /* 交互：真实点击倒沙，验证沙确实进了瓶子里 */
+    /* 交互：真实点击倒沙，验证沙确实进了瓶子 */
     const box = await page.locator('#field').boundingBox();
-    const before = await page.evaluate(() => ({
-      used: window.__sandState.used,
-      cells: window.__sandState.cols.reduce((sum, c) => sum + c.length, 0),
-      heights: window.__sandState.cols.map((c) => c.length)
-    }));
+    const before = await page.evaluate(() => window.__sandEngine.grains.length);
     await page.mouse.click(box.x + box.width / 2, box.y + box.height * 0.6);
     await page.waitForTimeout(120);
-    const after = await page.evaluate(() => ({
-      used: window.__sandState.used,
-      cells: window.__sandState.cols.reduce((sum, c) => sum + c.length, 0),
-      heights: window.__sandState.cols.map((c) => c.length)
-    }));
+    const after = await page.evaluate(() => window.__sandEngine.grains.length);
     await page.screenshot({ path: path.join(OUT, 'play-' + width + '.png') });
 
-    if (after.cells <= before.cells) {
-      errors.push('[mobile] 点击画布没有倒进沙，cells=' + after.cells);
+    if (after <= before) {
+      errors.push('[mobile] 点击画布没有倒进沙，grains=' + after);
     }
 
-    const layout = await page.evaluate(() => {
+    const layout = await page.evaluate((sel) => {
       const doc = document.documentElement;
-      const rectOf = (sel) => {
-        const el = document.querySelector(sel);
+      const rectOf = (el) => {
         if (!el) return null;
         const r = el.getBoundingClientRect();
         return { top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right) };
       };
-      const canvas = document.querySelector('#field');
-      const swatches = [].slice.call(document.querySelectorAll('.swatch')).map((el) => {
+      const list = [].slice.call(document.querySelectorAll(sel)).map((el) => {
         const r = el.getBoundingClientRect();
-        return { top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right) };
+        return {
+          name: (el.getAttribute('data-tool') || el.getAttribute('data-color') || el.id || el.textContent || '?').trim(),
+          top: Math.round(r.top), bottom: Math.round(r.bottom),
+          left: Math.round(r.left), right: Math.round(r.right)
+        };
       });
       return {
         scrollWidth: doc.scrollWidth,
         clientWidth: doc.clientWidth,
         scrollHeight: doc.scrollHeight,
         clientHeight: doc.clientHeight,
-        topbar: rectOf('#topbar'),
-        hud: rectOf('#hud'),
-        field: rectOf('#field'),
-        palette: rectOf('#palette'),
-        tools: rectOf('#tools'),
-        seal: rectOf('#sealBtn'),
-        mute: rectOf('#muteBtn'),
-        swatches: swatches,
-        canvasSize: [canvas.width, canvas.height],
-        fieldWidth: window.__sandRenderer.getFieldWidth()
+        field: rectOf(document.querySelector('#field')),
+        palette: rectOf(document.querySelector('#palette')),
+        tools: rectOf(document.querySelector('#tools')),
+        interactive: list
       };
-    });
+    }, INTERACTIVE_SELECTOR);
 
     /* 横向不能溢出 */
     if (layout.scrollWidth > layout.clientWidth) {
@@ -179,18 +196,14 @@ async function run() {
     }
     /* 自己的交互控件不能落在宿主按钮占位区里 */
     const zones = hostZones(width, SAFE_TOP);
-    const interactive = [];
-    if (layout.seal) interactive.push({ name: 'sealBtn', ...layout.seal });
-    if (layout.mute) interactive.push({ name: 'muteBtn', ...layout.mute });
-    layout.swatches.forEach((r, i) => interactive.push({ name: 'swatch' + i, ...r }));
     for (const zone of zones) {
-      for (const el of interactive) {
+      for (const el of layout.interactive) {
         if (overlap(el, zone)) {
           errors.push('[mobile] ' + el.name + ' 与宿主按钮占位区 ' + zone.name + ' 重叠');
         }
       }
     }
-    /* 调色板与工具栏必须在画面内 */
+    /* 色条与工具栏必须在画面内 */
     for (const key of ['palette', 'tools']) {
       const r = layout[key];
       if (!r || r.bottom > layout.clientHeight || r.top < 0) {
@@ -198,11 +211,11 @@ async function run() {
       }
     }
 
-    report.push({ width, before, after, layout, errors });
+    report.push({ width, shapeId, before, after, pickCards: pickState.cards, layout, errors });
     await context.close();
   }
 
-  /* 横屏：同样要避让宿主左右按钮 */
+  /* 横屏：同样要避让宿主左右按钮（选宽身瓶验证横屏下的宽瓶布局） */
   const ctx = await browser.newContext({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 2 });
   const page = await ctx.newPage();
   const landErrors = [];
@@ -213,7 +226,9 @@ async function run() {
     document.documentElement.style.setProperty('--safe-area-inset-bottom', '34px');
   });
   await page.click('#startBtn');
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(300);
+  await page.click('.shape-card[data-shape="wide"]');
+  await page.waitForTimeout(600);
   await page.addStyleTag({ content: HOST_CSS });
   await page.evaluate(() => {
     const left = document.createElement('div');
@@ -226,35 +241,41 @@ async function run() {
   });
   await page.waitForTimeout(200);
   await page.screenshot({ path: path.join(OUT, 'landscape.png') });
-  const landLayout = await page.evaluate(() => {
+
+  /* 横屏下真实点击倒沙也要能进瓶 */
+  const landBox = await page.locator('#field').boundingBox();
+  const landBefore = await page.evaluate(() => window.__sandEngine.grains.length);
+  await page.mouse.click(landBox.x + landBox.width / 2, landBox.y + landBox.height * 0.55);
+  await page.waitForTimeout(120);
+  const landAfter = await page.evaluate(() => window.__sandEngine.grains.length);
+  if (landAfter <= landBefore) landErrors.push('[landscape] 横屏点击画布没有倒进沙');
+
+  const landLayout = await page.evaluate((sel) => {
     const doc = document.documentElement;
     const c = document.querySelector('#field');
-    const r = c.getBoundingClientRect();
-    const rectOf = (sel) => {
-      const el = document.querySelector(sel);
+    const rectOf = (el) => {
       if (!el) return null;
-      const box = el.getBoundingClientRect();
-      return { top: Math.round(box.top), bottom: Math.round(box.bottom), left: Math.round(box.left), right: Math.round(box.right) };
+      const r = el.getBoundingClientRect();
+      return { top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right) };
     };
-    const list = (sel) => [].slice.call(document.querySelectorAll(sel)).map((el) => {
-      const box = el.getBoundingClientRect();
-      return { top: Math.round(box.top), bottom: Math.round(box.bottom), left: Math.round(box.left), right: Math.round(box.right) };
+    const list = [].slice.call(document.querySelectorAll(sel)).map((el) => {
+      const r = el.getBoundingClientRect();
+      return {
+        name: (el.getAttribute('data-tool') || el.getAttribute('data-color') || el.id || el.textContent || '?').trim(),
+        top: Math.round(r.top), bottom: Math.round(r.bottom),
+        left: Math.round(r.left), right: Math.round(r.right)
+      };
     });
     return {
       scrollWidth: doc.scrollWidth,
       clientWidth: doc.clientWidth,
-      scrollHeight: doc.scrollHeight,
       clientHeight: doc.clientHeight,
-      canvasRect: { top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right) },
+      canvasRect: rectOf(c),
       canvasBuffer: [c.width, c.height],
-      fieldWidth: window.__sandRenderer.getFieldWidth(),
-      hud: rectOf('#hud'),
-      seal: rectOf('#sealBtn'),
-      mute: rectOf('#muteBtn'),
-      swatches: list('.swatch'),
-      tools: list('.tool')
+      interactive: list
     };
-  });
+  }, INTERACTIVE_SELECTOR);
+
   if (landLayout.scrollWidth > landLayout.clientWidth) {
     landErrors.push('[landscape] 出现横向溢出');
   }
@@ -262,25 +283,26 @@ async function run() {
     landErrors.push('[landscape] 画布被挤得过窄（' + (landLayout.canvasRect.right - landLayout.canvasRect.left) + 'px）');
   }
   const landZones = hostZones(844, SAFE_TOP);
-  const landInteractive = [];
-  if (landLayout.seal) landInteractive.push({ name: 'sealBtn', ...landLayout.seal });
-  if (landLayout.mute) landInteractive.push({ name: 'muteBtn', ...landLayout.mute });
-  landLayout.swatches.forEach((r, i) => landInteractive.push({ name: 'swatch' + i, ...r }));
-  landLayout.tools.forEach((r, i) => landInteractive.push({ name: 'tool' + i, ...r }));
   for (const zone of landZones) {
-    for (const el of landInteractive) {
+    for (const el of landLayout.interactive) {
       if (overlap(el, zone)) {
         landErrors.push('[landscape] ' + el.name + ' 与宿主按钮占位区 ' + zone.name + ' 重叠');
       }
     }
   }
-  report.push({ landscape: landLayout, errors: landErrors });
-  await ctx.close();
+  report.push({ landscape: { canvas: landLayout.canvasRect, clickGain: landAfter - landBefore }, errors: landErrors });
 
+  await ctx.close();
   await browser.close();
   server.close();
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
-  console.log(JSON.stringify(report, null, 2));
+  const totalErrors = report.reduce((s, r) => s + r.errors.length, 0);
+  if (totalErrors) {
+    console.error('MOBILE FAIL:\n' + report.flatMap((r) => r.errors).join('\n'));
+    process.exitCode = 1;
+  } else {
+    console.log('MOBILE PASS：375/390/430 + 五瓶型选瓶页 + 宿主覆盖层 + 横屏全部通过');
+  }
 }
 
 run().catch((e) => {

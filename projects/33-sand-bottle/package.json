@@ -4,10 +4,11 @@
   "private": true,
   "description": "彩沙瓶 · 纯前端沙堆塑形小游戏",
   "scripts": {
-    "lint": "node --check src/game.js && node --check src/render.js && node --check src/audio.js && node --check src/storage.js && node --check src/app.js && node --check tools.mjs && node --check tools/logo-png.cjs && node --check verify-artifact.cjs && node --check qa-mobile-check.cjs && node --check qa-flow.cjs && node --check qa-balance-check.cjs",
+    "lint": "node --check src/game.js && node --check src/render.js && node --check src/audio.js && node --check src/storage.js && node --check src/app.js && node --check tools.mjs && node --check tools/logo-png.cjs && node --check tools/cover-png.cjs && node --check verify-artifact.cjs && node --check qa-mobile-check.cjs && node --check qa-flow.cjs && node --check qa-perf-check.cjs && node --check qa-balance-check.cjs && node --check tools/autoplay.cjs && node --check qa/capture.cjs",
     "test": "node --test tests/*.test.mjs",
     "build": "node tools.mjs build",
     "preview": "node tools.mjs preview",
+    "qa:perf": "node qa-perf-check.cjs",
     "pack": "pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1"
   }
 }

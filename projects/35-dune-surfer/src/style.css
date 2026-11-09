@@ -51,14 +51,41 @@ body { overflow: hidden; }
   background: linear-gradient(180deg, #2a1a44 0%, #52284a 42%, #8a4a3c 100%);
 }
 
-/* ---------- 顶栏：避开宿主左右按钮 ---------- */
+/* ---------- 顶栏：避开宿主左右按钮（浮层，叠在画布上） ---------- */
 #topbar {
   flex: 0 0 auto;
+  position: relative;
+  z-index: 2;
   padding: 0 calc(var(--host-side) + 4px);
   padding-top: calc(var(--safe-top) + var(--host-top) - 22px);
   text-align: center;
   pointer-events: none;
 }
+
+/*
+ * 玻璃拟态容器：半透明深色底 + 1px 高光描边 + 圆角 + 轻微外阴影。
+ */
+.glass {
+  background: linear-gradient(165deg, rgba(28, 14, 34, 0.72) 0%, rgba(16, 8, 22, 0.78) 100%);
+  border: 1px solid rgba(255, 240, 220, 0.16);
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.brand-card {
+  display: inline-block;
+  max-width: 100%;
+  padding: 7px 16px 8px;
+  text-align: center;
+}
+
+/* 游玩中收起品牌卡，换成原版字段的信息胶囊 */
+body.playing .brand-card { display: none; }
+
+/* 开场与结算面板自带标题与图标，顶上这块品牌卡就让位 */
+body:not(.playing) .hud-pill { display: none; }
 
 .brand {
   display: inline-flex;
@@ -79,147 +106,60 @@ body { overflow: hidden; }
 }
 
 #subtitle {
-  margin: 6px 0 0;
+  margin: 5px 0 0;
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--ink-dim);
 }
 
-/* ---------- HUD ---------- */
-#hud {
-  flex: 0 0 auto;
-  margin: 10px auto 0;
-  padding: 0 calc(var(--host-side) + 2px);
-  width: 100%;
-  max-width: 460px;
-}
-
-.hud-main {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 0 2px;
-}
-
-.metric {
-  text-align: right;
-}
-
-.metric em {
-  display: block;
-  font-style: normal;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: var(--ink-dim);
-}
-
-.metric b {
-  display: block;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--sun);
-}
-
-.metric.big {
-  text-align: left;
-}
-
-.metric.big b {
-  font-size: 40px;
-  line-height: 1.05;
-  color: var(--ink);
-  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-}
-
-.metric.big small {
-  display: inline-block;
-  margin-left: 3px;
-  font-size: 12px;
-  color: var(--ink-dim);
-}
-
-.hud-sub {
-  display: flex;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.chip {
+/* ---------- HUD 胶囊（原版字段：{m}m · 🚩{gates}） ---------- */
+.hud-pill {
   display: inline-flex;
   align-items: center;
-  margin-right: 12px;
-  font-size: 11px;
-  color: var(--ink-dim);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
   white-space: nowrap;
 }
 
-.chip em {
-  font-style: normal;
-  margin-left: 5px;
-}
+.hud-pill[hidden] { display: none; }
 
-.chip b {
-  margin-left: 5px;
-  font-size: 13px;
+.hud-m { color: #ffd9a0; }
+
+.hud-m b {
+  font-size: 16px;
   font-weight: 800;
-  color: var(--ink);
+  margin-right: 2px;
 }
 
-.chip.stage {
-  margin-right: 0;
-  margin-left: auto;
+.hud-sep {
+  margin: 0 9px;
+  color: rgba(255, 255, 255, 0.3);
 }
 
-.chip.stage b {
-  margin-left: 0;
-  font-size: 11px;
-  color: var(--sun);
+.hud-gates { color: #a8ecc9; }
+
+.hud-gates b {
+  font-size: 16px;
+  font-weight: 800;
+  margin-left: 3px;
 }
 
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.dot.flag { background: var(--sun); }
-.dot.speed { background: #ff9f7a; }
-.dot.carve { background: #8fe3c6; }
-
-/* 雪崩距离条 */
-.gap-bar {
-  position: relative;
-  height: 6px;
-  margin-top: 9px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.14);
-  overflow: hidden;
-}
-
-.gap-bar i {
+/* ---------- 场地：全屏画布（原版几何：物理坐标 = 视口坐标，
+   u = 屏高×0.66、d = 屏高×0.2、旗门预判窗口与原版一致）。
+   顶栏/底栏改为浮层叠在画布上，不再挤压画布。 ---------- */
+#stage {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   bottom: 0;
-  width: 100%;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #8fe3c6 0%, #ffcf7a 60%, #e8623c 100%);
-  transition: width 120ms linear;
-}
-
-.gap-bar.warn i { background: linear-gradient(90deg, #ffcf7a 0%, #e8623c 100%); }
-.gap-bar.danger i { background: linear-gradient(90deg, #e8623c 0%, #ff5a3c 100%); }
-
-/* ---------- 场地 ---------- */
-#stage {
-  position: relative;
-  flex: 1 1 auto;
+  left: 0;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  margin-top: 8px;
+  margin: 0;
+  z-index: 0;
 }
 
 #field {
@@ -229,34 +169,52 @@ body { overflow: hidden; }
   touch-action: none;
 }
 
-.flash {
+/* ---------- 教程（原版：手势圆圈 + hint 文案，第一次按下后收起） ---------- */
+#howto {
   position: absolute;
-  top: 18px;
+  top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: var(--sun);
-  opacity: 0;
-  transform: translateY(-8px);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-.flash.show {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 140ms ease-out, transform 140ms ease-out;
+#howto[hidden] { display: none; }
+
+.gesture-hint {
+  width: 48px;
+  height: 48px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 12px;
+  animation: gesturePulse 1.6s ease-in-out infinite;
 }
 
-.flash.bad { color: #ff7a5c; }
-.flash.good { color: #9ff0cd; }
+@keyframes gesturePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.72; }
+}
 
-/* ---------- 底栏 ---------- */
+#howtoText {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- 底栏（浮层：叠在全屏画布上，避开宿主按钮区） ---------- */
 #footbar {
   flex: 0 0 auto;
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -326,8 +284,6 @@ body { overflow: hidden; }
   animation: panelIn 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.panel.wide { max-width: 340px; }
-
 @keyframes panelIn {
   from { opacity: 0; transform: translateY(22px) scale(0.96); }
   to { opacity: 1; transform: translateY(0) scale(1); }
@@ -375,10 +331,11 @@ body { overflow: hidden; }
 .lines p { margin: 0; }
 
 .tip {
-  margin: 12px 0 0;
-  font-size: 11px;
+  position: relative;
+  margin: 10px 0 0;
+  font-size: 12px;
   line-height: 1.6;
-  color: rgba(255, 242, 226, 0.46);
+  color: rgba(255, 242, 226, 0.55);
 }
 
 button.primary {
@@ -420,33 +377,33 @@ button.ghost {
 
 button.ghost:active { opacity: 0.72; }
 
-/* ---------- 结果面板 ---------- */
-.result-stats {
-  display: flex;
-  margin: 16px 0 4px;
+/* ---------- 结果面板（原版字段：resultTitle / 米数大字 / 米 / 旗门） ---------- */
+.result-figure {
+  margin: 10px 0 2px;
 }
 
-.result-stats.second { margin-top: 10px; }
-
-.result-stats > div {
-  flex: 1 1 0;
-  min-width: 0;
-  padding: 0 4px;
-}
-
-.result-stats b {
+.result-figure b {
   display: block;
-  font-size: 22px;
+  font-size: 72px;
   font-weight: 800;
-  color: var(--sun);
+  line-height: 1.05;
+  color: #ffd9a0;
   letter-spacing: -0.02em;
+  text-shadow: 0 0 26px rgba(255, 190, 110, 0.6);
 }
 
-.result-stats span {
+.result-figure span {
   display: block;
-  margin-top: 3px;
-  font-size: 10px;
-  color: rgba(255, 242, 226, 0.5);
+  margin-top: 4px;
+  font-size: 15px;
+  color: rgba(255, 242, 226, 0.75);
+}
+
+.result-gates {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #a8ecc9;
 }
 
 .best-flag {
@@ -454,13 +411,6 @@ button.ghost:active { opacity: 0.72; }
   font-size: 13px;
   font-weight: 800;
   color: #8fe3c6;
-}
-
-.shelf-label {
-  margin: 14px 0 6px;
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(255, 242, 226, 0.6);
 }
 
 #shareCard {
@@ -504,36 +454,41 @@ button.ghost:active { opacity: 0.72; }
   .panel h2 { font-size: 22px; }
   .lines { font-size: 12px; line-height: 1.7; margin: 10px 0 14px; }
   #shareCard { max-width: 150px; }
-  .metric.big b { font-size: 32px; }
+  .result-figure b { font-size: 60px; }
 }
 
 @media (max-height: 580px) {
-  .hud-sub { margin-top: 5px; }
-  .metric.big b { font-size: 26px; }
+  .hud-pill { padding: 6px 14px; }
+  .result-figure b { font-size: 52px; }
 }
 
 /* ---------- 横屏 ---------- */
 @media (orientation: landscape) and (max-height: 520px) {
   #app { flex-direction: row; min-height: 0; }
-  #topbar { display: none; }
-  /* 左栏让开宿主左上返回键 */
-  #hud {
-    flex: 0 0 30%;
-    min-width: 0;
+  #topbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 32%;
     margin: 0;
     padding: calc(var(--safe-top) + var(--host-top)) 12px 0 56px;
     max-width: none;
   }
-  .hud-main { align-items: flex-start; }
-  .metric.big b { font-size: 30px; }
-  .hud-sub { flex-wrap: wrap; }
-  .chip { margin-right: 10px; }
-  #stage { flex: 1 1 auto; min-width: 0; margin-top: 0; }
+  .brand-card { align-self: center; }
+  /* 全屏画布（原版横屏同样占满视口），顶栏列与底栏浮在其上 */
+  #stage {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+  }
   #footbar {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 30%;
+    width: 32%;
     padding-bottom: calc(6px + var(--safe-bottom));
   }
   /* 矮横屏：面板里的 logo 与光晕先让位，保证按钮一屏可达 */
@@ -543,11 +498,12 @@ button.ghost:active { opacity: 0.72; }
   .panel h2 { font-size: 21px; }
   .lines { margin: 8px 0 12px; line-height: 1.6; }
   .tip { display: none; }
+  .result-figure b { font-size: 48px; }
+  #shareCard { max-width: 130px; }
 }
 
 /* ---------- 减少动态 ---------- */
 @media (prefers-reduced-motion: reduce) {
   .panel { animation: none; }
-  .gap-bar i { transition: none; }
-  .flash.show { transition: none; }
+  .gesture-hint { animation: none; }
 }

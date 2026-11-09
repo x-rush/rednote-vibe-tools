@@ -4,46 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>沙丘速降</title>
-<meta name="description" content="贴着雪崩，甩出一道漂亮的尾迹">
+<meta name="description" content="穿过旗门，把雪崩压回去">
 <link rel="icon" href="./logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <div id="app">
   <header id="topbar">
-    <div class="brand">
-      <img class="brand-logo" src="./logo.svg" alt="" width="26" height="26">
-      <span id="title">沙丘速降</span>
+    <div class="glass brand-card">
+      <div class="brand">
+        <img class="brand-logo" src="./logo.svg" alt="" width="26" height="26">
+        <span id="title">沙丘速降</span>
+      </div>
+      <p id="subtitle"></p>
     </div>
-    <p id="subtitle"></p>
+    <div class="glass hud-pill" id="hud" hidden>
+      <span class="hud-m"><b id="distance">0</b>m</span>
+      <span class="hud-sep">·</span>
+      <span class="hud-gates">🚩<b id="flagCount">0</b></span>
+    </div>
   </header>
-
-  <section id="hud" hidden>
-    <div class="hud-main">
-      <div class="metric big">
-        <em id="distanceLabel">距离</em>
-        <b id="distance">0</b>
-        <small>米</small>
-      </div>
-      <div class="metric">
-        <em>总分</em>
-        <b id="score">0</b>
-      </div>
-    </div>
-    <div class="hud-sub">
-      <span class="chip"><i class="dot flag"></i><em id="flagLabel">旗门</em><b id="flagCount">0</b></span>
-      <span class="chip"><i class="dot speed"></i><em id="speedLabel">时速</em><b id="speedValue">0</b></span>
-      <span class="chip"><i class="dot carve"></i><em id="carveLabel">甩尾</em><b id="carveCount">0</b></span>
-      <span class="chip stage"><b id="stageName">黄昏起势</b></span>
-    </div>
-    <div class="gap-bar" id="gapBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-label="雪崩距离">
-      <i id="gapFill"></i>
-    </div>
-  </section>
 
   <section id="stage">
     <canvas id="field" aria-label="沙丘坡面与雪崩"></canvas>
-    <div id="flash" class="flash" role="status" aria-live="polite"></div>
+    <div id="howto" hidden>
+      <div class="gesture-hint"></div>
+      <p id="howtoText"></p>
+    </div>
   </section>
 
   <footer id="footbar">
@@ -56,34 +43,28 @@
       <div class="panel-glow"></div>
       <img class="panel-logo" src="./logo.svg" alt="沙丘速降" width="72" height="72">
       <h2 id="startTitle">沙丘速降</h2>
+      <p id="tagline" class="tip"></p>
       <div id="startLines" class="lines"></div>
-      <button id="startBtn" type="button" class="primary">开始速降</button>
-      <p class="tip">按住屏幕左右滑动切弯；左右快速甩一下，能把雪崩甩开</p>
+      <button id="startBtn" type="button" class="primary">开始</button>
     </div>
   </section>
 
   <section id="result" class="panel-layer" hidden>
-    <div class="panel wide">
+    <div class="panel">
       <div class="panel-glow"></div>
-      <h2 id="resultTitle">被雪崩追上了</h2>
-      <div class="result-stats">
-        <div><b id="resultScore">0</b><span>总分</span></div>
-        <div><b id="resultDistance">0</b><span>距离</span></div>
-        <div><b id="resultFlags">0</b><span>旗门</span></div>
+      <h2 id="resultTitle">你的滑降</h2>
+      <div class="result-figure">
+        <b id="resultMeters">0</b>
+        <span id="resultSub">米</span>
       </div>
-      <div class="result-stats second">
-        <div><b id="resultCarves">0</b><span>甩尾</span></div>
-        <div><b id="resultSpeed">0</b><span>最高时速</span></div>
-        <div><b id="resultBest">0</b><span>历史最佳</span></div>
-      </div>
+      <p id="resultFlags" class="result-gates">0 旗门</p>
       <p id="bestFlag" class="best-flag" hidden>新纪录！</p>
-      <p class="shelf-label">山脊线</p>
-      <canvas id="shareCard" width="720" height="960" aria-label="沙丘速降山脊线纪录卡"></canvas>
+      <canvas id="shareCard" width="720" height="960" aria-label="沙丘速降滑降线纪录卡"></canvas>
       <div class="actions">
-        <button id="againBtn" type="button" class="primary">再滑一次</button>
-        <button id="saveBtn" type="button" class="ghost">保存纪录卡</button>
+        <button id="shareBtn" type="button" class="primary">分享</button>
+        <button id="againBtn" type="button" class="ghost">再玩一次</button>
       </div>
-      <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
+      <p id="shareStatus" class="save-status" role="status" aria-live="polite"></p>
     </div>
   </section>
 </div>

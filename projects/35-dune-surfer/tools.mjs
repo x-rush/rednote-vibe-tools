@@ -67,7 +67,7 @@ if (process.argv[2] === 'build') {
   const bytes = fs.readdirSync(out).reduce((sum, name) => sum + fs.statSync(path.join(out, name)).size, 0);
   console.log('Built static classic-script game:', fs.readdirSync(out).join(', '));
   console.log('Unpacked bytes:', bytes, '(' + (bytes / 1024).toFixed(1) + ' KiB)');
-  console.log('Stages:', content.stages.length, '| names:', content.stages.map((s) => s.name).join(' / '));
+  console.log('Copy keys:', Object.keys(content.copy).length, '| palette stops:', content.palette.sky.length);
 } else if (process.argv[2] === 'preview') {
   const port = Number(process.argv[3]) || 4335;
   http

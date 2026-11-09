@@ -1,9 +1,9 @@
 {
   "name": "毽子连击",
-  "description": "一脚接一脚，踢到天黑",
+  "description": "看准甜区带，一脚一脚踢上天",
   "zip": "shuttlecock-kick-v1.zip",
-  "bytes": 25292,
-  "sha256": "8FD0EC9E18E98EEC5A8FB4CAF6432D9FAF059224CA0CC727A384B8BE887E6B47",
+  "bytes": 46424,
+  "sha256": "9111E6D5C657638C1D3D3B3F5E2CC3BC35B6B03E1DC28D8A6F31E7B559B57B06",
   "entries": [
     "app.js",
     "audio.js",

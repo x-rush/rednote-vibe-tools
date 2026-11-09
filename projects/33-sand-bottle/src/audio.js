@@ -1,14 +1,21 @@
 /*
  * 彩沙瓶 · 音效
  * 全部由 Web Audio 实时合成，不引入任何音频文件。
- * 倒沙是沙沙声，塑形是短促摩擦，封口是木塞压紧的闷响。
+ * 三组交互音效按原版参数 1:1 复刻（eazo 原版 chunk 12gurs1rhkq1r.js）：
+ *   playPour    倒沙：0.08s 白噪声（长度 .08*sampleRate，线性衰减包络）过 1800Hz 高通，
+ *               音量 .08 → .001（exponentialRamp，+.08s）。
+ *   playClick   选择色块 / 切换工具：triangle 440→560Hz（linearRamp，+.06s），
+ *               音量 .06 → .001（+.09s）。
+ *   playRelease 松手（指针抬起时必播，倒沙/推杆都一样）：sine 220→140Hz
+ *               （exponentialRamp，+.12s），音量 .05 → .001（+.14s）。
+ * 封瓶光爆的合成音属于视觉演出层（二期保留项），不影响任何玩法判定。
+ * Chrome 61 基线：经典脚本，无可选链。
  */
 (function (root) {
   'use strict';
 
   var ctx = null;
   var muted = false;
-  var noiseBuffer = null;
 
   function ensure() {
     if (muted) return null;
@@ -27,82 +34,68 @@
     return ctx;
   }
 
-  function getNoise(c) {
-    if (noiseBuffer) return noiseBuffer;
-    var len = Math.floor(c.sampleRate * 0.6);
-    noiseBuffer = c.createBuffer(1, len, c.sampleRate);
-    var data = noiseBuffer.getChannelData(0);
-    for (var i = 0; i < len; i++) {
-      data[i] = (Math.random() * 2 - 1) * (1 - i / len);
-    }
-    return noiseBuffer;
-  }
-
-  /* 沙沙声：白噪声过带通，音量随时间衰减 */
+  /* 原版 y(e)：倒沙沙沙声。0.08s 的一次性噪声 buffer，高通 1800Hz */
   function playPour() {
     var c = ensure();
     if (!c) return;
+    var len = Math.floor(0.08 * c.sampleRate);
+    var buffer = c.createBuffer(1, len, c.sampleRate);
+    var data = buffer.getChannelData(0);
+    for (var i = 0; i < len; i++) {
+      data[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    }
     var src = c.createBufferSource();
-    src.buffer = getNoise(c);
-    var filter = c.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.value = 2600;
-    filter.Q.value = 0.8;
-    var gain = c.createGain();
-    var now = c.currentTime;
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.26);
-    src.connect(filter);
-    filter.connect(gain);
-    gain.connect(c.destination);
-    src.start(now);
-    src.stop(now + 0.3);
-  }
-
-  /* 塑形：小棒刮过沙面的短促摩擦 */
-  function playShape() {
-    var c = ensure();
-    if (!c) return;
-    var src = c.createBufferSource();
-    src.buffer = getNoise(c);
+    src.buffer = buffer;
     var filter = c.createBiquadFilter();
     filter.type = 'highpass';
-    filter.frequency.value = 3400;
+    filter.frequency.value = 1800;
     var gain = c.createGain();
     var now = c.currentTime;
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.09, now + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.13);
+    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
     src.connect(filter);
     filter.connect(gain);
     gain.connect(c.destination);
     src.start(now);
-    src.stop(now + 0.16);
   }
 
-  /* 挖沙：比倒沙更闷一点 */
-  function playScoop() {
+  /* 原版 v(e)：色块 / 工具点击，triangle 440→560 */
+  function playClick() {
     var c = ensure();
     if (!c) return;
-    var src = c.createBufferSource();
-    src.buffer = getNoise(c);
-    var filter = c.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 1500;
-    var gain = c.createGain();
+    var osc = c.createOscillator();
     var now = c.currentTime;
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.13, now + 0.015);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
-    src.connect(filter);
-    filter.connect(gain);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(440, now);
+    osc.frequency.linearRampToValueAtTime(560, now + 0.06);
+    var gain = c.createGain();
+    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+    osc.connect(gain);
     gain.connect(c.destination);
-    src.start(now);
-    src.stop(now + 0.24);
+    osc.start(now);
+    osc.stop(now + 0.1);
   }
 
-  /* 封口：木塞压紧的一声闷响 + 一记亮音 */
+  /* 原版松手音：sine 220→140，指针抬起时必播 */
+  function playRelease() {
+    var c = ensure();
+    if (!c) return;
+    var osc = c.createOscillator();
+    var now = c.currentTime;
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.exponentialRampToValueAtTime(140, now + 0.12);
+    var gain = c.createGain();
+    gain.gain.setValueAtTime(0.05, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+    osc.connect(gain);
+    gain.connect(c.destination);
+    osc.start(now);
+    osc.stop(now + 0.15);
+  }
+
+  /* 封瓶光爆（视觉演出配乐，二期保留项） */
   function playSeal() {
     var c = ensure();
     if (!c) return;
@@ -133,35 +126,12 @@
     tone.stop(now + 0.34);
   }
 
-  /* 通关：上行三音 */
-  function playSuccess() {
-    var c = ensure();
-    if (!c) return;
-    var notes = [523.25, 659.25, 783.99];
-    var now = c.currentTime;
-    for (var i = 0; i < notes.length; i++) {
-      var osc = c.createOscillator();
-      osc.type = 'triangle';
-      osc.frequency.value = notes[i];
-      var gain = c.createGain();
-      var start = now + i * 0.11;
-      gain.gain.setValueAtTime(0.0001, start);
-      gain.gain.exponentialRampToValueAtTime(0.16, start + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.3);
-      osc.connect(gain);
-      gain.connect(c.destination);
-      osc.start(start);
-      osc.stop(start + 0.32);
-    }
-  }
-
   root.SandAudio = {
     resume: function () { ensure(); },
     playPour: playPour,
-    playShape: playShape,
-    playScoop: playScoop,
+    playClick: playClick,
+    playRelease: playRelease,
     playSeal: playSeal,
-    playSuccess: playSuccess,
     setMuted: function (v) {
       muted = !!v;
       if (muted && ctx && typeof ctx.suspend === 'function') ctx.suspend();

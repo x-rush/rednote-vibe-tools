@@ -1,88 +1,42 @@
 # 毽子连击（31 号）
 
 复刻自 eazo.ai 的 `Shuttlecock Kick`，改造成纯前端静态小红书小工具。
+五期玩法重建：按原版机制骨架重做「高度带踢法系统」，保留二期的视觉升级。
 
-- **一句话**：毽子掉下来之前点一下，落点踩准就能一直连着踢。
-- **平台简介**：一脚接一脚，踢到天黑
+- **一句话**：毽子落进发光的甜区带时点一下，用什么脚法接、接得多准，决定下一脚飞多高。
+- **平台简介**：看准甜区带，一脚一脚踢上天
 - **来源**：[eazo.ai Shuttlecock Kick](https://eazo.ai/apps/shuttlecock-kick)
 - **批次方案**：见同目录 `PLAN.md`（31–35 号批量复刻方案）
 
-## 玩法
+## 玩法（五期重建）
 
-1. 点一下画面，毽子被踢起，走一条纯净弹道。
-2. 毽子下落穿过**接球线**之后、落到地面之前，再点一下就是一次有效接住，连击 +1。
-3. 在毽子还在上升、或没到接球线就点，会被判成「踢早了」，连击清零。
-4. 毽子落地扣一格机会，机会用尽本关失败，可以原地重试。
-5. 每关接住指定次数即过关；连击到 5 / 10 / 16 / 25 会解锁素羽→双羽→夜羽→星羽→极光羽五档外观，天色也跟着变。
-6. 结算生成 720×960 纪录卡，可保存到相册（宿主不支持时提示长按图片手动保存）。
+1. 屏幕上有若干条**甜区带**（水平发光带）。毽子下落时点一下：点在哪条带里，就踢出哪种**踢法**。
+2. 12 种踢法 = 4 家族 × 3 阶：膝盖停弹/头槌/穿云脚（高位带）、外脚背/转身踢/凌空侧勾、脚内侧/双飞/剪刀脚、后脚跟/倒挂金钩/燕返（低位带）。同家族带中心一致、高阶带更窄、倍率（×1.0 → ×2.1）与力度更高。
+3. **判定 = 时机 + 位置双重**：只认「正在下落 + 落在带内」。点得越靠近带心，强度越高、踢得越有力；多条带重叠时自动取倍率最高者。
+4. **力度决定下一跳**：大力踢法把毽子送得更高，高位带（膝盖家族）只有大力踢后才够得着——「选择踢法 = 控制节奏」。毽子踢起瞬间翻面、下落时转回羽毛朝上。
+5. 点空只清零**连击**，毽子继续飞；毽子**落地**这一局才结束。
+6. rally（连踢数）累计解锁：**12 种踢法**（unlockRally 0→31，曲线平滑无断崖）与 **12 庭院**（前庭→风露台，门槛 0→67）。踢法解锁联动六档羽色（素羽→幻彩羽）。后期庭院起风，毽子横向漂移，风纹/飞絮/晾衣布片给出视觉反馈。
+7. HUD：连踢、连击、踢法 n/12 进度条、庭院名、最近踢法与羽色。结算生成 720×960 纪录卡，可保存到相册（宿主不支持时提示长按手动保存）。
+8. 存档持久化：最高连踢/连击/总分、庭院纪录、踢法图鉴、静音偏好（结构化存储，不含任何用户媒体）。
 
-## 手感设计
+## 手感设计（五期）
 
-- 虚拟画布固定 380 高，宽度随屏宽变化，**只做等比缩放**，所以 375 / 390 / 430 三档以及真机的操作窗口完全一致。
-- 物理是纯净弹道（无空气阻力），落点可预测，玩家能记住节奏再挑战更高关。
-- 接球线放在抛物线顶点稍下方：越靠近顶点，毽子下落越慢，操作窗口越长。
-- 8 关窗口从 **458ms 逐关收窄到 283ms**，`qa-balance-check.cjs` 把这条曲线固化成回归。
+- 虚拟画布固定 380 高，宽度随屏宽变化，只做等比缩放，375/390/430 与真机手感一致。
+- 下落段带线性空气阻力（终速 ≈ 0.25 屏高/秒）：毽子缓缓飘落穿过甜区带，一阶带穿越约 1.6s、三阶带约 0.6s，反应延迟 180-260ms 的随手玩家也接得住；熟练玩家可以追三阶窄带的高倍率。
+- 玩家反应模型 `tools/sim-rally.cjs` 闭环标定：随手（180-260ms+抖动+冲动+走神）平均 rally ≥ 6、首局解锁第 2 庭院 ≥ 55%；熟练（80-120ms）rally ≥ 25、进第 5 庭院 ≥ 50%。`qa-balance-check.cjs` 固化为回归。
+- 带覆盖近乎连续（与原版一致）：持续点按几乎不会落地，属解压玩具属性；局终来自停止点按或连续点空。
+
+## 视觉体系
+
+- **HUD 容器化**：玻璃拟态卡片（半透明深色底 + 1px 高光描边 + 16px 圆角），主数值 30px 粗体，副信息 12px，画布上零文字。
+- **主视觉**：毽子可见外接尺寸 ≥88 CSS px，羽裙旋转摆动、踢起翻面、飞行拖尾、落地扬尘、接地投影。
+- **甜区带**：非活跃带低存在感柔光；毽子下落命中时该带呼吸发光 + 虚线描边 + 中心亮芯，毽子本体同步发光。落点预测环（虚线小椭圆）标出预计落点，与接地阴影分层。
+- **三层视差**：远景（庭院配色天空 + 云带 + 飞鸟 + 风纹）/ 中景（树线 + 围栏 + 庭院障碍物：灯笼/吊台/晾衣线）/ 近景（地面 + 甜区带 + 毽子）。
+- **画布零文字**：渲染层不调用 `fillText`，规则信息只出现在 HUD 与教学首屏（`qa-mobile-check.cjs` 静态检查）。
 
 ## 工程约束
 
 - 纯前端静态：经典脚本加载链，禁 `type="module"` / `import` / `eval` / 内联脚本 / 行内事件。
 - Chrome 61 / Android 8.1 WebView 61 基线：ES2017，CSS 不使用 flex `gap`、`clamp()`、`aspect-ratio`、逻辑属性、`:has()`、`inset`、`dvh`。
-- 无后端、无运行时 CDN、无必需外部 API、无音频文件：音效全部由 Web Audio 实时合成。
-- 业务内容集中在 `src/content/content.json`（含 `brand` / `xiaohongshuDraft` / 8 关配置 / 文案）。
-- 只在 localStorage 保存结构化状态（最高连击、总分、静音偏好），不保存任何用户媒体。
-- 宿主按钮避让：顶部左右各留 `--host-side: 76px`，标题与 HUD 在 `--host-top: 56px` 之下。
-- 上架素材不复用任何历史条目素材，logo 为本项目原创。
-
-## 目录
-
-```
-index.html            页面骨架
-src/content/content.json  业务内容（关卡、文案、配色档位）
-src/game.js           玩法状态机与物理
-src/render.js         Canvas 2D 渲染
-src/audio.js          Web Audio 合成音效
-src/storage.js        本地结构化状态
-src/app.js            主循环、流程、纪录卡
-src/style.css         样式（宿主避让、安全区）
-assets/logo.svg       原创 logo 源文件
-assets/logo-512.png   平台上架位图（不进 zip）
-tools.mjs             build / preview
-verify-artifact.cjs   产物校验（白名单 / ES2017 / 禁用能力）
-qa-mobile-check.cjs   375/390/430 + 安全区 + 宿主覆盖层 + 横屏
-qa-flow.cjs           全流程 + 结算面板不自行推进断言
-qa-balance-check.cjs  操作窗口难度曲线回归
-tests/game.test.mjs   玩法单测
-pack.ps1              打包 ZIP + 白名单 + SHA256
-```
-
-## 本地运行
-
-```powershell
-npm run lint
-npm test
-npm run build
-node verify-artifact.cjs dist
-node qa-mobile-check.cjs
-node qa-flow.cjs
-node qa-balance-check.cjs
-node tools/logo-png.cjs        # 由 assets/logo.svg 重渲染 512 PNG
-node tools.mjs preview 4331   # http://127.0.0.1:4331
-pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1
-```
-
-## 验收状态
-
-| 项目 | 状态 |
-|---|---|
-| lint / test（13 项）/ build | 通过 |
-| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 10 文件 75.3 KiB（含 `mini_tool.json`） |
-| qa-mobile-check（375 / 390 / 430 + 安全区 + 宿主按钮覆盖层 + 横屏） | 通过，`errors: []`，无横向溢出 |
-| qa-flow（通关 → 结算不自行推进 → 下一关 → 落地失败 → 重试 → 纪录卡 → 保存兜底） | 通过，`errors: []` |
-| qa-balance-check（8 关窗口 458ms → 283ms） | 通过 |
-| 打包 ZIP | `release/shuttlecock-kick-v1.zip` 25,292 bytes，10 条目，`index.html` 在根目录，SHA256 `8FD0EC9E18E98EEC5A8FB4CAF6432D9FAF059224CA0CC727A384B8BE887E6B47`；解压后独立复验 PASS |
-| 高消耗标记 | `mini_tool.json` = `{"is_high_consumption_scene": false}`（只用 Canvas 2D / Web Audio / localStorage，未使用 Worker、离屏渲染、WebAssembly 或游戏引擎） |
-| 创服平台模拟器 | **未验收** |
-| Android 真机扫码 | **未验收** |
-| iOS 真机扫码 | **未验收** |
-| Chrome 61 / Android 8.1 WebView 61 实机 | **未验收** |
-| 宿主左上返回键、右上操作键的真实遮挡 | 仅用注入覆盖层模拟，真机仍需校准 |
+- 宿主按钮避让：顶部左右各留 `--host-side: 76px` / `--host-top: 56px` 空档；fixed/sticky 顶部控件叠加 `var(--safe-area-inset-top, env(safe-area-inset-top, 0px))`。
+- 门禁：`npm run lint` / `npm test` / `npm run build` / `node verify-artifact.cjs dist` / `node qa-mobile-check.cjs` / `node qa-flow.cjs` / `node qa-balance-check.cjs` / `pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1`。

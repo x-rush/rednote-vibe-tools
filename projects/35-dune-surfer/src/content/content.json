@@ -1,187 +1,98 @@
 {
   "brand": {
     "toolName": "沙丘速降",
-    "tagline": "贴着雪崩，甩出一道漂亮的尾迹",
+    "tagline": "别被你唤醒的沙崩追上",
     "logo": "logo.svg",
     "logoPng": "assets/logo-512.png",
-    "intro": "按住屏幕左右滑动切弯，穿过旗门、踩上跳台，别让身后的雪崩追上你。"
+    "intro": "按住屏幕左右拖动转向，穿过旗门把身后的雪崩压回去，别被它追上。"
   },
   "xiaohongshuDraft": {
-    "title": "甩开雪崩的那一刻，我尖叫了",
-    "body": "单手按住屏幕左右切弯，速度一直在涨。\n身后那堵雪崩墙一直贴着，追上来就完了。\n最爽的是发现横甩一下能把雪崩甩开——原来「甩尾」是真的有用。\n你敢贴多近？",
+    "title": "穿过旗门的那一下，雪崩真的被我压回去了",
+    "body": "单手左右拖动刻沙转向，速度自己会越滑越快。\n🚩 每穿过一面旗门，身后的雪崩就被推回去一截；\n错过一面就逼近一截，连着错三面基本就没了。\n看看你最多能连穿几面旗门。",
     "hashtags": [
       "#沙丘速降",
       "#解压小游戏",
       "#竞速小游戏",
       "#小红书小游戏",
-      "#甩尾"
+      "#旗门"
     ]
   },
   "meta": {
     "title": "沙丘速降",
-    "world": {
-      "w": 300,
-      "depth": 0.52
-    },
-    "bands": {
-      "dusk": {
-        "skyTop": "#7a3b5e",
-        "skyBottom": "#e8623c",
-        "sun": "#ffcf7a",
-        "lane": "#fff0c4",
-        "sand": "#e8a765",
-        "sandDark": "#b8703c",
-        "ridge": "#6b3a3c",
-        "flag": "#fff1d6",
-        "dust": "#f6d9b0",
-        "avalanche": "#efe6f7"
+    "visual": {
+      "player": {
+        "body": "#2b1b2e",
+        "bodyLight": "#4a3350",
+        "board": "#ffcf7a",
+        "boardEdge": "#e8623c",
+        "rim": "#ffe9c4",
+        "goggle": "#8fe3c6",
+        "shadow": "rgba(60,26,10,0.35)"
       },
-      "rose": {
-        "skyTop": "#3b2352",
-        "skyBottom": "#c2537a",
-        "sun": "#ffb3c1",
-        "lane": "#ffe3ec",
-        "sand": "#c98a7e",
-        "sandDark": "#8f5347",
-        "ridge": "#552f47",
-        "flag": "#ffe6ea",
-        "dust": "#f2c3c2",
-        "avalanche": "#f4e3f2"
-      },
-      "violet": {
-        "skyTop": "#241a45",
-        "skyBottom": "#6b4a9c",
-        "sun": "#ffd28a",
-        "lane": "#efe0ff",
-        "sand": "#9d7fa8",
-        "sandDark": "#63496f",
-        "ridge": "#3a2a55",
-        "flag": "#efe6ff",
-        "dust": "#d9c6ea",
-        "avalanche": "#e3e0f7"
-      },
-      "night": {
-        "skyTop": "#101a38",
-        "skyBottom": "#33507e",
-        "sun": "#9fd8ff",
-        "lane": "#d8efff",
-        "sand": "#5f7796",
-        "sandDark": "#3a4a66",
-        "ridge": "#1d2742",
-        "flag": "#dcefff",
-        "dust": "#b9cfe6",
-        "avalanche": "#d5e6f7"
-      },
-      "aurora": {
-        "skyTop": "#07212f",
-        "skyBottom": "#146b6e",
-        "sun": "#8ff0c0",
-        "lane": "#d6ffee",
-        "sand": "#4f8f88",
-        "sandDark": "#2d5f5d",
-        "ridge": "#0d2a33",
-        "flag": "#dffbe9",
-        "dust": "#a9e4d6",
-        "avalanche": "#dcfaf0"
-      }
+      "texture": "rgba(255,226,178,0.5)",
+      "vignette": "rgba(16,7,20,0.62)"
     }
   },
-  "stages": [
-    {
-      "name": "黄昏起势",
-      "band": "dusk",
-      "from": 0,
-      "featureGap": 300,
-      "ridgeRate": 0.4,
-      "crossRate": 0.45,
-      "gateRate": 0.34,
-      "crossHalf": 12,
-      "ridgeLen": 110,
-      "wallDrain": 30
-    },
-    {
-      "name": "玫瑰暮色",
-      "band": "rose",
-      "from": 6000,
-      "featureGap": 262,
-      "ridgeRate": 0.46,
-      "crossRate": 0.5,
-      "gateRate": 0.32,
-      "crossHalf": 14,
-      "ridgeLen": 120,
-      "wallDrain": 34
-    },
-    {
-      "name": "暮紫长坡",
-      "band": "violet",
-      "from": 14000,
-      "featureGap": 232,
-      "ridgeRate": 0.52,
-      "crossRate": 0.55,
-      "gateRate": 0.3,
-      "crossHalf": 16,
-      "ridgeLen": 130,
-      "wallDrain": 38
-    },
-    {
-      "name": "深蓝夜行",
-      "band": "night",
-      "from": 24000,
-      "featureGap": 206,
-      "ridgeRate": 0.56,
-      "crossRate": 0.6,
-      "gateRate": 0.28,
-      "crossHalf": 18,
-      "ridgeLen": 140,
-      "wallDrain": 42
-    },
-    {
-      "name": "极光终程",
-      "band": "aurora",
-      "from": 38000,
-      "featureGap": 184,
-      "ridgeRate": 0.6,
-      "crossRate": 0.62,
-      "gateRate": 0.26,
-      "crossHalf": 20,
-      "ridgeLen": 150,
-      "wallDrain": 46
-    }
-  ],
+  "palette": {
+    "sky": [
+      { "index": 0, "color": "#1c1236" },
+      { "index": 0.18, "color": "#4a2450" },
+      { "index": 0.3, "color": "#a14b4c" },
+      { "index": 0.42, "color": "#d97b42" },
+      { "index": 0.52, "color": "#e9a75c" },
+      { "index": 1, "color": "#6a3719" }
+    ],
+    "sunCore": "rgba(255,232,180,0.7)",
+    "sunMid": "rgba(255,190,110,0.3)",
+    "sunEdge": "rgba(255,170,90,0)",
+    "sunDisc": "rgba(255,242,206,0.85)",
+    "dunes": [
+      "rgba(90,48,28,0.55)",
+      "rgba(76,40,24,0.69)",
+      "rgba(62,32,20,0.83)"
+    ],
+    "sand": ["#c88448", "#d99a53", "#8d4f24"],
+    "sandEdge": "rgba(255,226,178,0.22)",
+    "gatePole": "rgba(70,44,24,0.9)",
+    "gateIdle": "#e8503c",
+    "gatePass": "#7ce0a6",
+    "gateMiss": "#8e8e8e",
+    "avalanche": [
+      "rgba(120,66,30,0)",
+      "rgba(176,110,54,0.78)",
+      "rgba(226,170,104,0.95)"
+    ],
+    "avalancheDust": ["rgba(238,196,140,0.4)", "rgba(210,160,100,0)"],
+    "avalancheRock": "rgba(126,74,34,0.85)",
+    "veil": [
+      "rgba(24,10,4,0)",
+      "rgba(24,10,4,0.86)",
+      "rgba(14,6,2,0.96)"
+    ]
+  },
   "copy": {
-    "startLines": [
-      "按住屏幕，左右滑动切弯",
-      "跟着最陡的那条线跑，速度最快",
-      "身后有雪崩，撞上岩脊就完了"
-    ],
-    "startButton": "开始速降",
-    "distanceLabel": "距离",
-    "meterLabel": "米",
-    "flagLabel": "旗门",
-    "speedLabel": "时速",
-    "carveLabel": "甩尾",
-    "gapLabel": "雪崩距离",
-    "dangerText": "雪崩逼近！",
-    "overTitle": "被雪崩追上了",
-    "overLines": [
-      "这次跑得够远了",
-      "横甩一下能把雪崩甩开"
-    ],
-    "finalTitle": "本次速降",
-    "finalScoreLabel": "总分",
-    "finalBestLabel": "历史最佳",
-    "finalDistanceLabel": "距离",
-    "finalFlagLabel": "旗门",
-    "finalCarveLabel": "甩尾",
-    "finalSpeedLabel": "最高时速",
-    "finalTraceLabel": "山脊线",
-    "finalTraceEmpty": "还没有轨迹",
-    "againButton": "再滑一次",
+    "title": "沙丘冲浪",
+    "tagline": "别被你唤醒的沙崩追上",
+    "howto1": "👆 左右拖动来刻沙转向",
+    "howto2": "🚩 穿过旗门就能拉开距离",
+    "hint": "拖动转向",
+    "resultTitle": "你的滑降",
+    "resultSub": "米",
+    "gates": "旗门",
+    "shareText": "I carved {n}m ahead of the avalanche through {g} gates — Dune Surfer",
+    "shareCardCaption": "metres carved",
+    "shareCardBrand": "Dune Surfer",
+    "enter": "开始",
+    "replay": "再玩一次",
+    "share": "分享",
+    "sharedOk": "已保存到相册",
+    "shareWeb": "长按图片可保存",
+    "newBest": "新纪录！",
     "saveUnavailable": "当前环境不支持保存，长按图片手动存",
-    "saved": "已保存到相册",
     "saveFailed": "保存失败，长按图片手动存",
+    "finalBestLabel": "历史最佳",
+    "meterLabel": "米",
     "muteOn": "声音 开",
-    "muteOff": "声音 关",
-    "paused": "已暂停"
+    "muteOff": "声音 关"
   }
 }

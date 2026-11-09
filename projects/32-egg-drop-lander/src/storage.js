@@ -1,7 +1,8 @@
 /*
  * 蛋落地 · 本地存储
  * 优先使用小工具容器 Storage API（9.46+），低版本降级 localStorage。
- * 只保存结构化状态：总分、最佳软着陆数、静音偏好，不保存任何用户媒体。
+ * 只保存结构化状态：空投报告最佳纪录（survived/bestSpeed/pulsesLeftOver/bestStreak）、
+ * 静音偏好，不保存任何用户媒体。
  */
 (function (root) {
   'use strict';
@@ -9,7 +10,7 @@
   var native = null;
   var ready = false;
   var cache = {};
-  var KEYS = ['egg-best-score', 'egg-best-soft', 'egg-muted'];
+  var KEYS = ['egg-best-run', 'egg-muted'];
   var STORAGE_MIN_CLIENT_VERSION = 9460;
 
   function readBuildVersion(launchOptions) {

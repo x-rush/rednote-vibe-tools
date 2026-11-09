@@ -1,211 +1,294 @@
 /*
- * 沙丘速降 · 玩法单测
- * 只测纯逻辑：速度、切弯、甩尾、岩脊、旗门、跳台、雪崩追赶、关卡生成。
+ * 沙丘速降 · 玩法单测（三期严格复刻版）
+ * 断言全部按 eazo 原版数值（reference/eazo-spec.txt），含原版缺陷：
+ *   · 非游玩（巡航）状态也会把旗门标记成已判定（passed=1/2），但不计分；
+ *   · 错过的门不会再恢复。
+ * 只测纯逻辑：ava 经济、旗门生成与判定、转向手感、速度模型、
+ * 边界反弹、巡航公式、米数口径、回收与上限。
  */
 import test from 'node:test';
 import assert from 'node:assert';
-import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const content = JSON.parse(
-  fs.readFileSync(path.join(ROOT, 'src/content/content.json'), 'utf8').replace(/^\uFEFF/, '')
-);
 createRequire(import.meta.url)(path.join(ROOT, 'src/game.js'));
 const game = global.DuneGame;
 
-const DT = 1 / 60;
+const W = 390;
+const H = 844;
+const DT = 16.6; /* ms，一帧 */
 
 function newRun(seed) {
-  const state = game.createRun(content, seed === undefined ? 12345 : seed);
-  game.startRun(state);
+  const state = game.createRun(W);
+  state.rand = game.makeRandom(seed === undefined ? 12345 : seed);
+  game.startRun(state, W);
   return state;
 }
 
-/* 让物理跑 n 秒；target 可以是固定值，也可以是每帧算出来的函数 */
-function run(state, seconds, target) {
-  const steps = Math.round(seconds / DT);
-  for (let i = 0; i < steps; i++) {
-    if (target !== undefined) {
-      game.setTarget(state, typeof target === 'function' ? target(state) : target);
-    }
-    game.update(state, DT);
-    if (state.phase !== 'run') break;
-  }
+function step(state, dt, mode, now) {
+  return game.step(state, dt, { width: W, height: H, mode: mode || 'play', now: now || 0 });
+}
+
+/* 跑 n 毫秒（按 DT 步进） */
+function runFor(state, ms, mode) {
+  const frames = Math.round(ms / DT);
+  for (let i = 0; i < frames; i++) step(state, DT, mode, (i + 1) * DT);
   return state;
 }
 
-test('初始状态：满杆开局、站在坡底中央、雪崩有一段距离', () => {
+test('初始状态：ava 0.42、x 居中、前方已有旗门', () => {
+  const blank = game.createRun(W);
+  assert.strictEqual(blank.gen, 0, 'createRun 的生成器游标从 0 开始（原版 ref 初值）');
   const state = newRun();
-  assert.strictEqual(state.phase, 'run');
-  assert.strictEqual(state.s, 0);
-  assert.strictEqual(state.gap, game.GAP_START);
-  assert.strictEqual(state.flags, 0);
-  assert.ok(state.x > 0 && state.x < game.WIDTH);
+  assert.strictEqual(state.ava, 0.42);
+  assert.ok(state.gen >= 2600, 'startRun 后生成器游标已推进到 2600 预取线（' + state.gen.toFixed(1) + '）');
+  assert.strictEqual(state.wy, 0);
+  assert.strictEqual(state.x, W / 2);
+  assert.strictEqual(state.vx, 0);
+  assert.strictEqual(state.dist, 0);
+  assert.strictEqual(state.gates, 0);
+  assert.strictEqual(state.dead, 0);
+  assert.strictEqual(state.air, 0);
+  assert.ok(state.gateList.length > 0, '开局前方就应该有旗门');
+  const first = state.gateList[0];
+  assert.ok(first.y >= 700 - 0.01 && first.y <= 860 + 0.01, '第一面门在 400+300~460 附近（' + first.y + '）');
 });
 
-test('跟着落水线跑更快，横向偏出去就变慢', () => {
-  const onLine = game.steepness(1000, game.fallLine(1000));
-  const offLine = game.steepness(1000, game.fallLine(1000) + 120);
-  assert.ok(onLine > offLine + 0.1, '落水线附近必须明显更陡');
-
-  const a = newRun();
-  run(a, 6, (s) => game.fallLine(s.s));
-  const b = newRun();
-  run(b, 6, (s) => game.fallLine(s.s) + 120);
-  assert.ok(a.speed > b.speed, '踩着落水线速度应该更高（' + a.speed.toFixed(0) + ' vs ' + b.speed.toFixed(0) + '）');
-});
-
-test('横向切弯会跟到目标位置，但横向速度有上限', () => {
-  const state = newRun();
-  game.setTarget(state, state.x + 150);
-  run(state, 2.5);
-  assert.ok(Math.abs(state.x - (150 + game.WIDTH / 2)) < 12, '应该横向移到目标附近');
-  assert.ok(Math.abs(state.vx) <= game.CARVE_MAX + 1, '横向速度不能超过上限');
-});
-
-test('横向反向甩动会触发甩尾，把雪崩推远', () => {
-  const state = newRun();
-  run(state, 1);
-  const before = state.gap;
-  /* 先甩向右，再甩向左 */
-  game.setTarget(state, state.x + 120);
-  run(state, 0.6);
-  game.setTarget(state, state.x - 120);
-  run(state, 0.6);
-  assert.ok(state.carves >= 1, '反向甩动应该触发甩尾');
-  assert.ok(state.gap > before, '甩尾应该把雪崩推远');
-});
-
-test('撞岩脊会减速并让雪崩逼近，从旁边过去不会', () => {
-  /* 两条 run 走完全相同的路线，只有岩脊摆在哪不同，这样对比才干净 */
-  const state = newRun();
-  /* 先把速度跑起来，不然 MIN_SPEED 会把减速效果盖住 */
-  run(state, 5, 140);
-  /* 只留这一道岩脊，别的特征会干扰对比 */
-  state.features = [];
-  state.nextFeatureS = 1e9;
-  state.features.push({ type: 'ridge', s: state.s + 260, lo: 0, hi: 200 });
-  const ridgeS = state.s + 260;
-  game.setTarget(state, 140);
-  const gapBefore = state.gap;
-  const speedBefore = state.speed;
-  for (let i = 0; i < 4000 && state.s < ridgeS; i++) game.update(state, DT);
-  assert.ok(state.speed < speedBefore * 0.75, '撞上岩脊速度应该大降');
-  assert.ok(state.gap < gapBefore - 45, '撞上岩脊雪崩应该被咬一大口');
-
-  const safe = newRun();
-  run(safe, 5, 140);
-  safe.features = [];
-  safe.nextFeatureS = 1e9;
-  /* 岩脊挪到玩家右边，人从旁边过去 */
-  safe.features.push({ type: 'ridge', s: safe.s + 260, lo: 180, hi: 300 });
-  const safeRidgeS = safe.s + 260;
-  game.setTarget(safe, 140);
-  const safeGap = safe.gap;
-  const safeSpeed = safe.speed;
-  for (let i = 0; i < 4000 && safe.s < safeRidgeS; i++) game.update(safe, DT);
-  assert.ok(safe.speed > safeSpeed * 0.85, '从旁边过去不该减速');
-  assert.ok(safe.gap > state.gap + 40, '从旁边过去不该被雪崩咬那么狠');
-});
-
-test('坡侧岩体不会挡到快车道上', () => {
-  /* 这一条是全作的地基：
-     追落水线的人一路畅通（快），不追线的人才会被石头绊住（慢）。
-     如果坡侧岩体压到快车道上，这个地基就塌了。 */
-  for (const seed of [1, 5, 9, 13, 21]) {
+test('旗门生成节奏：300–460 一面，横向铺在画布宽 22%–78%', () => {
+  for (const seed of [1, 5, 9, 13, 21, 34]) {
     const state = newRun(seed);
-    run(state, 30);
-    for (const f of state.features) {
-      if (f.type !== 'ridge') continue;
-      const line = game.fallLine(f.s);
-      const onLine = f.lo < line && line < f.hi;
-      const clear = Math.min(Math.abs(line - f.lo), Math.abs(line - f.hi));
+    /* 手动推进生成器到很远，检查所有门 */
+    game.ensureGates(state, 30000, W);
+    let prev = null;
+    for (const g of state.gateList) {
       assert.ok(
-        onLine || clear >= game.WALL_CLEAR - 1,
-        '种子 ' + seed + '：坡侧岩体离快车道只有 ' + clear.toFixed(1) + '，会把追线的人一起挡住'
+        g.x >= W * 0.22 - 0.01 && g.x <= W * 0.78 + 0.01,
+        '种子 ' + seed + '：门位 ' + g.x.toFixed(1) + ' 超出 22%–78%'
       );
+      if (prev !== null) {
+        const gap = g.y - prev;
+        assert.ok(gap >= 300 - 0.01 && gap <= 460 + 0.01, '种子 ' + seed + '：门距 ' + gap.toFixed(1) + ' 不在 300–460');
+      }
+      prev = g.y;
     }
+    assert.ok(state.gateList.length > 20, '30000 世界单位内应该有几十面门');
   }
 });
 
-test('从旗门中间穿过会得分并把雪崩推开', () => {
+test('穿过旗门：旗门数 +1、ava −0.10、爆发 18 粒粒子', () => {
   const state = newRun();
-  state.features.push({ type: 'gate', s: 400, x: 150, passed: false });
-  state.x = 150;
-  game.setTarget(state, 150);
-  /* 看穿旗门那一瞬间的前后差：雪崩本来就在一直吃缓冲，
-     所以不能拿「整段路走完的 gap」来比，那样测不出旗门到底推了没有 */
-  let gapBeforeCross = null;
-  let gapAfterCross = null;
-  for (let i = 0; i < 4000 && state.s < 460; i++) {
-    const gPre = state.gap;
-    game.update(state, DT);
-    if (gapBeforeCross === null && state.s >= 400) {
-      gapBeforeCross = gPre;
-      gapAfterCross = state.gap;
-      break;
-    }
-  }
-  assert.strictEqual(state.flags, 1);
+  const gate = state.gateList[0];
+  gate.x = state.x; /* 门摆在玩家正下方 */
+  const avaBefore = state.ava;
+  const g0 = state.gates;
+  let frames = 0;
+  while (state.gates === g0 && frames++ < 400) step(state, DT);
+  assert.strictEqual(state.gates, 1, '到线后应该判定穿门');
+  /* ava 变化 = −0.10 + 漂移（约 0.042 * (frames*DT/1000)），必须净下降且接近 −0.10+漂移 */
+  const drift = game.AVA_DRIFT * frames * DT;
   assert.ok(
-    gapAfterCross > gapBeforeCross,
-    '穿过旗门应该把雪崩推开（' + gapBeforeCross.toFixed(1) + ' → ' + gapAfterCross.toFixed(1) + '）'
+    Math.abs(state.ava - (avaBefore - 0.1 + drift)) < 0.02,
+    'ava 应该是 前值−0.10+漂移（实际 ' + state.ava.toFixed(4) + '，期望 ' + (avaBefore - 0.1 + drift).toFixed(4) + '）'
+  );
+  assert.ok(state.particles.length === 18, '穿门应爆发 18 粒粒子（实际 ' + state.particles.length + '）');
+});
+
+test('穿门地板：ava 已在 0.12 附近时不再更低', () => {
+  const state = newRun();
+  state.ava = game.AVA_FLOOR + 0.005;
+  const gate = state.gateList[0];
+  gate.x = state.x;
+  let frames = 0;
+  while (state.gates === 0 && frames++ < 400) step(state, DT);
+  assert.strictEqual(state.gates, 1);
+  assert.ok(state.ava >= game.AVA_FLOOR - 1e-9, 'ava 不能穿破地板 0.12（当前 ' + state.ava.toFixed(4) + '）');
+});
+
+test('错过旗门：ava +0.07（上限 1），且门被标成 passed=2', () => {
+  const state = newRun();
+  const gate = state.gateList[0];
+  /* 门摆在玩家够不着的地方 */
+  gate.x = state.x > W / 2 ? 40 : W - 40;
+  const avaBefore = state.ava;
+  let frames = 0;
+  while (gate.passed === 0 && frames++ < 400) step(state, DT);
+  assert.strictEqual(gate.passed, 2, '错过的门应被标记 passed=2');
+  assert.strictEqual(state.gates, 0);
+  const drift = game.AVA_DRIFT * frames * DT;
+  assert.ok(
+    Math.abs(state.ava - Math.min(1, avaBefore + 0.07 + drift)) < 0.02,
+    '错门后 ava 应该是 前值+0.07+漂移（实际 ' + state.ava.toFixed(4) + '）'
   );
 });
 
-test('踩上跳台会腾空，腾空时撞岩脊也不怕', () => {
+/* 冻结旗门：清空已有门 + 把生成器游标推到极远（step 不会再生成新门） */
+function freezeGates(state) {
+  state.gateList = [];
+  state.gen = 1e9;
+  return state;
+}
+
+test('雪崩恒定上涨：不碰门时每毫秒 +42e-6（每秒 0.042）', () => {
   const state = newRun();
-  state.features.push({ type: 'ramp', s: 400, x: 150 });
-  state.features.push({ type: 'ridge', s: 520, lo: 0, hi: 250 });
-  state.x = 150;
-  game.setTarget(state, 150);
-  for (let i = 0; i < 4000 && state.s < 560; i++) game.update(state, DT);
-  assert.ok(state.air > 0, '踩上跳台应该还在空中');
-  assert.ok(state.gap > game.GAP_START - 120, '腾空越过岩脊不该被咬');
+  freezeGates(state);
+  const avaBefore = state.ava;
+  runFor(state, 1000);
+  const delta = state.ava - avaBefore;
+  assert.ok(
+    Math.abs(delta - 0.042) < 0.002,
+    '一秒内 ava 应该只上涨 0.042（实际 ' + delta.toFixed(4) + '）'
+  );
+  const deathTime = (game.AVA_DEATH - game.AVA_START) / (game.AVA_DRIFT * 1000);
+  assert.ok(deathTime > 12 && deathTime < 15, '不穿门的死亡曲线应该在 13.3 秒附近（' + deathTime.toFixed(1) + '）');
 });
 
-test('雪崩追上来就结束这一局', () => {
-  /* 初速段雪崩其实是往后落的，要到后面的难度段才追得紧 */
+test('ava 越过 0.98 → dead=1；dead>700ms → finished；死亡期间 dist/ava 冻结', () => {
   const state = newRun();
-  state.s = 30000;
-  state.gap = 40;
-  run(state, 6);
-  assert.strictEqual(state.phase, 'over');
+  freezeGates(state);
+  state.ava = 0.979;
+  runFor(state, 100);
+  assert.ok(state.dead > 0, 'ava>0.98 应该置 dead 并开始死亡计时（' + state.dead.toFixed(1) + 'ms）');
+  const distAtDeath = state.dist;
+  const avaAtDeath = state.ava;
+  runFor(state, 700);
+  assert.ok(state.dead > 700, '死亡计时应该累计（' + state.dead.toFixed(0) + 'ms）');
+  assert.strictEqual(state.finished, true, 'dead>700ms 应该结束这一局');
+  assert.strictEqual(state.dist, distAtDeath, '死亡后米数不应该继续涨');
+  assert.strictEqual(state.ava, avaAtDeath, '死亡后 ava 不应该继续涨');
 });
 
-test('特征总是提前生成在玩家前方', () => {
+test('转向手感：拖动时 vx += (dragX−x)×55e-5×dt，松手后 vx×0.93/帧衰减', () => {
   const state = newRun();
-  run(state, 3);
-  assert.ok(state.features.length > 0, '前方应该有特征');
-  let far = 0;
-  for (const f of state.features) if (f.s > state.s + 600) far++;
-  assert.ok(far >= 0);
-  assert.ok(state.nextFeatureS > state.s, '生成器要跑在玩家前面');
+  freezeGates(state);
+  game.setDrag(state, W * 0.9);
+  const x0 = state.x;
+  runFor(state, 600);
+  assert.ok(state.x > x0 + 30, '拖住右侧应该明显右移（x ' + x0.toFixed(1) + ' → ' + state.x.toFixed(1) + '）');
+  /* 松手：横向速度按 0.93 每帧衰减 */
+  state.vx = 0.06;
+  game.releaseDrag(state);
+  const vxBefore = state.vx;
+  runFor(state, 500);
+  assert.ok(
+    Math.abs(state.vx) < vxBefore * 0.15,
+    '松手半秒后横向速度应该几乎耗尽（' + vxBefore.toFixed(3) + ' → ' + state.vx.toFixed(4) + '）'
+  );
 });
 
-test('岩脊的逃逸距离一定来得及横移过去', () => {
-  for (const seed of [1, 2, 3, 7, 11, 23]) {
-    const state = newRun(seed);
-    run(state, 25);
-    for (const log of state.corridorLog) {
-      assert.ok(
-        log.need <= log.reach + 0.001,
-        '种子 ' + seed + '：逃逸要横移 ' + log.need.toFixed(1) + '，超过来得及的范围 ' + log.reach.toFixed(1)
-      );
-    }
+test('边界：x < 30 → x=30、vx=0.4|vx|；x > W−30 → x=W−30、vx=−0.4|vx|', () => {
+  const state = newRun();
+  freezeGates(state);
+  state.x = 34;
+  state.vx = -0.5;
+  step(state, DT);
+  assert.strictEqual(state.x, 30);
+  const expected = 0.4 * Math.abs(-0.5 * 0.93);
+  assert.ok(Math.abs(state.vx - expected) < 0.01, '左墙反弹应保留 0.4 倍并反向（vx=' + state.vx.toFixed(3) + '）');
+
+  const right = newRun();
+  right.gateList = [];
+  right.x = W - 34;
+  right.vx = 0.5;
+  step(right, DT);
+  assert.strictEqual(right.x, W - 30);
+  assert.ok(right.vx < 0, '右墙反弹应该向左');
+});
+
+test('速度模型：p = 0.4 + min(0.28, 16e-5 × dist)；巡航恒 0.3', () => {
+  const state = newRun();
+  freezeGates(state);
+  assert.ok(Math.abs(state.dist) < 1);
+  /* 起步：p=0.4，米数增速 = dt×p×0.11 */
+  const d0 = state.dist;
+  runFor(state, 1000);
+  const metersPerSec = state.dist - d0;
+  assert.ok(Math.abs(metersPerSec - 0.4 * 0.11 * 1000) < 1, '起步每秒 ' + metersPerSec.toFixed(1) + ' 米，应为 44');
+  /* 滑远后封顶 0.68：dist=3000 时 16e-5×3000=0.48 > 0.28 → p=0.68 */
+  state.dist = 3000;
+  const d1 = state.dist;
+  runFor(state, 1000);
+  const late = state.dist - d1;
+  assert.ok(Math.abs(late - 0.68 * 0.11 * 1000) < 1, '封顶段每秒 ' + late.toFixed(1) + ' 米，应为 74.8');
+  assert.ok(Math.abs(16e-5 * 1750 - 0.28) < 1e-9, '1750 米封顶');
+
+  const cruiser = newRun();
+  freezeGates(cruiser);
+  const dc0 = cruiser.dist;
+  runFor(cruiser, 1000, 'cruise');
+  assert.strictEqual(cruiser.dist, dc0, '巡航不累计米数');
+});
+
+test('米数口径：meters = round(dist)', () => {
+  const state = newRun();
+  state.dist = 1234.6;
+  assert.strictEqual(game.meters(state), 1235);
+  state.dist = 12;
+  assert.strictEqual(game.meters(state), 12);
+});
+
+test('巡航公式：x = W/2 + sin(.0011t)·W·0.2，vx = .3·cos(.0011t)，ava = .5 + .08·sin(5e-4t)', () => {
+  const state = newRun();
+  state.gateList = [];
+  const now = 100000;
+  step(state, DT, 'cruise', now);
+  assert.ok(
+    Math.abs(state.x - (W / 2 + Math.sin(0.0011 * now) * W * 0.2)) < 1e-6,
+    '巡航 x 公式（实际 ' + state.x.toFixed(3) + '）'
+  );
+  assert.ok(
+    Math.abs(state.vx - 0.3 * Math.cos(0.0011 * now)) < 1e-9,
+    '巡航 vx 公式（实际 ' + state.vx.toFixed(6) + '）'
+  );
+  assert.ok(
+    Math.abs(state.ava - (0.5 + 0.08 * Math.sin(5e-4 * now))) < 1e-9,
+    '巡航 ava 公式（实际 ' + state.ava.toFixed(6) + '）'
+  );
+});
+
+test('原版缺陷照抄：巡航状态也会把门标成已判定，但不计分、不加粒子', () => {
+  const state = game.createRun(W);
+  state.rand = game.makeRandom(7);
+  game.startRun(state, W);
+  const gate = state.gateList[0];
+  gate.x = state.x;
+  let frames = 0;
+  while (gate.passed === 0 && frames++ < 400) step(state, DT, 'cruise', frames * DT);
+  assert.ok(gate.passed !== 0, '巡航时到线的门也会被标记（原版缺陷）');
+  assert.strictEqual(state.gates, 0, '但巡航不计分');
+  /* 巡航的扬沙粒子照常存在（原版行为），这里只验证门与计分 */
+});
+
+test('回收：门落后 wy−400 之后被丢弃', () => {
+  const state = newRun();
+  game.ensureGates(state, 2600, W);
+  const count = state.gateList.length;
+  assert.ok(count > 3);
+  /* 推进世界越过第一面门 400 以上 */
+  state.wy = state.gateList[0].y + 401;
+  game.ensureGates(state, 2600, W);
+  assert.ok(state.gateList.length < count, '落后 400 以上的门应该被回收');
+  for (const g of state.gateList) {
+    assert.ok(g.y > state.wy - 400, '剩余门都必须满足 y > wy−400');
   }
 });
 
-test('难度段按距离推进，越往下越紧', () => {
-  assert.ok(content.stages.length >= 4, '至少四段');
-  for (let i = 1; i < content.stages.length; i++) {
-    assert.ok(content.stages[i].from > content.stages[i - 1].from, '海拔带门槛必须递增');
-    assert.ok(
-      content.stages[i].wallDrain >= content.stages[i - 1].wallDrain,
-      '雪崩必须越追越紧'
-    );
+test('粒子上限 220、轨迹 200 点（26 步长采样）', () => {
+  const state = newRun();
+  freezeGates(state);
+  for (let i = 0; i < 500; i++) {
+    state.particles.push({ x: 0, y: 0, vx: 0, vy: 0, life: 1, r: 3 });
+  }
+  runFor(state, 16);
+  assert.ok(state.particles.length <= 220, '粒子应该被裁到 220（实际 ' + state.particles.length + '）');
+
+  const trailer = newRun();
+  freezeGates(trailer);
+  runFor(trailer, 30000);
+  assert.ok(trailer.trail.length <= 200, '轨迹应该封在 200 点（实际 ' + trailer.trail.length + '）');
+  assert.ok(trailer.trail.length > 10, '轨迹应该有采样');
+  for (let i = 1; i < trailer.trail.length; i++) {
+    assert.ok(trailer.trail[i].y - trailer.trail[i - 1].y >= 26 - 1, '轨迹采样步长 ≥26 世界单位');
   }
 });

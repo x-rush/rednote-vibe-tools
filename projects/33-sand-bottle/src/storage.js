@@ -9,7 +9,7 @@
   var native = null;
   var ready = false;
   var cache = {};
-  var KEYS = ['sand-best-score', 'sand-bottles', 'sand-muted'];
+  var KEYS = ['sand-best-score', 'sand-bottles', 'sand-muted', 'sand-album'];
   var STORAGE_MIN_CLIENT_VERSION = 9460;
 
   function readBuildVersion(launchOptions) {

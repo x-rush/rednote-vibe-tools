@@ -1,18 +1,18 @@
 /*
- * 蛋落地 · 样式
- * Chrome 61 基线：无 flex gap / clamp() / 逻辑属性 / inset。
+ * 蛋落地 · 样式（二期返工）
+ * Chrome 61 基线：无 flex gap / clamp() / 逻辑属性 / inset / dvh / aspect-ratio。
  * 宿主按钮避让：顶部左右各留 --host-side 宽度的空档不放交互元素。
  * 安全区：所有 fixed/sticky 顶部控件叠加 var(--safe-area-inset-top, env(...))。
- * 配色：清晨露台的米白与薄荷绿，与 30 号奶茶棕、31 号黄昏紫明确区分。
+ * 配色：清晨草坡的深青绿 + 薄荷高光 + 琥珀强调，与 30 号奶茶棕、31 号黄昏紫明确区分。
  */
 :root {
-  --ink: #20352f;
-  --ink-dim: rgba(32, 53, 47, 0.6);
+  --ink: #f2f7f4;
+  --ink-dim: rgba(242, 247, 244, 0.62);
   --paper: #fffdf6;
-  --leaf: #4f9a76;
-  --leaf-deep: #2f6b52;
-  --amber: #e8a83c;
-  --danger: #d4573c;
+  --leaf: #4fc79a;
+  --leaf-deep: #2f8f6a;
+  --amber: #ffb03a;
+  --danger: #e0563c;
   --safe-top: 0px;
   --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
   --safe-bottom: 0px;
@@ -20,6 +20,10 @@
   --host-side: 76px;
   --host-top: 56px;
   --app-height: 100vh;
+  /* 玻璃拟态卡片 */
+  --glass-bg: linear-gradient(158deg, rgba(18, 62, 50, 0.76) 0%, rgba(9, 34, 28, 0.84) 100%);
+  --glass-line: rgba(168, 224, 138, 0.22);
+  --glass-shadow: 0 10px 26px rgba(6, 26, 21, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 * { box-sizing: border-box; }
@@ -28,7 +32,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #cfe6df;
+  background: #173a33;
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -50,8 +54,8 @@ body { overflow: hidden; }
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(120% 56% at 20% 4%, rgba(255, 246, 210, 0.75) 0%, rgba(255, 246, 210, 0) 58%),
-    linear-gradient(180deg, #fdf0d8 0%, #cfe6df 52%, #8fc0cd 100%);
+    radial-gradient(120% 56% at 20% 4%, rgba(255, 236, 203, 0.55) 0%, rgba(255, 236, 203, 0) 58%),
+    linear-gradient(180deg, #ffeccb 0%, #ffcfa0 42%, #6fb6c6 100%);
 }
 
 /* ---------- 顶栏：避开宿主左右按钮 ---------- */
@@ -69,7 +73,7 @@ body { overflow: hidden; }
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: var(--leaf-deep);
+  color: #1f5a49;
 }
 
 .brand-logo {
@@ -78,17 +82,17 @@ body { overflow: hidden; }
   height: 26px;
   margin-right: 9px;
   border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(47, 107, 82, 0.28);
+  box-shadow: 0 3px 10px rgba(31, 90, 73, 0.26);
 }
 
 #subtitle {
   margin: 6px 0 0;
   font-size: 12px;
   line-height: 1.5;
-  color: var(--ink-dim);
+  color: rgba(31, 90, 73, 0.66);
 }
 
-/* ---------- HUD ---------- */
+/* ---------- HUD：玻璃拟态卡片 ---------- */
 #hud {
   flex: 0 0 auto;
   margin: 10px auto 0;
@@ -97,51 +101,125 @@ body { overflow: hidden; }
   max-width: 460px;
 }
 
-.hud-row {
+.hud-card {
+  position: relative;
+  padding: 10px 15px 12px;
+  border-radius: 16px;
+  /* 半透明深色底 */
+  background: var(--glass-bg);
+  /* 1px 高光描边 */
+  border: 1px solid var(--glass-line);
+  /* 轻微外阴影 */
+  box-shadow: var(--glass-shadow);
+}
+
+.hud-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 18px;
+  right: 18px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(200, 240, 180, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+.hud-top {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  padding: 0 2px;
 }
 
-.hud-row .level {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-  opacity: 0.9;
-}
-
-.hud-row.small {
-  margin-top: 6px;
-  font-size: 11px;
-  color: var(--ink-dim);
-}
-
-.score-box {
-  display: inline-flex;
+.hud-main {
+  display: flex;
   align-items: baseline;
 }
 
-.score-box b {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--leaf-deep);
-  text-shadow: 0 2px 10px rgba(47, 107, 82, 0.22);
+.hud-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-dim);
+  margin-right: 6px;
 }
 
-.score-box small {
-  margin-left: 3px;
-  font-size: 11px;
+/* 主数值：28–34px 粗体 */
+#streak {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--amber);
+  text-shadow: 0 2px 16px rgba(255, 176, 58, 0.45);
+}
+
+.hud-side {
+  text-align: right;
+}
+
+/* 副信息：12–13px */
+.hud-level {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.94;
+}
+
+.hud-target {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
   color: var(--ink-dim);
+}
+
+.hud-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+
+/* 反推余量点：琥珀=可用，灰=已用（脉冲经济的核心读数） */
+.hud-pulse {
+  display: inline-flex;
+  align-items: center;
+}
+
+.hud-pulse i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 7px rgba(255, 176, 58, 0.5);
+}
+
+.hud-pulse i.gone {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: none;
+}
+
+.hud-wind {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  color: rgba(143, 214, 216, 0.9);
+}
+
+.hud-wind em {
+  font-style: normal;
+  margin-left: 4px;
+  font-size: 13px;
 }
 
 .progress {
   position: relative;
-  height: 7px;
-  margin-top: 8px;
-  border-radius: 4px;
-  background: rgba(47, 107, 82, 0.14);
+  height: 6px;
+  margin-top: 9px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.12);
   overflow: hidden;
 }
 
@@ -151,110 +229,162 @@ body { overflow: hidden; }
   left: 0;
   bottom: 0;
   width: 0%;
-  border-radius: 4px;
-  background: linear-gradient(90deg, #8fd6b4 0%, #4f9a76 100%);
+  border-radius: 3px;
+  background: linear-gradient(90deg, #a8e08a 0%, #4fc79a 100%);
+  box-shadow: 0 0 10px rgba(79, 199, 154, 0.6);
   transition: width 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.lives {
-  display: inline-flex;
-  align-items: center;
+/* ---------- 落地速度三段刻度尺 ---------- */
+.gauge {
+  margin-top: 10px;
 }
 
-.lives i {
-  display: inline-block;
-  width: 9px;
-  height: 12px;
-  margin-left: 5px;
-  border-radius: 50% 50% 46% 46%;
-  background: #f6ead4;
-  border: 1px solid rgba(47, 107, 82, 0.4);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-}
-
-.lives i.gone {
-  background: rgba(47, 107, 82, 0.16);
-  border-color: rgba(47, 107, 82, 0.2);
-  box-shadow: none;
-}
-
-/* 气量表 */
-.gas {
-  display: inline-flex;
-  align-items: center;
-}
-
-.gas em {
-  font-style: normal;
-  margin-right: 6px;
-}
-
-.gas i {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  margin-left: 4px;
-  border-radius: 50%;
-  background: var(--amber);
-  box-shadow: 0 0 7px rgba(232, 168, 60, 0.55);
-}
-
-.gas i.gone {
-  background: rgba(47, 107, 82, 0.16);
-  box-shadow: none;
-}
-
-/* 速度表 */
-.speed-wrap {
+.gauge-head {
   display: flex;
-  align-items: center;
-  margin-top: 8px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 5px;
 }
 
-.speed-label {
-  flex: 0 0 auto;
-  margin-right: 8px;
-  font-size: 11px;
+.gauge-label {
+  font-size: 12px;
+  font-weight: 600;
   color: var(--ink-dim);
 }
 
-.speed-bar {
-  position: relative;
-  flex: 1 1 auto;
-  height: 9px;
-  border-radius: 5px;
-  background: rgba(47, 107, 82, 0.12);
-  overflow: hidden;
+/* 限速读数（原版 HUD 第 4 字段 Limit） */
+.gauge-limit {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-dim);
 }
 
-.speed-bar i {
+/* 速度文字：12–13px */
+.gauge-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--leaf);
+}
+
+.gauge-track {
+  position: relative;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gauge-seg {
   position: absolute;
   top: 0;
-  left: 0;
   bottom: 0;
-  width: 0%;
-  border-radius: 5px;
-  background: linear-gradient(90deg, #8fd6b4 0%, #ffc46b 70%, #ff7a5c 100%);
-  transition: width 80ms linear;
 }
 
-.speed-mark {
+/* 绿段：完美区（落速 ≤ 0.4×限速）。刻度满格 = 1.25×限速 */
+.gauge-safe {
+  left: 0;
+  width: 32%;
+  background: linear-gradient(180deg, #6fe0ae 0%, #3fae83 100%);
+}
+
+/* 黄段：安全区（≤ 0.75×限速，落地完好但不算完美） */
+.gauge-warn {
+  left: 32%;
+  width: 28%;
+  background: linear-gradient(180deg, #ffd06a 0%, #e8a02c 100%);
+}
+
+/* 红段：裂纹→碎（> 0.75×限速，超过满格即摔碎） */
+.gauge-danger {
+  left: 60%;
+  right: 0;
+  background: linear-gradient(180deg, #ff8b6b 0%, #d84a34 100%);
+}
+
+/* 指针：告诉玩家当前速度落在哪一段 */
+.gauge-needle {
   position: absolute;
   top: -2px;
   bottom: -2px;
-  left: 62%;
-  width: 2px;
-  background: rgba(32, 53, 47, 0.55);
+  left: 0;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.85);
+  transition: left 80ms linear;
 }
 
-.speed-text {
-  flex: 0 0 auto;
-  margin-left: 8px;
-  min-width: 30px;
-  font-size: 11px;
-  font-weight: 700;
-  text-align: right;
-  color: var(--leaf-deep);
+/* ---------- 贴边竖向速度刻度条（画布右缘） ----------
+ * 落速越快指针越往上爬：底部绿（安全）→ 中段黄（偏快）→ 顶部红（危险）。
+ * 纯展示元素，无交互热区；位置在画面右缘中部，
+ * 与宿主左上返回 / 右上操作按钮（--host-side × --host-top 区域）不相交。
+ */
+.vgauge {
+  position: absolute;
+  right: 9px;
+  top: 26%;
+  bottom: 16%;
+  width: 11px;
+  pointer-events: none;
+}
+
+.vgauge::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: -4px;
+  bottom: -5px;
+  left: -4px;
+  border-radius: 9px;
+  background: rgba(9, 30, 24, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.vseg {
+  position: absolute;
+  right: 0;
+  left: 0;
+}
+
+/* 绿段：完美（底部，落速低） */
+.vsafe {
+  bottom: 0;
+  height: 32%;
+  border-radius: 0 0 5px 5px;
+  background: linear-gradient(0deg, #3fae83 0%, #6fe0ae 100%);
+  box-shadow: inset -1px 0 2px rgba(6, 30, 24, 0.4);
+}
+
+/* 黄段：安全区 */
+.vwarn {
+  bottom: 32%;
+  height: 28%;
+  background: linear-gradient(0deg, #e8a02c 0%, #ffd06a 100%);
+  box-shadow: inset -1px 0 2px rgba(6, 30, 24, 0.4);
+}
+
+/* 红段：裂纹→碎（顶部） */
+.vdanger {
+  bottom: 60%;
+  height: 40%;
+  border-radius: 5px 5px 0 0;
+  background: linear-gradient(0deg, #d84a34 0%, #ff8b6b 100%);
+  box-shadow: inset -1px 0 2px rgba(6, 30, 24, 0.4);
+}
+
+/* 指针：当前位置，随落速上爬 */
+.vneedle {
+  position: absolute;
+  right: -5px;
+  left: -5px;
+  height: 4px;
+  bottom: 0;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+  transition: bottom 80ms linear;
 }
 
 /* ---------- 场地 ---------- */
@@ -292,9 +422,9 @@ body { overflow: hidden; }
   display: inline-block;
   padding: 6px 16px;
   border-radius: 999px;
-  background: rgba(255, 253, 246, 0.86);
-  border: 1px solid rgba(47, 107, 82, 0.28);
-  box-shadow: 0 8px 22px rgba(47, 107, 82, 0.22);
+  background: rgba(255, 253, 246, 0.9);
+  border: 1px solid rgba(47, 143, 106, 0.28);
+  box-shadow: 0 8px 22px rgba(24, 52, 44, 0.22);
 }
 
 #flash.pop {
@@ -316,7 +446,7 @@ body { overflow: hidden; }
   width: 100%;
   text-align: center;
   font-size: 12px;
-  color: rgba(32, 53, 47, 0.8);
+  color: rgba(31, 74, 62, 0.82);
   opacity: 0;
   pointer-events: none;
 }
@@ -325,8 +455,8 @@ body { overflow: hidden; }
   display: inline-block;
   padding: 4px 12px;
   border-radius: 999px;
-  background: rgba(255, 253, 246, 0.88);
-  border: 1px solid rgba(47, 107, 82, 0.22);
+  background: rgba(255, 253, 246, 0.9);
+  border: 1px solid rgba(47, 143, 106, 0.24);
 }
 
 #hint.show {
@@ -355,10 +485,10 @@ body { overflow: hidden; }
   min-width: 84px;
   min-height: 34px;
   padding: 0 14px;
-  border: 1px solid rgba(47, 107, 82, 0.28);
+  border: 1px solid rgba(31, 90, 73, 0.26);
   border-radius: 17px;
-  background: rgba(255, 253, 246, 0.55);
-  color: var(--ink);
+  background: rgba(255, 253, 246, 0.72);
+  color: #1f5a49;
   font: inherit;
   font-size: 12px;
   cursor: pointer;
@@ -374,7 +504,7 @@ body { overflow: hidden; }
 #bestHint {
   margin-left: 12px;
   font-size: 11px;
-  color: var(--ink-dim);
+  color: rgba(31, 90, 73, 0.6);
 }
 
 /* ---------- 浮层面板 ---------- */
@@ -391,7 +521,7 @@ body { overflow: hidden; }
   padding: 20px;
   padding-top: calc(var(--safe-top) + var(--host-top));
   padding-bottom: calc(var(--safe-bottom) + 12px);
-  background: rgba(36, 64, 56, 0.5);
+  background: rgba(18, 46, 38, 0.52);
 }
 
 .panel-layer[hidden] { display: none; }
@@ -406,9 +536,9 @@ body { overflow: hidden; }
   padding: 26px 22px 22px;
   text-align: center;
   border-radius: 22px;
-  background: linear-gradient(165deg, rgba(255, 253, 246, 0.98) 0%, rgba(232, 244, 238, 0.98) 100%);
-  border: 1px solid rgba(47, 107, 82, 0.2);
-  box-shadow: 0 24px 70px rgba(24, 52, 44, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: linear-gradient(165deg, rgba(255, 253, 246, 0.98) 0%, rgba(226, 244, 235, 0.98) 100%);
+  border: 1px solid rgba(47, 143, 106, 0.2);
+  box-shadow: 0 24px 70px rgba(14, 44, 35, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   animation: panelIn 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -427,7 +557,7 @@ body { overflow: hidden; }
   height: 140px;
   margin-left: -120px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 246, 210, 0.8) 0%, rgba(255, 246, 210, 0) 70%);
+  background: radial-gradient(circle, rgba(255, 236, 203, 0.85) 0%, rgba(255, 236, 203, 0) 70%);
   pointer-events: none;
 }
 
@@ -447,7 +577,7 @@ body { overflow: hidden; }
   height: 72px;
   margin: 0 auto 12px;
   border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(24, 52, 44, 0.24), 0 0 0 1px rgba(47, 107, 82, 0.18);
+  box-shadow: 0 12px 30px rgba(14, 44, 35, 0.26), 0 0 0 1px rgba(47, 143, 106, 0.18);
 }
 
 .lines {
@@ -455,7 +585,7 @@ body { overflow: hidden; }
   margin: 12px 0 18px;
   font-size: 13px;
   line-height: 1.85;
-  color: rgba(32, 53, 47, 0.72);
+  color: rgba(31, 74, 62, 0.76);
 }
 
 .lines p { margin: 0; }
@@ -463,7 +593,7 @@ body { overflow: hidden; }
 .tip {
   margin: 12px 0 0;
   font-size: 11px;
-  color: rgba(32, 53, 47, 0.42);
+  color: rgba(31, 74, 62, 0.46);
 }
 
 button.primary {
@@ -474,20 +604,20 @@ button.primary {
   padding: 0 18px;
   border: 0;
   border-radius: 23px;
-  background: linear-gradient(135deg, #8fd6b4 0%, #4f9a76 100%);
+  background: linear-gradient(135deg, #6fe0ae 0%, #2f8f6a 100%);
   color: #ffffff;
   font: inherit;
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.04em;
   cursor: pointer;
-  box-shadow: 0 10px 26px rgba(79, 154, 118, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 26px rgba(47, 143, 106, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
 button.primary:active {
   transform: translateY(2px) scale(0.985);
-  box-shadow: 0 5px 14px rgba(79, 154, 118, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: 0 5px 14px rgba(47, 143, 106, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 button.primary:focus {
@@ -498,10 +628,10 @@ button.primary:focus {
 button.ghost {
   min-height: 42px;
   padding: 0 18px;
-  border: 1px solid rgba(47, 107, 82, 0.3);
+  border: 1px solid rgba(47, 143, 106, 0.3);
   border-radius: 21px;
-  background: rgba(47, 107, 82, 0.08);
-  color: var(--ink);
+  background: rgba(47, 143, 106, 0.08);
+  color: #1f3a31;
   font: inherit;
   font-size: 14px;
   cursor: pointer;
@@ -533,15 +663,29 @@ button.ghost:active { opacity: 0.72; }
   display: block;
   margin-top: 3px;
   font-size: 10px;
-  color: rgba(32, 53, 47, 0.5);
+  color: rgba(31, 74, 62, 0.55);
 }
 
 .best-flag {
   margin: 8px 0 0;
   font-size: 13px;
   font-weight: 800;
-  color: var(--amber);
+  color: #d98a12;
 }
+
+/* 单落结算的一句评语 */
+.drop-line {
+  margin: 12px 0 2px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(31, 74, 62, 0.72);
+}
+
+/* 四档评级的标题配色 */
+.grade-perfect { color: #2f8f6a; }
+.grade-safe { color: #3fae83; }
+.grade-cracked { color: #d98a12; }
+.grade-broken { color: #d84a34; }
 
 #shareCard {
   display: block;
@@ -550,8 +694,8 @@ button.ghost:active { opacity: 0.72; }
   height: auto;
   margin: 14px auto 0;
   border-radius: 14px;
-  border: 1px solid rgba(47, 107, 82, 0.2);
-  box-shadow: 0 14px 34px rgba(24, 52, 44, 0.24);
+  border: 1px solid rgba(47, 143, 106, 0.2);
+  box-shadow: 0 14px 34px rgba(14, 44, 35, 0.26);
 }
 
 .actions {
@@ -573,7 +717,7 @@ button.ghost:active { opacity: 0.72; }
   min-height: 16px;
   margin: 10px 0 0;
   font-size: 11px;
-  color: rgba(32, 53, 47, 0.6);
+  color: rgba(31, 74, 62, 0.62);
 }
 
 /* ---------- 矮屏适配 ---------- */
@@ -587,8 +731,8 @@ button.ghost:active { opacity: 0.72; }
 }
 
 @media (max-height: 560px) {
-  .speed-wrap { margin-top: 5px; }
-  .score-box b { font-size: 21px; }
+  .gauge { margin-top: 6px; }
+  #streak { font-size: 26px; }
 }
 
 /* ---------- 横屏 ---------- */
@@ -618,5 +762,6 @@ button.ghost:active { opacity: 0.72; }
   #flash.pop { animation: none; opacity: 1; }
   .panel { animation: none; }
   .progress i { transition: none; }
-  .speed-bar i { transition: none; }
+  .gauge-needle { transition: none; }
+  .vneedle { transition: none; }
 }

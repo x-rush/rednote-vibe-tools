@@ -1,10 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="蛋落地">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#5f9fb8"/>
-      <stop offset="0.42" stop-color="#a8d5da"/>
-      <stop offset="0.78" stop-color="#e6efe0"/>
-      <stop offset="1" stop-color="#fdf0d8"/>
+      <stop offset="0" stop-color="#ffeccb"/>
+      <stop offset="0.45" stop-color="#ffcfa0"/>
+      <stop offset="1" stop-color="#6fb6c6"/>
     </linearGradient>
     <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0" stop-color="#fff9e0" stop-opacity="0.95"/>
@@ -13,15 +12,19 @@
     </radialGradient>
     <radialGradient id="eggBody" cx="0.36" cy="0.3" r="0.78">
       <stop offset="0" stop-color="#fffdf6"/>
-      <stop offset="0.6" stop-color="#f6ead4"/>
-      <stop offset="1" stop-color="#d6bd98"/>
+      <stop offset="0.6" stop-color="#f7ecd6"/>
+      <stop offset="1" stop-color="#dcc39c"/>
     </radialGradient>
-    <linearGradient id="leaf" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#8fd6ac"/>
-      <stop offset="0.5" stop-color="#4f9a76"/>
-      <stop offset="1" stop-color="#2b6349"/>
+    <linearGradient id="bounce" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd9a0" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffd9a0" stop-opacity="0.5"/>
     </linearGradient>
-    <linearGradient id="leafBack" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="moss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7fd6a0"/>
+      <stop offset="0.5" stop-color="#3f9a70"/>
+      <stop offset="1" stop-color="#22654a"/>
+    </linearGradient>
+    <linearGradient id="mossBack" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#cfe6b8"/>
       <stop offset="1" stop-color="#7aa882"/>
     </linearGradient>
@@ -30,87 +33,101 @@
       <stop offset="0.55" stop-color="#ffb877" stop-opacity="0.92"/>
       <stop offset="1" stop-color="#ff9a5c" stop-opacity="0.5"/>
     </linearGradient>
+    <linearGradient id="ridge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f6f68" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#1d4841" stop-opacity="0.62"/>
+    </linearGradient>
   </defs>
 
   <rect width="512" height="512" rx="112" fill="url(#sky)"/>
 
-  <circle cx="392" cy="112" r="120" fill="url(#sun)"/>
-  <circle cx="392" cy="112" r="34" fill="#fff8dc"/>
+  <circle cx="404" cy="106" r="122" fill="url(#sun)"/>
+  <circle cx="404" cy="106" r="34" fill="#fff8dc"/>
 
   <g fill="#ffffff" opacity="0.5">
-    <ellipse cx="104" cy="118" rx="46" ry="15"/>
-    <ellipse cx="128" cy="108" rx="30" ry="18" opacity="0.7"/>
-    <ellipse cx="286" cy="86" rx="34" ry="11" opacity="0.75"/>
-    <ellipse cx="60" cy="208" rx="28" ry="9" opacity="0.55"/>
+    <ellipse cx="98" cy="112" rx="46" ry="15"/>
+    <ellipse cx="122" cy="102" rx="30" ry="18" opacity="0.7"/>
+    <ellipse cx="268" cy="80" rx="34" ry="11" opacity="0.75"/>
+    <ellipse cx="54" cy="198" rx="28" ry="9" opacity="0.55"/>
   </g>
 
-  <!-- 远景山丘 -->
-  <path d="M0 336 C 90 306 150 330 236 314 C 320 298 400 320 512 300 L512 512 L0 512 Z" fill="#5f9c86" opacity="0.28"/>
-  <path d="M0 372 C 110 348 190 366 280 352 C 372 338 440 354 512 344 L512 512 L0 512 Z" fill="#3f7d6b" opacity="0.32"/>
+  <!-- 远景山脊 -->
+  <path d="M0 330 C 90 300 150 324 236 308 C 320 292 400 314 512 294 L512 512 L0 512 Z" fill="url(#ridge)"/>
+
+  <!-- 中景树影 -->
+  <g fill="#275a52" opacity="0.8">
+    <path d="M44 344 C 44 306 30 302 44 288 C 56 276 74 282 78 300 C 92 292 104 306 96 320 C 106 330 92 344 44 344 Z"/>
+    <path d="M400 352 C 400 316 386 312 400 298 C 412 286 430 292 434 310 C 448 302 460 316 452 330 C 462 340 448 352 400 352 Z"/>
+  </g>
+
+  <!-- 草坡 -->
+  <path d="M0 396 C 120 378 220 396 320 384 C 410 374 470 388 512 380 L512 512 L0 512 Z" fill="#2b6a4c"/>
+  <path d="M0 396 C 120 378 220 396 320 384 C 410 374 470 388 512 380" fill="none" stroke="#8fd6a8" stroke-opacity="0.85" stroke-width="5" stroke-linecap="round"/>
 
   <!-- 蛋 -->
-  <g transform="translate(256 180) rotate(-8)">
-    <ellipse cx="0" cy="2" rx="42" ry="53" fill="url(#eggBody)"/>
-    <g fill="rgba(188,156,116,0.55)">
-      <ellipse cx="-11" cy="-16" rx="5" ry="4"/>
-      <ellipse cx="10" cy="-4" rx="4.4" ry="3.6"/>
-      <ellipse cx="-5" cy="14" rx="3.6" ry="3"/>
-      <ellipse cx="15" cy="20" rx="3.2" ry="2.6"/>
-      <ellipse cx="-17" cy="8" rx="3" ry="2.4"/>
+  <g transform="translate(256 196) rotate(-8)">
+    <ellipse cx="0" cy="2" rx="44" ry="55" fill="url(#eggBody)"/>
+    <ellipse cx="0" cy="2" rx="44" ry="55" fill="url(#bounce)"/>
+    <g fill="rgba(186,156,116,0.5)">
+      <ellipse cx="-12" cy="-17" rx="5.4" ry="4.2"/>
+      <ellipse cx="11" cy="-4" rx="4.6" ry="3.8"/>
+      <ellipse cx="-6" cy="15" rx="3.8" ry="3.2"/>
+      <ellipse cx="16" cy="21" rx="3.4" ry="2.8"/>
+      <ellipse cx="-18" cy="8" rx="3.2" ry="2.6"/>
     </g>
-    <ellipse cx="-13" cy="-24" rx="11" ry="18" fill="#ffffff" opacity="0.4" transform="rotate(-18 -13 -24)"/>
+    <ellipse cx="-14" cy="-26" rx="11" ry="18" fill="#ffffff" opacity="0.55" transform="rotate(-18 -14 -26)"/>
   </g>
 
-  <!-- 向上的气流：把蛋稳稳托住 -->
+  <!-- 向上气流：把蛋稳稳托住 -->
   <g>
     <g fill="none" stroke="url(#jet)" stroke-linecap="round">
-      <path d="M256 332 C 252 308 252 288 256 272" stroke-width="16"/>
-      <path d="M232 330 C 220 310 212 294 210 276" stroke-width="11" opacity="0.85"/>
-      <path d="M280 330 C 292 310 300 294 302 276" stroke-width="11" opacity="0.85"/>
+      <path d="M256 348 C 252 322 252 300 256 284" stroke-width="17"/>
+      <path d="M230 346 C 218 324 210 306 208 286" stroke-width="12" opacity="0.85"/>
+      <path d="M282 346 C 294 324 302 306 304 286" stroke-width="12" opacity="0.85"/>
     </g>
     <g fill="#ffb877">
-      <path d="M256 250 L268 272 L256 266 L244 272 Z"/>
-      <path d="M210 254 L222 276 L210 270 L198 276 Z" opacity="0.9"/>
-      <path d="M302 254 L314 276 L302 270 L290 276 Z" opacity="0.9"/>
+      <path d="M256 262 L269 286 L256 279 L243 286 Z"/>
+      <path d="M206 266 L219 290 L206 283 L193 290 Z" opacity="0.9"/>
+      <path d="M306 266 L319 290 L306 283 L293 290 Z" opacity="0.9"/>
     </g>
     <g fill="#ffe6b8" opacity="0.85">
-      <circle cx="228" cy="296" r="3.4"/>
-      <circle cx="286" cy="292" r="3"/>
+      <circle cx="226" cy="310" r="3.6"/>
+      <circle cx="286" cy="306" r="3.2"/>
     </g>
   </g>
 
-  <!-- 叶子垫：横向宽叶，中间上凸托住蛋 -->
+  <!-- 苔藓叶垫 -->
   <g>
-    <ellipse cx="256" cy="414" rx="140" ry="18" fill="#1f4636" opacity="0.16"/>
-    <path d="M118 386 C 180 338 332 338 394 386 C 332 424 180 424 118 386 Z" fill="url(#leaf)"/>
-    <path d="M118 386 C 180 338 332 338 394 386" fill="none" stroke="#ffffff" stroke-opacity="0.34" stroke-width="4.5" stroke-linecap="round"/>
-    <g stroke="#ffffff" stroke-opacity="0.18" stroke-width="2.2" stroke-linecap="round" fill="none">
-      <path d="M196 342 C 190 368 178 388 158 396"/>
-      <path d="M228 338 C 226 368 218 390 204 400"/>
-      <path d="M316 342 C 322 368 334 388 354 396"/>
-      <path d="M284 338 C 286 368 294 390 308 400"/>
+    <ellipse cx="256" cy="428" rx="150" ry="19" fill="#0d2b1e" opacity="0.2"/>
+    <path d="M106 402 C 172 348 340 348 406 402 C 340 440 172 440 106 402 Z" fill="url(#moss)"/>
+    <path d="M106 402 C 172 348 340 348 406 402" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="5" stroke-linecap="round"/>
+    <g stroke="#ffffff" stroke-opacity="0.2" stroke-width="2.4" stroke-linecap="round" fill="none">
+      <path d="M190 356 C 184 384 172 404 150 414"/>
+      <path d="M226 350 C 224 382 216 406 200 418"/>
+      <path d="M322 356 C 328 384 340 404 362 414"/>
+      <path d="M286 350 C 288 382 296 406 312 418"/>
     </g>
   </g>
 
-  <!-- 侧边小叶 -->
+  <!-- 侧面小叶 -->
   <g opacity="0.85">
-    <path d="M30 400 C 54 382 84 384 100 400 C 84 416 54 418 30 400 Z" fill="url(#leafBack)"/>
-    <path d="M34 400 C 52 394 72 392 88 396" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M414 406 C 432 390 458 392 472 406 C 458 420 432 422 414 406 Z" fill="url(#leafBack)" opacity="0.8"/>
+    <path d="M28 414 C 54 394 86 396 102 414 C 86 430 54 432 28 414 Z" fill="url(#mossBack)"/>
+    <path d="M33 414 C 52 407 74 406 90 410" fill="none" stroke="#ffffff" stroke-opacity="0.32" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M412 420 C 432 402 458 404 474 420 C 458 434 432 436 412 420 Z" fill="url(#mossBack)" opacity="0.8"/>
   </g>
 
   <!-- 装饰：小蛋与光点 -->
   <g>
-    <g transform="translate(116 196) rotate(-14)">
+    <g transform="translate(112 200) rotate(-14)">
       <ellipse cx="0" cy="0" rx="17" ry="21" fill="#fbf3e2"/>
-      <ellipse cx="-5" cy="-5" rx="5" ry="4" fill="rgba(188,156,116,0.5)"/>
+      <ellipse cx="-5" cy="-5" rx="5" ry="4" fill="rgba(186,156,116,0.5)"/>
     </g>
-    <g transform="translate(404 268) rotate(12)">
+    <g transform="translate(408 262) rotate(12)">
       <ellipse cx="0" cy="0" rx="13" ry="16" fill="#fdf7ea" opacity="0.92"/>
     </g>
-    <g fill="#ffe6b0">
-      <path d="M406 168 l9 22 22 9 -22 9 -9 22 -9 -22 -22 -9 22 -9 z"/>
-      <path d="M92 286 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 z" opacity="0.8"/>
+    <g fill="#ffd9a0">
+      <path d="M410 164 l9 22 22 9 -22 9 -9 22 -9 -22 -22 -9 22 -9 z"/>
+      <path d="M88 280 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 z" opacity="0.8"/>
     </g>
   </g>
 </svg>

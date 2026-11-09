@@ -1,9 +1,9 @@
 {
   "name": "沙丘速降",
-  "description": "贴着雪崩，甩出一道漂亮的尾迹",
+  "description": "穿过旗门，把雪崩压回去",
   "zip": "dune-surfer-v1.zip",
-  "bytes": 29177,
-  "sha256": "BF83B44A76E6D9CA741C3F9413DAC9AEF72C352D6C8EBA91B20B9FFF206C8D65",
+  "bytes": 25518,
+  "sha256": "42BDD71D3660CF907D75317ACFFE0D8C42ECBDD1FAA5CA3848CE7E555CD1FFF5",
   "entries": [
     "app.js",
     "audio.js",

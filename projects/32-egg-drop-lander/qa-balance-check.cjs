@@ -1,177 +1,190 @@
 /*
- * 蛋落地 · 手感平衡回归
+ * 蛋落地 · 平衡回归（四期：严格 1:1 复刻 eazo 原版）
  *
- * 用与游戏一致的时间步长模拟每一关的降落，量四件事：
- *  1. 完全不喷气的落地速度 —— 必须明显超过安全线，否则玩家什么都不用做；
- *  2. 「像真人一样」能不能过这一关 —— 用闭环玩家模型评估：
- *     玩家每隔 R 毫秒看一次速度指示，速度超阈值就点一下喷气。
- *     这比固定阈值策略更接近真人：玩家会观察、会等、也会因为太急而浪费气量。
- *  3. 最少要喷几次气 —— 至少两次，否则「轻轻放」没有节奏；
- *  4. 一直乱喷气必须过不去 —— 否则「一直点」就是最优解。
+ * 全部断言按 eazo 原版数值如实设定（reference/eazo-spec.txt），不为让断言
+ * 通过而修改任何原版参数：
+ *   1. 关卡表 12 行与原版逐字段一致（含 impulse 190/…/250、gapHalf .2/.17/.15，
+ *      且不允许残留 gScale / 缩放字段）；
+ *   2. 不动手必碎（12 关自由落体末速全部超过限速）；
+ *   3. 一直乱点必碎（原版冲量大，狂点 = 把自己弹上高空再摔死）；
+ *   4. 闭环玩家（承诺式刹车，纯竖直点按）通过率回归：
+ *      前段关 1–3 ≥ 16/20、关 4 ≥ 12/20、关 5 ≥ 8/20（实测 20/15/10，留回归余量）；
+ *   5. 原版缺陷锁定：末四关（9–12）在原版参数下随手 / 熟练模型全部 0 通过 ——
+ *      脉冲预算 < 自由落体末速，数学上不可通关。这是复刻的正确结果，
+ *      断言其保持 0，防止未来误改参数“救平衡”；
+ *   6. 整轮 run（随手口径）：末关通过 = 0、平均幸存 ≤ 6（实测 4.5）；
+ *   7. 手感与物理：反推 0 延迟（点下当帧 vy 变化恰为 -冲量）、
+ *      初始 vx = 0.15 × wind（原值）、四档评级边界（0.4 / 0.75 / 限速）、
+ *      缺口几何（中心 (gapCenter−.5)×520、通行半宽 2×gapHalf×260）。
  *
- * 通过率必须逐关收紧（真人比模型更笨），但不能归零。
+ * 旧基线说明：三期“求解器重算冲量 + 重力/风缩放”的平衡基线随四期复刻作废，
+ * 本文件按原版数值重写，为 1:1 复刻的平衡基线生成器（qa/balance-report.json）。
  */
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
 const ROOT = path.resolve(__dirname);
+const sim = require(path.join(ROOT, 'tools/level-sim.cjs'));
+const game = sim.game;
 const content = JSON.parse(
   fs.readFileSync(path.join(ROOT, 'src/content/content.json'), 'utf8').replace(/^\uFEFF/, '')
 );
 
-const VIEW_HEIGHT = 420;
-const EGG_RADIUS = 11;
-const SPAWN_Y = 34;
-const STEP = 1 / 240;
+/* —— eazo 原版关卡表锁定（总控下发，玩法的身份基准） —— */
+const TABLE = [
+  { name: 'First Nest', zhName: '初次落巢', height: 900, gravity: 260, wind: 0, pulses: 6, impulse: 190, maxSpeed: 300 },
+  { name: 'Meadow', zhName: '草地', height: 1000, gravity: 280, wind: 0, pulses: 6, impulse: 190, maxSpeed: 290 },
+  { name: 'Breeze', zhName: '微风', height: 1100, gravity: 290, wind: 40, pulses: 6, impulse: 195, maxSpeed: 280 },
+  { name: 'Tall Barn', zhName: '高谷仓', height: 1350, gravity: 300, wind: -30, pulses: 6, impulse: 200, maxSpeed: 270 },
+  { name: 'Rooftops', zhName: '屋顶', height: 1450, gravity: 320, wind: 55, pulses: 6, impulse: 205, maxSpeed: 260 },
+  { name: 'Gully', zhName: '峡沟', height: 1550, gravity: 330, wind: -60, pulses: 5, impulse: 210, maxSpeed: 250, obstacle: { atY: 0.5, gapCenter: 0.42, gapHalf: 0.2 } },
+  { name: 'Cliffside', zhName: '崖边', height: 1700, gravity: 345, wind: 70, pulses: 5, impulse: 215, maxSpeed: 245 },
+  { name: 'Windmill', zhName: '风车', height: 1800, gravity: 355, wind: -85, pulses: 5, impulse: 220, maxSpeed: 235 },
+  { name: 'Canyon', zhName: '峡谷', height: 1950, gravity: 370, wind: 60, pulses: 5, impulse: 225, maxSpeed: 225, obstacle: { atY: 0.55, gapCenter: 0.6, gapHalf: 0.17 } },
+  { name: 'Storm Ridge', zhName: '风暴岭', height: 2100, gravity: 390, wind: -100, pulses: 5, impulse: 230, maxSpeed: 215 },
+  { name: 'Tower', zhName: '高塔', height: 2300, gravity: 410, wind: 90, pulses: 4, impulse: 240, maxSpeed: 205 },
+  { name: 'The Spire', zhName: '尖峰', height: 2550, gravity: 435, wind: -110, pulses: 4, impulse: 250, maxSpeed: 195, obstacle: { atY: 0.5, gapCenter: 0.5, gapHalf: 0.15 } }
+];
 
-/* 闭环玩家：每 R 毫秒观察一次，下坠速度超过阈值就点一下喷气 */
-function play(level, R, T) {
-  let y = SPAWN_Y;
-  let vy = 0;
-  let t = 0;
-  let next = R / 1000;
-  let gas = level.gas;
-  let thrusts = 0;
-  while (t < 20) {
-    if (t >= next) {
-      next += R / 1000;
-      if (vy >= T && gas > 0) {
-        vy -= level.thrust;
-        gas--;
-        thrusts++;
-      }
-    }
-    vy += level.gravity * STEP;
-    vy -= vy * level.drag * STEP;
-    y += vy * STEP;
-    t += STEP;
-    if (vy > 0 && y + EGG_RADIUS >= level.padY && y - EGG_RADIUS < level.padY) {
-      return { impact: vy, thrusts: thrusts, gas: gas, ok: vy <= level.safe, landed: true, time: t };
-    }
-    if (y - EGG_RADIUS > VIEW_HEIGHT) {
-      return { impact: null, thrusts: thrusts, gas: gas, ok: false, landed: false, time: t };
-    }
+assert.strictEqual(content.levels.length, 12, '关卡数应为 12');
+for (let i = 0; i < TABLE.length; i++) {
+  const t = TABLE[i];
+  const lv = content.levels[i];
+  for (const key of ['name', 'zhName', 'height', 'gravity', 'wind', 'pulses', 'impulse', 'maxSpeed']) {
+    assert.strictEqual(lv[key], t[key], '关卡 ' + (i + 1) + ' 的 ' + key + ' 与原版表不符');
   }
-  return { impact: null, thrusts: thrusts, gas: gas, ok: false, landed: false, time: t };
+  assert.strictEqual(lv.gravity, game.gravityOf(lv), '关卡 ' + (i + 1) + '：gravity 必须原值使用，不得缩放');
+  assert.strictEqual(lv.wind || 0, game.windOf(lv), '关卡 ' + (i + 1) + '：wind 必须原值使用，不得缩放');
+  assert.ok(!('gScale' in lv), '关卡 ' + (i + 1) + ' 不应保留 gScale 缩放字段');
+  if (t.obstacle) {
+    assert(lv.obstacle, '关卡 ' + (i + 1) + ' 缺少障碍带');
+    assert.strictEqual(lv.obstacle.atY, t.obstacle.atY, '关卡 ' + (i + 1) + ' 障碍带 atY 与原版表不符');
+    assert.strictEqual(lv.obstacle.gapCenter, t.obstacle.gapCenter, '关卡 ' + (i + 1) + ' 缺口位置与原版表不符');
+    assert.strictEqual(lv.obstacle.gapHalf, t.obstacle.gapHalf, '关卡 ' + (i + 1) + ' 缺口半宽与原版表不符（原值 .2/.17/.15）');
+  } else {
+    assert(!lv.obstacle, '关卡 ' + (i + 1) + ' 不应有障碍带');
+  }
 }
 
-/* 不喷气时的降落，用来确认这一关必须有动作 */
-function idleDrop(level) {
-  let y = SPAWN_Y;
-  let vy = 0;
-  let t = 0;
-  while (t < 20) {
-    vy += level.gravity * STEP;
-    vy -= vy * level.drag * STEP;
-    y += vy * STEP;
-    t += STEP;
-    if (vy > 0 && y + EGG_RADIUS >= level.padY && y - EGG_RADIUS < level.padY) {
-      return { impact: vy, landed: true, time: t };
-    }
-    if (y - EGG_RADIUS > VIEW_HEIGHT) return { impact: null, landed: false, time: t };
-  }
-  return { impact: null, landed: false, time: t };
-}
-
-/* 一直喷气，看能不能靠无脑点击过关 */
-function spamDrop(level) {
-  let y = SPAWN_Y;
-  let vy = 0;
-  let t = 0;
-  let thrusts = 0;
-  while (t < 20) {
-    vy -= level.thrust;
-    thrusts++;
-    vy += level.gravity * STEP;
-    vy -= vy * level.drag * STEP;
-    y += vy * STEP;
-    t += STEP;
-    if (vy > 0 && y + EGG_RADIUS >= level.padY && y - EGG_RADIUS < level.padY) {
-      return { impact: vy, thrusts: thrusts, landed: true };
-    }
-    if (y - EGG_RADIUS > VIEW_HEIGHT) return { impact: null, thrusts: thrusts, landed: false };
-  }
-  return { impact: null, thrusts: thrusts, landed: false };
-}
-
-const RS = [150, 200, 250, 300];
-const TS = [0.75, 0.8, 0.85, 0.9, 0.95];
-const TOTAL = RS.length * TS.length;
-const PASS_FLOOR = 8;
+/* —— 逐关复算 —— */
+/* 通过率回归下限：按原版参数实测（20/20/20/15/10/0/5/0/0/0/0/0）留余量锁定 */
+const EARLY_FLOOR = 16;   /* 关 1–3 实测 20/20 */
+const MID_FLOOR = 12;     /* 关 4 实测 15 */
+const LATE_FLOOR = 8;     /* 关 5 实测 10 */
+/* 原版缺陷锁：末四关（9–12）原版参数下不可通关，必须保持 0 */
+const DEFECT_FROM = 8;    /* 从索引 8（第 9 关 峡谷）起 */
 
 const rows = [];
+for (let i = 0; i < content.levels.length; i++) {
+  const level = content.levels[i];
+  const idle = sim.idleDrop(level);
+  assert(!idle.ok, level.zhName + '：不动手也能幸存（落速 ' + idle.speed.toFixed(0) + ' ≤ 限速），这一关没有挑战');
 
-for (const level of content.levels) {
-  /* 1. 不动手会摔碎，而且差距要明显 */
-  const idle = idleDrop(level);
-  assert(idle.landed, level.name + '：不动手时蛋会掉出场地，落地判定失效');
-  assert(
-    idle.impact > level.safe * 1.05,
-    level.name + '：不动手也能安全落地（' + idle.impact.toFixed(0) + ' ≤ ' + level.safe + '），这一关没有挑战'
-  );
+  const spam = sim.spamDrop(level);
+  assert(!spam.ok, level.zhName + '：一直乱点也能幸存，「一直点」变成了最优解');
 
-  /* 2. 闭环玩家通过率 */
-  let pass = 0;
-  let minThrusts = Infinity;
-  let maxGasUsed = 0;
-  for (const R of RS) {
-    for (const T of TS) {
-      const r = play(level, R, level.safe * T);
-      if (r.ok) {
-        pass++;
-        minThrusts = Math.min(minThrusts, r.thrusts);
-        maxGasUsed = Math.max(maxGasUsed, r.thrusts);
-      }
-    }
-  }
-  assert(
-    pass >= PASS_FLOOR,
-    level.name + '：真人玩法只有 ' + pass + '/' + TOTAL + ' 种操作节奏能过关，太难了'
-  );
-
-  /* 3. 节奏：至少要喷两次 */
-  assert(minThrusts !== Infinity, level.name + '：没有任何操作节奏能安全着陆');
-  assert(minThrusts >= 2, level.name + '：喷一次气就能过（' + minThrusts + ' 次），这一关没有节奏');
-
-  /* 4. 一直乱喷气必须过不去 */
-  const spam = spamDrop(level);
-  assert(
-    spam.thrusts > level.gas * 2,
-    level.name + '：一直喷气只用 ' + spam.thrusts + ' 次就够（气量 ' + level.gas + '），节奏没有意义'
-  );
-  assert(
-    !spam.landed || spam.impact > level.safe,
-    level.name + '：一直喷气也能安全着陆，「一直点」变成了最优解'
-  );
+  const casual = sim.casualScore(level);
+  const pro = sim.proScore(level);
 
   rows.push({
-    关卡: level.name,
-    安全线: level.safe,
-    '终端速度': Math.round(level.gravity / level.drag),
-    '不喷气落地': Math.round(idle.impact),
-    '最少喷气': minThrusts,
-    气量预算: level.gas,
-    '最费气节奏': maxGasUsed,
-    '真人通过率': pass + '/' + TOTAL,
-    '落地秒': Math.round(idle.time * 100) / 100
+    关卡: level.zhName,
+    高度: level.height,
+    重力: game.gravityOf(level),
+    风: game.windOf(level),
+    脉冲数: level.pulses,
+    冲量: level.impulse,
+    限速: level.maxSpeed,
+    不喷气落速: Math.round(idle.speed),
+    随手通过: casual.pass + '/' + casual.total,
+    熟练通过: pro.pass + '/' + pro.total,
+    障碍带: level.obstacle ? '有' : '无'
   });
+
+  if (i < 3) {
+    assert(casual.pass >= EARLY_FLOOR,
+      rows[i].关卡 + '：随手玩家只过 ' + casual.pass + '/20（要求 ≥ ' + EARLY_FLOOR + '/20），开局就劝退');
+  } else if (i === 3) {
+    assert(casual.pass >= MID_FLOOR,
+      rows[i].关卡 + '：随手玩家只过 ' + casual.pass + '/20（要求 ≥ ' + MID_FLOOR + '/20）');
+  } else if (i === 4) {
+    assert(casual.pass >= LATE_FLOOR,
+      rows[i].关卡 + '：随手玩家只过 ' + casual.pass + '/20（要求 ≥ ' + LATE_FLOOR + '/20）');
+  }
+  if (i >= DEFECT_FROM) {
+    assert.strictEqual(casual.pass, 0,
+      rows[i].关卡 + '：原版参数下末段关应不可通关（随手 0/20），若 >0 说明有人改了原版数值');
+    assert.strictEqual(pro.pass, 0,
+      rows[i].关卡 + '：原版参数下末段关应不可通关（熟练 0/6），若 >0 说明有人改了原版数值');
+  }
 }
 
+/* —— 整轮 run（随手口径） —— */
+const run = sim.runCasual(content);
+assert.strictEqual(run.finalPass, 0,
+  '末关通过率应为 0/20（原版缺陷：末关不可通关），实际 ' + run.finalPass + '/20');
+assert(
+  run.meanSurvived <= 6,
+  '整轮平均幸存 ' + run.meanSurvived.toFixed(2) + ' 落，超过 6 落说明参数被改动过（原版实测 4.5 落）'
+);
+
+/* —— 手感与物理 —— */
+for (const level of content.levels) {
+  const tap = sim.tapResponse(level);
+  assert.strictEqual(tap.type, 'pulse', level.zhName + '：点按没有生效');
+  assert(
+    Math.abs(tap.sameFrameDelta + level.impulse) < 0.001,
+    level.zhName + '：点下当帧速度变化应恰好等于 -冲量（实际 ' + tap.sameFrameDelta.toFixed(1) + '）'
+  );
+  const state = game.initDropState(level);
+  assert(
+    Math.abs(state.egg.vx - game.windOf(level) * 0.15) < 0.001,
+    level.zhName + '：初始水平速度应为 0.15 × wind 原值'
+  );
+}
+
+/* —— 评级边界（原版 0.4 / 0.75 / 限速） —— */
+assert.strictEqual(game.gradeOf(40, 100), 'perfect');
+assert.strictEqual(game.gradeOf(40.1, 100), 'safe');
+assert.strictEqual(game.gradeOf(41, 100), 'safe');
+assert.strictEqual(game.gradeOf(75, 100), 'safe');
+assert.strictEqual(game.gradeOf(76, 100), 'cracked');
+assert.strictEqual(game.gradeOf(100, 100), 'cracked');
+assert.strictEqual(game.gradeOf(100.1, 100), 'broken');
+
+/* —— 障碍带几何（原版判定式） —— */
+assert.strictEqual(game.gapCenterX(content.levels[5]).toFixed(1), (-41.6).toFixed(1), '峡沟缺口中心');
+assert.ok(Math.abs(game.gapPassHalf(content.levels[5]) - 104) < 1e-6, '峡沟通行半宽 2×0.2×260');
+assert.ok(Math.abs(game.gapCenterX(content.levels[8]) - 52) < 1e-6, '峡谷缺口中心 (0.6−.5)×520');
+assert.ok(Math.abs(game.gapPassHalf(content.levels[8]) - 88.4) < 1e-6, '峡谷通行半宽 2×0.17×260');
+assert.strictEqual(game.gapCenterX(content.levels[11]).toFixed(1), '0.0', '尖峰缺口中心');
+assert.ok(Math.abs(game.gapPassHalf(content.levels[11]) - 78) < 1e-6, '尖峰通行半宽 2×0.15×260');
+
+/* —— 原版缺陷的数学注脚：末四关脉冲预算不足以清零落速 —— */
+for (let i = 8; i < 12; i++) {
+  const lv = content.levels[i];
+  const idleSpeed = Math.sqrt(2 * game.gravityOf(lv) * lv.height);
+  const residual = idleSpeed - lv.pulses * lv.impulse;
+  assert(
+    residual > 0,
+    lv.zhName + '：自由落体末速 ' + idleSpeed.toFixed(0) + ' − 脉冲预算 ' + (lv.pulses * lv.impulse) +
+      ' 应为正（原版缺陷，不可修复）'
+  );
+}
+
+/* —— 落盘数值表 —— */
 fs.mkdirSync(path.join(ROOT, 'qa'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'qa', 'balance-report.json'), JSON.stringify(rows, null, 2));
 console.log(JSON.stringify(rows, null, 2));
 
-/* 通过率应逐关收紧：允许一格的抖动，但整体趋势不能变宽 */
-for (let i = 1; i < rows.length; i++) {
-  const prev = Number(rows[i - 1]['真人通过率'].split('/')[0]);
-  const cur = Number(rows[i]['真人通过率'].split('/')[0]);
-  assert(
-    cur <= prev + 1,
-    rows[i].关卡 + '：真人通过率未逐关收紧（' + cur + '/' + TOTAL + ' > ' + prev + '/' + TOTAL + '）'
-  );
-}
 console.log(
-  '全部关卡 PASS：不喷气必碎、每关至少喷两次、乱喷无效、' +
-    '真人通过率 ' + rows[0]['真人通过率'] + ' → ' + rows[rows.length - 1]['真人通过率']
+  '原版参数回归 PASS：不动手必碎、乱点必碎；随手通过 ' +
+    rows.map(function (r) { return r['随手通过'].split('/')[0]; }).join('/') +
+    '（末四关按原版缺陷锁定 0 通过）'
 );
+console.log(
+  '整轮 run（随手口径）：平均幸存 ' + run.meanSurvived.toFixed(2) + '/12' +
+    '（最差 ' + run.minSurvived + '），末关通过 ' + run.finalPass + '/20' +
+    '，末关平均反推用量 ' + run.finalMeanUsed.toFixed(2) + '/' + content.levels[11].pulses + ' 发'
+);
+console.log('说明：原版末段关卡（9–12）数学上不可通关，本文件按原版数值如实锁定该缺陷。');

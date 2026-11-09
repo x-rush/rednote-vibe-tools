@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>蛋落地</title>
-<meta name="description" content="轻轻放，才不会碎">
+<meta name="description" content="一发一发反推，轻轻落地">
 <link rel="icon" href="./logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="./style.css">
 </head>
@@ -19,26 +19,51 @@
   </header>
 
   <section id="hud" hidden>
-    <div class="hud-row">
-      <span class="level" id="levelName"></span>
-      <span class="score-box"><b id="score">0</b><small>分</small></span>
-    </div>
-    <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="落次进度">
-      <i id="progressFill"></i>
-    </div>
-    <div class="hud-row small">
-      <span id="dropText"></span>
-      <span id="gasText" class="gas"></span>
-    </div>
-    <div class="speed-wrap">
-      <span class="speed-label">落地速度</span>
-      <div class="speed-bar"><i id="speedFill"></i><em class="speed-mark"></em></div>
-      <span id="speedText" class="speed-text">稳</span>
+    <div class="hud-card">
+      <div class="hud-top">
+        <div class="hud-main">
+          <span class="hud-label" id="streakLabel">完好</span>
+          <b id="streak">0</b>
+        </div>
+        <div class="hud-side">
+          <span class="hud-level" id="levelName"></span>
+          <span class="hud-target" id="dropText"></span>
+        </div>
+      </div>
+
+      <div class="hud-foot">
+        <span class="hud-pulse" id="pulseText"></span>
+        <span class="hud-wind" id="windText"></span>
+      </div>
+
+      <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="空投进度">
+        <i id="progressFill"></i>
+      </div>
+
+      <div class="gauge" id="gauge">
+        <div class="gauge-head">
+          <span class="gauge-label" id="speedLabel">落速</span>
+          <span class="gauge-limit" id="limitText"></span>
+          <span class="gauge-value" id="speedText">0</span>
+        </div>
+        <div class="gauge-track" role="img" aria-label="落速刻度尺">
+          <i class="gauge-seg gauge-safe"></i>
+          <i class="gauge-seg gauge-warn"></i>
+          <i class="gauge-seg gauge-danger"></i>
+          <i class="gauge-needle" id="gaugeNeedle"></i>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="stage">
     <canvas id="field" aria-label="蛋落地的场地"></canvas>
+    <div class="vgauge" aria-hidden="true">
+      <i class="vseg vsafe"></i>
+      <i class="vseg vwarn"></i>
+      <i class="vseg vdanger"></i>
+      <i class="vneedle" id="vGaugeNeedle"></i>
+    </div>
     <div id="flash" role="status" aria-live="polite"></div>
     <div id="hint" role="status" aria-live="polite"></div>
   </section>
@@ -54,17 +79,25 @@
       <img class="panel-logo" src="./logo.svg" alt="蛋落地" width="72" height="72">
       <h2 id="startTitle">蛋落地</h2>
       <div id="startLines" class="lines"></div>
-      <button id="startBtn" type="button" class="primary">开始接蛋</button>
-      <p class="tip">点蛋附近喷气：偏哪打哪</p>
+      <button id="startBtn" type="button" class="primary">开始空投</button>
+      <p class="tip">点一下 = 一发反推；反推只向上减速，落点交给风和时机</p>
     </div>
   </section>
 
-  <section id="levelPanel" class="panel-layer" hidden>
+  <section id="dropPanel" class="panel-layer" hidden>
     <div class="panel">
       <div class="panel-glow"></div>
-      <h2 id="levelTitle"></h2>
-      <div id="levelLines" class="lines"></div>
-      <button id="nextBtn" type="button" class="primary">再落一次</button>
+      <h2 id="dropGrade">安全着陆</h2>
+      <div class="result-stats">
+        <div><b id="dropSpeed">0</b><span id="dropSpeedLabel">落地速度</span></div>
+        <div><b id="dropPulses">0</b><span id="dropPulsesLabel">剩余反推</span></div>
+        <div><b id="dropStreak">0</b><span id="dropStreakLabel">完好连击</span></div>
+      </div>
+      <p id="dropLine" class="drop-line"></p>
+      <div class="actions">
+        <button id="retryBtn" type="button" class="ghost">重试本关</button>
+        <button id="nextBtn" type="button" class="primary">下一关</button>
+      </div>
     </div>
   </section>
 
@@ -73,14 +106,15 @@
       <div class="panel-glow"></div>
       <h2 id="resultTitle"></h2>
       <div class="result-stats">
-        <div><b id="resultScore">0</b><span id="resultScoreLabel">总分</span></div>
-        <div><b id="resultSoft">0</b><span id="resultSoftLabel">软着陆</span></div>
-        <div><b id="resultBest">0</b><span id="resultBestLabel">历史最佳</span></div>
+        <div><b id="resultSurvived">0</b><span id="resultSurvivedLabel">幸存落数</span></div>
+        <div><b id="resultBestSpeed">0</b><span id="resultBestSpeedLabel">最佳落速</span></div>
+        <div><b id="resultPulses">0</b><span id="resultPulsesLabel">剩余反推合计</span></div>
       </div>
+      <p id="resultStreakLine" class="drop-line"></p>
       <p id="bestFlag" class="best-flag" hidden>新纪录！</p>
-      <canvas id="shareCard" width="720" height="960" aria-label="软着陆纪录卡"></canvas>
+      <canvas id="shareCard" width="720" height="960" aria-label="空投报告纪录卡"></canvas>
       <div class="actions">
-        <button id="againBtn" type="button" class="primary">再来十二落</button>
+        <button id="againBtn" type="button" class="primary">再来一轮</button>
         <button id="saveBtn" type="button" class="ghost">保存纪录卡</button>
       </div>
       <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>

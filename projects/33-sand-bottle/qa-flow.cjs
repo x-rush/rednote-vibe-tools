@@ -1,7 +1,9 @@
 /*
- * 彩沙瓶 · 全流程自检
- * 覆盖：真实点击倒沙 → 换色 → 塑形拖拽 → 挖沙 → 封口 → 关卡面板不得自行推进 →
- *       下一瓶 → 走完全部八瓶 → 结算面板 → 收藏架 → 720×960 纪录卡 → 保存兜底提示。
+ * 彩沙瓶 · 全流程自检（三期：原版玩法复刻版）
+ * 覆盖：封面教程行 → 选瓶页五张卡片 → 每种瓶型点击画布 55% 高度倒沙 →
+ *       拖动倒沙 + 倾斜 + 松手 tilt 归零 → 推杆塑峰 → 换色 →
+ *       「举向光亮」→ 结果页 → 重玩回选瓶 → 收藏图鉴 → EN/中文切换 →
+ *       全程无撤销（不可撤销张力）→ 静音开关。
  * 复用仓库既有 Playwright 运行时，不新增依赖。
  */
 const fs = require('fs');
@@ -47,154 +49,15 @@ function serve() {
   });
 }
 
-/* 某列在画布上的 CSS 横坐标（相对画布左边缘） */
-function colXScript(col) {
-  const geom = window.__sandRenderer.getGeom();
-  const scale = window.__sandRenderer.getScale();
-  return (geom.cx - geom.inner + (col + 0.5) * geom.cellW) * scale;
-}
-
-/* 找出当前最矮的一列（真人倒沙的直觉落点） */
-function lowestColScript() {
-  const state = window.__sandState;
-  let minCol = 0;
-  let minH = Infinity;
-  for (let c = 0; c < state.cols.length; c++) {
-    if (state.cols[c].length < minH) {
-      minH = state.cols[c].length;
-      minCol = c;
-    }
+/* 页内辅助：读引擎状态 */
+const HOOKS = {
+  grainCount: () => window.__sandEngine ? window.__sandEngine.grains.length : -1,
+  particleCount: () => window.__sandEngine ? window.__sandEngine.particles.length : -1,
+  grainSnapshot: () => {
+    const e = window.__sandEngine;
+    return e ? e.grains.map((g) => [Math.round(g.x * 10) / 10, Math.round(g.y * 10) / 10]) : [];
   }
-  return minCol;
-}
-
-/*
- * 理想玩家：按色带从下往上铺（一直倒最矮的一列），每铺完一层用塑形棒抹平，
- * 堆山后把每列修到目标高度。与 qa-balance-check.cjs 是同一套打法。
- * 跑在页面里，用的是当前真实状态对象。
- */
-function autoFillScript() {
-  const game = window.SandGame;
-  const state = window.__sandState;
-  const meta = state.meta;
-  const target = game.buildTarget(state.level, meta);
-
-  const heights = [];
-  for (let c = 0; c < meta.cols; c++) {
-    let h = 0;
-    for (let r = 0; r < target.grid.length; r++) {
-      if (target.grid[r][c] >= 0) h++;
-    }
-    heights.push(h);
-  }
-
-  function levelSurface() {
-    let guard = 0;
-    while (guard++ < 6000) {
-      let maxC = 0;
-      let minC = 0;
-      for (let c = 1; c < state.cols.length; c++) {
-        if (state.cols[c].length > state.cols[maxC].length) maxC = c;
-        if (state.cols[c].length < state.cols[minC].length) minC = c;
-      }
-      if (state.cols[maxC].length - state.cols[minC].length <= 1) break;
-      if (!game.shape(state, maxC, minC)) break;
-    }
-  }
-
-  function shapeToTarget() {
-    let guard = 0;
-    while (guard++ < 20000) {
-      let need = -1;
-      let needDiff = 0;
-      for (let c = 0; c < state.cols.length; c++) {
-        const d = heights[c] - state.cols[c].length;
-        if (d > needDiff) {
-          needDiff = d;
-          need = c;
-        }
-      }
-      if (need < 0) break;
-      let donor = -1;
-      let bestDist = Infinity;
-      for (let c = 0; c < state.cols.length; c++) {
-        if (state.cols[c].length > heights[c] && state.cols[c].length > 0) {
-          const dist = Math.abs(c - need);
-          if (dist < bestDist) {
-            bestDist = dist;
-            donor = c;
-          }
-        }
-      }
-      if (donor < 0) break;
-      if (!game.shape(state, donor, need)) break;
-    }
-  }
-
-  let baseRows = 0;
-  const bands = state.level.bands || [];
-  for (let i = 0; i < bands.length; i++) {
-    const band = bands[i];
-    state.palette = band.color;
-    const bandTop = baseRows + band.height;
-    let guard = 0;
-    while (guard++ < 4000) {
-      let minCol = 0;
-      let minH = Infinity;
-      for (let c = 0; c < state.cols.length; c++) {
-        const h = state.cols[c].length;
-        if (h < minH) {
-          minH = h;
-          minCol = c;
-        }
-      }
-      if (minH >= bandTop) break;
-      const res = game.pour(state, minCol);
-      if (!res || res.type !== 'pour') break;
-    }
-    levelSurface();
-    baseRows = bandTop;
-  }
-
-  if (state.level.peak) {
-    const p = state.level.peak;
-    const center = Math.round(p.center * (meta.cols - 1));
-    state.palette = p.color;
-    const peakCells = target.cells - baseRows * meta.cols;
-    let guard = 0;
-    while (state.used < baseRows * meta.cols + peakCells && guard++ < 4000) {
-      const res = game.pour(state, center);
-      if (!res || res.type !== 'pour') break;
-    }
-  }
-
-  shapeToTarget();
-  const result = game.evaluate(state);
-  return {
-    passed: result.passed,
-    ratio: Math.round(result.ratio * 100),
-    coverage: Math.round(result.coverage * 100),
-    used: state.used,
-    budget: state.budget
-  };
-}
-
-/* 找一对「有沙且邻居还有空间」的相邻列，用来验证塑形拖拽 */
-function shapePairScript() {
-  const state = window.__sandState;
-  const maxHeight = state.meta.maxHeight;
-  const cols = state.cols.length;
-  for (let c = 0; c < cols; c++) {
-    if (state.cols[c].length <= 0) continue;
-    const targets = c + 1 < cols ? [c + 1] : [];
-    if (c - 1 >= 0) targets.push(c - 1);
-    for (let t = 0; t < targets.length; t++) {
-      const to = targets[t];
-      if (state.cols[to].length < maxHeight) return { from: c, to: to };
-    }
-  }
-  return null;
-}
+};
 
 async function run() {
   fs.mkdirSync(OUT, { recursive: true });
@@ -220,6 +83,7 @@ async function run() {
   });
 
   await page.goto(base, { waitUntil: 'load' });
+  await page.addScriptTag({ content: fs.readFileSync(path.join(ROOT, 'tools', 'autoplay.cjs'), 'utf8') });
   await page.evaluate(() => {
     document.documentElement.style.setProperty('--safe-area-inset-top', '44px');
     document.documentElement.style.setProperty('--safe-area-inset-bottom', '34px');
@@ -227,273 +91,267 @@ async function run() {
 
   const report = {};
 
-  /* ---------- 开场 ---------- */
+  /* ---------- 封面：教程行 + 开始倒沙 ---------- */
+  await page.waitForTimeout(500);
+  const cover = await page.evaluate(() => ({
+    visible: !document.querySelector('#intro').hidden,
+    tutorial: document.querySelector('#startLines').textContent,
+    button: document.querySelector('#startBtn').textContent,
+    hint: document.querySelector('#startTip').textContent
+  }));
+  await page.screenshot({ path: path.join(OUT, 'flow-cover.png') });
+  if (!cover.visible) errors.push('[flow] 封面没有出现');
+  if (cover.tutorial !== '拖动倾倒并倾斜瓶身。一切都无法撤销。') {
+    errors.push('[flow] 教程行与原版不一致：' + cover.tutorial);
+  }
+  if (cover.button !== '开始倒沙') errors.push('[flow] 开始按钮文案与原版不一致');
+  report.cover = cover;
+
+  /* ---------- 选瓶页：五张卡片 ---------- */
   await page.click('#startBtn');
   await page.waitForTimeout(400);
-  const afterStart = await page.evaluate(() => ({
-    hudVisible: !document.querySelector('#hud').hidden,
-    paletteVisible: !document.querySelector('#palette').hidden,
-    toolsVisible: !document.querySelector('#tools').hidden,
-    introHidden: document.querySelector('#intro').hidden,
-    levelIndex: window.__sandState.levelIndex,
-    tool: window.__sandState.tool,
-    palette: window.__sandState.palette
+  const pick = await page.evaluate(() => ({
+    visible: !document.querySelector('#shapeSelect').hidden,
+    title: document.querySelector('#shapeTitle').textContent,
+    hint: document.querySelector('#shapeTip').textContent,
+    cards: [].slice.call(document.querySelectorAll('.shape-card')).map((el) => el.getAttribute('data-shape'))
   }));
-  if (!afterStart.hudVisible || !afterStart.paletteVisible || !afterStart.toolsVisible) {
-    errors.push('[flow] 开始后 HUD / 调色板 / 工具栏没有出现');
+  await page.screenshot({ path: path.join(OUT, 'flow-shape-select.png') });
+  if (!pick.visible) errors.push('[flow] 选瓶页没有出现');
+  const wantShapes = ['round', 'cylinder', 'flask', 'teardrop', 'wide'];
+  if (JSON.stringify(pick.cards) !== JSON.stringify(wantShapes)) {
+    errors.push('[flow] 选瓶页应有五种瓶型（原版顺序），实际 ' + pick.cards.join(','));
   }
-  if (!afterStart.introHidden) errors.push('[flow] 开场面板没有收起');
+  if (pick.title !== '选择瓶形' || pick.hint !== '瓶颈会限制你后期的操作。') {
+    errors.push('[flow] 选瓶页文案与原版不一致');
+  }
+  report.pick = pick;
 
-  /* ---------- 静音开关（曾经因为 muted 未声明直接抛错） ---------- */
-  /* 放在结算浮层出现之前：结算浮层是全屏模态层，会盖住底栏的静音按钮 */
-  await page.click('#muteBtn');
-  await page.waitForTimeout(200);
-  const muteState = await page.evaluate(() => ({
-    label: document.querySelector('#muteBtn').textContent,
-    pressed: document.querySelector('#muteBtn').getAttribute('aria-pressed'),
-    audioMuted: window.SandAudio.isMuted()
+  /* ---------- craft 界面元素 ---------- */
+  await page.click('.shape-card[data-shape="round"]');
+  await page.waitForTimeout(600);
+  const craftUi = await page.evaluate(() => ({
+    hud: !document.querySelector('#hud').hidden,
+    palette: !document.querySelector('#palette').hidden,
+    tools: !document.querySelector('#tools').hidden,
+    swatches: document.querySelectorAll('.swatch').length,
+    toolsList: [].slice.call(document.querySelectorAll('.tool')).map((el) => el.getAttribute('data-tool')),
+    fill: document.querySelector('#fillValue').textContent,
+    pours: document.querySelector('#poursValue').textContent,
+    hint: document.querySelector('#craftHint').textContent,
+    seal: document.querySelector('#sealBtn').textContent,
+    sealDisabled: document.querySelector('#sealBtn').disabled,
+    demoGrains: window.__sandEngine ? window.__sandEngine.grains.length : -1
   }));
-  if (muteState.audioMuted !== true) errors.push('[flow] 静音按钮没有真正关闭音效');
-  await page.click('#muteBtn');
-  await page.waitForTimeout(200);
-  const muteBack = await page.evaluate(() => window.SandAudio.isMuted());
-  if (muteBack !== false) errors.push('[flow] 再次点击静音按钮没有恢复声音');
-  report.mute = { after: muteState, back: muteBack };
+  if (!craftUi.hud || !craftUi.palette || !craftUi.tools) {
+    errors.push('[flow] craft 界面的 HUD / 色条 / 工具没有出现');
+  }
+  if (craftUi.swatches !== 12) errors.push('[flow] 色条应有 12 色，实际 ' + craftUi.swatches);
+  if (JSON.stringify(craftUi.toolsList) !== JSON.stringify(['pour', 'rod'])) {
+    errors.push('[flow] 工具应只有 pour 和 rod 两个，实际 ' + craftUi.toolsList.join(','));
+  }
+  if (craftUi.demoGrains !== 420) errors.push('[flow] 开场演示灌注应为 420 粒，实际 ' + craftUi.demoGrains);
+  if (craftUi.hint !== '在玻璃瓶内拖动即可倒沙。无法撤销。') {
+    errors.push('[flow] 倒沙提示与原版不一致：' + craftUi.hint);
+  }
+  if (craftUi.seal !== '举向光亮' || craftUi.sealDisabled) {
+    errors.push('[flow] 「举向光亮」按钮文案不对或被禁用（原版始终可用）');
+  }
+  report.craftUi = craftUi;
 
   const box = await page.locator('#field').boundingBox();
 
-  /* ---------- 真实点击倒沙 ---------- */
-  const beforePour = await page.evaluate(() => ({
-    used: window.__sandState.used,
-    cells: window.__sandState.cols.reduce((s, c) => s + c.length, 0)
-  }));
-  for (let i = 0; i < 12; i++) {
-    const col = await page.evaluate(lowestColScript);
-    const x = await page.evaluate(colXScript, col);
-    await page.mouse.click(box.x + x, box.y + box.height * 0.55);
+  /* ---------- 点击画布 55% 高度倒沙（兼容断言保持） ---------- */
+  const beforeClick = await page.evaluate(HOOKS.grainCount);
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height * 0.55);
+  await page.waitForTimeout(150);
+  const afterClick = await page.evaluate(HOOKS.grainCount);
+  const clickGain = afterClick - beforeClick;
+  if (clickGain !== 18) {
+    errors.push('[flow] 画布 55% 高度单击应倒 18 粒（原版按下 pours 18），实际 ' + clickGain);
   }
-  const afterPour = await page.evaluate(() => ({
-    used: window.__sandState.used,
-    cells: window.__sandState.cols.reduce((s, c) => s + c.length, 0),
-    heights: window.__sandState.cols.map((c) => c.length)
-  }));
-  if (afterPour.used !== beforePour.used + 12) {
-    errors.push('[flow] 真实点击倒沙没有增加用量，used ' + beforePour.used + ' → ' + afterPour.used);
-  }
-  if (afterPour.cells !== beforePour.cells + 12) {
-    errors.push('[flow] 真实点击倒沙没有把沙放进瓶子，cells ' + beforePour.cells + ' → ' + afterPour.cells);
-  }
-  report.afterPour = { before: beforePour, after: afterPour };
+  const poursChip = await page.evaluate(() => document.querySelector('#poursValue').textContent);
+  if (poursChip !== '1') errors.push('[flow] 倒沙次数 chip 应为 1，实际 ' + poursChip);
+  report.clickPour = { beforeClick, afterClick, gain: clickGain };
 
-  /* ---------- 真实点击换色 ---------- */
-  await page.click('.swatch[data-color="2"]');
-  const paletteAfter = await page.evaluate(() => window.__sandState.palette);
-  if (paletteAfter !== 2) errors.push('[flow] 点击色块没有切换沙的颜色');
+  /* ---------- 拖动倒沙 + 倾斜 + 松手归零 ---------- */
+  const beforeDrag = await page.evaluate(HOOKS.grainCount);
+  await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.5);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.7, box.y + box.height * 0.5, { steps: 12 });
+  const tiltDuring = await page.evaluate(() => window.__sandEngine.tilt);
+  await page.mouse.up();
+  await page.waitForTimeout(150);
+  const afterDrag = await page.evaluate(HOOKS.grainCount);
+  const tiltAfter = await page.evaluate(() => window.__sandEngine.tilt);
+  if (tiltDuring === 0) errors.push('[flow] 拖动过程中 tilt 应非零');
+  if (tiltAfter !== 0) errors.push('[flow] 松手后 tilt 必须归零（原版行为）');
+  if (afterDrag <= beforeDrag) errors.push('[flow] 拖动没有倒进沙');
+  report.dragPour = { gained: afterDrag - beforeDrag, tiltDuring, tiltAfter };
 
-  /* ---------- 真实拖拽塑形 ---------- */
-  await page.click('.tool[data-tool="shape"]');
-  const pair = await page.evaluate(shapePairScript);
-  if (!pair) {
-    errors.push('[flow] 找不到可用于塑形验证的相邻列');
-  } else {
-    const xFrom = await page.evaluate(colXScript, pair.from);
-    const xTo = await page.evaluate(colXScript, pair.to);
-    const beforeShape = await page.evaluate(() => window.__sandState.cols.map((c) => c.length));
-    await page.mouse.move(box.x + xFrom, box.y + box.height * 0.55);
-    await page.mouse.down();
-    await page.mouse.move(box.x + xTo, box.y + box.height * 0.55);
-    const midShape = await page.evaluate(() => window.__sandState.cols.map((c) => c.length));
-    await page.mouse.move(box.x + xFrom, box.y + box.height * 0.55);
-    await page.mouse.up();
-    const afterShape = await page.evaluate(() => window.__sandState.cols.map((c) => c.length));
-    const moved =
-      midShape[pair.from] === beforeShape[pair.from] - 1 &&
-      midShape[pair.to] === beforeShape[pair.to] + 1;
-    const restored =
-      afterShape[pair.from] === beforeShape[pair.from] &&
-      afterShape[pair.to] === beforeShape[pair.to];
-    report.shape = { pair: pair, before: beforeShape, mid: midShape, after: afterShape, moved: moved, restored: restored };
-    if (!moved) errors.push('[flow] 塑形拖拽没有搬运沙粒');
-    if (!restored) errors.push('[flow] 塑形拖拽搬回去之后沙面没有恢复原状');
+  /* ---------- 推杆：拖动把堆面沙推开 ---------- */
+  await page.click('.tool[data-tool="rod"]');
+  await page.waitForTimeout(150);
+  const rodHint = await page.evaluate(() => document.querySelector('#craftHint').textContent);
+  if (rodHint !== '拖动推杆把沙子推向玻璃壁形成尖峰。') {
+    errors.push('[flow] 推杆提示与原版不一致：' + rodHint);
   }
+  const beforeRod = await page.evaluate(HOOKS.grainSnapshot);
+  await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.62);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.36, box.y + box.height * 0.6, { steps: 10 });
+  await page.mouse.move(box.x + box.width * 0.64, box.y + box.height * 0.64, { steps: 10 });
+  await page.mouse.up();
+  await page.waitForTimeout(200);
+  const afterRod = await page.evaluate(HOOKS.grainSnapshot);
+  let movedGrains = 0;
+  for (let i = 0; i < Math.min(beforeRod.length, afterRod.length); i++) {
+    if (beforeRod[i][0] !== afterRod[i][0] || beforeRod[i][1] !== afterRod[i][1]) movedGrains++;
+  }
+  if (movedGrains < 5) {
+    errors.push('[flow] 推杆拖动应推动堆面沙粒，实际只动了 ' + movedGrains + ' 粒');
+  }
+  report.rod = { movedGrains };
 
-  /* ---------- 真实点击挖沙 ---------- */
-  await page.click('.tool[data-tool="scoop"]');
-  const scoopBefore = await page.evaluate(() => ({
-    used: window.__sandState.used,
-    cells: window.__sandState.cols.reduce((s, c) => s + c.length, 0)
-  }));
-  const scoopCol = await page.evaluate(() => {
-    const state = window.__sandState;
-    for (let c = 0; c < state.cols.length; c++) {
-      if (state.cols[c].length > 0) return c;
-    }
-    return -1;
+  /* ---------- 换色 ---------- */
+  await page.click('.swatch[data-color="9"]');
+  const colorNow = await page.evaluate(() => {
+    /* 点击色块后下一批倒的沙应带新颜色：直接查引擎上一次 pour 的颜色由 app 决定，
+       这里用 UI 状态断言：选中态落在 9 号色块上 */
+    const on = document.querySelector('.swatch.on');
+    return on ? Number(on.getAttribute('data-color')) : -1;
   });
-  if (scoopCol >= 0) {
-    const x = await page.evaluate(colXScript, scoopCol);
-    await page.mouse.click(box.x + x, box.y + box.height * 0.55);
-  }
-  const scoopAfter = await page.evaluate(() => ({
-    used: window.__sandState.used,
-    cells: window.__sandState.cols.reduce((s, c) => s + c.length, 0)
-  }));
-  if (scoopAfter.cells >= scoopBefore.cells) {
-    errors.push('[flow] 挖沙没有取走沙粒');
-  }
-  if (scoopAfter.used >= scoopBefore.used) {
-    errors.push('[flow] 挖沙没有退还沙量额度');
-  }
-  report.scoop = { before: scoopBefore, after: scoopAfter };
+  if (colorNow !== 9) errors.push('[flow] 点击色块没有切换选中色');
 
-  /* ---------- 第一关：全程真实点击堆完 ---------- */
-  await page.click('.tool[data-tool="pour"]');
-  await page.click('.swatch[data-color="0"]');
-  let guard = 0;
-  while (guard++ < 600) {
-    const snap = await page.evaluate(() => {
-      const state = window.__sandState;
-      const result = window.SandGame.evaluate(state);
-      return { passed: result.passed, used: state.used, budget: state.budget };
-    });
-    if (snap.passed) break;
-    if (snap.used >= snap.budget) break;
-    const col = await page.evaluate(lowestColScript);
-    const x = await page.evaluate(colXScript, col);
-    await page.mouse.click(box.x + x, box.y + box.height * 0.55);
-  }
-  const levelOne = await page.evaluate(() => ({
-    passed: window.SandGame.evaluate(window.__sandState).passed,
-    sealDisabled: document.querySelector('#sealBtn').disabled,
-    used: window.__sandState.used,
-    budget: window.__sandState.budget
-  }));
-  report.levelOne = levelOne;
-  if (!levelOne.passed) errors.push('[flow] 第一关真实点击堆不满目标图案');
-  if (levelOne.sealDisabled) errors.push('[flow] 吻合度达标后「封口收藏」仍然禁用');
+  /* ---------- 静音开关（craft 阶段，底栏不被面板遮挡） ---------- */
+  await page.click('#muteBtn');
+  await page.waitForTimeout(150);
+  const muted = await page.evaluate(() => window.SandAudio.isMuted());
+  if (muted !== true) errors.push('[flow] 静音按钮没有真正关闭音效');
+  await page.click('#muteBtn');
+  await page.waitForTimeout(150);
+  const unmuted = await page.evaluate(() => window.SandAudio.isMuted());
+  if (unmuted !== false) errors.push('[flow] 再次点击静音按钮没有恢复声音');
+  report.mute = { muted, unmuted };
 
-  /* ---------- 封口 ---------- */
+  /* ---------- 举向光亮 → 结果页 ---------- */
   await page.click('#sealBtn');
-  await page.waitForTimeout(400);
-  const levelPanel = await page.evaluate(() => ({
-    visible: !document.querySelector('#levelPanel').hidden,
-    title: document.querySelector('#levelTitle').textContent,
-    button: document.querySelector('#nextBtn').textContent,
-    bottles: window.__sandState.bottles.length,
-    levelIndex: window.__sandState.levelIndex
-  }));
-  await page.screenshot({ path: path.join(OUT, 'flow-level-clear.png') });
-  if (!levelPanel.visible) errors.push('[flow] 封口后关卡结算面板没有出现');
-  if (levelPanel.bottles !== 1) errors.push('[flow] 封口后没有进收藏架');
-
-  /* 关键断言：结算面板不自行推进 */
-  await page.waitForTimeout(3000);
-  const levelBeforeNext = await page.evaluate(() => ({
-    levelIndex: window.__sandState.levelIndex,
-    panelVisible: !document.querySelector('#levelPanel').hidden
-  }));
-  if (levelBeforeNext.levelIndex !== 0 || !levelBeforeNext.panelVisible) {
-    errors.push('[flow] 结算面板未等待确认就自行推进到下一关');
-  }
-  report.levelPanel = levelPanel;
-  report.levelBeforeNext = levelBeforeNext;
-
-  /* ---------- 走完剩余七瓶 ---------- */
-  const levelRuns = [];
-  for (let i = 1; i < 8; i++) {
-    await page.click('#nextBtn');
-    await page.waitForTimeout(250);
-    const fill = await page.evaluate(autoFillScript);
-    if (!fill.passed) {
-      errors.push('[flow] 第 ' + (i + 1) + ' 关理想玩家堆不满（吻合 ' + fill.ratio + '%）');
-      break;
-    }
-    /* 用一次「搬出去再搬回来」的塑形拖拽触发 HUD 刷新（状态不变） */
-    await page.click('.tool[data-tool="shape"]');
-    const pair2 = await page.evaluate(shapePairScript);
-    if (pair2) {
-      const xFrom = await page.evaluate(colXScript, pair2.from);
-      const xTo = await page.evaluate(colXScript, pair2.to);
-      await page.mouse.move(box.x + xFrom, box.y + box.height * 0.55);
-      await page.mouse.down();
-      await page.mouse.move(box.x + xTo, box.y + box.height * 0.55);
-      await page.mouse.move(box.x + xFrom, box.y + box.height * 0.55);
-      await page.mouse.up();
-    }
-    await page.click('.tool[data-tool="pour"]');
-    const sealEnabled = await page.evaluate(() => !document.querySelector('#sealBtn').disabled);
-    if (!sealEnabled) {
-      errors.push('[flow] 第 ' + (i + 1) + ' 关堆好后「封口收藏」仍然禁用');
-      break;
-    }
-    await page.click('#sealBtn');
-    await page.waitForTimeout(250);
-    const sealed = await page.evaluate(() => window.__sandState.bottles.length);
-    levelRuns.push({ level: i + 1, fill: fill, sealed: sealed });
-    if (sealed !== i + 1) {
-      errors.push('[flow] 第 ' + (i + 1) + ' 关封口后收藏架数量不对：' + sealed);
-      break;
-    }
-  }
-  report.levelRuns = levelRuns;
-
-  /* ---------- 结算面板 ---------- */
-  await page.click('#nextBtn');
   await page.waitForTimeout(500);
-  const resultPanel = await page.evaluate(() => {
-    const el = document.querySelector('#result');
-    const card = document.querySelector('#shareCard');
-    const shelf = document.querySelector('#shelf');
-    const cardPixels = (() => {
-      const data = card.getContext('2d').getImageData(0, 0, card.width, card.height).data;
-      let n = 0;
-      for (let i = 3; i < data.length; i += 4) if (data[i] > 0) n++;
-      return n;
-    })();
-    const shelfPixels = (() => {
-      const data = shelf.getContext('2d').getImageData(0, 0, shelf.width, shelf.height).data;
-      let n = 0;
-      for (let i = 3; i < data.length; i += 4) if (data[i] > 0) n++;
-      return n;
-    })();
+  const result = await page.evaluate(() => ({
+    visible: !document.querySelector('#result').hidden,
+    title: document.querySelector('#resultTitle').textContent,
+    hint: document.querySelector('#resultHint').textContent,
+    replay: document.querySelector('#replayBtn').textContent,
+    craftUiHidden: document.querySelector('#tools').hidden
+  }));
+  await page.screenshot({ path: path.join(OUT, 'flow-result.png') });
+  if (!result.visible) errors.push('[flow] 结果页没有出现');
+  if (result.title !== '你的沙瓶') errors.push('[flow] 结果页标题与原版不一致');
+  if (result.hint.indexOf('层层堆叠，无法重做。') !== 0) {
+    errors.push('[flow] 结果页提示与原版不一致：' + result.hint);
+  }
+  if (result.replay !== '再做一瓶') errors.push('[flow] 重玩按钮文案与原版不一致');
+  if (!result.craftUiHidden) errors.push('[flow] 进入结果页后工具栏没有收起');
+  /* 结果页背光摆动：tilt 在动 */
+  const tilt1 = await page.evaluate(() => window.__sandEngine.tilt);
+  await page.waitForTimeout(300);
+  const tilt2 = await page.evaluate(() => window.__sandEngine.tilt);
+  if (tilt1 === tilt2) errors.push('[flow] 结果页瓶子没有摆动（原版 tilt=.08*sin(3t)）');
+  report.result = result;
+
+  /* ---------- 图鉴：刚封的瓶进了收藏 ---------- */
+  await page.click('#resultAlbumBtn');
+  await page.waitForTimeout(300);
+  const album = await page.evaluate(() => ({
+    visible: !document.querySelector('#album').hidden,
+    items: document.querySelectorAll('.album-item').length,
+    firstName: (document.querySelector('.album-name') || {}).textContent || ''
+  }));
+  await page.screenshot({ path: path.join(OUT, 'flow-album.png') });
+  if (!album.visible) errors.push('[flow] 图鉴没有打开');
+  if (album.items < 1) errors.push('[flow] 封瓶后图鉴里没有瓶子');
+  if (album.firstName !== '圆肩瓶') errors.push('[flow] 图鉴条目瓶型名不对：' + album.firstName);
+  await page.click('#albumClose');
+  report.album = album;
+
+  /* ---------- 重玩：回到选瓶页，引擎重置 ---------- */
+  await page.click('#replayBtn');
+  await page.waitForTimeout(300);
+  const replay = await page.evaluate(() => ({
+    pickVisible: !document.querySelector('#shapeSelect').hidden,
+    resultHidden: document.querySelector('#result').hidden,
+    engineNull: window.__sandEngine === null
+  }));
+  if (!replay.pickVisible || !replay.resultHidden || !replay.engineNull) {
+    errors.push('[flow] 重玩没有回到选瓶页并重置引擎');
+  }
+  report.replay = replay;
+
+  /* ---------- 五种瓶型逐一点击画布 55% 高度倒沙 ---------- */
+  const shapeClicks = [];
+  for (const shapeId of ['round', 'cylinder', 'flask', 'teardrop', 'wide']) {
+    await page.reload({ waitUntil: 'load' });
+    await page.addScriptTag({ content: fs.readFileSync(path.join(ROOT, 'tools', 'autoplay.cjs'), 'utf8') });
+    await page.click('#startBtn');
+    await page.waitForTimeout(250);
+    await page.click('.shape-card[data-shape="' + shapeId + '"]');
+    await page.waitForTimeout(500);
+    const boxS = await page.locator('#field').boundingBox();
+    const before = await page.evaluate(HOOKS.grainCount);
+    await page.mouse.click(boxS.x + boxS.width / 2, boxS.y + boxS.height * 0.55);
+    await page.waitForTimeout(150);
+    const after = await page.evaluate(HOOKS.grainCount);
+    const ok = after === before + 18;
+    shapeClicks.push({ shape: shapeId, gain: after - before, ok });
+    if (!ok) {
+      errors.push('[flow] ' + shapeId + ' 瓶型下画布 55% 高度点击没有倒进 18 粒');
+    }
+  }
+  report.shapeClicks = shapeClicks;
+
+  /* ---------- 全程无撤销 ---------- */
+  const noUndo = await page.evaluate(() => {
+    const buttons = [].slice.call(document.querySelectorAll('button'));
+    const undoButton = buttons.some((b) => /撤销|undo|重做|redo/i.test(b.textContent) && b.id !== 'craftHint');
     return {
-      visible: el && !el.hidden,
-      title: document.querySelector('#resultTitle').textContent,
-      score: document.querySelector('#resultScore').textContent,
-      bottles: document.querySelector('#resultBottles').textContent,
-      best: document.querySelector('#resultBest').textContent,
-      newBest: !document.querySelector('#bestFlag').hidden,
-      cardSize: card ? [card.width, card.height] : null,
-      cardPixels: cardPixels,
-      shelfPixels: shelfPixels
+      undoButton,
+      engineUndo: window.__sandEngine ? typeof window.__sandEngine.undo : 'no-engine'
     };
   });
-  await page.screenshot({ path: path.join(OUT, 'flow-final.png') });
-  if (!resultPanel.visible) errors.push('[flow] 全部通关后结算面板没有出现');
-  if (resultPanel.bottles !== '8') errors.push('[flow] 结算面板封口数不是 8：' + resultPanel.bottles);
-  if (!resultPanel.cardSize || resultPanel.cardSize[0] !== 720 || resultPanel.cardSize[1] !== 960) {
-    errors.push('[flow] 纪录卡不是 720×960：' + JSON.stringify(resultPanel.cardSize));
+  if (noUndo.undoButton) errors.push('[flow] 出现了撤销/重做按钮（原版全程不可撤销）');
+  if (noUndo.engineUndo !== 'undefined' && noUndo.engineUndo !== 'no-engine') {
+    errors.push('[flow] 引擎不应有 undo 接口');
   }
-  if (!resultPanel.cardPixels) errors.push('[flow] 纪录卡画布是空的');
-  if (!resultPanel.shelfPixels) errors.push('[flow] 收藏架画布是空的');
-  report.resultPanel = resultPanel;
+  report.noUndo = noUndo;
 
-  /* ---------- 保存兜底 ---------- */
-  await page.click('#saveBtn');
-  await page.waitForTimeout(300);
-  const saveStatus = await page.textContent('#saveStatus');
-  await page.screenshot({ path: path.join(OUT, 'flow-save.png') });
-  if (!saveStatus || !saveStatus.trim()) errors.push('[flow] 保存按钮没有给出任何兜底提示');
-  report.saveStatus = saveStatus;
+  /* ---------- EN/中文切换 ---------- */
+  await page.click('#langBtn');
+  await page.waitForTimeout(200);
+  const enState = await page.evaluate(() => ({
+    seal: document.querySelector('#sealBtn').textContent,
+    toolPour: document.querySelector('#toolPour').textContent,
+    lang: document.querySelector('#langBtn').textContent
+  }));
+  if (enState.lang !== '中文') errors.push('[flow] EN 模式下语言按钮应显示「中文」');
+  if (enState.seal !== 'Hold to the Light') {
+    errors.push('[flow] EN 模式下举向光亮按钮应为原文：' + enState.seal);
+  }
+  if (enState.toolPour !== 'Pour') errors.push('[flow] EN 模式下倒沙工具应为 Pour');
+  await page.click('#langBtn');
+  await page.waitForTimeout(200);
+  report.lang = { enState };
 
-  report.errors = errors;
   fs.writeFileSync(path.join(OUT, 'flow-report.json'), JSON.stringify(report, null, 2));
-  console.log(JSON.stringify(report, null, 2));
 
   await context.close();
   await browser.close();
   server.close();
-  if (errors.length) process.exitCode = 1;
+  if (errors.length) {
+    console.error('FLOW FAIL:\n' + errors.join('\n'));
+    process.exitCode = 1;
+  } else {
+    console.log('FLOW PASS：封面 → 五瓶型 → 拖动倒沙/倾斜/推杆 → 举向光亮 → 结果页 → 重玩 → 图鉴 → 双语 → 无撤销 全部通过');
+  }
 }
 
 run().catch((e) => {

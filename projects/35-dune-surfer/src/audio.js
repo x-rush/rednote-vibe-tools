@@ -1,7 +1,7 @@
 /*
  * 沙丘速降 · 音效
  * 全部由 Web Audio 实时合成，不引入任何音频文件。
- * 风声跟着速度走，雪崩的轰鸣跟着距离走——声音本身就是仪表盘。
+ * 风声跟着速度走，雪崩的轰鸣跟着 ava 压力走——声音本身就是仪表盘。
  */
 (function (root) {
   'use strict';
@@ -100,13 +100,13 @@
     osc.stop(now + dur + 0.02);
   }
 
-  /* 风声：速度越快越亮越响 */
+  /* 风声：速度系数 p（0.3 巡航起步 → 0.68 封顶）越快越亮越响 */
   function setSpeed(speed) {
     var c = ensure();
     if (!c) return;
     buildWind();
     if (!windGain) return;
-    var t = Math.max(0, Math.min(1, (speed - 150) / 700));
+    var t = Math.max(0, Math.min(1, (speed - 0.3) / 0.38));
     var now = c.currentTime;
     try {
       windGain.gain.setTargetAtTime(0.02 + t * 0.12, now, 0.12);
@@ -116,7 +116,7 @@
     }
   }
 
-  /* 雪崩轰鸣：越近越响 */
+  /* 雪崩轰鸣：ava 压力越大越响 */
   function setDanger(near) {
     var c = ensure();
     if (!c) return;
@@ -148,51 +148,10 @@
     tone(1175, 1175, 0.24, 0.08, 'triangle', 0.06);
   }
 
-  /* 漏旗门：一声闷响 */
+  /* 漏旗门：低音闷响——雪崩逼近的警告 */
   function playGateMiss() {
-    tone(300, 240, 0.16, 0.05, 'sine', 0);
-  }
-
-  /* 撞岩脊：低频闷响 + 噪声 */
-  function playCrash() {
-    var c = ensure();
-    if (!c) return;
-    tone(160, 60, 0.26, 0.14, 'sine', 0);
-    tone(90, 45, 0.34, 0.1, 'square', 0.02);
-  }
-
-  /* 起跳 */
-  function playJump() {
-    tone(420, 880, 0.18, 0.09, 'triangle', 0);
-  }
-
-  /* 落地 */
-  function playLand() {
-    tone(180, 110, 0.14, 0.09, 'sine', 0);
-  }
-
-  /* 甩尾：短促的风声 */
-  function playCarve(power) {
-    var c = ensure();
-    if (!c) return;
-    var now = c.currentTime;
-    var src = c.createBufferSource();
-    src.buffer = noiseBuffer(c, 0.4);
-    var filter = c.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(900, now);
-    filter.frequency.exponentialRampToValueAtTime(2600, now + 0.22);
-    filter.Q.value = 1.6;
-    var g = c.createGain();
-    var vol = 0.05 + (power || 0.5) * 0.08;
-    g.gain.setValueAtTime(0.0001, now);
-    g.gain.exponentialRampToValueAtTime(vol, now + 0.04);
-    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
-    src.connect(filter);
-    filter.connect(g);
-    g.connect(c.destination);
-    src.start(now);
-    src.stop(now + 0.34);
+    tone(220, 150, 0.3, 0.11, 'sine', 0);
+    tone(140, 90, 0.36, 0.07, 'triangle', 0.04);
   }
 
   /* 被追上：闷住的下行 */
@@ -209,10 +168,6 @@
     silence: silence,
     playGate: playGate,
     playGateMiss: playGateMiss,
-    playCrash: playCrash,
-    playJump: playJump,
-    playLand: playLand,
-    playCarve: playCarve,
     playOver: playOver,
     setMuted: function (v) {
       muted = !!v;

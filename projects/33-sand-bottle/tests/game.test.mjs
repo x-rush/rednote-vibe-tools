@@ -1,6 +1,11 @@
 /*
- * 彩沙瓶 · 玩法单测
- * 只测纯逻辑：沙的堆积与滑落、塑形搬沙、目标图案展开、吻合度与封口。
+ * 彩沙瓶 · 玩法单测（三期：原版值逐常量断言）
+ *
+ * 所有期望值都直接来自原版源码（reference/eazo-spec.txt 与
+ * %TEMP%\eazo-original\33\12gurs1rhkq1r.js 的 chunk 33131 / 52499）。
+ * 原版缺陷照抄并如实断言：2600 粒沙在原版瓶身剖面里根本填不满
+ * （fillLevel 最高 ~0.5），isFull 实际由粒数上限触发；.97 填充分支
+ * 只有人工摆粒才可能达到——这是原版行为，不得「修正」。
  */
 import test from 'node:test';
 import assert from 'node:assert';
@@ -15,228 +20,414 @@ const content = JSON.parse(
 );
 createRequire(import.meta.url)(path.join(ROOT, 'src/game.js'));
 const game = global.SandGame;
-const meta = content.meta;
 
-function newRun(levelIndex) {
-  const state = game.createRun(content);
-  if (levelIndex) game.loadLevel(state, levelIndex);
-  return state;
+/* 原版 BOTTLE_SHAPES（chunk 33131），一字不改 */
+const ORIGINAL_SHAPES = [
+  { id: 'round', name: 'Round Shoulder', bodyHalf: 0.33, neckHalf: 0.12, neckSpan: 0.16, shoulderSpan: 0.12, roundBottom: 0.5 },
+  { id: 'cylinder', name: 'Tall Cylinder', bodyHalf: 0.28, neckHalf: 0.14, neckSpan: 0.12, shoulderSpan: 0.08, roundBottom: 0.15 },
+  { id: 'flask', name: 'Flask', bodyHalf: 0.36, neckHalf: 0.1, neckSpan: 0.2, shoulderSpan: 0.16, roundBottom: 0.35 },
+  { id: 'teardrop', name: 'Teardrop', bodyHalf: 0.35, neckHalf: 0.11, neckSpan: 0.14, shoulderSpan: 0.24, roundBottom: 0.85 },
+  { id: 'wide', name: 'Wide Body', bodyHalf: 0.4, neckHalf: 0.13, neckSpan: 0.11, shoulderSpan: 0.1, roundBottom: 0.25 }
+];
+
+/* 原版 SAND_COLORS（chunk 33131），hex 与顺序一字不改 */
+const ORIGINAL_COLORS = [
+  { id: 'ochre', hex: '#D7A34A', name: 'Ochre' },
+  { id: 'amber', hex: '#E8954A', name: 'Amber' },
+  { id: 'coral', hex: '#B96C3F', name: 'Coral' },
+  { id: 'rust', hex: '#A55C49', name: 'Rust' },
+  { id: 'clay', hex: '#8D5A3B', name: 'Clay' },
+  { id: 'cream', hex: '#ECE5CD', name: 'Cream' },
+  { id: 'wheat', hex: '#D9C7A5', name: 'Wheat' },
+  { id: 'gold', hex: '#C8A86B', name: 'Gold' },
+  { id: 'moss', hex: '#76815C', name: 'Moss' },
+  { id: 'teal', hex: '#6E7C77', name: 'Teal' },
+  { id: 'violet', hex: '#7A6A86', name: 'Violet' },
+  { id: 'slate', hex: '#4F4A38', name: 'Slate' }
+];
+
+/* 原版 22 条文案（en + zh），逐字对照 */
+const ORIGINAL_COPY = {
+  en: {
+    tutorialLine: 'Drag to pour and tilt. Nothing can be undone.',
+    startButton: 'Start Pouring',
+    chooseBottle: 'Choose a bottle',
+    bottleHint: 'Its neck will restrict your later work.',
+    beginCraft: 'Begin',
+    toolPour: 'Pour',
+    toolRod: 'Rod',
+    hintPour: 'Drag in the glass to pour. No undo.',
+    hintRod: 'Drag to push sand into peaks against the glass.',
+    fillLabel: 'Fill',
+    fullBottle: 'The bottle is full — hold it to the light.',
+    finishButton: 'Hold to the Light',
+    resultTitle: 'Your Sand Bottle',
+    resultHint: 'Layers made, nothing to redo.',
+    replayButton: 'Pour a New Bottle',
+    muteOn: 'Sound on',
+    muteOff: 'Sound off',
+    pours: 'Pours',
+    colors: 'colours',
+    langLabel: 'EN'
+  },
+  zh: {
+    tutorialLine: '拖动倾倒并倾斜瓶身。一切都无法撤销。',
+    startButton: '开始倒沙',
+    chooseBottle: '选择瓶形',
+    bottleHint: '瓶颈会限制你后期的操作。',
+    beginCraft: '开始制作',
+    toolPour: '倒沙',
+    toolRod: '推杆',
+    hintPour: '在玻璃瓶内拖动即可倒沙。无法撤销。',
+    hintRod: '拖动推杆把沙子推向玻璃壁形成尖峰。',
+    fillLabel: '填充度',
+    fullBottle: '瓶子已满——把它举到光下看看。',
+    finishButton: '举向光亮',
+    resultTitle: '你的沙瓶',
+    resultHint: '层层堆叠，无法重做。',
+    replayButton: '再做一瓶',
+    muteOn: '声音开启',
+    muteOff: '声音关闭',
+    pours: '倒沙次数',
+    colors: '种颜色',
+    langLabel: '中文'
+  }
+};
+
+const W = 390;
+const H = 430;
+
+function newEngine(shapeId) {
+  const engine = new game.SandEngine(game.shapeById(shapeId || 'round'));
+  engine.resize(W, H);
+  return engine;
 }
 
-test('初始状态落在第一关，沙量配额由目标格数算出', () => {
-  const state = newRun();
-  assert.strictEqual(state.levelIndex, 0);
-  assert.strictEqual(state.tool, 'pour');
-  assert.strictEqual(state.used, 0);
-  assert.strictEqual(state.cols.length, meta.cols);
-  assert.ok(state.budget > state.target.cells, '沙量配额必须比目标格数宽裕');
-});
+/* ---------- 瓶型表 / 色表 ---------- */
 
-test('倒沙会加一格并吃掉额度', () => {
-  const state = newRun();
-  const before = state.used;
-  const res = game.pour(state, 12);
-  assert.strictEqual(res.type, 'pour');
-  assert.strictEqual(state.cols[12].length, 1);
-  assert.strictEqual(state.used, before + 1);
-});
-
-test('沙会自己滑落：坡度超过安息角时流到邻列', () => {
-  const state = newRun();
-  for (let i = 0; i < 10; i++) game.pour(state, 12);
-  const center = state.cols[12].length;
-  const neighbor = state.cols[11].length;
-  assert.ok(center > 0, '中间列应该有沙');
-  assert.ok(neighbor > 0, '沙必须自己滑到邻列');
-  assert.ok(center - neighbor <= meta.maxSlope, '相邻列高度差不能超过安息角');
-});
-
-test('塑形把沙从一列搬到另一列，总量不变', () => {
-  const state = newRun();
-  for (let i = 0; i < 6; i++) game.pour(state, 5);
-  const totalBefore = game.totalCells(state);
-  const fromBefore = state.cols[5].length;
-  const toBefore = state.cols[6].length;
-  const res = game.shape(state, 5, 6);
-  assert.strictEqual(res.type, 'shape');
-  assert.strictEqual(game.totalCells(state), totalBefore, '塑形不改变沙的总量');
-  assert.strictEqual(state.cols[5].length, fromBefore - 1);
-  assert.strictEqual(state.cols[6].length, toBefore + 1);
-});
-
-test('塑形不受安息角限制：可以堆出比安息角更陡的坡', () => {
-  const state = newRun();
-  for (let i = 0; i < 12; i++) game.pour(state, 3);
-  for (let i = 0; i < 6; i++) {
-    game.shape(state, 4, 3);
-  }
-  const diff = state.cols[3].length - state.cols[4].length;
-  assert.ok(diff > meta.maxSlope, '塑形后的落差应该可以超过安息角（' + diff + '）');
-});
-
-test('挖沙拿走顶上一层并退还额度', () => {
-  const state = newRun();
-  game.pour(state, 8);
-  const used = state.used;
-  const res = game.scoop(state, 8);
-  assert.strictEqual(res.type, 'scoop');
-  assert.strictEqual(state.cols[8].length, 0);
-  assert.strictEqual(state.used, used - 1);
-});
-
-test('目标图案按色带从下往上展开', () => {
-  const target = game.buildTarget(content.levels[1], meta);
-  const bottom = target.grid[0];
-  const second = target.grid[4];
-  assert.ok(bottom.every((c) => c === content.levels[1].bands[0].color), '底层应该是第一条色带');
-  assert.ok(second.every((c) => c === content.levels[1].bands[1].color), '第二层应该是第二条色带');
-  assert.strictEqual(target.grid[8].every((c) => c === -1), true, '色带之上应该是空的');
-});
-
-test('山峰是逐层收窄的三角形', () => {
-  const level = content.levels[3];
-  const target = game.buildTarget(level, meta);
-  let row = level.bands.reduce((sum, b) => sum + b.height, 0);
-  let prevWidth = -1;
-  for (let k = 0; k < level.peak.height; k++) {
-    const width = target.grid[row + k].filter((c) => c >= 0).length;
-    assert.ok(width <= prevWidth || prevWidth < 0, '山峰每层必须不宽于上一层');
-    prevWidth = width;
-  }
-});
-
-test('堆得分毫不差时吻合度为 100%', () => {
-  const state = newRun();
-  const target = state.target;
-  for (let c = 0; c < meta.cols; c++) {
-    const height = (function () {
-      let h = 0;
-      for (let r = 0; r < target.grid.length; r++) if (target.grid[r][c] >= 0) h++;
-      return h;
-    })();
-    for (let r = 0; r < height; r++) {
-      state.cols[c].push(target.grid[r][c]);
+test('五种瓶型与原版逐字段一致（含顺序）', () => {
+  assert.strictEqual(game.BOTTLE_SHAPES.length, 5);
+  for (let i = 0; i < 5; i++) {
+    const mine = game.BOTTLE_SHAPES[i];
+    const orig = ORIGINAL_SHAPES[i];
+    assert.strictEqual(mine.id, orig.id, '第 ' + i + ' 个瓶型 id 不对');
+    assert.strictEqual(mine.name, orig.name);
+    for (const key of ['bodyHalf', 'neckHalf', 'neckSpan', 'shoulderSpan', 'roundBottom']) {
+      assert.strictEqual(mine[key], orig[key], orig.id + '.' + key + ' 应为 ' + orig[key]);
     }
   }
-  state.used = game.totalCells(state);
-  const result = game.evaluate(state);
-  assert.strictEqual(result.ratio, 1);
-  assert.strictEqual(result.coverage, 1);
-  assert.strictEqual(result.passed, true);
 });
 
-test('没达标不能封口，达标后只存结构化的层色清单', () => {
-  const state = newRun();
-  assert.strictEqual(game.seal(state), null, '空的瓶子不能封口');
-  const target = state.target;
-  for (let c = 0; c < meta.cols; c++) {
-    for (let r = 0; r < target.grid.length; r++) {
-      if (target.grid[r][c] >= 0) state.cols[c].push(target.grid[r][c]);
+test('十二种沙色与原版逐字段一致（含顺序与 hex 大小写）', () => {
+  assert.strictEqual(game.SAND_COLORS.length, 12);
+  for (let i = 0; i < 12; i++) {
+    const mine = game.SAND_COLORS[i];
+    const orig = ORIGINAL_COLORS[i];
+    assert.strictEqual(mine.id, orig.id, '第 ' + i + ' 个颜色 id 不对');
+    assert.strictEqual(mine.hex, orig.hex, orig.id + ' hex 应为 ' + orig.hex);
+    assert.strictEqual(mine.name, orig.name);
+  }
+});
+
+test('content.json 的瓶型与色表和引擎表完全一致（业务内容唯一来源）', () => {
+  assert.strictEqual(content.meta.shapes.length, 5);
+  assert.strictEqual(content.meta.colors.length, 12);
+  for (let i = 0; i < 5; i++) {
+    const s = content.meta.shapes[i];
+    const g = game.BOTTLE_SHAPES[i];
+    assert.strictEqual(s.id, g.id);
+    assert.strictEqual(s.name, g.name);
+    for (const key of ['bodyHalf', 'neckHalf', 'neckSpan', 'shoulderSpan', 'roundBottom']) {
+      assert.strictEqual(s[key], g[key]);
     }
   }
-  state.used = game.totalCells(state);
-  const bottle = game.seal(state);
-  assert.ok(bottle, '达标后应该能封口');
-  assert.strictEqual(bottle.colors.length, meta.cols);
-  assert.ok(typeof bottle.colors[0][0] === 'number', '收藏只存颜色索引，不存图片');
-  assert.strictEqual(state.sealed, 1);
-});
-
-test('八关都合法：目标不超瓶高，配额够用', () => {
-  for (const level of content.levels) {
-    const target = game.buildTarget(level, meta);
-    let maxH = 0;
-    for (let c = 0; c < meta.cols; c++) {
-      let h = 0;
-      for (let r = 0; r < target.grid.length; r++) if (target.grid[r][c] >= 0) h++;
-      if (h > maxH) maxH = h;
-    }
-    assert.ok(maxH <= meta.maxHeight, level.name + '：目标超过瓶高');
-    assert.ok(target.cells > 0, level.name + '：目标为空');
+  for (let i = 0; i < 12; i++) {
+    assert.strictEqual(content.meta.colors[i].hex, game.SAND_COLORS[i].hex);
+    assert.strictEqual(content.meta.colors[i].name, game.SAND_COLORS[i].name);
   }
 });
 
-/* 按目标图案把瓶子堆到分毫不差 */
-function fillExact(state) {
-  const target = state.target;
-  for (let c = 0; c < meta.cols; c++) {
-    for (let r = 0; r < target.grid.length; r++) {
-      if (target.grid[r][c] >= 0) state.cols[c].push(target.grid[r][c]);
+test('原版 22 条文案逐字对照（zh + en）', () => {
+  for (const lang of ['en', 'zh']) {
+    const mine = content.copy[lang];
+    assert.ok(mine, '缺 ' + lang + ' 文案');
+    for (const key of Object.keys(ORIGINAL_COPY[lang])) {
+      assert.strictEqual(
+        mine[key],
+        ORIGINAL_COPY[lang][key],
+        lang + '.' + key + ' 必须与原版逐字一致'
+      );
     }
   }
-  state.used = game.totalCells(state);
-}
-
-test('逐列高度误差超标就不能过关：颜色全对也不行', () => {
-  const state = newRun();
-  fillExact(state);
-  /* 挖掉一列的顶层：颜色仍然全对，但那一列矮了一层 */
-  state.cols[0].pop();
-  state.used = game.totalCells(state);
-  const result = game.evaluate(state);
-  assert.strictEqual(result.heightError, 1, '应该只差一层');
-  assert.strictEqual(result.passed, true, '差一层仍在第一关的容差之内');
-
-  /* 再挖三层：误差超过容差，颜色再对也不能过 */
-  state.cols[0].pop();
-  state.cols[0].pop();
-  state.cols[0].pop();
-  state.used = game.totalCells(state);
-  const worse = game.evaluate(state);
-  assert.strictEqual(worse.heightError, 4);
-  assert.strictEqual(worse.passed, false);
 });
 
-test('高度误差超过容差时给出「沙面还不够平」', () => {
-  const state = newRun();
-  fillExact(state);
-  /* 第一列挖掉四层：误差 4 层，远超第一关的容差 2 */
-  for (let i = 0; i < 4; i++) state.cols[0].pop();
-  state.used = game.totalCells(state);
-  const result = game.evaluate(state);
-  assert.strictEqual(result.heightError, 4);
-  assert.strictEqual(result.passed, false);
-  assert.strictEqual(result.reason, content.copy.reasonHeight);
+test('shapeById：未知 id 回退到第一种（原版 t[0] 兜底）', () => {
+  assert.strictEqual(game.shapeById('no-such'), game.BOTTLE_SHAPES[0]);
+  assert.strictEqual(game.shapeById('flask').id, 'flask');
 });
 
-test('颜色不对时给出「颜色还没对」，沙量不对时给出「沙量不对」', () => {
-  const state = newRun();
-  fillExact(state);
-  /* 把底层全部换成另一种颜色：高度和沙量都对，只有颜色错 */
-  for (let r = 0; r < 5; r++) {
-    for (let c = 0; c < meta.cols; c++) state.cols[c][r] = 3;
-  }
-  const wrongColor = game.evaluate(state);
-  assert.strictEqual(wrongColor.ratio, 0);
-  assert.strictEqual(wrongColor.passed, false);
-  assert.strictEqual(wrongColor.reason, content.copy.reasonColor);
+/* ---------- 几何 ---------- */
 
-  /* 沙太少：只堆一半 */
-  const short = newRun();
-  for (let c = 0; c < meta.cols; c++) {
-    for (let r = 0; r < 2; r++) short.cols[c].push(0);
-  }
-  short.used = game.totalCells(short);
-  const shortResult = game.evaluate(short);
-  assert.ok(shortResult.coverage < 1 - 0.18, '覆盖率应该明显不足');
-  assert.strictEqual(shortResult.passed, false);
-  assert.strictEqual(shortResult.reason, content.copy.reasonAmount);
+test('topY / bottomY / grainR 公式', () => {
+  const e = newEngine('round');
+  assert.strictEqual(e.topY(), Math.max(8, 0.03 * H));
+  assert.strictEqual(e.bottomY(), H - Math.max(10, 0.02 * H));
+  assert.strictEqual(e.grainR(), Math.max(1.6, 0.006 * W));
+  const small = new game.SandEngine(game.BOTTLE_SHAPES[0]);
+  small.resize(100, 300);
+  assert.strictEqual(small.grainR(), 1.6, 'W=100 时单粒半径取下限 1.6');
 });
 
-test('堆出山但高度不够时给出「山还不够高」', () => {
-  const state = newRun(3);
-  fillExact(state);
-  /* 把最高的那一列削掉两层：颜色依然全对，但山矮了 */
-  let tallest = 0;
-  for (let c = 1; c < meta.cols; c++) {
-    if (state.cols[c].length > state.cols[tallest].length) tallest = c;
+test('bottleX：五种瓶型的瓶颈 / 瓶身 / 收底剖面（原版公式采样值）', () => {
+  /* 手工按原版公式算出的期望值（W=390, H=430，容差 0.5px） */
+  const cases = [
+    { id: 'round', top: 46.8, mid: 128.7, bottom: 114.91 },
+    { id: 'cylinder', top: 54.6, mid: 109.2, bottom: 105.69 },
+    { id: 'flask', top: 39.0, mid: 140.4, bottom: 129.87 },
+    { id: 'teardrop', top: 42.9, mid: 136.5, bottom: 111.62 },
+    { id: 'wide', top: 50.7, mid: 156.0, bottom: 147.64 }
+  ];
+  const cx = W / 2;
+  for (const c of cases) {
+    const e = newEngine(c.id);
+    const atTop = e.bottleX(e.topY());
+    const atMid = e.bottleX(215);
+    const atBottom = e.bottleX(e.bottomY());
+    const halfTop = atTop[1] - cx;
+    const halfMid = atMid[1] - cx;
+    const halfBottom = atBottom[1] - cx;
+    assert.ok(
+      Math.abs(halfTop - c.top) < 0.5,
+      c.id + ' 瓶颈半宽 ' + halfTop.toFixed(2) + ' 应为 ' + c.top
+    );
+    assert.ok(
+      Math.abs(halfMid - c.mid) < 0.5,
+      c.id + ' 瓶身半宽 ' + halfMid.toFixed(2) + ' 应为 ' + c.mid
+    );
+    assert.ok(
+      Math.abs(halfBottom - c.bottom) < 0.5,
+      c.id + ' 收底半宽 ' + halfBottom.toFixed(2) + ' 应为 ' + c.bottom
+    );
+    /* 左右对称 */
+    assert.ok(Math.abs(atMid[0] + atMid[1] - W) < 0.001, c.id + ' 剖面应左右对称');
   }
-  assert.strictEqual(state.cols[tallest].length, state.target.maxHeight);
-  state.cols[tallest].pop();
-  state.cols[tallest].pop();
-  state.used = game.totalCells(state);
-  const result = game.evaluate(state);
-  assert.strictEqual(result.peakError, 2, '山的那一列差了两层');
-  assert.strictEqual(result.passed, false);
-  assert.strictEqual(result.reason, content.copy.reasonPeak);
+});
+
+test('inside：壁厚 1px，上下越界为 false', () => {
+  const e = newEngine('round');
+  assert.strictEqual(e.inside(195, 215), true, '瓶身中心在瓶内');
+  const pair = e.bottleX(215);
+  assert.strictEqual(e.inside(pair[0] + 0.5, 215), false, '左壁 1px 之内不算瓶内');
+  assert.strictEqual(e.inside(pair[1] - 0.5, 215), false, '右壁 1px 之内不算瓶内');
+  assert.strictEqual(e.inside(195, e.topY() - 1), false, '瓶口以上不算');
+  assert.strictEqual(e.inside(195, e.bottomY() + 1), false, '瓶底以下不算');
+});
+
+/* ---------- 填充与满瓶 ---------- */
+
+test('fillLevel：空瓶 0，按瓶内最高一粒到瓶底的比例', () => {
+  const e = newEngine('round');
+  assert.strictEqual(e.fillLevel(), 0);
+  e.grains.push({ x: 195, y: e.bottomY(), r: 2 });
+  assert.ok(Math.abs(e.fillLevel()) < 1e-9, '贴底的沙填充度为 0');
+  e.grains.length = 0;
+  e.grains.push({ x: 195, y: 30, r: 2 });
+  const expect = (e.bottomY() - 30) / (e.bottomY() - e.topY());
+  assert.ok(Math.abs(e.fillLevel() - expect) < 1e-9, '填充度按最高粒算');
+});
+
+test('isFull：粒数 2600 触发；.97 填充分支按原公式可达（人工摆粒）', () => {
+  const e = newEngine('round');
+  for (let i = 0; i < 2600; i++) {
+    e.grains.push({ x: 195, y: e.bottomY(), r: 2, settled: true });
+  }
+  assert.strictEqual(e.isFull(), true, '2600 粒即满（原版行为）');
+  const f = newEngine('round');
+  f.grains.push({ x: 195, y: f.topY() + 2, r: 2 });
+  assert.ok(f.fillLevel() > 0.97, '人工摆粒可到 .97 以上');
+  assert.strictEqual(f.isFull(), true, '.97 填充分支触发');
+});
+
+/* ---------- pour ---------- */
+
+test('pour：按下一次 18 粒的抖动范围、初速与半径公式', () => {
+  const e = newEngine('round');
+  e.tilt = 0.35;
+  const added = e.pour(195, 215, '#123456', 18);
+  assert.strictEqual(added, 18, '瓶身中心倒沙全部落瓶');
+  const a = e.grainR();
+  for (const g of e.grains) {
+    assert.ok(Math.abs(g.x - 195) <= a * 2 + 1e-9, '抖动 x ≤ ±2 粒半径');
+    assert.ok(Math.abs(g.y - 215) <= a + 1e-9, '抖动 y ≤ ±1 粒半径');
+    assert.ok(g.vx >= 1.4 * 0.35 - 0.3 - 1e-9 && g.vx <= 1.4 * 0.35 + 0.3 + 1e-9,
+      'vx = 1.4*tilt + (rng-.5)*.6');
+    assert.ok(g.vy >= 1.2 && g.vy <= 2.0 + 1e-9, 'vy = 1.2 + .8*rng');
+    assert.ok(g.r >= a * 0.85 - 1e-9 && g.r <= a * 1.2 + 1e-9, 'r = a*(.85+.35*rng)');
+    assert.strictEqual(g.c, '#123456');
+    assert.strictEqual(g.settled, false);
+  }
+  /* 特效粒子同步生成 */
+  assert.strictEqual(e.particles.length, 18);
+  assert.strictEqual(e.particles[0].life, 1);
+});
+
+test('pour：瓶外落点不入瓶；满瓶后返回 0；粒数上限 2600', () => {
+  const e = newEngine('round');
+  const outside = e.pour(10, 215, '#123456', 10);
+  assert.strictEqual(outside, 0, '瓶外倒沙一粒也不进');
+  for (let i = 0; i < 2590; i++) {
+    e.grains.push({ x: 195, y: 215, r: 2, settled: true });
+  }
+  const added = e.pour(195, 215, '#123456', 50);
+  assert.strictEqual(added, 10, '只补到 2600 为止');
+  assert.strictEqual(e.grains.length, 2600);
+  assert.strictEqual(e.pour(195, 215, '#123456', 10), 0, '满瓶后 pour 返回 0');
+});
+
+/* ---------- rod ---------- */
+
+test('rod：作用半径固定 .11*W，径向推力 (1-s/a)*3.2 + 拖动位移', () => {
+  const e = newEngine('round');
+  e.grains.push({ x: 205, y: 215, vx: 0, vy: 0, r: 2, settled: true });
+  e.grains.push({ x: 260, y: 215, vx: 0, vy: 0, r: 2, settled: true });
+  e.rod(195, 215, 5, 0);
+  const near = e.grains[0];
+  const far = e.grains[1];
+  /* s=10：e=(1-10/42.9)*3.2 ≈ 2.4541；x += o/s*e + .35*5 */
+  const a = 0.11 * W;
+  const expect = 205 + (10 / 10) * (1 - 10 / a) * 3.2 + 0.35 * 5;
+  assert.ok(Math.abs(near.x - expect) < 1e-9, '近粒位移按公式：' + near.x + ' vs ' + expect);
+  assert.strictEqual(near.y, 215, 'o 分量为 0 时 y 不动（.5 系数乘 0）');
+  assert.strictEqual(near.vy, -0.6, '被推的粒 vy = -.6');
+  assert.strictEqual(near.settled, false, '被推的粒解除静止');
+  assert.strictEqual(far.x, 260, '半径外的粒不动');
+  assert.strictEqual(far.settled, true, '半径外的粒保持静止');
+});
+
+/* ---------- step 物理 ---------- */
+
+test('step：重力 .22（上限 5）、tilt=.05 横向、水平阻尼 *.9', () => {
+  const e = newEngine('round');
+  e.grains.push({ x: 195, y: 100, vx: 0, vy: 0, r: 2, settled: false });
+  const g = e.grains[0];
+  e.tilt = 0;
+  e.step();
+  assert.ok(Math.abs(g.vy - 0.22) < 1e-9, '第一帧 vy = .22');
+  assert.strictEqual(g.x, 195, '无倾斜无水平位移');
+  e.tilt = 0.5;
+  e.step();
+  /* vx = (0 + .05*.5) * .9 = .0225 */
+  assert.ok(Math.abs(g.vx - 0.0225) < 1e-9, 'tilt 横向分量与阻尼');
+  for (let i = 0; i < 40; i++) e.step();
+  assert.ok(g.vy <= 5 + 1e-9, 'vy 上限 5');
+});
+
+test('step：已静止的粒在 |tilt| < .04 时整帧跳过，倾斜后恢复流动', () => {
+  const e = newEngine('round');
+  e.grains.push({ x: 195, y: 419, vx: 0, vy: 5, r: 2, settled: false });
+  e.tilt = 0;
+  e.step();
+  assert.strictEqual(e.grains[0].settled, true, '落到堆面后被 stack 置为静止');
+  e.step();
+  /* 静止帧整帧跳过：若未跳过，积分会把 vy 加到 .22 */
+  assert.strictEqual(e.grains[0].vy, 0, '跳帧时 vy 不增长');
+  assert.ok(Math.abs(e.grains[0].y - (e.bottomY() - 1.1 * e.grainR())) < 1e-6, '停在堆面位置');
+  e.tilt = 0.5;
+  e.step();
+  e.step();
+  assert.ok(e.grains[0].x > 195, '倾斜后沙粒恢复流动');
+});
+
+test('step：位置变了才置脏（渲染缓存层的失效前提）', () => {
+  const e = newEngine('round');
+  e.grains.push({ x: 195, y: 419, vx: 0, vy: 5, r: 2, settled: false });
+  e.tilt = 0;
+  for (let i = 0; i < 6; i++) e.step();
+  e.dirty = false;
+  e.step();
+  e.step();
+  e.step();
+  assert.strictEqual(e.dirty, false, '沙落定后位置不再变化，不应置脏');
+  /* 倒进一粒新的沙：位置变了必须置脏 */
+  e.grains.push({ x: 150, y: 100, vx: 0, vy: 0, r: 2, settled: false });
+  e.dirty = false;
+  e.step();
+  assert.strictEqual(e.dirty, true, '有粒子移动就必须置脏');
+});
+
+test('stack：沙堆成山形，中间比边上高', () => {
+  const e = newEngine('wide');
+  for (let i = 0; i < 400; i++) {
+    e.pour(195 + (Math.random() - 0.5) * 60, 200, '#123456', 1);
+  }
+  for (let i = 0; i < 400; i++) e.step();
+  const cell = 1.7 * e.grainR();
+  const tops = new Map();
+  for (const g of e.grains) {
+    const idx = Math.floor(g.x / cell);
+    if (!tops.has(idx) || g.y < tops.get(idx)) tops.set(idx, g.y);
+  }
+  const heights = [...tops.entries()].map(([k, v]) => [k, e.bottomY() - v]);
+  heights.sort((a, b) => a[0] - b[0]);
+  const mid = heights[Math.floor(heights.length / 2)][1];
+  const edge = Math.max(heights[0][1], heights[heights.length - 1][1]);
+  assert.ok(mid > edge + e.grainR(), '中间堆得比两边高（' + mid + ' > ' + edge + '）');
+});
+
+/* ---------- 开场演示灌注 ---------- */
+
+test('demoFill：420 粒、三色各 140 粒（原版开场行为）', () => {
+  const e = newEngine('flask');
+  const added = e.demoFill();
+  assert.strictEqual(e.grains.length, 420);
+  assert.ok(added > 380, '锥形瓶窄口也应在 380 粒以上');
+  assert.strictEqual(e.grains[0].c, '#D7A34A', '第一层 ochre');
+  assert.strictEqual(e.grains[139].c, '#D7A34A');
+  assert.strictEqual(e.grains[140].c, '#E8954A', '第二层 amber');
+  assert.strictEqual(e.grains[279].c, '#E8954A');
+  assert.strictEqual(e.grains[280].c, '#B96C3F', '第三层 coral');
+  assert.strictEqual(e.grains[419].c, '#B96C3F');
+  const again = e.demoFill();
+  assert.strictEqual(again, 0, '已有沙就不再演示灌注');
+});
+
+/* ---------- resize / layerRuns ---------- */
+
+test('resize：已有沙粒按比例缩放（原版行为）', () => {
+  const e = newEngine('round');
+  e.demoFill();
+  const before = e.grains.map((g) => [g.x, g.y]);
+  e.resize(780, 860);
+  assert.strictEqual(e.W, 780);
+  assert.strictEqual(e.H, 860);
+  assert.ok(Math.abs(e.grains[0].x - before[0][0] * 2) < 1e-6, 'x 翻倍');
+  assert.ok(Math.abs(e.grains[0].y - before[0][1] * 2) < 1e-6, 'y 翻倍');
+});
+
+test('layerRuns：逐列颜色游程，只存 hex 与粒数（结构化存档）', () => {
+  const e = newEngine('round');
+  e.pour(193, 215, '#D7A34A', 2);
+  e.pour(196, 216, '#76815C', 1);
+  const runs = e.layerRuns();
+  const cell = 1.7 * e.grainR();
+  const cols = Math.max(1, Math.ceil(e.W / cell));
+  assert.strictEqual(runs.length, cols);
+  let total = 0;
+  let hexSeen = [];
+  for (const col of runs) {
+    for (const run of col) {
+      total += run[1];
+      hexSeen.push(run[0]);
+    }
+  }
+  assert.strictEqual(total, 3, '游程粒数守恒');
+  assert.ok(hexSeen.indexOf('#D7A34A') >= 0, '含 ochre 游程');
+  assert.ok(hexSeen.indexOf('#76815C') >= 0, '含 moss 游程');
+});
+
+test('引擎没有撤销接口：原版「Nothing can be undone」', () => {
+  const e = newEngine('round');
+  assert.strictEqual(typeof e.undo, 'undefined');
+  assert.strictEqual(typeof e.removeGrains, 'undefined');
+  assert.strictEqual(typeof game.undo, 'undefined');
 });

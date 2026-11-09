@@ -1,9 +1,9 @@
 {
   "name": "蛋落地",
-  "description": "轻轻放，才不会碎",
+  "description": "一发一发反推，轻轻落地",
   "zip": "egg-drop-lander-v1.zip",
-  "bytes": 24255,
-  "sha256": "AEB45645014822004EAA3785EA392851E7FEFA178ACEBF80FBDF1E9A2B2AF404",
+  "bytes": 35534,
+  "sha256": "F190576F2644AA1D7A6D12A0EE8021C60D69CCE3BCBE25BBB7DBB6351D6E5DEE",
   "entries": [
     "app.js",
     "audio.js",

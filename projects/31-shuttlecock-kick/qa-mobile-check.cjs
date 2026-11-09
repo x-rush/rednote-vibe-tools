@@ -13,6 +13,10 @@ const ROOT = __dirname;
 const DIST = path.resolve(ROOT, process.argv[2] || path.join(ROOT, 'dist'));
 const OUT = path.join(ROOT, 'qa');
 
+/* 规范：画布上不得出现任何文字，规则信息只放 HUD 卡片与教学首屏 */
+const renderSource = fs.readFileSync(path.join(ROOT, 'src', 'render.js'), 'utf8');
+const canvasTextCalls = renderSource.match(/fillText|strokeText/g) || [];
+
 function serve() {
   return new Promise((resolve) => {
     const server = http.createServer((req, res) => {
@@ -56,25 +60,25 @@ display:flex;align-items:center;justify-content:center;font:700 20px/1 sans-seri
 .host-btn.left{left:6px}
 .host-btn.right{right:6px}`;
 
-/* 等到毽子进入接球窗口再点，模拟真实玩家的操作 */
+/* 等到毽子下落进入甜区带再点，模拟真实玩家的操作 */
 async function kickOnce(page, box) {
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 1200; i++) {
     const info = await page.evaluate(() => {
       const s = window.__jianziState;
       const G = window.JianziGame;
+      const hit = s ? G.resolveKick(s) : null;
       return {
-        phase: s.phase,
-        ready: s.phase === 'ready',
-        inWindow: G.isCatchWindow(s),
-        combo: s.combo,
-        caught: s.caught
+        phase: s ? s.phase : 'idle',
+        kickable: !!hit,
+        rally: s ? s.rally : 0
       };
     });
-    if (info.ready || info.inWindow) {
-      await page.mouse.click(box.x + box.width / 2, box.y + box.height * 0.82);
+    if (info.kickable) {
+      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
       await page.waitForTimeout(90);
       return info;
     }
+    if (info.phase !== 'playing') return null;
     await page.waitForTimeout(20);
   }
   return null;
@@ -91,6 +95,13 @@ async function run() {
     args: ['--no-proxy-server', '--proxy-bypass-list=<-loopback>']
   });
   const report = [];
+
+  if (canvasTextCalls.length) {
+    console.error('[visual] 渲染层仍在画布上写字：' + canvasTextCalls.length + ' 处');
+    await browser.close();
+    server.close();
+    process.exit(1);
+  }
 
   for (const width of [375, 390, 430]) {
     const context = await browser.newContext({
@@ -132,14 +143,14 @@ async function run() {
     await page.waitForTimeout(200);
     await page.screenshot({ path: path.join(OUT, 'host-' + width + '.png') });
 
-    /* 交互：真实点击踢毽子，验证连击数变化 */
+    /* 交互：真实点击踢毽子，验证连踢数变化 */
     const box = await page.locator('#field').boundingBox();
-    const before = await page.textContent('#combo');
+    const before = await page.textContent('#rally');
     const first = await kickOnce(page, box);
     await page.waitForTimeout(400);
-    const after = await page.textContent('#combo');
+    const after = await page.textContent('#rally');
     await page.screenshot({ path: path.join(OUT, 'play-' + width + '.png') });
-    const caughtText = await page.textContent('#targetText');
+    const kickCountText = await page.textContent('#kickCount');
 
     /* 布局检查：溢出、关键元素与宿主按钮的几何关系 */
     const layout = await page.evaluate(() => {
@@ -151,22 +162,58 @@ async function run() {
         return { top: Math.round(r.top), bottom: Math.round(r.bottom), left: Math.round(r.left), right: Math.round(r.right) };
       };
       const canvas = document.querySelector('#field');
+      const card = document.querySelector('.hud-card');
+      const cardStyle = card ? getComputedStyle(card) : null;
+      const rallyStyle = getComputedStyle(document.querySelector('#rally'));
+      const kickCountStyle = getComputedStyle(document.querySelector('#kickCount'));
       return {
         scrollWidth: doc.scrollWidth,
         clientWidth: doc.clientWidth,
         scrollHeight: doc.scrollHeight,
         clientHeight: doc.clientHeight,
         hud: rectOf('#hud'),
+        card: rectOf('.hud-card'),
         topbar: rectOf('#topbar'),
         footbar: rectOf('#footbar'),
         field: rectOf('#field'),
         mute: rectOf('#muteBtn'),
         canvasSize: [canvas.width, canvas.height],
-        fieldWidth: window.__jianziRenderer.getFieldWidth()
+        fieldWidth: window.__jianziRenderer.getFieldWidth(),
+        birdCssSize: Math.round(window.__jianziRenderer.getBirdCssSize()),
+        hudRadius: cardStyle ? parseFloat(cardStyle.borderTopLeftRadius) : 0,
+        hudBorder: cardStyle ? cardStyle.borderTopWidth : '0px',
+        hudBg: cardStyle ? cardStyle.backgroundImage.slice(0, 40) : '',
+        rallyFontSize: parseFloat(rallyStyle.fontSize),
+        rallyFontWeight: rallyStyle.fontWeight,
+        kickCountFontSize: parseFloat(kickCountStyle.fontSize)
       };
     });
 
-    report.push({ width, comboBefore: before, comboAfter: after, firstKick: first, caughtText, layout, errors });
+    /* 视觉硬指标：主视觉尺寸、HUD 容器化、字号层级 */
+    if (layout.birdCssSize < 80) {
+      errors.push('[visual] 毽子直径 ' + layout.birdCssSize + 'px 小于 80px');
+    }
+    if (layout.hudRadius < 14) {
+      errors.push('[visual] HUD 卡片圆角 ' + layout.hudRadius + 'px 小于 14px');
+    }
+    if (!layout.hudBg || layout.hudBg === 'none') {
+      errors.push('[visual] HUD 卡片没有玻璃拟态底色');
+    }
+    if (layout.rallyFontSize < 28 || layout.rallyFontSize > 34) {
+      errors.push('[visual] 主数值字号 ' + layout.rallyFontSize + 'px 不在 28–34px 区间');
+    }
+    if (Number(layout.rallyFontWeight) < 700) {
+      errors.push('[visual] 主数值字重 ' + layout.rallyFontWeight + ' 不是粗体');
+    }
+    if (layout.kickCountFontSize < 12 || layout.kickCountFontSize > 13) {
+      errors.push('[visual] 副信息字号 ' + layout.kickCountFontSize + 'px 不在 12–13px 区间');
+    }
+    /* 画布上不得出现文字 */
+    if (layout.canvasText) {
+      errors.push('[visual] 画布上出现了文字：' + layout.canvasText);
+    }
+
+    report.push({ width, rallyBefore: before, rallyAfter: after, firstKick: first, kickCountText, layout, errors });
     await context.close();
   }
 
@@ -200,6 +247,11 @@ async function run() {
   server.close();
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report, null, 2));
+  const failed = report.filter((r) => r.errors && r.errors.length);
+  if (failed.length) {
+    console.error('视觉/布局自检未通过：' + JSON.stringify(failed, null, 2));
+    process.exitCode = 1;
+  }
 }
 
 run().catch((e) => {

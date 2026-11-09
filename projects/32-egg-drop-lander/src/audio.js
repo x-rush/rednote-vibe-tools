@@ -103,12 +103,41 @@
       }
     }
 
+    /*
+     * 完美软着陆：蛋壳光环的专���音效。
+     * 连续完美时音高逐级递进（C 大调五声音阶），玩家能「听」出连击有多长。
+     */
+    var PERFECT_SCALE = [1046, 1174, 1318, 1568, 1760, 2093];
+
+    function playPerfect(streak) {
+      var idx = Math.max(0, Math.min(PERFECT_SCALE.length - 1, (streak || 1) - 1));
+      var base = PERFECT_SCALE[idx];
+      /* 蛋壳碎裂质感：一串短促的高频泛音 */
+      for (var i = 0; i < 4; i++) {
+        tone(base * (2 + i * 0.5), 0.16, 'triangle', 0.045, 0.03 + i * 0.045);
+      }
+      bell(base, 0.62, 0.12);
+      bell(base * 1.5, 0.4, 0.06, 0.09);
+      /* 一声轻柔的气声上扬，收尾更「亮」 */
+      hiss(0.34, 0.05, 0.02, 2600, 900);
+    }
+
     /* 蛋碎：尖锐的碎裂声 */
     function playCrack() {
       hiss(0.16, 0.16, 0, 4200, 1400);
       tone(320, 0.1, 'square', 0.08, 0, 120);
       for (var i = 0; i < 5; i++) {
         tone(900 + Math.random() * 1500, 0.05, 'triangle', 0.05, 0.03 + i * 0.035);
+      }
+    }
+
+    /* 摔碎（超速落地 / 撞上障碍带）：碎裂 + 闷响双击 */
+    function playSmash() {
+      hiss(0.22, 0.18, 0, 3600, 900);
+      tone(110, 0.3, 'sawtooth', 0.2, 0, 55);
+      tone(180, 0.18, 'square', 0.1, 0.04, 90);
+      for (var i = 0; i < 6; i++) {
+        tone(700 + Math.random() * 1600, 0.05, 'triangle', 0.05, 0.02 + i * 0.03);
       }
     }
 
@@ -146,7 +175,9 @@
       resume: resume,
       playThrust: playThrust,
       playLand: playLand,
+      playPerfect: playPerfect,
       playCrack: playCrack,
+      playSmash: playSmash,
       playMiss: playMiss,
       playWin: playWin,
       playLose: playLose,

@@ -4,7 +4,7 @@
   "private": true,
   "description": "蛋落地 · 纯前端物理降落小游戏",
   "scripts": {
-    "lint": "node --check src/game.js && node --check src/render.js && node --check src/audio.js && node --check src/storage.js && node --check src/app.js && node --check tools.mjs && node --check tools/logo-png.cjs && node --check tools/solve-levels.cjs && node --check verify-artifact.cjs && node --check qa-mobile-check.cjs && node --check qa-flow.cjs && node --check qa-balance-check.cjs",
+    "lint": "node --check src/game.js && node --check src/render.js && node --check src/audio.js && node --check src/storage.js && node --check src/app.js && node --check tools.mjs && node --check tools/logo-png.cjs && node --check tools/cover-png.cjs && node --check tools/merge-levels.cjs && node --check tools/gen-before-report.cjs && node --check tools/level-sim.cjs && node --check tools/solve-levels.cjs && node --check verify-artifact.cjs && node --check qa-mobile-check.cjs && node --check qa-flow.cjs && node --check qa-balance-check.cjs",
     "test": "node --test tests/*.test.mjs",
     "build": "node tools.mjs build",
     "preview": "node tools.mjs preview",

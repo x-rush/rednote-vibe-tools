@@ -138,8 +138,8 @@ async function run() {
     const box = await page.locator('#field').boundingBox();
     const before = await page.evaluate(() => ({
       x: window.__duneState.x,
-      s: window.__duneState.s,
-      phase: window.__duneState.phase
+      wy: window.__duneState.wy,
+      phase: window.__dunePhase()
     }));
     const startX = box.x + box.width * 0.5;
     const startY = box.y + box.height * 0.7;
@@ -149,14 +149,14 @@ async function run() {
     await page.waitForTimeout(350);
     const during = await page.evaluate(() => ({
       x: window.__duneState.x,
-      s: window.__duneState.s,
-      phase: window.__duneState.phase
+      wy: window.__duneState.wy,
+      phase: window.__dunePhase()
     }));
     await page.screenshot({ path: path.join(OUT, 'play-' + width + '.png') });
     await page.mouse.up();
 
     if (during.phase !== 'run') errors.push('[mobile] 开局后状态不该离开 run，phase=' + during.phase);
-    if (during.s <= before.s) errors.push('[mobile] 世界没有往前跑');
+    if (during.wy <= before.wy) errors.push('[mobile] 世界没有往前跑');
     if (Math.abs(during.x - before.x) < 12) {
       errors.push('[mobile] 真实拖拽没有把玉板横向带过去（x ' + before.x.toFixed(1) + ' → ' + during.x.toFixed(1) + '）');
     }
@@ -180,7 +180,6 @@ async function run() {
         stage: rectOf('#stage'),
         footbar: rectOf('#footbar'),
         mute: rectOf('#muteBtn'),
-        gapBar: rectOf('#gapBar'),
         canvasSize: [canvas.width, canvas.height],
         scale: window.__duneRenderer.getScale(),
         playerY: window.__duneRenderer.getPlayerY(),

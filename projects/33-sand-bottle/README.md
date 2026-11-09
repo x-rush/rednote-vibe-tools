@@ -1,90 +1,117 @@
 # 彩沙瓶（33 号）
 
-复刻自 eazo.ai 的 `Sand Bottle`，改造成纯前端静态小红书小工具。
+严格 1:1 复刻 eazo.ai 的 `Sand Bottle Layers`（原版页面 `https://eazo.ai/apps/sand-bottle-layers-monf8ezi`，
+运行地址 `https://sand-bottle-layers-a33eec71.eazo.dev`），纯前端静态小红书小工具。
 
-- **一句话**：沙会自己塌，想堆成目标形状就得用小棒一粒一粒推过去。
-- **平台简介**：一层一层，堆出你的瓶子
-- **来源**：[eazo.ai Sand Bottle](https://eazo.ai/apps/sand-bottle)
-- **批次方案**：见 `projects/31-shuttlecock-kick/PLAN.md`（31–35 号批量复刻方案）
+- **一句话**：拖动倒沙，倾斜瓶身，用推杆把沙压出贴着玻璃的尖峰——一切都无法撤销。
+- **来源**：[eazo.ai Sand Bottle Layers](https://eazo.ai/apps/sand-bottle-layers-monf8ezi)
+- **规范**：`projects/31-shuttlecock-kick/PLAN.md` 第 8 章（三期：严格 1:1 复刻，含原版缺陷）
+- **施工依据**：`reference/eazo-spec.txt`（总控从原版源码逐段提取的精确参数表）
 
-## 玩法
+## 玩法（与原版逐机制对齐）
 
-1. 瓶子里是 24 列 × 34 层的离散沙堆。先选一种颜色，点瓶内任意一列倒沙。
-2. **倒沙遵守安息角**：相邻两列高度差超过 2 层时，高处的沙会自己滑到低处。所以随手倒出来的沙面一定是有台阶的。
-3. **塑形不受安息角约束**：切到「塑形」用小棒把沙从一列搬到另一列，一层一粒，可以堆出比安息角陡得多的坡——山就是这么堆出来的。
-4. **挖沙**可以拿走顶层一粒沙并退还额度，但挖完会重新触发安息角，尖峰会被抹平。
-5. 右上角是目标图。沙量、颜色、沙面高度都对得上就能「封口收藏」，八瓶全封后生成 720×960 纪录卡与收藏架。
+1. **开局流程**：封面教程行「拖动倾倒并倾斜瓶身。一切都无法撤销。」→「选择瓶形」五种瓶型 →
+   进入制作页（先灌 420 粒三色演示沙，瓶子从来不是空的）→「举向光亮」→ 结果页 →「再做一瓶」回选瓶。
+2. **五种瓶型**（原版 `BOTTLE_SHAPES`，参数一字不改）：round / cylinder / flask / teardrop / wide，
+   参数体系为原版的 `{bodyHalf, neckHalf, neckSpan, shoulderSpan, roundBottom}`。
+3. **十二种沙色**（原版 `SAND_COLORS`）：ochre→slate，hex 与顺序与原版一致。
+4. **双工具**：只有 **Pour（倒沙）** 和 **Rod（推杆）**。按下倒 18 粒，拖动每帧倒 10 粒；
+   推杆作用半径固定 `0.11 * W`，径向推力 `(1 - s/a) * 3.2` 并叠加拖动位移。
+5. **倾斜倒沙**：拖动时 `tilt = clamp((x - W/2) / (W/2), -1, 1)`，沙受 `vx += .05 * tilt` 横向流动，
+   松手 `tilt` 归零；**瓶身渲染同样随 tilt 旋转 `rotate(.05*tilt)`**（原版 drawBottle 第一句），
+   背景房间不转、瓶体（背壁+沙 / 玻璃）绕画布中心旋转，拖动最大 ±0.05 rad，松手即回正。
+6. **逐粒沙物理**（原版 SandEngine 1:1）：上限 2600 粒，重力 `.22`（速度上限 5），水平阻尼 `*.9`，
+   静止粒在 `|tilt| < .04` 时整帧跳过；堆叠按列高度场（格宽 `1.7 * 粒半径`）+ 沿坡滑落。
+7. **满瓶判据**（原版缺陷照抄）：`grains >= 2600 || fillLevel > .97`。实测 2600 粒只能把瓶填到
+   **约 38.6%–40.1%**——粒数上限永远先触发，`.97` 填充分支实际不可达。这是原版行为，不得修正。
+8. **不可撤销**：全程无 undo、无关卡、无评分——原版没有的一律不做。
 
-## 手感设计
+## 三期改动（2026-11-09）
 
-- **「倒沙会塌、塑形不塌」是全作的核心**。两种运动规则不同，玩家必须学会区分：想让沙自己摊平就用倒沙，想让沙站住就用小棒。
-- **目标图案必须是沙自己堆不出来的**。山峰的坡度（3–4）严格大于安息角（2），所以有山的关卡只倒沙一定过不了——`qa-balance-check.cjs` 把这条当成硬断言守着。
-- **判定不看总分，看四条独立的线**：吻合度（颜色位置对不对）、沙量（覆盖率 ±18%）、山高（山的列误差 ≤ 容差）、沙面（其余列的高度误差 ≤ 容差）。任何一条不达标都封不了口。
-- **失败时按钮上直接写差在哪**：「沙还不够铺满」「颜色还没对」「沙量不对」「山还不够高」「沙面还不够平」。玩家不需要猜。
-- **容差按「随手玩家」实测标定**，不是拍脑袋：`qa-balance-check.cjs` 里有一个模拟真人打法的模型（随机挑最矮的列倒、倒完用棒抹平、堆山随手倒再用棒修），它在八关上稳定拿到 98%–100% 吻合度、逐列高度差 1 层，关卡容差就定在这条曲线下方 6–9 个百分点。
-- 早期版本只用「总格数比」，出现过**数学上可行、真人过不去**的假绿：一关随机倒沙堆到 113 粒、离目标 120 粒差 7 粒，吻合度 94.17% 刚好压过 94% 的线——过关与否取决于台阶歪在哪边。现在改成逐列比高度，台阶压过容差就一定不过。
+- 删除二期全部自创：三种瓶型的自定义参数体系、`reach` 塑形臂长、第三种工具「挖沙」、
+  逐列 mounds 沙模型、关卡与评级、点选倒沙。
+- `src/game.js` 是原版 SandEngine 的逐常量移植；`src/content/content.json` 承载原版 22 条文案
+  （zh/en 双语，含 EN/中文切换）、5 瓶型与 12 色原值。
+- 保留的二期视觉项：有厚度的玻璃瓶、木纹小推杆、窗光木桌背景、玻璃 HUD、封瓶光爆与收藏图鉴
+  （按 5 瓶型扩展）、EN/中文切换。视觉不改变任何玩法判定。
+
+## 双端对照修复（2026-11-09 第二轮，用户反馈「倒沙全是 bug」后）
+
+用 Playwright 同时驱动原版（在线）与本端逐交互对照（脚本留存 `%TEMP%\compare-33.mjs`，
+数据在 `qa/compare/`），修复的 A 类差异：
+
+1. **瓶身倾斜没有视觉旋转**（对照实测：原版拖动时画布 rotate 0→0.04 rad，我方恒 0）——
+   渲染层合成期对瓶体两层（背壁+沙 / 玻璃+暗角）施加 `rotate(.05*tilt)`，房间不转。
+   瓶身背壁从背景层移入沙层随瓶旋转；堆面亮边跳过无沙列（避免层旋转时全宽横线跟着转）。
+2. **结果页摆动快了约 8 倍**（原版相位按帧推进 .002/帧，60fps 周期约 17.5s；我方按秒推进）——
+   `resT += .002` 改为按帧推进。
+3. **缺少扫光带**（原版 drawBottle 每帧在瓶内 clip 里画一道 glare）——补 `drawGlareBand`，
+   craft .0025/帧、result .002/帧推进，公式逐位同原版。
+4. **选瓶页布局**：原版为 3 列网格（3+2、卡宽约 103px），我方原为竖排列表——改 3 列 wrap
+   （卡宽 101px、左对齐），缩略图 40×64。
+5. **底栏控件被浮层面板盖住**（原版静音/语言悬浮控件盖在所有屏幕之上）——底栏 z-index 提到
+   面板层之上，封面/选瓶/结果页也能切语言、静音、开图鉴。
+6. 倒沙扬尘半径 `1.5` → `0.8 * grainR()`（原版值）。
+
+对照确认无差异的项（此前疑点排除）：按下 18 粒 / 拖动每事件 10 粒、tilt 映射与松手归零、
+倒沙位置跟手、指针拖出画布不中断倾倒（双方都靠 pointer capture）、2600 满瓶判据与 ≈40% 填充、
+finish 恒可用、replay 回选瓶、换色链路（`colors[5]` 本就是 cream，此前探针用错下标误报）。
+
+## 保留的性能架构（逐粒沙 + 缓存）
+
+- 原版每帧全量重画全部粒子；本项目把静态内容（房间/木桌/玻璃/暗角）烘焙进三张离屏画布，
+  静止帧只有 3 次 drawImage。
+- 沙层按**逐粒位移**失效：引擎每帧记录位移粒子的并集包围盒（`dirtyBox`），渲染层只清空并重画
+  盒内相交的粒子（fillRect 直绘；同机微基准 2100 次 5px drawImage ≈ 21.8ms，fillRect ≈ 3.0ms）；
+  盒面积超过瓶身内腔 55% 时退回全量重绘。
+- 实测（Playwright + CDP，4x CPU 节流）：交互段 ~60fps（P95 帧耗时 ~8ms）、静止段 ~64fps、
+  每帧绘制 ≤ 3 次 drawImage。逐粒物理本身每步 ~0.5ms（2600 粒，桌面未节流）。
 
 ## 工程约束
 
 - 纯前端静态：经典脚本加载链，禁 `type="module"` / `import` / `eval` / 内联脚本 / 行内事件。
-- Chrome 61 / Android 8.1 WebView 61 基线：ES2017，CSS 不使用 flex `gap`、`clamp()`、`aspect-ratio`、逻辑属性、`:has()`、`inset`、`dvh`；Canvas `roundRect` 手写路径。
-- 无后端、无运行时 CDN、无必需外部 API、无音频文件：音效全部由 Web Audio 实时合成。
-- 业务内容集中在 `src/content/content.json`（含 `brand` / `xiaohongshuDraft` / 8 关配置 / 文案）。
-- 只在 localStorage 保存结构化状态（最高分、收藏瓶的层色清单、静音偏好），不保存任何用户媒体。
-- 宿主按钮避让：顶部左右各留 `--host-side: 76px`，标题与 HUD 在 `--host-top: 56px` 之下；横屏改成三栏，左栏让开左上返回键、右栏让开右上操作键。
-- 上架素材不复用任何历史条目素材，logo 为本项目原创。
+- Chrome 61 / Android 8.1 WebView 61 基线：ES2017（禁 `?.`、`??`、可选链），CSS 不使用 flex `gap`、
+  `clamp()`、`aspect-ratio`、逻辑属性、`:has()`、`inset` 简写、`dvh`；Canvas `roundRect` 手写路径
+  （`Path2D` 为 Chrome 36+ 特性，可用）。
+- 无后端、无运行时 CDN、无必需外部 API、无音频文件：音效全部由 Web Audio 实时合成
+  （三组交互音效按原版参数 1:1：倒沙噪声 / 选择点击 / 松手）。
+- 业务内容集中在 `src/content/content.json`。
+- 只在本机保存结构化状态（收藏图鉴的逐列颜色游程、静音偏好），不保存任何用户媒体。
+- 宿主按钮避让：顶部左右各留 `--host-side: 76px`，标题在 `--host-top: 56px` 之下；
+  交互控件全部放在页面中部与底部；横屏三栏让开宿主左右按钮。
+- `qa-flow.cjs` 保持「点击画布 55% 高度倒沙」兼容断言（每次按下倒 18 粒，五种瓶型逐一验证）。
 
-## 目录
+## 门禁
 
 ```
-index.html            页面骨架
-src/content/content.json  业务内容（关卡、文案、配色）
-src/game.js           沙堆物理、塑形、目标展开、判定
-src/render.js         Canvas 2D 渲染（木桌、玻璃瓶、沙粒、目标缩略图）
-src/audio.js          Web Audio 合成音效
-src/storage.js        本地结构化状态
-src/app.js            调色板、工具栏、流程、纪录卡
-src/style.css         样式（宿主避让、安全区、横屏三栏）
-assets/logo.svg       原创 logo 源文件
-assets/logo-512.png   平台上架位图（不进 zip）
-tools.mjs             build / preview
-tools/logo-png.cjs    由 logo.svg 重渲染 512 PNG
-verify-artifact.cjs   产物校验（白名单 / ES2017 / 禁用能力）
-qa-mobile-check.cjs   375/390/430 + 安全区 + 宿主覆盖层 + 横屏宿主避让
-qa-flow.cjs           全流程 + 结算面板不自行推进断言
-qa-balance-check.cjs  关卡可达性 / 塑形必要性 / 随手玩家回归
-tests/game.test.mjs   玩法单测
-pack.ps1              打包 ZIP + 白名单 + SHA256
-```
-
-## 本地运行
-
-```powershell
 npm run lint
 npm test
 npm run build
 node verify-artifact.cjs dist
-node qa-mobile-check.cjs
-node qa-flow.cjs
-node qa-balance-check.cjs
-node tools/logo-png.cjs        # 由 assets/logo.svg 重渲染 512 PNG
-node tools.mjs preview 4333   # http://127.0.0.1:4333
+node qa-balance-check.cjs   # 原版常量回归（5 瓶型剖面采样 / 2600 满瓶 / 推杆半径 / 420 开场）
+node qa-mobile-check.cjs    # 375/390/430 + 五瓶型选瓶页 + 宿主覆盖层 + 横屏
+node qa-flow.cjs            # 全流程：封面→选瓶→倒沙/倾斜/推杆→举向光亮→结果→图鉴→双语→无撤销
+node qa-perf-check.cjs      # 4x CPU 节流帧率门禁
 pwsh -NoProfile -ExecutionPolicy Bypass -File pack.ps1
 ```
 
-## 验收状态
+## 目录
 
-| 项目 | 状态 |
-|---|---|
-| lint / test（18 项）/ build | 通过 |
-| verify-artifact（白名单 / ES2017 / 禁用能力 / 内联脚本） | 通过，产物 10 文件 76.0 KiB（含 `mini_tool.json`） |
-| qa-mobile-check（375 / 390 / 430 + 安全区 + 宿主按钮覆盖层 + 横屏宿主避让） | 通过，四档 `errors: []`，无横向溢出 |
-| qa-flow（真实倒沙 → 换色 → 塑形拖拽 → 挖沙 → 封口 → 结算不自行推进 → 八瓶 → 纪录卡 → 保存兜底） | 通过，`errors: []` |
-| qa-balance-check（八关可达、塑形确实起作用、随手玩家 98%–100% 过关） | 通过 |
-| 打包 ZIP | `release/sand-bottle-v1.zip` 25,229 bytes，10 条目，`index.html` 在根目录，SHA256 `1297EEE010A8BDD919D7B0A395C7F0F195C2666E99BDC3F253F711BB6B495B27`；解压后独立复验 PASS |
-| 高消耗标记 | `mini_tool.json` = `{"is_high_consumption_scene": false}`（只用 Canvas 2D / Web Audio / localStorage，未使用 Worker、离屏渲染、WebAssembly 或游戏引擎） |
-| 创服平台模拟器 | **未验收** |
-| Android 真机扫码 | **未验收** |
-| iOS 真机扫码 | **未验收** |
-| Chrome 61 / Android 8.1 WebView 61 实机 | **未验收** |
-| 宿主左上返回键、右上操作键的真实遮挡 | 仅用注入覆盖层模拟，真机仍需校准 |
+```
+index.html                  页面骨架（cover/pick/craft/result/album 五屏）
+src/content/content.json    业务内容（原版文案 zh/en、5 瓶型、12 色、场景配色）
+src/game.js                 原版 SandEngine 1:1 移植（瓶型剖面、逐粒物理、pour/rod、420 开场）
+src/render.js               Canvas 2D 渲染（暖光房间、木桌、玻璃瓶、逐粒沙、推杆、封瓶演出、背光结果页）
+src/audio.js                Web Audio 合成音效（原版三组音效参数）
+src/storage.js              本地结构化状态（容器 Storage API 优先，降级 localStorage）
+src/app.js                  状态机（cover/pick/craft/result）、指针交互、HUD、图鉴、双语
+src/style.css               样式（宿主避让、安全区、玻璃 chip、色条、横屏三栏）
+reference/eazo-spec.txt     原版源码逐段提取的精确参数表（施工第一依据）
+tools/autoplay.cjs          QA 自动倒沙助手（不进打包产物）
+```
+
+## 未验收项
+
+小红书真机（宿主按钮、安全区、Web Audio 实机解码、触控倾倒手感）与 Chrome 61 WebView 运行时
+均未实机验收；`release/manifest.json` 的 `platformSimulator` / `androidDevice` / `iosDevice` /
+`chrome61Runtime` 字段如实保持 pending / not-tested。

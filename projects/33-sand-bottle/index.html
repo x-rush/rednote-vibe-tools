@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>彩沙瓶</title>
-<meta name="description" content="一层一层，堆出你的瓶子">
+<meta name="description" content="拖动倒沙，倾斜瓶身，无法撤销">
 <link rel="icon" href="./logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="./style.css">
 </head>
@@ -18,49 +18,36 @@
     <p id="subtitle"></p>
   </header>
 
-  <section id="hud" hidden>
-    <div class="hud-row">
-      <span class="level" id="levelName"></span>
-      <span class="score-box"><b id="score">0</b><small>分</small></span>
-    </div>
-    <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="堆瓶进度">
-      <i id="progressFill"></i>
-    </div>
-    <div class="hud-row small">
-      <span id="levelHint"></span>
-      <span id="budgetText" class="budget"></span>
-    </div>
-    <div class="match-wrap">
-      <span class="match-label">吻合度</span>
-      <div class="match-bar"><i id="matchFill"></i></div>
-      <span id="matchText" class="match-text">0%</span>
-    </div>
-  </section>
-
   <section id="stage">
-    <canvas id="field" aria-label="彩沙瓶与堆积的沙"></canvas>
-    <div id="flash" role="status" aria-live="polite"></div>
-    <div id="hint" role="status" aria-live="polite"></div>
+    <canvas id="field" aria-label="彩沙瓶与逐粒堆叠的沙"></canvas>
+    <p id="craftHint" role="status" aria-live="polite"></p>
   </section>
 
   <div id="side">
+    <section id="hud" hidden>
+      <div class="chip-row">
+        <div class="hud-chip" id="fillChip"><span id="fillLabel">填充度</span> <b id="fillValue">0%</b></div>
+        <div class="hud-chip" id="poursChip"><span id="poursLabel">倒沙次数</span> <b id="poursValue">0</b></div>
+      </div>
+    </section>
+
     <section id="palette" hidden>
       <div id="swatches" role="radiogroup" aria-label="选择沙的颜色"></div>
     </section>
 
     <section id="tools" hidden>
       <div class="tool-row">
-        <button class="tool" type="button" data-tool="pour">倒沙</button>
-        <button class="tool" type="button" data-tool="shape">塑形</button>
-        <button class="tool" type="button" data-tool="scoop">挖沙</button>
+        <button class="tool" type="button" data-tool="pour" id="toolPour" aria-pressed="true">倒沙</button>
+        <button class="tool" type="button" data-tool="rod" id="toolRod" aria-pressed="false">推杆</button>
       </div>
-      <button id="sealBtn" type="button" class="seal" disabled>封口收藏</button>
+      <button id="sealBtn" type="button" class="seal">举向光亮</button>
     </section>
   </div>
 
   <footer id="footbar">
-    <button id="muteBtn" type="button" aria-pressed="true">声音 开</button>
-    <span id="bestHint"></span>
+    <button id="muteBtn" type="button" aria-pressed="true">声音开启</button>
+    <button id="langBtn" type="button">EN</button>
+    <button id="albumBtn" type="button">图鉴</button>
   </footer>
 
   <section id="intro" class="panel-layer">
@@ -68,39 +55,44 @@
       <div class="panel-glow"></div>
       <img class="panel-logo" src="./logo.svg" alt="彩沙瓶" width="72" height="72">
       <h2 id="startTitle">彩沙瓶</h2>
-      <div id="startLines" class="lines"></div>
-      <button id="startBtn" type="button" class="primary">开始堆沙</button>
-      <p class="tip">沙会自己滑出斜坡，想堆成山形就用小棒推</p>
+      <p id="startLines" class="lines"></p>
+      <button id="startBtn" type="button" class="primary">开始倒沙</button>
+      <p class="tip" id="startTip"></p>
     </div>
   </section>
 
-  <section id="levelPanel" class="panel-layer" hidden>
-    <div class="panel">
+  <section id="shapeSelect" class="panel-layer" hidden>
+    <div class="panel wide">
       <div class="panel-glow"></div>
-      <h2 id="levelTitle"></h2>
-      <div id="levelLines" class="lines"></div>
-      <button id="nextBtn" type="button" class="primary">再堆一瓶</button>
+      <h2 id="shapeTitle">选择瓶形</h2>
+      <p class="tip" id="shapeTip">瓶颈会限制你后期的操作。</p>
+      <div id="shapeCards" class="shape-cards"></div>
     </div>
   </section>
 
   <section id="result" class="panel-layer" hidden>
-    <div class="panel wide">
+    <div class="panel wide result-panel">
       <div class="panel-glow"></div>
-      <h2 id="resultTitle"></h2>
-      <div class="result-stats">
-        <div><b id="resultScore">0</b><span id="resultScoreLabel">总分</span></div>
-        <div><b id="resultBottles">0</b><span id="resultBottlesLabel">封口</span></div>
-        <div><b id="resultBest">0</b><span id="resultBestLabel">历史最佳</span></div>
-      </div>
-      <p id="bestFlag" class="best-flag" hidden>新纪录！</p>
-      <canvas id="shareCard" width="720" height="960" aria-label="彩沙瓶收藏卡"></canvas>
-      <p class="shelf-label" id="shelfLabel">收藏架</p>
-      <canvas id="shelf" width="640" height="200" aria-label="收藏的彩沙瓶"></canvas>
+      <h2 id="resultTitle">你的沙瓶</h2>
+      <p class="tip" id="resultHint">层层堆叠，无法重做。</p>
+      <canvas id="shareCard" width="720" height="960" aria-label="彩沙瓶成品卡"></canvas>
       <div class="actions">
-        <button id="againBtn" type="button" class="primary">重开一排</button>
-        <button id="saveBtn" type="button" class="ghost">保存收藏卡</button>
+        <button id="replayBtn" type="button" class="ghost">再做一瓶</button>
+        <button id="resultAlbumBtn" type="button" class="ghost">图鉴</button>
+        <button id="saveBtn" type="button" class="primary">保存成品卡</button>
       </div>
       <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="album" class="panel-layer" hidden>
+    <div class="panel wide">
+      <div class="panel-glow"></div>
+      <h2 id="albumTitle">收藏图鉴</h2>
+      <p class="album-count" id="albumCount"></p>
+      <div id="albumList" class="album-list"></div>
+      <p class="tip" id="albumEmpty">还没有举过瓶，先去做一瓶</p>
+      <button id="albumClose" type="button" class="primary">收起图鉴</button>
     </div>
   </section>
 </div>

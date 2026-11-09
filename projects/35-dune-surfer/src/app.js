@@ -1,7 +1,21 @@
 /*
- * 沙丘速降 · 主逻辑
- * 负责单指切弯、HUD、危险提示、结算与「山脊线」纪录卡。
- * 玩法状态在 src/game.js，业务内容在 src/content/content.json。
+ * 沙丘速降 · 主逻辑（eazo 原版 1:1 复刻）
+ *
+ * 页面状态机照抄原版：cover(封面) / play(游玩) / result(结算)，
+ *   对应本文件 phase = intro / run / over；非 play 状态一律 cruise 巡航。
+ * 每帧只做原版循环做的事：
+ *   dt = min(48, now − last)；p、u、d 由 game.step 计算；
+ *   输入是原版橡皮筋：按下记录手指位置，移动更新，抬起松开；
+ *   HUD 只有原版两个字段：{米数}m · 🚩{旗门数}；
+ *   教程第一次按下后收起（原版 seenHowTo 行为）；
+ *   dead > 700ms 后进入结算，结算面板字段照抄原版 resultTitle/米/旗门。
+ *
+ * 我方在原版之外保留的部分（不改变任何玩法数值）：
+ *   · Web Audio 合成音（穿门/错门/被追上/风声/轰鸣）；
+ *   · 玻璃 HUD 卡与面板视觉；宿主避让布局改为「画布全屏 + 顶栏/底栏浮层」，
+ *     物理几何与原版同为视口坐标（u=屏高×0.66），旗门预判窗口不再被顶栏挤压；
+ *   · 结构化最佳纪录（米数+旗门数）与静音偏好；
+ *   · 720×960 结算卡的容器保存兜底。
  */
 (function (root) {
   'use strict';
@@ -14,16 +28,15 @@
   var storage = root.DuneStorage;
 
   var state = null;
-  var phase = 'intro';
+  var phase = 'intro';      /* intro=cover · run=play · over=result */
   var muted = false;
-  var bestScore = 0;
   var bestRun = null;
   var raf = 0;
-  var lastFrame = 0;
-  var hudTimer = 0;
-  var dragging = false;
-  var grabOffset = 0;
-  var flashTimer = 0;
+  var lastStamp = 0;
+  var seenHowTo = false;    /* 原版：第一次按下后本局不再显示教程 */
+  var prevGates = 0;
+  var prevDead = 0;
+  var canvasRect = null;
 
   function $(id) { return root.document.getElementById(id); }
 
@@ -34,51 +47,31 @@
       root.document.documentElement.style.setProperty('--app-height', viewportH + 'px');
     }
     renderer.resize();
+    canvasRect = $('field').getBoundingClientRect();
   }
 
-  function bandOf(index) {
-    var stage = content.stages[index] || content.stages[0];
-    return content.meta.bands[stage.band] || content.meta.bands.dusk;
-  }
-
-  /* ---------- HUD ---------- */
+  /* ---------- HUD（原版字段：{m}m · 🚩{gates}；原版每帧刷新，这里同样每帧刷新） ---------- */
   function updateHud() {
     if (!state) return;
-    $('distance').textContent = String(game.meters(state));
-    $('flagCount').textContent = String(state.flags);
-    $('speedValue').textContent = String(game.topKmh(state));
-    $('carveCount').textContent = String(state.carves);
-    $('stageName').textContent = (content.stages[state.stageIndex] || content.stages[0]).name;
-    $('score').textContent = String(Math.floor(state.score + state.bonus));
-
-    /* 雪崩距离条 */
-    var ratio = Math.max(0, Math.min(1, state.gap / game.GAP_MAX));
-    var fill = $('gapFill');
-    fill.style.width = (ratio * 100).toFixed(1) + '%';
-    $('gapBar').className = ratio < 0.2 ? 'gap-bar danger' : ratio < 0.45 ? 'gap-bar warn' : 'gap-bar';
+    var m = String(game.meters(state));
+    if ($('distance').textContent !== m) $('distance').textContent = m;
+    var g = String(state.gates);
+    if ($('flagCount').textContent !== g) $('flagCount').textContent = g;
   }
 
-  function flash(text, kind) {
-    var el = $('flash');
-    el.textContent = text;
-    el.className = 'flash show ' + (kind || '');
-    flashTimer = 0.9;
-  }
-
-  /* ---------- 输入 ---------- */
-  function clientToWorld(clientX) {
-    var rect = $('field').getBoundingClientRect();
-    var off = renderer.getOffset();
-    return (clientX - rect.left - off.x) / renderer.getScale();
+  /* ---------- 输入（原版橡皮筋：手指位置即拖拽目标） ---------- */
+  function isInteractiveTarget(e) {
+    var t = e.target;
+    return !!(t && t.closest && t.closest('button, a, input, .panel-layer'));
   }
 
   function onPointerDown(e) {
     if (phase !== 'run' || !state) return;
-    if (e.target.closest && e.target.closest('button, a, input, .panel')) return;
+    if (isInteractiveTarget(e)) return;
+    seenHowTo = true;
+    $('howto').hidden = true;
     audio.resume();
-    dragging = true;
-    /* 抓住手指相对玩家的偏移：按下时玩家不会瞬移 */
-    grabOffset = clientToWorld(e.clientX) - state.x;
+    game.setDrag(state, e.clientX - canvasRect.left);
     if (e.pointerId !== undefined && this.setPointerCapture) {
       try {
         this.setPointerCapture(e.pointerId);
@@ -89,13 +82,13 @@
   }
 
   function onPointerMove(e) {
-    if (!dragging || !state) return;
-    game.setTarget(state, clientToWorld(e.clientX) - grabOffset);
+    if (phase !== 'run' || !state || !state.drag.on) return;
+    game.moveDrag(state, e.clientX - canvasRect.left);
   }
 
   function onPointerUp(e) {
-    if (!dragging) return;
-    dragging = false;
+    if (!state) return;
+    game.releaseDrag(state);
     if (e && e.pointerId !== undefined && this.releasePointerCapture) {
       try {
         this.releasePointerCapture(e.pointerId);
@@ -105,127 +98,83 @@
     }
   }
 
-  function onKeyDown(e) {
-    if (phase !== 'run' || !state) return;
-    if (e.key === 'ArrowLeft' || e.key === 'a') {
-      game.setTarget(state, state.x - 26);
-      e.preventDefault();
-    } else if (e.key === 'ArrowRight' || e.key === 'd') {
-      game.setTarget(state, state.x + 26);
-      e.preventDefault();
+  /* ---------- 音效触发（观测层：不改玩法数值） ---------- */
+  function detectAudioCues() {
+    if (phase !== 'run') return;
+    if (state.gates > prevGates) {
+      audio.playGate();
+      prevGates = state.gates;
     }
-  }
-
-  /* ---------- 每帧 ---------- */
-  function handleEvents() {
-    if (!state || !state.events.length) return;
-    for (var i = 0; i < state.events.length; i++) {
-      var e = state.events[i];
-      if (e.type === 'gate') {
-        audio.playGate();
-        flash('旗门 +' + game.GATE_SCORE, 'good');
-      } else if (e.type === 'gateMiss') {
+    for (var i = 0; i < state.gateList.length; i++) {
+      var g = state.gateList[i];
+      if (g.passed === 2 && !g.missSeen) {
+        g.missSeen = true;
         audio.playGateMiss();
-      } else if (e.type === 'crash') {
-        audio.playCrash();
-        flash('撞到岩脊！', 'bad');
-      } else if (e.type === 'jump') {
-        audio.playJump();
-        flash('腾空！', 'good');
-      } else if (e.type === 'land') {
-        audio.playLand();
-      } else if (e.type === 'carve') {
-        audio.playCarve(e.power);
-        flash('甩尾！', 'good');
-      } else if (e.type === 'caught') {
-        audio.playOver();
       }
     }
-    state.events.length = 0;
+    if (!prevDead && state.dead) audio.playOver();
+    prevDead = state.dead;
   }
 
-  function update(dt) {
-    if (!state) return;
-    if (phase === 'run') {
-      game.update(state, dt);
-      handleEvents();
-      if (state.phase === 'over') {
-        onCaught();
-        return;
-      }
-      /* 沙土飞溅 */
-      if (state.speed > 220 && Math.random() < dt * 34) {
-        var r = renderer.getScale();
-        renderer.spray(
-          renderer.sx(state.x) - 8 * r,
-          renderer.getPlayerY() + 2,
-          -state.vx * 0.4 - 40,
-          -30,
-          content.meta.bands[(content.stages[state.stageIndex] || content.stages[0]).band].dust,
-          2.2
-        );
-      }
-    }
-    renderer.updateEffects(dt);
-    /* HUD 每 100ms 刷一次，别每帧去动 DOM */
-    hudTimer -= dt;
-    if (hudTimer <= 0) {
-      hudTimer = 0.1;
-      updateHud();
-    }
-    if (flashTimer > 0) {
-      flashTimer -= dt;
-      if (flashTimer <= 0) $('flash').className = 'flash';
-    }
-  }
-
-  function buildView() {
-    var band = bandOf(state ? state.stageIndex : 0);
-    return {
-      band: band,
-      s: state ? state.s : 0,
-      speed: state ? state.speed : 0,
-      x: state ? state.x : game.WIDTH / 2,
-      vx: state ? state.vx : 0,
-      airHeight: state ? state.air : 0,
-      gap: state ? state.gap : game.GAP_START,
-      features: state ? state.features : [],
-      fallX: game.fallLine(state ? state.s : 0),
-      risk: state ? state.gap < game.CARVE_RISK_GAP : false
-    };
-  }
-
+  /* ---------- 每帧（照抄原版循环结构） ---------- */
   function frame(stamp) {
     raf = 0;
     if (root.document.hidden) return;
-    var now = stamp || performance.now();
-    var dt = lastFrame ? Math.min(0.05, (now - lastFrame) / 1000) : 0.016;
-    lastFrame = now;
-    if (renderer.ensureSize()) relayout();
-    update(dt);
-    renderer.render(now / 1000, buildView());
-    if (phase === 'run' && state) {
-      audio.setSpeed(state.speed);
-      audio.setDanger(1 - Math.max(0, Math.min(1, state.gap / 460)));
+    var now = stamp || 0;
+    var dtMs = lastStamp ? now - lastStamp : 0;
+    lastStamp = now;
+    /* 画布 CSS 尺寸每帧校对：顶栏品牌卡 ↔ HUD 胶囊切换、宿主地址栏伸缩
+       都不触发 resize 事件，缓冲不跟上会把整幅画面拉伸变形 */
+    if (renderer.ensureSize()) {
+      canvasRect = $('field').getBoundingClientRect();
     }
-    raf = requestAnimationFrame(frame);
+    var mode = phase === 'run' ? 'play' : 'cruise';
+    var size = renderer.getSize();
+    var view = game.step(state, dtMs, {
+      width: size.w,
+      height: size.h,
+      mode: mode,
+      now: now
+    });
+    detectAudioCues();
+    renderer.render({
+      state: state,
+      palette: content.palette,
+      visual: content.meta.visual,
+      mode: mode,
+      u: view.u,
+      d: view.d,
+      now: now,
+      veil: phase === 'intro'
+    });
+    audio.setSpeed(view.p);
+    audio.setDanger(state.ava);
+    if (phase === 'run') updateHud();
+    if (phase === 'run' && state.finished) {
+      onCaught();
+      return;
+    }
+    raf = root.requestAnimationFrame(frame);
   }
 
   function loop() {
-    if (!raf && !root.document.hidden) raf = requestAnimationFrame(frame);
+    if (!raf && !root.document.hidden) raf = root.requestAnimationFrame(frame);
   }
 
   /* ---------- 流程 ---------- */
   function startRun() {
-    state = game.createRun(content, Math.floor(Math.random() * 100000));
-    game.startRun(state);
+    var w = renderer.getSize().w;
+    state = game.createRun(w);
+    game.startRun(state, w);
     root.__duneState = state;
     phase = 'run';
-    renderer.clearEffects();
+    prevGates = 0;
+    prevDead = 0;
     $('hud').hidden = false;
     $('intro').hidden = true;
     $('result').hidden = true;
-    $('flash').className = 'flash';
+    $('howto').hidden = seenHowTo;
+    root.document.body.className = 'playing';
     updateHud();
     audio.resume();
     loop();
@@ -233,137 +182,113 @@
 
   function onCaught() {
     phase = 'over';
-    game.finish(state);
     audio.silence();
-    var isNew = state.score > bestScore;
+    var metersNum = game.meters(state);
+    var isNew = !bestRun || metersNum > bestRun.meters;
     if (isNew) {
-      bestScore = state.score;
-      storage.write('dune-best-score', bestScore);
+      bestRun = { meters: metersNum, gates: state.gates };
+      storage.write('dune-best-run', bestRun);
     }
-    bestRun = {
-      score: state.score,
-      meters: game.meters(state),
-      flags: state.flags,
-      carves: state.carves,
-      topSpeed: game.topKmh(state),
-      stage: state.stageIndex
-    };
-    storage.write('dune-best-run', bestRun);
 
-    $('resultTitle').textContent = copy.overTitle;
-    $('resultScore').textContent = String(state.score);
-    $('resultDistance').textContent = String(game.meters(state));
-    $('resultFlags').textContent = String(state.flags);
-    $('resultCarves').textContent = String(state.carves);
-    $('resultSpeed').textContent = String(game.topKmh(state));
+    $('resultTitle').textContent = copy.resultTitle;
+    $('resultMeters').textContent = String(metersNum);
+    $('resultSub').textContent = copy.resultSub;
+    $('resultFlags').textContent = state.gates + ' ' + copy.gates;
     $('bestFlag').hidden = !isNew;
-    $('resultBest').textContent = String(Math.max(bestScore, state.score));
-    $('againBtn').textContent = copy.againButton;
-    buildTraceCard();
+    $('shareStatus').textContent = '';
+    buildShareCard();
     $('result').hidden = false;
+    $('howto').hidden = true;
+    root.document.body.className = '';
     updateHud();
+    /* 原版结算页背景继续自动巡航滚动：rAF 循环不能停 */
+    loop();
   }
 
-  /* ---------- 山脊线纪录卡 ---------- */
-  function buildTraceCard() {
+  /* ---------- 720×960 结算卡（原版 M() 画法照抄） ---------- */
+  function buildShareCard() {
     var canvas = $('shareCard');
+    canvas.width = 720;
+    canvas.height = 960;
     var c = canvas.getContext('2d');
-    var W = canvas.width;
-    var H = canvas.height;
-    var band = bandOf(state.stageIndex);
+    if (!c) return;
+    c.fillStyle = '#20143a';
+    c.fillRect(0, 0, 720, 960);
+    var sky = c.createLinearGradient(0, 0, 0, 470);
+    sky.addColorStop(0, '#1d1238');
+    sky.addColorStop(0.5, '#6b3455');
+    sky.addColorStop(1, '#e08b4c');
+    c.fillStyle = sky;
+    c.fillRect(0, 0, 720, 470);
+    var sand = c.createLinearGradient(0, 420, 0, 960);
+    sand.addColorStop(0, '#e6a55c');
+    sand.addColorStop(0.4, '#c9793a');
+    sand.addColorStop(1, '#6d3a1c');
+    c.fillStyle = sand;
+    c.beginPath();
+    c.moveTo(0, 470);
+    for (var x = 0; x <= 720; x += 20) c.lineTo(x, 440 + 30 * Math.sin(0.008 * x));
+    c.lineTo(720, 960);
+    c.lineTo(0, 960);
+    c.closePath();
+    c.fill();
+    c.globalCompositeOperation = 'lighter';
+    var sun = c.createRadialGradient(520, 400, 8, 520, 400, 220);
+    sun.addColorStop(0, 'rgba(255,220,150,0.6)');
+    sun.addColorStop(1, 'rgba(255,190,110,0)');
+    c.fillStyle = sun;
+    c.beginPath();
+    c.arc(520, 400, 220, 0, Math.PI * 2);
+    c.fill();
+    c.globalCompositeOperation = 'source-over';
 
-    var grad = c.createLinearGradient(0, 0, 0, H);
-    grad.addColorStop(0, band.skyTop);
-    grad.addColorStop(0.42, band.skyBottom);
-    grad.addColorStop(0.44, band.sand);
-    grad.addColorStop(1, band.sandDark);
-    c.fillStyle = grad;
-    c.fillRect(0, 0, W, H);
-
-    c.textAlign = 'center';
-    c.fillStyle = band.flag;
-    c.font = '800 62px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    c.fillText(content.meta.title, W / 2, 106);
-    c.fillStyle = 'rgba(255,255,255,0.66)';
-    c.font = '400 26px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    c.fillText(copy.finalTitle, W / 2, 150);
-
-    /* 山脊线：横向位置随距离变化的剖面 */
-    var boxW = 470;
-    var boxH = 560;
-    var boxX = (W - boxW) / 2;
-    var boxY = 190;
-    c.strokeStyle = 'rgba(255,255,255,0.2)';
-    c.lineWidth = 2;
-    c.strokeRect(boxX, boxY, boxW, boxH);
-
-    var trail = state.trail || [];
+    /* 滑降线（原版：起点底部 → 终点顶部，横向 90..630，纵向 500..900） */
+    var trail = state.trail;
     if (trail.length > 1) {
-      var maxS = state.s || 1;
-      c.save();
+      c.strokeStyle = 'rgba(255,246,222,0.9)';
+      c.lineWidth = 6;
+      c.lineCap = 'round';
       c.beginPath();
-      c.rect(boxX, boxY, boxW, boxH);
-      c.clip();
-      for (var i = 1; i < trail.length; i++) {
-        var px = boxX + (trail[i].x / game.WIDTH) * boxW;
-        var py = boxY + boxH - (trail[i].s / maxS) * boxH;
-        var risk = trail[i].gap < game.CARVE_RISK_GAP;
-        c.strokeStyle = risk ? 'rgba(255,120,80,0.95)' : 'rgba(255,236,200,0.9)';
-        c.lineWidth = risk ? 6 : 4;
-        c.lineJoin = 'round';
-        c.beginPath();
-        if (i === 1) c.moveTo(px, py);
+      var y0 = trail[0].y || 0;
+      var span = Math.max(1, (trail[trail.length - 1].y || 1) - y0);
+      for (var i = 0; i < trail.length; i++) {
+        var n = (trail[i].y - y0) / span;
+        var px = 90 + 540 * trail[i].x;
+        var py = 500 + 400 * n;
+        if (i === 0) c.moveTo(px, py);
         else c.lineTo(px, py);
-        c.stroke();
       }
-      /* 起点 */
-      c.fillStyle = band.sun;
-      c.beginPath();
-      c.arc(
-        boxX + (trail[0].x / game.WIDTH) * boxW,
-        boxY + boxH - (trail[0].s / maxS) * boxH,
-        8,
-        0,
-        Math.PI * 2
-      );
-      c.fill();
-      c.restore();
-    } else {
-      c.fillStyle = 'rgba(255,255,255,0.5)';
-      c.font = '400 26px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-      c.fillText(copy.finalTraceEmpty, W / 2, boxY + boxH / 2);
+      c.stroke();
     }
 
-    c.fillStyle = band.flag;
-    c.font = '800 84px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    c.fillText(String(state.score), W / 2, 838);
-    c.fillStyle = 'rgba(255,255,255,0.72)';
-    c.font = '600 26px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    c.fillText(
-      copy.finalDistanceLabel + ' ' + game.meters(state) + copy.meterLabel +
-      '  ·  ' + copy.finalFlagLabel + ' ' + state.flags +
-      '  ·  ' + copy.finalCarveLabel + ' ' + state.carves,
-      W / 2,
-      880
-    );
-    c.font = '400 24px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
-    c.fillText(copy.finalSpeedLabel + ' ' + game.topKmh(state) + ' km/h', W / 2, 916);
-    c.fillText('长按图片可保存', W / 2, 944);
+    c.textAlign = 'center';
+    c.fillStyle = 'rgba(0,0,0,0.42)';
+    c.fillRect(0, 50, 720, 190);
+    c.fillStyle = '#ffe6c0';
+    c.font = '700 130px system-ui';
+    c.fillText(String(game.meters(state)), 360, 176);
+    c.fillStyle = 'rgba(255,244,226,0.9)';
+    c.font = '500 32px system-ui';
+    c.fillText(copy.shareCardCaption + ' · ' + state.gates + ' gates', 360, 224);
+    c.fillStyle = 'rgba(255,255,255,0.55)';
+    c.font = '600 28px system-ui';
+    c.fillText(copy.shareCardBrand, 360, 930);
     c.textAlign = 'left';
   }
 
-  function saveCard() {
-    var card = $('shareCard');
-    var status = $('saveStatus');
+  /* 分享 = 容器保存兜底（原版是发送到 Eazo，本工具无该后端） */
+  function saveShareCard() {
+    var canvas = $('shareCard');
+    var status = $('shareStatus');
     var api = root.xhs && root.xhs.miniTool;
     if (!api || typeof api.saveImageToPhotosAlbum !== 'function') {
-      status.textContent = copy.saveUnavailable;
+      status.textContent = copy.shareWeb;
       return;
     }
     try {
-      var dataUrl = card.toDataURL('image/png');
+      var dataUrl = canvas.toDataURL('image/png');
       Promise.resolve(api.saveImageToPhotosAlbum({ filePath: dataUrl })).then(function () {
-        status.textContent = copy.saved;
+        status.textContent = copy.sharedOk;
       }).catch(function () {
         status.textContent = copy.saveFailed;
       });
@@ -374,22 +299,24 @@
 
   /* ---------- 事件 ---------- */
   function bind() {
-    var canvasEl = $('field');
-    canvasEl.addEventListener('pointerdown', onPointerDown);
-    canvasEl.addEventListener('pointermove', onPointerMove);
-    canvasEl.addEventListener('pointerup', onPointerUp);
-    canvasEl.addEventListener('pointercancel', onPointerUp);
+    var appEl = $('app');
+    appEl.addEventListener('pointerdown', onPointerDown);
+    appEl.addEventListener('pointermove', onPointerMove);
+    appEl.addEventListener('pointerup', onPointerUp);
+    appEl.addEventListener('pointercancel', onPointerUp);
 
     root.addEventListener('resize', relayout);
     root.addEventListener('orientationchange', function () { setTimeout(relayout, 220); });
-    root.addEventListener('keydown', onKeyDown);
     root.document.addEventListener('visibilitychange', function () {
-      if (!root.document.hidden) loop();
+      if (!root.document.hidden) {
+        lastStamp = 0;
+        loop();
+      }
     });
 
     $('startBtn').addEventListener('click', startRun);
     $('againBtn').addEventListener('click', startRun);
-    $('saveBtn').addEventListener('click', saveCard);
+    $('shareBtn').addEventListener('click', saveShareCard);
     $('muteBtn').addEventListener('click', function () {
       muted = !muted;
       audio.setMuted(muted);
@@ -404,26 +331,35 @@
     renderer = root.DuneRender.createRenderer($('field'));
     renderer.resize();
     root.__duneRenderer = renderer;
+    relayout();
 
-    $('subtitle').textContent = content.brand.tagline;
+    $('title').textContent = content.meta.title;
+    $('subtitle').textContent = copy.tagline;
     $('startTitle').textContent = content.brand.toolName;
+    $('tagline').textContent = copy.tagline;
     var lines = $('startLines');
     lines.innerHTML = '';
-    for (var i = 0; i < copy.startLines.length; i++) {
+    var howtos = [copy.howto1, copy.howto2];
+    for (var i = 0; i < howtos.length; i++) {
       var p = root.document.createElement('p');
-      p.textContent = copy.startLines[i];
+      p.textContent = howtos[i];
       lines.appendChild(p);
     }
-    $('startBtn').textContent = copy.startButton;
-    $('distanceLabel').textContent = copy.distanceLabel;
-    $('flagLabel').textContent = copy.flagLabel;
-    $('speedLabel').textContent = copy.speedLabel;
-    $('carveLabel').textContent = copy.carveLabel;
+    $('startBtn').textContent = copy.enter;
+    $('againBtn').textContent = copy.replay;
+    $('shareBtn').textContent = copy.share;
+    $('howtoText').textContent = copy.hint;
+    $('bestFlag').textContent = copy.newBest;
 
     bind();
 
+    /* 封面背景：原版加载时即生成门并开始巡航滚动 */
+    state = game.createRun(renderer.getSize().w);
+    game.ensureGates(state, 2600, renderer.getSize().w);
+    root.__duneState = state;
+    loop();
+
     storage.loaded.then(function () {
-      bestScore = Number(storage.read('dune-best-score')) || 0;
       var run = storage.read('dune-best-run');
       bestRun = null;
       if (run) {
@@ -433,7 +369,10 @@
           bestRun = null;
         }
       }
-      $('bestHint').textContent = bestScore ? copy.finalBestLabel + ' ' + bestScore : '';
+      if (!bestRun || !bestRun.meters) bestRun = null;
+      $('bestHint').textContent = bestRun
+        ? copy.finalBestLabel + ' ' + bestRun.meters + ' ' + copy.meterLabel
+        : '';
       var muteFlag = Number(storage.read('dune-muted')) || 0;
       if (muteFlag) {
         muted = true;
@@ -451,7 +390,6 @@
   }
 
   /* 自检钩子 */
-  root.__duneState = null;
   root.__dunePhase = function () { return phase; };
   root.__duneStart = startRun;
 })(typeof window !== 'undefined' ? window : global);

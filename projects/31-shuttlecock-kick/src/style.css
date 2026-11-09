@@ -48,8 +48,9 @@ body { overflow: hidden; }
   min-height: 520px;
   display: flex;
   flex-direction: column;
+  /* 顶部色晕跟随当前羽色档位 */
   background:
-    radial-gradient(120% 58% at 76% 6%, rgba(255, 176, 122, 0.24) 0%, rgba(255, 176, 122, 0) 60%),
+    radial-gradient(120% 58% at 76% 6%, var(--tint, rgba(255, 176, 122, 0.24)) 0%, rgba(255, 255, 255, 0) 60%),
     linear-gradient(180deg, #2a1c38 0%, #20152c 52%, #150f22 100%);
 }
 
@@ -57,7 +58,8 @@ body { overflow: hidden; }
 #topbar {
   flex: 0 0 auto;
   padding: 0 calc(var(--host-side) + 4px);
-  padding-top: calc(var(--safe-top) + var(--host-top) - 22px);
+  /* 标题整体落在宿主按钮（--host-top）之下 */
+  padding-top: calc(var(--safe-top) + var(--host-top));
   text-align: center;
   pointer-events: none;
 }
@@ -87,58 +89,158 @@ body { overflow: hidden; }
   color: var(--ink-dim);
 }
 
-/* ---------- HUD ---------- */
+/* ---------- HUD：玻璃拟态卡片 ---------- */
 #hud {
   flex: 0 0 auto;
   margin: 10px auto 0;
-  padding: 0 calc(var(--host-side) + 2px);
+  padding: 0 12px;
   width: 100%;
   max-width: 460px;
 }
 
-.hud-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2px;
+.hud-card {
+  position: relative;
+  padding: 10px 15px 11px;
+  border-radius: 16px;
+  /* 半透明深色底 */
+  background: linear-gradient(158deg, rgba(62, 40, 78, 0.74) 0%, rgba(20, 12, 30, 0.8) 100%);
+  /* 1px 高光描边 */
+  border: 1px solid rgba(255, 236, 210, 0.18);
+  /* 轻微外阴影 */
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
-.hud-row .level {
+.hud-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 18px;
+  right: 18px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 236, 210, 0.55) 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+.hud-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.hud-main {
+  display: flex;
+  align-items: baseline;
+}
+
+.hud-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-dim);
+  margin-right: 6px;
+}
+
+/* 主数值：28–34px 粗体 */
+#rally {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--feather);
+  text-shadow: 0 2px 16px rgba(255, 176, 92, 0.55);
+}
+
+.hud-side {
+  text-align: right;
+}
+
+.hud-level {
+  display: block;
   font-size: 13px;
   font-weight: 600;
   color: var(--ink);
   opacity: 0.92;
 }
 
-.hud-row.small {
-  margin-top: 6px;
-  font-size: 11px;
+/* 副信息：12–13px */
+.hud-target {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
   color: var(--ink-dim);
 }
 
-.combo-box {
-  display: inline-flex;
-  align-items: baseline;
+.hud-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--ink-dim);
 }
 
-.combo-box b {
-  font-size: 26px;
+/* 连击小数值 */
+.hud-combo b {
   font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--feather);
-  text-shadow: 0 2px 14px rgba(255, 176, 92, 0.5);
+  color: var(--ink);
 }
 
-.combo-box small {
-  margin-left: 4px;
-  font-size: 11px;
-  color: var(--ink-dim);
+/* 风力 4 格（原版 P = round(windStrength/0.05)，逐格点亮） */
+.hud-wind {
+  display: inline-flex;
+  align-items: center;
+}
+
+.hud-wind i {
+  font-style: normal;
+  margin-right: 6px;
+  opacity: 0.72;
+}
+
+#windPips {
+  display: inline-flex;
+  align-items: center;
+}
+
+#windPips i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 3px;
+  border-radius: 3px;
+  background: rgba(199, 152, 87, 0.4);
+}
+
+#windPips i.lit {
+  background: #d0663a;
+  box-shadow: 0 0 8px rgba(208, 102, 58, 0.8);
+}
+
+/* 最近踢法标签 */
+.hud-kick {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.9;
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hud-tier i {
+  font-style: normal;
+  margin-right: 5px;
+  opacity: 0.72;
+}
+
+.hud-tier b {
+  font-weight: 700;
+  color: var(--feather);
 }
 
 .progress {
   position: relative;
   height: 7px;
-  margin-top: 8px;
+  margin-top: 9px;
   border-radius: 4px;
   background: rgba(255, 226, 196, 0.13);
   overflow: hidden;
@@ -156,24 +258,10 @@ body { overflow: hidden; }
   transition: width 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.lives {
-  display: inline-flex;
-  align-items: center;
-}
-
-.lives i {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  margin-left: 5px;
-  border-radius: 50%;
-  background: var(--feather);
-  box-shadow: 0 0 8px rgba(255, 176, 92, 0.6);
-}
-
-.lives i.gone {
-  background: rgba(255, 226, 196, 0.2);
-  box-shadow: none;
+.result-detail {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: rgba(255, 226, 196, 0.62);
 }
 
 /* ---------- 场地 ---------- */
@@ -436,23 +524,38 @@ button.ghost {
 button.ghost:active { opacity: 0.72; }
 
 /* ---------- 结果面板 ---------- */
+.landed-line {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 226, 196, 0.78);
+}
+
+.result-subtitle {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: rgba(255, 226, 196, 0.55);
+}
+
 .result-stats {
   display: flex;
-  margin: 16px 0 4px;
+  flex-wrap: wrap;
+  margin: 14px 0 2px;
 }
 
 .result-stats > div {
-  flex: 1 1 0;
+  flex: 1 1 30%;
   min-width: 0;
-  padding: 0 4px;
+  padding: 4px;
 }
 
 .result-stats b {
   display: block;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--feather);
   letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
 .result-stats span {
@@ -460,6 +563,26 @@ button.ghost:active { opacity: 0.72; }
   margin-top: 3px;
   font-size: 10px;
   color: rgba(255, 226, 196, 0.55);
+}
+
+/* 原版结算卡的踢法 chips */
+.result-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 8px 0 0;
+}
+
+.result-chips span {
+  display: inline-block;
+  margin: 3px 4px 0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(191, 212, 156, 0.2);
+  border: 1px solid rgba(191, 212, 156, 0.4);
+  color: #d8ecc0;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .best-flag {
@@ -514,8 +637,8 @@ button.ghost:active { opacity: 0.72; }
 }
 
 @media (max-height: 560px) {
-  .hud-row.small { margin-top: 4px; }
-  .combo-box b { font-size: 22px; }
+  .hud-foot { margin-top: 5px; }
+  #rally { font-size: 28px; }
 }
 
 /* ---------- 横屏 ---------- */
@@ -532,6 +655,8 @@ button.ghost:active { opacity: 0.72; }
     padding: calc(var(--safe-top) + 12px) 8px 0 12px;
     max-width: none;
   }
+  .hud-card { padding: 8px 12px 9px; }
+  #rally { font-size: 28px; }
   #stage { flex: 1 1 66%; margin-top: 0; }
   #footbar {
     position: absolute;

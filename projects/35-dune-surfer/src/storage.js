@@ -9,7 +9,7 @@
   var native = null;
   var ready = false;
   var cache = {};
-  var KEYS = ['dune-best-score', 'dune-best-run', 'dune-muted'];
+  var KEYS = ['dune-best-run', 'dune-muted'];
   var STORAGE_MIN_CLIENT_VERSION = 9460;
 
   function readBuildVersion(launchOptions) {

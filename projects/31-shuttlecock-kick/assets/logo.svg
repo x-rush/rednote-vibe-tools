@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="毽子连击">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3b2a55"/>
-      <stop offset="0.52" stop-color="#8e5a86"/>
-      <stop offset="1" stop-color="#f0a06a"/>
+      <stop offset="0" stop-color="#ffd9a0"/>
+      <stop offset="0.52" stop-color="#ff9d76"/>
+      <stop offset="1" stop-color="#8e5a86"/>
     </linearGradient>
     <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0" stop-color="#fff6d8" stop-opacity="0.95"/>
@@ -12,17 +12,17 @@
     </radialGradient>
     <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#3d2b3f"/>
-      <stop offset="1" stop-color="#1a1226"/>
+      <stop offset="1" stop-color="#150f22"/>
     </linearGradient>
-    <linearGradient id="feather" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#fff6ea"/>
-      <stop offset="0.55" stop-color="#ffd0a4"/>
-      <stop offset="1" stop-color="#f0834a"/>
-    </linearGradient>
-    <linearGradient id="featherAlt" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffe9d2"/>
-      <stop offset="0.6" stop-color="#ffb98c"/>
-      <stop offset="1" stop-color="#e0653f"/>
+    <radialGradient id="featherVol" cx="0.5" cy="0.72" r="0.62">
+      <stop offset="0" stop-color="#d9bf95"/>
+      <stop offset="0.5" stop-color="#f2e4cd"/>
+      <stop offset="1" stop-color="#fffaf0"/>
+    </radialGradient>
+    <linearGradient id="featherLit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#3a1e50" stop-opacity="0.25"/>
     </linearGradient>
     <radialGradient id="bell" cx="0.34" cy="0.3" r="0.8">
       <stop offset="0" stop-color="#fff6c8"/>
@@ -34,73 +34,88 @@
       <stop offset="0.6" stop-color="#d3b489"/>
       <stop offset="1" stop-color="#8a6743"/>
     </radialGradient>
+    <clipPath id="card">
+      <rect width="512" height="512" rx="112"/>
+    </clipPath>
   </defs>
 
-  <rect width="512" height="512" rx="112" fill="url(#sky)"/>
+  <g clip-path="url(#card)">
+    <rect width="512" height="512" fill="url(#sky)"/>
 
-  <circle cx="392" cy="126" r="118" fill="url(#sun)"/>
-  <circle cx="392" cy="126" r="40" fill="#fff3c9"/>
+    <!-- 日轮 -->
+    <circle cx="392" cy="118" r="120" fill="url(#sun)"/>
+    <circle cx="392" cy="118" r="36" fill="#fff3c9"/>
 
-  <g fill="#ffffff" opacity="0.55">
-    <circle cx="92" cy="104" r="3"/>
-    <circle cx="148" cy="66" r="2.2"/>
-    <circle cx="212" cy="122" r="2.6"/>
-    <circle cx="312" cy="62" r="2"/>
-    <circle cx="60" cy="196" r="2.4"/>
-    <circle cx="452" cy="216" r="2.2"/>
-  </g>
-
-  <path d="M0 404 C 120 384 200 418 300 400 C 380 386 440 404 512 392 L512 512 L0 512 Z" fill="url(#ground)"/>
-  <path d="M0 404 C 120 384 200 418 300 400 C 380 386 440 404 512 392" fill="none" stroke="#ffb27a" stroke-opacity="0.55" stroke-width="5" stroke-linecap="round"/>
-
-  <g stroke="#ffd2a8" fill="none" stroke-linecap="round" opacity="0.72">
-    <path d="M96 344 C 128 318 132 268 106 232" stroke-width="9"/>
-    <path d="M70 372 C 112 344 118 288 84 246" stroke-width="6" opacity="0.62"/>
-  </g>
-
-  <g transform="translate(300 300)">
-    <g transform="rotate(-38)">
-      <ellipse cx="0" cy="-58" rx="20" ry="60" fill="url(#featherAlt)"/>
-    </g>
-    <g transform="rotate(-25)">
-      <ellipse cx="0" cy="-60" rx="22" ry="64" fill="url(#feather)"/>
-    </g>
-    <g transform="rotate(-12)">
-      <ellipse cx="0" cy="-62" rx="23" ry="67" fill="url(#feather)"/>
-    </g>
-    <g>
-      <ellipse cx="0" cy="-63" rx="23" ry="68" fill="url(#featherAlt)"/>
-    </g>
-    <g transform="rotate(12)">
-      <ellipse cx="0" cy="-62" rx="23" ry="67" fill="url(#feather)"/>
-    </g>
-    <g transform="rotate(25)">
-      <ellipse cx="0" cy="-60" rx="22" ry="64" fill="url(#feather)"/>
-    </g>
-    <g transform="rotate(38)">
-      <ellipse cx="0" cy="-58" rx="20" ry="60" fill="url(#featherAlt)"/>
+    <!-- 云带 -->
+    <g fill="#fff3e2" opacity="0.16">
+      <ellipse cx="120" cy="128" rx="150" ry="13"/>
+      <ellipse cx="330" cy="176" rx="190" ry="16"/>
+      <ellipse cx="180" cy="228" rx="210" ry="18"/>
     </g>
 
-    <g stroke="#a5573a" stroke-opacity="0.22" stroke-width="2.4" fill="none">
-      <path d="M0 0 L0 -118"/>
-      <path d="M0 0 L-72 -76"/>
-      <path d="M0 0 L72 -76"/>
+    <!-- 远山剪影 -->
+    <path d="M0 372 C 70 330 130 372 200 348 C 268 326 320 366 386 344 C 440 326 480 352 512 340 L512 512 L0 512 Z" fill="#7a4a72" opacity="0.55"/>
+    <path d="M0 404 C 90 372 150 404 240 386 C 320 370 380 398 512 378 L512 512 L0 512 Z" fill="#553a5c" opacity="0.8"/>
+
+    <!-- 树线 -->
+    <g fill="#553a5c" opacity="0.9">
+      <path d="M44 386 h5 v58 h-5 z M32 386 a24 24 0 0 1 48 0 z"/>
+      <path d="M120 392 h5 v52 h-5 z M106 392 a22 22 0 0 1 44 0 z"/>
+      <path d="M392 388 h5 v56 h-5 z M378 388 a23 23 0 0 1 46 0 z"/>
+      <path d="M462 394 h5 v50 h-5 z M448 394 a22 22 0 0 1 44 0 z"/>
     </g>
 
-    <ellipse cx="-8" cy="-96" rx="16" ry="30" fill="#ffffff" opacity="0.28" transform="rotate(-16 -8 -96)"/>
+    <!-- 操场围栏 -->
+    <g stroke="#553a5c" stroke-width="9" stroke-linecap="round" fill="none">
+      <path d="M0 414 H512"/>
+      <path d="M0 436 H512"/>
+    </g>
+    <g stroke="#553a5c" stroke-width="10" stroke-linecap="round">
+      <path d="M76 404 V452"/><path d="M152 404 V452"/><path d="M228 404 V452"/>
+      <path d="M304 404 V452"/><path d="M380 404 V452"/><path d="M456 404 V452"/>
+    </g>
 
-    <circle cx="0" cy="-6" r="17" fill="url(#bell)"/>
-    <rect x="-8" y="-2" width="16" height="4" rx="2" fill="#8a5c10" opacity="0.6"/>
+    <!-- 地面 -->
+    <path d="M0 452 H512 V512 H0 Z" fill="url(#ground)"/>
+    <path d="M0 452 H512" stroke="#f0b183" stroke-width="6" stroke-opacity="0.9"/>
 
-    <ellipse cx="0" cy="16" rx="34" ry="19" fill="url(#cork)"/>
-    <ellipse cx="0" cy="30" rx="34" ry="12" fill="#5d4029"/>
-    <ellipse cx="0" cy="12" rx="34" ry="18" fill="url(#cork)"/>
-    <ellipse cx="-11" cy="5" rx="12" ry="6" fill="#ffffff" opacity="0.35"/>
-  </g>
+    <!-- 毽子：羽裙 -->
+    <g transform="translate(256 300)">
+      <g fill="url(#featherVol)" stroke="rgba(58,30,52,0.32)" stroke-width="2.4">
+        <path d="M0 0 L-84 -66 A108 108 0 0 1 -50 -92 Z"/>
+        <path d="M0 0 L-56 -86 A108 108 0 0 1 -18 -106 Z"/>
+        <path d="M0 0 L-18 -108 A108 108 0 0 1 18 -108 Z"/>
+        <path d="M0 0 L18 -108 A108 108 0 0 1 56 -86 Z"/>
+        <path d="M0 0 L50 -92 A108 108 0 0 1 84 -66 Z"/>
+      </g>
+      <g fill="url(#featherLit)">
+        <path d="M0 0 L-84 -66 A108 108 0 0 1 -50 -92 Z"/>
+        <path d="M0 0 L-56 -86 A108 108 0 0 1 -18 -106 Z"/>
+        <path d="M0 0 L-18 -108 A108 108 0 0 1 18 -108 Z"/>
+        <path d="M0 0 L18 -108 A108 108 0 0 1 56 -86 Z"/>
+        <path d="M0 0 L50 -92 A108 108 0 0 1 84 -66 Z"/>
+      </g>
+      <g stroke="rgba(118,78,58,0.26)" stroke-width="2" fill="none">
+        <path d="M0 0 L-84 -66"/><path d="M0 0 L-56 -86"/><path d="M0 0 L-18 -108"/>
+        <path d="M0 0 L18 -108"/><path d="M0 0 L56 -86"/><path d="M0 0 L84 -66"/>
+      </g>
 
-  <g fill="#ffe6b0">
-    <path d="M404 300 l10 24 24 10 -24 10 -10 24 -10 -24 -24 -10 24 -10 z"/>
-    <path d="M150 402 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 z" opacity="0.9"/>
-    <path d="M432 396 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 z" opacity="0.75"/>
+      <!-- 铜铃 -->
+      <circle cx="0" cy="0" r="17" fill="url(#bell)"/>
+      <rect x="-8" y="2" width="16" height="4" rx="2" fill="#8a5c10" opacity="0.6"/>
+      <circle cx="-6" cy="-6" r="4" fill="#fffbe8" opacity="0.85"/>
+
+      <!-- 皮托 -->
+      <ellipse cx="0" cy="24" rx="30" ry="15" fill="url(#cork)"/>
+      <ellipse cx="0" cy="33" rx="27" ry="10" fill="#5d4029"/>
+      <ellipse cx="0" cy="21" rx="30" ry="14" fill="url(#cork)"/>
+      <ellipse cx="-10" cy="15" rx="10" ry="5" fill="#ffffff" opacity="0.32"/>
+    </g>
+
+    <!-- 高光星芒 -->
+    <g fill="#ffe6b0">
+      <path d="M404 296 l9 22 22 9 -22 9 -9 22 -9 -22 -22 -9 22 -9 z"/>
+      <path d="M112 330 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 z" opacity="0.85"/>
+    </g>
   </g>
 </svg>

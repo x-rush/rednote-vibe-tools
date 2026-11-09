@@ -1,7 +1,9 @@
 /*
- * 沙丘速降 · 全流程自检
- * 覆盖：开场 → 开始 → HUD 刷新 → 真实拖拽切弯 → 世界推进 → 静音开关 →
- *       被雪崩追上 → 结算面板 → 山脊线纪录卡 720×960 → 保存兜底 → 再滑一次。
+ * 沙丘速降 · 全流程自检（三期严格复刻版）
+ * 覆盖：开场 → 开始 → 教程层（首次按下收起）→ HUD 胶囊刷新 →
+ *       真实拖拽转向（原版橡皮筋）→ 世界推进 → 静音开关 →
+ *       ava 越过死亡线被追上 → 结算面板（你的滑降/米/旗门/新纪录）→
+ *       720×960 结算卡 → 保存兜底 → 再玩一次。
  * 复用仓库既有 Playwright 运行时，不新增依赖。
  */
 const fs = require('fs');
@@ -75,6 +77,7 @@ async function run() {
     document.documentElement.style.setProperty('--safe-area-inset-top', '44px');
     document.documentElement.style.setProperty('--safe-area-inset-bottom', '34px');
   });
+  await page.waitForTimeout(400);
 
   const report = {};
 
@@ -83,26 +86,29 @@ async function run() {
     introVisible: !document.querySelector('#intro').hidden,
     hudHidden: document.querySelector('#hud').hidden,
     startText: document.querySelector('#startBtn').textContent,
-    lines: document.querySelectorAll('#startLines p').length
+    lines: document.querySelectorAll('#startLines p').length,
+    line1: document.querySelector('#startLines p').textContent
   }));
   if (!intro.introVisible) errors.push('[flow] 开场面板没有出现');
   if (!intro.hudHidden) errors.push('[flow] 开局前 HUD 不该出现');
-  if (intro.lines < 3) errors.push('[flow] 开场说明行数不对：' + intro.lines);
+  if (intro.lines !== 2) errors.push('[flow] 开场教程应该是原版两条：' + intro.lines);
+  if (intro.line1.indexOf('拖动') < 0) errors.push('[flow] 教程第一条不对：' + intro.line1);
   report.intro = intro;
 
   /* ---------- 开始 ---------- */
   await page.click('#startBtn');
-  await page.waitForTimeout(700);
+  await page.waitForTimeout(500);
   const afterStart = await page.evaluate(() => ({
     phase: window.__dunePhase(),
     hudVisible: !document.querySelector('#hud').hidden,
     introHidden: document.querySelector('#intro').hidden,
-    meters: document.querySelector('#distance').textContent,
-    stage: document.querySelector('#stageName').textContent
+    howtoVisible: !document.querySelector('#howto').hidden,
+    meters: document.querySelector('#distance').textContent
   }));
   if (afterStart.phase !== 'run') errors.push('[flow] 开始后状态不对：' + afterStart.phase);
   if (!afterStart.hudVisible) errors.push('[flow] 开始后 HUD 没有出现');
   if (!afterStart.introHidden) errors.push('[flow] 开场面板没有收起');
+  if (!afterStart.howtoVisible) errors.push('[flow] 首局应该显示教程层');
   report.afterStart = afterStart;
 
   /* ---------- 静音开关 ---------- */
@@ -119,39 +125,46 @@ async function run() {
   if (unmuted !== false) errors.push('[flow] 再次点击静音按钮没有恢复声音');
   report.mute = { after: muted, back: unmuted };
 
-  /* ---------- 真实拖拽切弯 ---------- */
+  /* ---------- 真实拖拽切弯（原版橡皮筋：手指位置 = 目标） ---------- */
   const box = await page.locator('#field').boundingBox();
   const before = await page.evaluate(() => ({
     x: window.__duneState.x,
-    s: window.__duneState.s,
-    distance: document.querySelector('#distance').textContent
+    wy: window.__duneState.wy,
+    distance: document.querySelector('#distance').textContent,
+    howtoHidden: document.querySelector('#howto').hidden
   }));
   const startX = box.x + box.width * 0.5;
   const startY = box.y + box.height * 0.72;
   await page.mouse.move(startX, startY);
   await page.mouse.down();
+  if (!before.howtoHidden) {
+    /* 按下后教程应立刻收起 */
+    await page.waitForTimeout(100);
+    const howtoNow = await page.evaluate(() => document.querySelector('#howto').hidden);
+    if (!howtoNow) errors.push('[flow] 首次按下后教程层没有收起');
+  }
   await page.mouse.move(startX + box.width * 0.3, startY, { steps: 10 });
   await page.waitForTimeout(400);
   const during = await page.evaluate(() => ({
     x: window.__duneState.x,
-    s: window.__duneState.s,
+    wy: window.__duneState.wy,
     distance: document.querySelector('#distance').textContent
   }));
   await page.screenshot({ path: path.join(OUT, 'flow-run.png') });
   await page.mouse.up();
 
   if (Math.abs(during.x - before.x) < 12) {
-    errors.push('[flow] 真实拖拽没有把玉板带过去');
+    errors.push('[flow] 真实拖拽没有把玩家带过去（x ' + before.x.toFixed(1) + ' → ' + during.x.toFixed(1) + '）');
   }
-  if (during.s <= before.s) errors.push('[flow] 世界没有往前跑');
+  if (during.wy <= before.wy) errors.push('[flow] 世界没有往前跑');
   if (Number(during.distance) <= Number(before.distance)) {
-    errors.push('[flow] HUD 的距离没有跟着刷新');
+    errors.push('[flow] HUD 的米数没有跟着刷新');
   }
   report.drag = { before: before, during: during };
 
-  /* ---------- 让雪崩追上来 ---------- */
+  /* ---------- 让雪崩追上来（ava 推过死亡线，dead 700ms 后结算） ---------- */
   await page.evaluate(() => {
-    window.__duneState.gap = 0;
+    window.__duneState.ava = 0.985;
   });
   let over = false;
   try {
@@ -176,12 +189,9 @@ async function run() {
     return {
       visible: el && !el.hidden,
       title: document.querySelector('#resultTitle').textContent,
-      score: document.querySelector('#resultScore').textContent,
-      distance: document.querySelector('#resultDistance').textContent,
+      meters: document.querySelector('#resultMeters').textContent,
+      sub: document.querySelector('#resultSub').textContent,
       flags: document.querySelector('#resultFlags').textContent,
-      carves: document.querySelector('#resultCarves').textContent,
-      speed: document.querySelector('#resultSpeed').textContent,
-      best: document.querySelector('#resultBest').textContent,
       newBest: !document.querySelector('#bestFlag').hidden,
       cardSize: card ? [card.width, card.height] : null,
       cardPixels: card ? pixels(card) : 0,
@@ -189,39 +199,46 @@ async function run() {
     };
   });
   if (!resultPanel.visible) errors.push('[flow] 结算面板没有出现');
+  if (resultPanel.title !== '你的滑降') errors.push('[flow] 结算标题不是原版文案：' + resultPanel.title);
   if (!resultPanel.cardSize || resultPanel.cardSize[0] !== 720 || resultPanel.cardSize[1] !== 960) {
-    errors.push('[flow] 纪录卡不是 720×960：' + JSON.stringify(resultPanel.cardSize));
+    errors.push('[flow] 结算卡不是 720×960：' + JSON.stringify(resultPanel.cardSize));
   }
-  if (!resultPanel.cardPixels) errors.push('[flow] 纪录卡画布是空的');
-  if (Number(resultPanel.distance) <= 0) errors.push('[flow] 结算面板的距离是 0');
-  if (resultPanel.trailPoints < 5) errors.push('[flow] 山脊线轨迹点太少：' + resultPanel.trailPoints);
+  if (!resultPanel.cardPixels) errors.push('[flow] 结算卡画布是空的');
+  if (Number(resultPanel.meters) <= 0) errors.push('[flow] 结算面板的米数是 0');
+  if (resultPanel.sub !== '米') errors.push('[flow] 结算单位不是「米」');
+  if (resultPanel.flags.indexOf('旗门') < 0) errors.push('[flow] 结算旗门行没有「旗门」字样');
+  if (!resultPanel.newBest) errors.push('[flow] 首局滑降应该是新纪录');
+  if (resultPanel.trailPoints < 5) errors.push('[flow] 滑降线轨迹点太少：' + resultPanel.trailPoints);
   report.resultPanel = resultPanel;
 
   /* ---------- 保存兜底 ---------- */
   try {
-    await page.click('#saveBtn', { timeout: 5000 });
+    await page.click('#shareBtn', { timeout: 5000 });
     await page.waitForTimeout(300);
-    const saveStatus = await page.textContent('#saveStatus');
+    const shareStatus = await page.textContent('#shareStatus');
     await page.screenshot({ path: path.join(OUT, 'flow-save.png') });
-    if (!saveStatus || !saveStatus.trim()) errors.push('[flow] 保存按钮没有给出任何兜底提示');
-    report.saveStatus = saveStatus;
+    if (!shareStatus || !shareStatus.trim()) errors.push('[flow] 分享按钮没有给出任何兜底提示');
+    report.shareStatus = shareStatus;
   } catch (error) {
-    errors.push('[flow] 结算面板里的保存按钮点不到：' + String(error.message || error));
-    report.saveStatus = '';
+    errors.push('[flow] 结算面板里的分享按钮点不到：' + String(error.message || error));
+    report.shareStatus = '';
   }
 
-  /* ---------- 再滑一次 ---------- */
+  /* ---------- 再玩一次 ---------- */
   await page.click('#againBtn');
   await page.waitForTimeout(600);
   const restarted = await page.evaluate(() => ({
     phase: window.__dunePhase(),
     resultHidden: document.querySelector('#result').hidden,
     meters: document.querySelector('#distance').textContent,
-    s: window.__duneState.s
+    wy: window.__duneState.wy,
+    howtoHidden: document.querySelector('#howto').hidden
   }));
-  if (restarted.phase !== 'run') errors.push('[flow] 再滑一次没有重新开局');
-  if (!restarted.resultHidden) errors.push('[flow] 再滑一次后结算面板没有收起');
-  if (restarted.s > 200) errors.push('[flow] 再滑一次后距离没有归零');
+  if (restarted.phase !== 'run') errors.push('[flow] 再玩一次没有重新开局');
+  if (!restarted.resultHidden) errors.push('[flow] 再玩一次后结算面板没有收起');
+  /* 起步速度 0.4 世界单位/ms，0.6 秒约前进 240，超过 400 才算没归零 */
+  if (restarted.wy > 400) errors.push('[flow] 再玩一次后距离没有归零（wy=' + restarted.wy + '）');
+  if (!restarted.howtoHidden) errors.push('[flow] 第二局不应该再显示教程（原版 seenHowTo 行为）');
   report.restart = restarted;
 
   report.errors = errors;
